@@ -1,4 +1,5 @@
 import { Character } from '../types/battle';
+import { CollectionGrade, getCollectionEffect } from '../constants/collectionItems';
 
 export interface EquipmentOptions {
     atkPercent: number;        // 추가 공격력% (0.1 = +10%)
@@ -14,7 +15,9 @@ export function checkAdvantage(weaknessElement: string | undefined, charElement:
 export const applyBaseStats = (
     charData: any,
     includeCoreDamage: boolean,
-    equip?: EquipmentOptions
+    equip?: EquipmentOptions,
+    collectionGrade: CollectionGrade = 'None',
+    collectionLevel: number = 0
 ): Character => {
     const s = charData.stats || {};
     const eq = equip || { atkPercent: 0, weakPointPercent: 0, ammoPercent: 0 };
@@ -22,10 +25,14 @@ export const applyBaseStats = (
     const baseMaxAmmo = s.maxAmmo;
     const finalMaxAmmo = Math.floor(baseMaxAmmo * (1 + eq.ammoPercent));
 
+    // 소장품 효과 적용 (SG, SMG 한정)
+    const collectionEffect = getCollectionEffect(s.weapon, collectionGrade, collectionLevel);
+    const finalDefense = s.defense * (1 + collectionEffect.defenseMultiplier / 100);
+
     return {
         id: charData.characterID || 'unknown',
         atk: s.atk,
-        defense: s.defense,
+        defense: Math.floor(finalDefense),
         hp: s.hp,
         element: s.element,
         weapon: s.weapon,
@@ -52,5 +59,7 @@ export const applyBaseStats = (
         equipATKPercent: eq.atkPercent,
         equipWeakPointPercent: eq.weakPointPercent,
         equipAmmoPercent: eq.ammoPercent,
+
+        normalAtkMultiplier: collectionEffect.normalAtkMultiplier
     };
 };

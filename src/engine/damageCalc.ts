@@ -128,16 +128,17 @@ function buildDamageParams(
         enemyBaseDEF: ctx.enemy.defense,
         enemyDEFPercent: 0,
 
-        /* ② Final ATK Modifier */
+        /* ② Final ATK Modifier & Normal ATK Multiplier */
         atkCoef: char.atkCoef ?? 1,
         finalATKModifier: char.buff?.atkDmgUp ?? 0,
+        normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
 
-        /* ③ Major Modifiers (가산) — 무기별 배율 적용 */
+        /* ③ Major Modifiers (가산) — 무기별 배율 적용 및 캐릭터 스탯 오버라이드 */
         isCrit,
-        critBonusBase: wm.critBonus,              // 무기별 크리 보정
+        critBonusBase: char.critMult ? (char.critMult - 1) : wm.critBonus,
         extraCritDmg: char.buff?.critDmg ?? 0,
         isCore,
-        coreHitBonus: wm.coreHitBonus,            // 무기별 코어 보정
+        coreHitBonus: char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus,
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
         rangeBonus: char.buff?.range ?? 0,
 

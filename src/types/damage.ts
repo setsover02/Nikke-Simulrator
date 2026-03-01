@@ -24,6 +24,7 @@ export interface DamageParams {
 
    atkCoef: number; // 공격/스킬 계수
    finalATKModifier: number; // Final ATK 관련 % 버프 합산 (0.1 = +10%)
+   normalAtkMultiplier?: number; // 일반 공격 대미지 배율 증가 (%)
 
 
    /* ================================================

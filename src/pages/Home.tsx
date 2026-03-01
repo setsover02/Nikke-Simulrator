@@ -11,6 +11,7 @@ import iconZeus from '../assets/icon/code-zeus.svg';
 import { SlotState, SimResult } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
+import { getCollectionEffect } from '../constants/collectionItems';
 import CharacterSlot from '../components/CharacterSlot';
 import ResultSummary from '../components/ResultSummary';
 import DualChart from '../components/DualChart';
@@ -22,6 +23,8 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
         customHP: String(stats.hp || ''),
         customATK: String(stats.atk || ''),
         customDEF: String(stats.defense || ''),
+        collectionGrade: 'None',
+        collectionLevel: '0',
         equipATK: '0', equipWeakPoint: '0', equipAmmo: '0'
     };
 }
@@ -71,7 +74,8 @@ const Home: React.FC = () => {
                     weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
                     ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
                 };
-                const char = applyBaseStats(slot.char.data, includeCore, eq);
+                const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
+                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum);
                 const customHP = parseInt(slot.customHP || '0', 10);
                 if (customHP > 0) char.hp = customHP;
                 const customATK = parseInt(slot.customATK || '0', 10);
@@ -103,12 +107,19 @@ const Home: React.FC = () => {
                 const atkPercent = parseFloat(slot.equipATK || '0') / 100;
                 const weakPercent = parseFloat(slot.equipWeakPoint || '0') / 100;
                 const isWeak = checkAdvantage(ENEMY.element, charStats.element);
+
+                const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
+                const collectionEffect = getCollectionEffect(charStats.weapon, slot.collectionGrade, collectionLevelNum);
+
                 const hitDamages = calcHitDamages({
                     atk: customATK > 0 ? customATK : charStats.atk,
                     atkCoef: (charStats.atkCoef || 0) / 100,
                     weapon: charStats.weapon,
                     equipATKPercent: atkPercent,
                     equipWeakPointPercent: weakPercent,
+                    normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
+                    coreDamage: 'coreDamage' in charStats ? charStats.coreDamage as number : undefined,
+                    critMult: 'critMult' in charStats ? charStats.critMult as number : undefined
                 }, ENEMY.defense, rangeMode, isWeak);
 
                 return { charId, charName: slot.char.data.characterName, totalDmg, dps: totalDmg / config.duration, hitDamages };

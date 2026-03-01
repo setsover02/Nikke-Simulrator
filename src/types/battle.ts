@@ -49,6 +49,9 @@ export interface Character {
     equipATKPercent?: number;        // 장비 추가 공격력% (0.1 = +10%)
     equipWeakPointPercent?: number;  // 장비 우월코드 데미지% (0.1 = +10%)
     equipAmmoPercent?: number;       // 장비 장탄수% (0.1 = +10%)
+
+    /* 소장품 추가 옵션 */
+    normalAtkMultiplier?: number;    // 일반 공격 대미지 배율 증가 (%)
 }
 
 export interface Team {

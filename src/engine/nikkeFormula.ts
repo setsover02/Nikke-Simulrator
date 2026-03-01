@@ -12,17 +12,19 @@ export function calcNikkeDamage(p: DamageParams): number {
         - (EnemyDEF × (1 + DEF%))
    ================================================ */
 
-   const effectiveATK = p.baseATK * (1 + p.extraATKPercent) + p.extraATKFlat;
-   const effectiveDEF = p.enemyBaseDEF * (1 + p.enemyDEFPercent);
+   // 인게임 소수점 스탯 올림(Math.ceil) 처리
+   const effectiveATK = Math.ceil(p.baseATK * (1 + p.extraATKPercent)) + p.extraATKFlat;
+   const effectiveDEF = Math.ceil(p.enemyBaseDEF * (1 + p.enemyDEFPercent));
    const baseDamage = Math.max(1, effectiveATK - effectiveDEF);
 
 
    /* ================================================
-      ② Final ATK Modifier
-      = atkCoef × (1 + Final ATK 버프)
+      ② Final ATK Modifier & Normal ATK Multiplier
+      = atkCoef × (1 + Final ATK 버프) × (1 + 일반 공격 배율/100)
    ================================================ */
 
-   const finalATKMod = p.atkCoef * (1 + p.finalATKModifier);
+   const normalAtkMultiplier = p.normalAtkMultiplier ?? 0;
+   const finalATKMod = p.atkCoef * (1 + p.finalATKModifier) * (1 + normalAtkMultiplier / 100);
 
 
    /* ================================================

@@ -95,6 +95,31 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, canRemove, onUpdate, onRe
                     style={inputStyle} placeholder="0" />
             </label>
 
+            {/* 소장품 입력 */}
+            <label style={labelStyle}>
+                소장품
+                <div style={{ display: 'flex', gap: '4px' }}>
+                    <select
+                        value={slot.collectionGrade}
+                        onChange={e => onUpdate({ collectionGrade: e.target.value as any })}
+                        style={{ ...inputStyle, width: '50px', padding: '0 2px' }}
+                    >
+                        <option value="None">무</option>
+                        <option value="R">R</option>
+                        <option value="SR">SR</option>
+                    </select>
+                    <input
+                        type="number"
+                        min="0" max="15"
+                        value={slot.collectionLevel}
+                        onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                        style={{ ...inputStyle, width: '40px' }}
+                        placeholder="Lv"
+                        disabled={slot.collectionGrade === 'None'}
+                    />
+                </div>
+            </label>
+
             {/* 장비 입력 */}
             <label style={labelStyle}>
                 ATK %

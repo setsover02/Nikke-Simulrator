@@ -22,7 +22,7 @@ export interface WeaponMultipliers {
  *   RL    → 없음
  */
 export const WEAPON_MULTIPLIERS: Record<string, WeaponMultipliers> = {
-    SMG: { critBonus: 0.385, coreHitBonus: 1.151, benefitRanges: ['near'] },
+    SMG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['near'] },
     AR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['mid'] },
     SR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['far'] },
     SG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['near'] },

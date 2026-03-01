@@ -60,22 +60,28 @@ import { HitDamages } from '../types/simulator';
  * 버프·버스트 없는 기본 스탯 기준, 무기별 배율 + 거리 보너스 적용
  */
 export const calcHitDamages = (
-    char: { atk: number; atkCoef?: number; weapon?: string; equipATKPercent?: number; equipWeakPointPercent?: number },
+    char: { atk: number; atkCoef?: number; weapon?: string; equipATKPercent?: number; equipWeakPointPercent?: number; normalAtkMultiplier?: number; coreDamage?: number; critMult?: number },
     enemyDef: number,
     rangeMode: RangeMode = 'mid',
     isWeakPoint: boolean = false
 ): HitDamages => {
     const wm = getWeaponMultipliers(char.weapon);
     const rangeBonus = getWeaponRangeBonus(char.weapon, rangeMode);
-    const effectiveATK = char.atk * (1 + (char.equipATKPercent ?? 0));
+    // 인게임의 소수점 공격력 및 방어력 연산은 올림(ceil) 되므로 Math.ceil을 적용합니다.
+    const effectiveATK = Math.ceil(char.atk * (1 + (char.equipATKPercent ?? 0)));
     const baseDamage = Math.max(1, effectiveATK - enemyDef);
     const atkMod = char.atkCoef ?? 1;
+    const normalAtkMult = (char.normalAtkMultiplier ?? 0) / 100;
     const elementBonus = isWeakPoint ? 1.1 + (char.equipWeakPointPercent ?? 0) : 1.0;
-    const base = baseDamage * atkMod * elementBonus;
+    const base = baseDamage * atkMod * (1 + normalAtkMult) * elementBonus;
+
+    const coreHitBonus = char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus;
+    const critBonus = char.critMult ? (char.critMult - 1) : wm.critBonus;
+
     return {
         normal: Math.round(base * (1 + rangeBonus)),
-        crit: Math.round(base * (1 + wm.critBonus + rangeBonus)),
-        core: Math.round(base * (1 + wm.coreHitBonus + rangeBonus)),
-        coreCrit: Math.round(base * (1 + wm.critBonus + wm.coreHitBonus + rangeBonus)),
+        crit: Math.round(base * (1 + critBonus + rangeBonus)),
+        core: Math.round(base * (1 + coreHitBonus + rangeBonus)),
+        coreCrit: Math.round(base * (1 + critBonus + coreHitBonus + rangeBonus)),
     };
 };
