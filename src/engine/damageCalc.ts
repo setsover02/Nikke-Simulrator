@@ -1,9 +1,9 @@
-// engine/damageCalc.ts
-
 import { BattleContext, Character } from "../types/battle";
 import { calcNikkeDamage } from "./nikkeFormula";
 import { checkHit, WeaponType } from "./accuraySystem";
-import { updateWarmupLevel, getMgFireRate, getMgAccuracy } from "./mgWarmup";
+import { heatWarmupByBullets, coolWarmupLevel, getMgFireRate, getMgAccuracy } from "./mgWarmup";
+import { getWeaponMultipliers } from "../constants/weaponStats";
+import { checkAdvantage } from "../utils/charUtils";
 
 /* =========================
    메인 공격 처리
@@ -16,13 +16,9 @@ export function processAttack(ctx: BattleContext) {
         const isMG = char.weapon === WeaponType.MG;
         const isFiring = canAttack(char);
 
-        // MG 예열 레벨 업데이트 (매 tick, 발사 중이면 가열 / 아니면 냉각)
-        if (isMG) {
-            char.warmupLevel = updateWarmupLevel(
-                char.warmupLevel ?? 0,
-                dt,
-                isFiring
-            );
+        // MG 냉각 처리 (발사 중이 아닐 때만)
+        if (isMG && !isFiring) {
+            char.warmupLevel = coolWarmupLevel(char.warmupLevel ?? 0, dt);
         }
 
         if (!isFiring) {
@@ -57,6 +53,11 @@ export function processAttack(ctx: BattleContext) {
             char.comboShots = (char.comboShots || 0) + 1;
             ctx.totalAmmoUsed++;
         }
+
+        // MG 가열 처리 (실제 발사한 탄환 수만큼)
+        if (isMG && shotsToFire > 0) {
+            char.warmupLevel = heatWarmupByBullets(char.warmupLevel ?? 0, shotsToFire);
+        }
     });
 }
 
@@ -76,8 +77,9 @@ function calcCharacterDamage(
     char: Character,
     ctx: BattleContext
 ): number {
-    // 크리티컬 판정
-    const isCrit = ctx.rng.next() < char.crit / 100;
+    // 크리티컬 판정 (기본 확률 + 버프 확률)
+    const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
+    const isCrit = ctx.rng.next() < critChance;
 
     // 코어 히트 판정 (accuraySystem 명중률 기반)
     const weaponType = (char.weapon as WeaponType) ?? WeaponType.AR;
@@ -115,42 +117,45 @@ function buildDamageParams(
     isCrit: boolean,
     isCore: boolean
 ) {
+    // 무기별 크리/코어 보정 배율 조회
+    const wm = getWeaponMultipliers(char.weapon);
+
     return {
         /* ① 기본 데미지 */
         baseATK: char.atk,
-        extraATKPercent: char.equipATKPercent ?? 0,   // 장비 추가 공격력%
-        extraATKFlat: char.buff?.extraATK ?? 0,      // 스킬 attack_power_up 등 평탄 추가
+        extraATKPercent: char.equipATKPercent ?? 0,
+        extraATKFlat: char.buff?.extraATK ?? 0,
         enemyBaseDEF: ctx.enemy.defense,
-        enemyDEFPercent: 0,                          // 적 DEF% 증가 (현재 미구현)
+        enemyDEFPercent: 0,
 
         /* ② Final ATK Modifier */
         atkCoef: char.atkCoef ?? 1,
-        finalATKModifier: char.buff?.atkDmgUp ?? 0,  // Final ATK 관련 버프
+        finalATKModifier: char.buff?.atkDmgUp ?? 0,
 
-        /* ③ Major Modifiers (가산) */
+        /* ③ Major Modifiers (가산) — 무기별 배율 적용 */
         isCrit,
-        critBonusBase: 0.5,                          // 크리 기본 보너스 (항상 0.5)
-        extraCritDmg: char.buff?.critDmg ?? 0,       // 추가 크리 데미지 소스
+        critBonusBase: wm.critBonus,              // 무기별 크리 보정
+        extraCritDmg: char.buff?.critDmg ?? 0,
         isCore,
-        coreHitBonus: char.coreHitBonus ?? 1.0,      // 코어 히트 보너스 (1.0 or 1.5)
-        fullBurstBonus: ctx.burstActive ? 0.5 : 0,   // 풀버스트 보너스 (0.5)
-        rangeBonus: char.buff?.range ?? 0,            // 유효 사거리 보너스
+        coreHitBonus: wm.coreHitBonus,            // 무기별 코어 보정
+        fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+        rangeBonus: char.buff?.range ?? 0,
 
         /* ④ Element Bonus Damage */
-        weakPointBase: 1.1,                           // 원소 코드 기본 보너스
-        weakPointExtra: (char.buff?.weak ?? 0) + (char.equipWeakPointPercent ?? 0), // 추가 원소 + 장비 우월코드%
+        weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
+        weakPointExtra: (char.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
-        chargeDmgBonus: char.buff?.chargeDmg ?? 0,   // 비차지 무기 = 0
+        chargeDmgBonus: char.buff?.chargeDmg ?? 0,
 
-        /* ⑥ Damage Up (버프형 데미지 증가) */
-        atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,     // 공격 데미지 증가 (Final ATK Mod 위에 있는 것은 별도 처리)
-        dotDmgUp: char.buff?.dot ?? 0,               // 지속 데미지 증가
-        pierceDmgUp: char.buff?.pierce ?? 0,         // 관통 데미지 증가
-        partDmgUp: char.buff?.part ?? 0,             // 파츠 데미지 증가
-        ignoreDefDmgUp: char.buff?.ignoreDef ?? 0,   // 방어력 무시 (True Damage)
-        projectileDmgUp: char.buff?.projectile ?? 0, // 투사체 데미지 증가
-        interruptionPartDmgUp: char.buff?.weakPart ?? 0, // 저지 파츠 데미지 증가
+        /* ⑥ Damage Up */
+        atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,
+        dotDmgUp: char.buff?.dot ?? 0,
+        pierceDmgUp: char.buff?.pierce ?? 0,
+        partDmgUp: char.buff?.part ?? 0,
+        ignoreDefDmgUp: char.buff?.ignoreDef ?? 0,
+        projectileDmgUp: char.buff?.projectile ?? 0,
+        interruptionPartDmgUp: char.buff?.weakPart ?? 0,
         extraDmgUp: 0,
 
         /* ⑦ Damage Taken */

@@ -6,6 +6,11 @@ export interface EquipmentOptions {
     ammoPercent: number;       // 장탄수% (0.1 = +10%)
 }
 
+export function checkAdvantage(weaknessElement: string | undefined, charElement: string | undefined): boolean {
+    if (!weaknessElement || !charElement) return false;
+    return weaknessElement === charElement;
+}
+
 export const applyBaseStats = (
     charData: any,
     includeCoreDamage: boolean,

@@ -26,8 +26,8 @@ export enum WeaponType {
 ========================= */
 
 export const BASE_ACCURACY: Record<WeaponType, number> = {
-    AR: 0.70,   // 돌격소총
-    SMG: 0.56,  // 기관단총
+    AR: 0.80,   // 돌격소총
+    SMG: 0.70,  // 기관단총
     SR: 1.00,   // 저격소총
     SG: 0.60,   // 샷건
     MG: 1.00,   // 기관총

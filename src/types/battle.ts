@@ -58,6 +58,7 @@ export interface Team {
 export interface Enemy {
     hp: number;
     defense: number;
+    element?: string;
     debuff?: any;
 }
 

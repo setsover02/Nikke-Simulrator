@@ -1,4 +1,8 @@
 import { BattleContext, Character, LogEntry } from "../types/battle";
+import { DamageParams } from "../types/damage";
+import { calcNikkeDamage } from "./nikkeFormula";
+import { checkAdvantage } from "../utils/charUtils";
+import { getWeaponMultipliers } from "../constants/weaponStats";
 
 export interface SkillEffectDef {
     trigger?: string;
@@ -207,11 +211,47 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         if (effectDef.effect === "damage" || effectDef.effect === "bubble_barrage") {
             const hits = effectDef.hits || 1;
             const dmgPercent = (effectDef.value || 0) / 100;
-            // The final attack usually refers to the character's base attack + bonuses. Using base for simplicity.
-            const dmg = sourceChar.atk * dmgPercent * hits;
-            target.hp -= dmg;
-            ctx.totalDamage += dmg;
-            ctx.log.push({ time: ctx.time, type: "skill_damage", source: sourceChar.id, value: dmg, description: effectDef.effect });
+
+            // nikkeFormula를 사용해 장비 ATK%, 우월코드%, 방어력, 버프 모두 반영
+            const wm = getWeaponMultipliers(sourceChar.weapon);
+            const isCrit = ctx.rng.next() < (sourceChar.crit ?? 15) / 100;
+            const singleHitDmg = calcNikkeDamage({
+                // ① 기본 데미지
+                baseATK: sourceChar.atk,
+                extraATKPercent: sourceChar.equipATKPercent ?? 0,
+                extraATKFlat: sourceChar.buff?.extraATK ?? 0,
+                enemyBaseDEF: ctx.enemy.defense,
+                enemyDEFPercent: 0,
+                // ② Final ATK Modifier (스킬 계수 = dmgPercent)
+                atkCoef: dmgPercent,
+                finalATKModifier: sourceChar.buff?.atkDmgUp ?? 0,
+                // ③ Major Modifiers (무기별 크리 배율 적용)
+                isCrit,
+                critBonusBase: wm.critBonus,
+                extraCritDmg: sourceChar.buff?.critDmg ?? 0,
+                isCore: false,       // 스킬은 코어 히트 없음
+                coreHitBonus: 0,
+                fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+                rangeBonus: sourceChar.buff?.range ?? 0,
+                // ④ 원소 보너스 (우월코드 포함)
+                weakPointBase: checkAdvantage(ctx.enemy.element, sourceChar.element) ? 1.1 : 1.0,
+                weakPointExtra: (sourceChar.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, sourceChar.element) ? (sourceChar.equipWeakPointPercent ?? 0) : 0),
+                // ⑤~⑥
+                chargeDmgBonus: 0,
+                atkDmgUp: sourceChar.buff?.atkDmgUpFinal ?? 0,
+                dotDmgUp: 0, pierceDmgUp: 0, partDmgUp: 0,
+                ignoreDefDmgUp: 0, projectileDmgUp: 0,
+                interruptionPartDmgUp: 0, extraDmgUp: 0,
+                // ⑦ 받는 데미지
+                enemyTakenUp: ctx.enemy.debuff?.takenUp ?? 0,
+                shareDmgUp: 0,
+                enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
+            });
+
+            const totalDmg = singleHitDmg * hits;
+            target.hp -= totalDmg;
+            ctx.totalDamage += totalDmg;
+            ctx.log.push({ time: ctx.time, type: "skill_damage", source: sourceChar.id, value: totalDmg, description: effectDef.effect });
         }
         return;
     }

@@ -9,6 +9,8 @@ interface Dataset {
     label: string;
     color: string;
     data: ChartData[];
+    lineWidth?: number;
+    dashed?: boolean;
 }
 
 interface CanvasChartProps {
@@ -161,7 +163,9 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
 
             ctx.beginPath();
             ctx.strokeStyle = ds.color;
-            ctx.lineWidth = 2.5;
+            ctx.lineWidth = ds.lineWidth ?? 1.5;
+            if (ds.dashed) ctx.setLineDash([6, 4]);
+            else ctx.setLineDash([]);
             ds.data.forEach((d, i) => {
                 const x = timeToX(d.time);
                 const y = dpsToY(d.dps);
@@ -169,6 +173,7 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
                 else ctx.lineTo(x, y);
             });
             ctx.stroke();
+            ctx.setLineDash([]);
         });
 
         // Hover vertical line (clipped)
@@ -186,18 +191,21 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
 
         ctx.restore();
 
-        // Legend (outside clip)
+        // Legend (outside clip) - 오른쪽이 아닌 왼쪽 상단에 배치
+        const legendStartX = paddingLeft + 10;
+        const legendStartY = paddingVertical + 8;
+        const legendLineH = 18;
         datasets.forEach((ds, dsIdx) => {
-            const legendX = width - paddingRight - 190;
-            const legendY = paddingVertical + dsIdx * 25;
+            const legendX = legendStartX;
+            const legendY = legendStartY + dsIdx * legendLineH;
             ctx.fillStyle = ds.color;
-            ctx.fillRect(legendX, legendY, 12, 12);
+            ctx.fillRect(legendX, legendY, 10, 10);
 
             ctx.fillStyle = titleColor;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.font = '12px "Wanted Sans Variable", sans-serif';
-            ctx.fillText(ds.label, legendX + 20, legendY + 6);
+            ctx.font = '11px "Wanted Sans Variable", sans-serif';
+            ctx.fillText(ds.label, legendX + 15, legendY + 5);
         });
 
         // Title

@@ -1,49 +1,54 @@
 // engine/mgWarmup.ts
-// MG 무기 예열(warm-up) 시스템 — 시간 기반
-// 발사 중: warmupLevel이 0→1로 상승 (약 2초)
-// 미발사 시 (재장전 포함): warmupLevel이 점진적으로 냉각
+// MG 무기 예열(warm-up) 시스템 — 탄환 기반 가열 / 시간 기반 냉각
+// 발사: 26발 소모 시 warmupLevel 0→1 완료
+// 미발사(재장전 포함): 시간이 지남에 따라 점진적 냉각
 
 /* =========================
    상수
 ========================= */
 
-/** 예열 완료까지 소요 시간 (초) */
-export const WARMUP_DURATION = 3.0;
+/** 예열 완료까지 소요되는 탄환 수 */
+export const WARMUP_BULLETS = 52;
+
+/** 예열 완료 예상 시간 (참고용, 2.5초) */
+export const WARMUP_DURATION_SECS = 2.5;
 
 /** 완전 냉각까지 소요 시간 (초) */
 export const COOLDOWN_DURATION = 3.0;
 
 /** 예열 시작 시 최소 공격속도 비율 (30%) */
-const MIN_FIRE_RATE_RATIO = 0.3;
+const MIN_FIRE_RATE_RATIO = 0.1;
 
 /** 예열 시작 시 최소 명중률 (20%) */
-const MIN_ACCURACY = 0.2;
+const MIN_ACCURACY = 0.1;
 
 /* =========================
    Warm-up Level 업데이트
 ========================= */
 
 /**
- * 매 tick마다 호출하여 warmupLevel을 갱신.
- * - isFiring=true  → warmupLevel 증가 (WARMUP_DURATION초에 걸쳐 0→1)
- * - isFiring=false → warmupLevel 감소 (COOLDOWN_DURATION초에 걸쳐 1→0)
+ * 발사 시: 1발당 예열 레벨 1/WARMUP_BULLETS 증가.
+ * 26발 소모 시 warmupLevel=1 (예열 완료).
  *
- * 재장전이 빠르면 냉각이 적어 예열을 유지할 수 있음.
+ * @param currentLevel 현재 예열 레벨 (0~1)
+ * @param bulletsShot  이번 tick에 발사한 탄환 수
  */
-export function updateWarmupLevel(
-    currentLevel: number,
-    dt: number,
-    isFiring: boolean
-): number {
-    if (isFiring) {
-        // 가열: dt / WARMUP_DURATION 만큼 증가
-        const increase = dt / WARMUP_DURATION;
-        return Math.min(1, currentLevel + increase);
-    } else {
-        // 냉각: dt / COOLDOWN_DURATION 만큼 감소
-        const decrease = dt / COOLDOWN_DURATION;
-        return Math.max(0, currentLevel - decrease);
-    }
+export function heatWarmupByBullets(currentLevel: number, bulletsShot: number): number {
+    if (bulletsShot <= 0) return currentLevel;
+    const increase = bulletsShot / WARMUP_BULLETS;
+    return Math.min(1, currentLevel + increase);
+}
+
+/**
+ * 미발사 시(재장전 등): 시간 기반 냉각.
+ * COOLDOWN_DURATION초에 걸쳐 warmupLevel 1→0.
+ *
+ * @param currentLevel 현재 예열 레벨 (0~1)
+ * @param dt           경과 시간 (초)
+ */
+export function coolWarmupLevel(currentLevel: number, dt: number): number {
+    const decrease = dt / COOLDOWN_DURATION;
+    return Math.max(0, currentLevel - decrease);
 }
 
 /* =========================
