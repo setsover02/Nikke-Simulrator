@@ -1,151 +1,106 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Select from 'react-select';
 import { simulateBattle } from './engine/battleEngine';
-import { Character, Team, Enemy, SimConfig } from './types/battle';
+import { Team, Enemy, SimConfig } from './types/battle';
 import LittleMermaidData from './character/LittleMermaid.json';
+import AriaData from './character/Aria.json';
 import LittleMermaidAvatar from './assets/avatar/LittleMermaid.webp';
+import AriaAvatar from './assets/avatar/Aria.webp';
+import CanvasChart from './components/CanvasChart';
+import { applyBaseStats, EquipmentOptions } from './utils/charUtils';
+import { generateChartData, generateSkillChartData } from './utils/simUtils';
+import { calcHitChance, WeaponType } from './engine/accuraySystem';
 
-// --- 간단한 Canvas 차트 컴포넌트 ---
-const CanvasChart = ({ data }: { data: { time: number; dps: number }[] }) => {
-    const canvasRef = useRef<HTMLCanvasElement>(null);
-
-    useEffect(() => {
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-        const ctx = canvas.getContext('2d');
-        if (!ctx) return;
-
-        const width = canvas.width;
-        const height = canvas.height;
-        const padding = 40;
-
-        // 배경 지우기
-        ctx.clearRect(0, 0, width, height);
-
-        if (data.length === 0) return;
-
-        const maxTime = Math.max(...data.map(d => d.time), 1);
-        const maxDps = Math.max(...data.map(d => d.dps), 100);
-
-        // 축 그리기 (X축, Y축)
-        ctx.beginPath();
-        ctx.moveTo(padding, padding);
-        ctx.lineTo(padding, height - padding);
-        ctx.lineTo(width - padding, height - padding);
-        ctx.strokeStyle = '#333';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        // 데이터 선 그리기
-        ctx.beginPath();
-        ctx.strokeStyle = '#ff4d4f';
-        ctx.lineWidth = 2;
-        data.forEach((d, i) => {
-            const x = padding + (d.time / maxTime) * (width - 2 * padding);
-            const y = height - padding - (d.dps / maxDps) * (height - 2 * padding);
-            if (i === 0) ctx.moveTo(x, y);
-            else ctx.lineTo(x, y);
-        });
-        ctx.stroke();
-
-        // 텍스트 라벨
-        ctx.fillStyle = '#333';
-        ctx.font = '12px sans-serif';
-        ctx.fillText(`Max DPS: ${Math.floor(maxDps).toLocaleString()}`, padding, padding - 10);
-        ctx.fillText(`${maxTime}s`, width - padding, height - padding + 20);
-        ctx.fillText('0s', padding, height - padding + 20);
-
-    }, [data]);
-
-    return (
-        <canvas
-            ref={canvasRef}
-            width={800}
-            height={400}
-            style={{ width: '100%', maxWidth: '800px', height: 'auto', border: '1px solid #ddd', borderRadius: '4px', backgroundColor: '#f9f9f9' }}
-        />
-    );
-};
-
-// --- 모의 베이스 스탯 ---
-// JSON 파일에는 스킬만 정의되어 있으므로 시뮬레이션에 필요한 기본값을 합칩니다.
-const applyBaseStats = (charData: any): Character => {
-    const s = charData.stats || {};
-    return {
-        id: 'little_mermaid',
-        atk: s.atk || 40000,
-        defense: s.defense || 40000,
-        hp: s.hp || 40000,
-        element: s.element || 'Unknown',
-        weapon: s.weapon || 'Unknown',
-        charClass: s.class || 'Unknown',
-        company: s.company || 'Unknown',
-        burstLevel: s.burstLevel || 1,
-        crit: 15, // Default base crit
-        maxAmmo: s.maxAmmo || 120,
-        ammo: s.maxAmmo || 120,
-        reloadTime: s.reloadTime || 1.0,
-        reloadRemain: 0,
-        chargeTime: s.chargeTime || 0,
-        fullChargeDamage: s.fullChargeDamage || 0,
-        fireRate: s.fireRate || 5, // SMG 임의 스펙 (초당 5발)
-        skills: charData.skills || [],
-        atkCoef: (s.atkCoef || 10.12) / 100, // 계수는 %이므로 100으로 나눔
-        critMult: 1.5,
-    };
+// 아바타 매핑 (없으면 null)
+const avatarMap: Record<string, string> = {
+    LittleMermaid: LittleMermaidAvatar,
 };
 
 const characterOptions = [
-    { value: 'little_mermaid', label: LittleMermaidData.character, data: LittleMermaidData },
+    { value: 'little_mermaid', label: LittleMermaidData.characterName, data: LittleMermaidData },
+    { value: 'aria', label: AriaData.characterName, data: AriaData },
 ];
+
+const inputStyle: React.CSSProperties = {
+    width: '80px',
+    padding: '6px 8px',
+    fontSize: '14px',
+    background: '#1a1a2e',
+    color: '#e0e0e0',
+    border: '1px solid #444',
+    borderRadius: '4px',
+    textAlign: 'right',
+};
+
+const labelStyle: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '4px',
+    fontSize: '13px',
+    color: '#bbb',
+};
 
 function App() {
     const [selectedChar, setSelectedChar] = useState(characterOptions[0]);
-    const [simulationResult, setSimulationResult] = useState<any>(null);
-    const [chartData, setChartData] = useState<any[]>([]);
+    const [simulationResults, setSimulationResults] = useState<{
+        normal: any;
+        core: any;
+        coreHitPct: number;
+        skillTotal: number;
+    } | null>(null);
+    const [chartDatasets, setChartDatasets] = useState<any[]>([]);
+
+    // 장비 추가 옵션 (% 값 입력)
+    const [equipATK, setEquipATK] = useState('0');
+    const [equipWeakPoint, setEquipWeakPoint] = useState('0');
+    const [equipAmmo, setEquipAmmo] = useState('0');
 
     const handleSimulate = () => {
-        // 1. 선택한 캐릭터 데이터로 Team 구성
-        const team: Team = {
-            members: [applyBaseStats(selectedChar.data)]
+        // 장비 옵션을 소수로 변환
+        const equip: EquipmentOptions = {
+            atkPercent: parseFloat(equipATK || '0') / 100,
+            weakPointPercent: parseFloat(equipWeakPoint || '0') / 100,
+            ammoPercent: parseFloat(equipAmmo || '0') / 100,
         };
 
-        // 2. 적 데이터 구성
-        const enemy: Enemy = {
-            hp: 1000000000, // 10억
-            defense: 2000,
-        };
+        // 1. 공통 설정
+        const config: SimConfig = { duration: 180, tick: 0.016, seed: 42 };
+        const enemy: Enemy = { hp: 1000000000, defense: 2000 };
 
-        // 3. 설정 구성 (180초, 초당 60프레임 = delta 0.016)
-        const config: SimConfig = {
-            duration: 180,
-            tick: 0.016,
-            seed: 42
-        };
+        // 2. 실제 코어 명중률 계산 (accuraySystem 기준)
+        const stats = selectedChar.data.stats || {};
+        const weaponKey = (stats.weapon ?? 'AR') as WeaponType;
+        const validWeapon = Object.values(WeaponType).includes(weaponKey) ? weaponKey : WeaponType.AR;
+        const coreHitChance = calcHitChance({
+            weapon: validWeapon,
+            distance: 15,
+            comboShots: 0,
+            accuracyBuff: (stats as any).accuracyBuff ?? 0,
+        });
+        const coreHitPct = Math.round(coreHitChance * 100);
+        const coreLabel = `Total Damage (Core Hit ~${coreHitPct}%)`;
 
-        // 4. 시뮬레이션 돌리기!
-        const result = simulateBattle(team, enemy, config);
-        setSimulationResult(result);
+        // 3. Normal 시뮬레이션 (coreDamage 미적용, 장비 적용)
+        const teamNormal: Team = { members: [applyBaseStats(selectedChar.data, false, equip)] };
+        const resultNormal = simulateBattle(teamNormal, { ...enemy }, config);
 
-        // 5. 로그 데이터를 1초 단위로 병합해서 차트 데이터 생성
-        // (매 타격마다 찍히는 수천 개의 로그를 차트에 넣으면 렌더링이 버벅이므로)
-        const aggregated: { [second: number]: number } = {};
-        for (const log of result.log) {
-            if (log.type === 'attack') {
-                const sec = Math.floor(log.time);
-                aggregated[sec] = (aggregated[sec] || 0) + (log.value || 0);
-            }
-        }
+        // 4. Core 시뮬레이션 (코어 히트 + 장비 적용)
+        const teamCore: Team = { members: [applyBaseStats(selectedChar.data, true, equip)] };
+        const resultCore = simulateBattle(teamCore, { ...enemy }, config);
 
-        const newChartData = [];
-        for (let i = 0; i < config.duration; i++) {
-            newChartData.push({
-                time: i,
-                dps: aggregated[i] || 0,
-            });
-        }
+        // 5. 스킬 데미지 합산
+        const skillTotal = resultCore.log
+            .filter((l: any) => l.type === 'skill_damage')
+            .reduce((sum: number, l: any) => sum + (l.value || 0), 0);
 
-        setChartData(newChartData);
+        setSimulationResults({ normal: resultNormal, core: resultCore, coreHitPct, skillTotal });
+
+        const charName = selectedChar.data.characterName || selectedChar.data.characterID;
+        setChartDatasets([
+            { label: 'Total Damage (Normal)', color: '#1890ff', data: generateChartData(resultNormal, config.duration) },
+            { label: coreLabel, color: '#ff4d4f', data: generateChartData(resultCore, config.duration) },
+            { label: `Skill Damage (${charName})`, color: '#52c41a', data: generateSkillChartData(resultCore, config.duration) },
+        ]);
     };
 
     return (
@@ -153,11 +108,21 @@ function App() {
             <h1>Nikke Damage Simulator</h1>
 
             <div style={{ display: 'flex', gap: '20px', alignItems: 'center', marginBottom: '20px' }}>
-                <img
-                    src={LittleMermaidAvatar}
-                    alt="Little Mermaid"
-                    style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
-                />
+                {avatarMap[selectedChar.data.characterID] ? (
+                    <img
+                        src={avatarMap[selectedChar.data.characterID]}
+                        alt={selectedChar.data.characterName}
+                        style={{ width: '80px', height: '80px', objectFit: 'cover', borderRadius: '8px' }}
+                    />
+                ) : (
+                    <div style={{
+                        width: '80px', height: '80px', borderRadius: '8px',
+                        background: '#2a2a3e', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        color: '#888', fontSize: '12px', textAlign: 'center',
+                    }}>
+                        {selectedChar.data.characterName}
+                    </div>
+                )}
                 <div style={{ width: '300px' }}>
                     <Select
                         options={characterOptions}
@@ -173,18 +138,78 @@ function App() {
                 </button>
             </div>
 
-            {simulationResult && (
+            {/* 장비 추가 옵션 입력 */}
+            <div style={{
+                display: 'flex',
+                gap: '24px',
+                alignItems: 'flex-end',
+                marginBottom: '24px',
+                padding: '16px',
+                background: '#1e1e2e',
+                borderRadius: '8px',
+                border: '1px solid #333',
+            }}>
+                <span style={{ fontSize: '14px', fontWeight: 'bold', color: '#ddd', alignSelf: 'center' }}>
+                    ⚙️ Equipment
+                </span>
+                <label style={labelStyle}>
+                    추가 공격력 %
+                    <input
+                        type="number"
+                        value={equipATK}
+                        onChange={(e) => setEquipATK(e.target.value)}
+                        style={inputStyle}
+                        placeholder="0"
+                    />
+                </label>
+                <label style={labelStyle}>
+                    우월코드 데미지 %
+                    <input
+                        type="number"
+                        value={equipWeakPoint}
+                        onChange={(e) => setEquipWeakPoint(e.target.value)}
+                        style={inputStyle}
+                        placeholder="0"
+                    />
+                </label>
+                <label style={labelStyle}>
+                    장탄수 %
+                    <input
+                        type="number"
+                        value={equipAmmo}
+                        onChange={(e) => setEquipAmmo(e.target.value)}
+                        style={inputStyle}
+                        placeholder="0"
+                    />
+                </label>
+            </div>
+
+            {simulationResults && (
                 <div style={{ marginBottom: '20px' }}>
                     <h2>Result Summary</h2>
-                    <p><strong>Total Damage:</strong> {Math.floor(simulationResult.totalDamage).toLocaleString()}</p>
-                    <p><strong>Average DPS:</strong> {Math.floor(simulationResult.dps).toLocaleString()}</p>
+                    <div style={{ display: 'flex', gap: '40px' }}>
+                        <div>
+                            <h3 style={{ color: '#1890ff' }}>Normal</h3>
+                            <p><strong>Total Damage:</strong> {Math.floor(simulationResults.normal.totalDamage).toLocaleString()}</p>
+                            <p><strong>Average DPS:</strong> {Math.floor(simulationResults.normal.dps).toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <h3 style={{ color: '#ff4d4f' }}>Core Hit ~{simulationResults.coreHitPct}%</h3>
+                            <p><strong>Total Damage:</strong> {Math.floor(simulationResults.core.totalDamage).toLocaleString()}</p>
+                            <p><strong>Average DPS:</strong> {Math.floor(simulationResults.core.dps).toLocaleString()}</p>
+                        </div>
+                        <div>
+                            <h3 style={{ color: '#52c41a' }}>Skill Damage ({selectedChar.data.characterName})</h3>
+                            <p><strong>Total:</strong> {Math.floor(simulationResults.skillTotal).toLocaleString()}</p>
+                        </div>
+                    </div>
                 </div>
             )}
 
-            {chartData.length > 0 && (
+            {chartDatasets.length > 0 && (
                 <div style={{ marginTop: '20px' }}>
-                    <h3>DPS Over Time</h3>
-                    <CanvasChart data={chartData} />
+                    <h3>Cumulative Damage Over Time</h3>
+                    <CanvasChart datasets={chartDatasets} />
                 </div>
             )}
         </div>

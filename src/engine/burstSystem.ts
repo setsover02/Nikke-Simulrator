@@ -140,6 +140,15 @@ export class BurstSystem {
 
 
     /* =========================
+       쿨타임 감소 (스킬용)
+    ========================= */
+
+    reduceCooldown(value: number) {
+        this.cooldown = Math.max(0, this.cooldown - value);
+    }
+
+
+    /* =========================
        풀버스트 종료
     ========================= */
 
@@ -159,4 +168,29 @@ export class BurstSystem {
         this.cooldown = 0;
         this.fullTimer = 0;
     }
+}
+
+/* ==================================
+   배틀엔진 연동용 함수
+================================== */
+export function updateBurst(ctx: any) {
+    // 임시 구현: 매 틱마다 버스트 시스템 갱신하는 래퍼 (현재 BurstSystem이 전역 상태가 아니므로
+    // 차후 Context 내에 BurstSystem 인스턴스를 두는 방식을 권장합니다.)
+    if (!ctx.burstSystem) {
+        ctx.burstSystem = new BurstSystem();
+    }
+    const bs = ctx.burstSystem as BurstSystem;
+
+    // 데미지 계산 및 스킬에서 올라간 게이지 반영 (ctx.burstGauge는 임시 누적용)
+    if (ctx.burstGauge > 0) {
+        bs.addGauge(ctx.burstGauge);
+        ctx.burstGauge = 0;
+    }
+
+    bs.update(ctx.delta);
+
+    // 자동 버스트 발동 테스트
+    bs.tryActivate();
+
+    ctx.burstActive = bs.isFullBurst();
 }

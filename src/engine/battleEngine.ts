@@ -67,6 +67,9 @@ function createContext(
 ================================ */
 
 function step(ctx: BattleContext) {
+    // 0️⃣ 탄환 및 장전 처리 (추가)
+    updateAmmo(ctx);
+
     // 1️⃣ 공격 처리
     processAttack(ctx);
 

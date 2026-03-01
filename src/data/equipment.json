@@ -1,0 +1,248 @@
+{
+    "화력형": {
+        "머리": {
+            "T9": {
+                "atk": 3233,
+                "defense": 0,
+                "hp": 26442,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 4203,
+                "defense": 0,
+                "hp": 34375,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 6014,
+                "defense": 0,
+                "hp": 49181,
+                "growth": 0.1
+            }
+        },
+        "가슴": {
+            "T9": {
+                "atk": 588,
+                "defense": 0,
+                "hp": 85937,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 764,
+                "defense": 0,
+                "hp": 111718,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 1093,
+                "defense": 0,
+                "hp": 159840,
+                "growth": 0.1
+            }
+        },
+        "손": {
+            "T9": {
+                "atk": 2058,
+                "defense": 352,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 2675,
+                "defense": 458,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 3827,
+                "defense": 654,
+                "hp": 0,
+                "growth": 0.1
+            }
+        },
+        "신발": {
+            "T9": {
+                "atk": 0,
+                "defense": 527,
+                "hp": 19832,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 0,
+                "defense": 685,
+                "hp": 25782,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 0,
+                "defense": 981,
+                "hp": 36887,
+                "growth": 0.1
+            }
+        }
+    },
+    "지원형": {
+        "머리": {
+            "T9": {
+                "atk": 2674,
+                "defense": 0,
+                "hp": 29380,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 3502,
+                "defense": 0,
+                "hp": 38194,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 5012,
+                "defense": 0,
+                "hp": 54646,
+                "growth": 0.1
+            }
+        },
+        "가슴": {
+            "T9": {
+                "atk": 490,
+                "defense": 0,
+                "hp": 95485,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 637,
+                "defense": 0,
+                "hp": 124131,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 911,
+                "defense": 0,
+                "hp": 177600,
+                "growth": 0.1
+            }
+        },
+        "손": {
+            "T9": {
+                "atk": 1715,
+                "defense": 391,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 2229,
+                "defense": 508,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 3189,
+                "defense": 727,
+                "hp": 0,
+                "growth": 0.1
+            }
+        },
+        "신발": {
+            "T9": {
+                "atk": 0,
+                "defense": 586,
+                "hp": 22035,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 0,
+                "defense": 762,
+                "hp": 28645,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 0,
+                "defense": 1090,
+                "hp": 40985,
+                "growth": 0.1
+            }
+        }
+    },
+    "방어형": {
+        "머리": {
+            "T9": {
+                "atk": 2155,
+                "defense": 0,
+                "hp": 32318,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 2801,
+                "defense": 0,
+                "hp": 42013,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 4010,
+                "defense": 0,
+                "hp": 60111,
+                "growth": 0.1
+            }
+        },
+        "가슴": {
+            "T9": {
+                "atk": 392,
+                "defense": 0,
+                "hp": 105034,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 510,
+                "defense": 0,
+                "hp": 136544,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 729,
+                "defense": 0,
+                "hp": 195360,
+                "growth": 0.1
+            }
+        },
+        "손": {
+            "T9": {
+                "atk": 1372,
+                "defense": 430,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 1784,
+                "defense": 559,
+                "hp": 0,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 2511,
+                "defense": 800,
+                "hp": 0,
+                "growth": 0.1
+            }
+        },
+        "신발": {
+            "T9": {
+                "atk": 0,
+                "defense": 699,
+                "hp": 26259,
+                "growth": 0.1
+            },
+            "company": {
+                "atk": 0,
+                "defense": 839,
+                "hp": 31511,
+                "growth": 0.1
+            },
+            "Overload": {
+                "atk": 0,
+                "defense": 1199,
+                "hp": 45084,
+                "growth": 0.1
+            }
+        }
+    }
+}
