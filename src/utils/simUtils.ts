@@ -54,34 +54,78 @@ export const generateSkillChartData = (result: any, duration: number) => {
 
 import { getWeaponMultipliers, getWeaponRangeBonus, RangeMode } from '../constants/weaponStats';
 import { HitDamages } from '../types/simulator';
+import { calcNikkeDamage } from '../engine/nikkeFormula';
 
 /**
  * 단발 타격 유형별 데미지 계산 (일반 / 크리티컬 / 코어 / 코어+크리티컬)
- * 버프·버스트 없는 기본 스탯 기준, 무기별 배율 + 거리 보너스 적용
+ * nikkeFormula.calcNikkeDamage 와 동일한 공식을 사용하여 시뮬 수치와 완전 일致.
+ * atkCoef는 charUtils.applyBaseStats 기준 (JSON 원값 / 100) 형태로 전달.
  */
 export const calcHitDamages = (
-    char: { atk: number; atkCoef?: number; weapon?: string; equipATKPercent?: number; equipWeakPointPercent?: number; normalAtkMultiplier?: number; coreDamage?: number; critMult?: number },
+    char: {
+        atk: number;
+        atkCoef?: number;          // charUtils 거친 값 (JSON atkCoef / 100)
+        weapon?: string;
+        equipATKPercent?: number;
+        equipWeakPointPercent?: number;
+        normalAtkMultiplier?: number;
+        coreDamage?: number;
+        critMult?: number;
+    },
     enemyDef: number,
     rangeMode: RangeMode = 'mid',
-    isWeakPoint: boolean = false
+    isWeakPoint: boolean = false,
+    enemyTakenUp: number = 0
 ): HitDamages => {
     const wm = getWeaponMultipliers(char.weapon);
     const rangeBonus = getWeaponRangeBonus(char.weapon, rangeMode);
-    // 인게임의 소수점 공격력 및 방어력 연산은 올림(ceil) 되므로 Math.ceil을 적용합니다.
-    const effectiveATK = Math.ceil(char.atk * (1 + (char.equipATKPercent ?? 0)));
-    const baseDamage = Math.max(1, effectiveATK - enemyDef);
-    const atkMod = char.atkCoef ?? 1;
-    const normalAtkMult = (char.normalAtkMultiplier ?? 0) / 100;
-    const elementBonus = isWeakPoint ? 1.1 + (char.equipWeakPointPercent ?? 0) : 1.0;
-    const base = baseDamage * atkMod * (1 + normalAtkMult) * elementBonus;
-
     const coreHitBonus = char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus;
     const critBonus = char.critMult ? (char.critMult - 1) : wm.critBonus;
 
+    // nikkeFormula.calcNikkeDamage와 동일한 파라미터 구조 사용
+    const baseParams = {
+        baseATK: char.atk,
+        extraATKPercent: char.equipATKPercent ?? 0,
+        extraATKFlat: 0,
+        enemyBaseDEF: enemyDef,
+        enemyDEFPercent: 0,
+        enemyDEFFlat: 0,
+
+        atkCoef: char.atkCoef ?? 1,
+        finalATKModifier: 0,
+        normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
+
+        isCrit: false,
+        critBonusBase: critBonus,
+        extraCritDmg: 0,
+        isCore: false,
+        coreHitBonus,
+        fullBurstBonus: 0,
+        rangeBonus,
+
+        weakPointBase: isWeakPoint ? 1.1 : 1.0,
+        weakPointExtra: isWeakPoint ? (char.equipWeakPointPercent ?? 0) : 0,
+
+        chargeDmgBonus: 0,
+
+        atkDmgUp: 0,
+        dotDmgUp: 0,
+        pierceDmgUp: 0,
+        partDmgUp: 0,
+        ignoreDefDmgUp: 0,
+        projectileDmgUp: 0,
+        interruptionPartDmgUp: 0,
+        extraDmgUp: 0,
+
+        enemyTakenUp,
+        shareDmgUp: 0,
+        enemyTakenDown: 0,
+    };
+
     return {
-        normal: Math.round(base * (1 + rangeBonus)),
-        crit: Math.round(base * (1 + critBonus + rangeBonus)),
-        core: Math.round(base * (1 + coreHitBonus + rangeBonus)),
-        coreCrit: Math.round(base * (1 + critBonus + coreHitBonus + rangeBonus)),
+        normal: calcNikkeDamage({ ...baseParams, isCrit: false, isCore: false }),
+        crit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: false }),
+        core: calcNikkeDamage({ ...baseParams, isCrit: false, isCore: true }),
+        coreCrit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: true }),
     };
 };

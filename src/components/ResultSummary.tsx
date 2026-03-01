@@ -27,8 +27,7 @@ const ResultSummary: React.FC<Props> = ({ noCore, withCore, showTeamTotal }) => 
                             {r.charName}
                         </span>
                         <span style={{ color: '#999', fontSize: '12px' }}>
-                            DMG: <strong style={{ color: '#ccc' }}>{Math.floor(r.totalDmg).toLocaleString()}</strong>
-                            {' '}| DPS: <strong style={{ color: '#ccc' }}>{Math.floor(r.dps).toLocaleString()}</strong>
+                            Total DMG: <strong style={{ color: '#ccc' }}>{Math.floor(r.totalDmg).toLocaleString()}</strong>
                         </span>
                     </div>
 
@@ -64,8 +63,7 @@ const ResultSummary: React.FC<Props> = ({ noCore, withCore, showTeamTotal }) => 
                 }}>
                     <span style={{ color: teamColor, fontWeight: 'bold' }}>★ Team Total</span>
                     <span style={{ color: '#999', fontSize: '12px', marginLeft: '12px' }}>
-                        DMG: <strong style={{ color: teamColor }}>{Math.floor(summary.teamTotal).toLocaleString()}</strong>
-                        {' '}| DPS: <strong style={{ color: teamColor }}>{Math.floor(summary.teamDps).toLocaleString()}</strong>
+                        Total DMG: <strong style={{ color: teamColor }}>{Math.floor(summary.teamTotal).toLocaleString()}</strong>
                     </span>
                 </div>
             )}

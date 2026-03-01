@@ -26,14 +26,12 @@ export interface ScenarioResult {
     charId: string;
     charName: string;
     totalDmg: number;
-    dps: number;
     hitDamages: HitDamages;
 }
 
 export interface ScenarioSummary {
     chars: ScenarioResult[];
     teamTotal: number;
-    teamDps: number;
 }
 
 export interface SimResult {

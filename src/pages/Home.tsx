@@ -111,6 +111,17 @@ const Home: React.FC = () => {
                 const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
                 const collectionEffect = getCollectionEffect(charStats.weapon, slot.collectionGrade, collectionLevelNum);
 
+                // 영구 적 디버프(받는 대미지 증가) 합산 — enemy_spawn 트리거의 bubble 등
+                let enemyTakenUp = 0;
+                const skills = slot.char.data.skills || [];
+                for (const skill of skills) {
+                    for (const eff of (skill.effects || []) as any[]) {
+                        if (eff.trigger === 'enemy_spawn' && eff.target === 'enemy' && eff.value && eff.duration === 'permanent') {
+                            enemyTakenUp += eff.value / 100;
+                        }
+                    }
+                }
+
                 const hitDamages = calcHitDamages({
                     atk: customATK > 0 ? customATK : charStats.atk,
                     atkCoef: (charStats.atkCoef || 0) / 100,
@@ -120,9 +131,9 @@ const Home: React.FC = () => {
                     normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
                     coreDamage: 'coreDamage' in charStats ? charStats.coreDamage as number : undefined,
                     critMult: 'critMult' in charStats ? charStats.critMult as number : undefined
-                }, ENEMY.defense, rangeMode, isWeak);
+                }, ENEMY.defense, rangeMode, isWeak, enemyTakenUp);
 
-                return { charId, charName: slot.char.data.characterName, totalDmg, dps: totalDmg / config.duration, hitDamages };
+                return { charId, charName: slot.char.data.characterName, totalDmg, hitDamages };
             });
 
         const sumDamage = (result: typeof resultNoCore) => {
@@ -136,8 +147,8 @@ const Home: React.FC = () => {
         const withCoreTotal = sumDamage(resultWithCore);
 
         setSimResult({
-            noCore: { chars: extractChars(resultNoCore), teamTotal: noCoreTotal, teamDps: noCoreTotal / config.duration },
-            withCore: { chars: extractChars(resultWithCore), teamTotal: withCoreTotal, teamDps: withCoreTotal / config.duration },
+            noCore: { chars: extractChars(resultNoCore), teamTotal: noCoreTotal },
+            withCore: { chars: extractChars(resultWithCore), teamTotal: withCoreTotal },
         });
 
         // 차트 데이터셋 구성

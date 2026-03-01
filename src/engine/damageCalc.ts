@@ -127,6 +127,7 @@ function buildDamageParams(
         extraATKFlat: char.buff?.extraATK ?? 0,
         enemyBaseDEF: ctx.enemy.defense,
         enemyDEFPercent: 0,
+        enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
 
         /* ② Final ATK Modifier & Normal ATK Multiplier */
         atkCoef: char.atkCoef ?? 1,

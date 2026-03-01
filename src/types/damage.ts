@@ -15,6 +15,7 @@ export interface DamageParams {
    extraATKFlat: number; // 시전자 공격력의 % 만큼 평탄 추가 (스킬: attack_power_up 등)
    enemyBaseDEF: number; // 적 기본 방어력
    enemyDEFPercent: number; // 적 방어력 % 증가 (0이면 DEF 변화 없음)
+   enemyDEFFlat: number; // 적 방어력 flat 추가 (% caster's DEF, 예: Mast 스킬)
 
 
    /* ================================================
