@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
+import { BurstWindow } from '../utils/simUtils';
 
 interface ChartData {
     time: number;
@@ -15,12 +16,12 @@ interface Dataset {
 
 interface CanvasChartProps {
     datasets: Dataset[];
-    burstZones?: { start: number; end: number }[];
+    burstWindows?: BurstWindow[];
 }
 
 const MIN_ZOOM_RANGE = 5; // Minimum visible time span in seconds
 
-const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
+const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -158,36 +159,21 @@ const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
         ctx.rect(paddingLeft, paddingVertical, graphWidth, graphHeight);
         ctx.clip();
 
-        // Draw Full Burst Background Zones
-        if (burstZones.length > 0) {
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)'; // 명확히 보이도록 투명도 상향
-            burstZones.forEach(zone => {
-                // Check if zone overlaps with current view
-                if (zone.end < vMin || zone.start > vMax) return;
+        // Full Burst 구간 배경
+        burstWindows.forEach((window) => {
+            const start = Math.max(window.start, vMin);
+            const end = Math.min(window.end, vMax);
+            if (end <= start) return;
 
-                const startX = Math.max(paddingLeft, timeToX(zone.start));
-                const endX = Math.min(paddingLeft + graphWidth, timeToX(zone.end));
-                const width = endX - startX;
+            const xStart = timeToX(start);
+            const xEnd = timeToX(end);
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.22)';
+            ctx.fillRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
 
-                if (width > 0) {
-                    ctx.fillRect(startX, paddingVertical, width, graphHeight);
-
-                    // Add subtle border to zone edges
-                    ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    if (zone.start >= vMin) {
-                        ctx.moveTo(startX, paddingVertical);
-                        ctx.lineTo(startX, height - paddingVertical);
-                    }
-                    if (zone.end <= vMax) {
-                        ctx.moveTo(endX, paddingVertical);
-                        ctx.lineTo(endX, height - paddingVertical);
-                    }
-                    ctx.stroke();
-                }
-            });
-        }
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.28)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
+        });
 
         // Data lines
         datasets.forEach((ds, dsIdx) => {
@@ -254,7 +240,7 @@ const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
             ctx.font = '11px "Wanted Sans Variable", sans-serif';
             ctx.fillText(`View: ${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, width - paddingRight, paddingVertical - 30);
         }
-    }, [datasets, hoverInfo, getViewRange, getAbsMaxTime]);
+    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime]);
 
     useEffect(() => {
         draw();
@@ -393,7 +379,7 @@ const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
     const isZoomed = vMin > 0 || (viewMax !== null && vMax < absMaxTime - 0.1);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
+        <div ref={containerRef} style={{ position: 'relative', width: '100%', maxWidth: '800px' }}>
             {isZoomed && (
                 <button
                     onClick={handleResetView}
@@ -416,7 +402,7 @@ const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
             )}
             <canvas
                 ref={canvasRef}
-                width={1200}
+                width={800}
                 height={400}
                 onMouseMove={handleMouseMove}
                 onMouseDown={handleMouseDown}

@@ -73,6 +73,8 @@ export interface SimConfig {
     seed?: number;
     tick?: number;
     duration: number; // in seconds
+    fullBurstDuration?: number;
+    fullBurstInterval?: number;
 }
 
 export interface LogEntry {

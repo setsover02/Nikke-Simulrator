@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { simulateBattle } from '../engine/battleEngine';
 import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
-import { generateChartData, calcHitDamages } from '../utils/simUtils';
+import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } from '../utils/simUtils';
 import iconAnmi from '../assets/icon/code-anmi.svg';
 import iconDmtr from '../assets/icon/code-dmtr.svg';
 import iconHsta from '../assets/icon/code-hsta.svg';
@@ -14,7 +14,7 @@ import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
 import { getCollectionEffect } from '../constants/collectionItems';
 import CharacterSlot from '../components/CharacterSlot';
 import ResultSummary from '../components/ResultSummary';
-import CanvasChart from '../components/CanvasChart';
+import DualChart from '../components/DualChart';
 
 function createDefaultSlot(charOption = characterOptions[0]): SlotState {
     const stats = charOption.data.stats;
@@ -32,13 +32,13 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
 const Home: React.FC = () => {
     const [slots, setSlots] = useState<SlotState[]>([createDefaultSlot()]);
     const [simResult, setSimResult] = useState<SimResult | null>(null);
-    const [burstZones, setBurstZones] = useState<{ start: number; end: number }[]>([]);
     const [noCoreDatasets, setNoCoreDatasets] = useState<any[]>([]);
     const [withCoreDatasets, setWithCoreDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
+    const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.67');
     const [rangeMode, setRangeMode] = useState<RangeMode>('mid');
-    const [isCoreHit, setIsCoreHit] = useState<boolean>(false);
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
+    const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
 
     const ELEMENT_OPTIONS = [
         { value: '풍압', label: '풍압', icon: iconAnmi },
@@ -66,7 +66,18 @@ const Home: React.FC = () => {
         setSlots(slots.map((s, i) => i === idx ? { ...s, ...patch } : s));
 
     const handleSimulate = () => {
-        const config: SimConfig = { duration: 180, tick: 0.016, seed: 42 };
+        const parsedBurstInterval = parseFloat(fullBurstInterval);
+        const burstInterval = Number.isFinite(parsedBurstInterval) && parsedBurstInterval > 0
+            ? parsedBurstInterval
+            : 4.67;
+
+        const config: SimConfig = {
+            duration: 180,
+            tick: 0.016,
+            seed: 42,
+            fullBurstDuration: 10,
+            fullBurstInterval: burstInterval,
+        };
         const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
 
         const buildTeam = (includeCore: boolean): Team => ({
@@ -172,7 +183,7 @@ const Home: React.FC = () => {
 
         setNoCoreDatasets(dsNoCore);
         setWithCoreDatasets(dsWithCore);
-        setBurstZones(resultNoCore.burstZones || []);
+        setBurstWindows(generateBurstWindows(config.duration, config.fullBurstDuration, config.fullBurstInterval));
     };
 
     return (
@@ -208,6 +219,28 @@ const Home: React.FC = () => {
                 >
                     + 캐릭터 추가 ({slots.length}/5)
                 </button>
+
+                {/* Full Burst 간격 입력 */}
+                <div style={{
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '8px 14px', background: '#1e1e2e',
+                    borderRadius: '6px', border: '1px solid #444',
+                }}>
+                    <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap' }}>🟨 Full Burst 간격(초)</span>
+                    <input
+                        type="number"
+                        value={fullBurstInterval}
+                        onChange={e => setFullBurstInterval(e.target.value)}
+                        min={0.1}
+                        step={0.01}
+                        style={{
+                            width: '90px', padding: '5px 8px', fontSize: '14px',
+                            background: '#0f0f1a', color: '#e0e0e0',
+                            border: '1px solid #555', borderRadius: '4px',
+                            textAlign: 'right',
+                        }}
+                    />
+                </div>
                 <button
                     onClick={handleSimulate}
                     style={{
@@ -252,38 +285,6 @@ const Home: React.FC = () => {
                     <span style={{ color: '#60a5fa', fontSize: '11px', whiteSpace: 'nowrap' }}>
                         +30%&nbsp;→&nbsp;{RANGE_OPTIONS.find(o => o.value === rangeMode)?.weapons}
                     </span>
-                </div>
-
-                {/* 코어 히트 토글 */}
-                <div style={{
-                    display: 'flex', alignItems: 'center', gap: '8px',
-                    padding: '8px 14px', background: '#1e1e2e',
-                    borderRadius: '6px', border: '1px solid #444',
-                    marginLeft: '8px'
-                }}>
-                    <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap', marginRight: '4px' }}>🔴 코어 히트</span>
-                    <div style={{ display: 'flex', gap: '4px' }}>
-                        <button
-                            onClick={() => setIsCoreHit(true)}
-                            style={{
-                                padding: '4px 10px', fontSize: '12px',
-                                background: isCoreHit ? '#ef444460' : 'transparent',
-                                color: isCoreHit ? '#f87171' : '#666',
-                                border: isCoreHit ? '1px solid #ef4444' : '1px solid #444',
-                                borderRadius: '4px', cursor: 'pointer'
-                            }}
-                        >ON</button>
-                        <button
-                            onClick={() => setIsCoreHit(false)}
-                            style={{
-                                padding: '4px 10px', fontSize: '12px',
-                                background: !isCoreHit ? '#3b82f660' : 'transparent',
-                                color: !isCoreHit ? '#60a5fa' : '#666',
-                                border: !isCoreHit ? '1px solid #3b82f6' : '1px solid #444',
-                                borderRadius: '4px', cursor: 'pointer'
-                            }}
-                        >OFF</button>
-                    </div>
                 </div>
 
                 {/* 약점 속성 선택 */}
@@ -344,13 +345,12 @@ const Home: React.FC = () => {
                 />
             )}
 
-            {/* 단일 차트 (넓이 100%) */}
-            <div style={{ width: '100%', marginTop: '20px' }}>
-                <CanvasChart
-                    datasets={isCoreHit ? withCoreDatasets : noCoreDatasets}
-                    burstZones={burstZones}
-                />
-            </div>
+            {/* 두 개 차트 */}
+            <DualChart
+                noCoreDatasets={noCoreDatasets}
+                withCoreDatasets={withCoreDatasets}
+                burstWindows={burstWindows}
+            />
         </div>
     );
 };
