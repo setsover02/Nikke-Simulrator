@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
+import { BurstWindow } from '../utils/simUtils';
 
 interface ChartData {
     time: number;
@@ -15,11 +16,12 @@ interface Dataset {
 
 interface CanvasChartProps {
     datasets: Dataset[];
+    burstWindows?: BurstWindow[];
 }
 
 const MIN_ZOOM_RANGE = 5; // Minimum visible time span in seconds
 
-const CanvasChart = ({ datasets }: CanvasChartProps) => {
+const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -157,6 +159,22 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
         ctx.rect(paddingLeft, paddingVertical, graphWidth, graphHeight);
         ctx.clip();
 
+        // Full Burst 구간 배경
+        burstWindows.forEach((window) => {
+            const start = Math.max(window.start, vMin);
+            const end = Math.min(window.end, vMax);
+            if (end <= start) return;
+
+            const xStart = timeToX(start);
+            const xEnd = timeToX(end);
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.22)';
+            ctx.fillRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
+
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.28)';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
+        });
+
         // Data lines
         datasets.forEach((ds, dsIdx) => {
             if (ds.data.length === 0) return;
@@ -222,7 +240,7 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
             ctx.font = '11px "Wanted Sans Variable", sans-serif';
             ctx.fillText(`View: ${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, width - paddingRight, paddingVertical - 30);
         }
-    }, [datasets, hoverInfo, getViewRange, getAbsMaxTime]);
+    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime]);
 
     useEffect(() => {
         draw();

@@ -1,12 +1,14 @@
 import React from 'react';
 import CanvasChart from './CanvasChart';
+import { BurstWindow } from '../utils/simUtils';
 
 interface Props {
     noCoreDatasets: any[];
     withCoreDatasets: any[];
+    burstWindows: BurstWindow[];
 }
 
-const DualChart: React.FC<Props> = ({ noCoreDatasets, withCoreDatasets }) => {
+const DualChart: React.FC<Props> = ({ noCoreDatasets, withCoreDatasets, burstWindows }) => {
     if (noCoreDatasets.length === 0) return null;
 
     return (
@@ -15,13 +17,13 @@ const DualChart: React.FC<Props> = ({ noCoreDatasets, withCoreDatasets }) => {
             <div style={{ flex: '1', minWidth: '360px' }}>
                 <h3 style={{ color: '#aaa', marginBottom: '4px', fontSize: '15px' }}>🔵 코어 없는 적</h3>
                 <p style={{ color: '#555', fontSize: '11px', marginTop: 0, marginBottom: '8px' }}>코어 히트 없음</p>
-                <CanvasChart datasets={noCoreDatasets} />
+                <CanvasChart datasets={noCoreDatasets} burstWindows={burstWindows} />
             </div>
             {/* 코어 있는 적 차트 */}
             <div style={{ flex: '1', minWidth: '360px' }}>
                 <h3 style={{ color: '#ffd700', marginBottom: '4px', fontSize: '15px' }}>🟡 코어 있는 적</h3>
                 <p style={{ color: '#555', fontSize: '11px', marginTop: 0, marginBottom: '8px' }}>명중률 기반 확률적 코어 명중</p>
-                <CanvasChart datasets={withCoreDatasets} />
+                <CanvasChart datasets={withCoreDatasets} burstWindows={burstWindows} />
             </div>
         </div>
     );

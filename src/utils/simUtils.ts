@@ -34,6 +34,30 @@ export const generateCombinedChartData = (result: any, duration: number) => {
     return generateChartData(result, duration);
 };
 
+export interface BurstWindow {
+    start: number;
+    end: number;
+}
+
+export const generateBurstWindows = (
+    duration: number,
+    fullDuration: number = 10,
+    fullBurstInterval: number = 4.67
+): BurstWindow[] => {
+    const windows: BurstWindow[] = [];
+    let currentStart = fullBurstInterval;
+
+    while (currentStart < duration) {
+        windows.push({
+            start: currentStart,
+            end: Math.min(duration, currentStart + fullDuration),
+        });
+        currentStart += fullDuration + fullBurstInterval;
+    }
+
+    return windows;
+};
+
 /** 스킬 데미지만 집계한 누적 차트 데이터 (현재 그래프에서 미사용) */
 export const generateSkillChartData = (result: any, duration: number) => {
     const aggregated: { [second: number]: number } = {};

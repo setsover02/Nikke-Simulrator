@@ -70,14 +70,14 @@ function step(ctx: BattleContext) {
     // 0️⃣ 탄환 및 장전 처리 (추가)
     updateAmmo(ctx);
 
-    // 1️⃣ 공격 처리
+    // 1️⃣ 버스트 상태 처리
+    updateBurst(ctx);
+
+    // 2️⃣ 공격 처리
     processAttack(ctx);
 
-    // 2️⃣ 스킬 발동
+    // 3️⃣ 스킬 발동
     resolveSkills(ctx);
-
-    // 3️⃣ 버스트 처리
-    updateBurst(ctx);
 
     // 4️⃣ 시간 진행
     ctx.time += ctx.delta;
