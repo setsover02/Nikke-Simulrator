@@ -59,6 +59,8 @@ function createContext(
         log: [],
 
         rng: new Random(config.seed),
+        burstCooldowns: {},
+        burstZones: []
     };
 }
 
@@ -104,6 +106,7 @@ function buildResult(ctx: BattleContext): BattleResult {
         totalDamage: ctx.totalDamage,
         dps: ctx.totalDamage / ctx.time,
         burstCount: ctx.log.filter((l) => l.type === "burst").length,
+        burstZones: ctx.burstZones,
         log: ctx.log,
     };
 }

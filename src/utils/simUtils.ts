@@ -95,6 +95,7 @@ export const calcHitDamages = (
         normalAtkMultiplier?: number;
         coreDamage?: number;
         critMult?: number;
+        fullChargeDamage?: number;
     },
     enemyDef: number,
     rangeMode: RangeMode = 'mid',
@@ -130,7 +131,7 @@ export const calcHitDamages = (
         weakPointBase: isWeakPoint ? 1.1 : 1.0,
         weakPointExtra: isWeakPoint ? (char.equipWeakPointPercent ?? 0) : 0,
 
-        chargeDmgBonus: 0,
+        chargeDmgBonus: (char.weapon === 'RL' || char.weapon === 'SR') ? (char.fullChargeDamage ?? 0) : 0,
 
         atkDmgUp: 0,
         dotDmgUp: 0,

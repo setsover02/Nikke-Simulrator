@@ -19,11 +19,16 @@ export function calcNikkeDamage(p: DamageParams): number {
 
    /* ================================================
       ② Final ATK Modifier (소장품 배율 포함)
-      = atkCoef × (1 + Final ATK 버프 + 소장품 일반공격 배율/100)
+      = atkCoef × (1 + 소장품 일반공격 배율/100) × (1 + Final ATK 버프)
+      소장품 배율을 atkCoef에 먼저 곱한 뒤 Final ATK 버프 적용
    ================================================ */
 
+   const f = (val: number) => val; // Replace with desired precision/rounding logic if needed
+
    const normalAtkMult = (p.normalAtkMultiplier ?? 0) / 100;
-   const finalATKMod = p.atkCoef * (1 + p.finalATKModifier + normalAtkMult);
+   const atkCoef = (p.atkCoef * (1 + normalAtkMult));
+   const finalATKMod = atkCoef * (1 + p.finalATKModifier);
+   console.log('[DMG]', { baseDamage, effectiveATK, effectiveDEF, atkCoef, normalAtkMult, finalATKModifier: p.finalATKModifier, finalATKMod });
 
 
    /* ================================================
@@ -95,8 +100,10 @@ export function calcNikkeDamage(p: DamageParams): number {
       = 기본데미지 × FinalATKMod × MajorModifiers
         × 원소보너스 × 차지데미지 × 데미지UP × 받는데미지
    ================================================ */
-
-   return Math.round(
+   function iround(x: number) {
+      return Math.floor(x + 0.5);
+   }
+   return iround(
       baseDamage *
       finalATKMod *
       majorModifiers *

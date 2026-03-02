@@ -10,18 +10,20 @@ export interface SkillEffectDef {
     effect: string;
     value?: number;
     unit?: string;
+    chance?: number;
     duration?: number | "permanent";
     description?: string;
     interval?: number;
     hits?: number;
     based_on?: string;
-    condition?: {
+    condition?: string | {
         amount?: number;
         count?: number;
         target_status?: string;
     };
     effects?: Omit<SkillEffectDef, "trigger" | "target">[]; // Nested effects
     status?: string;
+    stack_level?: number;
 }
 
 export interface SkillDef {
@@ -47,6 +49,23 @@ export function resolveSkills(ctx: BattleContext) {
                 });
             }
         });
+
+        // Interval Skills Logic
+        if (char.activeIntervalSkills) {
+            char.activeIntervalSkills.forEach(intervalSkill => {
+                intervalSkill.durationRemain -= ctx.delta;
+                intervalSkill.timeSinceLastHit += ctx.delta;
+
+                if (intervalSkill.timeSinceLastHit >= intervalSkill.effectDef.interval) {
+                    intervalSkill.timeSinceLastHit -= intervalSkill.effectDef.interval;
+
+                    // Trigger damage
+                    const hitDef = { ...intervalSkill.effectDef, effect: "damage" };
+                    applySpecificEffectToTarget(ctx, char, intervalSkill.target, hitDef);
+                }
+            });
+            char.activeIntervalSkills = char.activeIntervalSkills.filter(s => s.durationRemain > 0);
+        }
     });
 
     updateBuffTimers(ctx);
@@ -67,18 +86,16 @@ function handleEffectTrigger(
     }
 
     // "full_burst_start"
-    // TODO: implement actual full burst start event detection
-    if (effectDef.trigger === "full_burst_start" && ctx.burstActive) {
-        // This is a continuous check, properly it should only trigger ONCE per burst start.
-        // We need state for this.
+    if (effectDef.trigger === "full_burst_start") {
         const stateKey = `fb_start_${sourceChar.id}_${skillId}`;
         ctx.state = ctx.state || {};
-        if (!ctx.state[stateKey]) {
+
+        if (ctx.burstActive && !ctx.state[stateKey]) {
             isTriggered = true;
             ctx.state[stateKey] = true;
+        } else if (!ctx.burstActive && ctx.state[stateKey]) {
+            ctx.state[stateKey] = false; // reset when burst ends
         }
-    } else if (!ctx.burstActive && ctx.state && ctx.state[`fb_start_${sourceChar.id}_${skillId}`]) {
-        ctx.state[`fb_start_${sourceChar.id}_${skillId}`] = false; // reset when burst ends
     }
 
     // "full_burst_end"
@@ -94,7 +111,7 @@ function handleEffectTrigger(
     }
 
     // "ammo_consumed"
-    if (effectDef.trigger === "ammo_consumed" && effectDef.condition?.amount) {
+    if (effectDef.trigger === "ammo_consumed" && typeof effectDef.condition === "object" && effectDef.condition?.amount) {
         const threshold = effectDef.condition.amount;
         const stateKey = `${sourceChar.id}_${skillId}_ammo_consumed`;
 
@@ -122,7 +139,7 @@ function handleEffectTrigger(
     }
 
     // "normal_attack_hit" (simulated by ammo consumed for simplicity right now)
-    if (effectDef.trigger === "normal_attack_hit" && effectDef.condition?.count) {
+    if (effectDef.trigger === "normal_attack_hit" && typeof effectDef.condition === "object" && effectDef.condition?.count) {
         // Only trigger if condition target_status is met
         let statusMet = true;
         if (effectDef.condition.target_status === 'bubble') {
@@ -161,15 +178,39 @@ function handleEffectTrigger(
 
     // 2. Apply Effect if triggered
     if (isTriggered) {
+        if (effectDef.chance !== undefined) {
+            if (ctx.rng.next() > effectDef.chance / 100) return;
+        }
         applyEffect(ctx, sourceChar, effectDef);
     }
 }
 
-function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef: SkillEffectDef) {
+export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef: SkillEffectDef) {
     let targets: any[] = [];
-    if (effectDef.target === "all_allies") targets = ctx.team.members;
+    if (effectDef.target === "all_allies" || effectDef.target === "allies") targets = ctx.team.members;
     else if (effectDef.target === "self") targets = [sourceChar];
-    else if (effectDef.target === "enemy" || effectDef.target === "random_enemies") targets = [ctx.enemy];
+    else if (effectDef.target === "lowest_hp_ally") {
+        targets = [ctx.team.members.reduce((min, char) => char.hp < min.hp ? char : min, ctx.team.members[0])];
+    }
+    else if (effectDef.target === "highest_atk_ally") {
+        targets = [ctx.team.members.reduce((max, char) => char.atk > max.atk ? char : max, ctx.team.members[0])];
+    }
+    else if (effectDef.target === "enemy" || effectDef.target === "random_enemies" || effectDef.target === "lowest_hp_enemy" || effectDef.target === "highest_atk_enemy" || effectDef.target === "all_enemies") targets = [ctx.enemy];
+
+    // --- Global Effects (Only apply once regardless of target count) ---
+    if (effectDef.effect === "burst_gauge_charge" && effectDef.value) {
+        ctx.burstGauge = Math.min(100, ctx.burstGauge + effectDef.value);
+        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Burst Gauge Charged" });
+        return;
+    }
+
+    if (effectDef.effect === "full_burst_time_down" && effectDef.value) {
+        if (ctx.burstSystem && ctx.burstSystem.isFullBurst()) {
+            ctx.burstSystem.reduceFullTimer(effectDef.value);
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Full Burst Time Down" });
+        }
+        return;
+    }
 
     targets.forEach(target => {
         applySpecificEffectToTarget(ctx, sourceChar, target, effectDef);
@@ -208,9 +249,22 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
             // similar to takenUp addition
             target.debuff.takenUp = (target.debuff.takenUp || 0) + (effectDef.value || 0) / 100;
         }
-        if (effectDef.effect === "damage" || effectDef.effect === "bubble_barrage") {
+
+        if (effectDef.effect === "damage" || effectDef.effect === "bubble_barrage" || effectDef.effect === "extra_damage") {
             const hits = effectDef.hits || 1;
-            const dmgPercent = (effectDef.value || 0) / 100;
+            let dmgPercent = (effectDef.value || 0) / 100;
+
+            if (effectDef.condition && typeof effectDef.condition === "string" && effectDef.condition.includes("stack_level")) {
+                const reqStack = parseInt(effectDef.condition.split("_")[2]);
+                const currentStack = sourceChar.buff?.stack_level || 0;
+                if (currentStack < reqStack) {
+                    return; // Condition not met
+                }
+            }
+
+            if (effectDef.based_on === "final_atk") {
+                const totalATK = sourceChar.atk * (1 + (sourceChar.equipATKPercent || 0)) + (sourceChar.buff?.extraATK || 0);
+            }
 
             // nikkeFormula를 사용해 장비 ATK%, 우월코드%, 방어력, 버프 모두 반영
             const wm = getWeaponMultipliers(sourceChar.weapon);
@@ -222,6 +276,7 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
                 extraATKFlat: sourceChar.buff?.extraATK ?? 0,
                 enemyBaseDEF: ctx.enemy.defense,
                 enemyDEFPercent: 0,
+                enemyDEFFlat: 0,
                 // ② Final ATK Modifier (스킬 계수 = dmgPercent)
                 atkCoef: dmgPercent,
                 finalATKModifier: sourceChar.buff?.atkDmgUp ?? 0,
@@ -253,6 +308,16 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
             ctx.totalDamage += totalDmg;
             ctx.log.push({ time: ctx.time, type: "skill_damage", source: sourceChar.id, value: totalDmg, description: effectDef.effect });
         }
+
+        if (effectDef.effect === "interval_damage") {
+            sourceChar.activeIntervalSkills = sourceChar.activeIntervalSkills || [];
+            sourceChar.activeIntervalSkills.push({
+                effectDef,
+                target,
+                durationRemain: effectDef.duration || 0,
+                timeSinceLastHit: 0
+            });
+        }
         return;
     }
 
@@ -273,14 +338,9 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         applied = true;
     }
 
-    if (effectDef.effect === "burst_gauge_charge" && effectDef.value) {
-        ctx.burstGauge = Math.min(100, ctx.burstGauge + effectDef.value);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Burst Gauge Charged" });
-    }
-
     if (effectDef.effect === "burst_cooldown_reduction" && effectDef.value) {
-        if (ctx.burstSystem) {
-            ctx.burstSystem.reduceCooldown(effectDef.value);
+        if (ctx.burstCooldowns[char.id] > 0) {
+            ctx.burstCooldowns[char.id] = Math.max(0, ctx.burstCooldowns[char.id] - effectDef.value);
             ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Burst Cooldown Reduced" });
         }
         applied = true;
@@ -309,10 +369,14 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         applied = true;
     }
 
-    if (effectDef.effect === "crit_rate_up" && effectDef.value) {
+    if (effectDef.effect === "critical_rate_up" && effectDef.value) {
         char.buff.critRate = (char.buff.critRate || 0) + effectDef.value;
         ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Crit Rate Up" });
         applied = true;
+    }
+
+    if (effectDef.stack_level !== undefined) {
+        char.buff.stack_level = effectDef.stack_level;
     }
 
     if (applied && effectDef.duration && effectDef.duration !== "permanent") {

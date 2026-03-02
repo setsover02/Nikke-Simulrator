@@ -1,0 +1,119 @@
+{
+    "characterID": "Vesti",
+    "characterName": "베스티",
+    "stats": {
+        "element": "수냉",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Elysion",
+        "burstLevel": 3,
+        "atk": 436481,
+        "defense": 65627,
+        "hp": 10041160,
+        "atkCoef": 22.44,
+        "maxAmmo": 8,
+        "reloadTime": 2,
+        "fireRate": 0,
+        "chargeTime": 1,
+        "fullChargeDamage": 200,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "상상실현",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "explosion_range_up",
+                    "value": 8.87,
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "생존본능",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "attack_power_up",
+                    "value": 3.16,
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 1
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_damage_up",
+                    "value": 13.2,
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 2
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": 9.17,
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 3
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "정당방위",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "target": "lowest_hp_enemy",
+                    "effect": "interval_damage",
+                    "value": 9.19,
+                    "unit": "percent",
+                    "based_on": "final_atk",
+                    "interval": 1,
+                    "duration": 18
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": 124.45,
+                    "unit": "percent",
+                    "based_on": "final_atk",
+                    "condition": "stack_level_1"
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": 146.10,
+                    "unit": "percent",
+                    "based_on": "final_atk",
+                    "condition": "stack_level_2"
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": 178.57,
+                    "unit": "percent",
+                    "based_on": "final_atk",
+                    "condition": "stack_level_3"
+                },
+                {
+                    "target": "all_allies",
+                    "effect": "full_burst_time_down",
+                    "value": 5,
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}
