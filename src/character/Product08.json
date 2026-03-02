@@ -1,0 +1,69 @@
+{
+    "characterID": "Product08",
+    "characterName": "프로덕트 08",
+    "stats": {
+        "element": "전격",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Missilis",
+        "burstLevel": 1,
+        "atk": 280875,
+        "defense": 41063,
+        "hp": 6994522,
+        "atkCoef": 69.04,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 0,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "전술 : 장갑 보강",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack_hit",
+                    "chance": 20,
+                    "target": "lowest_hp_ally",
+                    "effect": "defense_up",
+                    "value": 2.27,
+                    "unit": "percent",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "전술 : 정밀 사격",
+            "type": "active",
+            "cooldown": 17.0,
+            "effects": [
+                {
+                    "target": "highest_atk_ally",
+                    "effect": "critical_rate_up",
+                    "value": 5.74,
+                    "unit": "percent",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "전술 : 출력 상승",
+            "type": "burst",
+            "cooldown": 20.0,
+            "effects": [
+                {
+                    "target": "all_allies",
+                    "effect": "attack_damage_up",
+                    "value": 4.84,
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        }
+    ]
+}

@@ -14,7 +14,7 @@ import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
 import { getCollectionEffect } from '../constants/collectionItems';
 import CharacterSlot from '../components/CharacterSlot';
 import ResultSummary from '../components/ResultSummary';
-import DualChart from '../components/DualChart';
+import CanvasChart from '../components/CanvasChart';
 
 function createDefaultSlot(charOption = characterOptions[0]): SlotState {
     const stats = charOption.data.stats;
@@ -32,10 +32,12 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
 const Home: React.FC = () => {
     const [slots, setSlots] = useState<SlotState[]>([createDefaultSlot()]);
     const [simResult, setSimResult] = useState<SimResult | null>(null);
+    const [burstZones, setBurstZones] = useState<{ start: number; end: number }[]>([]);
     const [noCoreDatasets, setNoCoreDatasets] = useState<any[]>([]);
     const [withCoreDatasets, setWithCoreDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
     const [rangeMode, setRangeMode] = useState<RangeMode>('mid');
+    const [isCoreHit, setIsCoreHit] = useState<boolean>(false);
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
 
     const ELEMENT_OPTIONS = [
@@ -170,6 +172,7 @@ const Home: React.FC = () => {
 
         setNoCoreDatasets(dsNoCore);
         setWithCoreDatasets(dsWithCore);
+        setBurstZones(resultNoCore.burstZones || []);
     };
 
     return (
@@ -251,6 +254,38 @@ const Home: React.FC = () => {
                     </span>
                 </div>
 
+                {/* 코어 히트 토글 */}
+                <div style={{
+                    display: 'flex', alignItems: 'center', gap: '8px',
+                    padding: '8px 14px', background: '#1e1e2e',
+                    borderRadius: '6px', border: '1px solid #444',
+                    marginLeft: '8px'
+                }}>
+                    <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap', marginRight: '4px' }}>🔴 코어 히트</span>
+                    <div style={{ display: 'flex', gap: '4px' }}>
+                        <button
+                            onClick={() => setIsCoreHit(true)}
+                            style={{
+                                padding: '4px 10px', fontSize: '12px',
+                                background: isCoreHit ? '#ef444460' : 'transparent',
+                                color: isCoreHit ? '#f87171' : '#666',
+                                border: isCoreHit ? '1px solid #ef4444' : '1px solid #444',
+                                borderRadius: '4px', cursor: 'pointer'
+                            }}
+                        >ON</button>
+                        <button
+                            onClick={() => setIsCoreHit(false)}
+                            style={{
+                                padding: '4px 10px', fontSize: '12px',
+                                background: !isCoreHit ? '#3b82f660' : 'transparent',
+                                color: !isCoreHit ? '#60a5fa' : '#666',
+                                border: !isCoreHit ? '1px solid #3b82f6' : '1px solid #444',
+                                borderRadius: '4px', cursor: 'pointer'
+                            }}
+                        >OFF</button>
+                    </div>
+                </div>
+
                 {/* 약점 속성 선택 */}
                 <div style={{
                     display: 'flex', alignItems: 'center', gap: '4px',
@@ -309,11 +344,13 @@ const Home: React.FC = () => {
                 />
             )}
 
-            {/* 두 개 차트 */}
-            <DualChart
-                noCoreDatasets={noCoreDatasets}
-                withCoreDatasets={withCoreDatasets}
-            />
+            {/* 단일 차트 (넓이 100%) */}
+            <div style={{ width: '100%', marginTop: '20px' }}>
+                <CanvasChart
+                    datasets={isCoreHit ? withCoreDatasets : noCoreDatasets}
+                    burstZones={burstZones}
+                />
+            </div>
         </div>
     );
 };

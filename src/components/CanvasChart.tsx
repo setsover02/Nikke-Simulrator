@@ -15,11 +15,12 @@ interface Dataset {
 
 interface CanvasChartProps {
     datasets: Dataset[];
+    burstZones?: { start: number; end: number }[];
 }
 
 const MIN_ZOOM_RANGE = 5; // Minimum visible time span in seconds
 
-const CanvasChart = ({ datasets }: CanvasChartProps) => {
+const CanvasChart = ({ datasets, burstZones = [] }: CanvasChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -156,6 +157,37 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
         ctx.beginPath();
         ctx.rect(paddingLeft, paddingVertical, graphWidth, graphHeight);
         ctx.clip();
+
+        // Draw Full Burst Background Zones
+        if (burstZones.length > 0) {
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)'; // 명확히 보이도록 투명도 상향
+            burstZones.forEach(zone => {
+                // Check if zone overlaps with current view
+                if (zone.end < vMin || zone.start > vMax) return;
+
+                const startX = Math.max(paddingLeft, timeToX(zone.start));
+                const endX = Math.min(paddingLeft + graphWidth, timeToX(zone.end));
+                const width = endX - startX;
+
+                if (width > 0) {
+                    ctx.fillRect(startX, paddingVertical, width, graphHeight);
+
+                    // Add subtle border to zone edges
+                    ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    if (zone.start >= vMin) {
+                        ctx.moveTo(startX, paddingVertical);
+                        ctx.lineTo(startX, height - paddingVertical);
+                    }
+                    if (zone.end <= vMax) {
+                        ctx.moveTo(endX, paddingVertical);
+                        ctx.lineTo(endX, height - paddingVertical);
+                    }
+                    ctx.stroke();
+                }
+            });
+        }
 
         // Data lines
         datasets.forEach((ds, dsIdx) => {
@@ -361,7 +393,7 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
     const isZoomed = vMin > 0 || (viewMax !== null && vMax < absMaxTime - 0.1);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', maxWidth: '800px' }}>
+        <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
             {isZoomed && (
                 <button
                     onClick={handleResetView}
@@ -384,7 +416,7 @@ const CanvasChart = ({ datasets }: CanvasChartProps) => {
             )}
             <canvas
                 ref={canvasRef}
-                width={800}
+                width={1200}
                 height={400}
                 onMouseMove={handleMouseMove}
                 onMouseDown={handleMouseDown}

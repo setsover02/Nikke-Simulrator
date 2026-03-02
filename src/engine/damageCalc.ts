@@ -14,6 +14,7 @@ export function processAttack(ctx: BattleContext) {
 
     ctx.team.members.forEach((char) => {
         const isMG = char.weapon === WeaponType.MG;
+        const isChargeWeapon = char.weapon === WeaponType.RL || char.weapon === WeaponType.SR;
         const isFiring = canAttack(char);
 
         // MG 냉각 처리 (발사 중이 아닐 때만)
@@ -24,29 +25,49 @@ export function processAttack(ctx: BattleContext) {
         if (!isFiring) {
             // 재장전 중 또는 탄 없음 → 반동/콤보 초기화
             char.fireAccumulator = 0;
+            char.currentCharge = 0;
             char.comboShots = 0;
             return;
         }
 
-        // MG 예열: fireRate 보정
-        let effectiveFireRate = char.fireRate;
-        if (isMG) {
-            effectiveFireRate = getMgFireRate(char.fireRate, char.warmupLevel ?? 0);
-        }
+        let shotsToFire = 0;
+        let isChargeAttack = false;
 
-        char.fireAccumulator = (char.fireAccumulator || 0) + effectiveFireRate * dt;
+        if (isChargeWeapon) {
+            // 차징 무기 처리 (RL, SR)
+            const chargeSeconds = char.chargeTime || 1; // 0초 방어 (기본 1초)
+            char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
-        const shotsThisTick = Math.floor(char.fireAccumulator);
-        const shotsToFire = Math.min(char.ammo, shotsThisTick);
+            if (char.currentCharge >= 1.0) {
+                // 풀 차지 완료 -> 1발 발사
+                shotsToFire = 1;
+                char.currentCharge -= 1.0;
+                isChargeAttack = true; // 풀차지 어택 표시
+            }
+        } else {
+            // 일반 연사 무기 처리 (AR, SMG, SG, MG)
+            let effectiveFireRate = char.fireRate;
+            if (isMG) {
+                effectiveFireRate = getMgFireRate(char.fireRate, char.warmupLevel ?? 0);
+            }
 
-        if (shotsToFire > 0) {
-            char.fireAccumulator -= shotsToFire;
+            char.fireAccumulator = (char.fireAccumulator || 0) + effectiveFireRate * dt;
+
+            const shotsThisTick = Math.floor(char.fireAccumulator);
+            shotsToFire = Math.min(char.ammo, shotsThisTick);
+
+            if (shotsToFire > 0) {
+                char.fireAccumulator -= shotsToFire;
+            }
         }
 
         for (let i = 0; i < shotsToFire; i++) {
-            const dmg = calcCharacterDamage(char, ctx);
+            const dmg = calcCharacterDamage(char, ctx, isChargeAttack);
 
-            applyDamage(ctx, dmg, char.id);
+            // Simulate AOE Splash Damage for RL
+            const simulatedTargetsHit = char.weapon === WeaponType.RL ? 3 : 1;
+
+            applyDamage(ctx, dmg * simulatedTargetsHit, char.id);
 
             char.ammo -= 1;
             char.totalAmmoUsed = (char.totalAmmoUsed || 0) + 1;
@@ -75,7 +96,8 @@ function canAttack(char: Character): boolean {
 
 function calcCharacterDamage(
     char: Character,
-    ctx: BattleContext
+    ctx: BattleContext,
+    isChargeAttack: boolean = false
 ): number {
     // 크리티컬 판정 (기본 확률 + 버프 확률)
     const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
@@ -102,7 +124,7 @@ function calcCharacterDamage(
         })
         : false;
 
-    const params = buildDamageParams(char, ctx, isCrit, isCore);
+    const params = buildDamageParams(char, ctx, isCrit, isCore, isChargeAttack);
     return calcNikkeDamage(params);
 }
 
@@ -115,7 +137,8 @@ function buildDamageParams(
     char: Character,
     ctx: BattleContext,
     isCrit: boolean,
-    isCore: boolean
+    isCore: boolean,
+    isChargeAttack: boolean = false
 ) {
     // 무기별 크리/코어 보정 배율 조회
     const wm = getWeaponMultipliers(char.weapon);
@@ -148,7 +171,7 @@ function buildDamageParams(
         weakPointExtra: (char.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
-        chargeDmgBonus: char.buff?.chargeDmg ?? 0,
+        chargeDmgBonus: isChargeAttack ? (char.fullChargeDamage ?? 0) : (char.buff?.chargeDmg ?? 0),
 
         /* ⑥ Damage Up */
         atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,

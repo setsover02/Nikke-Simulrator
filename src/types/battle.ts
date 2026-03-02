@@ -1,6 +1,8 @@
 export interface Skill {
     id: string;
     type: string;
+    cooldown?: number;
+    effects?: any[];
     // ...
 }
 
@@ -30,6 +32,7 @@ export interface Character {
 
     fireRate: number; // shots per sec
     fireAccumulator?: number; // fractional shots accumulated
+    currentCharge?: number; // fractional charge accumulated (for RL/SR)
 
     skills: Skill[];
 
@@ -44,6 +47,7 @@ export interface Character {
     accuracyBuff?: number;   // 명중률 버프 합산 (0.2 = +20%)
     totalAmmoUsed?: number;
     warmupLevel?: number;  // MG 예열 레벨 (0=냉각, 1=예열 완료)
+    activeIntervalSkills?: any[]; // 주기적으로 발동하는 액티브 스킬 상태 추적
 
     /* 장비 추가 옵션 */
     equipATKPercent?: number;        // 장비 추가 공격력% (0.1 = +10%)
@@ -98,6 +102,8 @@ export interface BattleContext {
     rng: any; // Random instance
     state?: Record<string, any>;
     burstSystem?: any;
+    burstCooldowns: Record<string, number>; // charId -> cooldown remain
+    burstZones: { start: number; end: number }[]; // 기록용 풀버스트 구간
 }
 
 export interface BattleResult {
@@ -105,5 +111,6 @@ export interface BattleResult {
     totalDamage: number;
     dps: number;
     burstCount: number;
+    burstZones: { start: number; end: number }[];
     log: LogEntry[];
 }

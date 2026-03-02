@@ -6,10 +6,10 @@
         "weapon": "MG",
         "class": "화력형",
         "company": "Tetra",
-        "burstLevel": 1,
-        "atk": 421567,
-        "defense": 54875,
-        "hp": 9696924,
+        "burstLevel": 2,
+        "atk": 422197,
+        "defense": 54953,
+        "hp": 9711091,
         "atkCoef": 5.47,
         "maxAmmo": 300,
         "reloadTime": 2.33,
@@ -53,7 +53,7 @@
             "id": "burst",
             "name": "아리아 디 캄포",
             "type": "burst",
-            "cooldown": 40,
+            "cooldown": 20,
             "effects": [
                 {
                     "target": "all_allies",
