@@ -35,7 +35,7 @@ const Home: React.FC = () => {
     const [noCoreDatasets, setNoCoreDatasets] = useState<any[]>([]);
     const [withCoreDatasets, setWithCoreDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
-    const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.67');
+    const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.58');
     const [rangeMode, setRangeMode] = useState<RangeMode>('mid');
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
     const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
@@ -67,28 +67,28 @@ const Home: React.FC = () => {
 
     const handleSimulate = () => {
         const parsedBurstInterval = parseFloat(fullBurstInterval);
-        const burstInterval = Number.isFinite(parsedBurstInterval) && parsedBurstInterval > 0
+        const burstGaugeDelay = Number.isFinite(parsedBurstInterval) && parsedBurstInterval >= 2.52
             ? parsedBurstInterval
-            : 4.67;
+            : 4.58;
 
         const config: SimConfig = {
             duration: 180,
-            tick: 0.016,
+            tick: 1 / 60,
             seed: 42,
             fullBurstDuration: 10,
-            fullBurstInterval: burstInterval,
+            burstGaugeDelay,
         };
         const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
 
         const buildTeam = (includeCore: boolean): Team => ({
-            members: slots.map(slot => {
+            members: slots.map((slot, idx) => {
                 const eq: EquipmentOptions = {
                     atkPercent: parseFloat(slot.equipATK || '0') / 100,
                     weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
                     ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
                 };
                 const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum);
+                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, idx);
                 const customHP = parseInt(slot.customHP || '0', 10);
                 if (customHP > 0) char.hp = customHP;
                 const customATK = parseInt(slot.customATK || '0', 10);
@@ -183,7 +183,7 @@ const Home: React.FC = () => {
 
         setNoCoreDatasets(dsNoCore);
         setWithCoreDatasets(dsWithCore);
-        setBurstWindows(generateBurstWindows(config.duration, config.fullBurstDuration, config.fullBurstInterval));
+        setBurstWindows(generateBurstWindows(resultNoCore.log, config.duration));
     };
 
     return (
@@ -231,7 +231,7 @@ const Home: React.FC = () => {
                         type="number"
                         value={fullBurstInterval}
                         onChange={e => setFullBurstInterval(e.target.value)}
-                        min={0.1}
+                        min={2.52}
                         step={0.01}
                         style={{
                             width: '90px', padding: '5px 8px', fontSize: '14px',

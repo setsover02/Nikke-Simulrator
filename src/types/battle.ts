@@ -8,6 +8,7 @@ export interface Skill {
 
 export interface Character {
     id: string;
+    slotIndex: number;           // 팀 내 슬롯 번호 (0-based, 버스트 우선순위 결정)
 
     atk: number;
     defense: number;
@@ -18,6 +19,7 @@ export interface Character {
     weapon?: string;
     charClass?: string;
     company?: string;
+    squad?: string;              // 소속 부대
     burstLevel?: number;
 
     /* 탄 관련 */
@@ -74,7 +76,8 @@ export interface SimConfig {
     tick?: number;
     duration: number; // in seconds
     fullBurstDuration?: number;
-    fullBurstInterval?: number;
+    fullBurstInterval?: number;  // deprecated: 하위호환용
+    burstGaugeDelay?: number;    // 풀버스트 간격: 게이지 충전에 소모되는 시간 (기본 4.58초, 최소 2.52초)
 }
 
 export interface LogEntry {
@@ -106,6 +109,11 @@ export interface BattleContext {
     burstSystem?: any;
     burstCooldowns: Record<string, number>; // charId -> cooldown remain
     burstZones: { start: number; end: number }[]; // 기록용 풀버스트 구간
+
+    // 버스트 체인 상태 머신
+    burstChainState: 'idle' | 'gauge_filling' | 'chain_l1' | 'chain_l2' | 'chain_l3' | 'full_burst';
+    burstChainTimer: number;   // 게이지 충전 타이머 or 체인 대기 타이머
+    fullBurstTimer: number;    // 풀버스트 남은 시간
 }
 
 export interface BattleResult {

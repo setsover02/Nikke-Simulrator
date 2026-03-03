@@ -17,7 +17,8 @@ export const applyBaseStats = (
     includeCoreDamage: boolean,
     equip?: EquipmentOptions,
     collectionGrade: CollectionGrade = 'None',
-    collectionLevel: number = 0
+    collectionLevel: number = 0,
+    slotIndex: number = 0
 ): Character => {
     const s = charData.stats || {};
     const eq = equip || { atkPercent: 0, weakPointPercent: 0, ammoPercent: 0 };
@@ -31,6 +32,7 @@ export const applyBaseStats = (
 
     return {
         id: charData.characterID || 'unknown',
+        slotIndex,
         atk: s.atk,
         defense: Math.floor(finalDefense),
         hp: s.hp,

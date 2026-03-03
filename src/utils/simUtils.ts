@@ -40,19 +40,26 @@ export interface BurstWindow {
 }
 
 export const generateBurstWindows = (
+    log: any[],
     duration: number,
-    fullDuration: number = 10,
-    fullBurstInterval: number = 4.67
 ): BurstWindow[] => {
     const windows: BurstWindow[] = [];
-    let currentStart = fullBurstInterval;
+    let startTime: number | null = null;
 
-    while (currentStart < duration) {
-        windows.push({
-            start: currentStart,
-            end: Math.min(duration, currentStart + fullDuration),
-        });
-        currentStart += fullDuration + fullBurstInterval;
+    for (const entry of log) {
+        if (entry.type === 'burst') {
+            if (entry.description === 'full_burst_start') {
+                startTime = entry.time;
+            } else if (entry.description === 'full_burst_end' && startTime !== null) {
+                windows.push({ start: startTime, end: Math.min(duration, entry.time) });
+                startTime = null;
+            }
+        }
+    }
+
+    // 전투 종료 시 풀버스트가 진행 중이었다면 닫기
+    if (startTime !== null) {
+        windows.push({ start: startTime, end: duration });
     }
 
     return windows;

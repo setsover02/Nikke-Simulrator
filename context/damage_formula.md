@@ -2,7 +2,7 @@
 소장품 일반대미지 공격 배율 계산이 원인을 모르겠으나 정확하지 않음
 - 소수점 반올림 등 확인하였으나 미묘하게 수치가 다르게 나옴, 아주 크게 차이나지는 않음
 
-# 실제 인게임에서 적용되는 데미지 계산 공식
+# 실제 인게임에서 적용되는 데미지 계산 공식 (완료)
 
 ## Damage Formula
 - Base Damage = (Base Attack × (1 + ATK%) + % Caster’s ATK) – (Enemy Base Defense × (1 + DEF%) + % caster’s DEF)

@@ -44,6 +44,19 @@ export function resolveSkills(ctx: BattleContext) {
             const skill = skillDef as SkillDef;
 
             if (skill.type === "passive") {
+                // passive 스킬에 cooldown이 있는 경우 전투 시작 후 그 시간이 지난 뒤 첫 발동 가능
+                if (skill.cooldown && skill.cooldown > 0) {
+                    const cdKey = `passive_cd_${char.id}_${skill.id}`;
+                    ctx.state = ctx.state || {};
+                    if (ctx.state[cdKey] === undefined) {
+                        ctx.state[cdKey] = skill.cooldown;
+                    }
+                    if (ctx.state[cdKey] > 0) {
+                        ctx.state[cdKey] -= ctx.delta;
+                        return;
+                    }
+                }
+
                 skill.effects.forEach((effectDef) => {
                     handleEffectTrigger(ctx, char, skill.id, effectDef);
                 });
@@ -205,8 +218,8 @@ export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef
     }
 
     if (effectDef.effect === "full_burst_time_down" && effectDef.value) {
-        if (ctx.burstSystem && ctx.burstSystem.isFullBurst()) {
-            ctx.burstSystem.reduceFullTimer(effectDef.value);
+        if (ctx.burstChainState === 'full_burst') {
+            ctx.fullBurstTimer = Math.max(0, ctx.fullBurstTimer - effectDef.value);
             ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Full Burst Time Down" });
         }
         return;

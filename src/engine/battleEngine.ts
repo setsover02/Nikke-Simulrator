@@ -44,7 +44,7 @@ function createContext(
 ): BattleContext {
     return {
         time: 0,
-        delta: config.tick || 0.1,
+        delta: config.tick || (1 / 60),
         config,
 
         team,
@@ -60,7 +60,12 @@ function createContext(
 
         rng: new Random(config.seed),
         burstCooldowns: {},
-        burstZones: []
+        burstZones: [],
+
+        // 버스트 체인 상태 머신 초기값 (실제 초기화는 updateBurst 첫 틱에서 수행)
+        burstChainState: 'gauge_filling',
+        burstChainTimer: 0,
+        fullBurstTimer: 0,
     };
 }
 
