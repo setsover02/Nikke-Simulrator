@@ -95,9 +95,8 @@ function step(ctx: BattleContext) {
 ================================ */
 
 function isFinished(ctx: BattleContext): boolean {
+    // DPS 시뮬레이터: 적은 불멸로 취급, 시간 기반으로만 종료
     if (ctx.time >= ctx.config.duration) return true;
-    if (ctx.enemy.hp <= 0) return true;
-
     return false;
 }
 

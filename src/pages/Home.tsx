@@ -14,7 +14,7 @@ import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
 import { getCollectionEffect } from '../constants/collectionItems';
 import CharacterSlot from '../components/CharacterSlot';
 import ResultSummary from '../components/ResultSummary';
-import DualChart from '../components/DualChart';
+import CanvasChart from '../components/CanvasChart';
 
 function createDefaultSlot(charOption = characterOptions[0]): SlotState {
     const stats = charOption.data.stats;
@@ -39,6 +39,7 @@ const Home: React.FC = () => {
     const [rangeMode, setRangeMode] = useState<RangeMode>('mid');
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
     const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
+    const [showCore, setShowCore] = useState<boolean>(false); // 코어 토글
 
     const ELEMENT_OPTIONS = [
         { value: '풍압', label: '풍압', icon: iconAnmi },
@@ -164,7 +165,7 @@ const Home: React.FC = () => {
             withCore: { chars: extractChars(resultWithCore), teamTotal: withCoreTotal },
         });
 
-        // 차트 데이터셋 구성
+        // 차트 데이터셋 구성 (Team Total 제거)
         const dsNoCore: any[] = [];
         const dsWithCore: any[] = [];
 
@@ -172,14 +173,9 @@ const Home: React.FC = () => {
             const charId = slot.char.data.characterID;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-            dsNoCore.push({ label: charName, color, lineWidth: 1.5, data: generateChartData(resultNoCore, config.duration, charId) });
-            dsWithCore.push({ label: charName, color, lineWidth: 1.5, data: generateChartData(resultWithCore, config.duration, charId) });
+            dsNoCore.push({ label: charName, color, data: generateChartData(resultNoCore, config.duration, charId) });
+            dsWithCore.push({ label: charName, color, data: generateChartData(resultWithCore, config.duration, charId) });
         });
-
-        if (slots.length > 1) {
-            dsNoCore.push({ label: '★ Team Total', color: '#ffffff', lineWidth: 2.5, data: generateChartData(resultNoCore, config.duration) });
-            dsWithCore.push({ label: '★ Team Total', color: '#ffd700', lineWidth: 2.5, data: generateChartData(resultWithCore, config.duration) });
-        }
 
         setNoCoreDatasets(dsNoCore);
         setWithCoreDatasets(dsWithCore);
@@ -220,7 +216,7 @@ const Home: React.FC = () => {
                     + 캐릭터 추가 ({slots.length}/5)
                 </button>
 
-                {/* Full Burst 간격 입력 */}
+                {/* Full Burst 간격 입력 + 코어 토글 */}
                 <div style={{
                     display: 'flex', alignItems: 'center', gap: '8px',
                     padding: '8px 14px', background: '#1e1e2e',
@@ -240,6 +236,36 @@ const Home: React.FC = () => {
                             textAlign: 'right',
                         }}
                     />
+                </div>
+
+                {/* 코어 토글 Switch */}
+                <div style={{
+                    display: 'flex', alignItems: 'center', gap: '10px',
+                    padding: '8px 14px', background: '#1e1e2e',
+                    borderRadius: '6px', border: '1px solid #444',
+                }}>
+                    <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap' }}>🎯 코어 히트</span>
+                    <div
+                        onClick={() => setShowCore(v => !v)}
+                        style={{
+                            width: '44px', height: '24px', borderRadius: '12px',
+                            background: showCore ? '#f59e0b' : '#374151',
+                            border: `1px solid ${showCore ? '#d97706' : '#4b5563'}`,
+                            cursor: 'pointer', position: 'relative',
+                            transition: 'background 0.2s, border-color 0.2s',
+                        }}
+                    >
+                        <div style={{
+                            position: 'absolute', top: '3px',
+                            left: showCore ? '22px' : '3px',
+                            width: '16px', height: '16px', borderRadius: '50%',
+                            background: showCore ? '#fff' : '#9ca3af',
+                            transition: 'left 0.2s',
+                        }} />
+                    </div>
+                    <span style={{ color: showCore ? '#f59e0b' : '#555', fontSize: '12px', minWidth: '46px' }}>
+                        {showCore ? 'ON' : 'OFF'}
+                    </span>
                 </div>
                 <button
                     onClick={handleSimulate}
@@ -345,12 +371,19 @@ const Home: React.FC = () => {
                 />
             )}
 
-            {/* 두 개 차트 */}
-            <DualChart
-                noCoreDatasets={noCoreDatasets}
-                withCoreDatasets={withCoreDatasets}
-                burstWindows={burstWindows}
-            />
+            {/* 통합 차트 (코어 토글에 따라 전환) */}
+            <div style={{ marginTop: '20px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
+                    <h3 style={{ color: '#e0e0e0', margin: 0, fontSize: '15px' }}>
+                        {showCore ? '🟡 코어 있는 적 (Core Hit)' : '🔵 코어 없는 적 (No Core)'}
+                    </h3>
+                </div>
+                <CanvasChart
+                    datasets={showCore ? withCoreDatasets : noCoreDatasets}
+                    burstWindows={burstWindows}
+                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                />
+            </div>
         </div>
     );
 };

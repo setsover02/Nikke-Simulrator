@@ -11,17 +11,26 @@ interface Dataset {
     color: string;
     data: ChartData[];
     lineWidth?: number;
-    dashed?: boolean;
 }
 
 interface CanvasChartProps {
     datasets: Dataset[];
     burstWindows?: BurstWindow[];
+    title?: string;
 }
 
-const MIN_ZOOM_RANGE = 5; // Minimum visible time span in seconds
+const MIN_ZOOM_RANGE = 5;
 
-const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
+// hex 색상 → rgba 변환
+function hexToRgba(hex: string, alpha: number): string {
+    const h = hex.replace('#', '');
+    const r = parseInt(h.substring(0, 2), 16);
+    const g = parseInt(h.substring(2, 4), 16);
+    const b = parseInt(h.substring(4, 6), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+}
+
+const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat Damage' }: CanvasChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -29,21 +38,16 @@ const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
         x: number;
         y: number;
         time: number;
-        values: { label: string; color: string; value: number }[];
+        values: { label: string; color: string; value: number; stackedTop: number }[];
     } | null>(null);
 
-    // View state: visible time window [viewMin, viewMax]
     const [viewMin, setViewMin] = React.useState(0);
-    const [viewMax, setViewMax] = React.useState<number | null>(null); // null = use absoluteMaxTime
-
-    // Drag state
+    const [viewMax, setViewMax] = React.useState<number | null>(null);
     const isDragging = useRef(false);
     const lastDragX = useRef(0);
-    // We need stable refs for viewMin/viewMax during drag
     const viewMinRef = useRef(0);
     const viewMaxRef = useRef<number | null>(null);
 
-    // Keep refs in sync with state
     useEffect(() => { viewMinRef.current = viewMin; }, [viewMin]);
     useEffect(() => { viewMaxRef.current = viewMax; }, [viewMax]);
 
@@ -58,9 +62,7 @@ const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
 
     const getViewRange = useCallback((): [number, number] => {
         const absMax = getAbsMaxTime();
-        const vMin = viewMin;
-        const vMax = viewMax ?? absMax;
-        return [vMin, vMax];
+        return [viewMin, viewMax ?? absMax];
     }, [viewMin, viewMax, getAbsMaxTime]);
 
     const draw = useCallback(() => {
@@ -69,139 +71,167 @@ const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const width = canvas.width;
-        const height = canvas.height;
-        const paddingLeft = 100;
-        const paddingRight = 60;
-        const paddingVertical = 60;
+        const W = canvas.width;
+        const H = canvas.height;
+        const PL = 90, PR = 20, PT = 50, PB = 45;
 
-        const bgColor = '#141414';
-        const axisColor = '#444';
-        const gridColor = '#262626';
-        const textColor = '#8c8c8c';
-        const titleColor = '#e8e8e8';
-
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = bgColor;
-        ctx.fillRect(0, 0, width, height);
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#141414';
+        ctx.fillRect(0, 0, W, H);
 
         if (datasets.length === 0 || datasets.every(ds => ds.data.length === 0)) return;
 
         const absMaxTime = getAbsMaxTime();
-        let maxDps = 100;
-        datasets.forEach(ds => {
-            const curMaxDps = Math.max(...ds.data.map(d => d.dps), 100);
-            if (curMaxDps > maxDps) maxDps = curMaxDps;
-        });
-
         const [vMin, vMax] = getViewRange();
-        const graphWidth = width - paddingLeft - paddingRight;
-        const graphHeight = height - 2 * paddingVertical;
+        const graphW = W - PL - PR;
+        const graphH = H - PT - PB;
 
-        const timeToX = (t: number) =>
-            paddingLeft + ((t - vMin) / (vMax - vMin)) * graphWidth;
-        const dpsToY = (dps: number) =>
-            height - paddingVertical - (dps / maxDps) * graphHeight;
-
-        // Y-axis grid & labels
-        const yTicks = 4;
-        ctx.font = '12px "Wanted Sans Variable", sans-serif';
-        ctx.textAlign = 'right';
-        ctx.textBaseline = 'middle';
-
-        for (let i = 0; i <= yTicks; i++) {
-            const yRatio = i / yTicks;
-            const yVal = maxDps * yRatio;
-            const yPos = height - paddingVertical - yRatio * graphHeight;
-
-            ctx.beginPath();
-            ctx.moveTo(paddingLeft, yPos);
-            ctx.lineTo(width - paddingRight, yPos);
-            ctx.strokeStyle = gridColor;
-            ctx.lineWidth = 1;
-            ctx.stroke();
-
-            ctx.fillStyle = textColor;
-            ctx.fillText(Math.floor(yVal).toLocaleString(), paddingLeft - 10, yPos);
+        // stacked 최대값 계산 (각 시간 포인트에서 모든 데이터셋 dps 합산)
+        const timePoints = datasets[0]?.data.map(d => d.time) ?? [];
+        let maxStacked = 100;
+        for (const t of timePoints) {
+            const sum = datasets.reduce((acc, ds) => {
+                const pt = ds.data.find(d => d.time === t);
+                return acc + (pt?.dps ?? 0);
+            }, 0);
+            if (sum > maxStacked) maxStacked = sum;
         }
 
-        // X-axis grid & labels
+        const toX = (t: number) => PL + ((t - vMin) / (vMax - vMin)) * graphW;
+        const toY = (v: number) => H - PB - (v / maxStacked) * graphH;
+
+        // Grid
+        ctx.font = '11px monospace';
+        const yTicks = 5;
+        for (let i = 0; i <= yTicks; i++) {
+            const ratio = i / yTicks;
+            const yVal = maxStacked * ratio;
+            const yPos = H - PB - ratio * graphH;
+            ctx.beginPath();
+            ctx.moveTo(PL, yPos);
+            ctx.lineTo(W - PR, yPos);
+            ctx.strokeStyle = '#262626';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'right';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(Math.floor(yVal).toLocaleString(), PL - 8, yPos);
+        }
         const xTicks = 6;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
         for (let i = 0; i <= xTicks; i++) {
-            const xRatio = i / xTicks;
-            const xTimeVal = vMin + xRatio * (vMax - vMin);
-            const xPos = paddingLeft + xRatio * graphWidth;
-
+            const ratio = i / xTicks;
+            const xVal = vMin + ratio * (vMax - vMin);
+            const xPos = PL + ratio * graphW;
             ctx.beginPath();
-            ctx.moveTo(xPos, paddingVertical);
-            ctx.lineTo(xPos, height - paddingVertical);
-            ctx.strokeStyle = gridColor;
+            ctx.moveTo(xPos, PT);
+            ctx.lineTo(xPos, H - PB);
+            ctx.strokeStyle = '#262626';
             ctx.stroke();
-
-            ctx.fillStyle = textColor;
-            ctx.fillText(`${Math.floor(xTimeVal)}s`, xPos, height - paddingVertical + 10);
+            ctx.fillStyle = '#666';
+            ctx.fillText(`${Math.floor(xVal)}s`, xPos, H - PB + 8);
         }
 
-        // Axis Lines
+        // Axes
         ctx.beginPath();
-        ctx.moveTo(paddingLeft, paddingVertical);
-        ctx.lineTo(paddingLeft, height - paddingVertical);
-        ctx.lineTo(width - paddingRight, height - paddingVertical);
-        ctx.strokeStyle = axisColor;
+        ctx.moveTo(PL, PT);
+        ctx.lineTo(PL, H - PB);
+        ctx.lineTo(W - PR, H - PB);
+        ctx.strokeStyle = '#444';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Clip drawing to graph area
+        // Clip
         ctx.save();
         ctx.beginPath();
-        ctx.rect(paddingLeft, paddingVertical, graphWidth, graphHeight);
+        ctx.rect(PL, PT, graphW, graphH);
         ctx.clip();
 
-        // Full Burst 구간 배경
-        burstWindows.forEach((window) => {
-            const start = Math.max(window.start, vMin);
-            const end = Math.min(window.end, vMax);
-            if (end <= start) return;
-
-            const xStart = timeToX(start);
-            const xEnd = timeToX(end);
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.22)';
-            ctx.fillRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
-
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.28)';
+        // Burst windows
+        burstWindows.forEach(bw => {
+            const s = Math.max(bw.start, vMin);
+            const e = Math.min(bw.end, vMax);
+            if (e <= s) return;
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
+            ctx.fillRect(toX(s), PT, toX(e) - toX(s), graphH);
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
             ctx.lineWidth = 1;
-            ctx.strokeRect(xStart, paddingVertical, xEnd - xStart, graphHeight);
+            ctx.strokeRect(toX(s), PT, toX(e) - toX(s), graphH);
         });
 
-        // Data lines
-        datasets.forEach((ds, dsIdx) => {
-            if (ds.data.length === 0) return;
+        // Stacked area: bottom-to-top
+        // Build stacked data: stackedData[dsIdx][timeIdx] = cumulative top value
+        const visibleDatasets = [...datasets]; // 뒤에서 앞으로 그려서 앞 레이어가 위에 표시
+        const stackedTops: number[][] = [];
+
+        for (let di = 0; di < visibleDatasets.length; di++) {
+            const tops: number[] = [];
+            const tps = visibleDatasets[0].data.map(d => d.time);
+            for (let ti = 0; ti < tps.length; ti++) {
+                let cum = 0;
+                for (let k = 0; k <= di; k++) {
+                    const pt = visibleDatasets[k].data[ti];
+                    cum += pt?.dps ?? 0;
+                }
+                tops.push(cum);
+            }
+            stackedTops.push(tops);
+        }
+
+        // Draw from top dataset to bottom (reverse order) so bottom fills first
+        for (let di = visibleDatasets.length - 1; di >= 0; di--) {
+            const ds = visibleDatasets[di];
+            const tops = stackedTops[di];
+            const bottoms = di === 0
+                ? tops.map(() => 0)
+                : stackedTops[di - 1];
+
+            const tps = ds.data.map(d => d.time);
 
             ctx.beginPath();
-            ctx.strokeStyle = ds.color;
-            ctx.lineWidth = ds.lineWidth ?? 1.5;
-            if (ds.dashed) ctx.setLineDash([6, 4]);
-            else ctx.setLineDash([]);
-            ds.data.forEach((d, i) => {
-                const x = timeToX(d.time);
-                const y = dpsToY(d.dps);
-                if (i === 0) ctx.moveTo(x, y);
+            // top edge (left to right)
+            for (let ti = 0; ti < tps.length; ti++) {
+                const x = toX(tps[ti]);
+                const y = toY(tops[ti]);
+                if (ti === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
-            ctx.setLineDash([]);
-        });
+            }
+            // bottom edge (right to left)
+            for (let ti = tps.length - 1; ti >= 0; ti--) {
+                const x = toX(tps[ti]);
+                const y = toY(bottoms[ti]);
+                ctx.lineTo(x, y);
+            }
+            ctx.closePath();
 
-        // Hover vertical line (clipped)
+            // Fill with semi-transparent color
+            const fillColor = hexToRgba(ds.color.startsWith('#') ? ds.color : '#888888', 0.45);
+            ctx.fillStyle = fillColor;
+            ctx.fill();
+
+            // Top edge line
+            ctx.beginPath();
+            for (let ti = 0; ti < tps.length; ti++) {
+                const x = toX(tps[ti]);
+                const y = toY(tops[ti]);
+                if (ti === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.strokeStyle = ds.color;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+        }
+
+        // Hover line
         if (hoverInfo) {
-            const xPos = timeToX(hoverInfo.time);
+            const xPos = toX(hoverInfo.time);
             ctx.beginPath();
             ctx.setLineDash([5, 5]);
-            ctx.moveTo(xPos, paddingVertical);
-            ctx.lineTo(xPos, height - paddingVertical);
-            ctx.strokeStyle = '#666';
+            ctx.moveTo(xPos, PT);
+            ctx.lineTo(xPos, H - PB);
+            ctx.strokeStyle = '#888';
             ctx.lineWidth = 1;
             ctx.stroke();
             ctx.setLineDash([]);
@@ -209,94 +239,68 @@ const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
 
         ctx.restore();
 
-        // Legend (outside clip) - 오른쪽이 아닌 왼쪽 상단에 배치
-        const legendStartX = paddingLeft + 10;
-        const legendStartY = paddingVertical + 8;
-        const legendLineH = 18;
-        datasets.forEach((ds, dsIdx) => {
-            const legendX = legendStartX;
-            const legendY = legendStartY + dsIdx * legendLineH;
-            ctx.fillStyle = ds.color;
-            ctx.fillRect(legendX, legendY, 10, 10);
-
-            ctx.fillStyle = titleColor;
+        // Legend (top-left)
+        const legX = PL + 10;
+        let legY = PT + 8;
+        datasets.forEach(ds => {
+            ctx.fillStyle = hexToRgba(ds.color.startsWith('#') ? ds.color : '#888', 0.7);
+            ctx.fillRect(legX, legY, 12, 12);
+            ctx.strokeStyle = ds.color;
+            ctx.lineWidth = 1;
+            ctx.strokeRect(legX, legY, 12, 12);
+            ctx.fillStyle = '#ccc';
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.font = '11px "Wanted Sans Variable", sans-serif';
-            ctx.fillText(ds.label, legendX + 15, legendY + 5);
+            ctx.font = '11px monospace';
+            ctx.fillText(ds.label, legX + 17, legY + 6);
+            legY += 16;
         });
 
         // Title
-        ctx.fillStyle = titleColor;
+        ctx.fillStyle = '#e8e8e8';
         ctx.textAlign = 'left';
-        ctx.font = 'bold 14px "Wanted Sans Variable", sans-serif';
-        ctx.fillText('Cumulative Combat Damage', paddingLeft, paddingVertical - 30);
+        ctx.font = 'bold 13px monospace';
+        ctx.fillText(title, PL, PT - 28);
 
-        // Zoom indicator (if zoomed in)
+        // Zoom indicator
         const isZoomed = vMin > 0 || vMax < absMaxTime - 0.1;
         if (isZoomed) {
             ctx.fillStyle = '#555';
             ctx.textAlign = 'right';
-            ctx.font = '11px "Wanted Sans Variable", sans-serif';
-            ctx.fillText(`View: ${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, width - paddingRight, paddingVertical - 30);
+            ctx.font = '11px monospace';
+            ctx.fillText(`${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, W - PR, PT - 28);
         }
-    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime]);
+    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title]);
 
-    useEffect(() => {
-        draw();
-    }, [draw]);
+    useEffect(() => { draw(); }, [draw]);
+    useEffect(() => { setViewMin(0); setViewMax(null); }, [datasets]);
 
-    // Reset datasets view range when datasets change
-    useEffect(() => {
-        setViewMin(0);
-        setViewMax(null);
-    }, [datasets]);
-
-    const getLogicalMouseX = (e: React.MouseEvent<HTMLCanvasElement> | MouseEvent): number => {
+    const getLogicalX = (e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
         const canvas = canvasRef.current;
         if (!canvas) return 0;
         const rect = canvas.getBoundingClientRect();
-        const mouseX = e.clientX - rect.left;
-        const scaleX = canvas.width / canvas.clientWidth;
-        return mouseX * scaleX;
+        return (e.clientX - rect.left) * (canvas.width / canvas.clientWidth);
     };
 
     const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
         e.preventDefault();
-        const canvas = canvasRef.current;
-        if (!canvas) return;
-
         const absMax = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
         const range = vMax - vMin;
-
-        const paddingLeft = 100;
-        const paddingRight = 60;
-        const graphWidth = canvas.width - paddingLeft - paddingRight;
-        const logicalX = getLogicalMouseX(e);
-        const clampedX = Math.max(paddingLeft, Math.min(canvas.width - paddingRight, logicalX));
-        const cursorRatio = (clampedX - paddingLeft) / graphWidth;
-        const cursorTime = vMin + cursorRatio * range;
-
-        const zoomFactor = e.deltaY < 0 ? 0.8 : 1.25;
-        let newRange = range * zoomFactor;
-        newRange = Math.max(MIN_ZOOM_RANGE, Math.min(absMax, newRange));
-
-        let newMin = cursorTime - cursorRatio * newRange;
-        let newMax = cursorTime + (1 - cursorRatio) * newRange;
-
-        // Clamp to [0, absMax]
-        if (newMin < 0) {
-            newMax = Math.min(absMax, newMax - newMin);
-            newMin = 0;
-        }
-        if (newMax > absMax) {
-            newMin = Math.max(0, newMin - (newMax - absMax));
-            newMax = absMax;
-        }
-
+        const PL = 90, PR = 20;
+        const canvas = canvasRef.current!;
+        const graphW = canvas.width - PL - PR;
+        const logX = getLogicalX(e);
+        const ratio = Math.max(0, Math.min(1, (logX - PL) / graphW));
+        const cursor = vMin + ratio * range;
+        const factor = e.deltaY < 0 ? 0.8 : 1.25;
+        let newRange = Math.max(MIN_ZOOM_RANGE, Math.min(absMax, range * factor));
+        let newMin = cursor - ratio * newRange;
+        let newMax = cursor + (1 - ratio) * newRange;
+        if (newMin < 0) { newMax = Math.min(absMax, newMax - newMin); newMin = 0; }
+        if (newMax > absMax) { newMin = Math.max(0, newMin - (newMax - absMax)); newMax = absMax; }
         setViewMin(newMin);
-        setViewMax(newMax === absMax ? null : newMax);
+        setViewMax(newMax >= absMax - 0.01 ? null : newMax);
     };
 
     const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -307,143 +311,103 @@ const CanvasChart = ({ datasets, burstWindows = [] }: CanvasChartProps) => {
     const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
-
-        // --- Panning ---
         if (isDragging.current) {
             const absMax = getAbsMaxTime();
             const [vMin, vMax] = [viewMinRef.current, viewMaxRef.current ?? absMax];
             const range = vMax - vMin;
-            const graphWidth = canvas.width - 100 - 60;
-            const scaleX = canvas.width / canvas.clientWidth;
-            const dx = (e.clientX - lastDragX.current) * scaleX;
+            const PL = 90, PR = 20;
+            const graphW = canvas.width - PL - PR;
+            const dx = (e.clientX - lastDragX.current) * (canvas.width / canvas.clientWidth);
             lastDragX.current = e.clientX;
-
-            const timeDelta = -(dx / graphWidth) * range;
-            let newMin = vMin + timeDelta;
-            let newMax = vMax + timeDelta;
-
-            if (newMin < 0) { newMax -= newMin; newMin = 0; }
-            if (newMax > absMax) { newMin -= newMax - absMax; newMax = absMax; }
-            newMin = Math.max(0, newMin);
-
-            setViewMin(newMin);
-            setViewMax(newMax === absMax ? null : newMax);
+            const dt = -(dx / graphW) * range;
+            let nm = Math.max(0, vMin + dt);
+            let nx = vMax + dt;
+            if (nm < 0) { nx -= nm; nm = 0; }
+            if (nx > absMax) { nm -= nx - absMax; nx = absMax; }
+            setViewMin(Math.max(0, nm));
+            setViewMax(nx >= absMax - 0.01 ? null : nx);
             return;
         }
 
-        // --- Hover ---
+        const PL = 90, PR = 20;
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const paddingLeft = 100;
-        const paddingRight = 60;
-        const scaleX = canvas.width / canvas.clientWidth;
-        const logicalMouseX = mouseX * scaleX;
-        const graphLeft = paddingLeft;
-        const graphRight = canvas.width - paddingRight;
-
-        if (logicalMouseX < graphLeft || logicalMouseX > graphRight) {
-            setHoverInfo(null);
-            return;
-        }
-
+        const logX = mouseX * (canvas.width / canvas.clientWidth);
+        const graphW = canvas.width - PL - PR;
+        if (logX < PL || logX > canvas.width - PR) { setHoverInfo(null); return; }
         const [vMin, vMax] = getViewRange();
-        const graphWidth = canvas.width - paddingLeft - paddingRight;
-        const timeRatio = (logicalMouseX - graphLeft) / graphWidth;
-        const time = Math.round(vMin + timeRatio * (vMax - vMin));
+        const time = Math.round(vMin + ((logX - PL) / graphW) * (vMax - vMin));
 
-        const values = datasets.map(ds => {
-            const point = ds.data.find(d => d.time === time) || ds.data[ds.data.length - 1];
-            return { label: ds.label, color: ds.color, value: point?.dps || 0 };
+        // compute stacked tops for tooltip
+        const cum: number[] = [];
+        let runningTop = 0;
+        const values = datasets.map((ds, di) => {
+            const pt = ds.data.find(d => d.time === time) ?? ds.data[ds.data.length - 1];
+            runningTop += pt?.dps ?? 0;
+            return { label: ds.label, color: ds.color, value: pt?.dps ?? 0, stackedTop: runningTop };
         });
-
         setHoverInfo({ x: mouseX, y: mouseY, time, values });
     };
 
-    const handleMouseUp = () => {
-        isDragging.current = false;
-    };
-
-    const handleMouseLeave = () => {
-        isDragging.current = false;
-        setHoverInfo(null);
-    };
-
-    const handleResetView = () => {
-        setViewMin(0);
-        setViewMax(null);
-    };
+    const handleMouseUp = () => { isDragging.current = false; };
+    const handleMouseLeave = () => { isDragging.current = false; setHoverInfo(null); };
 
     const absMaxTime = getAbsMaxTime();
     const [vMin, vMax] = getViewRange();
     const isZoomed = vMin > 0 || (viewMax !== null && vMax < absMaxTime - 0.1);
 
     return (
-        <div ref={containerRef} style={{ position: 'relative', width: '100%', maxWidth: '800px' }}>
+        <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
             {isZoomed && (
-                <button
-                    onClick={handleResetView}
-                    style={{
-                        position: 'absolute',
-                        top: '10px',
-                        right: '70px',
-                        zIndex: 10,
-                        padding: '4px 10px',
-                        fontSize: '11px',
-                        background: '#2a2a2a',
-                        color: '#aaa',
-                        border: '1px solid #444',
-                        borderRadius: '4px',
-                        cursor: 'pointer',
-                    }}
-                >
-                    Reset View
-                </button>
+                <button onClick={() => { setViewMin(0); setViewMax(null); }} style={{
+                    position: 'absolute', top: '10px', right: '30px', zIndex: 10,
+                    padding: '3px 8px', fontSize: '11px', background: '#2a2a2a',
+                    color: '#aaa', border: '1px solid #444', borderRadius: '4px', cursor: 'pointer',
+                }}>Reset</button>
             )}
             <canvas
                 ref={canvasRef}
-                width={800}
-                height={400}
+                width={1200}
+                height={380}
                 onMouseMove={handleMouseMove}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
                 onWheel={handleWheel}
                 style={{
-                    width: '100%',
-                    height: 'auto',
-                    border: '1px solid #333',
-                    borderRadius: '8px',
+                    width: '100%', height: 'auto',
+                    border: '1px solid #2a2a2a', borderRadius: '8px',
                     cursor: isDragging.current ? 'grabbing' : 'crosshair',
-                    display: 'block',
-                    userSelect: 'none',
+                    display: 'block', userSelect: 'none', background: '#141414',
                 }}
             />
             {hoverInfo && (
                 <div style={{
                     position: 'absolute',
-                    left: `${hoverInfo.x + 15}px`,
+                    left: `${Math.min(hoverInfo.x + 15, (containerRef.current?.clientWidth ?? 400) - 180)}px`,
                     top: `${hoverInfo.y + 15}px`,
-                    backgroundColor: 'rgba(20, 20, 20, 0.9)',
-                    border: '1px solid #444',
-                    borderRadius: '4px',
-                    padding: '10px',
-                    color: '#fff',
-                    fontSize: '12px',
-                    pointerEvents: 'none',
-                    zIndex: 10,
-                    boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
-                    minWidth: '150px',
+                    backgroundColor: 'rgba(15, 15, 25, 0.95)',
+                    border: '1px solid #333', borderRadius: '6px',
+                    padding: '10px 12px', color: '#fff', fontSize: '12px',
+                    pointerEvents: 'none', zIndex: 10,
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '160px',
                 }}>
-                    <div style={{ borderBottom: '1px solid #444', marginBottom: '5px', paddingBottom: '3px', fontWeight: 'bold' }}>
-                        Time: {hoverInfo.time}s
+                    <div style={{ borderBottom: '1px solid #333', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
+                        ⏱ {hoverInfo.time}s
                     </div>
                     {hoverInfo.values.map((v, i) => (
-                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '10px', marginBottom: '2px' }}>
-                            <span style={{ color: v.color }}>● {v.label}:</span>
-                            <span>{Math.floor(v.value).toLocaleString()}</span>
+                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '3px' }}>
+                            <span style={{ color: v.color }}>● {v.label}</span>
+                            <span style={{ color: '#ddd', fontVariantNumeric: 'tabular-nums' }}>{Math.floor(v.value).toLocaleString()}</span>
                         </div>
                     ))}
+                    <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
+                        <span style={{ color: '#888' }}>Total</span>
+                        <span style={{ color: '#fff', fontVariantNumeric: 'tabular-nums' }}>
+                            {Math.floor(hoverInfo.values[hoverInfo.values.length - 1]?.stackedTop ?? 0).toLocaleString()}
+                        </span>
+                    </div>
                 </div>
             )}
         </div>
