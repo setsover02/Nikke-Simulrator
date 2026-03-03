@@ -184,7 +184,6 @@ const Home: React.FC = () => {
 
     return (
         <div style={{ padding: '20px', fontFamily: 'sans-serif', background: '#0f0f1a', minHeight: '100vh', color: '#e0e0e0' }}>
-            <h1 style={{ color: '#e0e0e0', marginBottom: '20px' }}>Nikke Damage Simulator</h1>
 
             {/* 캐릭터 슬롯 목록 */}
             <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
@@ -267,16 +266,7 @@ const Home: React.FC = () => {
                         {showCore ? 'ON' : 'OFF'}
                     </span>
                 </div>
-                <button
-                    onClick={handleSimulate}
-                    style={{
-                        padding: '10px 24px', fontSize: '16px',
-                        background: '#007bff', color: 'white',
-                        border: 'none', borderRadius: '5px', cursor: 'pointer',
-                    }}
-                >
-                    Simulate (3 Mins)
-                </button>
+
 
                 {/* 거리 슬라이더 */}
                 <div style={{
@@ -360,6 +350,16 @@ const Home: React.FC = () => {
                         }}
                     />
                 </div>
+                <button
+                    onClick={handleSimulate}
+                    style={{
+                        padding: '10px 24px', fontSize: '16px',
+                        background: '#007bff', color: 'white',
+                        border: 'none', borderRadius: '5px', cursor: 'pointer',
+                    }}
+                >
+                    Simulate (3 Mins)
+                </button>
             </div>
 
             {/* 결과 요약 */}

@@ -6,6 +6,7 @@
         "weapon": "AR",
         "class": "지원형",
         "company": "Tetra",
+        "squad": "리플레이스",
         "burstLevel": 3,
         "atk": 237690,
         "defense": 48464,

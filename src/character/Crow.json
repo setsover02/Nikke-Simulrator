@@ -6,6 +6,7 @@
         "weapon": "SMG",
         "class": "방어형",
         "company": "Missilis",
+        "squad": "이그조틱",
         "burstLevel": 3,
         "atk": 283003,
         "defense": 68351,
