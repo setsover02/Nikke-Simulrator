@@ -388,6 +388,14 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         applied = true;
     }
 
+    // 우월코드 데미지 보너스 버프 (스킬 또는 큐브 등에서 제공)
+    // 장비의 equipWeakPointPercent와 별도로 buff.weak에 누적됩니다
+    if (effectDef.effect === "weak_code_damage_up" && effectDef.value) {
+        char.buff.weak = (char.buff.weak || 0) + (effectDef.value / 100);
+        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Weak Code Damage Up" });
+        applied = true;
+    }
+
     if (effectDef.stack_level !== undefined) {
         char.buff.stack_level = effectDef.stack_level;
     }
@@ -406,6 +414,7 @@ function updateBuffTimers(ctx: BattleContext) {
                 if (buffName === "attack_damage_up") char.buff.atkDmgUp = 0;
                 if (buffName === "crit_damage_up") char.buff.critDmg = 0;
                 if (buffName === "crit_rate_up") char.buff.critRate = 0;
+                if (buffName === "weak_code_damage_up") char.buff.weak = 0;
                 delete char.buffTimers[buffName];
             }
         }

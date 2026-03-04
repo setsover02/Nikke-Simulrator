@@ -90,8 +90,8 @@ const Home: React.FC = () => {
         const resultWithCore = simulateBattle(buildTeam(true), { ...ENEMY }, config);
 
         const extractChars = (result: typeof resultNoCore) =>
-            slots.map(slot => {
-                const charId = slot.char.data.characterID;
+            slots.map((slot, idx) => {
+                const charId = `${slot.char.data.characterID}_${idx}`;
                 const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
                 const totalDmg = result.log
                     .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
@@ -149,7 +149,7 @@ const Home: React.FC = () => {
         const dsWithCore: any[] = [];
 
         slots.forEach((slot, idx) => {
-            const charId = slot.char.data.characterID;
+            const charId = `${slot.char.data.characterID}_${idx}`;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
             dsNoCore.push({ label: charName, color, data: generateChartData(resultNoCore, config.duration, charId) });

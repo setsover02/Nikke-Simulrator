@@ -26,7 +26,13 @@ export function calcNikkeDamage(p: DamageParams): number {
    const f = (val: number) => val; // Replace with desired precision/rounding logic if needed
 
    const normalAtkMult = p.isNormalAttack ? ((p.normalAtkMultiplier ?? 0) / 100) : 0;
-   const atkCoef = (p.atkCoef * (1 + normalAtkMult));
+
+   // 인게임 공식: atkCoef에 normalAtkMult 배율 적용 후 소수점 4자리에서 iround
+   // iround(atkCoef × 10000 × (1 + normalAtkMult)) / 10000
+   // 이를 통해 인게임의 중간 반올림 로직을 재현합니다.
+   const atkCoef = normalAtkMult > 0
+      ? Math.floor(p.atkCoef * 10000 * (1 + normalAtkMult) + 0.5) / 10000
+      : p.atkCoef;
    const finalATKMod = atkCoef * (1 + p.finalATKModifier);
 
 

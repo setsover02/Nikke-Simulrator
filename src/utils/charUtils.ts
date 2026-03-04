@@ -7,9 +7,20 @@ export interface EquipmentOptions {
     ammoPercent: number;       // 장탄수% (0.1 = +10%)
 }
 
-export function checkAdvantage(weaknessElement: string | undefined, charElement: string | undefined): boolean {
-    if (!weaknessElement || !charElement) return false;
-    return weaknessElement === charElement;
+/**
+ * 캐릭터가 적에게 우월코드 보너스를 받는지 판정합니다.
+ *
+ * 상성 관계 (element.md 기준):
+ *   철갑 > 전격 > 수냉 > 작열 > 풍압 > 철갑
+ *
+ * @param enemyWeakCode  적의 약점 코드 (SimToolbar "약점 속성" 선택값)
+ * @param charElement    캐릭터 코드
+ * @returns 캐릭터 코드가 적의 약점 코드와 일치하면 true (우월코드 보너스 적용)
+ */
+export function checkAdvantage(enemyWeakCode: string | undefined, charElement: string | undefined): boolean {
+    if (!enemyWeakCode || !charElement) return false;
+    // 적의 약점 코드 = 캐릭터 코드 → 우월코드 보너스 적용
+    return enemyWeakCode === charElement;
 }
 
 export const applyBaseStats = (
@@ -31,7 +42,7 @@ export const applyBaseStats = (
     const finalDefense = s.defense * (1 + collectionEffect.defenseMultiplier / 100);
 
     return {
-        id: charData.characterID || 'unknown',
+        id: `${charData.characterID || 'unknown'}_${slotIndex}`,
         slotIndex,
         atk: s.atk,
         defense: Math.floor(finalDefense),
