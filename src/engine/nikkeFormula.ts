@@ -25,10 +25,9 @@ export function calcNikkeDamage(p: DamageParams): number {
 
    const f = (val: number) => val; // Replace with desired precision/rounding logic if needed
 
-   const normalAtkMult = (p.normalAtkMultiplier ?? 0) / 100;
+   const normalAtkMult = p.isNormalAttack ? ((p.normalAtkMultiplier ?? 0) / 100) : 0;
    const atkCoef = (p.atkCoef * (1 + normalAtkMult));
    const finalATKMod = atkCoef * (1 + p.finalATKModifier);
-   console.log('[DMG]', { baseDamage, effectiveATK, effectiveDEF, atkCoef, normalAtkMult, finalATKModifier: p.finalATKModifier, finalATKMod });
 
 
    /* ================================================
