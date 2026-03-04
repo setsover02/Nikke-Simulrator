@@ -126,6 +126,7 @@ export const calcHitDamages = (
         atkCoef: char.atkCoef ?? 1,
         finalATKModifier: 0,
         normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
+        isNormalAttack: true,
 
         isCrit: false,
         critBonusBase: critBonus,

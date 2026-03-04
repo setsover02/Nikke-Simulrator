@@ -22,7 +22,7 @@ export const SG_SMG_COLLECTION_EFFECTS: Record<CollectionGrade, (level: number) 
         } else if (level >= 6 && level <= 10) {
             return { normalAtkMultiplier: 6.0, defenseMultiplier: 33 };
         } else if (level >= 11 && level <= 15) {
-            return { normalAtkMultiplier: 9.64, defenseMultiplier: 37 };
+            return { normalAtkMultiplier: 9.46, defenseMultiplier: 37 };
         }
         return { normalAtkMultiplier: 0, defenseMultiplier: 0 };
     }

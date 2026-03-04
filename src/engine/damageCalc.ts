@@ -156,6 +156,7 @@ function buildDamageParams(
         atkCoef: char.atkCoef ?? 1,
         finalATKModifier: char.buff?.atkDmgUp ?? 0,
         normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
+        isNormalAttack: true,
 
         /* ③ Major Modifiers (가산) — 무기별 배율 적용 및 캐릭터 스탯 오버라이드 */
         isCrit,
