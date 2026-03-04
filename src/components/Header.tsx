@@ -9,8 +9,7 @@ const Header: React.FC = () => {
             left: 0,
             right: 0,
             padding: '24px',
-            backgroundColor: '#0f0f1a', // Assuming dark app theme
-            borderBottom: '1px solid #2a2a2a',
+            backgroundColor: '#171717', // Assuming dark app theme
             zIndex: 1000,
             display: 'flex',
             alignItems: 'center',
