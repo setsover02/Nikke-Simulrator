@@ -1,9 +1,13 @@
 import { BattleContext, Character } from "../types/battle";
 import { calcNikkeDamage } from "./nikkeFormula";
-import { checkHit, WeaponType } from "./accuraySystem";
-import { heatWarmupByBullets, coolWarmupLevel, getMgFireRate, getMgAccuracy } from "./mgWarmup";
+import { WeaponType, resolveHit, ResolveHitParams } from "./accuraySystem";
+import { heatWarmupByTime, coolWarmupLevel, getMgFireRate } from "./mgWarmup";
 import { getWeaponMultipliers } from "../constants/weaponStats";
 import { checkAdvantage } from "../utils/charUtils";
+import { RangeMode } from "../constants/weaponStats";
+
+/** 기본 SG 펠릿 수 */
+const DEFAULT_PELLET_COUNT = 10;
 
 /* =========================
    메인 공격 처리
@@ -11,19 +15,21 @@ import { checkAdvantage } from "../utils/charUtils";
 
 export function processAttack(ctx: BattleContext) {
     const dt = ctx.delta;
+    const rangeMode: RangeMode = (ctx.config as any).rangeMode ?? 'mid';
 
     ctx.team.members.forEach((char) => {
-        const isMG = char.weapon === WeaponType.MG;
-        const isChargeWeapon = char.weapon === WeaponType.RL || char.weapon === WeaponType.SR;
+        const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
+        const isMG = weapon === WeaponType.MG;
+        const isSG = weapon === WeaponType.SG;
+        const isCharge = weapon === WeaponType.SR || weapon === WeaponType.RL;
         const isFiring = canAttack(char);
 
-        // MG 냉각 처리 (발사 중이 아닐 때만)
+        // MG: 사격 중이 아닐 때 냉각 (시간 기반)
         if (isMG && !isFiring) {
             char.warmupLevel = coolWarmupLevel(char.warmupLevel ?? 0, dt);
         }
 
         if (!isFiring) {
-            // 재장전 중 또는 탄 없음 → 반동/콤보 초기화
             char.fireAccumulator = 0;
             char.currentCharge = 0;
             char.comboShots = 0;
@@ -33,41 +39,43 @@ export function processAttack(ctx: BattleContext) {
         let shotsToFire = 0;
         let isChargeAttack = false;
 
-        if (isChargeWeapon) {
-            // 차징 무기 처리 (RL, SR)
-            const chargeSeconds = char.chargeTime || 1; // 0초 방어 (기본 1초)
+        if (isCharge) {
+            // 차징 무기 처리 (SR / RL) — weapon.md 기준
+            const chargeSeconds = char.chargeTime || 1;
             char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
             if (char.currentCharge >= 1.0) {
-                // 풀 차지 완료 -> 1발 발사
                 shotsToFire = 1;
                 char.currentCharge -= 1.0;
-                isChargeAttack = true; // 풀차지 어택 표시
+                isChargeAttack = true;
             }
         } else {
-            // 일반 연사 무기 처리 (AR, SMG, SG, MG)
+            // 일반 연사 (AR / SMG / SG / MG)
             let effectiveFireRate = char.fireRate;
             if (isMG) {
                 effectiveFireRate = getMgFireRate(char.fireRate, char.warmupLevel ?? 0);
             }
 
             char.fireAccumulator = (char.fireAccumulator || 0) + effectiveFireRate * dt;
-
             const shotsThisTick = Math.floor(char.fireAccumulator);
             shotsToFire = Math.min(char.ammo, shotsThisTick);
-
             if (shotsToFire > 0) {
                 char.fireAccumulator -= shotsToFire;
             }
         }
 
         for (let i = 0; i < shotsToFire; i++) {
-            const dmg = calcCharacterDamage(char, ctx, isChargeAttack);
-
-            // Simulate AOE Splash Damage for RL
-            const simulatedTargetsHit = char.weapon === WeaponType.RL ? 3 : 1;
-
-            applyDamage(ctx, dmg * simulatedTargetsHit, char.id);
+            if (isSG) {
+                // SG: 펠릿 시스템 — 탄 1발 = 펠릿 N개, 각각 독립 명중 판정
+                const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
+                applyDamage(ctx, pelletDmg, char.id);
+            } else {
+                // 일반 단발 처리
+                const dmg = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
+                // RL: 폭발 범위로 다중 타격 시뮬레이션 (3 hits)
+                const simulatedHits = weapon === WeaponType.RL ? 3 : 1;
+                applyDamage(ctx, dmg * simulatedHits, char.id);
+            }
 
             char.ammo -= 1;
             char.totalAmmoUsed = (char.totalAmmoUsed || 0) + 1;
@@ -75,9 +83,9 @@ export function processAttack(ctx: BattleContext) {
             ctx.totalAmmoUsed++;
         }
 
-        // MG 가열 처리 (실제 발사한 탄환 수만큼)
+        // MG: 사격 후 시간 기반 예열 (+dt 분)
         if (isMG && shotsToFire > 0) {
-            char.warmupLevel = heatWarmupByBullets(char.warmupLevel ?? 0, shotsToFire);
+            char.warmupLevel = heatWarmupByTime(char.warmupLevel ?? 0, dt);
         }
     });
 }
@@ -91,46 +99,80 @@ function canAttack(char: Character): boolean {
 }
 
 /* =========================
-   캐릭터별 데미지 계산
+   SG 펠릿 총 데미지 계산
+   - 탄 1발에 pelletCount번 resolveHit() 호출
+   - atkCoef를 펠릿 수로 분할 적용
+========================= */
+
+function calcShotgunDamage(
+    char: Character,
+    ctx: BattleContext,
+    rangeMode: RangeMode
+): number {
+    const pelletCount = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
+    const pelletAtkCoefScale = 1 / pelletCount; // 각 펠릿에 적용할 atkCoef 비율
+
+    let totalDmg = 0;
+
+    for (let p = 0; p < pelletCount; p++) {
+        const hitParams: ResolveHitParams = {
+            weapon: WeaponType.SG,
+            rangeMode,
+            accuracyBuff: char.accuracyBuff ?? 0,
+            rng: ctx.rng,
+            hasCore: !!(char.coreDamage),
+        };
+
+        const hitResult = resolveHit(hitParams);
+        if (!hitResult.hit) continue; // 빗나감
+
+        // 크리티컬 판정 (각 펠릿 독립)
+        const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
+        const isCrit = ctx.rng.next() < critChance;
+
+        const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale);
+        totalDmg += calcNikkeDamage(params);
+    }
+
+    return totalDmg;
+}
+
+/* =========================
+   단발 캐릭터 데미지 계산
 ========================= */
 
 function calcCharacterDamage(
     char: Character,
     ctx: BattleContext,
-    isChargeAttack: boolean = false
+    isChargeAttack: boolean,
+    rangeMode: RangeMode
 ): number {
-    // 크리티컬 판정 (기본 확률 + 버프 확률)
+    const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
+
+    // resolveHit으로 명중 + 코어 판정
+    const hitParams: ResolveHitParams = {
+        weapon,
+        rangeMode,
+        accuracyBuff: char.accuracyBuff ?? 0,
+        warmupLevel: weapon === WeaponType.MG ? (char.warmupLevel ?? 0) : undefined,
+        rng: ctx.rng,
+        hasCore: !!(char.coreDamage),
+    };
+
+    const hitResult = resolveHit(hitParams);
+    // AR/SMG/MG/SR/RL은 빗나감 없음 → hit은 항상 true
+    // (SG는 calcShotgunDamage에서 호출하므로 여기선 오지 않음)
+
+    // 크리티컬 판정
     const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
     const isCrit = ctx.rng.next() < critChance;
 
-    // 코어 히트 판정 (accuraySystem 명중률 기반)
-    const weaponType = (char.weapon as WeaponType) ?? WeaponType.AR;
-
-    // MG 예열에 따른 명중률 보정
-    let accuracyBuff = char.accuracyBuff ?? 0;
-    if (weaponType === WeaponType.MG) {
-        const mgAccuracy = getMgAccuracy(char.warmupLevel ?? 0);
-        // MG base accuracy(1.0)에 예열 감소분을 accuracyBuff으로 반영
-        accuracyBuff += mgAccuracy - 1;
-    }
-
-    const isCore = char.coreDamage
-        ? checkHit({
-            weapon: weaponType,
-            distance: ctx.state?.distance ?? 15,
-            comboShots: char.comboShots ?? 0,
-            accuracyBuff,
-            rng: ctx.rng,
-        })
-        : false;
-
-    const params = buildDamageParams(char, ctx, isCrit, isCore, isChargeAttack);
+    const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0);
     return calcNikkeDamage(params);
 }
 
 /* =========================
    공식 파라미터 생성
-   이미지 공식 7항목에 맞게 매핑
 ========================= */
 
 function buildDamageParams(
@@ -138,9 +180,9 @@ function buildDamageParams(
     ctx: BattleContext,
     isCrit: boolean,
     isCore: boolean,
-    isChargeAttack: boolean = false
+    isChargeAttack: boolean,
+    atkCoefScale: number // 펠릿 분할 배율 (일반: 1.0, SG 1/N)
 ) {
-    // 무기별 크리/코어 보정 배율 조회
     const wm = getWeaponMultipliers(char.weapon);
 
     return {
@@ -153,12 +195,12 @@ function buildDamageParams(
         enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
 
         /* ② Final ATK Modifier & Normal ATK Multiplier */
-        atkCoef: char.atkCoef ?? 1,
+        atkCoef: (char.atkCoef ?? 1) * atkCoefScale,
         finalATKModifier: char.buff?.atkDmgUp ?? 0,
         normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
         isNormalAttack: true,
 
-        /* ③ Major Modifiers (가산) — 무기별 배율 적용 및 캐릭터 스탯 오버라이드 */
+        /* ③ Major Modifiers */
         isCrit,
         critBonusBase: char.critMult ? (char.critMult - 1) : wm.critBonus,
         extraCritDmg: char.buff?.critDmg ?? 0,
@@ -167,7 +209,7 @@ function buildDamageParams(
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
         rangeBonus: char.buff?.range ?? 0,
 
-        /* ④ Element Bonus Damage */
+        /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
         weakPointExtra: (char.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
@@ -189,14 +231,6 @@ function buildDamageParams(
         shareDmgUp: 0,
         enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };
-}
-
-/* =========================
-   방어 계산
-========================= */
-
-function calcEnemyDef(ctx: BattleContext): number {
-    return ctx.enemy.defense;
 }
 
 /* =========================

@@ -61,6 +61,7 @@ const Home: React.FC = () => {
             seed: 42,
             fullBurstDuration: 10,
             burstGaugeDelay,
+            rangeMode,
         };
         const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
 

@@ -58,6 +58,9 @@ export interface Character {
 
     /* 소장품 추가 옵션 */
     normalAtkMultiplier?: number;    // 일반 공격 대미지 배율 증가 (%)
+
+    /* SG 펠릿 */
+    pelletCount?: number;            // SG 펠릿 수 (기본 10)
 }
 
 export interface Team {
@@ -78,6 +81,7 @@ export interface SimConfig {
     fullBurstDuration?: number;
     fullBurstInterval?: number;  // deprecated: 하위호환용
     burstGaugeDelay?: number;    // 풀버스트 간격: 게이지 충전에 소모되는 시간 (기본 4.58초, 최소 2.52초)
+    rangeMode?: 'near' | 'mid' | 'far'; // 교전 거리 (명중률 원 크기에 영향)
 }
 
 export interface LogEntry {
