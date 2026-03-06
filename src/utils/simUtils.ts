@@ -14,7 +14,8 @@ export const generateChartData = (
     for (const log of result.log) {
         if (!DAMAGE_TYPES.has(log.type)) continue;
         if (sourceFilter && log.source !== sourceFilter) continue;
-        const sec = Math.floor(log.time);
+        // Use Math.ceil to bucket damage occurring between (0, 1] into 1s, etc.
+        const sec = Math.ceil(log.time);
         aggregated[sec] = (aggregated[sec] || 0) + (log.value || 0);
     }
     const data = [];
@@ -70,7 +71,7 @@ export const generateSkillChartData = (result: any, duration: number) => {
     const aggregated: { [second: number]: number } = {};
     for (const log of result.log) {
         if (log.type === 'skill_damage') {
-            const sec = Math.floor(log.time);
+            const sec = Math.ceil(log.time);
             aggregated[sec] = (aggregated[sec] || 0) + (log.value || 0);
         }
     }

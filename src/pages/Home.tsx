@@ -125,7 +125,8 @@ const Home: React.FC = () => {
                     equipWeakPointPercent: weakPercent,
                     normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
                     coreDamage: 'coreDamage' in charStats ? charStats.coreDamage as number : undefined,
-                    critMult: 'critMult' in charStats ? charStats.critMult as number : undefined
+                    critMult: 'critMult' in charStats ? charStats.critMult as number : undefined,
+                    fullChargeDamage: 'fullChargeDamage' in charStats ? (charStats.fullChargeDamage as number) / 100 - 1 : undefined
                 }, ENEMY.defense, rangeMode, isWeak, enemyTakenUp);
 
                 return { charId, charName: slot.char.data.characterName, totalDmg, hitDamages };

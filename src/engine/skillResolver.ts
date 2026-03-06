@@ -396,6 +396,18 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         applied = true;
     }
 
+    if (effectDef.effect === "charge_damage_up" && effectDef.value) {
+        char.buff.chargeDmg = (char.buff.chargeDmg || 0) + (effectDef.value / 100);
+        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Charge Damage Up" });
+        applied = true;
+    }
+
+    if (effectDef.effect === "charge_speed_up" && effectDef.value) {
+        char.buff.chargeSpeed = (char.buff.chargeSpeed || 0) + (effectDef.value / 100);
+        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Charge Speed Up" });
+        applied = true;
+    }
+
     if (effectDef.stack_level !== undefined) {
         char.buff.stack_level = effectDef.stack_level;
     }
@@ -415,6 +427,8 @@ function updateBuffTimers(ctx: BattleContext) {
                 if (buffName === "crit_damage_up") char.buff.critDmg = 0;
                 if (buffName === "crit_rate_up") char.buff.critRate = 0;
                 if (buffName === "weak_code_damage_up") char.buff.weak = 0;
+                if (buffName === "charge_damage_up") char.buff.chargeDmg = 0;
+                if (buffName === "charge_speed_up") char.buff.chargeSpeed = 0;
                 delete char.buffTimers[buffName];
             }
         }

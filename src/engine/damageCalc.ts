@@ -41,7 +41,8 @@ export function processAttack(ctx: BattleContext) {
 
         if (isCharge) {
             // 차징 무기 처리 (SR / RL) — weapon.md 기준
-            const chargeSeconds = char.chargeTime || 1;
+            const chargeSpeedBuff = char.buff?.chargeSpeed ?? 0;
+            const chargeSeconds = Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
             char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
             if (char.currentCharge >= 1.0) {
@@ -214,7 +215,7 @@ function buildDamageParams(
         weakPointExtra: (char.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
-        chargeDmgBonus: isChargeAttack ? (char.fullChargeDamage ?? 0) : (char.buff?.chargeDmg ?? 0),
+        chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (char.buff?.chargeDmg ?? 0)) - 1) : 0,
 
         /* ⑥ Damage Up */
         atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,
