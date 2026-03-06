@@ -33,7 +33,7 @@ const Home: React.FC = () => {
     const [withCoreDatasets, setWithCoreDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
     const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.58');
-    const [rangeMode, setRangeMode] = useState<RangeMode>('mid');
+    const [rangeMode, setRangeMode] = useState<RangeMode>(45);
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
     const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
     const [showCore, setShowCore] = useState<boolean>(false);

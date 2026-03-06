@@ -1,7 +1,7 @@
 // 무기 종류별 크리티컬/코어히트 보정 배율 테이블
 // 최종 데미지 majorModifiers = 1 + (isCrit ? critBonus : 0) + (isCore ? coreHitBonus : 0) + ...
 
-export type RangeMode = 'near' | 'mid' | 'far';
+export type RangeMode = number;
 
 export interface WeaponMultipliers {
     /** 크리티컬 히트 시 가산 값 (일반: 0.5 → ×1.5) */
@@ -16,17 +16,19 @@ export interface WeaponMultipliers {
  * 무기별 데미지 배율 + 거리 수혜 테이블
  *
  * 거리 보너스(30%) 수혜 무기:
- *   Near  → SG, SMG
- *   Mid   → AR, MG
- *   Far   → SR
- *   RL    → 없음
+ *   SG: 0, 15, 25
+ *   SMG: 15, 25, 35
+ *   AR: 25, 35, 45
+ *   MG: 35, 45, 55
+ *   SR: 45, 55, 100
+ *   RL: 없음
  */
 export const WEAPON_MULTIPLIERS: Record<string, WeaponMultipliers> = {
-    SMG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['near'] },
-    AR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['mid'] },
-    SR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['far'] },
-    SG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['near'] },
-    MG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: ['mid'] },
+    SMG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [15, 25, 35] },
+    AR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [25, 35, 45] },
+    SR: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [45, 55, 100] },
+    SG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [0, 15, 25] },
+    MG: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [35, 45, 55] },
     RL: { critBonus: 0.500, coreHitBonus: 1.000, benefitRanges: [] },
 };
 

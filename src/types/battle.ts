@@ -81,7 +81,7 @@ export interface SimConfig {
     fullBurstDuration?: number;
     fullBurstInterval?: number;  // deprecated: 하위호환용
     burstGaugeDelay?: number;    // 풀버스트 간격: 게이지 충전에 소모되는 시간 (기본 4.58초, 최소 2.52초)
-    rangeMode?: 'near' | 'mid' | 'far'; // 교전 거리 (명중률 원 크기에 영향)
+    rangeMode?: number; // 교전 거리 (명중률 원 크기에 영향)
 }
 
 export interface LogEntry {

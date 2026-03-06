@@ -15,9 +15,13 @@ const ELEMENT_OPTIONS = [
 ];
 
 const RANGE_OPTIONS: { value: RangeMode; label: string; weapons: string }[] = [
-    { value: 'near', label: 'Near', weapons: 'SG · SMG' },
-    { value: 'mid', label: 'Mid', weapons: 'AR · MG' },
-    { value: 'far', label: 'Far', weapons: 'SR' },
+    { value: 0, label: '0', weapons: 'SG' },
+    { value: 15, label: '15', weapons: 'SG · SMG' },
+    { value: 25, label: '25', weapons: 'SG · SMG · AR' },
+    { value: 35, label: '35', weapons: 'SMG · AR · MG' },
+    { value: 45, label: '45', weapons: 'AR · MG · SR' },
+    { value: 55, label: '55', weapons: 'MG · SR' },
+    { value: 100, label: '100', weapons: 'SR' },
 ];
 
 interface SimToolbarProps {
@@ -124,17 +128,17 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                 <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap' }}>🎯 교전 거리</span>
                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px' }}>
                     <input
-                        type="range" min={0} max={2}
+                        type="range" min={0} max={6}
                         value={RANGE_OPTIONS.findIndex(o => o.value === rangeMode)}
                         onChange={e => onRangeModeChange(RANGE_OPTIONS[+e.target.value].value)}
-                        style={{ width: '120px', accentColor: '#60a5fa', cursor: 'pointer' }}
+                        style={{ width: '220px', accentColor: '#60a5fa', cursor: 'pointer' }}
                     />
-                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '120px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', width: '220px' }}>
                         {RANGE_OPTIONS.map(opt => (
                             <button key={opt.value}
                                 onClick={() => onRangeModeChange(opt.value)}
                                 style={{
-                                    fontSize: '10px', padding: '1px 4px',
+                                    fontSize: '10px', padding: '1px 3px',
                                     background: rangeMode === opt.value ? '#3b82f660' : 'transparent',
                                     color: rangeMode === opt.value ? '#60a5fa' : '#666',
                                     border: rangeMode === opt.value ? '1px solid #3b82f6' : '1px solid #444',
@@ -144,7 +148,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                         ))}
                     </div>
                 </div>
-                <span style={{ color: '#60a5fa', fontSize: '11px', whiteSpace: 'nowrap' }}>
+                <span style={{ color: '#60a5fa', fontSize: '11px', whiteSpace: 'nowrap', minWidth: '100px', display: 'inline-block' }}>
                     +30%&nbsp;→&nbsp;{RANGE_OPTIONS.find(o => o.value === rangeMode)?.weapons}
                 </span>
             </div>

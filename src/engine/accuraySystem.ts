@@ -69,11 +69,15 @@ export const WEAPON_ACCURACY_CIRCLES: Record<WeaponType, AccuracyCircle> = {
     RL: { accuracyRadius: [0.10, 0.10, 0.10], hitRadius: 1.0, coreRadius: 0.30 }, // 항상 정밀
 };
 
-/** RangeMode → 배열 인덱스 */
+/** RangeMode → 배열 인덱스 (임시 매핑: 0~15=Near, 25~35=Mid, 45+=Far) */
 const RANGE_IDX: Record<RangeMode, 0 | 1 | 2> = {
-    near: 0,
-    mid: 1,
-    far: 2,
+    0: 0,
+    15: 0,
+    25: 1,
+    35: 1,
+    45: 1,
+    55: 2,
+    100: 2,
 };
 
 

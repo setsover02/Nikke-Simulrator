@@ -104,6 +104,7 @@ export const calcHitDamages = (
         coreDamage?: number;
         critMult?: number;
         fullChargeDamage?: number;
+        pelletCount?: number;
     },
     enemyDef: number,
     rangeMode: RangeMode = 'mid',
@@ -124,7 +125,7 @@ export const calcHitDamages = (
         enemyDEFPercent: 0,
         enemyDEFFlat: 0,
 
-        atkCoef: char.atkCoef ?? 1,
+        atkCoef: (char.atkCoef ?? 1) * (char.weapon === 'SG' ? 1 / (char.pelletCount ?? 10) : 1),
         finalATKModifier: 0,
         normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
         isNormalAttack: true,
