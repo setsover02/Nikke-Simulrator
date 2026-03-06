@@ -71,10 +71,9 @@ export function processAttack(ctx: BattleContext) {
                 const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
                 applyDamage(ctx, pelletDmg, char.id);
             } else {
-                // 일반 단발 처리
+                // 일반 단발 처리 (RL은 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
                 const dmg = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
-                // RL: 폭발 범위로 다중 타격 시뮬레이션 (3 hits)
-                const simulatedHits = weapon === WeaponType.RL ? 3 : 1;
+                const simulatedHits = 1;
                 applyDamage(ctx, dmg * simulatedHits, char.id);
             }
 

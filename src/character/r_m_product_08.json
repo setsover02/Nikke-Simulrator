@@ -1,7 +1,8 @@
 {
-    "characterID": "Product08",
+    "characterID": "Product_08",
     "characterName": "프로덕트 08",
     "stats": {
+        "rarity": "R",
         "element": "전격",
         "weapon": "SR",
         "class": "지원형",

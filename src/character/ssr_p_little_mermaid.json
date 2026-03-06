@@ -2,6 +2,7 @@
     "characterID": "LittleMermaid",
     "characterName": "리틀 머메이드",
     "stats": {
+        "rarity": "SSR",
         "element": "풍압",
         "weapon": "SMG",
         "class": "지원형",

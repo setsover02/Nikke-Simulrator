@@ -2,6 +2,7 @@
     "characterID": "iDollSun",
     "characterName": "iDoll 썬",
     "stats": {
+        "rarity": "R",
         "element": "철갑",
         "weapon": "AR",
         "class": "지원형",

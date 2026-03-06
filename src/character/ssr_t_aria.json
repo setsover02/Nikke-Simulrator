@@ -2,6 +2,7 @@
     "characterID": "Aria",
     "characterName": "아리아",
     "stats": {
+        "rarity": "SSR",
         "element": "수냉",
         "weapon": "MG",
         "class": "화력형",

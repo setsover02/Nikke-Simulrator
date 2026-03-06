@@ -2,6 +2,7 @@
     "characterID": "SoldierOW",
     "characterName": "솔져 O. W.",
     "stats": {
+        "rarity": "R",
         "element": "작열",
         "weapon": "SMG",
         "class": "지원형",

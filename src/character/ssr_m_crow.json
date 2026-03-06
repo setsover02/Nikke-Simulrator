@@ -2,6 +2,7 @@
     "characterID": "Crow",
     "characterName": "크로우",
     "stats": {
+        "rarity": "SSR",
         "element": "작열",
         "weapon": "SMG",
         "class": "방어형",
