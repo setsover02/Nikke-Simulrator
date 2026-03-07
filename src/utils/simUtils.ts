@@ -101,19 +101,23 @@ export const calcHitDamages = (
         equipATKPercent?: number;
         equipWeakPointPercent?: number;
         normalAtkMultiplier?: number;
+        chargeDmgMultiplier?: number;
+        coreHitMultiplier?: number;
         coreDamage?: number;
+        coreHitBonus?: number;
         critMult?: number;
         fullChargeDamage?: number;
         pelletCount?: number;
     },
     enemyDef: number,
-    rangeMode: RangeMode = 'mid',
+    rangeMode: RangeMode = 45,
     isWeakPoint: boolean = false,
     enemyTakenUp: number = 0
 ): HitDamages => {
     const wm = getWeaponMultipliers(char.weapon);
     const rangeBonus = getWeaponRangeBonus(char.weapon, rangeMode);
-    const coreHitBonus = char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus;
+    const coreHitBonus = char.coreHitBonus !== undefined ? char.coreHitBonus :
+        (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus);
     const critBonus = char.critMult ? (char.critMult - 1) : wm.critBonus;
 
     // nikkeFormula.calcNikkeDamage와 동일한 파라미터 구조 사용
@@ -135,6 +139,7 @@ export const calcHitDamages = (
         extraCritDmg: 0,
         isCore: false,
         coreHitBonus,
+        coreHitMultiplier: char.coreHitMultiplier ?? 0,
         fullBurstBonus: 0,
         rangeBonus,
 
@@ -142,6 +147,7 @@ export const calcHitDamages = (
         weakPointExtra: isWeakPoint ? (char.equipWeakPointPercent ?? 0) : 0,
 
         chargeDmgBonus: (char.weapon === 'RL' || char.weapon === 'SR') ? (char.fullChargeDamage ?? 0) : 0,
+        chargeDmgMultiplier: char.chargeDmgMultiplier ?? 0,
 
         atkDmgUp: 0,
         dotDmgUp: 0,

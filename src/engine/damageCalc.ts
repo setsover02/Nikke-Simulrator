@@ -206,6 +206,7 @@ function buildDamageParams(
         extraCritDmg: char.buff?.critDmg ?? 0,
         isCore,
         coreHitBonus: char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus,
+        coreHitMultiplier: char.coreHitMultiplier ?? 0,
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
         rangeBonus: char.buff?.range ?? 0,
 
@@ -215,6 +216,7 @@ function buildDamageParams(
 
         /* ⑤ Charge Damage */
         chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (char.buff?.chargeDmg ?? 0)) - 1) : 0,
+        chargeDmgMultiplier: char.chargeDmgMultiplier ?? 0,
 
         /* ⑥ Damage Up */
         atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,

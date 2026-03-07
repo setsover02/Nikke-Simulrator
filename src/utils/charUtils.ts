@@ -35,10 +35,12 @@ export const applyBaseStats = (
     const eq = equip || { atkPercent: 0, weakPointPercent: 0, ammoPercent: 0 };
 
     const baseMaxAmmo = s.maxAmmo;
-    const finalMaxAmmo = Math.floor(baseMaxAmmo * (1 + eq.ammoPercent));
-
-    // 소장품 효과 적용 (SG, SMG 한정)
     const collectionEffect = getCollectionEffect(s.weapon, collectionGrade, collectionLevel);
+    // 애장품 장착시 장탄수 가산
+    const collectionMaxAmmo = Math.floor(baseMaxAmmo * (collectionEffect.maxAmmoMultiplier / 100));
+    const finalMaxAmmo = Math.floor(baseMaxAmmo * (1 + eq.ammoPercent)) + collectionMaxAmmo;
+
+    // 소장품 효과 적용 (SG, SMG 한정) -> 이제 모든 무기 지원하므로 주석 수정
     const finalDefense = s.defense * (1 + collectionEffect.defenseMultiplier / 100);
 
     return {
@@ -65,7 +67,7 @@ export const applyBaseStats = (
         atkCoef: (s.atkCoef || 0) / 100,
         critMult: s.critMult || 1.5,
         coreDamage: includeCoreDamage ? (s.coreDamage || 0) : 0,
-        coreHitBonus: s.coreHitBonus ?? 1.0,
+        coreHitBonus: s.coreHitBonus,
         comboShots: 0,
         accuracyBuff: s.accuracyBuff ?? 0,
         warmupLevel: 0,
@@ -74,6 +76,8 @@ export const applyBaseStats = (
         equipWeakPointPercent: eq.weakPointPercent,
         equipAmmoPercent: eq.ammoPercent,
 
-        normalAtkMultiplier: collectionEffect.normalAtkMultiplier
+        normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
+        chargeDmgMultiplier: collectionEffect.chargeDmgMultiplier,
+        coreHitMultiplier: collectionEffect.coreHitMultiplier
     };
 };

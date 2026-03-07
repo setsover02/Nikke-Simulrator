@@ -105,7 +105,13 @@ const Home: React.FC = () => {
                 const isWeak = checkAdvantage(ENEMY.element, charStats.element);
 
                 const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-                const collectionEffect = getCollectionEffect(charStats.weapon, slot.collectionGrade, collectionLevelNum);
+                const eq = {
+                    atkPercent,
+                    weakPointPercent: weakPercent,
+                    ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
+                };
+                // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
+                const char = applyBaseStats(slot.char.data, true, eq, slot.collectionGrade, collectionLevelNum, idx);
 
                 let enemyTakenUp = 0;
                 const skills = slot.char.data.skills || [];
@@ -118,15 +124,19 @@ const Home: React.FC = () => {
                 }
 
                 const hitDamages = calcHitDamages({
-                    atk: customATK > 0 ? customATK : charStats.atk,
-                    atkCoef: (charStats.atkCoef || 0) / 100,
-                    weapon: charStats.weapon,
+                    atk: customATK > 0 ? customATK : char.atk,
+                    atkCoef: char.atkCoef,
+                    weapon: char.weapon,
                     equipATKPercent: atkPercent,
                     equipWeakPointPercent: weakPercent,
-                    normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
-                    coreDamage: 'coreDamage' in charStats ? charStats.coreDamage as number : undefined,
-                    critMult: 'critMult' in charStats ? charStats.critMult as number : undefined,
-                    fullChargeDamage: 'fullChargeDamage' in charStats ? (charStats.fullChargeDamage as number) / 100 - 1 : undefined
+                    normalAtkMultiplier: char.normalAtkMultiplier,
+                    chargeDmgMultiplier: char.chargeDmgMultiplier,
+                    coreHitMultiplier: char.coreHitMultiplier,
+                    coreDamage: charStats.coreDamage,
+                    coreHitBonus: char.coreHitBonus,
+                    critMult: char.critMult,
+                    fullChargeDamage: char.fullChargeDamage,
+                    pelletCount: charStats.pelletCount,
                 }, ENEMY.defense, rangeMode, isWeak, enemyTakenUp);
 
                 return { charId, charName: slot.char.data.characterName, totalDmg, hitDamages };

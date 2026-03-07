@@ -1,44 +1,99 @@
-export type CollectionGrade = 'None' | 'R' | 'SR';
+export type CollectionGrade = 'None' | 'R' | 'SR' | 'SSR';
 
 export interface CollectionEffect {
-    normalAtkMultiplier: number; // 일반 공격 대미지 배율 증가 (%)
+    normalAtkMultiplier: number; // SMG, SG: 일반 공격 대미지 배율 증가 (%)
     defenseMultiplier: number;   // 방어력 증가 (%)
+    chargeDmgMultiplier: number; // RL, SR: 차지 대미지 배율 증가 (%)
+    coreHitMultiplier: number;   // AR: 코어 대미지 배율 증가 (%)
+    maxAmmoMultiplier: number;   // MG: 최대 장탄수 증가 (%)
 }
 
-// SG, SMG 전용 소장품 효과
-export const SG_SMG_COLLECTION_EFFECTS: Record<CollectionGrade, (level: number) => CollectionEffect> = {
-    None: () => ({ normalAtkMultiplier: 0, defenseMultiplier: 0 }),
-    R: (level: number) => {
-        if (level >= 0 && level <= 10) {
-            return { normalAtkMultiplier: 1.57, defenseMultiplier: 25 };
-        } else if (level >= 11 && level <= 15) {
-            return { normalAtkMultiplier: 3.0, defenseMultiplier: 29 };
-        }
-        return { normalAtkMultiplier: 0, defenseMultiplier: 0 };
-    },
-    SR: (level: number) => {
-        if (level >= 0 && level <= 5) {
-            return { normalAtkMultiplier: 3.0, defenseMultiplier: 29 };
-        } else if (level >= 6 && level <= 10) {
-            return { normalAtkMultiplier: 6.0, defenseMultiplier: 33 };
-        } else if (level >= 11 && level <= 15) {
-            return { normalAtkMultiplier: 9.46, defenseMultiplier: 37 };
-        }
-        return { normalAtkMultiplier: 0, defenseMultiplier: 0 };
-    }
-};
+const emptyEffect = (): CollectionEffect => ({
+    normalAtkMultiplier: 0,
+    defenseMultiplier: 0,
+    chargeDmgMultiplier: 0,
+    coreHitMultiplier: 0,
+    maxAmmoMultiplier: 0,
+});
 
 export const getCollectionEffect = (
     weapon: string,
     grade: CollectionGrade,
     level: number
 ): CollectionEffect => {
-    // 현재는 SG, SMG 무기만 적용
-    if (weapon === 'SG' || weapon === 'SMG') {
-        const effectFn = SG_SMG_COLLECTION_EFFECTS[grade];
-        if (effectFn) {
-            return effectFn(level);
+    const effect = emptyEffect();
+    if (grade === 'None') return effect;
+
+    // R 등급
+    if (grade === 'R') {
+        const isLvl0to4 = level >= 0 && level <= 4;
+        const isLvl5to9 = level >= 5 && level <= 9;
+        const isLvl10to14 = level >= 10 && level <= 14;
+        const isLvl15 = level >= 15;
+
+        if (isLvl0to4) effect.defenseMultiplier = 25;
+        else if (isLvl5to9) effect.defenseMultiplier = 28;
+        else if (isLvl10to14) effect.defenseMultiplier = 30;
+        else if (isLvl15) effect.defenseMultiplier = 32;
+
+        if (weapon === 'RL' || weapon === 'SR') {
+            if (isLvl0to4) effect.chargeDmgMultiplier = 1.58;
+            else if (isLvl5to9) effect.chargeDmgMultiplier = 3.13;
+            else if (isLvl10to14) effect.chargeDmgMultiplier = 4.72;
+            else if (isLvl15) effect.chargeDmgMultiplier = 6.31;
+        } else if (weapon === 'SMG' || weapon === 'SG') {
+            if (isLvl0to4) effect.normalAtkMultiplier = 1.57;
+            else if (isLvl5to9) effect.normalAtkMultiplier = 3.15;
+            else if (isLvl10to14) effect.normalAtkMultiplier = 4.73;
+            else if (isLvl15) effect.normalAtkMultiplier = 6.30;
+        } else if (weapon === 'AR') {
+            if (isLvl0to4) effect.coreHitMultiplier = 5.67;
+            else if (isLvl5to9) effect.coreHitMultiplier = 7.94;
+            else if (isLvl10to14) effect.coreHitMultiplier = 10.21;
+            else if (isLvl15) effect.coreHitMultiplier = 12.49;
+        } else if (weapon === 'MG') {
+            if (isLvl0to4) effect.maxAmmoMultiplier = 1.56;
+            else if (isLvl5to9) effect.maxAmmoMultiplier = 3.15;
+            else if (isLvl10to14) effect.maxAmmoMultiplier = 4.73;
+            else if (isLvl15) effect.maxAmmoMultiplier = 6.32;
         }
     }
-    return { normalAtkMultiplier: 0, defenseMultiplier: 0 };
+    // SR 등급 (또는 SSR, SSR은 내부적으로 SR 15레벨 취급)
+    else if (grade === 'SR' || grade === 'SSR') {
+        // SSR은 항상 15레벨 취급
+        const effectiveLevel = grade === 'SSR' ? 15 : level;
+        const isLvl0to4 = effectiveLevel >= 0 && effectiveLevel <= 4;
+        const isLvl5to9 = effectiveLevel >= 5 && effectiveLevel <= 9;
+        const isLvl10to14 = effectiveLevel >= 10 && effectiveLevel <= 14;
+        const isLvl15 = effectiveLevel >= 15;
+
+        if (isLvl0to4) effect.defenseMultiplier = 30;
+        else if (isLvl5to9) effect.defenseMultiplier = 32;
+        else if (isLvl10to14) effect.defenseMultiplier = 34;
+        else if (isLvl15) effect.defenseMultiplier = 37;
+
+        if (weapon === 'RL' || weapon === 'SR') {
+            if (isLvl0to4) effect.chargeDmgMultiplier = 4.74;
+            else if (isLvl5to9) effect.chargeDmgMultiplier = 6.31;
+            else if (isLvl10to14) effect.chargeDmgMultiplier = 7.89;
+            else if (isLvl15) effect.chargeDmgMultiplier = 9.47;
+        } else if (weapon === 'SMG' || weapon === 'SG') {
+            if (isLvl0to4) effect.normalAtkMultiplier = 4.73;
+            else if (isLvl5to9) effect.normalAtkMultiplier = 6.30;
+            else if (isLvl10to14) effect.normalAtkMultiplier = 7.88;
+            else if (isLvl15) effect.normalAtkMultiplier = 9.46;
+        } else if (weapon === 'AR') {
+            if (isLvl0to4) effect.coreHitMultiplier = 5.67;
+            else if (isLvl5to9) effect.coreHitMultiplier = 12.49;
+            else if (isLvl10to14) effect.coreHitMultiplier = 13.25;
+            else if (isLvl15) effect.coreHitMultiplier = 17.04;
+        } else if (weapon === 'MG') {
+            if (isLvl0to4) effect.maxAmmoMultiplier = 4.74;
+            else if (isLvl5to9) effect.maxAmmoMultiplier = 6.32;
+            else if (isLvl10to14) effect.maxAmmoMultiplier = 7.91;
+            else if (isLvl15) effect.maxAmmoMultiplier = 9.50;
+        }
+    }
+
+    return effect;
 };

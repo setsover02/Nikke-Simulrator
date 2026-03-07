@@ -58,6 +58,8 @@ export interface Character {
 
     /* 소장품 추가 옵션 */
     normalAtkMultiplier?: number;    // 일반 공격 대미지 배율 증가 (%)
+    chargeDmgMultiplier?: number;    // RL, SR 소장품 배율 (%)
+    coreHitMultiplier?: number;      // AR 소장품 배율 (%)
 
     /* SG 펠릿 */
     pelletCount?: number;            // SG 펠릿 수 (기본 10)

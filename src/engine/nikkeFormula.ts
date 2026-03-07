@@ -45,10 +45,17 @@ export function calcNikkeDamage(p: DamageParams): number {
         + 유효 사거리 보너스 (0.3)
    ================================================ */
 
+   // 인게임 공식: AR 소장품 배율은 전체 코어 히트 배율(1 + coreHitBonus)에 곱해진 후 4째 자리 반올림
+   let finalCoreBonus = p.coreHitBonus;
+   if (p.coreHitMultiplier && p.coreHitMultiplier > 0) {
+      const totalCore = 1 + p.coreHitBonus;
+      finalCoreBonus = Math.floor(totalCore * 10000 * (1 + p.coreHitMultiplier / 100) + 0.5) / 10000 - 1;
+   }
+
    const majorModifiers =
       1 +
       (p.isCrit ? (p.critBonusBase + p.extraCritDmg) : 0) +
-      (p.isCore ? p.coreHitBonus : 0) +
+      (p.isCore ? finalCoreBonus : 0) +
       p.fullBurstBonus +
       p.rangeBonus;
 
@@ -67,7 +74,11 @@ export function calcNikkeDamage(p: DamageParams): number {
       비차지 무기(SMG/AR 등) = 1.0
    ================================================ */
 
-   const chargeDamage = 1 + p.chargeDmgBonus;
+   // 인게임 공식: RL, SR 소장품 배율은 전체 구한 chargeDamage에 곱해진 후 4째 자리 반올림
+   let chargeDamage = 1 + p.chargeDmgBonus;
+   if (p.chargeDmgMultiplier && p.chargeDmgMultiplier > 0) {
+      chargeDamage = Math.floor(chargeDamage * 10000 * (1 + p.chargeDmgMultiplier / 100) + 0.5) / 10000;
+   }
 
 
    /* ================================================
@@ -108,6 +119,7 @@ export function calcNikkeDamage(p: DamageParams): number {
    function iround(x: number) {
       return Math.floor(x + 0.5);
    }
+
    return iround(
       baseDamage *
       finalATKMod *

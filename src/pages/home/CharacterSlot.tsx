@@ -92,26 +92,42 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, canRemove, onUpdate, onRe
             </label>
 
             <label style={labelStyle}>
-                소장품
+                소장품/애장품
                 <div style={{ display: 'flex', gap: '4px' }}>
                     <select
                         value={slot.collectionGrade}
-                        onChange={e => onUpdate({ collectionGrade: e.target.value as any })}
-                        style={{ ...inputStyle, width: '50px', padding: '0 2px' }}
+                        onChange={e => {
+                            const newGrade = e.target.value as any;
+                            const newLevel = newGrade === 'SSR' ? '1' : slot.collectionLevel;
+                            onUpdate({ collectionGrade: newGrade, collectionLevel: newLevel });
+                        }}
+                        style={{ ...inputStyle, width: slot.char.data.stats.treasure ? '65px' : '50px', padding: '0 2px' }}
                     >
                         <option value="None">무</option>
                         <option value="R">R</option>
                         <option value="SR">SR</option>
+                        {slot.char.data.stats.treasure && <option value="SSR">SSR</option>}
                     </select>
-                    <input
-                        type="number"
-                        min="0" max="15"
-                        value={slot.collectionLevel}
-                        onChange={e => onUpdate({ collectionLevel: e.target.value })}
-                        style={{ ...inputStyle, width: '40px' }}
-                        placeholder="Lv"
-                        disabled={slot.collectionGrade === 'None'}
-                    />
+                    {slot.collectionGrade === 'SSR' ? (
+                        <input
+                            type="number"
+                            min="1" max="3"
+                            value={slot.collectionLevel}
+                            onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                            style={{ ...inputStyle, width: '40px' }}
+                            placeholder="Phase"
+                        />
+                    ) : (
+                        <input
+                            type="number"
+                            min="0" max="15"
+                            value={slot.collectionLevel}
+                            onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                            style={{ ...inputStyle, width: '40px' }}
+                            placeholder="Lv"
+                            disabled={slot.collectionGrade === 'None'}
+                        />
+                    )}
                 </div>
             </label>
 

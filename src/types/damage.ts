@@ -43,6 +43,7 @@ export interface DamageParams {
    extraCritDmg: number; // 추가 크리 데미지 소스 합산
    isCore: boolean; // 코어 히트 여부
    coreHitBonus: number; // 코어 히트 보너스: 일반 Nikke = 1.0, 강화형 = 1.5
+   coreHitMultiplier?: number; // AR 소장품 코어 대미지 배율 (%)
    fullBurstBonus: number; // 풀버스트 보너스 (0.5 고정)
    rangeBonus: number; // 유효 사거리 보너스 (0.3 고정)
 
@@ -63,6 +64,7 @@ export interface DamageParams {
    ================================================ */
 
    chargeDmgBonus: number; // 차지 데미지 보너스 (비차지 무기 = 0)
+   chargeDmgMultiplier?: number; // RL, SR 소장품 차지 대미지 배율 (%)
 
 
    /* ================================================
