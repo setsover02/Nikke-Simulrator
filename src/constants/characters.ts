@@ -1,43 +1,46 @@
 // 캐릭터 데이터 상수
 
-import LittleMermaidData from '../character/ssr_p_little_mermaid.json';
-import AriaData from '../character/ssr_t_aria.json';
-import CrowData from '../character/ssr_m_crow.json';
-import iDollSunData from '../character/r_t_idoll_sun.json';
-import SoldierOWData from '../character/r_e_soldier_ow.json';
-import VestiData from '../character/ssr_e_vesti.json';
-import Product08Data from '../character/r_m_product_08.json';
-import Product23Data from '../character/r_m_product_23.json';
+// 아바타 이미지 자동 불러오기
+const avatarModules = import.meta.glob('../assets/avatar/*.webp', {
+    eager: true,
+    query: '?url',
+    import: 'default'
+}) as Record<string, string>;
 
-import LittleMermaidAvatar from '../assets/avatar/ssr_p_little_mermaid.webp';
-import AriaAvatar from '../assets/avatar/ssr_t_aria.webp';
-import CrowAvatar from '../assets/avatar/ssr_m_crow.webp';
-import iDollSunAvatar from '../assets/avatar/r_t_idoll_sun.webp';
-import SoldierOWAvatar from '../assets/avatar/r_e_soldier_ow.webp';
-import VestiAvatar from '../assets/avatar/ssr_e_vesti.webp';
-import Product08Avatar from '../assets/avatar/r_m_product_08.webp';
-import Product23Avatar from '../assets/avatar/r_m_product_23.webp';
+// 캐릭터 JSON 데이터 자동 불러오기
+const characterModules = import.meta.glob('../character/*.json', {
+    eager: true,
+    import: 'default'
+}) as Record<string, any>;
 
-export const avatarMap: Record<string, string> = {
-    LittleMermaid: LittleMermaidAvatar,
-    Aria: AriaAvatar,
-    Crow: CrowAvatar,
-    iDollSun: iDollSunAvatar,
-    SoldierOW: SoldierOWAvatar,
-    Vesti: VestiAvatar,
-    Product08: Product08Avatar,
-    Product23: Product23Avatar,
-};
+export const avatarMap: Record<string, string> = {};
+export const characterOptions: Array<{ value: string; label: string; data: any }> = [];
 
-export const characterOptions = [
-    { value: 'little_mermaid', label: LittleMermaidData.characterName, data: LittleMermaidData },
-    { value: 'aria', label: AriaData.characterName, data: AriaData },
-    { value: 'crow', label: CrowData.characterName, data: CrowData },
-    { value: 'idoll_sun', label: iDollSunData.characterName, data: iDollSunData },
-    { value: 'soldier_ow', label: SoldierOWData.characterName, data: SoldierOWData },
-    { value: 'vesti', label: VestiData.characterName, data: VestiData },
-    { value: 'product_08', label: Product08Data.characterName, data: Product08Data },
-    { value: 'product_23', label: Product23Data.characterName, data: Product23Data },
-];
+// 두 모듈을 매칭시키기 위한 처리 로직
+for (const path in characterModules) {
+    const data = characterModules[path];
+
+    // 파일명 추출 (예: "../character/t_sr_neve.json" -> "t_sr_neve")
+    const filenameMatch = path.match(/\/([^/]+)\.json$/);
+    if (!filenameMatch) continue;
+
+    const filename = filenameMatch[1];
+
+    // 옵션에 캐릭터 데이터 추가
+    characterOptions.push({
+        value: filename, // 기존에는 'little_mermaid' 같은 형태를 value로 썼으나 파일명을 직접 쓰면 더 고유함
+        label: data.characterName,
+        data: data
+    });
+
+    // 매칭되는 아바타 파일 찾기
+    const matchingAvatarPath = Object.keys(avatarModules).find(p => p.includes(`${filename}.webp`));
+
+    if (matchingAvatarPath) {
+        // 기존 코드에서는 CharacterID (ex. 'Neve', 'Aria') 를 키 형태로 활용하곤 했음.
+        // 호환성을 위해 ID를 Key로 맵핑합시다.
+        avatarMap[data.characterID] = avatarModules[matchingAvatarPath];
+    }
+}
 
 export const SLOT_COLORS = ['#1890ff', '#ff7a45', '#52c41a', '#b37feb', '#ff7ec8'];

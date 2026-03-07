@@ -12,8 +12,8 @@ export function calcNikkeDamage(p: DamageParams): number {
         - (EnemyDEF × (1 + DEF%))
    ================================================ */
 
-   const effectiveATK = Math.ceil(p.baseATK * (1 + p.extraATKPercent)) + p.extraATKFlat;
-   const effectiveDEF = Math.ceil(p.enemyBaseDEF * (1 + p.enemyDEFPercent)) + (p.enemyDEFFlat ?? 0);
+   const effectiveATK = Math.round(p.baseATK * (1 + p.extraATKPercent)) + p.extraATKFlat;
+   const effectiveDEF = Math.round(p.enemyBaseDEF * (1 + p.enemyDEFPercent)) + (p.enemyDEFFlat ?? 0);
    const baseDamage = Math.max(1, effectiveATK - effectiveDEF);
 
 

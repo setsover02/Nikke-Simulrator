@@ -122,7 +122,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
             <div style={{
                 display: 'flex', alignItems: 'center', gap: '10px',
                 padding: '8px 14px', background: '#1e1e2e',
-                borderRadius: '6px', border: '1px solid #555',
+                borderRadius: '6px', border: '1px solid #555', width: '440px',
                 marginLeft: 'auto',
             }}>
                 <span style={{ color: '#aaa', fontSize: '13px', whiteSpace: 'nowrap' }}>🎯 교전 거리</span>
