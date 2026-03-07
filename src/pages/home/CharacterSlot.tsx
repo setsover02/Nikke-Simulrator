@@ -1,162 +1,221 @@
 import React from 'react';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, SLOT_COLORS } from '../../constants/characters';
-
-const inputStyle: React.CSSProperties = {
-    width: '75px', padding: '5px 7px', fontSize: '13px',
-    background: '#1a1a2e', color: '#e0e0e0',
-    border: '1px solid #444', borderRadius: '4px', textAlign: 'right',
-};
-
-const labelStyle: React.CSSProperties = {
-    display: 'flex', flexDirection: 'column', gap: '3px',
-    fontSize: '12px', color: '#bbb',
-};
+import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 
 interface Props {
-    slot: SlotState;
+    slot: SlotState | null;
     index: number;
-    canRemove: boolean;
-    onUpdate: (patch: Partial<SlotState>) => void;
-    onRemove: () => void;
+    onUpdate: (patch: Partial<SlotState> | null) => void;
 }
 
-const CharacterSlot: React.FC<Props> = ({ slot, index, canRemove, onUpdate, onRemove }) => {
-    const color = SLOT_COLORS[index % SLOT_COLORS.length];
-    const avatar = avatarMap[slot.char.data.characterID];
+const formatNumber = (num: string | number) => {
+    if (!num) return '-';
+    // Remove formatting to parse, then format
+    const parsed = parseInt(String(num).replace(/,/g, ''), 10);
+    return isNaN(parsed) ? '-' : parsed.toLocaleString();
+};
+
+interface EmptySlotProps {
+    onUpdate: (patch: Partial<SlotState> | null) => void;
+}
+
+const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
+    const DropdownIndicator = (props: any) => {
+        return (
+            <components.DropdownIndicator {...props}>
+                <span className="dropdown-indicator">▼</span>
+            </components.DropdownIndicator>
+        );
+    };
 
     return (
-        <div style={{
-            display: 'flex', gap: '16px', alignItems: 'center',
-            padding: '12px 16px', background: '#1e1e2e',
-            borderRadius: '8px', border: `1px solid ${color}44`,
-        }}>
-            <div style={{
-                minWidth: '24px', height: '24px', borderRadius: '50%',
-                background: color, color: '#000',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: '12px', fontWeight: 'bold',
-            }}>{index + 1}</div>
+        <div className="slot-empty-container">
+            <div className="slot-empty-avatar" />
+            <div className="slot-empty-text">
+                <div className="slot-select-wrapper">
+                    <Select
+                        options={characterOptions}
+                        value={null}
+                        placeholder="미선택"
+                        onChange={(sel: any) => {
+                            if (sel) {
+                                onUpdate({
+                                    char: sel,
+                                    customHP: String(sel.data.stats.hp || ''),
+                                    customATK: String(sel.data.stats.atk || ''),
+                                    customDEF: String(sel.data.stats.defense || '')
+                                });
+                            }
+                        }}
+                        components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+                        menuPortalTarget={document.body}
+                        styles={{
+                            control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
+                            valueContainer: (b) => ({ ...b, padding: 0 }),
+                            singleValue: (b) => ({ ...b, color: '#555', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
+                            placeholder: (b) => ({ ...b, color: '#555', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
+                            input: (b) => ({ ...b, color: '#fff', margin: 0, padding: 0 }),
+                            menu: (b) => ({ ...b, background: '#252525', zIndex: 10 }),
+                            menuPortal: (b) => ({ ...b, zIndex: 9999 }),
+                            option: (b, s) => ({ ...b, background: s.isFocused ? '#353535' : '#252525', color: '#eee', fontSize: '13px' }),
+                        }}
+                        isSearchable={true}
+                    />
+                </div>
+            </div>
+            <div className="slot-empty-equip">
+                <span className="color-555">소장품</span> <span className="text-right">-</span>
+                <span className="color-555">레벨</span> <span className="text-right">-</span>
+                <span className="color-555">큐브</span> <span className="text-right">-</span>
+            </div>
+            <div className="slot-empty-stats">
+                <span className="color-555">체력</span> <span className="text-right">-</span>
+                <span className="color-555">우코</span> <span className="text-right">-</span>
+                <span className="color-555">공격력</span> <span className="text-right">-</span>
+                <span className="color-555">공퍼</span> <span className="text-right">-</span>
+                <span className="color-555">방어력</span> <span className="text-right">-</span>
+                <span className="color-555">장탄</span> <span className="text-right">-</span>
+            </div>
+        </div>
+    );
+};
 
-            {avatar ? (
-                <img
-                    src={avatar}
-                    alt={slot.char.data.characterName}
-                    style={{ width: '52px', height: '52px', objectFit: 'cover', borderRadius: '6px' }}
-                />
-            ) : (
-                <div style={{
-                    width: '52px', height: '52px', borderRadius: '6px',
-                    background: '#2a2a3e', display: 'flex', alignItems: 'center',
-                    justifyContent: 'center', color: '#888', fontSize: '10px', textAlign: 'center',
-                }}>{slot.char.data.characterName}</div>
-            )}
+const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
+    if (!slot) return <EmptySlot onUpdate={onUpdate} />;
 
-            <div style={{ width: '220px' }}>
-                <Select
-                    options={characterOptions}
-                    value={slot.char}
-                    onChange={(sel: any) => onUpdate({
-                        char: sel,
-                        customHP: String(sel.data.stats.hp || ''),
-                        customATK: String(sel.data.stats.atk || ''),
-                        customDEF: String(sel.data.stats.defense || '')
-                    })}
-                    styles={{
-                        control: (b) => ({ ...b, background: '#1a1a2e', borderColor: '#444' }),
-                        menu: (b) => ({ ...b, background: '#1a1a2e' }),
-                        option: (b, s) => ({ ...b, background: s.isFocused ? '#2a2a3e' : '#1a1a2e', color: '#e0e0e0' }),
-                        singleValue: (b) => ({ ...b, color: '#e0e0e0' }),
-                    }}
-                />
+    const avatar = avatarMap[slot.char.data.characterID];
+    const data = slot.char.data;
+    const stats = data.stats;
+
+    const classIcon = CLASS_ICONS[stats.class];
+    const companyIcon = COMPANY_ICONS[stats.company];
+    const weaponIcon = WEAPON_ICONS[stats.weapon];
+    const burstIcon = BURST_ICONS[stats.burstLevel];
+    const elementIcon = ELEMENT_ICONS[stats.element];
+
+    const DropdownIndicator = (props: any) => {
+        return (
+            <components.DropdownIndicator {...props}>
+                <span className="dropdown-indicator">▼</span>
+            </components.DropdownIndicator>
+        );
+    };
+
+    return (
+        <div className="slot-container">
+            {/* Slot color indicator left border */}
+            <div className="slot-border-left" style={{ background: SLOT_COLORS[index % SLOT_COLORS.length] }} />
+
+            {/* Avatar */}
+            <div className="slot-avatar">
+                {avatar ? (
+                    <img src={avatar} alt={data.characterName} />
+                ) : (
+                    <div className="slot-avatar-placeholder">IMG</div>
+                )}
             </div>
 
-            <label style={labelStyle}>
-                HP
-                <input type="number" value={slot.customHP}
-                    onChange={e => onUpdate({ customHP: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
-            <label style={labelStyle}>
-                ATK
-                <input type="number" value={slot.customATK}
-                    onChange={e => onUpdate({ customATK: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
-            <label style={labelStyle}>
-                DEF
-                <input type="number" value={slot.customDEF}
-                    onChange={e => onUpdate({ customDEF: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
-
-            <label style={labelStyle}>
-                소장품/애장품
-                <div style={{ display: 'flex', gap: '4px' }}>
-                    <select
-                        value={slot.collectionGrade}
-                        onChange={e => {
-                            const newGrade = e.target.value as any;
-                            const newLevel = newGrade === 'SSR' ? '1' : slot.collectionLevel;
-                            onUpdate({ collectionGrade: newGrade, collectionLevel: newLevel });
+            {/* Identity (Name + Icons) */}
+            <div className="slot-identity">
+                <div className="slot-select-wrapper">
+                    <Select
+                        options={characterOptions}
+                        value={slot.char}
+                        onChange={(sel: any) => {
+                            if (sel) {
+                                onUpdate({
+                                    char: sel,
+                                    customHP: String(sel.data.stats.hp || ''),
+                                    customATK: String(sel.data.stats.atk || ''),
+                                    customDEF: String(sel.data.stats.defense || '')
+                                });
+                            } else {
+                                onUpdate(null);
+                            }
                         }}
-                        style={{ ...inputStyle, width: slot.char.data.stats.treasure ? '65px' : '50px', padding: '0 2px' }}
-                    >
-                        <option value="None">무</option>
-                        <option value="R">R</option>
-                        <option value="SR">SR</option>
-                        {slot.char.data.stats.treasure && <option value="SSR">SSR</option>}
-                    </select>
-                    {slot.collectionGrade === 'SSR' ? (
-                        <input
-                            type="number"
-                            min="1" max="3"
-                            value={slot.collectionLevel}
-                            onChange={e => onUpdate({ collectionLevel: e.target.value })}
-                            style={{ ...inputStyle, width: '40px' }}
-                            placeholder="Phase"
-                        />
-                    ) : (
-                        <input
-                            type="number"
-                            min="0" max="15"
-                            value={slot.collectionLevel}
-                            onChange={e => onUpdate({ collectionLevel: e.target.value })}
-                            style={{ ...inputStyle, width: '40px' }}
-                            placeholder="Lv"
-                            disabled={slot.collectionGrade === 'None'}
-                        />
-                    )}
+                        isClearable={true}
+                        isSearchable={true}
+                        menuPortalTarget={document.body}
+                        components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+                        styles={{
+                            control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
+                            valueContainer: (b) => ({ ...b, padding: 0 }),
+                            singleValue: (b) => ({ ...b, color: '#fff', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
+                            input: (b) => ({ ...b, color: '#fff', margin: 0, padding: 0 }),
+                            menu: (b) => ({ ...b, background: '#252525', zIndex: 10 }),
+                            menuPortal: (b) => ({ ...b, zIndex: 9999 }),
+                            option: (b, s) => ({ ...b, background: s.isFocused ? '#353535' : '#252525', color: '#eee', fontSize: '13px' }),
+                        }}
+                    />
                 </div>
-            </label>
+                <div className="slot-icons">
+                    {classIcon && <img src={classIcon} alt={stats.class} className="slot-icon-sm" />}
+                    {companyIcon && <img src={companyIcon} alt={stats.company} className="slot-icon-brightness" />}
+                    {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className="slot-icon-sm" />}
+                    {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className="slot-icon-sm" />}
+                    {elementIcon && <img src={elementIcon} alt={stats.element} className="slot-icon-sm" />}
+                </div>
+            </div>
 
-            <label style={labelStyle}>
-                ATK %
-                <input type="number" value={slot.equipATK}
-                    onChange={e => onUpdate({ equipATK: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
-            <label style={labelStyle}>
-                우월코드 %
-                <input type="number" value={slot.equipWeakPoint}
-                    onChange={e => onUpdate({ equipWeakPoint: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
-            <label style={labelStyle}>
-                장탄수 %
-                <input type="number" value={slot.equipAmmo}
-                    onChange={e => onUpdate({ equipAmmo: e.target.value })}
-                    style={inputStyle} placeholder="0" />
-            </label>
+            {/* Equipment (Collection / Cube) */}
+            <div className="slot-equip">
+                <span className="color-777">소장품</span>
+                <select className="slot-select-sm" value={slot.collectionGrade || 'None'} onChange={e => {
+                    const grade = e.target.value as 'None' | 'R' | 'SR' | 'SSR';
+                    const level = grade === 'SSR' && (!slot.collectionLevel || slot.collectionLevel === '0') ? '1' : slot.collectionLevel;
+                    onUpdate({ collectionGrade: grade, collectionLevel: level });
+                }}>
+                    <option value="None">없음</option>
+                    <option value="R">R</option>
+                    <option value="SR">SR</option>
+                    {slot.char.data.stats.treasure && <option value="SSR">SSR (애장품)</option>}
+                </select>
 
-            {canRemove && (
-                <button onClick={onRemove} style={{
-                    marginLeft: 'auto', padding: '4px 10px', fontSize: '14px',
-                    background: '#3a1a1a', color: '#ff7875', border: '1px solid #5a2020',
-                    borderRadius: '4px', cursor: 'pointer',
-                }}>✕</button>
-            )}
+                <span className="color-777">레벨</span>
+                <input
+                    className="slot-input-bg"
+                    type="number"
+                    min="0"
+                    max="15"
+                    value={slot.collectionLevel || '0'}
+                    onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                    disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
+                />
+
+                <span className="color-777">큐브</span>
+                <div className="cube-badge">
+                    <span className="cube-badge-title">단추</span> <span className="cube-badge-value">-</span>
+                </div>
+            </div>
+
+            {/* Stats */}
+            <div className="slot-stats">
+                <span className="color-777">체력</span>
+                <input className="slot-input" value={formatNumber(slot.customHP)} onChange={e => onUpdate({ customHP: e.target.value.replace(/,/g, '') })} />
+
+                <span className="color-777">우코</span>
+                <span className="percent-wrapper">
+                    <input className="slot-input-sm" value={slot.equipWeakPoint || '0'} onChange={e => onUpdate({ equipWeakPoint: e.target.value })} />%
+                </span>
+
+                <span className="color-777">공격력</span>
+                <input className="slot-input" value={formatNumber(slot.customATK)} onChange={e => onUpdate({ customATK: e.target.value.replace(/,/g, '') })} />
+
+                <span className="color-777">공퍼</span>
+                <span className="percent-wrapper">
+                    <input className="slot-input-sm" value={slot.equipATK || '0'} onChange={e => onUpdate({ equipATK: e.target.value })} />%
+                </span>
+
+                <span className="color-777">방어력</span>
+                <input className="slot-input" value={formatNumber(slot.customDEF)} onChange={e => onUpdate({ customDEF: e.target.value.replace(/,/g, '') })} />
+
+                <span className="color-777">장탄</span>
+                <span className="percent-wrapper">
+                    <input className="slot-input-sm" value={slot.equipAmmo || '0'} onChange={e => onUpdate({ equipAmmo: e.target.value })} />%
+                </span>
+            </div>
         </div>
     );
 };

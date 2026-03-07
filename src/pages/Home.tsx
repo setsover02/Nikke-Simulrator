@@ -6,7 +6,6 @@ import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } 
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
-import { getCollectionEffect } from '../constants/collectionItems';
 
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
@@ -27,7 +26,14 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
 }
 
 const Home: React.FC = () => {
-    const [slots, setSlots] = useState<SlotState[]>([createDefaultSlot()]);
+    // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
+    const [slots, setSlots] = useState<(SlotState | null)[]>([
+        createDefaultSlot(),
+        createDefaultSlot(characterOptions[1]),
+        createDefaultSlot(characterOptions[2]),
+        createDefaultSlot(characterOptions[3]),
+        null
+    ]);
     const [simResult, setSimResult] = useState<ScenarioSummary | null>(null);
     const [chartDatasets, setChartDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
@@ -37,16 +43,20 @@ const Home: React.FC = () => {
     const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
     const [showCore, setShowCore] = useState<boolean>(false);
 
-    const addSlot = () => {
-        if (slots.length < 5) setSlots([...slots, createDefaultSlot()]);
+    const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
+        setSlots(slots.map((s, i) => {
+            if (i !== idx) return s;
+            if (patch === null) return null;
+            if (s === null) {
+                if (patch.char) {
+                    const newSlot = createDefaultSlot(patch.char);
+                    return { ...newSlot, ...patch };
+                }
+                return null;
+            }
+            return { ...s, ...patch };
+        }));
     };
-
-    const removeSlot = (idx: number) => {
-        if (slots.length > 1) setSlots(slots.filter((_, i) => i !== idx));
-    };
-
-    const updateSlot = (idx: number, patch: Partial<SlotState>) =>
-        setSlots(slots.map((s, i) => i === idx ? { ...s, ...patch } : s));
 
     const handleSimulate = () => {
         const parsedBurstInterval = parseFloat(fullBurstInterval);
@@ -64,8 +74,11 @@ const Home: React.FC = () => {
         };
         const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
 
+        // Only include non-empty slots in the simulation team
+        const activeSlots = slots.filter(s => s !== null);
+
         const buildTeam = (includeCore: boolean): Team => ({
-            members: slots.map((slot, idx) => {
+            members: activeSlots.map((slot, idx) => {
                 const eq: EquipmentOptions = {
                     atkPercent: parseFloat(slot.equipATK || '0') / 100,
                     weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
@@ -86,10 +99,12 @@ const Home: React.FC = () => {
             }),
         });
 
+        if (activeSlots.length === 0) return;
+
         const result = simulateBattle(buildTeam(showCore), { ...ENEMY }, config);
 
         const extractChars = (resultData: typeof result) =>
-            slots.map((slot, idx) => {
+            activeSlots.map((slot, idx) => {
                 const charId = `${slot.char.data.characterID}_${idx}`;
                 const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
                 const totalDmg = resultData.log
@@ -156,7 +171,7 @@ const Home: React.FC = () => {
 
         const ds: any[] = [];
 
-        slots.forEach((slot, idx) => {
+        activeSlots.forEach((slot, idx) => {
             const charId = `${slot.char.data.characterID}_${idx}`;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
@@ -167,56 +182,75 @@ const Home: React.FC = () => {
         setBurstWindows(generateBurstWindows(result.log, config.duration));
     };
 
+    // Pad slots array to always be length 5 for UI consistency
+    const displaySlots = [...slots];
+    while (displaySlots.length < 5) displaySlots.push(null as any);
+
     return (
-        <div style={{ padding: '20px', fontFamily: 'sans-serif', background: '#171717', minHeight: '100vh', color: '#e0e0e0' }}>
+        <div className="home-container">
+            <div className="home-content">
 
-            {/* 캐릭터 슬롯 목록 */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px', marginBottom: '20px' }}>
-                {slots.map((slot, idx) => (
-                    <CharacterSlot
-                        key={idx}
-                        slot={slot}
-                        index={idx}
-                        canRemove={slots.length > 1}
-                        onUpdate={(patch) => updateSlot(idx, patch)}
-                        onRemove={() => removeSlot(idx)}
-                    />
-                ))}
-            </div>
+                {/* 2-Column Main Layout */}
+                <div className="home-grid">
 
-            {/* 시뮬레이션 툴바 */}
-            <SimToolbar
-                slotsCount={slots.length}
-                onAddSlot={addSlot}
-                fullBurstInterval={fullBurstInterval}
-                onFullBurstIntervalChange={setFullBurstInterval}
-                showCore={showCore}
-                onToggleCore={() => setShowCore(v => !v)}
-                rangeMode={rangeMode}
-                onRangeModeChange={setRangeMode}
-                weaknessElement={weaknessElement}
-                onWeaknessChange={setWeaknessElement}
-                enemyDef={enemyDef}
-                onEnemyDefChange={setEnemyDef}
-                onSimulate={handleSimulate}
-            />
+                    {/* Left Column: 스쿼드 (Squad) */}
+                    <div className="home-grid-left">
+                        <h2 className="home-section-title">스쿼드</h2>
+                        <div className="home-squad-list">
+                            {displaySlots.map((slot, idx) => (
+                                <CharacterSlot
+                                    key={idx}
+                                    slot={slot}
+                                    index={idx}
+                                    onUpdate={(patch) => updateSlot(idx, patch)}
+                                />
+                            ))}
+                        </div>
+                    </div>
 
-            {/* 결과 요약 */}
-            {simResult && (
-                <ResultSummary
-                    summary={simResult}
-                    showTeamTotal={slots.length > 1}
-                    isCore={showCore}
-                />
-            )}
+                    {/* Right Column: 타겟 설정 (Target Settings) */}
+                    <div className="home-grid-right">
+                        <SimToolbar
+                            fullBurstInterval={fullBurstInterval}
+                            onFullBurstIntervalChange={setFullBurstInterval}
+                            showCore={showCore}
+                            onToggleCore={() => setShowCore(v => !v)}
+                            rangeMode={rangeMode}
+                            onRangeModeChange={setRangeMode}
+                            weaknessElement={weaknessElement}
+                            onWeaknessChange={setWeaknessElement}
+                            enemyDef={enemyDef}
+                            onEnemyDefChange={setEnemyDef}
+                            onSimulate={handleSimulate}
+                        />
+                    </div>
+                </div>
 
-            {/* 통합 차트 */}
-            <div style={{ marginTop: '20px' }}>
-                <CanvasChart
-                    datasets={chartDatasets}
-                    burstWindows={burstWindows}
-                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
-                />
+                {/* 결과 요약 */}
+                {simResult && (
+                    <div className="result-summary-container">
+                        <ResultSummary
+                            summary={simResult}
+                            showTeamTotal={slots.filter(s => s !== null).length > 1}
+                            isCore={showCore}
+                        />
+                    </div>
+                )}
+
+                {/* 통합 차트 */}
+                <div className="chart-container-wrapper">
+                    {chartDatasets.length > 0 ? (
+                        <div style={{ width: '100%' }}>
+                            <CanvasChart
+                                datasets={chartDatasets}
+                                burstWindows={burstWindows}
+                                title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                            />
+                        </div>
+                    ) : (
+                        <h2 className="chart-title-empty">차트</h2>
+                    )}
+                </div>
             </div>
         </div>
     );
