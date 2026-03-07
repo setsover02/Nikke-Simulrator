@@ -3,7 +3,7 @@ import { simulateBattle } from '../engine/battleEngine';
 import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
 import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } from '../utils/simUtils';
-import { SlotState, SimResult } from '../types/simulator';
+import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
 import { getCollectionEffect } from '../constants/collectionItems';
@@ -28,9 +28,8 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
 
 const Home: React.FC = () => {
     const [slots, setSlots] = useState<SlotState[]>([createDefaultSlot()]);
-    const [simResult, setSimResult] = useState<SimResult | null>(null);
-    const [noCoreDatasets, setNoCoreDatasets] = useState<any[]>([]);
-    const [withCoreDatasets, setWithCoreDatasets] = useState<any[]>([]);
+    const [simResult, setSimResult] = useState<ScenarioSummary | null>(null);
+    const [chartDatasets, setChartDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
     const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.58');
     const [rangeMode, setRangeMode] = useState<RangeMode>(45);
@@ -87,14 +86,13 @@ const Home: React.FC = () => {
             }),
         });
 
-        const resultNoCore = simulateBattle(buildTeam(false), { ...ENEMY }, config);
-        const resultWithCore = simulateBattle(buildTeam(true), { ...ENEMY }, config);
+        const result = simulateBattle(buildTeam(showCore), { ...ENEMY }, config);
 
-        const extractChars = (result: typeof resultNoCore) =>
+        const extractChars = (resultData: typeof result) =>
             slots.map((slot, idx) => {
                 const charId = `${slot.char.data.characterID}_${idx}`;
                 const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
-                const totalDmg = result.log
+                const totalDmg = resultData.log
                     .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
                     .reduce((s: number, l: any) => s + (l.value || 0), 0);
 
@@ -111,7 +109,7 @@ const Home: React.FC = () => {
                     ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
                 };
                 // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
-                const char = applyBaseStats(slot.char.data, true, eq, slot.collectionGrade, collectionLevelNum, idx);
+                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, idx);
 
                 let enemyTakenUp = 0;
                 const skills = slot.char.data.skills || [];
@@ -142,35 +140,31 @@ const Home: React.FC = () => {
                 return { charId, charName: slot.char.data.characterName, totalDmg, hitDamages };
             });
 
-        const sumDamage = (result: typeof resultNoCore) => {
+        const sumDamage = (resultData: typeof result) => {
             const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
-            return result.log
+            return resultData.log
                 .filter((l: any) => DAMAGE_TYPES.has(l.type))
                 .reduce((s: number, l: any) => s + l.value, 0);
         };
 
-        const noCoreTotal = sumDamage(resultNoCore);
-        const withCoreTotal = sumDamage(resultWithCore);
+        const totalDmg = sumDamage(result);
 
         setSimResult({
-            noCore: { chars: extractChars(resultNoCore), teamTotal: noCoreTotal },
-            withCore: { chars: extractChars(resultWithCore), teamTotal: withCoreTotal },
+            chars: extractChars(result),
+            teamTotal: totalDmg,
         });
 
-        const dsNoCore: any[] = [];
-        const dsWithCore: any[] = [];
+        const ds: any[] = [];
 
         slots.forEach((slot, idx) => {
             const charId = `${slot.char.data.characterID}_${idx}`;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-            dsNoCore.push({ label: charName, color, data: generateChartData(resultNoCore, config.duration, charId) });
-            dsWithCore.push({ label: charName, color, data: generateChartData(resultWithCore, config.duration, charId) });
+            ds.push({ label: charName, color, data: generateChartData(result, config.duration, charId) });
         });
 
-        setNoCoreDatasets(dsNoCore);
-        setWithCoreDatasets(dsWithCore);
-        setBurstWindows(generateBurstWindows(resultNoCore.log, config.duration));
+        setChartDatasets(ds);
+        setBurstWindows(generateBurstWindows(result.log, config.duration));
     };
 
     return (
@@ -210,21 +204,16 @@ const Home: React.FC = () => {
             {/* 결과 요약 */}
             {simResult && (
                 <ResultSummary
-                    noCore={simResult.noCore}
-                    withCore={simResult.withCore}
+                    summary={simResult}
                     showTeamTotal={slots.length > 1}
+                    isCore={showCore}
                 />
             )}
 
-            {/* 통합 차트 (코어 토글에 따라 전환) */}
+            {/* 통합 차트 */}
             <div style={{ marginTop: '20px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                    <h3 style={{ color: '#e0e0e0', margin: 0, fontSize: '15px' }}>
-                        {showCore ? '🟡 코어 있는 적 (Core Hit)' : '🔵 코어 없는 적 (No Core)'}
-                    </h3>
-                </div>
                 <CanvasChart
-                    datasets={showCore ? withCoreDatasets : noCoreDatasets}
+                    datasets={chartDatasets}
                     burstWindows={burstWindows}
                     title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
                 />

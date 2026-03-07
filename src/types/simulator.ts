@@ -33,8 +33,3 @@ export interface ScenarioSummary {
     chars: ScenarioResult[];
     teamTotal: number;
 }
-
-export interface SimResult {
-    noCore: ScenarioSummary;
-    withCore: ScenarioSummary;
-}

@@ -3,14 +3,13 @@ import { ScenarioSummary } from '../../types/simulator';
 import { SLOT_COLORS } from '../../constants/characters';
 
 interface Props {
-    noCore: ScenarioSummary;
-    withCore: ScenarioSummary;
+    summary: ScenarioSummary;
     showTeamTotal: boolean;
+    isCore: boolean;
 }
 
-const ResultSummary: React.FC<Props> = ({ noCore, withCore, showTeamTotal }) => {
+const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
     const renderRows = (
-        summary: ScenarioSummary,
         teamColor: string,
         borderOpacity: string
     ) => (
@@ -70,16 +69,11 @@ const ResultSummary: React.FC<Props> = ({ noCore, withCore, showTeamTotal }) => 
 
     return (
         <div style={{ marginBottom: '24px' }}>
-            <h2 style={{ color: '#e0e0e0', marginBottom: '16px' }}>Result Summary</h2>
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '20px' }}>
-                <div>
-                    <h3 style={{ color: '#aaa', marginBottom: '10px', fontSize: '15px' }}>🔵 코어 없는 적</h3>
-                    {renderRows(noCore, '#ffffff', '44')}
-                </div>
-                <div>
-                    <h3 style={{ color: '#ffd700', marginBottom: '10px', fontSize: '15px' }}>🟡 코어 있는 적</h3>
-                    {renderRows(withCore, '#ffd700', '88')}
-                </div>
+            <h2 style={{ color: '#e0e0e0', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                Result Summary {isCore ? <span style={{ fontSize: '15px', color: '#ffd700' }}>🟡 (코어 있는 적)</span> : <span style={{ fontSize: '15px', color: '#aaa' }}>🔵 (코어 없는 적)</span>}
+            </h2>
+            <div>
+                {renderRows(isCore ? '#ffd700' : '#ffffff', isCore ? '88' : '44')}
             </div>
         </div>
     );
