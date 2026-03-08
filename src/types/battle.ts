@@ -22,6 +22,10 @@ export interface Character {
     squad?: string;              // 소속 부대
     burstLevel?: number;
 
+    skill1Level?: number;
+    skill2Level?: number;
+    burstLevelSkill?: number;
+
     /* 탄 관련 */
     maxAmmo: number;
     ammo: number;

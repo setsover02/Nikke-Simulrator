@@ -21,7 +21,8 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
         customDEF: String(stats.defense || ''),
         collectionGrade: 'None',
         collectionLevel: '0',
-        equipATK: '0', equipWeakPoint: '0', equipAmmo: '0'
+        equipATK: '0', equipWeakPoint: '0', equipAmmo: '0',
+        skill1Level: 10, skill2Level: 10, burstLevel: 10
     };
 }
 
@@ -85,7 +86,12 @@ const Home: React.FC = () => {
                     ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
                 };
                 const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, idx);
+                const skillLevels = {
+                    skill1Level: slot.skill1Level || 10,
+                    skill2Level: slot.skill2Level || 10,
+                    burstLevelSkill: slot.burstLevel || 10
+                };
+                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, idx, skillLevels);
                 const customHP = parseInt(slot.customHP || '0', 10);
                 if (customHP > 0) char.hp = customHP;
                 const customATK = parseInt(slot.customATK || '0', 10);
@@ -123,8 +129,13 @@ const Home: React.FC = () => {
                     weakPointPercent: weakPercent,
                     ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
                 };
+                const skillLevels = {
+                    skill1Level: slot.skill1Level || 10,
+                    skill2Level: slot.skill2Level || 10,
+                    burstLevelSkill: slot.burstLevel || 10
+                };
                 // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
-                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, idx);
+                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, idx, skillLevels);
 
                 let enemyTakenUp = 0;
                 const skills = slot.char.data.skills || [];
@@ -195,8 +206,8 @@ const Home: React.FC = () => {
 
                     {/* Left Column: 스쿼드 (Squad) */}
                     <div className="home-grid-left">
-                        <h2 className="home-section-title">스쿼드</h2>
                         <div className="home-squad-list">
+                            <h3 className="squad-title">스쿼드</h3>
                             {displaySlots.map((slot, idx) => (
                                 <CharacterSlot
                                     key={idx}

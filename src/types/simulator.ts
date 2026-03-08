@@ -13,6 +13,9 @@ export interface SlotState {
     equipATK: string;
     equipWeakPoint: string;
     equipAmmo: string;
+    skill1Level: number;
+    skill2Level: number;
+    burstLevel: number;
 }
 
 export interface HitDamages {

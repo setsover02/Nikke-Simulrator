@@ -33,7 +33,18 @@
                     },
                     "target": "self",
                     "effect": "attack_power_up",
-                    "value": 1.98,
+                    "value": [
+                        1.98,
+                        2.64,
+                        3.30,
+                        3.96,
+                        4.62,
+                        5.28,
+                        5.94,
+                        6.59,
+                        7.26,
+                        7.92
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -48,7 +59,18 @@
                 {
                     "target": "self",
                     "effect": "max_ammo_up",
-                    "value": 28.19,
+                    "value": [
+                        28.19,
+                        37.59,
+                        46.99,
+                        56.39,
+                        65.78,
+                        75.18,
+                        84.58,
+                        93.98,
+                        103.37,
+                        112.77
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -63,7 +85,18 @@
                 {
                     "target": "enemies_in_range",
                     "effect": "damage",
-                    "value": 180,
+                    "value": [
+                        180,
+                        240,
+                        300,
+                        360,
+                        420,
+                        480,
+                        540,
+                        600,
+                        660,
+                        720
+                    ],
                     "unit": "percent",
                     "based_on": "final_atk"
                 }

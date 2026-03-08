@@ -29,7 +29,8 @@ export const applyBaseStats = (
     equip?: EquipmentOptions,
     collectionGrade: CollectionGrade = 'None',
     collectionLevel: number = 0,
-    slotIndex: number = 0
+    slotIndex: number = 0,
+    skillLevels?: { skill1Level: number; skill2Level: number; burstLevelSkill: number; }
 ): Character => {
     const s = charData.stats || {};
     const eq = equip || { atkPercent: 0, weakPointPercent: 0, ammoPercent: 0 };
@@ -63,7 +64,26 @@ export const applyBaseStats = (
         fullChargeDamage: s.fullChargeDamage ? (s.fullChargeDamage / 100) - 1 : 0,
         currentCharge: 0,
         fireRate: s.fireRate,
-        skills: charData.skills || [],
+        skills: (charData.skills || []).map((skillDef: any) => {
+            let level = 10;
+            if (skillLevels) {
+                if (skillDef.id === 'skill_1') level = skillLevels.skill1Level || 10;
+                if (skillDef.id === 'skill_2') level = skillLevels.skill2Level || 10;
+                if (skillDef.id === 'burst') level = skillLevels.burstLevelSkill || 10;
+            }
+            const resolveEffects = (effects: any[]): any[] | undefined => {
+                if (!effects) return effects;
+                return effects.map(eff => ({
+                    ...eff,
+                    value: Array.isArray(eff.value) ? eff.value[Math.max(0, Math.min(9, level - 1))] : eff.value,
+                    effects: eff.effects ? resolveEffects(eff.effects) : undefined
+                }));
+            };
+            return {
+                ...skillDef,
+                effects: resolveEffects(skillDef.effects)
+            };
+        }),
         atkCoef: (s.atkCoef || 0) / 100,
         critMult: s.critMult || 1.5,
         coreDamage: includeCoreDamage ? (s.coreDamage || 0) : 0,

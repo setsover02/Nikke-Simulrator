@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, SLOT_COLORS } from '../../constants/characters';
@@ -45,7 +45,10 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                                     char: sel,
                                     customHP: String(sel.data.stats.hp || ''),
                                     customATK: String(sel.data.stats.atk || ''),
-                                    customDEF: String(sel.data.stats.defense || '')
+                                    customDEF: String(sel.data.stats.defense || ''),
+                                    skill1Level: 10,
+                                    skill2Level: 10,
+                                    burstLevel: 10
                                 });
                             }
                         }}
@@ -69,6 +72,11 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                 <span className="color-555">소장품</span> <span className="text-right">-</span>
                 <span className="color-555">레벨</span> <span className="text-right">-</span>
                 <span className="color-555">큐브</span> <span className="text-right">-</span>
+            </div>
+            <div className="slot-empty-skills">
+                <span className="color-555">스킬1</span> <span className="text-right">-</span>
+                <span className="color-555">스킬2</span> <span className="text-right">-</span>
+                <span className="color-555">버스트</span> <span className="text-right">-</span>
             </div>
             <div className="slot-empty-stats">
                 <span className="color-555">체력</span> <span className="text-right">-</span>
@@ -103,6 +111,22 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
         );
     };
 
+    const skillsRef = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+        const preventScroll = (e: WheelEvent) => {
+            if (document.activeElement === e.target) {
+                e.preventDefault();
+            }
+        };
+        const el = skillsRef.current;
+        if (el) {
+            el.addEventListener('wheel', preventScroll, { passive: false });
+        }
+        return () => {
+            if (el) el.removeEventListener('wheel', preventScroll);
+        };
+    }, []);
+
     return (
         <div className="slot-container">
             {/* Slot color indicator left border */}
@@ -129,7 +153,10 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                                     char: sel,
                                     customHP: String(sel.data.stats.hp || ''),
                                     customATK: String(sel.data.stats.atk || ''),
-                                    customDEF: String(sel.data.stats.defense || '')
+                                    customDEF: String(sel.data.stats.defense || ''),
+                                    skill1Level: 10,
+                                    skill2Level: 10,
+                                    burstLevel: 10
                                 });
                             } else {
                                 onUpdate(null);
@@ -188,6 +215,51 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                 <div className="cube-badge">
                     <span className="cube-badge-title">단추</span> <span className="cube-badge-value">-</span>
                 </div>
+            </div>
+
+            {/* Skills */}
+            <div className="slot-skills" ref={skillsRef}>
+                <span className="color-777">스킬1</span>
+                <input
+                    className="slot-input"
+                    type="number"
+                    min="1" max="10"
+                    value={slot.skill1Level || 10}
+                    onChange={e => onUpdate({ skill1Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
+                    onWheel={e => {
+                        const current = slot.skill1Level || 10;
+                        const delta = e.deltaY < 0 ? 1 : -1;
+                        onUpdate({ skill1Level: Math.max(1, Math.min(10, current + delta)) });
+                    }}
+                />
+
+                <span className="color-777">스킬2</span>
+                <input
+                    className="slot-input"
+                    type="number"
+                    min="1" max="10"
+                    value={slot.skill2Level || 10}
+                    onChange={e => onUpdate({ skill2Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
+                    onWheel={e => {
+                        const current = slot.skill2Level || 10;
+                        const delta = e.deltaY < 0 ? 1 : -1;
+                        onUpdate({ skill2Level: Math.max(1, Math.min(10, current + delta)) });
+                    }}
+                />
+
+                <span className="color-777">버스트</span>
+                <input
+                    className="slot-input"
+                    type="number"
+                    min="1" max="10"
+                    value={slot.burstLevel || 10}
+                    onChange={e => onUpdate({ burstLevel: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
+                    onWheel={e => {
+                        const current = slot.burstLevel || 10;
+                        const delta = e.deltaY < 0 ? 1 : -1;
+                        onUpdate({ burstLevel: Math.max(1, Math.min(10, current + delta)) });
+                    }}
+                />
             </div>
 
             {/* Stats */}
