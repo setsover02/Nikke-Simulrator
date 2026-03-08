@@ -1,0 +1,107 @@
+{
+    "characterID": "SoldierFA",
+    "characterName": "솔져 F.A.",
+    "stats": {
+        "rarity": "R",
+        "element": "철갑",
+        "weapon": "SG",
+        "class": "방어형",
+        "company": "Elysion",
+        "squad": "리플레이스",
+        "burstLevel": 2,
+        "atk": 191753,
+        "defense": 51258,
+        "hp": 7678509,
+        "atkCoef": 214.3,
+        "maxAmmo": 9,
+        "reloadTime": 2,
+        "chargeTime": 0,
+        "fireRate": 1.51515,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "팔콘 윙",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "attacked",
+                    "condition": {
+                        "chance": 10
+                    },
+                    "target": "self",
+                    "effect": "defense_up",
+                    "value": [
+                        0.9,
+                        1.81,
+                        2.72,
+                        3.63,
+                        4.54,
+                        5.45,
+                        6.36,
+                        7.27,
+                        8.18,
+                        9.09
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "팔콘 네스트",
+            "type": "active",
+            "cooldown": 15.0,
+            "effects": [
+                {
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2.01,
+                        4.03,
+                        6.05,
+                        8.07,
+                        10.09,
+                        12.11,
+                        14.13,
+                        16.15,
+                        18.17,
+                        20.19
+                    ],
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 8
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "팔콘 부스트",
+            "type": "burst",
+            "cooldown": 20.0,
+            "effects": [
+                {
+                    "target": "self",
+                    "effect": "max_hp_up",
+                    "value": [
+                        11.25,
+                        22.5,
+                        33.75,
+                        45,
+                        56.25,
+                        67.5,
+                        78.75,
+                        90,
+                        101.25,
+                        112.5
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        }
+    ]
+}

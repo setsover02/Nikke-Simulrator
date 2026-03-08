@@ -30,7 +30,18 @@
                     "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "defense_up",
-                    "value": 0.81,
+                    "value": [
+                        0.81,
+                        1.62,
+                        2.43,
+                        3.24,
+                        4.05,
+                        4.86,
+                        5.67,
+                        6.48,
+                        7.29,
+                        8.1
+                    ],
                     "unit": "percent",
                     "duration": 10
                 }
@@ -45,7 +56,18 @@
                 {
                     "target": "self",
                     "effect": "heal",
-                    "value": 1.61,
+                    "value": [
+                        1.61,
+                        3.23,
+                        4.84,
+                        6.46,
+                        8.07,
+                        9.69,
+                        11.3,
+                        12.92,
+                        14.53,
+                        16.15
+                    ],
                     "unit": "percent",
                     "based_on": "attack_damage",
                     "duration": 10
@@ -62,7 +84,18 @@
                     "target": "highest_atk_enemy",
                     "count": 2,
                     "effect": "defense_down",
-                    "value": 4.87,
+                    "value": [
+                        4.87,
+                        9.75,
+                        14.62,
+                        19.5,
+                        24.37,
+                        29.25,
+                        34.12,
+                        39,
+                        43.87,
+                        48.75
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }

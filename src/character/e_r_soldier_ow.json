@@ -33,7 +33,18 @@
                     },
                     "target": "enemy",
                     "effect": "extra_damage",
-                    "value": 18.9,
+                    "value": [
+                        18.9,
+                        25.2,
+                        31.5,
+                        37.8,
+                        44.1,
+                        50.4,
+                        56.7,
+                        63,
+                        69.3,
+                        75.6
+                    ],
                     "unit": "percent",
                     "based_on": "final_atk"
                 }
@@ -48,7 +59,18 @@
                 {
                     "target": "top3_atk_allies",
                     "effect": "cover_defense_up",
-                    "value": 32.14,
+                    "value": [
+                        32.14,
+                        42.85,
+                        53.57,
+                        64.28,
+                        75,
+                        85.71,
+                        96.42,
+                        107.14,
+                        117.85,
+                        128.57
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -63,7 +85,18 @@
                 {
                     "target": "fire_element_allies",
                     "effect": "max_ammo_up",
-                    "value": 70,
+                    "value": [
+                        70,
+                        93.33,
+                        116.66,
+                        140,
+                        163.33,
+                        186.66,
+                        210,
+                        233.33,
+                        256.66,
+                        280
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }

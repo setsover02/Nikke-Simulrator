@@ -1,0 +1,24 @@
+{
+    "characterID": "Product_08",
+    "characterName": "프로덕트 08",
+    "stats": {
+        "rarity": "R",
+        "element": "작열",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "리플레이스",
+        "burstLevel": 1,
+        "atk": 285267,
+        "defense": 37090,
+        "hp": 6334985,
+        "atkCoef": 5.67,
+        "maxAmmo": 300,
+        "reloadTime": 2.67,
+        "chargeTime": 1,
+        "fireRate": 60,
+        "fullChargeDamage": 0,
+        "coreDamage": 0
+    },
+    "skills": []
+}

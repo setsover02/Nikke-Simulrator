@@ -59,18 +59,10 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
             if (percent < 0) percent = 0;
             if (percent > 1) percent = 1;
 
-            const targetValue = percent * 100;
+            const indexFloat = percent * (RANGE_OPTIONS.length - 1);
+            const index = Math.round(indexFloat);
+            const closest = RANGE_OPTIONS[index].value;
 
-            // Find closest available range
-            let closest = RANGE_OPTIONS[0].value;
-            let minDiff = Infinity;
-            for (const opt of RANGE_OPTIONS) {
-                const diff = Math.abs(opt.value - targetValue);
-                if (diff < minDiff) {
-                    minDiff = diff;
-                    closest = opt.value;
-                }
-            }
             if (closest !== rangeMode) {
                 onRangeModeChange(closest);
             }
