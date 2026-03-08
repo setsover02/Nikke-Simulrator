@@ -29,7 +29,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "target",
-                    "effect": "attack_power_down",
+                    "effect": "atk_down",
                     "value": 4.13,
                     "unit": "percent",
                     "duration": 5
@@ -45,7 +45,7 @@
                 {
                     "target": "highest_atk_enemy",
                     "count": 1,
-                    "effect": "attack_power_down",
+                    "effect": "atk_down",
                     "value": 9.84,
                     "unit": "percent",
                     "duration": 5
@@ -61,7 +61,7 @@
                 {
                     "target": "highest_atk_enemy",
                     "count": 1,
-                    "effect": "damage",
+                    "effect": "extra_damage",
                     "value": 110.2,
                     "unit": "percent",
                     "based_on": "final_atk"

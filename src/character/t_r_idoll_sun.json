@@ -50,7 +50,7 @@
                         "chance": 20
                     },
                     "target": "self",
-                    "effect": "attack_power_up",
+                    "effect": "atk_up",
                     "value": 2.27,
                     "unit": "percent",
                     "duration": 5

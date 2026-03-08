@@ -27,7 +27,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "attacked",
+                    "trigger": "on_hit",
                     "condition": {
                         "chance": 10
                     },
