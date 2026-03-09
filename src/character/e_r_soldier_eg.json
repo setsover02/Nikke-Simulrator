@@ -72,7 +72,8 @@
                         112.77
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "cooldown": 9
                 }
             ]
         },

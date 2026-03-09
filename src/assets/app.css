@@ -45,7 +45,6 @@ body {
     left: 0;
     right: 0;
     padding: 24px;
-    background: var(--shade-900);
     z-index: 1000;
     display: flex;
     align-items: center;
