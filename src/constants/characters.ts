@@ -1,14 +1,14 @@
 // 캐릭터 데이터 상수
 
 // 아바타 이미지 자동 불러오기
-const avatarModules = import.meta.glob('../assets/avatar/*.webp', {
+const avatarModules = import.meta.glob('../assets/avatar/**/*.webp', {
     eager: true,
     query: '?url',
     import: 'default'
 }) as Record<string, string>;
 
 // 캐릭터 JSON 데이터 자동 불러오기
-const characterModules = import.meta.glob('../character/*.json', {
+const characterModules = import.meta.glob('../character/**/*.json', {
     eager: true,
     import: 'default'
 }) as Record<string, any>;
@@ -20,7 +20,10 @@ export const characterOptions: Array<{ value: string; label: string; data: any }
 for (const path in characterModules) {
     const data = characterModules[path];
 
-    // 파일명 추출 (예: "../character/t_sr_neve.json" -> "t_sr_neve")
+    // "잠깐 백업"과 같은 백업 폴더는 불러오지 않음
+    if (path.includes('잠깐 백업')) continue;
+
+    // 파일명 추출 (예: "../character/tetra/t_sr_neve.json" -> "t_sr_neve")
     const filenameMatch = path.match(/\/([^/]+)\.json$/);
     if (!filenameMatch) continue;
 
