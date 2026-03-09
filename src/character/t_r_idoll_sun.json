@@ -33,7 +33,18 @@
                     },
                     "target": "self",
                     "effect": "defense_up",
-                    "value": 1.89,
+                    "value": [
+                        1.89,
+                        2.52,
+                        3.15,
+                        3.78,
+                        4.41,
+                        5.05,
+                        5.67,
+                        6.3,
+                        6.93,
+                        7.56
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -51,7 +62,18 @@
                     },
                     "target": "self",
                     "effect": "atk_up",
-                    "value": 2.27,
+                    "value": [
+                        2.27,
+                        3.03,
+                        3.78,
+                        4.54,
+                        5.3,
+                        6.06,
+                        6.81,
+                        7.57,
+                        8.38,
+                        9.09
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -66,7 +88,18 @@
                 {
                     "target": "self",
                     "effect": "max_ammo_up",
-                    "value": 196.87,
+                    "value": [
+                        196.87,
+                        262.5,
+                        328.12,
+                        393.75,
+                        459.37,
+                        525,
+                        590.62,
+                        656.25,
+                        721.87,
+                        787.5
+                    ],
                     "unit": "percent",
                     "duration": 10
                 }

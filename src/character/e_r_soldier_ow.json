@@ -29,7 +29,8 @@
                 {
                     "trigger": "normal_attack_hit",
                     "condition": {
-                        "chance": 10
+                        "chance": 10,
+                        "unit": "percent"
                     },
                     "target": "enemy",
                     "effect": "extra_damage",

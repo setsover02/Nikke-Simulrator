@@ -4,6 +4,7 @@
 
 ## Type
 - passive: 전투 중 트리거에 따라 적용된다.
+- active: paasive와 마찬가지로 전투 중 트리거에 따라 적용된다.
 - burst: 전투중 해당 스킬을 보유한 니케가 버스트 스킬을 사용 시 발동한다.
 
 ## effects
@@ -15,8 +16,8 @@ effects는 스킬이 발동할 때 적용되는 실제 효과 목록이다. 하�
 해당 effect가 발동하기 위한 조건이다. 시뮬레이션에서는 이 조건을 검사하여 effect 적용 여부를 결정한다.
 
 ### condition
-- chance: 발동 확률
-해댕 스킬의 발동 확률을 정의한다.
+- chance: 발동 확률: 해당 스킬의 발동 확률을 정의한다. %
+- count: 해당 스킬의 발동 조건, 공격 명중 횟수를 정의한다.
 > 이 부분 모든 스킬 검토 해볼 필요 있음 아직 어떤 조건이 있는지 확인 중
 
 ### target
@@ -34,13 +35,11 @@ effect가 지속되는 시간이다. trigger가 발동되면 duration 동안 eff
 - duration이 permanent인 경우, 전투 시간 내내 영구적으로 적용한다.
 
 ### cooldown
-- id: burst 스킬의 cooldown인 경우
-  해당 버스트를 사용한 시점을 기준으로 쿨다운을 계산한다.
-
-#### skill effect에 작성된 cooldown
 cooldown은 스킬이 한 번 발동된 이후 다음 발동까지 걸리는 시간(초)이다.
 cooldown은 duration과 별개로 적용된다.
 cooldown이 없는 경우 트리거에 의해서만 발동한다.
+cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다시 스킬이 발동한 경우 duration이 초기화된다 (버스트 스킬 등)
+
 - duration이 없는 경우:
   스킬은 cooldown 주기로 즉시 발동한다.
   예: cooldown = 5 → 전투 중 5초마다 스킬이 1회 발동한다.
@@ -53,8 +52,6 @@ cooldown이 없는 경우 트리거에 의해서만 발동한다.
   cooldown이 설정된 스킬은 전투 시작 즉시 발동하지 않는다.
   첫 발동은 전투 시작 후 cooldown 시간이 지난 뒤 발생한다.
   예: cooldown = 15 → 전투 시작 후 15초 시점에 첫 발동.
-
-
 
 ### unit
 해당 value 값의 단위를 설정한다

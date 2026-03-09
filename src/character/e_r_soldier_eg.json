@@ -29,7 +29,8 @@
                 {
                     "trigger": "normal_attack_hit",
                     "condition": {
-                        "chance": 5
+                        "chance": 5,
+                        "unit": "percent"
                     },
                     "target": "self",
                     "effect": "atk_up",
@@ -72,8 +73,7 @@
                         112.77
                     ],
                     "unit": "percent",
-                    "duration": 5,
-                    "cooldown": 9
+                    "duration": 5
                 }
             ]
         },

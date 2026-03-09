@@ -28,7 +28,10 @@
             "effects": [
                 {
                     "trigger": "normal_attack_hit",
-                    "chance": 20,
+                    "condition": {
+                        "chance": 20,
+                        "unit": "percent"
+                    },
                     "target": "lowest_hp_ally",
                     "effect": "defense_up",
                     "value": [

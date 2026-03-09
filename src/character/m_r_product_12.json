@@ -53,15 +53,12 @@
         {
             "id": "skill_2",
             "name": "행동 : 화력 집중",
-            "type": "passive",
+            "type": "active",
+            "cooldown": 10.0,
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
-                    "condition": {
-                        "count": 20
-                    },
                     "target": "lowest_hp_enemy",
-                    "effect": "extra_damage",
+                    "effect": "damage",
                     "value": [
                         27.27,
                         36.36,
@@ -87,7 +84,7 @@
             "effects": [
                 {
                     "target": "enemies_in_range",
-                    "effect": "extra_damage",
+                    "effect": "damage",
                     "value": [
                         180,
                         240,

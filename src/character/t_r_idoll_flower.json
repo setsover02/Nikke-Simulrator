@@ -28,9 +28,20 @@
             "effects": [
                 {
                     "trigger": "last_bullet_hit",
-                    "target": "target",
+                    "target": "enemy",
                     "effect": "atk_down",
-                    "value": 4.13,
+                    "value": [
+                        4.13,
+                        5.5,
+                        6.88,
+                        8.26,
+                        9.63,
+                        11.01,
+                        12.39,
+                        13.77,
+                        15.14,
+                        16.52
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -44,9 +55,19 @@
             "effects": [
                 {
                     "target": "highest_atk_enemy",
-                    "count": 1,
                     "effect": "atk_down",
-                    "value": 9.84,
+                    "value": [
+                        9.84,
+                        13.12,
+                        16.4,
+                        19.68,
+                        22.96,
+                        26.25,
+                        29.53,
+                        32.81,
+                        36.09,
+                        39.37
+                    ],
                     "unit": "percent",
                     "duration": 5
                 }
@@ -60,15 +81,24 @@
             "effects": [
                 {
                     "target": "highest_atk_enemy",
-                    "count": 1,
-                    "effect": "extra_damage",
-                    "value": 110.2,
+                    "effect": "damage",
+                    "value": [
+                        110.2,
+                        134.69,
+                        159.18,
+                        183.67,
+                        208.16,
+                        232.65,
+                        257.14,
+                        281.63,
+                        306.12,
+                        330.61
+                    ],
                     "unit": "percent",
                     "based_on": "final_atk"
                 },
                 {
                     "target": "highest_atk_enemy",
-                    "count": 1,
                     "effect": "taunt",
                     "duration": 2
                 }
