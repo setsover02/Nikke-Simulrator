@@ -44,7 +44,8 @@ export interface Character {
 
     // 버프 관련 추가
     buff?: any;
-    buffTimers?: Record<string, number>;
+    buffTimers?: Record<string, number>;        // 시간 기반 버프 만료 타이머
+    buffBulletCounters?: Record<string, number>; // 탄환 소모 기반 버프 만료 카운터
     atkCoef?: number;
     critMult?: number;
     coreDamage?: number;
@@ -54,6 +55,7 @@ export interface Character {
     totalAmmoUsed?: number;
     warmupLevel?: number;  // MG 예열 레벨 (0=냉각, 1=예열 완료)
     activeIntervalSkills?: any[]; // 주기적으로 발동하는 액티브 스킬 상태 추적
+    maxHp?: number;              // 최대 체력 (heal 계산용, 스킬 버프로 변경 가능)
 
     /* 장비 추가 옵션 */
     equipATKPercent?: number;        // 장비 추가 공격력% (0.1 = +10%)
@@ -112,6 +114,7 @@ export interface BattleContext {
 
     totalDamage: number;
     totalAmmoUsed: number;
+    totalTeamAmmoUsed: number;  // 팀 전체 탄환 소모 합산 (all_allies_ammo_consumed 트리거용)
     log: LogEntry[];
 
     rng: any; // Random instance

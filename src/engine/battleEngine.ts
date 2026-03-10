@@ -56,6 +56,7 @@ function createContext(
 
         totalDamage: 0,
         totalAmmoUsed: 0,
+        totalTeamAmmoUsed: 0,
         log: [],
 
         rng: new Random(config.seed),

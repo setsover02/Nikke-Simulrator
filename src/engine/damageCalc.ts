@@ -5,6 +5,7 @@ import { heatWarmupByTime, coolWarmupLevel, getMgFireRate } from "./mgWarmup";
 import { getWeaponMultipliers } from "../constants/weaponStats";
 import { checkAdvantage } from "../utils/charUtils";
 import { RangeMode } from "../constants/weaponStats";
+import { decrementBulletBuffs } from "./skillResolver";
 
 /** 기본 SG 펠릿 수 */
 const DEFAULT_PELLET_COUNT = 10;
@@ -81,6 +82,16 @@ export function processAttack(ctx: BattleContext) {
             char.totalAmmoUsed = (char.totalAmmoUsed || 0) + 1;
             char.comboShots = (char.comboShots || 0) + 1;
             ctx.totalAmmoUsed++;
+            ctx.totalTeamAmmoUsed++;
+
+            // bullet 기반 버프 카운터 감소
+            decrementBulletBuffs(char);
+
+            // full_charge_attack 트리거 플래그 설정
+            if (isChargeAttack) {
+                ctx.state = ctx.state || {};
+                ctx.state[`${char.id}_fullcharge_flag`] = true;
+            }
         }
 
         // MG: 사격 후 시간 기반 예열 (+dt 분)

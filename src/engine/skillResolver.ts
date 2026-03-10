@@ -10,7 +10,7 @@ export interface SkillEffectDef {
     effect: string;
     value?: number;
     unit?: string;
-    chance?: number;
+    bullet?: number;
     duration?: number | "permanent";
     description?: string;
     interval?: number;
@@ -34,7 +34,76 @@ export interface SkillDef {
     effects: SkillEffectDef[];
 }
 
-// engine/skillResolver.ts
+// ─────────────────────────────────────────────────────────────────────────────
+// Target Resolution Helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+function topNByAtk(members: Character[], n: number): Character[] {
+    return [...members].sort((a, b) => b.atk - a.atk).slice(0, n);
+}
+
+function resolveTargets(ctx: BattleContext, sourceChar: Character, target: string): any[] {
+    const members = ctx.team.members;
+
+    // ── Self ──
+    if (target === "self") return [sourceChar];
+
+    // ── All Allies ──
+    if (target === "all_allies" || target === "allies") return members;
+
+    // ── N Highest ATK Allies ──
+    if (target === "highest_atk_allies_1" || target === "highest_atk_ally" || target === "final_atk_ally") return topNByAtk(members, 1);
+    if (target === "highest_atk_allies_2") return topNByAtk(members, 2);
+    if (target === "highest_atk_allies_3" || target === "top3_final_atk_allies") return topNByAtk(members, 3);
+
+    // ── Lowest HP Ally ──
+    if (target === "lowest_hp_ally") {
+        const min = members.reduce((a, b) => (a.hp < b.hp ? a : b));
+        return [min];
+    }
+
+    // ── Weapon-type Allies ──
+    const WEAPON_TARGETS: Record<string, string> = {
+        sg_allies: "SG", smg_allies: "SMG", mg_allies: "MG",
+        sr_allies: "SR", rl_allies: "RL", ar_allies: "AR"
+    };
+    if (WEAPON_TARGETS[target]) {
+        return members.filter(c => c.weapon === WEAPON_TARGETS[target]);
+    }
+
+    // ── Element Allies ──
+    const ELEMENT_TARGETS: Record<string, string> = {
+        fire_element_allies: "작열", water_element_allies: "수냉",
+        electric_element_allies: "전격", iron_element_allies: "철갑",
+        wind_element_allies: "풍압"
+    };
+    if (ELEMENT_TARGETS[target]) {
+        return members.filter(c => c.element === ELEMENT_TARGETS[target]);
+    }
+
+    // ── Enemy Targets (all map to ctx.enemy since single-enemy sim) ──
+    const ENEMY_TARGETS = new Set([
+        "enemy", "all_enemies", "random_enemies", "enemies_in_range",
+        "lowest_hp_enemy", "highest_atk_enemy_1", "highest_atk_enemy_2",
+        "highest_atk_enemy", "highest_def_enemy"
+    ]);
+    if (ENEMY_TARGETS.has(target)) return [ctx.enemy];
+
+    return [];
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Value Resolver
+// ─────────────────────────────────────────────────────────────────────────────
+
+function resolveValue(effectDef: SkillEffectDef): number {
+    // Already resolved to a number by charUtils.applyBaseStats
+    return (effectDef.value as number) ?? 0;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Main Skill Tick
+// ─────────────────────────────────────────────────────────────────────────────
 
 export function resolveSkills(ctx: BattleContext) {
     ctx.team.members.forEach((char) => {
@@ -43,7 +112,7 @@ export function resolveSkills(ctx: BattleContext) {
         char.skills.forEach((skillDef: any) => {
             const skill = skillDef as SkillDef;
 
-            if (skill.type === "passive") {
+            if (skill.type === "passive" || skill.type === "active") {
                 // passive 스킬에 cooldown이 있는 경우 전투 시작 후 그 시간이 지난 뒤 첫 발동 가능
                 if (skill.cooldown && skill.cooldown > 0) {
                     const cdKey = `passive_cd_${char.id}_${skill.id}`;
@@ -71,8 +140,6 @@ export function resolveSkills(ctx: BattleContext) {
 
                 if (intervalSkill.timeSinceLastHit >= intervalSkill.effectDef.interval) {
                     intervalSkill.timeSinceLastHit -= intervalSkill.effectDef.interval;
-
-                    // Trigger damage
                     const hitDef = { ...intervalSkill.effectDef, effect: "damage" };
                     applySpecificEffectToTarget(ctx, char, intervalSkill.target, hitDef);
                 }
@@ -84,103 +151,75 @@ export function resolveSkills(ctx: BattleContext) {
     updateBuffTimers(ctx);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Trigger Evaluation
+// ─────────────────────────────────────────────────────────────────────────────
+
 function handleEffectTrigger(
     ctx: BattleContext,
     sourceChar: Character,
     skillId: string,
     effectDef: SkillEffectDef
 ) {
-    // 1. Trigger Check
     let isTriggered = false;
+    ctx.state = ctx.state || {};
 
-    // "self_focusing" / "enemy_spawn" -> battle start (time === 0)
-    if (effectDef.trigger === "self_focusing" || effectDef.trigger === "enemy_spawn") {
-        if (ctx.time === 0) isTriggered = true;
+    const trigger = effectDef.trigger;
+
+    // No trigger → permanent / always apply (e.g., battle_start effects)
+    if (!trigger) return;
+
+    // ── battle_start: 첫 틱에 1회만 발동 ──
+    if (trigger === "battle_start") {
+        const key = `battle_start_${sourceChar.id}_${skillId}_${effectDef.effect}`;
+        if (!ctx.state[key]) {
+            isTriggered = true;
+            ctx.state[key] = true;
+        }
     }
 
-    // "full_burst_start"
-    if (effectDef.trigger === "full_burst_start") {
-        const stateKey = `fb_start_${sourceChar.id}_${skillId}`;
-        ctx.state = ctx.state || {};
+    // ── enemy_spawn: 전투 시작 시 1회 ──
+    if (trigger === "enemy_spawn" || trigger === "self_focusing" || trigger === "focus") {
+        const key = `spawn_${sourceChar.id}_${skillId}_${effectDef.effect}`;
+        if (!ctx.state[key]) {
+            isTriggered = true;
+            ctx.state[key] = true;
+        }
+    }
 
+    // ── full_burst_start ──
+    if (trigger === "full_burst_start") {
+        const stateKey = `fb_start_${sourceChar.id}_${skillId}_${effectDef.effect}`;
         if (ctx.burstActive && !ctx.state[stateKey]) {
             isTriggered = true;
             ctx.state[stateKey] = true;
         } else if (!ctx.burstActive && ctx.state[stateKey]) {
-            ctx.state[stateKey] = false; // reset when burst ends
+            ctx.state[stateKey] = false;
         }
     }
 
-    // "full_burst_end"
-    if (effectDef.trigger === "full_burst_end") {
-        const stateKey = `fb_active_prev_${sourceChar.id}_${skillId}`;
-        ctx.state = ctx.state || {};
+    // ── full_burst_end ──
+    if (trigger === "full_burst_end") {
+        const stateKey = `fb_active_prev_${sourceChar.id}_${skillId}_${effectDef.effect}`;
         const wasActive = ctx.state[stateKey] || false;
-
-        if (wasActive && !ctx.burstActive) {
-            isTriggered = true;
-        }
+        if (wasActive && !ctx.burstActive) isTriggered = true;
         ctx.state[stateKey] = ctx.burstActive;
     }
 
-    // "ammo_consumed"
-    if (effectDef.trigger === "ammo_consumed" && typeof effectDef.condition === "object" && effectDef.condition?.amount) {
-        const threshold = effectDef.condition.amount;
-        const stateKey = `${sourceChar.id}_${skillId}_ammo_consumed`;
-
-        ctx.state = ctx.state || {};
-        ctx.state[stateKey] = ctx.state[stateKey] || 0;
-
-        const prevAmmoUsed = ctx.state[stateKey] || 0;
-        const currentUsed = ctx.totalAmmoUsed || 0;
-        if (currentUsed - prevAmmoUsed >= threshold) {
-            isTriggered = true;
-            ctx.state[stateKey] = currentUsed; // reset threshold counter
-        }
-    }
-
-    // "full_burst_time" interval
-    if (effectDef.trigger === "full_burst_time" && ctx.burstActive && effectDef.interval) {
-        const stateKey = `${sourceChar.id}_${skillId}_fb_timer`;
-        ctx.state = ctx.state || {};
+    // ── full_burst_time: 풀버스트 중 interval마다 ──
+    if (trigger === "full_burst_time" && ctx.burstActive && effectDef.interval) {
+        const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_fb_timer`;
         ctx.state[stateKey] = (ctx.state[stateKey] || 0) + ctx.delta;
-
         if (ctx.state[stateKey] >= effectDef.interval) {
             isTriggered = true;
             ctx.state[stateKey] -= effectDef.interval;
         }
     }
 
-    // "normal_attack_hit" (simulated by ammo consumed for simplicity right now)
-    if (effectDef.trigger === "normal_attack_hit" && typeof effectDef.condition === "object" && effectDef.condition?.count) {
-        // Only trigger if condition target_status is met
-        let statusMet = true;
-        if (effectDef.condition.target_status === 'bubble') {
-            statusMet = !!(ctx.enemy.debuff?.bubble);
-        }
-
-        if (statusMet) {
-            const threshold = effectDef.condition.count;
-            const stateKey = `${sourceChar.id}_${skillId}_attack_hit`;
-
-            ctx.state = ctx.state || {};
-            ctx.state[stateKey] = ctx.state[stateKey] || 0;
-
-            const prevAmmoUsed = ctx.state[stateKey] || 0;
-            const currentUsed = ctx.totalAmmoUsed || 0;
-            if (currentUsed - prevAmmoUsed >= threshold) {
-                isTriggered = true;
-                ctx.state[stateKey] = currentUsed;
-            }
-        }
-    }
-
-    // "last_bullet_hit" — 마지막 탄 발사 시 (ammo가 0이 된 순간)
-    if (effectDef.trigger === "last_bullet_hit") {
+    // ── last_bullet_hit ──
+    if (trigger === "last_bullet_hit") {
         const stateKey = `${sourceChar.id}_${skillId}_last_bullet`;
-        ctx.state = ctx.state || {};
         const wasEmpty = ctx.state[stateKey] || false;
-
         if (sourceChar.ammo <= 0 && !wasEmpty) {
             isTriggered = true;
             ctx.state[stateKey] = true;
@@ -189,28 +228,93 @@ function handleEffectTrigger(
         }
     }
 
-    // 2. Apply Effect if triggered
-    if (isTriggered) {
-        if (effectDef.chance !== undefined) {
-            if (ctx.rng.next() > effectDef.chance / 100) return;
+    // ── ammo_consumed: 자신의 탄환 소모 총량 기준 ──
+    if (trigger === "ammo_consumed" && typeof effectDef.condition === "object" && effectDef.condition?.count) {
+        const threshold = effectDef.condition.count;
+        const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_ammo_consumed`;
+        ctx.state[stateKey] = ctx.state[stateKey] || 0;
+        const currentUsed = sourceChar.totalAmmoUsed || 0;
+        if (currentUsed - ctx.state[stateKey] >= threshold) {
+            isTriggered = true;
+            ctx.state[stateKey] = currentUsed;
         }
-        applyEffect(ctx, sourceChar, effectDef);
     }
+
+    // ── all_allies_ammo_consumed: 팀 전체 탄환 소모 합산 ──
+    if (trigger === "all_allies_ammo_consumed" && typeof effectDef.condition === "object" && effectDef.condition?.count) {
+        const threshold = effectDef.condition.count;
+        const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_team_ammo`;
+        ctx.state[stateKey] = ctx.state[stateKey] || 0;
+        const currentTeamAmmo = ctx.totalTeamAmmoUsed || 0;
+        if (currentTeamAmmo - ctx.state[stateKey] >= threshold) {
+            isTriggered = true;
+            ctx.state[stateKey] = currentTeamAmmo;
+        }
+    }
+
+    // ── normal_attack_hit (조건 count 기준) ──
+    if (trigger === "normal_attack_hit" && typeof effectDef.condition === "object" && effectDef.condition?.count) {
+        let statusMet = true;
+        if (effectDef.condition.target_status === 'bubble') {
+            statusMet = !!(ctx.enemy.debuff?.bubble);
+        }
+        if (statusMet) {
+            const threshold = effectDef.condition.count;
+            const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_attack_hit`;
+            ctx.state[stateKey] = ctx.state[stateKey] || 0;
+            const currentUsed = sourceChar.totalAmmoUsed || 0;
+            if (currentUsed - ctx.state[stateKey] >= threshold) {
+                isTriggered = true;
+                ctx.state[stateKey] = currentUsed;
+            }
+        }
+    }
+
+    // ── on_hit: 피격 시 확률 트리거 (공격 tick마다 chance 체크로 근사) ──
+    if (trigger === "on_hit") {
+        const chance = typeof effectDef.condition === "object"
+            ? (effectDef.condition as any)?.chance ?? 0
+            : 0;
+        if (chance > 0 && ctx.rng.next() < chance / 100) {
+            isTriggered = true;
+        }
+    }
+
+    // ── full_charge_attack: SR/RL 풀차지 공격 시 ──
+    if (trigger === "full_charge_attack") {
+        const stateKey = `${sourceChar.id}_fullcharge_flag`;
+        if (ctx.state[stateKey]) {
+            isTriggered = true;
+            ctx.state[stateKey] = false;
+        }
+    }
+
+    // ── burst_cast: 버스트 발동 시 (burstSystem에서 직접 호출하므로 여기선 skip) ──
+    if (trigger === "burst_cast") return;
+
+    // ── kill_enemy: 단일 적 시뮬에서는 미구현 ──
+    if (trigger === "kill_enemy") return;
+
+    // ── part_destroy: 미구현 ──
+    if (trigger === "part_destroy") return;
+
+    if (!isTriggered) return;
+
+    // Chance check (on_hit은 이미 위에서 처리)
+    if (trigger !== "on_hit" && effectDef.condition && typeof effectDef.condition === "object") {
+        const cond = effectDef.condition as any;
+        if (cond.chance !== undefined && ctx.rng.next() > cond.chance / 100) return;
+    }
+
+    applyEffect(ctx, sourceChar, effectDef);
 }
 
-export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef: SkillEffectDef) {
-    let targets: any[] = [];
-    if (effectDef.target === "all_allies" || effectDef.target === "allies") targets = ctx.team.members;
-    else if (effectDef.target === "self") targets = [sourceChar];
-    else if (effectDef.target === "lowest_hp_ally") {
-        targets = [ctx.team.members.reduce((min, char) => char.hp < min.hp ? char : min, ctx.team.members[0])];
-    }
-    else if (effectDef.target === "highest_atk_ally") {
-        targets = [ctx.team.members.reduce((max, char) => char.atk > max.atk ? char : max, ctx.team.members[0])];
-    }
-    else if (effectDef.target === "enemy" || effectDef.target === "random_enemies" || effectDef.target === "lowest_hp_enemy" || effectDef.target === "highest_atk_enemy" || effectDef.target === "all_enemies") targets = [ctx.enemy];
+// ─────────────────────────────────────────────────────────────────────────────
+// Effect Application Dispatcher
+// ─────────────────────────────────────────────────────────────────────────────
 
-    // --- Global Effects (Only apply once regardless of target count) ---
+export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef: SkillEffectDef) {
+    // ── Global Effects (target-independent) ──
     if (effectDef.effect === "burst_gauge_charge" && effectDef.value) {
         ctx.burstGauge = Math.min(100, ctx.burstGauge + effectDef.value);
         ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Burst Gauge Charged" });
@@ -225,197 +329,355 @@ export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef
         return;
     }
 
+    const targets = resolveTargets(ctx, sourceChar, effectDef.target);
     targets.forEach(target => {
         applySpecificEffectToTarget(ctx, sourceChar, target, effectDef);
     });
 }
 
-function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, target: any, effectDef: SkillEffectDef) {
+// ─────────────────────────────────────────────────────────────────────────────
+// Per-Target Effect Application
+// ─────────────────────────────────────────────────────────────────────────────
 
-    // If effect is nested
+function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, target: any, effectDef: SkillEffectDef) {
+    // Nested effects
     if (effectDef.effects) {
         effectDef.effects.forEach(subEff => {
-            // Inherit duration or other properties if needed
             applySpecificEffectToTarget(ctx, sourceChar, target, subEff as SkillEffectDef);
         });
         return;
     }
 
-    // --- Enemy Debuffs & Damage ---
-    if (target.hp !== undefined && !target.skills) {
+    const value = resolveValue(effectDef);
+
+    const isEnemy = target === ctx.enemy;
+    const isChar = !isEnemy;
+
+    // ─── ENEMY DEBUFF / DAMAGE ─────────────────────────────────────────────
+    if (isEnemy) {
         target.debuff = target.debuff || {};
 
-        if (effectDef.effect === "bubble") {
-            target.debuff.bubble = true;
-            target.debuff.takenUp = (target.debuff.takenUp || 0) + (effectDef.value || 0) / 100;
-            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Applied Bubble" });
-        }
-        if (effectDef.effect === "remove_status" && effectDef.status === "bubble") {
-            if (target.debuff.bubble) {
-                target.debuff.bubble = false;
-                // Need to remove the takenUp value it added, assuming fixed removal for now
-                target.debuff.takenUp -= 5.05 / 100;
-                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, description: "Removed Bubble" });
-            }
-        }
-        if (effectDef.effect === "burst_bubble") {
-            // similar to takenUp addition
-            target.debuff.takenUp = (target.debuff.takenUp || 0) + (effectDef.value || 0) / 100;
-        }
+        switch (effectDef.effect) {
+            // Bubble
+            case "bubble":
+                target.debuff.bubble = true;
+                target.debuff.takenUp = (target.debuff.takenUp || 0) + value / 100;
+                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "Applied Bubble" });
+                break;
 
-        if (effectDef.effect === "damage" || effectDef.effect === "bubble_barrage" || effectDef.effect === "extra_damage") {
-            const hits = effectDef.hits || 1;
-            let dmgPercent = (effectDef.value || 0) / 100;
+            case "burst_bubble":
+                target.debuff.takenUp = (target.debuff.takenUp || 0) + value / 100;
+                break;
 
-            if (effectDef.condition && typeof effectDef.condition === "string" && effectDef.condition.includes("stack_level")) {
-                const reqStack = parseInt(effectDef.condition.split("_")[2]);
-                const currentStack = sourceChar.buff?.stack_level || 0;
-                if (currentStack < reqStack) {
-                    return; // Condition not met
+            case "remove_status":
+                if (effectDef.status === "bubble" && target.debuff.bubble) {
+                    target.debuff.bubble = false;
+                    // 버블이 추가했던 takenUp 제거 (임시: 가장 최근 버블 수치 기준)
+                    target.debuff.takenUp = Math.max(0, (target.debuff.takenUp || 0) - (value || 0) / 100);
+                    ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, description: "Removed Bubble" });
                 }
+                break;
+
+            // Damage (skill_damage 타입, nikkeFormula 사용)
+            case "damage":
+            case "bubble_barrage":
+            case "extra_damage": {
+                const hits = effectDef.hits || 1;
+                const stack = effectDef.stack_level;
+
+                // stack_level 기반: 현재 stack 횟수에 따라 해당 level까지 합산
+                // (stack_level이 없으면 무조건 1회)
+                let stackCount = 0;
+                if (stack !== undefined) {
+                    const stackKey = `${sourceChar.id}_stackcount`;
+                    ctx.state = ctx.state || {};
+                    stackCount = ctx.state[stackKey] || 0;
+                    if (stackCount < stack) {
+                        // 아직 이 레벨에 도달하지 않았으면 skip
+                        return;
+                    }
+                }
+
+                const wm = getWeaponMultipliers(sourceChar.weapon);
+                const isCrit = ctx.rng.next() < (sourceChar.crit ?? 15) / 100;
+                const dmgPercent = value / 100;
+                const singleDmg = calcNikkeDamage({
+                    baseATK: sourceChar.atk,
+                    extraATKPercent: sourceChar.equipATKPercent ?? 0,
+                    extraATKFlat: sourceChar.buff?.extraATK ?? 0,
+                    enemyBaseDEF: ctx.enemy.defense,
+                    enemyDEFPercent: 0,
+                    enemyDEFFlat: target.debuff?.defFlat ?? 0,
+                    atkCoef: dmgPercent,
+                    finalATKModifier: sourceChar.buff?.atkDmgUp ?? 0,
+                    normalAtkMultiplier: 0,
+                    isNormalAttack: false,
+                    isCrit,
+                    critBonusBase: wm.critBonus,
+                    extraCritDmg: sourceChar.buff?.critDmg ?? 0,
+                    isCore: false,
+                    coreHitBonus: 0,
+                    coreHitMultiplier: 0,
+                    fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+                    rangeBonus: 0,
+                    weakPointBase: checkAdvantage(ctx.enemy.element, sourceChar.element) ? 1.1 : 1.0,
+                    weakPointExtra: (sourceChar.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, sourceChar.element) ? (sourceChar.equipWeakPointPercent ?? 0) : 0),
+                    chargeDmgBonus: 0,
+                    chargeDmgMultiplier: 0,
+                    atkDmgUp: sourceChar.buff?.atkDmgUpFinal ?? 0,
+                    dotDmgUp: 0,
+                    pierceDmgUp: 0,
+                    partDmgUp: 0,
+                    ignoreDefDmgUp: 0,
+                    projectileDmgUp: 0,
+                    interruptionPartDmgUp: 0,
+                    extraDmgUp: 0,
+                    enemyTakenUp: target.debuff?.takenUp ?? 0,
+                    shareDmgUp: 0,
+                    enemyTakenDown: target.debuff?.takenDown ?? 0,
+                });
+                const totalDmg = singleDmg * hits;
+                target.hp -= totalDmg;
+                ctx.totalDamage += totalDmg;
+                ctx.log.push({ time: ctx.time, type: "skill_damage", source: sourceChar.id, value: totalDmg, description: effectDef.effect });
+                break;
             }
 
-            if (effectDef.based_on === "final_atk") {
-                const totalATK = sourceChar.atk * (1 + (sourceChar.equipATKPercent || 0)) + (sourceChar.buff?.extraATK || 0);
-            }
+            // Interval Damage (지속 피해)
+            case "interval_damage":
+                sourceChar.activeIntervalSkills = sourceChar.activeIntervalSkills || [];
+                sourceChar.activeIntervalSkills.push({
+                    effectDef,
+                    target,
+                    durationRemain: typeof effectDef.duration === "number" ? effectDef.duration : 0,
+                    timeSinceLastHit: 0
+                });
+                break;
 
-            // nikkeFormula를 사용해 장비 ATK%, 우월코드%, 방어력, 버프 모두 반영
-            const wm = getWeaponMultipliers(sourceChar.weapon);
-            const isCrit = ctx.rng.next() < (sourceChar.crit ?? 15) / 100;
-            const singleHitDmg = calcNikkeDamage({
-                // ① 기본 데미지
-                baseATK: sourceChar.atk,
-                extraATKPercent: sourceChar.equipATKPercent ?? 0,
-                extraATKFlat: sourceChar.buff?.extraATK ?? 0,
-                enemyBaseDEF: ctx.enemy.defense,
-                enemyDEFPercent: 0,
-                enemyDEFFlat: 0,
-                // ② Final ATK Modifier (스킬 계수 = dmgPercent)
-                atkCoef: dmgPercent,
-                finalATKModifier: sourceChar.buff?.atkDmgUp ?? 0,
-                // ③ Major Modifiers (무기별 크리 배율 적용)
-                isCrit,
-                critBonusBase: wm.critBonus,
-                extraCritDmg: sourceChar.buff?.critDmg ?? 0,
-                isCore: false,       // 스킬은 코어 히트 없음
-                coreHitBonus: 0,
-                fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-                rangeBonus: sourceChar.buff?.range ?? 0,
-                // ④ 원소 보너스 (우월코드 포함)
-                weakPointBase: checkAdvantage(ctx.enemy.element, sourceChar.element) ? 1.1 : 1.0,
-                weakPointExtra: (sourceChar.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, sourceChar.element) ? (sourceChar.equipWeakPointPercent ?? 0) : 0),
-                // ⑤~⑥
-                chargeDmgBonus: 0,
-                atkDmgUp: sourceChar.buff?.atkDmgUpFinal ?? 0,
-                dotDmgUp: 0, pierceDmgUp: 0, partDmgUp: 0,
-                ignoreDefDmgUp: 0, projectileDmgUp: 0,
-                interruptionPartDmgUp: 0, extraDmgUp: 0,
-                // ⑦ 받는 데미지
-                enemyTakenUp: ctx.enemy.debuff?.takenUp ?? 0,
-                shareDmgUp: 0,
-                enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
-            });
+            // ATK Down
+            case "atk_down":
+                target.debuff.atkDown = (target.debuff.atkDown || 0) + value / 100;
+                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "ATK Down" });
+                break;
 
-            const totalDmg = singleHitDmg * hits;
-            target.hp -= totalDmg;
-            ctx.totalDamage += totalDmg;
-            ctx.log.push({ time: ctx.time, type: "skill_damage", source: sourceChar.id, value: totalDmg, description: effectDef.effect });
-        }
+            // DEF Down (flat reduction, applied in damageCalc via enemyDEFFlat)
+            case "def_down":
+                target.debuff.defFlat = (target.debuff.defFlat || 0) + value;
+                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "DEF Down" });
+                break;
 
-        if (effectDef.effect === "interval_damage") {
-            sourceChar.activeIntervalSkills = sourceChar.activeIntervalSkills || [];
-            sourceChar.activeIntervalSkills.push({
-                effectDef,
-                target,
-                durationRemain: effectDef.duration || 0,
-                timeSinceLastHit: 0
-            });
+            // Damage Taken Up (≈ 버블 없이 적용되는 받는 피해 증가)
+            case "damage_taken_up":
+                target.debuff.takenUp = (target.debuff.takenUp || 0) + value / 100;
+                if (effectDef.status) target.debuff[effectDef.status] = true;
+                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "Damage Taken Up" });
+                break;
+
+            // Taunt / dispel: no-op (단일 적, 의미 없음)
+            case "taunt":
+            case "dispel":
+                break;
+
+            // Explosion range / cover defense: skip
+            case "explosion_range_up":
+            case "cover_defense_up":
+                break;
+
+            default:
+                break;
         }
         return;
     }
 
-    // --- Character Buffs ---
+    // ─── ALLY BUFF ─────────────────────────────────────────────────────────
     const char = target as Character;
     char.buff = char.buff || {};
     char.buffTimers = char.buffTimers || {};
+    char.buffBulletCounters = char.buffBulletCounters || {};
 
+    // 버프 키: effect 이름으로 단순 식별 (동일 effect 가산 방식)
+    const buffKey = effectDef.effect;
     let applied = false;
 
-    if (effectDef.effect === "shooting_focus") {
-        char.buff.shootingFocus = true;
-        applied = true;
-    }
-
-    if (effectDef.effect === "attack_damage_up" && effectDef.value) {
-        char.buff.atkDmgUp = (char.buff.atkDmgUp || 0) + (effectDef.value / 100);
-        applied = true;
-    }
-
-    if (effectDef.effect === "burst_cooldown_reduction" && effectDef.value) {
-        if (ctx.burstCooldowns[char.id] > 0) {
-            ctx.burstCooldowns[char.id] = Math.max(0, ctx.burstCooldowns[char.id] - effectDef.value);
-            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Burst Cooldown Reduced" });
+    switch (effectDef.effect) {
+        // ── ATK 계열 ──────────────────────────────────────────────────────
+        // atk_up / attack_power_up → based_on에 따라 기준 결정
+        case "atk_up":
+        case "attack_power_up": {
+            const basedOn = effectDef.based_on ?? "caster_atk";
+            let base: number;
+            if (basedOn === "caster_atk" || basedOn === "caster_final_atk") {
+                base = sourceChar.atk;
+            } else {
+                // target 기준 (기본값)
+                base = char.atk;
+            }
+            char.buff.extraATK = (char.buff.extraATK || 0) + base * (value / 100);
+            applied = true;
+            break;
         }
-        applied = true;
+
+        // max_hp_up: 최대 체력 증가
+        case "max_hp_up": {
+            const hpBase = char.maxHp ?? char.hp;
+            const hpGain = hpBase * (value / 100);
+            char.maxHp = (char.maxHp ?? char.hp) + hpGain;
+            char.hp += hpGain;
+            applied = true;
+            break;
+        }
+
+        // ── 크리티컬 ──────────────────────────────────────────────────────
+        case "critical_rate_up":
+            char.buff.critRate = (char.buff.critRate || 0) + value;
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "Crit Rate Up" });
+            applied = true;
+            break;
+
+        case "critical_damage_up":
+        case "crit_damage_up":
+            char.buff.critDmg = (char.buff.critDmg || 0) + value / 100;
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "Crit Damage Up" });
+            applied = true;
+            break;
+
+        // ── 공격 데미지 증가 ───────────────────────────────────────────────
+        case "attack_damage_up":
+        case "atk_damage_up":
+            char.buff.atkDmgUp = (char.buff.atkDmgUp || 0) + value / 100;
+            applied = true;
+            break;
+
+        // ── 버스트 쿨다운 감소 ────────────────────────────────────────────
+        case "burst_cooldown_reduction":
+            if (ctx.burstCooldowns[char.id] > 0) {
+                ctx.burstCooldowns[char.id] = Math.max(0, ctx.burstCooldowns[char.id] - value);
+                ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value, description: "Burst Cooldown Reduced" });
+            }
+            applied = true;
+            break;
+
+        // ── 장탄 관련 ────────────────────────────────────────────────────
+        case "max_ammo_up":
+            char.maxAmmo = char.maxAmmo + Math.floor(value);
+            applied = true;
+            break;
+
+        case "ammo_charge":
+        case "ammo_reload": {
+            const reloadAmount = Math.floor(char.maxAmmo * (value / 100));
+            char.ammo = Math.min(char.maxAmmo, char.ammo + reloadAmount);
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: reloadAmount, description: "Ammo Charged" });
+            applied = true;
+            break;
+        }
+
+        // ── 방어력 관련 ──────────────────────────────────────────────────
+        case "def_up":
+            char.buff.defUp = (char.buff.defUp || 0) + value / 100;
+            applied = true;
+            break;
+
+        // ── 명중률 ──────────────────────────────────────────────────────
+        case "accuracy_up":
+            char.accuracyBuff = (char.accuracyBuff || 0) + value / 100;
+            applied = true;
+            break;
+
+        // ── 힐 계열 (현재 생존 시뮬 미구현이나 구조는 추가) ─────────────
+        case "heal": {
+            // based_on: attack_damage → 피해량 기준 (현재 근사치로 sourceChar.atk 사용)
+            // 힐은 차후 생존 시뮬에서 처리 예정이므로 구조만 설정
+            const healBase = effectDef.based_on === "attack_damage" ? sourceChar.atk * (value / 100) : sourceChar.atk * (value / 100);
+            char.hp = Math.min(char.maxHp ?? char.hp, char.hp + healBase);
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: healBase, description: "Heal" });
+            applied = true;
+            break;
+        }
+
+        case "recevie_heal":
+            char.buff.receiveHeal = (char.buff.receiveHeal || 0) + value / 100;
+            applied = true;
+            break;
+
+        case "overheal_storage":
+            char.buff.overhealStorage = (char.buff.overhealStorage || 0) + value / 100;
+            applied = true;
+            break;
+
+        case "heal_efficacy_up":
+            char.buff.healEfficacy = (char.buff.healEfficacy || 0) + value / 100;
+            applied = true;
+            break;
+
+        // ── 보호막 ──────────────────────────────────────────────────────
+        case "shield": {
+            const shieldBase = effectDef.based_on === "caster_final_max_hp"
+                ? (sourceChar.maxHp ?? sourceChar.hp)
+                : (sourceChar.maxHp ?? sourceChar.hp);
+            const shieldAmount = shieldBase * (value / 100);
+            char.buff.shield = (char.buff.shield || 0) + shieldAmount;
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: shieldAmount, description: "Shield Applied" });
+            applied = true;
+            break;
+        }
+
+        // ── 관통 (pierce): pierceDmgUp 버프로 처리 ──────────────────────
+        case "pierce":
+            // bullet 기반 시: buffBulletCounters에 등록
+            if (effectDef.bullet) {
+                char.buffBulletCounters!["pierceDmgUp"] = effectDef.bullet;
+                char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + 0.1; // 관통 보너스 10% (추후 조정)
+            } else {
+                char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + 0.1;
+            }
+            applied = true;
+            break;
+
+        // ── 기타 미구현 ─────────────────────────────────────────────────
+        case "shooting_focus":
+        case "cover_defense_up":
+        case "explosion_range_up":
+        case "dispel":
+        case "taunt":
+            break;
+
+        // ── 복합/기타 ────────────────────────────────────────────────────
+        case "attack_power_down":
+            // target 공격력 감소 (적용 대상이 아군이면 debuff의 개념이 다름, 현재 skip)
+            break;
+
+        case "stun":
+            ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, description: "Stunned (no-op)" });
+            break;
+
+        // stack_level 관리용 (베스티 스킬2)
+        default:
+            break;
     }
 
-    if (effectDef.effect === "ammo_reload" && effectDef.value) {
-        const reloadAmount = Math.floor(char.maxAmmo * (effectDef.value / 100));
-        char.ammo = Math.min(char.maxAmmo, char.ammo + reloadAmount);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: reloadAmount, description: "Ammo Reloaded" });
-        applied = true;
-    }
-
-    if (effectDef.effect === "attack_power_up" && effectDef.value) {
-        char.buff.extraATK = (char.buff.extraATK || 0) + (sourceChar.atk * (effectDef.value / 100));
-        applied = true;
-    }
-
-    if (effectDef.effect === "stun") {
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, description: "Enemy Stunned" });
-        applied = true;
-    }
-
-    if (effectDef.effect === "crit_damage_up" && effectDef.value) {
-        char.buff.critDmg = (char.buff.critDmg || 0) + (effectDef.value / 100);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Crit Damage Up" });
-        applied = true;
-    }
-
-    if (effectDef.effect === "critical_rate_up" && effectDef.value) {
-        char.buff.critRate = (char.buff.critRate || 0) + effectDef.value;
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Crit Rate Up" });
-        applied = true;
-    }
-
-    // 우월코드 데미지 보너스 버프 (스킬 또는 큐브 등에서 제공)
-    // 장비의 equipWeakPointPercent와 별도로 buff.weak에 누적됩니다
-    if (effectDef.effect === "weak_code_damage_up" && effectDef.value) {
-        char.buff.weak = (char.buff.weak || 0) + (effectDef.value / 100);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Weak Code Damage Up" });
-        applied = true;
-    }
-
-    if (effectDef.effect === "charge_damage_up" && effectDef.value) {
-        char.buff.chargeDmg = (char.buff.chargeDmg || 0) + (effectDef.value / 100);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Charge Damage Up" });
-        applied = true;
-    }
-
-    if (effectDef.effect === "charge_speed_up" && effectDef.value) {
-        char.buff.chargeSpeed = (char.buff.chargeSpeed || 0) + (effectDef.value / 100);
-        ctx.log.push({ time: ctx.time, type: "skill", source: sourceChar.id, value: effectDef.value, description: "Charge Speed Up" });
-        applied = true;
-    }
-
+    // stack_level 업데이트
     if (effectDef.stack_level !== undefined) {
-        char.buff.stack_level = effectDef.stack_level;
+        char.buff.stack_level = Math.max(char.buff.stack_level || 0, effectDef.stack_level);
     }
 
+    // 버프 duration 등록
     if (applied && effectDef.duration && effectDef.duration !== "permanent") {
-        char.buffTimers[effectDef.effect] = effectDef.duration;
+        const timer = effectDef.duration as number;
+        char.buffTimers![buffKey] = (char.buffTimers![buffKey] || 0)
+            ? Math.max(char.buffTimers![buffKey], timer) // 갱신
+            : timer;
+    }
+
+    // bullet 기반 버프 만료 등록
+    if (applied && effectDef.bullet) {
+        char.buffBulletCounters![buffKey] = effectDef.bullet;
     }
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Buff Timer Tick
+// ─────────────────────────────────────────────────────────────────────────────
 
 function updateBuffTimers(ctx: BattleContext) {
     ctx.team.members.forEach(char => {
@@ -423,14 +685,80 @@ function updateBuffTimers(ctx: BattleContext) {
         for (const [buffName, timeRemain] of Object.entries(char.buffTimers)) {
             char.buffTimers[buffName] = (timeRemain as number) - ctx.delta;
             if (char.buffTimers[buffName] <= 0) {
-                if (buffName === "attack_damage_up") char.buff.atkDmgUp = 0;
-                if (buffName === "crit_damage_up") char.buff.critDmg = 0;
-                if (buffName === "crit_rate_up") char.buff.critRate = 0;
-                if (buffName === "weak_code_damage_up") char.buff.weak = 0;
-                if (buffName === "charge_damage_up") char.buff.chargeDmg = 0;
-                if (buffName === "charge_speed_up") char.buff.chargeSpeed = 0;
+                expireBuff(char, buffName);
                 delete char.buffTimers[buffName];
             }
         }
+    });
+}
+
+export function expireBuff(char: Character, buffName: string) {
+    switch (buffName) {
+        case "critical_rate_up": char.buff!.critRate = 0; break;
+        case "critical_damage_up":
+        case "crit_damage_up": char.buff!.critDmg = 0; break;
+        case "attack_damage_up":
+        case "atk_damage_up": char.buff!.atkDmgUp = 0; break;
+        case "atk_up":
+        case "attack_power_up": char.buff!.extraATK = 0; break;
+        case "accuracy_up": char.accuracyBuff = 0; break;
+        case "shield": char.buff!.shield = 0; break;
+        case "def_up": char.buff!.defUp = 0; break;
+        case "recevie_heal": char.buff!.receiveHeal = 0; break;
+        case "overheal_storage": char.buff!.overhealStorage = 0; break;
+        case "heal_efficacy_up": char.buff!.healEfficacy = 0; break;
+        case "pierce": char.buff!.pierceDmgUp = 0; break;
+        default: break;
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Bullet-based buff countdown (called from damageCalc after each shot)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function decrementBulletBuffs(char: Character) {
+    if (!char.buffBulletCounters || !char.buff) return;
+    for (const [buffName, bulletsLeft] of Object.entries(char.buffBulletCounters)) {
+        const remaining = (bulletsLeft as number) - 1;
+        if (remaining <= 0) {
+            expireBuff(char, buffName);
+            delete char.buffBulletCounters[buffName];
+        } else {
+            char.buffBulletCounters[buffName] = remaining;
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// burst_cast passive skill triggering (called from burstSystem after fireBurst)
+// ─────────────────────────────────────────────────────────────────────────────
+
+export function resolveBurstCastSkills(ctx: BattleContext, burstChar: Character) {
+    ctx.state = ctx.state || {};
+    ctx.team.members.forEach(char => {
+        if (!char.skills) return;
+        char.skills.forEach((skillDef: any) => {
+            if (skillDef.type !== "passive" && skillDef.type !== "active") return;
+            skillDef.effects?.forEach((effectDef: SkillEffectDef) => {
+                if (effectDef.trigger !== "burst_cast") return;
+
+                // sourceChar는 스킬을 가진 캐릭터, burst_cast는 버스트를 사용한 캐릭터가 시전자
+                // 버스트 발동 캐릭터 자신의 스킬인지 / 팀 전체 trigger인지 동일하게 처리
+                // (모든 캐릭터의 burst_cast 트리거 체크)
+
+                // stack_level 지원: burst_cast 횟수 카운팅
+                const stackKey = `${char.id}_${skillDef.id}_burst_cast_count`;
+                ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1;
+                const castCount = ctx.state![stackKey];
+
+                if (effectDef.stack_level !== undefined) {
+                    // stack_level까지의 모든 효과를 누적 적용 (합연산)
+                    // 현재 effectDef의 stack_level이 castCount 이하이면 적용
+                    if (effectDef.stack_level > castCount) return;
+                }
+
+                applyEffect(ctx, char, effectDef);
+            });
+        });
     });
 }
