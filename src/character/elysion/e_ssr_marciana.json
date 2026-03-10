@@ -117,7 +117,7 @@
                         27.87
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp"
+                    "based_on": "caster_hp"
                 },
                 {
                     "target": "all_allies",

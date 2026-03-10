@@ -27,7 +27,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "self_focusing",
+                    "trigger": "focus",
                     "target": "all_allies",
                     "effect": "shooting_focus",
                     "duration": "permanent"
@@ -37,15 +37,15 @@
                     "target": "all_allies",
                     "effect": "burst_cooldown_reduction",
                     "value": [
-                        1.87,
-                        2.49,
-                        3.12,
-                        3.74,
-                        4.36,
-                        4.99,
-                        5.61,
-                        6.23,
-                        6.86,
+                        5.34,
+                        5.58,
+                        5.82,
+                        6.05,
+                        6.29,
+                        6.53,
+                        6.77,
+                        7,
+                        7.24,
                         7.48
                     ],
                     "unit": "seconds"
@@ -53,17 +53,17 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "attack_damage_up",
+                    "effect": "atk_damage_up",
                     "value": [
-                        1,
-                        1.33,
-                        1.67,
-                        2,
-                        2.33,
-                        2.67,
+                        2.5,
+                        2.66,
+                        2.83,
                         3,
+                        3.17,
                         3.33,
+                        3.5,
                         3.67,
+                        3.83,
                         4
                     ],
                     "unit": "percent",
@@ -72,20 +72,20 @@
                 {
                     "trigger": "ammo_consumed",
                     "condition": {
-                        "amount": 400
+                        "count": 400
                     },
                     "target": "all_allies",
                     "effect": "burst_gauge_charge",
                     "value": [
-                        9.25,
-                        12.33,
-                        15.42,
-                        18.5,
-                        21.58,
-                        24.67,
+                        23.12,
+                        24.66,
+                        26.2,
                         27.75,
+                        29.29,
                         30.83,
-                        33.92,
+                        32.37,
+                        33.91,
+                        35.46,
                         37
                     ],
                     "unit": "percent"
@@ -100,18 +100,18 @@
                 {
                     "trigger": "enemy_spawn",
                     "target": "enemy",
-                    "effect": "bubble",
-                    "description": "받는 대미지 증가",
+                    "status": "bubble",
+                    "effect": "damage_taken_up",
                     "value": [
-                        1.26,
-                        1.68,
-                        2.1,
-                        2.52,
-                        2.95,
+                        3.16,
                         3.37,
+                        3.58,
                         3.79,
+                        4,
                         4.21,
+                        4.42,
                         4.63,
+                        4.84,
                         5.05
                     ],
                     "unit": "percent",
@@ -128,15 +128,15 @@
                         {
                             "effect": "burst_bubble",
                             "value": [
-                                1.26,
-                                1.68,
-                                2.1,
-                                2.52,
-                                2.95,
+                                3.16,
                                 3.37,
+                                3.58,
                                 3.79,
+                                4,
                                 4.21,
+                                4.42,
                                 4.63,
+                                4.84,
                                 5.05
                             ],
                             "unit": "percent",
@@ -158,43 +158,41 @@
                     "target": "random_enemies",
                     "effect": "damage",
                     "value": [
-                        15.84,
-                        21.12,
-                        26.4,
-                        31.68,
-                        36.96,
+                        39.6,
                         42.24,
+                        44.88,
                         47.52,
+                        50.16,
                         52.8,
+                        55.44,
                         58.08,
+                        60.72,
                         63.36
                     ],
-                    "unit": "percent",
-                    "hits": 4,
-                    "based_on": "caster_final_atk"
+                    "unit": "caster_final_atk",
+                    "hits": 4
                 },
                 {
-                    "trigger": "ammo_consumed",
+                    "trigger": "all_allies_ammo_consumed",
                     "condition": {
-                        "amount": 500
+                        "count": 500
                     },
                     "target": "random_enemies",
                     "effect": "bubble_barrage",
                     "value": [
-                        21.25,
-                        28.33,
-                        35.42,
-                        42.5,
-                        49.58,
-                        56.67,
+                        53.12,
+                        56.66,
+                        60.21,
                         63.75,
+                        67.29,
                         70.83,
+                        74.37,
                         77.92,
+                        81.46,
                         85
                     ],
-                    "unit": "percent",
-                    "hits": 10,
-                    "based_on": "caster_final_atk"
+                    "unit": "caster_final_atk",
+                    "hits": 10
                 }
             ]
         },
@@ -208,34 +206,34 @@
                     "target": "all_allies",
                     "effects": [
                         {
-                            "effect": "attack_damage_up",
+                            "effect": "atk_damage_up",
                             "value": [
-                                2.53,
-                                3.38,
-                                4.22,
-                                5.07,
-                                5.91,
+                                6.33,
                                 6.75,
+                                7.18,
                                 7.6,
+                                8.02,
                                 8.44,
+                                8.87,
                                 9.29,
+                                9.71,
                                 10.13
                             ],
                             "unit": "percent",
                             "duration": 10
                         },
                         {
-                            "effect": "ammo_reload",
+                            "effect": "ammo_charge",
                             "value": [
-                                8.32,
-                                11.09,
-                                13.86,
-                                16.63,
-                                19.4,
+                                20.79,
                                 22.17,
-                                24.95,
+                                23.56,
+                                24.94,
+                                26.33,
                                 27.72,
+                                29.1,
                                 30.49,
+                                31.87,
                                 33.26
                             ],
                             "unit": "percent"
@@ -244,22 +242,22 @@
                 },
                 {
                     "target": "self",
-                    "effect": "attack_power_up",
+                    "effect": "atk_up",
                     "value": [
-                        4.32,
-                        5.76,
-                        7.2,
-                        8.64,
-                        10.08,
+                        10.8,
                         11.52,
+                        12.24,
                         12.96,
+                        13.68,
                         14.4,
+                        15.12,
                         15.84,
+                        16.56,
                         17.28
                     ],
                     "unit": "percent",
                     "duration": 10,
-                    "based_on": "caster_attack"
+                    "based_on": "caster_atk"
                 }
             ]
         }

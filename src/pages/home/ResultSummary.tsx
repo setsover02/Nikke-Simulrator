@@ -28,6 +28,10 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
                                 { label: '크리', value: r.hitDamages.crit, color: '#60a5fa' },
                                 { label: '코어', value: r.hitDamages.core, color: '#fb923c' },
                                 { label: '코어+크리', value: r.hitDamages.coreCrit, color: '#f472b6' },
+                                { label: 'FB 일반', value: r.hitDamages.fbNormal, color: '#9ca3af' },
+                                { label: 'FB 크리', value: r.hitDamages.fbCrit, color: '#60a5fa' },
+                                { label: 'FB 코어', value: r.hitDamages.fbCore, color: '#fb923c' },
+                                { label: 'FB 코어+크리', value: r.hitDamages.fbCoreCrit, color: '#f472b6' },
                             ].map(({ label, value, color }) => (
                                 <span key={label} className="hit-tag" style={{ border: `1px solid ${color}50`, color }}>
                                     {label}: {value.toLocaleString()}

@@ -54,7 +54,7 @@
             "cooldown": 15.0,
             "effects": [
                 {
-                    "target": "highest_atk_enemy",
+                    "target": "highest_atk_enemy_1",
                     "effect": "atk_down",
                     "value": [
                         9.84,
@@ -80,7 +80,7 @@
             "cooldown": 20.0,
             "effects": [
                 {
-                    "target": "highest_atk_enemy",
+                    "target": "highest_atk_enemy_1",
                     "effect": "damage",
                     "value": [
                         110.2,
@@ -98,7 +98,7 @@
                     "based_on": "caster_final_atk"
                 },
                 {
-                    "target": "highest_atk_enemy",
+                    "target": "highest_atk_enemy_1",
                     "effect": "taunt",
                     "duration": 2
                 }

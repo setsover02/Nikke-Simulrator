@@ -69,7 +69,7 @@
                         5.36
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
+                    "based_on": "caster_hp",
                     "duration": 15,
                     "stack": 5
                 },

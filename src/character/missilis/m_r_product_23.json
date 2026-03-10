@@ -81,8 +81,7 @@
             "cooldown": 20.0,
             "effects": [
                 {
-                    "target": "highest_atk_enemy",
-                    "count": 2,
+                    "target": "highest_atk_enemy_2",
                     "effect": "def_down",
                     "value": [
                         4.87,

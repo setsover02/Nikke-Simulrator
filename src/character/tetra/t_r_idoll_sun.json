@@ -58,7 +58,8 @@
                 {
                     "trigger": "on_hit",
                     "condition": {
-                        "chance": 20
+                        "chance": 20,
+                        "unit": "percent"
                     },
                     "target": "self",
                     "effect": "atk_up",

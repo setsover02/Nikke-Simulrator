@@ -29,7 +29,8 @@
                 {
                     "trigger": "on_hit",
                     "condition": {
-                        "chance": 10
+                        "chance": 10,
+                        "unit": "percent"
                     },
                     "target": "self",
                     "effect": "def_up",

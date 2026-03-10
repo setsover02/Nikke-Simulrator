@@ -58,7 +58,7 @@
             "cooldown": 17.0,
             "effects": [
                 {
-                    "target": "final_atk_ally",
+                    "target": "highest_atk_allies_1",
                     "effect": "critical_rate_up",
                     "value": [
                         5.74,

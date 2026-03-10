@@ -23,6 +23,10 @@ export interface HitDamages {
     crit: number;
     core: number;
     coreCrit: number;
+    fbNormal: number;
+    fbCrit: number;
+    fbCore: number;
+    fbCoreCrit: number;
 }
 
 export interface ScenarioResult {

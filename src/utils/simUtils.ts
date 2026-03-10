@@ -168,5 +168,9 @@ export const calcHitDamages = (
         crit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: false }),
         core: calcNikkeDamage({ ...baseParams, isCrit: false, isCore: true }),
         coreCrit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: true }),
+        fbNormal: calcNikkeDamage({ ...baseParams, isCrit: false, isCore: false, fullBurstBonus: 0.5 }),
+        fbCrit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: false, fullBurstBonus: 0.5 }),
+        fbCore: calcNikkeDamage({ ...baseParams, isCrit: false, isCore: true, fullBurstBonus: 0.5 }),
+        fbCoreCrit: calcNikkeDamage({ ...baseParams, isCrit: true, isCore: true, fullBurstBonus: 0.5 }),
     };
 };
