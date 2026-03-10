@@ -81,7 +81,7 @@
                     "effect": "interval_damage",
                     "value": 9.19,
                     "unit": "percent",
-                    "based_on": "final_atk",
+                    "based_on": "caster_final_atk",
                     "interval": 1,
                     "duration": 18
                 },
@@ -90,7 +90,7 @@
                     "effect": "extra_damage",
                     "value": 124.45,
                     "unit": "percent",
-                    "based_on": "final_atk",
+                    "based_on": "caster_final_atk",
                     "condition": "stack_level_1"
                 },
                 {
@@ -98,7 +98,7 @@
                     "effect": "extra_damage",
                     "value": 146.10,
                     "unit": "percent",
-                    "based_on": "final_atk",
+                    "based_on": "caster_final_atk",
                     "condition": "stack_level_2"
                 },
                 {
@@ -106,7 +106,7 @@
                     "effect": "extra_damage",
                     "value": 178.57,
                     "unit": "percent",
-                    "based_on": "final_atk",
+                    "based_on": "caster_final_atk",
                     "condition": "stack_level_3"
                 },
                 {

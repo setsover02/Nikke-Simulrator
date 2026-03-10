@@ -33,7 +33,7 @@
                         "unit": "percent"
                     },
                     "target": "lowest_hp_ally",
-                    "effect": "defense_up",
+                    "effect": "def_up",
                     "value": [
                         2.27,
                         3.03,

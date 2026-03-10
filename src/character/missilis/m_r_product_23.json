@@ -29,7 +29,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "defense_up",
+                    "effect": "def_up",
                     "value": [
                         0.81,
                         1.62,
@@ -83,7 +83,7 @@
                 {
                     "target": "highest_atk_enemy",
                     "count": 2,
-                    "effect": "defense_down",
+                    "effect": "def_down",
                     "value": [
                         4.87,
                         9.75,

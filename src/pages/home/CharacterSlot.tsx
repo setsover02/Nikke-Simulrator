@@ -21,6 +21,21 @@ interface EmptySlotProps {
     onUpdate: (patch: Partial<SlotState> | null) => void;
 }
 
+const CustomOption = (props: any) => {
+    const stats = props.data?.data?.stats;
+    const burstLevel = stats?.burstLevel;
+    const burstIcon = burstLevel ? BURST_ICONS[burstLevel as keyof typeof BURST_ICONS] : null;
+
+    return (
+        <components.Option {...props}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+                <span>{props.label}</span>
+                {burstIcon && <img src={burstIcon} alt={`Burst ${burstLevel}`} style={{ width: '16px', height: '16px', objectFit: 'contain' }} />}
+            </div>
+        </components.Option>
+    );
+};
+
 const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
     const DropdownIndicator = (props: any) => {
         return (
@@ -52,7 +67,7 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                                 });
                             }
                         }}
-                        components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+                        components={{ DropdownIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
                         menuPortalTarget={document.body}
                         styles={{
                             control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
@@ -165,7 +180,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                         isClearable={true}
                         isSearchable={true}
                         menuPortalTarget={document.body}
-                        components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+                        components={{ DropdownIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
                         styles={{
                             control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
                             valueContainer: (b) => ({ ...b, padding: 0 }),

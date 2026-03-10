@@ -95,7 +95,7 @@
                         330.61
                     ],
                     "unit": "percent",
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "target": "highest_atk_enemy",

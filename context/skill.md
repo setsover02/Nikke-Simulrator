@@ -38,7 +38,7 @@ effect가 지속되는 시간이다. trigger가 발동되면 duration 동안 eff
 cooldown은 스킬이 한 번 발동된 이후 다음 발동까지 걸리는 시간(초)이다.
 cooldown은 duration과 별개로 적용된다.
 cooldown이 없는 경우 트리거에 의해서만 발동한다.
-cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다시 스킬이 발동한 경우 duration이 초기화된다 (버스트 스킬 등)
+cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다시 스킬이 발동한 경우 duration이 갱신 된다 (버스트 스킬 등)
 
 - duration이 없는 경우:
   스킬은 cooldown 주기로 즉시 발동한다.

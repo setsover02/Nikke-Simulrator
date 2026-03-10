@@ -21,7 +21,7 @@ for (const path in characterModules) {
     const data = characterModules[path];
 
     // "잠깐 백업"과 같은 백업 폴더는 불러오지 않음
-    if (path.includes('잠깐 백업')) continue;
+    if (path.includes('backup')) continue;
 
     // 파일명 추출 (예: "../character/tetra/t_sr_neve.json" -> "t_sr_neve")
     const filenameMatch = path.match(/\/([^/]+)\.json$/);

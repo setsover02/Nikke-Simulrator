@@ -32,7 +32,7 @@
                         "count": 10
                     },
                     "target": "self",
-                    "effect": "defense_up",
+                    "effect": "def_up",
                     "value": [
                         1.89,
                         2.52,

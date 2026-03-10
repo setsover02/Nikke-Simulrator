@@ -171,7 +171,7 @@
                     ],
                     "unit": "percent",
                     "hits": 4,
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "ammo_consumed",
@@ -194,7 +194,7 @@
                     ],
                     "unit": "percent",
                     "hits": 10,
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 }
             ]
         },

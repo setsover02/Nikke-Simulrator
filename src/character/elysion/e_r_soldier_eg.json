@@ -99,7 +99,7 @@
                         720
                     ],
                     "unit": "percent",
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

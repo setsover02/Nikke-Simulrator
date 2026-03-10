@@ -32,7 +32,7 @@
                         "chance": 10
                     },
                     "target": "self",
-                    "effect": "defense_up",
+                    "effect": "def_up",
                     "value": [
                         0.9,
                         1.81,

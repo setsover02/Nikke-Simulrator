@@ -47,12 +47,12 @@
                     "effect": "extra_damage",
                     "value": 52.65,
                     "unit": "percent",
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "defense_up",
+                    "effect": "def_up",
                     "value": 7.52,
                     "unit": "percent",
                     "duration": 5
@@ -70,7 +70,7 @@
                     "effect": "damage",
                     "value": 541.12,
                     "unit": "percent",
-                    "based_on": "final_atk"
+                    "based_on": "caster_final_atk"
                 }
             ]
         }
