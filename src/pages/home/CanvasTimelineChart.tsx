@@ -185,13 +185,21 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
         ctx.strokeStyle = '#333';
         ctx.lineWidth = 1;
 
-        const xTicks = 6;
+        const range = vMax - vMin;
+        const idealSpacing = range / 8;
+        let tickInterval = 1;
+        const possibleIntervals = [1, 2, 5, 10, 15, 20, 30, 60, 120, 240];
+        for (const int of possibleIntervals) {
+            tickInterval = int;
+            if (idealSpacing <= int) break;
+        }
+
+        const firstTick = Math.ceil(vMin / tickInterval) * tickInterval;
+
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        for (let i = 0; i <= xTicks; i++) {
-            const ratio = i / xTicks;
-            const xVal = vMin + ratio * (vMax - vMin);
-            const xPos = PADDING.left + ratio * chartW;
+        for (let t = firstTick; t <= vMax; t += tickInterval) {
+            const xPos = PADDING.left + ((t - vMin) / range) * chartW;
             ctx.beginPath();
             ctx.moveTo(xPos, PADDING.top);
             ctx.lineTo(xPos, ch - PADDING.bottom);
@@ -199,7 +207,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
 
             // X-axis labels
             ctx.fillStyle = '#888';
-            ctx.fillText(`${Math.floor(xVal)}s`, xPos, ch - PADDING.bottom + 5);
+            ctx.fillText(`${t}s`, xPos, ch - PADDING.bottom + 5);
         }
 
         const toX = (t: number) => PADDING.left + ((t - vMin) / (vMax - vMin)) * chartW;

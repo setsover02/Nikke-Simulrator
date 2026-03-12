@@ -3,6 +3,7 @@ import { characterOptions } from '../constants/characters';
 import { CollectionGrade } from '../constants/collectionItems';
 
 const STORAGE_KEY = 'nikke_sim_chars';
+const TEAM_LAYOUT_KEY = 'nikke_sim_team_layout';
 
 export type SavedCharState = Omit<SlotState, 'char'>;
 
@@ -55,4 +56,31 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
         skill2Level: 10,
         burstLevel: 10
     };
+}
+
+export function loadTeamLayout(): (string | null)[] {
+    try {
+        const stored = localStorage.getItem(TEAM_LAYOUT_KEY);
+        if (stored) {
+            return JSON.parse(stored);
+        }
+    } catch (e) {
+        console.error('Failed to load team layout', e);
+    }
+    // 기본값: 첫 4명, 마지막 빈칸 (Home.tsx 기존 로직과 동일)
+    return [
+        characterOptions[0].data.characterID,
+        characterOptions[1].data.characterID,
+        characterOptions[2].data.characterID,
+        characterOptions[3].data.characterID,
+        null
+    ];
+}
+
+export function saveTeamLayout(teamIds: (string | null)[]) {
+    try {
+        localStorage.setItem(TEAM_LAYOUT_KEY, JSON.stringify(teamIds));
+    } catch (e) {
+        console.error('Failed to save team layout', e);
+    }
 }

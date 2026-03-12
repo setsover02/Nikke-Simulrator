@@ -72,7 +72,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
 
         const W = canvas.width;
         const H = canvas.height;
-        const PL = 90, PR = 20, PT = 50, PB = 45;
+        const PL = 214, PR = 20, PT = 50, PB = 45;
 
         ctx.clearRect(0, 0, W, H);
         ctx.fillStyle = '#141414';
@@ -115,20 +115,28 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.textBaseline = 'middle';
             ctx.fillText(Math.floor(yVal).toLocaleString(), PL - 8, yPos);
         }
-        const xTicks = 6;
+        const range = vMax - vMin;
+        const idealSpacing = range / 8;
+        let tickInterval = 1;
+        const possibleIntervals = [1, 2, 5, 10, 15, 20, 30, 60, 120, 240];
+        for (const int of possibleIntervals) {
+            tickInterval = int;
+            if (idealSpacing <= int) break;
+        }
+
+        const firstTick = Math.ceil(vMin / tickInterval) * tickInterval;
+
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
-        for (let i = 0; i <= xTicks; i++) {
-            const ratio = i / xTicks;
-            const xVal = vMin + ratio * (vMax - vMin);
-            const xPos = PL + ratio * graphW;
+        for (let t = firstTick; t <= vMax; t += tickInterval) {
+            const xPos = PL + ((t - vMin) / range) * graphW;
             ctx.beginPath();
             ctx.moveTo(xPos, PT);
             ctx.lineTo(xPos, H - PB);
             ctx.strokeStyle = '#262626';
             ctx.stroke();
             ctx.fillStyle = '#666';
-            ctx.fillText(`${Math.floor(xVal)}s`, xPos, H - PB + 8);
+            ctx.fillText(`${t}s`, xPos, H - PB + 8);
         }
 
         ctx.beginPath();

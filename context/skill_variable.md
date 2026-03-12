@@ -41,7 +41,7 @@ lowest_hp_enemy: 남은 체력 수치가 가장 낮은 적에게
 random_enemies: 무작위 적에게 (적이 1기인 경우 1기에게)
 
 all_allies: 아군 전체에게
-highest_atk_allies_1: 최종 공격력이 가장 높은 아군 1기에게
+highest_atk_allies_1: 최종 공격력이 가장 높은 아군 1기에게 (버프 수치를 계산후 공격력이 가장 높은 아군)
 highest_atk_allies_2: 최종 공격력이 가장 높은 아군 2기에게
 highest_atk_allies_3:최종 공격력이 가장 높은 아군 3기에게
 sg_allies: 샷건 소지 아군 전체에게

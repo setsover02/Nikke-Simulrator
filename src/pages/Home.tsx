@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { simulateBattle } from '../engine/battleEngine';
 import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
@@ -6,7 +6,7 @@ import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } 
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
-import { getCharDefaultState, saveCharSettings } from '../utils/storageUtils';
+import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout } from '../utils/storageUtils';
 
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
@@ -20,13 +20,14 @@ function createDefaultSlot(charOption = characterOptions[0]): SlotState {
 
 const Home: React.FC = () => {
     // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
-    const [slots, setSlots] = useState<(SlotState | null)[]>([
-        createDefaultSlot(),
-        createDefaultSlot(characterOptions[1]),
-        createDefaultSlot(characterOptions[2]),
-        createDefaultSlot(characterOptions[3]),
-        null
-    ]);
+    const [slots, setSlots] = useState<(SlotState | null)[]>(() => {
+        const layoutIds = loadTeamLayout();
+        return layoutIds.map(id => {
+            if (!id) return null;
+            const option = characterOptions.find(o => o.data.characterID === id);
+            return option ? getCharDefaultState(option) : null;
+        });
+    });
     const [simResult, setSimResult] = useState<ScenarioSummary | null>(null);
     const [chartDatasets, setChartDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
@@ -37,6 +38,11 @@ const Home: React.FC = () => {
     const [showCore, setShowCore] = useState<boolean>(false);
     const [skillInfoMap, setSkillInfoMap] = useState<Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>>>({});
     const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
+
+    useEffect(() => {
+        const layoutIds = slots.map(s => s ? s.char.data.characterID : null);
+        saveTeamLayout(layoutIds);
+    }, [slots]);
 
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
         setSlots(slots.map((s, i) => {
