@@ -85,7 +85,7 @@ export function processAttack(ctx: BattleContext) {
             ctx.totalTeamAmmoUsed++;
 
             // bullet 기반 버프 카운터 감소
-            decrementBulletBuffs(char);
+            decrementBulletBuffs(ctx, char);
 
             // full_charge_attack 트리거 플래그 설정
             if (isChargeAttack) {

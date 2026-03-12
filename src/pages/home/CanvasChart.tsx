@@ -251,14 +251,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
     useEffect(() => { draw(); }, [draw]);
     useEffect(() => { setViewMin(0); setViewMax(null); }, [datasets]);
 
-    const getLogicalX = (e: React.MouseEvent<HTMLCanvasElement> | MouseEvent) => {
-        const canvas = canvasRef.current;
-        if (!canvas) return 0;
-        const rect = canvas.getBoundingClientRect();
-        return (e.clientX - rect.left) * (canvas.width / canvas.clientWidth);
-    };
-
-    const handleWheel = (e: React.WheelEvent<HTMLCanvasElement>) => {
+    const handleWheelPos = useCallback((e: WheelEvent) => {
         e.preventDefault();
         const absMax = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
@@ -266,7 +259,10 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
         const PL = 90, PR = 20;
         const canvas = canvasRef.current!;
         const graphW = canvas.width - PL - PR;
-        const logX = getLogicalX(e);
+
+        const rect = canvas.getBoundingClientRect();
+        const logX = (e.clientX - rect.left) * (canvas.width / canvas.clientWidth);
+
         const ratio = Math.max(0, Math.min(1, (logX - PL) / graphW));
         const cursor = vMin + ratio * range;
         const factor = e.deltaY < 0 ? 0.8 : 1.25;
@@ -277,7 +273,15 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
         if (newMax > absMax) { newMin = Math.max(0, newMin - (newMax - absMax)); newMax = absMax; }
         setViewMin(newMin);
         setViewMax(newMax >= absMax - 0.01 ? null : newMax);
-    };
+    }, [getAbsMaxTime, getViewRange]);
+
+    useEffect(() => {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const onWheel = (e: WheelEvent) => handleWheelPos(e);
+        canvas.addEventListener('wheel', onWheel, { passive: false });
+        return () => canvas.removeEventListener('wheel', onWheel);
+    }, [handleWheelPos]);
 
     const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
         isDragging.current = true;
@@ -348,7 +352,6 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
-                onWheel={handleWheel}
                 style={{
                     width: '100%', height: 'auto',
                     border: '1px solid #2a2a2a', borderRadius: '8px',

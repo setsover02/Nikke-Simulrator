@@ -11,6 +11,7 @@ import { getCharDefaultState, saveCharSettings } from '../utils/storageUtils';
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
 import CanvasChart from './home/CanvasChart';
+import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
 
 function createDefaultSlot(charOption = characterOptions[0]): SlotState {
@@ -34,6 +35,8 @@ const Home: React.FC = () => {
     const [weaknessElement, setWeaknessElement] = useState<string>('작열');
     const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
     const [showCore, setShowCore] = useState<boolean>(false);
+    const [skillInfoMap, setSkillInfoMap] = useState<Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>>>({});
+    const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
 
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
         setSlots(slots.map((s, i) => {
@@ -160,7 +163,13 @@ const Home: React.FC = () => {
                     pelletCount: charStats.pelletCount,
                 }, ENEMY.defense, rangeMode, isWeak, enemyTakenUp);
 
-                return { charId, charName: slot.char.data.characterName, totalDmg, hitDamages };
+                return {
+                    charId,
+                    charName: slot.char.data.characterName,
+                    totalDmg,
+                    hitDamages,
+                    buffTimeline: resultData.team.members[idx]?.buffTimeline || []
+                };
             });
 
         const sumDamage = (resultData: typeof result) => {
@@ -188,6 +197,45 @@ const Home: React.FC = () => {
 
         setChartDatasets(ds);
         setBurstWindows(generateBurstWindows(result.log, config.duration));
+
+        // Build skill info map for timeline tooltip
+        const infoMap: Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>> = {};
+        activeSlots.forEach((slot) => {
+            const charName = slot.char.data.characterName;
+            infoMap[charName] = {};
+            const skills = slot.char.data.skills || [];
+            skills.forEach((sk: any) => {
+                const skillLevel = sk.id === 'skill_1' ? (slot.skill1Level || 10)
+                    : sk.id === 'skill_2' ? (slot.skill2Level || 10)
+                        : sk.id === 'burst' ? (slot.burstLevel || 10) : 10;
+                const lvIdx = Math.max(0, Math.min(9, skillLevel - 1));
+
+                const effects = (sk.effects || []).map((eff: any) => {
+                    let val = eff.value;
+                    if (Array.isArray(val)) val = val[lvIdx];
+                    const unit = eff.unit === 'percent' ? '%' : '';
+                    return {
+                        target: eff.target || 'self',
+                        effect: eff.effect || '',
+                        value: val != null ? `${val}${unit}` : '-',
+                    };
+                });
+                infoMap[charName][sk.name] = {
+                    effects,
+                    duration: sk.effects?.[0]?.duration && sk.effects[0].duration !== 'permanent' ? sk.effects[0].duration : undefined,
+                    cooldown: sk.cooldown || undefined,
+                };
+            });
+        });
+        setSkillInfoMap(infoMap);
+
+        // Build charId → charName map for source resolution
+        const idToName: Record<string, string> = {};
+        activeSlots.forEach((slot, idx) => {
+            const charId = `${slot.char.data.characterID}_${idx}`;
+            idToName[charId] = slot.char.data.characterName;
+        });
+        setCharIdToName(idToName);
     };
 
     // Pad slots array to always be length 5 for UI consistency
@@ -254,6 +302,7 @@ const Home: React.FC = () => {
                                 burstWindows={burstWindows}
                                 title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
                             />
+                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
                         </div>
                     ) : (
                         <h2 className="chart-title-empty">차트</h2>

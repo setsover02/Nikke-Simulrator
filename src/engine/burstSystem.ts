@@ -57,7 +57,7 @@ function fireBurst(ctx: BattleContext, char: Character): void {
     // 버스트 스킬 효과 적용
     const effects: any[] = (burstSkill as any).effects ?? [];
     for (const effectDef of effects) {
-        applyEffect(ctx, char, effectDef);
+        applyEffect(ctx, char, (burstSkill as any).name || 'Burst Skill', effectDef);
     }
 
     // 버스트 캐스트 트리거 스킬 발동 (burst_cast 트리거를 가진 passive 스킬)

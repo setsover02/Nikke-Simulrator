@@ -34,6 +34,7 @@ export interface ScenarioResult {
     charName: string;
     totalDmg: number;
     hitDamages: HitDamages;
+    buffTimeline: any[];
 }
 
 export interface ScenarioSummary {

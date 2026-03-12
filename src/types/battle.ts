@@ -6,6 +6,15 @@ export interface Skill {
     // ...
 }
 
+export interface BuffTimelineEvent {
+    skillName: string;
+    buffType: string;
+    startTime: number;
+    endTime: number;
+    isBullet: boolean;
+    sourceCharId: string;
+}
+
 export interface Character {
     id: string;
     slotIndex: number;           // 팀 내 슬롯 번호 (0-based, 버스트 우선순위 결정)
@@ -46,6 +55,7 @@ export interface Character {
     buff?: any;
     buffTimers?: Record<string, number>;        // 시간 기반 버프 만료 타이머
     buffBulletCounters?: Record<string, number>; // 탄환 소모 기반 버프 만료 카운터
+    buffTimeline?: BuffTimelineEvent[]; // 타임라인 기록용 배열
     atkCoef?: number;
     critMult?: number;
     coreDamage?: number;
@@ -136,4 +146,5 @@ export interface BattleResult {
     burstCount: number;
     burstZones: { start: number; end: number }[];
     log: LogEntry[];
+    team: Team;
 }

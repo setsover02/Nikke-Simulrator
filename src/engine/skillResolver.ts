@@ -127,7 +127,7 @@ export function resolveSkills(ctx: BattleContext) {
                 }
 
                 skill.effects.forEach((effectDef) => {
-                    handleEffectTrigger(ctx, char, skill.id, effectDef);
+                    handleEffectTrigger(ctx, char, skill.id, skill.name, effectDef);
                 });
             }
         });
@@ -141,7 +141,7 @@ export function resolveSkills(ctx: BattleContext) {
                 if (intervalSkill.timeSinceLastHit >= intervalSkill.effectDef.interval) {
                     intervalSkill.timeSinceLastHit -= intervalSkill.effectDef.interval;
                     const hitDef = { ...intervalSkill.effectDef, effect: "damage" };
-                    applySpecificEffectToTarget(ctx, char, intervalSkill.target, hitDef);
+                    applySpecificEffectToTarget(ctx, char, intervalSkill.target, intervalSkill.skillName || "Interval Skill", hitDef);
                 }
             });
             char.activeIntervalSkills = char.activeIntervalSkills.filter(s => s.durationRemain > 0);
@@ -159,6 +159,7 @@ function handleEffectTrigger(
     ctx: BattleContext,
     sourceChar: Character,
     skillId: string,
+    skillName: string,
     effectDef: SkillEffectDef
 ) {
     let isTriggered = false;
@@ -306,14 +307,14 @@ function handleEffectTrigger(
         if (cond.chance !== undefined && ctx.rng.next() > cond.chance / 100) return;
     }
 
-    applyEffect(ctx, sourceChar, effectDef);
+    applyEffect(ctx, sourceChar, skillName, effectDef);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Effect Application Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef: SkillEffectDef) {
+export function applyEffect(ctx: BattleContext, sourceChar: Character, skillName: string, effectDef: SkillEffectDef) {
     // ── Global Effects (target-independent) ──
     if (effectDef.effect === "burst_gauge_charge" && effectDef.value) {
         ctx.burstGauge = Math.min(100, ctx.burstGauge + effectDef.value);
@@ -331,7 +332,7 @@ export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef
 
     const targets = resolveTargets(ctx, sourceChar, effectDef.target);
     targets.forEach(target => {
-        applySpecificEffectToTarget(ctx, sourceChar, target, effectDef);
+        applySpecificEffectToTarget(ctx, sourceChar, target, skillName, effectDef);
     });
 }
 
@@ -339,11 +340,11 @@ export function applyEffect(ctx: BattleContext, sourceChar: Character, effectDef
 // Per-Target Effect Application
 // ─────────────────────────────────────────────────────────────────────────────
 
-function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, target: any, effectDef: SkillEffectDef) {
+function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, target: any, skillName: string, effectDef: SkillEffectDef) {
     // Nested effects
     if (effectDef.effects) {
         effectDef.effects.forEach(subEff => {
-            applySpecificEffectToTarget(ctx, sourceChar, target, subEff as SkillEffectDef);
+            applySpecificEffectToTarget(ctx, sourceChar, target, skillName, subEff as SkillEffectDef);
         });
         return;
     }
@@ -449,6 +450,7 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
                 sourceChar.activeIntervalSkills.push({
                     effectDef,
                     target,
+                    skillName,
                     durationRemain: typeof effectDef.duration === "number" ? effectDef.duration : 0,
                     timeSinceLastHit: 0
                 });
@@ -494,6 +496,7 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
     char.buff = char.buff || {};
     char.buffTimers = char.buffTimers || {};
     char.buffBulletCounters = char.buffBulletCounters || {};
+    char.buffTimeline = char.buffTimeline || [];
 
     // 버프 키: effect 이름으로 단순 식별 (동일 effect 가산 방식)
     const buffKey = effectDef.effect;
@@ -667,11 +670,38 @@ function applySpecificEffectToTarget(ctx: BattleContext, sourceChar: Character, 
         char.buffTimers![buffKey] = (char.buffTimers![buffKey] || 0)
             ? Math.max(char.buffTimers![buffKey], timer) // 갱신
             : timer;
+
+        // Record timeline event
+        const existingEvent = char.buffTimeline!.find(e => e.buffType === buffKey && e.skillName === skillName && e.sourceCharId === sourceChar.id && e.endTime > ctx.time);
+        if (existingEvent) {
+            existingEvent.endTime = Math.max(existingEvent.endTime, ctx.time + timer);
+        } else {
+            char.buffTimeline!.push({
+                skillName,
+                buffType: buffKey,
+                startTime: ctx.time,
+                endTime: ctx.time + timer,
+                isBullet: false,
+                sourceCharId: sourceChar.id
+            });
+        }
     }
 
     // bullet 기반 버프 만료 등록
     if (applied && effectDef.bullet) {
         char.buffBulletCounters![buffKey] = effectDef.bullet;
+
+        const existingEvent = char.buffTimeline!.find(e => e.buffType === buffKey && e.skillName === skillName && e.sourceCharId === sourceChar.id && e.isBullet && e.endTime === ctx.config.duration);
+        if (!existingEvent) {
+            char.buffTimeline!.push({
+                skillName,
+                buffType: buffKey,
+                startTime: ctx.time,
+                endTime: ctx.config.duration,
+                isBullet: true,
+                sourceCharId: sourceChar.id
+            });
+        }
     }
 }
 
@@ -685,14 +715,19 @@ function updateBuffTimers(ctx: BattleContext) {
         for (const [buffName, timeRemain] of Object.entries(char.buffTimers)) {
             char.buffTimers[buffName] = (timeRemain as number) - ctx.delta;
             if (char.buffTimers[buffName] <= 0) {
-                expireBuff(char, buffName);
+                expireBuff(ctx, char, buffName);
                 delete char.buffTimers[buffName];
             }
         }
     });
 }
 
-export function expireBuff(char: Character, buffName: string) {
+export function expireBuff(ctx: BattleContext, char: Character, buffName: string) {
+    if (char.buffTimeline) {
+        const activeEvents = char.buffTimeline.filter(e => e.buffType === buffName && e.endTime > ctx.time);
+        activeEvents.forEach(e => { e.endTime = ctx.time; });
+    }
+
     switch (buffName) {
         case "critical_rate_up": char.buff!.critRate = 0; break;
         case "critical_damage_up":
@@ -716,12 +751,12 @@ export function expireBuff(char: Character, buffName: string) {
 // Bullet-based buff countdown (called from damageCalc after each shot)
 // ─────────────────────────────────────────────────────────────────────────────
 
-export function decrementBulletBuffs(char: Character) {
+export function decrementBulletBuffs(ctx: BattleContext, char: Character) {
     if (!char.buffBulletCounters || !char.buff) return;
     for (const [buffName, bulletsLeft] of Object.entries(char.buffBulletCounters)) {
         const remaining = (bulletsLeft as number) - 1;
         if (remaining <= 0) {
-            expireBuff(char, buffName);
+            expireBuff(ctx, char, buffName);
             delete char.buffBulletCounters[buffName];
         } else {
             char.buffBulletCounters[buffName] = remaining;
@@ -757,7 +792,7 @@ export function resolveBurstCastSkills(ctx: BattleContext, burstChar: Character)
                     if (effectDef.stack_level > castCount) return;
                 }
 
-                applyEffect(ctx, char, effectDef);
+                applyEffect(ctx, char, skillDef.name, effectDef);
             });
         });
     });

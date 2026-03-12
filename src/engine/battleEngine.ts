@@ -113,5 +113,6 @@ function buildResult(ctx: BattleContext): BattleResult {
         burstCount: ctx.log.filter((l) => l.type === "burst").length,
         burstZones: ctx.burstZones,
         log: ctx.log,
+        team: ctx.team,
     };
 }
