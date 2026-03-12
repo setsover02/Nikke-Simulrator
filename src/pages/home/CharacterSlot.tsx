@@ -3,6 +3,7 @@ import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, SLOT_COLORS } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
+import { getCharDefaultState } from '../../utils/storageUtils';
 
 interface Props {
     slot: SlotState | null;
@@ -56,15 +57,7 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                         placeholder="미선택"
                         onChange={(sel: any) => {
                             if (sel) {
-                                onUpdate({
-                                    char: sel,
-                                    customHP: String(sel.data.stats.hp || ''),
-                                    customATK: String(sel.data.stats.atk || ''),
-                                    customDEF: String(sel.data.stats.defense || ''),
-                                    skill1Level: 10,
-                                    skill2Level: 10,
-                                    burstLevel: 10
-                                });
+                                onUpdate(getCharDefaultState(sel));
                             }
                         }}
                         components={{ DropdownIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
@@ -164,15 +157,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                         value={slot.char}
                         onChange={(sel: any) => {
                             if (sel) {
-                                onUpdate({
-                                    char: sel,
-                                    customHP: String(sel.data.stats.hp || ''),
-                                    customATK: String(sel.data.stats.atk || ''),
-                                    customDEF: String(sel.data.stats.defense || ''),
-                                    skill1Level: 10,
-                                    skill2Level: 10,
-                                    burstLevel: 10
-                                });
+                                onUpdate(getCharDefaultState(sel));
                             } else {
                                 onUpdate(null);
                             }

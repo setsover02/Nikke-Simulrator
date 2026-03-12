@@ -6,6 +6,7 @@ import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } 
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
+import { getCharDefaultState, saveCharSettings } from '../utils/storageUtils';
 
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
@@ -13,17 +14,7 @@ import CanvasChart from './home/CanvasChart';
 import SimToolbar from './home/SimToolbar';
 
 function createDefaultSlot(charOption = characterOptions[0]): SlotState {
-    const stats = charOption.data.stats;
-    return {
-        char: charOption,
-        customHP: String(stats.hp || ''),
-        customATK: String(stats.atk || ''),
-        customDEF: String(stats.defense || ''),
-        collectionGrade: 'None',
-        collectionLevel: '0',
-        equipATK: '0', equipWeakPoint: '0', equipAmmo: '0',
-        skill1Level: 10, skill2Level: 10, burstLevel: 10
-    };
+    return getCharDefaultState(charOption);
 }
 
 const Home: React.FC = () => {
@@ -50,12 +41,18 @@ const Home: React.FC = () => {
             if (patch === null) return null;
             if (s === null) {
                 if (patch.char) {
-                    const newSlot = createDefaultSlot(patch.char);
-                    return { ...newSlot, ...patch };
+                    const newSlot = getCharDefaultState(patch.char);
+                    const merged = { ...newSlot, ...patch };
+                    const { char, ...stateToSave } = merged;
+                    saveCharSettings(char.data.characterID, stateToSave);
+                    return merged;
                 }
                 return null;
             }
-            return { ...s, ...patch };
+            const merged = { ...s, ...patch };
+            const { char, ...stateToSave } = merged;
+            saveCharSettings(char.data.characterID, stateToSave);
+            return merged;
         }));
     };
 
