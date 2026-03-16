@@ -79,7 +79,7 @@ critical_damage_up: 크리티컬 대미지 증가
 
 ammo_charge: 탄환 충전 (타겟의 장탄수에 비례하여 스킬 수치만큼 장탄 수 회복)
 
-burst_cooldown_reduction: 버스트 스킬 쿨다운 감소 (각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
+burst_cooldown_reduction: 버스트 스킬 재사용 시간 감소 (각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
 burst_gauge_charge: 버스트 게이지  충전(버스트 게이지를 추후 구현 할 경우 고려사항 지금은 구현하지 않음)
 
 full_burst_time_down: 풀 버스트 시간 감소 (기본 풀버스트 시간이 10초 이므로 스킬이 트리거 될 때 풀버스트 시간 n초로 고정 감소시킨다.)
