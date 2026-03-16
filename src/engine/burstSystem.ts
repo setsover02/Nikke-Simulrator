@@ -6,7 +6,7 @@
 ================================== */
 
 import { BattleContext, Character } from '../types/battle';
-import { applyEffect, resolveBurstCastSkills } from './skillResolver';
+import { applyEffect } from './skillResolver';
 
 export const BURST_CONFIG = {
     FULL_DURATION: 10,          // 풀버스트 지속시간(초)
@@ -60,8 +60,6 @@ function fireBurst(ctx: BattleContext, char: Character): void {
         applyEffect(ctx, char, (burstSkill as any).name || 'Burst Skill', effectDef);
     }
 
-    // 버스트 캐스트 트리거 스킬 발동 (burst_cast 트리거를 가진 passive 스킬)
-    resolveBurstCastSkills(ctx, char);
 
     ctx.log.push({
         time: ctx.time,

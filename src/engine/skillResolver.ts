@@ -34,7 +34,6 @@ export interface SkillDef {
     effects: SkillEffectDef[];
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
 // Target Resolution Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -106,6 +105,17 @@ function resolveValue(effectDef: SkillEffectDef): number {
 // ─────────────────────────────────────────────────────────────────────────────
 
 export function resolveSkills(ctx: BattleContext) {
+    ctx.state = ctx.state || {};
+
+    // burst_cast 트리거 처리를 위해 이번 틱에 실제 버스트를 사용한 캐릭터를 기록
+    const burstCastSources = new Set<string>();
+    ctx.log.forEach((entry) => {
+        if (entry.type === 'burst' && entry.source && entry.time === ctx.time && (entry.description || '').includes('_fired')) {
+            burstCastSources.add(entry.source);
+        }
+    });
+    ctx.state.__burstCastSources = burstCastSources;
+
     ctx.team.members.forEach((char) => {
         if (!char.skills) return;
 
@@ -290,8 +300,25 @@ function handleEffectTrigger(
         }
     }
 
-    // ── burst_cast: 버스트 발동 시 (burstSystem에서 직접 호출하므로 여기선 skip) ──
-    if (trigger === "burst_cast") return;
+    // ── burst_cast: 시전자가 버스트 스킬을 사용한 경우 ──
+    if (trigger === "burst_cast") {
+        const burstCastSources = ctx.state.__burstCastSources as Set<string> | undefined;
+        const didBurstCastThisTick = !!burstCastSources?.has(sourceChar.id);
+        if (!didBurstCastThisTick) return;
+
+        // stack_level 카운트는 버스트 시전 1회당 스킬별 1회 증가
+        const stackKey = `${sourceChar.id}_${skillId}_burst_cast_count`;
+        const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`;
+        if (!ctx.state[stackTickKey]) {
+            ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1;
+            ctx.state[stackTickKey] = true;
+        }
+
+        const castCount = ctx.state[stackKey] || 0;
+        if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) return;
+
+        isTriggered = true;
+    }
 
     // ── kill_enemy: 단일 적 시뮬에서는 미구현 ──
     if (trigger === "kill_enemy") return;
@@ -764,36 +791,3 @@ export function decrementBulletBuffs(ctx: BattleContext, char: Character) {
     }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// burst_cast passive skill triggering (called from burstSystem after fireBurst)
-// ─────────────────────────────────────────────────────────────────────────────
-
-export function resolveBurstCastSkills(ctx: BattleContext, burstChar: Character) {
-    ctx.state = ctx.state || {};
-    ctx.team.members.forEach(char => {
-        if (!char.skills) return;
-        char.skills.forEach((skillDef: any) => {
-            if (skillDef.type !== "passive" && skillDef.type !== "active") return;
-            skillDef.effects?.forEach((effectDef: SkillEffectDef) => {
-                if (effectDef.trigger !== "burst_cast") return;
-
-                // sourceChar는 스킬을 가진 캐릭터, burst_cast는 버스트를 사용한 캐릭터가 시전자
-                // 버스트 발동 캐릭터 자신의 스킬인지 / 팀 전체 trigger인지 동일하게 처리
-                // (모든 캐릭터의 burst_cast 트리거 체크)
-
-                // stack_level 지원: burst_cast 횟수 카운팅
-                const stackKey = `${char.id}_${skillDef.id}_burst_cast_count`;
-                ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1;
-                const castCount = ctx.state![stackKey];
-
-                if (effectDef.stack_level !== undefined) {
-                    // stack_level까지의 모든 효과를 누적 적용 (합연산)
-                    // 현재 effectDef의 stack_level이 castCount 이하이면 적용
-                    if (effectDef.stack_level > castCount) return;
-                }
-
-                applyEffect(ctx, char, skillDef.name, effectDef);
-            });
-        });
-    });
-}
