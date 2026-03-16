@@ -19,8 +19,8 @@ on_hit: 피격시 n% 확률로 자신에게 (시전자 본인이 피격된 경�
 normal_attack_hit: 일반 공격 명중 시 (시전자의 일반 공격이 명중한 경우, 명중 횟수 포함)
 last_bullet_hit: 마지막 탄환 명중 시 (시전자의 마지막 탄환 소모 시, 인게임 상 마지막 탄환 소모시 재장전 한다)
 kill_enemy: 적 처치 시
-full_burst_end: 풀 버스트 종료 시
-full_burst_start: 풀 버스트 시작 시
+full_burst_end: 풀 버스트 타임 종료 시
+full_burst_start: 풀 버스트 타임 시작 시
 full_burst_time: 풀 버스트 지속 시간 동안, 풀 버스트 타임일 때 한하여
 burst_cast: 버스트 스킬 사용 시 (시전자가 버스트 스킬을 사용한 경우)
 full_charge_attack: 풀 차지 공격 시
@@ -73,7 +73,7 @@ critical_damage_up: 크리티컬 대미지 증가
 
 ammo_charge: 탄환 충전 (타겟의 장탄수에 비례하여 스킬 수치만큼 장탄 수 회복)
 
-burst_cooldown_reduction: 버스트 스킬 쿨다운 감소 (각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
+burst_cooldown_reduction: 버스트 스킬 재사용 시간 감소 (각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
 burst_gauge_charge: 버스트 게이지  충전(버스트 게이지를 추후 구현 할 경우 고려사항 지금은 구현하지 않음)
 
 full_burst_time_down: 풀 버스트 시간 감소 (기본 풀버스트 시간이 10초 이므로 스킬이 트리거 될 때 풀버스트 시간 n초로 고정 감소시킨다.)
