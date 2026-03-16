@@ -770,30 +770,31 @@ export function decrementBulletBuffs(ctx: BattleContext, char: Character) {
 
 export function resolveBurstCastSkills(ctx: BattleContext, burstChar: Character) {
     ctx.state = ctx.state || {};
-    ctx.team.members.forEach(char => {
-        if (!char.skills) return;
-        char.skills.forEach((skillDef: any) => {
-            if (skillDef.type !== "passive" && skillDef.type !== "active") return;
-            skillDef.effects?.forEach((effectDef: SkillEffectDef) => {
-                if (effectDef.trigger !== "burst_cast") return;
 
-                // sourceChar는 스킬을 가진 캐릭터, burst_cast는 버스트를 사용한 캐릭터가 시전자
-                // 버스트 발동 캐릭터 자신의 스킬인지 / 팀 전체 trigger인지 동일하게 처리
-                // (모든 캐릭터의 burst_cast 트리거 체크)
+    // burst_cast: "시전자가 버스트 스킬을 사용한 경우"
+    // => 실제로 버스트를 사용한 burstChar 자신의 burst_cast 효과만 발동
+    const char = burstChar;
+    if (!char.skills) return;
 
-                // stack_level 지원: burst_cast 횟수 카운팅
-                const stackKey = `${char.id}_${skillDef.id}_burst_cast_count`;
-                ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1;
-                const castCount = ctx.state![stackKey];
+    char.skills.forEach((skillDef: any) => {
+        if (skillDef.type !== "passive" && skillDef.type !== "active") return;
 
-                if (effectDef.stack_level !== undefined) {
-                    // stack_level까지의 모든 효과를 누적 적용 (합연산)
-                    // 현재 effectDef의 stack_level이 castCount 이하이면 적용
-                    if (effectDef.stack_level > castCount) return;
-                }
+        const burstCastEffects: SkillEffectDef[] = (skillDef.effects || [])
+            .filter((effectDef: SkillEffectDef) => effectDef.trigger === "burst_cast");
+        if (burstCastEffects.length === 0) return;
 
-                applyEffect(ctx, char, skillDef.name, effectDef);
-            });
+        // stack_level 지원: 해당 캐릭터/스킬의 burst_cast 횟수는 버스트 시전 1회당 1회 증가
+        const stackKey = `${char.id}_${skillDef.id}_burst_cast_count`;
+        ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1;
+        const castCount = ctx.state![stackKey];
+
+        burstCastEffects.forEach((effectDef: SkillEffectDef) => {
+            if (effectDef.stack_level !== undefined) {
+                // 현재 effectDef의 stack_level이 castCount 이하이면 적용
+                if (effectDef.stack_level > castCount) return;
+            }
+
+            applyEffect(ctx, char, skillDef.name, effectDef);
         });
     });
 }
