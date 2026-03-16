@@ -17,12 +17,12 @@ export interface SkillEffectDef {
   hits?: number
   based_on?: string
   condition?:
-    | string
-    | {
-        amount?: number
-        count?: number
-        target_status?: string
-      }
+  | string
+  | {
+    amount?: number
+    count?: number
+    target_status?: string
+  }
   effects?: Omit<SkillEffectDef, 'trigger' | 'target'>[] // Nested effects
   status?: string
   stack_level?: number
@@ -950,6 +950,27 @@ function applySpecificEffectToTarget(
         buffType: buffKey,
         startTime: ctx.time,
         endTime: ctx.time + timer,
+        isBullet: false,
+        sourceCharId: sourceChar.id,
+      })
+    }
+  }
+
+  // duration: 'permanent' 영구 버프 타임라인 기록 (시뮬 종료까지 유지)
+  if (applied && effectDef.duration === 'permanent') {
+    const existingEvent = char.buffTimeline!.find(
+      (e) =>
+        e.buffType === buffKey &&
+        e.skillName === skillName &&
+        e.sourceCharId === sourceChar.id &&
+        e.endTime === ctx.config.duration
+    )
+    if (!existingEvent) {
+      char.buffTimeline!.push({
+        skillName,
+        buffType: buffKey,
+        startTime: ctx.time,
+        endTime: ctx.config.duration,
         isBullet: false,
         sourceCharId: sourceChar.id,
       })

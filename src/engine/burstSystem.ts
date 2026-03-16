@@ -154,7 +154,7 @@ export function updateBurst(ctx: BattleContext): void {
             if (ctx.burstChainTimer <= 0) {
                 // 10초 내 L3 없음 → 체인 실패
                 ctx.burstChainState = 'gauge_filling';
-                ctx.burstChainTimer = getGaugeDelay(ctx);
+                ctx.burstChainTgimer = getGaugeDelay(ctx);
             }
         }
         return;
@@ -166,7 +166,7 @@ export function updateBurst(ctx: BattleContext): void {
         if (ctx.fullBurstTimer <= 0) {
             ctx.burstActive = false;
             ctx.burstChainState = 'gauge_filling';
-            ctx.burstChainTimer = getGaugeDelay(ctx);
+            ctx.burstChainTimer = getGaueDelay(ctx);
             ctx.fullBurstTimer = 0;
             // burstZones 마지막 항목의 end 정확하게 기록
             if (ctx.burstZones.length > 0) {

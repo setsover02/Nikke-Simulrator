@@ -58,7 +58,7 @@
                     "target": "all_allies",
                     "effect": "burst_cooldown_reduction",
                     "value": 2.34,
-                    "unit": "percent",
+                    "unit": "second",
                     "stack_level": 1
                 },
                 {
@@ -66,7 +66,7 @@
                     "target": "all_allies",
                     "effect": "burst_cooldown_reduction",
                     "value": 2.7,
-                    "unit": "percent",
+                    "unit": "second",
                     "stack_level": 2
                 },
                 {
@@ -74,7 +74,7 @@
                     "target": "all_allies",
                     "effect": "burst_cooldown_reduction",
                     "value": 3.17,
-                    "unit": "percent",
+                    "unit": "second",
                     "stack_level": 3
                 },
                 {
@@ -94,7 +94,8 @@
                         10.77
                     ],
                     "unit": "percent",
-                    "stack_level": 1
+                    "stack_level": 1,
+                    "duration": 5
                 },
                 {
                     "trigger": "burst_cast",
@@ -113,7 +114,8 @@
                         12.46
                     ],
                     "unit": "percent",
-                    "stack_level": 2
+                    "stack_level": 2,
+                    "duration": 5
                 },
                 {
                     "trigger": "burst_cast",
@@ -132,7 +134,8 @@
                         14.42
                     ],
                     "unit": "percent",
-                    "stack_level": 3
+                    "stack_level": 3,
+                    "duration": 5
                 }
             ]
         },

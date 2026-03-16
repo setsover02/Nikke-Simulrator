@@ -115,8 +115,26 @@ const Home: React.FC = () => {
 
         const result = simulateBattle(buildTeam(showCore), { ...ENEMY }, config);
 
-        const extractChars = (resultData: typeof result) =>
-            activeSlots.map((slot, idx) => {
+        const extractChars = (resultData: typeof result) => {
+            // 적 디버프(damage_taken_up)는 파티 전체에서 합산 (모든 니케에게 적용)
+            let teamEnemyTakenUp = 0;
+            for (const aSlot of activeSlots) {
+                const aSkills = aSlot.char.data.skills || [];
+                for (const skill of aSkills) {
+                    const sLvl = skill.id === 'skill_1' ? (aSlot.skill1Level || 10)
+                        : skill.id === 'skill_2' ? (aSlot.skill2Level || 10)
+                            : skill.id === 'burst' ? (aSlot.burstLevel || 10) : 10;
+                    const sLvIdx = Math.max(0, Math.min(9, sLvl - 1));
+                    for (const eff of (skill.effects || []) as any[]) {
+                        if (eff.trigger === 'enemy_spawn' && eff.target === 'enemy' && eff.value && eff.duration === 'permanent') {
+                            const val = Array.isArray(eff.value) ? eff.value[sLvIdx] : eff.value;
+                            teamEnemyTakenUp += (val || 0) / 100;
+                        }
+                    }
+                }
+            }
+
+            return activeSlots.map((slot, idx) => {
                 const charId = `${slot.char.data.characterID}_${idx}`;
                 const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
                 const totalDmg = resultData.log
@@ -143,16 +161,6 @@ const Home: React.FC = () => {
                 // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
                 const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, idx, skillLevels);
 
-                let enemyTakenUp = 0;
-                const skills = slot.char.data.skills || [];
-                for (const skill of skills) {
-                    for (const eff of (skill.effects || []) as any[]) {
-                        if (eff.trigger === 'enemy_spawn' && eff.target === 'enemy' && eff.value && eff.duration === 'permanent') {
-                            enemyTakenUp += eff.value / 100;
-                        }
-                    }
-                }
-
                 const hitDamages = calcHitDamages({
                     atk: customATK > 0 ? customATK : char.atk,
                     atkCoef: char.atkCoef,
@@ -167,7 +175,7 @@ const Home: React.FC = () => {
                     critMult: char.critMult,
                     fullChargeDamage: char.fullChargeDamage,
                     pelletCount: charStats.pelletCount,
-                }, ENEMY.defense, rangeMode, isWeak, enemyTakenUp);
+                }, ENEMY.defense, rangeMode, isWeak, teamEnemyTakenUp);
 
                 return {
                     charId,
@@ -177,7 +185,7 @@ const Home: React.FC = () => {
                     buffTimeline: resultData.team.members[idx]?.buffTimeline || []
                 };
             });
-
+        }
         const sumDamage = (resultData: typeof result) => {
             const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
             return resultData.log
