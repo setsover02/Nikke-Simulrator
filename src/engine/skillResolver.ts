@@ -38,8 +38,28 @@ export interface SkillDef {
 // Target Resolution Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
+function getFinalAtk(c: Character): number {
+    return Math.round(c.atk * (1 + (c.equipATKPercent ?? 0) + (c.buff?.atk ?? 0))) + (c.buff?.extraATK ?? 0);
+}
+
+function getFinalDef(c: Character): number {
+    return Math.round(c.defense * (1 + (c.buff?.def ?? 0)));
+}
+
+function getFinalHp(c: Character): number {
+    return Math.round(c.hp * (1 + (c.buff?.maxHp ?? 0)));
+}
+
 function topNByAtk(members: Character[], n: number): Character[] {
-    return [...members].sort((a, b) => b.atk - a.atk).slice(0, n);
+    return [...members].sort((a, b) => getFinalAtk(b) - getFinalAtk(a)).slice(0, n);
+}
+
+function topNByDef(members: Character[], n: number): Character[] {
+    return [...members].sort((a, b) => getFinalDef(b) - getFinalDef(a)).slice(0, n);
+}
+
+function topNByMaxHp(members: Character[], n: number): Character[] {
+    return [...members].sort((a, b) => getFinalHp(b) - getFinalHp(a)).slice(0, n);
 }
 
 function resolveTargets(ctx: BattleContext, sourceChar: Character, target: string): any[] {
@@ -56,10 +76,21 @@ function resolveTargets(ctx: BattleContext, sourceChar: Character, target: strin
     if (target === "highest_atk_allies_2") return topNByAtk(members, 2);
     if (target === "highest_atk_allies_3" || target === "top3_final_atk_allies") return topNByAtk(members, 3);
 
-    // ── Lowest HP Ally ──
+    // ── N Highest DEF/HP Allies ──
+    if (target === "highest_def_allies_1" || target === "highest_def_ally") return topNByDef(members, 1);
+    if (target === "highest_def_allies_2") return topNByDef(members, 2);
+    if (target === "highest_def_allies_3") return topNByDef(members, 3);
+
+    if (target === "highest_hp_allies_1" || target === "highest_hp_ally") return topNByMaxHp(members, 1);
+    if (target === "highest_hp_allies_2") return topNByMaxHp(members, 2);
+    if (target === "highest_hp_allies_3") return topNByMaxHp(members, 3);
+
+    // ── Lowest/Highest HP Ally ──
     if (target === "lowest_hp_ally") {
-        const min = members.reduce((a, b) => (a.hp < b.hp ? a : b));
-        return [min];
+        return [...members].sort((a, b) => getFinalHp(a) - getFinalHp(b)).slice(0, 1);
+    }
+    if (target === "lowest_hp_allies_2") {
+        return [...members].sort((a, b) => getFinalHp(a) - getFinalHp(b)).slice(0, 2);
     }
 
     // ── Weapon-type Allies ──

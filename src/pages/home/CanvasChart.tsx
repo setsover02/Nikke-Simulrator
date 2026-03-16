@@ -364,7 +364,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                     width: '100%', height: 'auto',
                     border: '1px solid #2a2a2a', borderRadius: '8px',
                     cursor: isDragging.current ? 'grabbing' : 'crosshair',
-                    display: 'block', userSelect: 'none', background: '#141414',
+                    display: 'block', userSelect: 'none',
                 }}
             />
             {hoverInfo && (

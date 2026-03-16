@@ -78,7 +78,7 @@ body {
 
 .home-grid {
     display: flex;
-    background: #1c1c1c;
+    background: var(--shade-800);
     border-radius: 12px;
 }
 

@@ -213,7 +213,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
 
                 <span className="color-777">큐브</span>
                 <div className="cube-badge">
-                    <span className="cube-badge-title">단추</span> <span className="cube-badge-value">-</span>
+                    <span className="cube-badge-title">큐브</span> <span className="cube-badge-value">-</span>
                 </div>
             </div>
 

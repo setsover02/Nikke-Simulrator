@@ -33,7 +33,7 @@ interface CanvasTimelineChartProps {
     charIdToName?: Record<string, string>;
 }
 
-const LINE_HEIGHT = 28;
+const LINE_HEIGHT = 20;
 const CHAR_GAP = 12;
 const ROW_GAP = 4;
 const PADDING = { top: 30, right: 20, bottom: 40, left: 200 };
@@ -239,7 +239,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                 let drawW = toX(endX) - drawX;
                 drawW = Math.max(2, drawW); // min width 2px
 
-                const radius = 4;
+                const radius = 0;
                 ctx.beginPath();
                 ctx.roundRect(drawX, yCursor + 4, drawW, LINE_HEIGHT - 8, radius);
                 ctx.fill();
@@ -435,7 +435,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     onClick={() => { setViewMin(0); setViewMax(null); }}
                     style={{
                         position: 'absolute', top: '10px', right: '30px', zIndex: 10,
-                        padding: '3px 8px', fontSize: '11px', background: '#2a2a2a',
+                        padding: '3px 8px', fontSize: '11px',
                         color: '#aaa', border: '1px solid #444', borderRadius: '4px', cursor: 'pointer',
                     }}
                 >
@@ -450,9 +450,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                 onMouseLeave={handleMouseLeave}
                 style={{
                     display: 'block',
-                    background: '#1e1e1e',
                     borderRadius: '4px',
-                    border: '1px solid #333',
                     cursor: isDragging.current ? 'grabbing' : 'auto',
                     userSelect: 'none',
                     touchAction: 'none' // For mobile panning prevention
@@ -463,7 +461,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     position: 'absolute',
                     left: `${Math.min(tooltip.x + 15, (wrapperRef.current?.clientWidth ?? 400) - 220)}px`,
                     top: `${Math.max(10, tooltip.y - 10)}px`,
-                    backgroundColor: 'rgba(15, 15, 25, 0.95)',
+                    backgroundColor: 'rgba(18, 18, 18, 0.95)',
                     border: '1px solid #444',
                     borderRadius: '6px',
                     padding: '10px 12px',

@@ -1,0 +1,25 @@
+{
+    "characterID": "Anis",
+    "characterName": "아니스",
+    "stats": {
+        "rarity": "SR",
+        "element": "철갑",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Tetra",
+        "squad": "카운터스",
+        "burstLevel": 2,
+        "atk": 230426,
+        "defense": 62659,
+        "hp": 8258445,
+        "atkCoef": 65.02,
+        "maxAmmo": 9,
+        "reloadTime": 0.67,
+        "fireRate": 0,
+        "chargeTime": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200,
+        "pelletCount": 0
+    },
+    "skills": []
+}
