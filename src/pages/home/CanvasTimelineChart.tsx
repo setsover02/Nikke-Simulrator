@@ -43,8 +43,37 @@ interface TimelineRow {
     charName: string;
     skillName: string;
     sourceCharName: string;
+    buffType: string;
     color: string;
     events: { start: number; end: number }[];
+}
+
+function normalizeEffectKey(value: string): string {
+    return (value || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function isMatchingEffect(buffType: string, effectName: string): boolean {
+    const b = normalizeEffectKey(buffType);
+    const e = normalizeEffectKey(effectName);
+    if (!b || !e) return false;
+    if (b === e) return true;
+
+    const aliasMap: Record<string, string[]> = {
+        attackpowerup: ['atkup'],
+        atkup: ['attackpowerup'],
+        attackdamageup: ['atkdamageup'],
+        atkdamageup: ['attackdamageup'],
+        criticaldamageup: ['critdamageup'],
+        critdamageup: ['criticaldamageup'],
+        receiveheal: ['recevieheal'],
+        recevieheal: ['receiveheal'],
+        defenseup: ['defup'],
+        defup: ['defenseup'],
+    };
+
+    const bAliases = aliasMap[b] || [];
+    const eAliases = aliasMap[e] || [];
+    return bAliases.includes(e) || eAliases.includes(b);
 }
 
 const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, duration, title = 'Buff Timeline', skillInfoMap, charIdToName }) => {
@@ -57,11 +86,12 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
         y: number;
         charName: string;
         skillName: string;
+        buffType: string;
         skillInfo: SkillInfo;
     } | null>(null);
 
     // Store row Y positions for hit testing
-    const rowPositionsRef = useRef<{ charName: string; skillName: string; sourceCharName: string; y: number; h: number }[]>([]);
+    const rowPositionsRef = useRef<{ charName: string; skillName: string; sourceCharName: string; buffType: string; y: number; h: number }[]>([]);
 
     const [viewMin, setViewMin] = useState(0);
     const [viewMax, setViewMax] = useState<number | null>(null);
@@ -84,18 +114,19 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
             const tl = char.buffTimeline || [];
             if (tl.length === 0) return;
 
-            // Group by skillName + sourceCharId uniquely relative to this character
-            const bySkill: Record<string, { start: number, end: number, sourceCharId: string }[]> = {};
+            // Group by skillName + sourceCharId + buffType for effect-level rows
+            const bySkill: Record<string, { start: number, end: number, sourceCharId: string, buffType: string }[]> = {};
             tl.forEach(e => {
-                const key = `${e.skillName}__${e.sourceCharId}`;
+                const key = `${e.skillName}__${e.sourceCharId}__${e.buffType}`;
                 if (!bySkill[key]) bySkill[key] = [];
-                bySkill[key].push({ start: e.startTime, end: e.endTime, sourceCharId: e.sourceCharId });
+                bySkill[key].push({ start: e.startTime, end: e.endTime, sourceCharId: e.sourceCharId, buffType: e.buffType });
             });
 
             // Flatten
             for (const [compositeKey, events] of Object.entries(bySkill)) {
                 const [skillName] = compositeKey.split('__');
                 const sourceCharId = events[0]?.sourceCharId || '';
+                const buffType = events[0]?.buffType || 'effect';
                 const sourceCharName = charIdToName?.[sourceCharId] || char.charName;
                 // merge overlapping just in case to avoid rendering artifacts
                 const sorted = [...events].sort((a, b) => a.start - b.start);
@@ -117,14 +148,15 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     charName: char.charName,
                     skillName,
                     sourceCharName,
-                    color: stringToColor(`${char.charName}_${skillName}_${sourceCharId}`),
+                    buffType,
+                    color: stringToColor(`${char.charName}_${skillName}_${sourceCharId}_${buffType}`),
                     events: merged
                 });
             }
         });
 
         return rows;
-    }, [summary]);
+    }, [summary, charIdToName]);
 
     const getViewRange = useCallback((): [number, number] => {
         return [viewMin, viewMax ?? duration];
@@ -274,8 +306,8 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
             ctx.textBaseline = 'middle';
             // Show source character name if it differs from the receiving character
             const label = row.sourceCharName !== row.charName
-                ? `${row.skillName.substring(0, 14)} (${row.sourceCharName.substring(0, 6)})`
-                : row.skillName.substring(0, 18);
+                ? `${row.skillName.substring(0, 10)}·${row.buffType.substring(0, 7)} (${row.sourceCharName.substring(0, 6)})`
+                : `${row.skillName.substring(0, 11)} · ${row.buffType.substring(0, 8)}`;
             ctx.fillText(label, PADDING.left - 10, yCursor + LINE_HEIGHT / 2);
 
             yCursor += LINE_HEIGHT + ROW_GAP;
@@ -293,6 +325,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                 charName: row.charName,
                 skillName: row.skillName,
                 sourceCharName: row.sourceCharName,
+                buffType: row.buffType,
                 y: yCursor,
                 h: LINE_HEIGHT
             });
@@ -407,12 +440,17 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                 if (logicalY >= pos.y && logicalY <= pos.y + pos.h) {
                     const info = skillInfoMap[pos.sourceCharName]?.[pos.skillName];
                     if (info && info.effects.length > 0) {
+                        const matchedEffects = info.effects.filter((eff) => isMatchingEffect(pos.buffType, eff.effect));
                         setTooltip({
                             x: mouseX,
                             y: mouseY,
                             charName: pos.sourceCharName,
                             skillName: pos.skillName,
-                            skillInfo: info,
+                            buffType: pos.buffType,
+                            skillInfo: {
+                                ...info,
+                                effects: matchedEffects.length > 0 ? matchedEffects : info.effects,
+                            },
                         });
                         return;
                     }
@@ -474,7 +512,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     maxWidth: '300px',
                 }}>
                     <div style={{ borderBottom: '1px solid #444', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
-                        <span style={{ color: '#fff' }}>{tooltip.charName}</span> — {tooltip.skillName}
+                        <span style={{ color: '#fff' }}>{tooltip.charName}</span> — {tooltip.skillName} · {tooltip.buffType}
                         {(tooltip.skillInfo.duration || tooltip.skillInfo.cooldown) && (
                             <span style={{ marginLeft: '8px', color: '#777', fontWeight: 'normal' }}>
                                 {tooltip.skillInfo.duration ? `dur: ${tooltip.skillInfo.duration}s` : ''}
