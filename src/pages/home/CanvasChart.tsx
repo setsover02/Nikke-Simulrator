@@ -17,6 +17,7 @@ interface CanvasChartProps {
     datasets: Dataset[];
     burstWindows?: BurstWindow[];
     title?: string;
+    charIdToName?: Record<string, string>;
 }
 
 const MIN_ZOOM_RANGE = 5;
@@ -29,7 +30,7 @@ function hexToRgba(hex: string, alpha: number): string {
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
-const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat Damage' }: CanvasChartProps) => {
+const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat Damage', charIdToName = {} }: CanvasChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
@@ -393,6 +394,15 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                             {Math.floor(hoverInfo.values[hoverInfo.values.length - 1]?.stackedTop ?? 0).toLocaleString()}
                         </span>
                     </div>
+                    {(() => {
+                        const bw = burstWindows.find(w => hoverInfo.time >= w.start && hoverInfo.time <= w.end);
+                        if (!bw || bw.casters.length === 0) return null;
+                        return (
+                            <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', color: 'rgba(255,215,0,0.9)', fontSize: '11px' }}>
+                                ⚡ {bw.casters.map(id => charIdToName[id] || id).join(' → ')}
+                            </div>
+                        );
+                    })()}
                 </div>
             )}
         </div>

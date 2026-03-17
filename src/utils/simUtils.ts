@@ -38,6 +38,7 @@ export const generateCombinedChartData = (result: any, duration: number) => {
 export interface BurstWindow {
     start: number;
     end: number;
+    casters: string[]; // IDs of characters who fired bursts in this window
 }
 
 export const generateBurstWindows = (
@@ -46,21 +47,26 @@ export const generateBurstWindows = (
 ): BurstWindow[] => {
     const windows: BurstWindow[] = [];
     let startTime: number | null = null;
+    let currentCasters: string[] = [];
 
     for (const entry of log) {
         if (entry.type === 'burst') {
+            if ((entry.description || '').includes('_fired') && entry.source) {
+                currentCasters.push(entry.source);
+            }
             if (entry.description === 'full_burst_start') {
                 startTime = entry.time;
             } else if (entry.description === 'full_burst_end' && startTime !== null) {
-                windows.push({ start: startTime, end: Math.min(duration, entry.time) });
+                windows.push({ start: startTime, end: Math.min(duration, entry.time), casters: [...currentCasters] });
                 startTime = null;
+                currentCasters = [];
             }
         }
     }
 
     // 전투 종료 시 풀버스트가 진행 중이었다면 닫기
     if (startTime !== null) {
-        windows.push({ start: startTime, end: duration });
+        windows.push({ start: startTime, end: duration, casters: [...currentCasters] });
     }
 
     return windows;

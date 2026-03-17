@@ -229,6 +229,7 @@ const Home: React.FC = () => {
                     if (Array.isArray(val)) val = val[lvIdx];
                     const unit = eff.unit === 'percent' ? '%' : '';
                     return {
+                        trigger: eff.trigger || undefined,
                         target: eff.target || 'self',
                         effect: eff.effect || '',
                         value: val != null ? `${val}${unit}` : '-',
@@ -315,6 +316,7 @@ const Home: React.FC = () => {
                                 datasets={chartDatasets}
                                 burstWindows={burstWindows}
                                 title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                charIdToName={charIdToName}
                             />
                             {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
                         </div>

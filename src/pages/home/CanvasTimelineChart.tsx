@@ -12,6 +12,7 @@ function stringToColor(str: string): string {
 }
 
 export interface SkillEffectInfo {
+    trigger?: string;
     target: string;
     effect: string;
     value: string;
@@ -523,6 +524,9 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     </div>
                     {tooltip.skillInfo.effects.map((eff, i) => (
                         <div key={i} style={{ marginBottom: '3px', color: '#ddd', lineHeight: '1.4' }}>
+                            {eff.trigger && (
+                                <span style={{ color: '#ff9800', fontSize: '10px', marginRight: '4px' }}>⚡{eff.trigger}</span>
+                            )}
                             <span style={{ color: '#888' }}>{eff.target}:</span>{' '}
                             <span style={{ color: '#ccc' }}>{eff.effect}:</span>{' '}
                             <span style={{ color: '#4fc3f7', fontWeight: 'bold' }}>[{eff.value}]</span>
