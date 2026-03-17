@@ -12,12 +12,12 @@
         "atk": 438510,
         "defense": 65627,
         "hp": 10041160,
-        "atkCoef": 22.44,
+        "atkCoef": 61.3,
         "maxAmmo": 8,
         "reloadTime": 2,
         "fireRate": 0,
         "chargeTime": 1,
-        "fullChargeDamage": 200,
+        "fullChargeDamage": 250,
         "coreDamage": 200
     },
     "skills": [
