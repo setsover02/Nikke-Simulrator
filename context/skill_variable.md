@@ -73,9 +73,11 @@ overheal_storage: 초과 받는 체력 회복량 저장
 max_hp_up: 최대 체력 증가 (target 기준 체력 으로 증가한다)
 damage: 대미지 (해당 스킬이 트리거에 따라 발동할 때 추가 타격)
 extra_damage: 추가 대미지 (아마 평타에 이 만큼 추가 되는 것인듯? 사격장 테스트 필요, 풀버스트 발동시 적용되는 fullBurstBonus의 대미지 보너스가 적용됨)
+interval_damage: (interval이 있는 연속 공격, 지속 대미지 아님)
 cover_defense_up: 엄폐물 방어력 증가
 critical_rate_up: 크리티컬 확률 증가
 critical_damage_up: 크리티컬 대미지 증가
+
 
 ammo_charge: 탄환 충전 (타겟의 장탄수에 비례하여 스킬 수치만큼 장탄 수 회복)
 

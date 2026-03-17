@@ -602,7 +602,8 @@ function applySpecificEffectToTarget(
         }
 
         const wm = getWeaponMultipliers(sourceChar.weapon)
-        const isCrit = ctx.rng.next() < (sourceChar.crit ?? 15) / 100
+        const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
+        const isCrit = ctx.rng.next() < critChance
         const dmgPercent = value / 100
         const singleDmg = calcNikkeDamage({
           baseATK: sourceChar.atk,
@@ -616,7 +617,7 @@ function applySpecificEffectToTarget(
           normalAtkMultiplier: 0,
           isNormalAttack: false,
           isCrit,
-          critBonusBase: wm.critBonus,
+          critBonusBase: sourceChar.critMult ? (sourceChar.critMult - 1) : wm.critBonus,
           extraCritDmg: sourceChar.buff?.critDmg ?? 0,
           isCore: false,
           coreHitBonus: 0,
@@ -658,7 +659,7 @@ function applySpecificEffectToTarget(
         break
       }
 
-      // Interval Damage (지속 피해)
+      // Interval Damage (일정 시간마다 스킬 대미지 발생, 지속 피해(DoT) 아님)
       case 'interval_damage':
         sourceChar.activeIntervalSkills = sourceChar.activeIntervalSkills || []
         sourceChar.activeIntervalSkills.push({
