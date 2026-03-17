@@ -264,7 +264,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
         const absMax = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
         const range = vMax - vMin;
-        const PL = 90, PR = 20;
+        const PL = 214, PR = 20;
         const canvas = canvasRef.current!;
         const graphW = canvas.width - PL - PR;
 
@@ -303,7 +303,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             const absMax = getAbsMaxTime();
             const [vMin, vMax] = [viewMinRef.current, viewMaxRef.current ?? absMax];
             const range = vMax - vMin;
-            const PL = 90, PR = 20;
+            const PL = 214, PR = 20;
             const graphW = canvas.width - PL - PR;
             const dx = (e.clientX - lastDragX.current) * (canvas.width / canvas.clientWidth);
             lastDragX.current = e.clientX;
@@ -317,7 +317,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             return;
         }
 
-        const PL = 90, PR = 20;
+        const PL = 214, PR = 20;
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;

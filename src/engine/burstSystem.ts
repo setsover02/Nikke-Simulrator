@@ -15,13 +15,13 @@ export const BURST_CONFIG = {
     CHAIN_TIMEOUT: 10,          // 버스트 체인 단계별 대기 최대 시간(초)
 };
 
-/** 게이지 딜레이 값을 config에서 읽어 최솟값 보정 후 반환 */
+/** 게이지 딜레이 값을 config에서 읽어 반환 (0이면 즉시) */
 function getGaugeDelay(ctx: BattleContext): number {
     return Math.max(
-        BURST_CONFIG.GAUGE_DELAY_MIN,
+        0,
         ctx.config.burstGaugeDelay
         ?? ctx.config.fullBurstInterval   // 하위호환
-        ?? BURST_CONFIG.GAUGE_DELAY
+        ?? 0
     );
 }
 
@@ -102,17 +102,19 @@ export function updateBurst(ctx: BattleContext): void {
 
     // ── gauge_filling: 게이지 충전 딜레이 대기 ─────────────────
     if (state === 'gauge_filling') {
-        ctx.burstChainTimer -= ctx.delta;
+        if (ctx.burstChainTimer > 0) {
+            ctx.burstChainTimer -= ctx.delta;
+        }
+        
         if (ctx.burstChainTimer <= 0) {
-            // 게이지 100% 도달 → L1 체인 시작 시도
+            // 게이지 100% 도달 → L1 체인 시작 시도 (쿨타임 될 때까지 대기)
             const l1Char = findBurstCandidate(ctx, 1);
             if (l1Char) {
                 fireBurst(ctx, l1Char);
                 ctx.burstChainState = 'chain_l2';
                 ctx.burstChainTimer = BURST_CONFIG.CHAIN_TIMEOUT;
             } else {
-                // L1 니케가 전원 쿨타임 → 게이지 100% 유지, 매 틱 재시도
-                ctx.burstChainTimer = 0;
+                // L1 니케가 전원 쿨타임 → 게이지 100% 유지, 매 틱 재시도 (아무것도 안 함)
             }
         }
         return;
@@ -154,7 +156,7 @@ export function updateBurst(ctx: BattleContext): void {
             if (ctx.burstChainTimer <= 0) {
                 // 10초 내 L3 없음 → 체인 실패
                 ctx.burstChainState = 'gauge_filling';
-                ctx.burstChainTgimer = getGaugeDelay(ctx);
+                ctx.burstChainTimer = getGaugeDelay(ctx);
             }
         }
         return;
@@ -166,7 +168,7 @@ export function updateBurst(ctx: BattleContext): void {
         if (ctx.fullBurstTimer <= 0) {
             ctx.burstActive = false;
             ctx.burstChainState = 'gauge_filling';
-            ctx.burstChainTimer = getGaueDelay(ctx);
+            ctx.burstChainTimer = getGaugeDelay(ctx);
             ctx.fullBurstTimer = 0;
             // burstZones 마지막 항목의 end 정확하게 기록
             if (ctx.burstZones.length > 0) {

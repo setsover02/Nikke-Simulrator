@@ -67,9 +67,9 @@ const Home: React.FC = () => {
 
     const handleSimulate = () => {
         const parsedBurstInterval = parseFloat(fullBurstInterval);
-        const burstGaugeDelay = Number.isFinite(parsedBurstInterval) && parsedBurstInterval >= 2.52
+        const burstGaugeDelay = Number.isFinite(parsedBurstInterval) && parsedBurstInterval >= 0
             ? parsedBurstInterval
-            : 4.58;
+            : 0;
 
         const config: SimConfig = {
             duration: 180,
