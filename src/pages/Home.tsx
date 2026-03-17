@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { simulateBattle } from '../engine/battleEngine';
 import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
-import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow } from '../utils/simUtils';
+import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow, generateScatterData } from '../utils/simUtils';
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions, SLOT_COLORS } from '../constants/characters';
 import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
@@ -11,6 +11,7 @@ import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout }
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
 import CanvasChart from './home/CanvasChart';
+import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
 
@@ -38,6 +39,8 @@ const Home: React.FC = () => {
     const [showCore, setShowCore] = useState<boolean>(false);
     const [skillInfoMap, setSkillInfoMap] = useState<Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>>>({});
     const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
+    const [chartTab, setChartTab] = useState<'total' | 'skill'>('total');
+    const [skillChartDatasets, setSkillChartDatasets] = useState<any[]>([]);
 
     useEffect(() => {
         const layoutIds = slots.map(s => s ? s.char.data.characterID : null);
@@ -210,6 +213,18 @@ const Home: React.FC = () => {
         });
 
         setChartDatasets(ds);
+
+        // Skill damage only datasets
+        const SKILL_TYPES = new Set(['skill_damage']);
+        const skillDs: any[] = [];
+        activeSlots.forEach((slot, idx) => {
+            const charId = `${slot.char.data.characterID}_${idx}`;
+            const charName = slot.char.data.characterName;
+            const color = SLOT_COLORS[idx % SLOT_COLORS.length];
+            skillDs.push({ label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) });
+        });
+        setSkillChartDatasets(skillDs);
+
         setBurstWindows(generateBurstWindows(result.log, config.duration));
 
         // Build skill info map for timeline tooltip
@@ -312,12 +327,44 @@ const Home: React.FC = () => {
                 <div className="chart-container-wrapper">
                     {chartDatasets.length > 0 ? (
                         <div style={{ width: '100%' }}>
-                            <CanvasChart
-                                datasets={chartDatasets}
-                                burstWindows={burstWindows}
-                                title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
-                                charIdToName={charIdToName}
-                            />
+                            {/* Tab Bar */}
+                            <div style={{ display: 'flex', gap: '0', marginBottom: '8px' }}>
+                                <button
+                                    onClick={() => setChartTab('total')}
+                                    style={{
+                                        padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'total' ? 'bold' : 'normal',
+                                        background: chartTab === 'total' ? '#333' : '#1e1e1e',
+                                        color: chartTab === 'total' ? '#fff' : '#888',
+                                        border: '1px solid #444', borderBottom: chartTab === 'total' ? '2px solid #4fc3f7' : '1px solid #444',
+                                        borderRadius: '6px 6px 0 0', cursor: 'pointer',
+                                    }}
+                                >전체 대미지</button>
+                                <button
+                                    onClick={() => setChartTab('skill')}
+                                    style={{
+                                        padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'skill' ? 'bold' : 'normal',
+                                        background: chartTab === 'skill' ? '#333' : '#1e1e1e',
+                                        color: chartTab === 'skill' ? '#fff' : '#888',
+                                        border: '1px solid #444', borderBottom: chartTab === 'skill' ? '2px solid #ff9800' : '1px solid #444',
+                                        borderRadius: '6px 6px 0 0', cursor: 'pointer',
+                                    }}
+                                >스킬 대미지</button>
+                            </div>
+                            {chartTab === 'total' ? (
+                                <CanvasChart
+                                    datasets={chartDatasets}
+                                    burstWindows={burstWindows}
+                                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                    charIdToName={charIdToName}
+                                />
+                            ) : (
+                                <CanvasScatterChart
+                                    datasets={skillChartDatasets}
+                                    burstWindows={burstWindows}
+                                    title="Skill Damage Instances"
+                                    charIdToName={charIdToName}
+                                />
+                            )}
                             {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
                         </div>
                     ) : (
