@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { simulateBattle } from '../engine/battleEngine';
-import { Team, SimConfig } from '../types/battle';
-import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
-import { generateChartData, calcHitDamages, generateBurstWindows, BurstWindow, generateScatterData } from '../utils/simUtils';
 import { SlotState, ScenarioSummary } from '../types/simulator';
-import { characterOptions, SLOT_COLORS } from '../constants/characters';
-import { RangeMode, getWeaponRangeBonus } from '../constants/weaponStats';
+import { characterOptions } from '../constants/characters';
+import { RangeMode } from '../constants/weaponStats';
 import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout } from '../utils/storageUtils';
+import { BurstWindow } from '../utils/simUtils';
+import { runSimulation } from '../engine/simulationRunner';
 
 import CharacterSlot from './home/CharacterSlot';
 import ResultSummary from './home/ResultSummary';
@@ -14,10 +12,6 @@ import CanvasChart from './home/CanvasChart';
 import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
-
-function createDefaultSlot(charOption = characterOptions[0]): SlotState {
-    return getCharDefaultState(charOption);
-}
 
 const Home: React.FC = () => {
     // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
@@ -69,203 +63,22 @@ const Home: React.FC = () => {
     };
 
     const handleSimulate = () => {
-        const parsedBurstInterval = parseFloat(fullBurstInterval);
-        const burstGaugeDelay = Number.isFinite(parsedBurstInterval) && parsedBurstInterval >= 0
-            ? parsedBurstInterval
-            : 0;
-
-        const config: SimConfig = {
-            duration: 180,
-            tick: 1 / 60,
-            seed: 42,
-            fullBurstDuration: 10,
-            burstGaugeDelay,
+        const output = runSimulation({
+            slots,
+            enemyDef,
+            fullBurstInterval,
             rangeMode,
-        };
-        const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
-
-        // Keep original UI slot positions so positional buffs still respect empty gaps.
-        const activeSlots = slots
-            .map((slot, originalIndex) => (slot ? { slot, originalIndex } : null))
-            .filter((entry): entry is { slot: SlotState; originalIndex: number } => entry !== null);
-
-        const buildTeam = (includeCore: boolean): Team => ({
-            members: activeSlots.map(({ slot, originalIndex }) => {
-                const eq: EquipmentOptions = {
-                    atkPercent: parseFloat(slot.equipATK || '0') / 100,
-                    weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
-                    ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
-                };
-                const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-                const skillLevels = {
-                    skill1Level: slot.skill1Level || 10,
-                    skill2Level: slot.skill2Level || 10,
-                    burstLevelSkill: slot.burstLevel || 10
-                };
-                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels); const customHP = parseInt(slot.customHP || '0', 10);
-                if (customHP > 0) char.hp = customHP;
-                const customATK = parseInt(slot.customATK || '0', 10);
-                if (customATK > 0) char.atk = customATK;
-                const customDEF = parseInt(slot.customDEF || '0', 10);
-                if (customDEF > 0) char.defense = customDEF;
-
-                const rb = getWeaponRangeBonus(char.weapon, rangeMode);
-                if (rb > 0) char.buff = { ...(char.buff || {}), range: rb };
-                return char;
-            }),
+            weaknessElement,
+            showCore,
         });
+        if (!output) return;
 
-        if (activeSlots.length === 0) return;
-
-        const result = simulateBattle(buildTeam(showCore), { ...ENEMY }, config);
-
-        const extractChars = (resultData: typeof result) => {
-            // 적 디버프(damage_taken_up)는 파티 전체에서 합산 (모든 니케에게 적용)
-            let teamEnemyTakenUp = 0;
-            for (const { slot: aSlot } of activeSlots) {
-                const aSkills = aSlot.char.data.skills || [];
-                for (const skill of aSkills) {
-                    const sLvl = skill.id === 'skill_1' ? (aSlot.skill1Level || 10)
-                        : skill.id === 'skill_2' ? (aSlot.skill2Level || 10)
-                            : skill.id === 'burst' ? (aSlot.burstLevel || 10) : 10;
-                    const sLvIdx = Math.max(0, Math.min(9, sLvl - 1));
-                    for (const eff of (skill.effects || []) as any[]) {
-                        if (eff.trigger === 'enemy_spawn' && eff.target === 'enemy' && eff.value && eff.duration === 'permanent') {
-                            const val = Array.isArray(eff.value) ? eff.value[sLvIdx] : eff.value;
-                            teamEnemyTakenUp += (val || 0) / 100;
-                        }
-                    }
-                }
-            }
-
-            return activeSlots.map(({ slot, originalIndex }) => {
-                const charId = `${slot.char.data.characterID}_${originalIndex}`;
-                const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
-                const totalDmg = resultData.log
-                    .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
-                    .reduce((s: number, l: any) => s + (l.value || 0), 0);
-
-                const charStats = slot.char.data.stats || {};
-                const customATK = parseInt(slot.customATK || '0', 10);
-                const atkPercent = parseFloat(slot.equipATK || '0') / 100;
-                const weakPercent = parseFloat(slot.equipWeakPoint || '0') / 100;
-                const isWeak = checkAdvantage(ENEMY.element, charStats.element);
-
-                const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-                const eq = {
-                    atkPercent,
-                    weakPointPercent: weakPercent,
-                    ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
-                };
-                const skillLevels = {
-                    skill1Level: slot.skill1Level || 10,
-                    skill2Level: slot.skill2Level || 10,
-                    burstLevelSkill: slot.burstLevel || 10
-                };
-                // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
-                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels);
-                const hitDamages = calcHitDamages({
-                    atk: customATK > 0 ? customATK : char.atk,
-                    atkCoef: char.atkCoef,
-                    weapon: char.weapon,
-                    equipATKPercent: atkPercent,
-                    equipWeakPointPercent: weakPercent,
-                    normalAtkMultiplier: char.normalAtkMultiplier,
-                    chargeDmgMultiplier: char.chargeDmgMultiplier,
-                    coreHitMultiplier: char.coreHitMultiplier,
-                    coreDamage: charStats.coreDamage,
-                    coreHitBonus: char.coreHitBonus,
-                    critMult: char.critMult,
-                    fullChargeDamage: char.fullChargeDamage,
-                    pelletCount: charStats.pelletCount,
-                }, ENEMY.defense, rangeMode, isWeak, teamEnemyTakenUp);
-
-                return {
-                    charId,
-                    charName: slot.char.data.characterName,
-                    totalDmg,
-                    hitDamages,
-                    buffTimeline: resultData.team.members.find(member => member.id === charId)?.buffTimeline || []
-                };
-            });
-        }
-        const sumDamage = (resultData: typeof result) => {
-            const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
-            return resultData.log
-                .filter((l: any) => DAMAGE_TYPES.has(l.type))
-                .reduce((s: number, l: any) => s + l.value, 0);
-        };
-
-        const totalDmg = sumDamage(result);
-
-        setSimResult({
-            chars: extractChars(result),
-            teamTotal: totalDmg,
-        });
-
-        const ds: any[] = [];
-
-        activeSlots.forEach(({ slot, originalIndex }, idx) => {
-            const charId = `${slot.char.data.characterID}_${originalIndex}`;
-            const charName = slot.char.data.characterName;
-            const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-            ds.push({ label: charName, color, data: generateChartData(result, config.duration, charId) });
-        });
-
-        setChartDatasets(ds);
-
-        // Skill damage only datasets
-        const SKILL_TYPES = new Set(['skill_damage']);
-        const skillDs: any[] = [];
-        activeSlots.forEach(({ slot, originalIndex }, idx) => {
-            const charId = `${slot.char.data.characterID}_${originalIndex}`;
-            const charName = slot.char.data.characterName;
-            const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-            skillDs.push({ label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) });
-        });
-        setSkillChartDatasets(skillDs);
-
-        setBurstWindows(generateBurstWindows(result.log, config.duration));
-
-        // Build skill info map for timeline tooltip
-        const infoMap: Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>> = {};
-        activeSlots.forEach(({ slot }) => {
-            const charName = slot.char.data.characterName;
-            infoMap[charName] = {};
-            const skills = slot.char.data.skills || [];
-            skills.forEach((sk: any) => {
-                const skillLevel = sk.id === 'skill_1' ? (slot.skill1Level || 10)
-                    : sk.id === 'skill_2' ? (slot.skill2Level || 10)
-                        : sk.id === 'burst' ? (slot.burstLevel || 10) : 10;
-                const lvIdx = Math.max(0, Math.min(9, skillLevel - 1));
-
-                const effects = (sk.effects || []).map((eff: any) => {
-                    let val = eff.value;
-                    if (Array.isArray(val)) val = val[lvIdx];
-                    const unit = eff.unit === 'percent' ? '%' : '';
-                    return {
-                        trigger: eff.trigger || undefined,
-                        target: eff.target || 'self',
-                        effect: eff.effect || '',
-                        value: val != null ? `${val}${unit}` : '-',
-                    };
-                });
-                infoMap[charName][sk.name] = {
-                    effects,
-                    duration: sk.effects?.[0]?.duration && sk.effects[0].duration !== 'permanent' ? sk.effects[0].duration : undefined,
-                    cooldown: sk.cooldown || undefined,
-                };
-            });
-        });
-        setSkillInfoMap(infoMap);
-
-        // Build charId → charName map for source resolution
-        const idToName: Record<string, string> = {};
-        activeSlots.forEach(({ slot, originalIndex }) => {
-            const charId = `${slot.char.data.characterID}_${originalIndex}`;
-            idToName[charId] = slot.char.data.characterName;
-        });
-        setCharIdToName(idToName);
+        setSimResult(output.summary);
+        setChartDatasets(output.chartDatasets);
+        setSkillChartDatasets(output.skillChartDatasets);
+        setBurstWindows(output.burstWindows);
+        setSkillInfoMap(output.skillInfoMap);
+        setCharIdToName(output.charIdToName);
     };
 
     // Pad slots array to always be length 5 for UI consistency
