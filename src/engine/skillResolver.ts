@@ -127,6 +127,13 @@ function resolveTargets(
       .slice(0, 2)
   }
 
+  // ── Self & Adjacent Allies ──
+  if (target === 'self_and_adjacent_allies_2') {
+    const idx = sourceChar.slotIndex
+    if (idx !== 1 && idx !== 3) return [] // 2번과 4번 자리인 경우에만
+    return members.filter(m => m.slotIndex === idx - 1 || m.slotIndex === idx || m.slotIndex === idx + 1)
+  }
+
   // ── Weapon-type Allies ──
   const WEAPON_TARGETS: Record<string, string> = {
     sg_allies: 'SG',
@@ -514,12 +521,32 @@ function handleEffectTrigger(
 // Effect Application Dispatcher
 // ─────────────────────────────────────────────────────────────────────────────
 
+export function evaluateCondition(sourceChar: Character, condition: any): boolean {
+  if (!condition) return true
+
+  if (condition.position) {
+    const isBack = sourceChar.slotIndex === 1 || sourceChar.slotIndex === 3
+    if (condition.position === 'back' && !isBack) return false
+    const isFront = sourceChar.slotIndex === 0 || sourceChar.slotIndex === 2 || sourceChar.slotIndex === 4
+    if (condition.position === 'front' && !isFront) return false
+  }
+
+  if (condition.status) {
+    if (!sourceChar.buffSlots?.some(s => s.status === condition.status)) return false
+  }
+
+  return true
+}
+
 export function applyEffect(
   ctx: BattleContext,
   sourceChar: Character,
   skillName: string,
   effectDef: SkillEffectDef
 ) {
+  if (effectDef.condition && typeof effectDef.condition === 'object') {
+    if (!evaluateCondition(sourceChar, effectDef.condition)) return
+  }
   // ── Global Effects (target-independent) ──
   if (effectDef.effect === 'burst_gauge_charge' && effectDef.value) {
     ctx.burstGauge = Math.min(100, ctx.burstGauge + effectDef.value)
@@ -787,7 +814,12 @@ function applySpecificEffectToTarget(
       break
     }
     case 'max_hp_up': {
-      const hpBase = char.maxHp ?? char.hp
+      let hpBase: number
+      if (effectDef.based_on === 'caster_hp' || effectDef.based_on === 'caster_final_max_hp') {
+        hpBase = sourceChar.maxHp ?? sourceChar.hp
+      } else {
+        hpBase = char.maxHp ?? char.hp
+      }
       appliedFlatValue = hpBase * (value / 100)
       char.maxHp = (char.maxHp ?? char.hp) + appliedFlatValue
       char.hp += appliedFlatValue
@@ -838,6 +870,12 @@ function applySpecificEffectToTarget(
     case 'def_up':
       appliedFlatValue = value / 100
       char.buff.defUp = (char.buff.defUp || 0) + appliedFlatValue
+      applied = true
+      break
+    case 'damage_taken_down':
+      appliedFlatValue = value / 100
+      char.buff.takenDown = (char.buff.takenDown || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: appliedFlatValue, description: 'Damage Taken Down Applied' })
       applied = true
       break
     case 'accuracy_up':
@@ -929,7 +967,8 @@ function applySpecificEffectToTarget(
       bullet,
       isBullet,
       sourceCharId: sourceChar.id,
-      skillName
+      skillName,
+      status: effectDef.status
     })
 
     // 타임라인 기록
@@ -940,7 +979,7 @@ function applySpecificEffectToTarget(
         e.sourceCharId === sourceChar.id &&
         (duration === undefined ? e.endTime === ctx.config.duration : e.endTime > ctx.time)
     )
-    
+
     if (existingEvent) {
       existingEvent.endTime = duration === undefined ? ctx.config.duration : Math.max(existingEvent.endTime, ctx.time + duration)
     } else {
@@ -963,7 +1002,7 @@ function applySpecificEffectToTarget(
 function updateBuffTimers(ctx: BattleContext) {
   ctx.team.members.forEach((char) => {
     if (!char.buffSlots || !char.buff) return
-    
+
     char.buffSlots = char.buffSlots.filter((slot) => {
       if (!slot.isBullet && slot.duration !== undefined) {
         slot.duration -= ctx.delta
@@ -1001,6 +1040,9 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
       break
     case 'def_up':
       char.buff.defUp = Math.max(0, (char.buff.defUp || 0) - value)
+      break
+    case 'damage_taken_down':
+      char.buff.takenDown = Math.max(0, (char.buff.takenDown || 0) - value)
       break
     case 'shield':
       char.buff.shield = Math.max(0, (char.buff.shield || 0) - value)

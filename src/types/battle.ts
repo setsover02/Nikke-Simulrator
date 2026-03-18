@@ -25,6 +25,7 @@ export interface BuffSlot {
     isBullet: boolean;
     sourceCharId: string;
     skillName: string;
+    status?: string;
 }
 
 export interface Character {

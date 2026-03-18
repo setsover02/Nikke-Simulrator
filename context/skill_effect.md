@@ -8,7 +8,7 @@
 * 시전자 기준 (체력, 공격력, 방어력) 증가 스킬은 스킬을 시전하는 니케의 스탯 수치를 기준으로 한다.
 
 ## effect list
-### 스킬
+### 스킬 관련
 damage: 대미지 (해당 스킬이 트리거에 따라 발동할 때 추가 타격)
 extra_damage: 추가 대미지 (아마 평타에 이 만큼 추가 되는 것인듯? 사격장 테스트 필요, 풀버스트 발동시 적용되는 fullBurstBonus의 대미지 보너스가 적용됨)
 interval_damage: (interval이 있는 연속 공격, 지속 대미지 아님)
@@ -27,7 +27,7 @@ def_up: 방어력 증가 (기본값: target 기준 방어력으로 증가한다)
 def_down: 방어력 감소 (기본값: target 기준 방어력으로 감소한다)
 
 ### 체력
-max_hp_up: 최대 체력 증가 (target 기준 체력 으로 증가한다)
+max_hp_up: 최대 체력 증가 (based_on 기준 체력 으로 증가한다)
 
 ### 힐 관련
 heal: 공격 대미지 비례 회복
@@ -49,7 +49,7 @@ critical_damage_up: 크리티컬 대미지 증가
 cover_defense_up: 엄폐물 방어력 증가
 
 ### 버스트 관련
-burst_cooldown_reduction: 버스트 스킬 재사용 시간 감소 (각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
+burst_cooldown_reduction: 버스트 스킬 재사용 시간 감소 (스쿼드의 각 니케가 보유한 버스트 스킬의 쿨타임을 감소)
 burst_gauge_charge: 버스트 게이지 충전(버스트 게이지를 추후 구현 할 경우 고려사항 지금은 구현하지 않음)
 full_burst_time_down: 풀 버스트 시간 감소 (기본 풀버스트 시간이 10초 이므로 스킬이 트리거 될 때 풀버스트 시간 n초로 고정 감소시킨다.)
 
