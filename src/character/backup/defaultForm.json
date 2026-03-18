@@ -20,52 +20,5 @@
         "fullChargeDamage": 0,
         "coreDamage": 200
     },
-    "skills": [
-        {
-            "id": "skill_1",
-            "name": "이글 아이",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "normal_attack_hit",
-                    "condition": {},
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "이글 택틱",
-            "type": "active",
-            "cooldown": 9.0,
-            "effects": [
-                {
-                    "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "이글 샷",
-            "type": "burst",
-            "cooldown": 40.0,
-            "effects": [
-                {
-                    "target": "enemies_in_range",
-                    "effect": "damage",
-                    "value": [],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
-        }
-    ]
+    "skills": []
 }

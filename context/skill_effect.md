@@ -12,6 +12,7 @@
 damage: 대미지 (해당 스킬이 트리거에 따라 발동할 때 추가 타격)
 extra_damage: 추가 대미지 (아마 평타에 이 만큼 추가 되는 것인듯? 사격장 테스트 필요, 풀버스트 발동시 적용되는 fullBurstBonus의 대미지 보너스가 적용됨)
 interval_damage: (interval이 있는 연속 공격, 지속 대미지 아님)
+distribute_damage: 분배 대미지 (모든 타겟에게 분배되어 들어가는 대미지, 적이 1명이면 그대로 다 들어감)
 
 ### 공격력
 atk_up: 공격력 증가 (기본값: target 기준 공격력으로 증가한다)

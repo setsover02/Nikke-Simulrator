@@ -19,6 +19,7 @@ highest_atk_enemy_2: 최종 공격력이 가장 높은 적 2기에게 (적이 1�
 highest_def_enemy_1: 최종 방어력이 가장 높은 적 1기에게
 highest_def_enemy_2: 최종 방어력이 가장 높은 적 2기에게 (적이 1기인 경우 1기에게)
 highest_def_enemy_3: 최종 방어력이 가장 높은 적 3기에게 (적이 1기인 경우 1기에게)
+highest_hp_enemy_1: 최종 체력이 가장 높은 적 1기에게 (남은 체력 수치가 가장 높은 적)
 lowest_hp_enemy: 남은 체력 수치가 가장 낮은 적에게
 random_enemies: 무작위 적에게 (적이 1기인 경우 1기에게)
 

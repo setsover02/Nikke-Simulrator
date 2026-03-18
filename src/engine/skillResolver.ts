@@ -166,6 +166,7 @@ function resolveTargets(
     'random_enemies',
     'enemies_in_range',
     'lowest_hp_enemy',
+    'highest_hp_enemy_1',
     'highest_atk_enemy_1',
     'highest_atk_enemy_2',
     'highest_def_enemy_1',
@@ -652,6 +653,7 @@ function applySpecificEffectToTarget(
       // Damage (skill_damage 타입, nikkeFormula 사용)
       case 'damage':
       case 'bubble_barrage':
+      case 'distribute_damage':
       case 'extra_damage': {
         const hits = effectDef.hits || 1
         const stack = effectDef.stack_level
@@ -807,7 +809,14 @@ function applySpecificEffectToTarget(
   switch (effectDef.effect) {
     case 'atk_up': {
       const basedOn = effectDef.based_on ?? 'caster_atk'
-      const base = (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') ? sourceChar.atk : char.atk
+      let base: number
+      if (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') {
+        base = sourceChar.atk
+      } else if (basedOn === 'caster_max_hp' || basedOn === 'caster_final_max_hp') {
+        base = sourceChar.maxHp ?? sourceChar.hp
+      } else {
+        base = char.atk
+      }
       appliedFlatValue = base * (value / 100)
       char.buff.extraATK = (char.buff.extraATK || 0) + appliedFlatValue
       applied = true
