@@ -150,7 +150,6 @@ function resolveTargets(
     'lowest_hp_enemy',
     'highest_atk_enemy_1',
     'highest_atk_enemy_2',
-    'highest_atk_enemy',
     'highest_def_enemy',
   ])
   if (ENEMY_TARGETS.has(target)) return [ctx.enemy]
