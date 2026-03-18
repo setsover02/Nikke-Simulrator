@@ -18,8 +18,7 @@
         "fireRate": 24,
         "chargeTime": 0,
         "fullChargeDamage": 0,
-        "coreDamage": 200,
-        "pelletCount": 0
+        "coreDamage": 200
     },
     "skills": [
         {

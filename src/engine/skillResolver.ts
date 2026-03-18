@@ -93,19 +93,30 @@ function resolveTargets(
   if (target === 'highest_atk_allies_3')
     return topNByAtk(members, 3)
 
+  // ── Self + N Highest ATK Allies (excluding self) ──
+  if (target === 'self_and_highest_atk_allies_1') {
+    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 1)]
+  }
+  if (target === 'self_and_highest_atk_allies_2') {
+    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 2)]
+  }
+  if (target === 'self_and_highest_atk_allies_3') {
+    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 3)]
+  }
+
   // ── N Highest DEF/HP Allies ──
-  if (target === 'highest_def_allies_1' || target === 'highest_def_ally')
+  if (target === 'highest_def_allies_1')
     return topNByDef(members, 1)
   if (target === 'highest_def_allies_2') return topNByDef(members, 2)
   if (target === 'highest_def_allies_3') return topNByDef(members, 3)
 
-  if (target === 'highest_hp_allies_1' || target === 'highest_hp_ally')
+  if (target === 'highest_hp_allies_1')
     return topNByMaxHp(members, 1)
   if (target === 'highest_hp_allies_2') return topNByMaxHp(members, 2)
   if (target === 'highest_hp_allies_3') return topNByMaxHp(members, 3)
 
   // ── Lowest/Highest HP Ally ──
-  if (target === 'lowest_hp_ally') {
+  if (target === 'lowest_hp_allies_1') {
     return [...members]
       .sort((a, b) => getFinalHp(a) - getFinalHp(b))
       .slice(0, 1)
@@ -150,7 +161,7 @@ function resolveTargets(
     'lowest_hp_enemy',
     'highest_atk_enemy_1',
     'highest_atk_enemy_2',
-    'highest_def_enemy',
+    'highest_def_enemy_1',
   ])
   if (ENEMY_TARGETS.has(target)) return [ctx.enemy]
 
@@ -194,7 +205,7 @@ export function resolveSkills(ctx: BattleContext) {
       const skill = skillDef as SkillDef
 
       if (skill.type === 'passive' || skill.type === 'active') {
-        // passive 스킬에 cooldown이 있는 경우 전투 시작 후 그 시간이 지난 뒤 첫 발동 가능
+        // passive/active 스킬에 cooldown이 있는 경우 전투 시작 후 그 시간이 지난 뒤 첫 발동 가능
         if (skill.cooldown && skill.cooldown > 0) {
           const cdKey = `passive_cd_${char.id}_${skill.id}`
           ctx.state = ctx.state || {}
@@ -205,11 +216,29 @@ export function resolveSkills(ctx: BattleContext) {
             ctx.state[cdKey] -= ctx.delta
             return
           }
-        }
 
-        skill.effects.forEach((effectDef) => {
-          handleEffectTrigger(ctx, char, skill.id, skill.name, effectDef)
-        })
+          // 쿨다운 만료: trigger가 없는 effect는 즉시 적용, 있는 effect는 기존 트리거 로직 사용
+          let hasTriggerlessEffect = false
+          skill.effects.forEach((effectDef) => {
+            if (!effectDef.trigger) {
+              // trigger 없이 cooldown에 따라 발동하는 effect → 즉시 적용
+              applyEffect(ctx, char, skill.name, effectDef)
+              hasTriggerlessEffect = true
+            } else {
+              handleEffectTrigger(ctx, char, skill.id, skill.name, effectDef)
+            }
+          })
+
+          // 쿨다운 리셋 (trigger 없는 effect가 발동한 경우)
+          if (hasTriggerlessEffect) {
+            ctx.state[cdKey] = skill.cooldown
+          }
+        } else {
+          // cooldown이 없는 스킬: 기존 트리거 기반 처리
+          skill.effects.forEach((effectDef) => {
+            handleEffectTrigger(ctx, char, skill.id, skill.name, effectDef)
+          })
+        }
       }
     })
 
@@ -400,14 +429,28 @@ function handleEffectTrigger(
     }
   }
 
-  // ── on_hit: 피격 시 확률 트리거 (공격 tick마다 chance 체크로 근사) ──
+  // ── on_hit: 피격 시 트리거 ──
+  // chance: n% 확률
+  // count: n회 피격 시 (적의 공격 빈도를 근사하여 카운트 누적)
   if (trigger === 'on_hit') {
-    const chance =
-      typeof effectDef.condition === 'object'
-        ? ((effectDef.condition as any)?.chance ?? 0)
-        : 0
-    if (chance > 0 && ctx.rng.next() < chance / 100) {
-      isTriggered = true
+    if (typeof effectDef.condition === 'object' && effectDef.condition?.count) {
+      // count 기반: 피격 횟수 누적 (적의 초당 공격 약 2회로 근사)
+      const hitsPerSecond = ctx.enemyHitsPerSecond ?? 2
+      const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_on_hit_count`
+      ctx.state[countKey] = (ctx.state[countKey] || 0) + hitsPerSecond * ctx.delta
+      if (ctx.state[countKey] >= effectDef.condition.count) {
+        isTriggered = true
+        ctx.state[countKey] -= effectDef.condition.count
+      }
+    } else {
+      // chance 기반: n% 확률
+      const chance =
+        typeof effectDef.condition === 'object'
+          ? ((effectDef.condition as any)?.chance ?? 0)
+          : 0
+      if (chance > 0 && ctx.rng.next() < chance / 100) {
+        isTriggered = true
+      }
     }
   }
 
@@ -908,6 +951,18 @@ function applySpecificEffectToTarget(
       } else {
         char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + 0.1
       }
+      applied = true
+      break
+
+    // ── 받는 대미지 균등 분배 ──────────────────────────────────────
+    case 'damage_share':
+      char.buff.damageShare = true
+      ctx.log.push({
+        time: ctx.time,
+        type: 'skill',
+        source: sourceChar.id,
+        description: 'Damage Share Applied',
+      })
       applied = true
       break
 

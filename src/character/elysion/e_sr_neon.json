@@ -80,7 +80,7 @@
             "cooldown": 20.0,
             "effects": [
                 {
-                    "target": "highest_def_enemy",
+                    "target": "highest_def_enemy_1",
                     "effect": "damage",
                     "value": [
                         198.36,

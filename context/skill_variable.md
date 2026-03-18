@@ -15,7 +15,9 @@
 ## trigger list
 battle_start: 전투 시작 시 (시뮬레이션 시작 시)
 focus: 자신에게 포커싱 상태일 때 (해당 캐릭터를 컨트롤 하는 경우, 시뮬레이터에서 구현하지 않음)
-on_hit: 피격시 n% 확률로 자신에게 (시전자 본인이 피격된 경우)
+on_hit: 피격시 n% 확률로 자신에게, n회 피격 시 (시전자 본인이 피격된 경우) 
+    - chance 인 경우 n% 확률로
+    - count 인 경우 n회 피격 시
 normal_attack_hit: 일반 공격 명중 시 (시전자의 일반 공격이 명중한 경우, 명중 횟수 포함)
 last_bullet_hit: 마지막 탄환 명중 시 (시전자의 마지막 탄환 소모 시, 인게임 상 마지막 탄환 소모시 재장전 한다)
 kill_enemy: 적 처치 시
@@ -36,9 +38,14 @@ all_enemies: 적 전체에게
 enemies_in_range: 공격 범위 내 적들에게
 highest_atk_enemy_1: 최종 공격력이 가장 높은 적 1기에게
 highest_atk_enemy_2: 최종 공격력이 가장 높은 적 2기에게 (적이 1기인 경우 1기에게)
-highest_def_enemy: 최종 방어력이 가장 높은 적 1기에게
+highest_def_enemy_1: 최종 방어력이 가장 높은 적 1기에게
+highest_def_enemy_2: 최종 방어력이 가장 높은 적 2기에게 (적이 1기인 경우 1기에게)
+highest_def_enemy_3: 최종 방어력이 가장 높은 적 3기에게 (적이 1기인 경우 1기에게)
 lowest_hp_enemy: 남은 체력 수치가 가장 낮은 적에게
 random_enemies: 무작위 적에게 (적이 1기인 경우 1기에게)
+self_and_highest_atk_allies_1: 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 1기에게
+self_and_highest_atk_allies_2: 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 2기에게
+self_and_highest_atk_allies_3: 자신과 자신을 제외한 최종 공격력이 가장 높은 아군 3기에게
 
 all_allies: 아군 전체에게
 highest_atk_allies_1: 최종 공격력이 가장 높은 아군 1기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)
@@ -53,7 +60,9 @@ electric_element_allies: 전동 코드 아군 전체에게
 iron_element_allies: 철갑 코드 아군 전체에게
 wind_element_allies: 풍압 코드 아군 전체에게
 
-lowest_hp_ally: 체력 비율이 가장 낮은 아군 1기에게 (현재 피격 개념이 없으므로 일단 미구현)
+lowest_hp_allies_1: 체력 비율이 가장 낮은 아군 1기에게 (현재 피격 개념이 없으므로 일단 미구현)
+lowest_hp_allies_2: 체력 비율이 가장 낮은 아군 2기에게 (현재 피격 개념이 없으므로 일단 미구현)
+lowest_hp_allies_3: 체력 비율이 가장 낮은 아군 3기에게 (현재 피격 개념이 없으므로 일단 미구현)
 
 all_allies_ammo_consumed: 아군이 소비한 탄의 총합이 n발이 될 때 마다 (팀에 포함된 아군이 사용한 장탄 수 합산 필요)
 
@@ -65,6 +74,7 @@ atk_down: 공격력 감소 (기본값: target 기준 공격력으로 감소한�
 max_ammo_up: 최대 장탄수 증가 (기본값: target 기준 최대 장탄수로 증가한다)
 def_up: 방어력 증가 (기본값: target 기준 방어력으로 증가한다)
 def_down: 방어력 감소 (기본값: target 기준 방어력으로 감소한다)
+damage_share: 받는 대미지 균등 분배
 
 heal: 공격 대미지 비례 회복
 recevie_heal: 받는 체력 회복량
