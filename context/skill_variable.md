@@ -35,7 +35,7 @@ enemy: 대상에게
 all_enemies: 적 전체에게
 enemies_in_range: 공격 범위 내 적들에게
 highest_atk_enemy_1: 최종 공격력이 가장 높은 적 1기에게
-highest_atk_enemy_2: 최종 공격력이 가장 높은 적 2기에게
+highest_atk_enemy_2: 최종 공격력이 가장 높은 적 2기에게 (적이 1기인 경우 1기에게)
 highest_def_enemy: 최종 방어력이 가장 높은 적 1기에게
 lowest_hp_enemy: 남은 체력 수치가 가장 낮은 적에게
 random_enemies: 무작위 적에게 (적이 1기인 경우 1기에게)

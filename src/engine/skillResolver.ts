@@ -86,12 +86,11 @@ function resolveTargets(
   // ── N Highest ATK Allies ──
   if (
     target === 'highest_atk_allies_1' ||
-    target === 'highest_atk_ally' ||
-    target === 'final_atk_ally'
+    target === 'highest_atk_ally'
   )
     return topNByAtk(members, 1)
   if (target === 'highest_atk_allies_2') return topNByAtk(members, 2)
-  if (target === 'highest_atk_allies_3' || target === 'top3_final_atk_allies')
+  if (target === 'highest_atk_allies_3')
     return topNByAtk(members, 3)
 
   // ── N Highest DEF/HP Allies ──
