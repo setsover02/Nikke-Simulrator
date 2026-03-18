@@ -34,8 +34,9 @@ effect에 수치가 존재할 경우 사용하는 값이다. 스킬 레벨에 �
 
 ### duration
 effect가 지속되는 시간이다. trigger가 발동되면 duration 동안 effect가 유지된다. 
-- duration이 없는 경우 해당 effect는 즉시 1회 적용되는 효과로 처리된다.
-- duration이 permanent인 경우, 전투 시간 내내 영구적으로 적용한다.
+duration이 없는 경우 해당 effect는 즉시 1회 적용되는 효과로 처리된다.
+- number: 초 단위 시간
+- permanent: 지속 (전투 시간 동안 영구적으로 적용)
 
 ### bullet
 해당 버프가 유지되는 탄환 수 제한이다. `duration`이 없고 `bullet`만 있는 경우, 이 탄환 횟수만큼 사격하여 소모하면 버프가 사라진다. (예: `[2발 유지]`의 경우 `bullet: 2` 로 작성한다.)
@@ -45,6 +46,7 @@ cooldown은 스킬이 한 번 발동된 이후 다음 발동까지 걸리는 시
 cooldown은 duration과 별개로 적용된다.
 cooldown이 없는 경우 트리거에 의해서만 발동한다.
 cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다시 스킬이 발동한 경우 duration이 갱신 된다 (버스트 스킬 등)
+- number: 초 단위 시간
 
 - duration이 없는 경우:
   스킬은 cooldown 주기로 즉시 발동한다.
@@ -63,6 +65,7 @@ cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다�
 해당 value 값의 단위를 설정한다
 - percent: value%
 - second: 초
+- count: 횟수/발/개
 
 ### based_on
 해당 effect가 적용될 때 기준이 되는 값이다. 
