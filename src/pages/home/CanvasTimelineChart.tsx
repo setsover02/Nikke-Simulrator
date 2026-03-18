@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useCallback, useState } from 'react';
 import { ScenarioSummary } from '../../types/simulator';
 
+function formatTime(timeVal: number): string {
+    const remaining = Math.max(0, 180 - timeVal);
+    const m = Math.floor(remaining / 60);
+    const s = Math.floor(remaining % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 // Generate distinct color from string hash for skill bar visualization
 function stringToColor(str: string): string {
     let hash = 0;
@@ -240,7 +247,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
 
             // X-axis labels
             ctx.fillStyle = '#888';
-            ctx.fillText(`${t}s`, xPos, ch - PADDING.bottom + 5);
+            ctx.fillText(formatTime(t), xPos, ch - PADDING.bottom + 5);
         }
 
         const toX = (t: number) => PADDING.left + ((t - vMin) / (vMax - vMin)) * chartW;
@@ -340,7 +347,7 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
             ctx.fillStyle = '#555';
             ctx.textAlign = 'right';
             ctx.font = '11px monospace';
-            ctx.fillText(`${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, cw - PADDING.right, 10);
+            ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, cw - PADDING.right, 10);
         }
     }, [buildRows, duration, title, getViewRange]);
 

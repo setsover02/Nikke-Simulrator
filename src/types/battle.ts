@@ -15,6 +15,18 @@ export interface BuffTimelineEvent {
     sourceCharId: string;
 }
 
+export interface BuffSlot {
+    timerKey: string;       // 고유 키 (sourceId__skillName__effect)
+    effect: string;         // 효과 종류 (atk_up, def_up, ...)
+    value: number;          // 스킬 level 반영된 원본 수치 (%)
+    appliedFlat: number;    // 실제로 buff에 더해진 flat 값
+    duration?: number;      // 남은 시간 (초), undefined = 영구
+    bullet?: number;        // 남은 탄 수
+    isBullet: boolean;
+    sourceCharId: string;
+    skillName: string;
+}
+
 export interface Character {
     id: string;
     slotIndex: number;           // 팀 내 슬롯 번호 (0-based, 버스트 우선순위 결정)
@@ -53,9 +65,11 @@ export interface Character {
 
     // 버프 관련 추가
     buff?: any;
-    buffTimers?: Record<string, number>;        // 시간 기반 버프 만료 타이머
-    buffBulletCounters?: Record<string, number>; // 탄환 소모 기반 버프 만료 카운터
-    buffTimeline?: BuffTimelineEvent[]; // 타임라인 기록용 배열
+    buffSlots?: BuffSlot[];                      // 개별 버프 슬롯 추적
+    buffTimers?: Record<string, number>;         // (Legacy) 시간 기반 버프 만료 타이머
+    buffBulletCounters?: Record<string, number>; // (Legacy) 탄환 소모 기반 버프 만료 카운터
+    buffValues?: Record<string, number>;         // (Legacy) 소스별 버프 기여 수치 추적
+    buffTimeline?: BuffTimelineEvent[];          // 타임라인 기록용 배열
     atkCoef?: number;
     critMult?: number;
     coreDamage?: number;

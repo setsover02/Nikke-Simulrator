@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { BurstWindow, ScatterPoint } from '../../utils/simUtils';
 
+function formatTime(timeVal: number): string {
+    const remaining = Math.max(0, 180 - timeVal);
+    const m = Math.floor(remaining / 60);
+    const s = Math.floor(remaining % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 interface ScatterDataset {
     label: string;
     color: string;
@@ -107,7 +114,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
             ctx.textBaseline = 'middle';
             ctx.fillText(Math.floor(yVal).toLocaleString(), PL - 8, yPos);
         }
-        
+
         const range = vMax - vMin;
         const idealSpacing = range / 8;
         let tickInterval = 1;
@@ -129,7 +136,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
             ctx.strokeStyle = '#262626';
             ctx.stroke();
             ctx.fillStyle = '#666';
-            ctx.fillText(`${t}s`, xPos, H - PB + 8);
+            ctx.fillText(formatTime(t), xPos, H - PB + 8);
         }
 
         ctx.beginPath();
@@ -227,7 +234,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
             ctx.fillStyle = '#555';
             ctx.textAlign = 'right';
             ctx.font = '11px monospace';
-            ctx.fillText(`${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, W - PR, PT - 28);
+            ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, W - PR, PT - 28);
         }
     }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title]);
 
@@ -300,10 +307,10 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         const canvasY = mouseY * (canvas.height / canvas.clientHeight);
         const graphW = canvas.width - PL - PR;
         const graphH = canvas.height - PT - PB;
-        
-        if (canvasX < PL || canvasX > canvas.width - PR || canvasY < PT || canvasY > canvas.height - PB) { 
-            setHoverInfo(null); 
-            return; 
+
+        if (canvasX < PL || canvasX > canvas.width - PR || canvasY < PT || canvasY > canvas.height - PB) {
+            setHoverInfo(null);
+            return;
         }
 
         const [vMin, vMax] = getViewRange();
@@ -316,7 +323,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
 
         const hitRadius = 10;
         let matchedPoints: { label: string; color: string; time: number; value: number; description: string }[] = [];
-        
+
         datasets.forEach(ds => {
             ds.data.forEach(pt => {
                 const px = toX(pt.time);
@@ -383,7 +390,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                     boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '180px',
                 }}>
                     <div style={{ borderBottom: '1px solid #333', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
-                        ⏱ {hoverInfo.points[0].time.toFixed(2)}s
+                        ⏱ {formatTime(hoverInfo.points[0].time)}
                     </div>
                     {hoverInfo.points.map((pt, i) => (
                         <div key={i} style={{ marginBottom: '6px' }}>

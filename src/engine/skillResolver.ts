@@ -769,308 +769,187 @@ function applySpecificEffectToTarget(
   // ─── ALLY BUFF ─────────────────────────────────────────────────────────
   const char = target as Character
   char.buff = char.buff || {}
-  char.buffTimers = char.buffTimers || {}
-  char.buffBulletCounters = char.buffBulletCounters || {}
+  char.buffSlots = char.buffSlots || []
   char.buffTimeline = char.buffTimeline || []
 
-  // 버프 키: effect 이름으로 단순 식별 (동일 effect 가산 방식)
   const buffKey = effectDef.effect
+  const timerKey = `${sourceChar.id}__${skillName}__${effectDef.effect}`
   let applied = false
+  let appliedFlatValue = 0
 
   switch (effectDef.effect) {
-    // ── ATK 계열 ──────────────────────────────────────────────────────
-    // atk_up → based_on에 따라 기준 결정
     case 'atk_up': {
       const basedOn = effectDef.based_on ?? 'caster_atk'
-      let base: number
-      if (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') {
-        base = sourceChar.atk
-      } else {
-        // target 기준 (기본값)
-        base = char.atk
-      }
-      char.buff.extraATK = (char.buff.extraATK || 0) + base * (value / 100)
+      const base = (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') ? sourceChar.atk : char.atk
+      appliedFlatValue = base * (value / 100)
+      char.buff.extraATK = (char.buff.extraATK || 0) + appliedFlatValue
       applied = true
       break
     }
-
-    // max_hp_up: 최대 체력 증가
     case 'max_hp_up': {
       const hpBase = char.maxHp ?? char.hp
-      const hpGain = hpBase * (value / 100)
-      char.maxHp = (char.maxHp ?? char.hp) + hpGain
-      char.hp += hpGain
+      appliedFlatValue = hpBase * (value / 100)
+      char.maxHp = (char.maxHp ?? char.hp) + appliedFlatValue
+      char.hp += appliedFlatValue
       applied = true
       break
     }
-
-    // ── 크리티컬 ──────────────────────────────────────────────────────
     case 'critical_rate_up':
-      char.buff.critRate = (char.buff.critRate || 0) + value
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        value,
-        description: 'Crit Rate Up',
-      })
+      appliedFlatValue = value
+      char.buff.critRate = (char.buff.critRate || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Crit Rate Up' })
       applied = true
       break
-
     case 'critical_damage_up':
     case 'crit_damage_up':
-      char.buff.critDmg = (char.buff.critDmg || 0) + value / 100
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        value,
-        description: 'Crit Damage Up',
-      })
+      appliedFlatValue = value / 100
+      char.buff.critDmg = (char.buff.critDmg || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Crit Damage Up' })
       applied = true
       break
-
-    // ── 공격 데미지 증가 ───────────────────────────────────────────────
     case 'attack_damage_up':
     case 'atk_damage_up':
-      char.buff.atkDmgUp = (char.buff.atkDmgUp || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.buff.atkDmgUp = (char.buff.atkDmgUp || 0) + appliedFlatValue
       applied = true
       break
-
-    // ── 버스트 쿨다운 감소 ────────────────────────────────────────────
     case 'burst_cooldown_reduction':
       if (ctx.burstCooldowns[char.id] > 0) {
-        ctx.burstCooldowns[char.id] = Math.max(
-          0,
-          ctx.burstCooldowns[char.id] - value
-        )
-        ctx.log.push({
-          time: ctx.time,
-          type: 'skill',
-          source: sourceChar.id,
-          value,
-          description: 'Burst Cooldown Reduced',
-        })
+        ctx.burstCooldowns[char.id] = Math.max(0, ctx.burstCooldowns[char.id] - value)
+        ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Burst Cooldown Reduced' })
       }
+      appliedFlatValue = value
       applied = true
       break
-
-    // ── 장탄 관련 ────────────────────────────────────────────────────
     case 'max_ammo_up':
-      char.maxAmmo = char.maxAmmo + Math.floor(value)
+      appliedFlatValue = Math.floor(value)
+      char.maxAmmo = char.maxAmmo + appliedFlatValue
       applied = true
       break
-
     case 'ammo_charge':
     case 'ammo_reload': {
       const reloadAmount = Math.floor(char.maxAmmo * (value / 100))
       char.ammo = Math.min(char.maxAmmo, char.ammo + reloadAmount)
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        value: reloadAmount,
-        description: 'Ammo Charged',
-      })
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: reloadAmount, description: 'Ammo Charged' })
+      appliedFlatValue = reloadAmount
       applied = true
       break
     }
-
-    // ── 방어력 관련 ──────────────────────────────────────────────────
     case 'def_up':
-      char.buff.defUp = (char.buff.defUp || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.buff.defUp = (char.buff.defUp || 0) + appliedFlatValue
       applied = true
       break
-
-    // ── 명중률 ──────────────────────────────────────────────────────
     case 'accuracy_up':
-      char.accuracyBuff = (char.accuracyBuff || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.accuracyBuff = (char.accuracyBuff || 0) + appliedFlatValue
       applied = true
       break
-
-    // ── 힐 계열 (현재 생존 시뮬 미구현이나 구조는 추가) ─────────────
     case 'heal': {
-      // based_on: attack_damage → 피해량 기준 (현재 근사치로 sourceChar.atk 사용)
-      // 힐은 차후 생존 시뮬에서 처리 예정이므로 구조만 설정
-      const healBase =
-        effectDef.based_on === 'attack_damage'
-          ? sourceChar.atk * (value / 100)
-          : sourceChar.atk * (value / 100)
+      const healBase = sourceChar.atk * (value / 100)
       char.hp = Math.min(char.maxHp ?? char.hp, char.hp + healBase)
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        value: healBase,
-        description: 'Heal',
-      })
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: healBase, description: 'Heal' })
+      appliedFlatValue = healBase
       applied = true
       break
     }
-
     case 'recevie_heal':
-      char.buff.receiveHeal = (char.buff.receiveHeal || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.buff.receiveHeal = (char.buff.receiveHeal || 0) + appliedFlatValue
       applied = true
       break
-
     case 'overheal_storage':
-      char.buff.overhealStorage = (char.buff.overhealStorage || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.buff.overhealStorage = (char.buff.overhealStorage || 0) + appliedFlatValue
       applied = true
       break
-
     case 'heal_efficacy_up':
-      char.buff.healEfficacy = (char.buff.healEfficacy || 0) + value / 100
+      appliedFlatValue = value / 100
+      char.buff.healEfficacy = (char.buff.healEfficacy || 0) + appliedFlatValue
       applied = true
       break
-
-    // ── 보호막 ──────────────────────────────────────────────────────
     case 'shield': {
-      const shieldBase =
-        effectDef.based_on === 'caster_final_max_hp'
-          ? (sourceChar.maxHp ?? sourceChar.hp)
-          : (sourceChar.maxHp ?? sourceChar.hp)
+      const shieldBase = sourceChar.maxHp ?? sourceChar.hp
       const shieldAmount = shieldBase * (value / 100)
-      char.buff.shield = (char.buff.shield || 0) + shieldAmount
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        value: shieldAmount,
-        description: 'Shield Applied',
-      })
+      appliedFlatValue = shieldAmount
+      char.buff.shield = (char.buff.shield || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: shieldAmount, description: 'Shield Applied' })
       applied = true
       break
     }
-
-    // ── 관통 (pierce): pierceDmgUp 버프로 처리 ──────────────────────
     case 'pierce':
-      // bullet 기반 시: buffBulletCounters에 등록
-      if (effectDef.bullet) {
-        char.buffBulletCounters!['pierceDmgUp'] = effectDef.bullet
-        char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + 0.1 // 관통 보너스 10% (추후 조정)
-      } else {
-        char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + 0.1
-      }
+      appliedFlatValue = 0.1
+      char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + appliedFlatValue
       applied = true
       break
-
-    // ── 받는 대미지 균등 분배 ──────────────────────────────────────
     case 'damage_share':
       char.buff.damageShare = true
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        description: 'Damage Share Applied',
-      })
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, description: 'Damage Share Applied' })
+      appliedFlatValue = 1
       applied = true
       break
-
-    // ── 기타 미구현 ─────────────────────────────────────────────────
     case 'shooting_focus':
     case 'cover_defense_up':
     case 'explosion_range_up':
     case 'dispel':
     case 'taunt':
-      break
-
-    // ── 복합/기타 ────────────────────────────────────────────────────
     case 'attack_power_down':
-      // target 공격력 감소 (적용 대상이 아군이면 debuff의 개념이 다름, 현재 skip)
       break
-
     case 'stun':
-      ctx.log.push({
-        time: ctx.time,
-        type: 'skill',
-        source: sourceChar.id,
-        description: 'Stunned (no-op)',
-      })
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, description: 'Stunned (no-op)' })
       break
-
-    // stack_level 관리용 (베스티 스킬2)
     default:
       break
   }
 
-  // stack_level 업데이트
   if (effectDef.stack_level !== undefined) {
-    char.buff.stack_level = Math.max(
-      char.buff.stack_level || 0,
-      effectDef.stack_level
-    )
+    char.buff.stack_level = Math.max(char.buff.stack_level || 0, effectDef.stack_level)
   }
 
-  // 버프 duration 등록
-  if (applied && effectDef.duration && effectDef.duration !== 'permanent') {
-    const timer = effectDef.duration as number
-    char.buffTimers![buffKey] =
-      char.buffTimers![buffKey] || 0
-        ? Math.max(char.buffTimers![buffKey], timer) // 갱신
-        : timer
+  // 버프 슬롯 등록
+  if (applied && (effectDef.duration || effectDef.bullet)) {
+    const isBullet = !!effectDef.bullet
+    const duration = effectDef.duration === 'permanent' ? undefined : (effectDef.duration as number | undefined)
+    const bullet = effectDef.bullet
 
-    // Record timeline event
+    // 이미 같은 timerKey(소스 동일, 스킬 동일, 이펙트 동일)의 슬롯이 있다면 기여분 차감 후 기존 타이머 교체
+    const existingIndex = char.buffSlots!.findIndex(s => s.timerKey === timerKey)
+    if (existingIndex !== -1) {
+      const existingSlot = char.buffSlots![existingIndex]
+      subtractBuffValue(char, existingSlot.effect, existingSlot.appliedFlat)
+      char.buffSlots!.splice(existingIndex, 1) // 기존 슬롯 제거
+    }
+
+    char.buffSlots!.push({
+      timerKey,
+      effect: buffKey,
+      value,
+      appliedFlat: appliedFlatValue,
+      duration,
+      bullet,
+      isBullet,
+      sourceCharId: sourceChar.id,
+      skillName
+    })
+
+    // 타임라인 기록
     const existingEvent = char.buffTimeline!.find(
       (e) =>
         e.buffType === buffKey &&
         e.skillName === skillName &&
         e.sourceCharId === sourceChar.id &&
-        e.endTime > ctx.time
+        (duration === undefined ? e.endTime === ctx.config.duration : e.endTime > ctx.time)
     )
+    
     if (existingEvent) {
-      existingEvent.endTime = Math.max(existingEvent.endTime, ctx.time + timer)
+      existingEvent.endTime = duration === undefined ? ctx.config.duration : Math.max(existingEvent.endTime, ctx.time + duration)
     } else {
       char.buffTimeline!.push({
         skillName,
         buffType: buffKey,
         startTime: ctx.time,
-        endTime: ctx.time + timer,
-        isBullet: false,
-        sourceCharId: sourceChar.id,
-      })
-    }
-  }
-
-  // duration: 'permanent' 영구 버프 타임라인 기록 (시뮬 종료까지 유지)
-  if (applied && effectDef.duration === 'permanent') {
-    const existingEvent = char.buffTimeline!.find(
-      (e) =>
-        e.buffType === buffKey &&
-        e.skillName === skillName &&
-        e.sourceCharId === sourceChar.id &&
-        e.endTime === ctx.config.duration
-    )
-    if (!existingEvent) {
-      char.buffTimeline!.push({
-        skillName,
-        buffType: buffKey,
-        startTime: ctx.time,
-        endTime: ctx.config.duration,
-        isBullet: false,
-        sourceCharId: sourceChar.id,
-      })
-    }
-  }
-
-  // bullet 기반 버프 만료 등록
-  if (applied && effectDef.bullet) {
-    char.buffBulletCounters![buffKey] = effectDef.bullet
-
-    const existingEvent = char.buffTimeline!.find(
-      (e) =>
-        e.buffType === buffKey &&
-        e.skillName === skillName &&
-        e.sourceCharId === sourceChar.id &&
-        e.isBullet &&
-        e.endTime === ctx.config.duration
-    )
-    if (!existingEvent) {
-      char.buffTimeline!.push({
-        skillName,
-        buffType: buffKey,
-        startTime: ctx.time,
-        endTime: ctx.config.duration,
-        isBullet: true,
+        endTime: duration === undefined ? ctx.config.duration : ctx.time + duration,
+        isBullet,
         sourceCharId: sourceChar.id,
       })
     }
@@ -1083,88 +962,92 @@ function applySpecificEffectToTarget(
 
 function updateBuffTimers(ctx: BattleContext) {
   ctx.team.members.forEach((char) => {
-    if (!char.buffTimers || !char.buff) return
-    for (const [buffName, timeRemain] of Object.entries(char.buffTimers)) {
-      char.buffTimers[buffName] = (timeRemain as number) - ctx.delta
-      if (char.buffTimers[buffName] <= 0) {
-        expireBuff(ctx, char, buffName)
-        delete char.buffTimers[buffName]
+    if (!char.buffSlots || !char.buff) return
+    
+    char.buffSlots = char.buffSlots.filter((slot) => {
+      if (!slot.isBullet && slot.duration !== undefined) {
+        slot.duration -= ctx.delta
+        if (slot.duration <= 0) {
+          subtractBuffValue(char, slot.effect, slot.appliedFlat)
+          endBuffTimeline(ctx, char, slot)
+          return false // remove
+        }
       }
-    }
+      return true
+    })
   })
 }
 
-export function expireBuff(
-  ctx: BattleContext,
-  char: Character,
-  buffName: string
-) {
-  if (char.buffTimeline) {
-    const activeEvents = char.buffTimeline.filter(
-      (e) => e.buffType === buffName && e.endTime > ctx.time
-    )
-    activeEvents.forEach((e) => {
-      e.endTime = ctx.time
-    })
-  }
-
-  switch (buffName) {
+function subtractBuffValue(char: Character, effectName: string, value: number) {
+  if (!char.buff || value === 0) return
+  switch (effectName) {
+    case 'atk_up':
+    case 'attack_power_up':
+      char.buff.extraATK = Math.max(0, (char.buff.extraATK || 0) - value)
+      break
     case 'critical_rate_up':
-      char.buff!.critRate = 0
+      char.buff.critRate = Math.max(0, (char.buff.critRate || 0) - value)
       break
     case 'critical_damage_up':
     case 'crit_damage_up':
-      char.buff!.critDmg = 0
+      char.buff.critDmg = Math.max(0, (char.buff.critDmg || 0) - value)
       break
     case 'attack_damage_up':
     case 'atk_damage_up':
-      char.buff!.atkDmgUp = 0
-      break
-    case 'atk_up':
-    case 'attack_power_up':
-      char.buff!.extraATK = 0
+      char.buff.atkDmgUp = Math.max(0, (char.buff.atkDmgUp || 0) - value)
       break
     case 'accuracy_up':
-      char.accuracyBuff = 0
-      break
-    case 'shield':
-      char.buff!.shield = 0
+      char.accuracyBuff = Math.max(0, (char.accuracyBuff || 0) - value)
       break
     case 'def_up':
-      char.buff!.defUp = 0
+      char.buff.defUp = Math.max(0, (char.buff.defUp || 0) - value)
+      break
+    case 'shield':
+      char.buff.shield = Math.max(0, (char.buff.shield || 0) - value)
       break
     case 'recevie_heal':
-      char.buff!.receiveHeal = 0
+      char.buff.receiveHeal = Math.max(0, (char.buff.receiveHeal || 0) - value)
       break
     case 'overheal_storage':
-      char.buff!.overhealStorage = 0
+      char.buff.overhealStorage = Math.max(0, (char.buff.overhealStorage || 0) - value)
       break
     case 'heal_efficacy_up':
-      char.buff!.healEfficacy = 0
+      char.buff.healEfficacy = Math.max(0, (char.buff.healEfficacy || 0) - value)
       break
     case 'pierce':
-      char.buff!.pierceDmgUp = 0
+      char.buff.pierceDmgUp = Math.max(0, (char.buff.pierceDmgUp || 0) - value)
+      break
+    case 'damage_share':
+      char.buff.damageShare = false
       break
     default:
       break
   }
 }
 
-// ─────────────────────────────────────────────────────────────────────────────
-// Bullet-based buff countdown (called from damageCalc after each shot)
-// ─────────────────────────────────────────────────────────────────────────────
+function endBuffTimeline(ctx: BattleContext, char: Character, slot: import('../types/battle').BuffSlot) {
+  if (char.buffTimeline) {
+    const activeEvents = char.buffTimeline.filter(
+      (e) => e.buffType === slot.effect &&
+        e.sourceCharId === slot.sourceCharId &&
+        e.skillName === slot.skillName &&
+        e.endTime > ctx.time
+    )
+    activeEvents.forEach((e) => { e.endTime = ctx.time })
+  }
+}
 
 export function decrementBulletBuffs(ctx: BattleContext, char: Character) {
-  if (!char.buffBulletCounters || !char.buff) return
-  for (const [buffName, bulletsLeft] of Object.entries(
-    char.buffBulletCounters
-  )) {
-    const remaining = (bulletsLeft as number) - 1
-    if (remaining <= 0) {
-      expireBuff(ctx, char, buffName)
-      delete char.buffBulletCounters[buffName]
-    } else {
-      char.buffBulletCounters[buffName] = remaining
+  if (!char.buffSlots || !char.buff) return
+  char.buffSlots = char.buffSlots.filter((slot) => {
+    if (slot.isBullet && slot.bullet !== undefined) {
+      slot.bullet -= 1
+      if (slot.bullet <= 0) {
+        subtractBuffValue(char, slot.effect, slot.appliedFlat)
+        endBuffTimeline(ctx, char, slot)
+        return false // remove
+      }
     }
-  }
+    return true
+  })
 }

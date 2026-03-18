@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { BurstWindow } from '../../utils/simUtils';
 
+function formatTime(timeVal: number): string {
+    const remaining = Math.max(0, 180 - timeVal);
+    const m = Math.floor(remaining / 60);
+    const s = Math.floor(remaining % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
+}
+
 interface ChartData {
     time: number;
     dps: number;
@@ -137,7 +144,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.strokeStyle = '#262626';
             ctx.stroke();
             ctx.fillStyle = '#666';
-            ctx.fillText(`${t}s`, xPos, H - PB + 8);
+            ctx.fillText(formatTime(t), xPos, H - PB + 8);
         }
 
         ctx.beginPath();
@@ -253,7 +260,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.fillStyle = '#555';
             ctx.textAlign = 'right';
             ctx.font = '11px monospace';
-            ctx.fillText(`${Math.floor(vMin)}s – ${Math.floor(vMax)}s`, W - PR, PT - 28);
+            ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, W - PR, PT - 28);
         }
     }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title]);
 
@@ -380,7 +387,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                     boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '160px',
                 }}>
                     <div style={{ borderBottom: '1px solid #333', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
-                        ⏱ {hoverInfo.time}s
+                        ⏱ {formatTime(hoverInfo.time)}
                     </div>
                     {hoverInfo.values.map((v, i) => (
                         <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '3px' }}>
