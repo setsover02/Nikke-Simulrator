@@ -286,12 +286,34 @@ function handleEffectTrigger(
 
   // ── full_burst_start ──
   if (trigger === 'full_burst_start') {
-    const stateKey = `fb_start_${sourceChar.id}_${skillId}_${effectDef.effect}`
+    // stateKey는 stack_level별로 고유하게 만들어 각 이펙트가 독립적으로 발동 추적
+    const sl = effectDef.stack_level ?? 0
+    const stateKey = `fb_start_${sourceChar.id}_${skillId}_${effectDef.effect}_sl${sl}`
+    // stackKey(버스트 횟수 카운터)는 스킬 단위로 공유
+    const stackKey = `fb_start_${sourceChar.id}_${skillId}_stack_count`
+    // 버스트 사이클당 1회만 카운터 증가하기 위한 one-shot 키
+    const countedKey = `fb_start_${sourceChar.id}_${skillId}_counted`
+
     if (ctx.burstActive && !ctx.state[stateKey]) {
+      // 이번 풀버스트 사이클에서 아직 카운터를 올리지 않았으면 1회만 증가
+      if (!ctx.state[countedKey]) {
+        ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1
+        ctx.state[countedKey] = true
+      }
       isTriggered = true
       ctx.state[stateKey] = true
-    } else if (!ctx.burstActive && ctx.state[stateKey]) {
-      ctx.state[stateKey] = false
+    } else if (!ctx.burstActive) {
+      // 풀버스트가 끝나면 플래그 초기화
+      if (ctx.state[stateKey]) ctx.state[stateKey] = false
+      if (ctx.state[countedKey]) ctx.state[countedKey] = false
+    }
+
+    // stack_level 검사
+    if (isTriggered) {
+      const castCount = ctx.state[stackKey] || 0
+      if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) {
+        isTriggered = false // 스택 조건 미달
+      }
     }
   }
 
@@ -579,7 +601,8 @@ function applySpecificEffectToTarget(
         }
 
         const wm = getWeaponMultipliers(sourceChar.weapon)
-        const isCrit = ctx.rng.next() < (sourceChar.crit ?? 15) / 100
+        const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
+        const isCrit = ctx.rng.next() < critChance
         const dmgPercent = value / 100
         const singleDmg = calcNikkeDamage({
           baseATK: sourceChar.atk,
@@ -593,7 +616,7 @@ function applySpecificEffectToTarget(
           normalAtkMultiplier: 0,
           isNormalAttack: false,
           isCrit,
-          critBonusBase: wm.critBonus,
+          critBonusBase: sourceChar.critMult ? (sourceChar.critMult - 1) : wm.critBonus,
           extraCritDmg: sourceChar.buff?.critDmg ?? 0,
           isCore: false,
           coreHitBonus: 0,
@@ -635,7 +658,7 @@ function applySpecificEffectToTarget(
         break
       }
 
-      // Interval Damage (지속 피해)
+      // Interval Damage (일정 시간마다 스킬 대미지 발생, 지속 피해(DoT) 아님)
       case 'interval_damage':
         sourceChar.activeIntervalSkills = sourceChar.activeIntervalSkills || []
         sourceChar.activeIntervalSkills.push({
@@ -714,9 +737,8 @@ function applySpecificEffectToTarget(
 
   switch (effectDef.effect) {
     // ── ATK 계열 ──────────────────────────────────────────────────────
-    // atk_up / attack_power_up → based_on에 따라 기준 결정
-    case 'atk_up':
-    case 'attack_power_up': {
+    // atk_up → based_on에 따라 기준 결정
+    case 'atk_up': {
       const basedOn = effectDef.based_on ?? 'caster_atk'
       let base: number
       if (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') {

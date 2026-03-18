@@ -3,13 +3,15 @@
  * @param result - 시뮬레이션 결과
  * @param duration - 시뮬레이션 시간(초)
  * @param sourceFilter - 특정 캐릭터 ID로 필터링 (없으면 전체)
+ * @param typeFilter - 집계할 로그 타입 Set (없으면 attack + skill_damage 모두)
  */
 export const generateChartData = (
     result: any,
     duration: number,
-    sourceFilter?: string
+    sourceFilter?: string,
+    typeFilter?: Set<string>
 ) => {
-    const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
+    const DAMAGE_TYPES = typeFilter ?? new Set(['attack', 'skill_damage']);
     const aggregated: { [second: number]: number } = {};
     for (const log of result.log) {
         if (!DAMAGE_TYPES.has(log.type)) continue;
@@ -35,9 +37,43 @@ export const generateCombinedChartData = (result: any, duration: number) => {
     return generateChartData(result, duration);
 };
 
+export interface ScatterPoint {
+    time: number;
+    value: number;
+    source: string;
+    description: string;
+}
+
+/**
+ * 개별 데미지 인스턴스를 점으로 찍기 위한 스캐터 데이터 생성
+ */
+export const generateScatterData = (
+    result: any,
+    sourceFilter?: string,
+    typeFilter?: Set<string>
+): ScatterPoint[] => {
+    const DAMAGE_TYPES = typeFilter ?? new Set(['skill_damage']);
+    const data: ScatterPoint[] = [];
+
+    for (const log of result.log) {
+        if (!DAMAGE_TYPES.has(log.type)) continue;
+        if (sourceFilter && log.source !== sourceFilter) continue;
+
+        data.push({
+            time: log.time,
+            value: log.value || 0,
+            source: log.source,
+            description: log.description || '',
+        });
+    }
+
+    return data;
+};
+
 export interface BurstWindow {
     start: number;
     end: number;
+    casters: string[]; // IDs of characters who fired bursts in this window
 }
 
 export const generateBurstWindows = (
@@ -46,21 +82,26 @@ export const generateBurstWindows = (
 ): BurstWindow[] => {
     const windows: BurstWindow[] = [];
     let startTime: number | null = null;
+    let currentCasters: string[] = [];
 
     for (const entry of log) {
         if (entry.type === 'burst') {
+            if ((entry.description || '').includes('_fired') && entry.source) {
+                currentCasters.push(entry.source);
+            }
             if (entry.description === 'full_burst_start') {
                 startTime = entry.time;
             } else if (entry.description === 'full_burst_end' && startTime !== null) {
-                windows.push({ start: startTime, end: Math.min(duration, entry.time) });
+                windows.push({ start: startTime, end: Math.min(duration, entry.time), casters: [...currentCasters] });
                 startTime = null;
+                currentCasters = [];
             }
         }
     }
 
     // 전투 종료 시 풀버스트가 진행 중이었다면 닫기
     if (startTime !== null) {
-        windows.push({ start: startTime, end: duration });
+        windows.push({ start: startTime, end: duration, casters: [...currentCasters] });
     }
 
     return windows;

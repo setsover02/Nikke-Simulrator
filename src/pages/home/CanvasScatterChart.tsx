@@ -1,20 +1,14 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { BurstWindow } from '../../utils/simUtils';
+import { BurstWindow, ScatterPoint } from '../../utils/simUtils';
 
-interface ChartData {
-    time: number;
-    dps: number;
-}
-
-interface Dataset {
+interface ScatterDataset {
     label: string;
     color: string;
-    data: ChartData[];
-    lineWidth?: number;
+    data: ScatterPoint[];
 }
 
-interface CanvasChartProps {
-    datasets: Dataset[];
+interface CanvasScatterChartProps {
+    datasets: ScatterDataset[];
     burstWindows?: BurstWindow[];
     title?: string;
     charIdToName?: Record<string, string>;
@@ -30,15 +24,14 @@ function hexToRgba(hex: string, alpha: number): string {
     return `rgba(${r},${g},${b},${alpha})`;
 }
 
-const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat Damage', charIdToName = {} }: CanvasChartProps) => {
+const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage Over Time', charIdToName = {} }: CanvasScatterChartProps) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
 
     const [hoverInfo, setHoverInfo] = React.useState<{
         x: number;
         y: number;
-        time: number;
-        values: { label: string; color: string; value: number; stackedTop: number }[];
+        points: { label: string; color: string; time: number; value: number; description: string }[];
     } | null>(null);
 
     const [viewMin, setViewMin] = React.useState(0);
@@ -57,7 +50,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             const m = Math.max(...ds.data.map(d => d.time), 1);
             if (m > max) max = m;
         });
-        return max;
+        return Math.max(max, 10);
     }, [datasets]);
 
     const getViewRange = useCallback((): [number, number] => {
@@ -86,24 +79,22 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
         const graphW = W - PL - PR;
         const graphH = H - PT - PB;
 
-        const timePoints = datasets[0]?.data.map(d => d.time) ?? [];
-        let maxStacked = 100;
-        for (const t of timePoints) {
-            const sum = datasets.reduce((acc, ds) => {
-                const pt = ds.data.find(d => d.time === t);
-                return acc + (pt?.dps ?? 0);
-            }, 0);
-            if (sum > maxStacked) maxStacked = sum;
-        }
+        let maxY = 100;
+        datasets.forEach(ds => {
+            ds.data.forEach(pt => {
+                if (pt.value > maxY) maxY = pt.value;
+            });
+        });
+        maxY = maxY * 1.1; // 10% headroom
 
         const toX = (t: number) => PL + ((t - vMin) / (vMax - vMin)) * graphW;
-        const toY = (v: number) => H - PB - (v / maxStacked) * graphH;
+        const toY = (v: number) => H - PB - (v / maxY) * graphH;
 
         ctx.font = '11px monospace';
         const yTicks = 5;
         for (let i = 0; i <= yTicks; i++) {
             const ratio = i / yTicks;
-            const yVal = maxStacked * ratio;
+            const yVal = maxY * ratio;
             const yPos = H - PB - ratio * graphH;
             ctx.beginPath();
             ctx.moveTo(PL, yPos);
@@ -116,6 +107,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.textBaseline = 'middle';
             ctx.fillText(Math.floor(yVal).toLocaleString(), PL - 8, yPos);
         }
+        
         const range = vMax - vMin;
         const idealSpacing = range / 8;
         let tickInterval = 1;
@@ -164,62 +156,44 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.strokeRect(toX(s), PT, toX(e) - toX(s), graphH);
         });
 
-        const visibleDatasets = [...datasets];
-        const stackedTops: number[][] = [];
-
-        for (let di = 0; di < visibleDatasets.length; di++) {
-            const tops: number[] = [];
-            const tps = visibleDatasets[0].data.map(d => d.time);
-            for (let ti = 0; ti < tps.length; ti++) {
-                let cum = 0;
-                for (let k = 0; k <= di; k++) {
-                    const pt = visibleDatasets[k].data[ti];
-                    cum += pt?.dps ?? 0;
-                }
-                tops.push(cum);
-            }
-            stackedTops.push(tops);
-        }
-
-        for (let di = visibleDatasets.length - 1; di >= 0; di--) {
-            const ds = visibleDatasets[di];
-            const tops = stackedTops[di];
-            const bottoms = di === 0 ? tops.map(() => 0) : stackedTops[di - 1];
-            const tps = ds.data.map(d => d.time);
-
-            ctx.beginPath();
-            for (let ti = 0; ti < tps.length; ti++) {
-                const x = toX(tps[ti]);
-                const y = toY(tops[ti]);
-                if (ti === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
-            for (let ti = tps.length - 1; ti >= 0; ti--) {
-                ctx.lineTo(toX(tps[ti]), toY(bottoms[ti]));
-            }
-            ctx.closePath();
-            ctx.fillStyle = hexToRgba(ds.color.startsWith('#') ? ds.color : '#888888', 0.45);
-            ctx.fill();
-
-            ctx.beginPath();
-            for (let ti = 0; ti < tps.length; ti++) {
-                const x = toX(tps[ti]);
-                const y = toY(tops[ti]);
-                if (ti === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
-            }
+        // Draw scatter points
+        datasets.forEach(ds => {
+            ctx.fillStyle = ds.color;
             ctx.strokeStyle = ds.color;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-        }
+            ctx.lineWidth = 1;
+            ds.data.forEach(pt => {
+                const x = toX(pt.time);
+                const y = toY(pt.value);
+                // Only draw if within visible range (with some padding)
+                if (x >= PL - 5 && x <= W - PR + 5) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.fill();
+                    ctx.stroke();
+                }
+            });
+        });
 
-        if (hoverInfo) {
-            const xPos = toX(hoverInfo.time);
+        // Draw hover effects
+        if (hoverInfo && hoverInfo.points.length > 0) {
+            hoverInfo.points.forEach(pt => {
+                const x = toX(pt.time);
+                const y = toY(pt.value);
+                ctx.beginPath();
+                ctx.arc(x, y, 6, 0, 2 * Math.PI);
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+            });
+
+            // Draw line to x-axis for the first matched point
+            const firstPt = hoverInfo.points[0];
+            const xPos = toX(firstPt.time);
             ctx.beginPath();
             ctx.setLineDash([5, 5]);
             ctx.moveTo(xPos, PT);
             ctx.lineTo(xPos, H - PB);
-            ctx.strokeStyle = '#888';
+            ctx.strokeStyle = '#fff';
             ctx.lineWidth = 1;
             ctx.stroke();
             ctx.setLineDash([]);
@@ -318,23 +292,52 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             return;
         }
 
-        const PL = 214, PR = 20;
+        const PL = 214, PR = 20, PT = 50, PB = 45;
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const logX = mouseX * (canvas.width / canvas.clientWidth);
+        const canvasX = mouseX * (canvas.width / canvas.clientWidth);
+        const canvasY = mouseY * (canvas.height / canvas.clientHeight);
         const graphW = canvas.width - PL - PR;
-        if (logX < PL || logX > canvas.width - PR) { setHoverInfo(null); return; }
-        const [vMin, vMax] = getViewRange();
-        const time = Math.round(vMin + ((logX - PL) / graphW) * (vMax - vMin));
+        const graphH = canvas.height - PT - PB;
+        
+        if (canvasX < PL || canvasX > canvas.width - PR || canvasY < PT || canvasY > canvas.height - PB) { 
+            setHoverInfo(null); 
+            return; 
+        }
 
-        let runningTop = 0;
-        const values = datasets.map((ds) => {
-            const pt = ds.data.find(d => d.time === time) ?? ds.data[ds.data.length - 1];
-            runningTop += pt?.dps ?? 0;
-            return { label: ds.label, color: ds.color, value: pt?.dps ?? 0, stackedTop: runningTop };
+        const [vMin, vMax] = getViewRange();
+        let maxY = 100;
+        datasets.forEach(ds => ds.data.forEach(pt => { if (pt.value > maxY) maxY = pt.value; }));
+        maxY = maxY * 1.1;
+
+        const toX = (t: number) => PL + ((t - vMin) / (vMax - vMin)) * graphW;
+        const toY = (v: number) => canvas.height - PB - (v / maxY) * graphH;
+
+        const hitRadius = 10;
+        let matchedPoints: { label: string; color: string; time: number; value: number; description: string }[] = [];
+        
+        datasets.forEach(ds => {
+            ds.data.forEach(pt => {
+                const px = toX(pt.time);
+                const py = toY(pt.value);
+                if (Math.hypot(px - canvasX, py - canvasY) <= hitRadius) {
+                    matchedPoints.push({
+                        label: ds.label,
+                        color: ds.color,
+                        time: pt.time,
+                        value: pt.value,
+                        description: pt.description,
+                    });
+                }
+            });
         });
-        setHoverInfo({ x: mouseX, y: mouseY, time, values });
+
+        if (matchedPoints.length > 0) {
+            setHoverInfo({ x: mouseX, y: mouseY, points: matchedPoints });
+        } else {
+            setHoverInfo(null);
+        }
     };
 
     const handleMouseUp = () => { isDragging.current = false; };
@@ -368,34 +371,36 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                     display: 'block', userSelect: 'none',
                 }}
             />
-            {hoverInfo && (
+            {hoverInfo && hoverInfo.points.length > 0 && (
                 <div style={{
                     position: 'absolute',
-                    left: `${Math.min(hoverInfo.x + 15, (containerRef.current?.clientWidth ?? 400) - 180)}px`,
+                    left: `${Math.min(hoverInfo.x + 15, (containerRef.current?.clientWidth ?? 400) - 200)}px`,
                     top: `${hoverInfo.y + 15}px`,
                     backgroundColor: 'rgba(15, 15, 25, 0.95)',
                     border: '1px solid #333', borderRadius: '6px',
                     padding: '10px 12px', color: '#fff', fontSize: '12px',
                     pointerEvents: 'none', zIndex: 10,
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '160px',
+                    boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '180px',
                 }}>
                     <div style={{ borderBottom: '1px solid #333', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
-                        ⏱ {hoverInfo.time}s
+                        ⏱ {hoverInfo.points[0].time.toFixed(2)}s
                     </div>
-                    {hoverInfo.values.map((v, i) => (
-                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '3px' }}>
-                            <span style={{ color: v.color }}>● {v.label}</span>
-                            <span style={{ color: '#ddd', fontVariantNumeric: 'tabular-nums' }}>{Math.floor(v.value).toLocaleString()}</span>
+                    {hoverInfo.points.map((pt, i) => (
+                        <div key={i} style={{ marginBottom: '6px' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '2px' }}>
+                                <span style={{ color: pt.color }}>● {pt.label}</span>
+                                <span style={{ color: '#4fc3f7', fontVariantNumeric: 'tabular-nums', fontWeight: 'bold' }}>
+                                    {Math.floor(pt.value).toLocaleString()}
+                                </span>
+                            </div>
+                            <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
+                                ⚡ {pt.description}
+                            </div>
                         </div>
                     ))}
-                    <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-                        <span style={{ color: '#888' }}>Total</span>
-                        <span style={{ color: '#fff', fontVariantNumeric: 'tabular-nums' }}>
-                            {Math.floor(hoverInfo.values[hoverInfo.values.length - 1]?.stackedTop ?? 0).toLocaleString()}
-                        </span>
-                    </div>
                     {(() => {
-                        const bw = burstWindows.find(w => hoverInfo.time >= w.start && hoverInfo.time <= w.end);
+                        const firstPt = hoverInfo.points[0];
+                        const bw = burstWindows.find(w => firstPt.time >= w.start && firstPt.time <= w.end);
                         if (!bw || bw.casters.length === 0) return null;
                         return (
                             <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', color: 'rgba(255,215,0,0.9)', fontSize: '11px' }}>
@@ -409,4 +414,4 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
     );
 };
 
-export default CanvasChart;
+export default CanvasScatterChart;

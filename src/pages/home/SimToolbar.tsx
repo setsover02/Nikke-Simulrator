@@ -155,10 +155,10 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                 </div>
             </div>
 
-            {/* 풀버스트 간격 */}
+            {/* 버스트 충전 시간 */}
             <div className="toolbar-section">
                 <div className="flex-between-center">
-                    <span className="color-aaa-12">풀버스트 간격</span>
+                    <span className="color-aaa-12">버스트 충전 시간</span>
                     <div>
                         <input
                             type="number" value={fullBurstInterval} onChange={e => onFullBurstIntervalChange(e.target.value)}
@@ -168,7 +168,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                         <span className="toolbar-unit"> 초</span>
                     </div>
                 </div>
-                <span className="toolbar-hint">최소값: 10s ~ 7.48s</span>
+                <span className="toolbar-hint">버스트 충전 시간</span>
             </div>
 
             {/* 적 방어력 */}
