@@ -84,11 +84,13 @@ const Home: React.FC = () => {
         };
         const ENEMY = { hp: 1_000_000_000, defense: Math.max(0, parseInt(enemyDef || '0', 10)), element: weaknessElement };
 
-        // Only include non-empty slots in the simulation team
-        const activeSlots = slots.filter(s => s !== null);
+        // Keep original UI slot positions so positional buffs still respect empty gaps.
+        const activeSlots = slots
+            .map((slot, originalIndex) => (slot ? { slot, originalIndex } : null))
+            .filter((entry): entry is { slot: SlotState; originalIndex: number } => entry !== null);
 
         const buildTeam = (includeCore: boolean): Team => ({
-            members: activeSlots.map((slot, idx) => {
+            members: activeSlots.map(({ slot, originalIndex }) => {
                 const eq: EquipmentOptions = {
                     atkPercent: parseFloat(slot.equipATK || '0') / 100,
                     weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
@@ -100,8 +102,7 @@ const Home: React.FC = () => {
                     skill2Level: slot.skill2Level || 10,
                     burstLevelSkill: slot.burstLevel || 10
                 };
-                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, idx, skillLevels);
-                const customHP = parseInt(slot.customHP || '0', 10);
+                const char = applyBaseStats(slot.char.data, includeCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels); const customHP = parseInt(slot.customHP || '0', 10);
                 if (customHP > 0) char.hp = customHP;
                 const customATK = parseInt(slot.customATK || '0', 10);
                 if (customATK > 0) char.atk = customATK;
@@ -121,7 +122,7 @@ const Home: React.FC = () => {
         const extractChars = (resultData: typeof result) => {
             // 적 디버프(damage_taken_up)는 파티 전체에서 합산 (모든 니케에게 적용)
             let teamEnemyTakenUp = 0;
-            for (const aSlot of activeSlots) {
+            for (const { slot: aSlot } of activeSlots) {
                 const aSkills = aSlot.char.data.skills || [];
                 for (const skill of aSkills) {
                     const sLvl = skill.id === 'skill_1' ? (aSlot.skill1Level || 10)
@@ -137,8 +138,8 @@ const Home: React.FC = () => {
                 }
             }
 
-            return activeSlots.map((slot, idx) => {
-                const charId = `${slot.char.data.characterID}_${idx}`;
+            return activeSlots.map(({ slot, originalIndex }) => {
+                const charId = `${slot.char.data.characterID}_${originalIndex}`;
                 const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
                 const totalDmg = resultData.log
                     .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
@@ -162,8 +163,7 @@ const Home: React.FC = () => {
                     burstLevelSkill: slot.burstLevel || 10
                 };
                 // Re-apply stats to easily grab fullChargeDamage, coreHitBonus, etc.
-                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, idx, skillLevels);
-
+                const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels);
                 const hitDamages = calcHitDamages({
                     atk: customATK > 0 ? customATK : char.atk,
                     atkCoef: char.atkCoef,
@@ -185,7 +185,7 @@ const Home: React.FC = () => {
                     charName: slot.char.data.characterName,
                     totalDmg,
                     hitDamages,
-                    buffTimeline: resultData.team.members[idx]?.buffTimeline || []
+                    buffTimeline: resultData.team.members.find(member => member.id === charId)?.buffTimeline || []
                 };
             });
         }
@@ -205,8 +205,8 @@ const Home: React.FC = () => {
 
         const ds: any[] = [];
 
-        activeSlots.forEach((slot, idx) => {
-            const charId = `${slot.char.data.characterID}_${idx}`;
+        activeSlots.forEach(({ slot, originalIndex }, idx) => {
+            const charId = `${slot.char.data.characterID}_${originalIndex}`;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
             ds.push({ label: charName, color, data: generateChartData(result, config.duration, charId) });
@@ -217,8 +217,8 @@ const Home: React.FC = () => {
         // Skill damage only datasets
         const SKILL_TYPES = new Set(['skill_damage']);
         const skillDs: any[] = [];
-        activeSlots.forEach((slot, idx) => {
-            const charId = `${slot.char.data.characterID}_${idx}`;
+        activeSlots.forEach(({ slot, originalIndex }, idx) => {
+            const charId = `${slot.char.data.characterID}_${originalIndex}`;
             const charName = slot.char.data.characterName;
             const color = SLOT_COLORS[idx % SLOT_COLORS.length];
             skillDs.push({ label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) });
@@ -229,7 +229,7 @@ const Home: React.FC = () => {
 
         // Build skill info map for timeline tooltip
         const infoMap: Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>> = {};
-        activeSlots.forEach((slot) => {
+        activeSlots.forEach(({ slot }) => {
             const charName = slot.char.data.characterName;
             infoMap[charName] = {};
             const skills = slot.char.data.skills || [];
@@ -261,8 +261,8 @@ const Home: React.FC = () => {
 
         // Build charId → charName map for source resolution
         const idToName: Record<string, string> = {};
-        activeSlots.forEach((slot, idx) => {
-            const charId = `${slot.char.data.characterID}_${idx}`;
+        activeSlots.forEach(({ slot, originalIndex }) => {
+            const charId = `${slot.char.data.characterID}_${originalIndex}`;
             idToName[charId] = slot.char.data.characterName;
         });
         setCharIdToName(idToName);
