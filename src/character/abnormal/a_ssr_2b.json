@@ -132,7 +132,7 @@
                         6.16
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
+                    "based_on": "caster_final_max_hp",
                     "duration": "permanent"
                 }
             ]

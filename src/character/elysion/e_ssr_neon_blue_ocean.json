@@ -180,7 +180,7 @@
                     "based_on": "caster_final_atk",
                     "duration": 7.0,
                     "weapon_override": {
-                        "chargeTime": 0.7,
+                        "chargeTime": 0.71,
                         "fireRate": 0,
                         "fullChargeDamage": 100,
                         "maxAmmo": "infinity"

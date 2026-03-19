@@ -847,8 +847,11 @@ function applySpecificEffectToTarget(
   char.buffSlots = char.buffSlots || []
   char.buffTimeline = char.buffTimeline || []
 
+  char.buffTimeline = char.buffTimeline || []
+
+  const stackLv = effectDef.stack_level !== undefined ? effectDef.stack_level : 0
   const buffKey = effectDef.effect
-  const timerKey = `${sourceChar.id}__${skillName}__${effectDef.effect}`
+  const timerKey = `${sourceChar.id}__${skillName}__${effectDef.effect}__${stackLv}`
   let applied = false
   let appliedFlatValue = 0
 
@@ -1076,7 +1079,9 @@ function applySpecificEffectToTarget(
       isBullet,
       sourceCharId: sourceChar.id,
       skillName,
-      status: effectDef.status
+      status: effectDef.status,
+      basedOn: effectDef.based_on,
+      pct: value,
     })
 
     // 타임라인 기록
@@ -1085,6 +1090,7 @@ function applySpecificEffectToTarget(
         e.buffType === buffKey &&
         e.skillName === skillName &&
         e.sourceCharId === sourceChar.id &&
+        e.stackLevel === stackLv &&
         (duration === undefined ? e.endTime === ctx.config.duration : e.endTime > ctx.time)
     )
 
@@ -1098,6 +1104,8 @@ function applySpecificEffectToTarget(
         endTime: duration === undefined ? ctx.config.duration : ctx.time + duration,
         isBullet,
         sourceCharId: sourceChar.id,
+        value,
+        stackLevel: stackLv
       })
     }
   }
@@ -1121,6 +1129,26 @@ function updateBuffTimers(ctx: BattleContext) {
         }
       }
       return true
+    })
+
+    // caster_final_max_hp 기반 atk_up 슬롯 동적 재계산
+    // (permanent 슬롯은 duration === undefined)
+    char.buffSlots.forEach((slot) => {
+      if (
+        slot.effect === 'atk_up' &&
+        (slot.basedOn === 'caster_final_max_hp' || slot.basedOn === 'caster_max_hp') &&
+        slot.duration === undefined &&
+        slot.pct !== undefined
+      ) {
+        const currentMaxHp = char.maxHp ?? char.hp
+        const newFlat = currentMaxHp * (slot.pct / 100)
+        if (Math.abs(newFlat - slot.appliedFlat) > 0.01) {
+          // 기존 기여분 차감 후 새 값 추가
+          char.buff!.extraATK = Math.max(0, (char.buff!.extraATK || 0) - slot.appliedFlat)
+          slot.appliedFlat = newFlat
+          char.buff!.extraATK = (char.buff!.extraATK || 0) + newFlat
+        }
+      }
     })
   })
 }

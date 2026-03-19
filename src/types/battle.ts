@@ -13,6 +13,8 @@ export interface BuffTimelineEvent {
     endTime: number;
     isBullet: boolean;
     sourceCharId: string;
+    value: number;
+    stackLevel?: number;
 }
 
 export interface BuffSlot {
@@ -26,6 +28,9 @@ export interface BuffSlot {
     sourceCharId: string;
     skillName: string;
     status?: string;
+    basedOn?: string;       // 동적 재계산을 위한 based_on 값 (e.g. caster_final_max_hp)
+    pct?: number;           // 동적 재계산을 위한 원본 % 수치
+    sourceChar?: { id: string }; // 시전자 참조 (기본 atk 억세스용)
 }
 
 export interface Character {
@@ -169,6 +174,7 @@ export interface BattleContext {
     burstChainState: 'idle' | 'gauge_filling' | 'chain_l1' | 'chain_l2' | 'chain_l3' | 'full_burst';
     burstChainTimer: number;   // 게이지 충전 타이머 or 체인 대기 타이머
     fullBurstTimer: number;    // 풀버스트 남은 시간
+    enemyHitsPerSecond?: number; // 적의 초당 공격 횟수 (on_hit 트리거 근사용, 기본 2)
 }
 
 export interface BattleResult {

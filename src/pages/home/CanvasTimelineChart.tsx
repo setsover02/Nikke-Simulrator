@@ -54,6 +54,7 @@ interface TimelineRow {
     buffType: string;
     color: string;
     events: { start: number; end: number }[];
+    rawEvents: { start: number; end: number; value?: number; stackLevel?: number }[];
 }
 
 function normalizeEffectKey(value: string): string {
@@ -98,8 +99,8 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
         skillInfo: SkillInfo;
     } | null>(null);
 
-    // Store row Y positions for hit testing
-    const rowPositionsRef = useRef<{ charName: string; skillName: string; sourceCharName: string; buffType: string; y: number; h: number }[]>([]);
+    // Store row Y positions and events for hit testing
+    const rowPositionsRef = useRef<{ charName: string; skillName: string; sourceCharName: string; buffType: string; y: number; h: number; events: { start: number; end: number }[]; rawEvents: { start: number; end: number; value?: number; stackLevel?: number }[] }[]>([]);
 
     const [viewMin, setViewMin] = useState(0);
     const [viewMax, setViewMax] = useState<number | null>(null);
@@ -123,11 +124,11 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
             if (tl.length === 0) return;
 
             // Group by skillName + sourceCharId + buffType for effect-level rows
-            const bySkill: Record<string, { start: number, end: number, sourceCharId: string, buffType: string }[]> = {};
+            const bySkill: Record<string, { start: number, end: number, sourceCharId: string, buffType: string, value?: number, stackLevel?: number }[]> = {};
             tl.forEach(e => {
                 const key = `${e.skillName}__${e.sourceCharId}__${e.buffType}`;
                 if (!bySkill[key]) bySkill[key] = [];
-                bySkill[key].push({ start: e.startTime, end: e.endTime, sourceCharId: e.sourceCharId, buffType: e.buffType });
+                bySkill[key].push({ start: e.startTime, end: e.endTime, sourceCharId: e.sourceCharId, buffType: e.buffType, value: e.value, stackLevel: e.stackLevel });
             });
 
             // Flatten
@@ -158,7 +159,8 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                     sourceCharName,
                     buffType,
                     color: stringToColor(`${char.charName}_${skillName}_${sourceCharId}_${buffType}`),
-                    events: merged
+                    events: merged,
+                    rawEvents: events
                 });
             }
         });
@@ -335,7 +337,9 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                 sourceCharName: row.sourceCharName,
                 buffType: row.buffType,
                 y: yCursor,
-                h: LINE_HEIGHT
+                h: LINE_HEIGHT,
+                events: row.events,
+                rawEvents: row.rawEvents
             });
             yCursor += LINE_HEIGHT + ROW_GAP;
             lastChar = row.charName;
@@ -442,8 +446,10 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
         const scaleY = canvas.height / canvas.clientHeight;
         const logicalY = mouseY * scaleY;
 
-        if (mouseX * (canvas.width / canvas.clientWidth) < PADDING.left && skillInfoMap) {
-            // Find which row the mouse is over
+        const canvasX = mouseX * (canvas.width / canvas.clientWidth);
+
+        if (canvasX < PADDING.left && skillInfoMap) {
+            // Label area hit testing
             for (const pos of rowPositionsRef.current) {
                 if (logicalY >= pos.y && logicalY <= pos.y + pos.h) {
                     const info = skillInfoMap[pos.sourceCharName]?.[pos.skillName];
@@ -463,6 +469,55 @@ const CanvasTimelineChart: React.FC<CanvasTimelineChartProps> = ({ summary, dura
                         return;
                     }
                 }
+            }
+        } else if (canvasX >= PADDING.left && canvasX <= canvas.width - PADDING.right && skillInfoMap) {
+            // Timeline area (bars) hit testing
+            const [vMin, vMax] = getViewRange();
+            const graphW = canvas.width - PADDING.left - PADDING.right;
+            const ratio = (canvasX - PADDING.left) / graphW;
+            const cursorTime = vMin + ratio * (vMax - vMin);
+
+            for (const pos of rowPositionsRef.current) {
+                if (logicalY >= pos.y && logicalY <= pos.y + pos.h) {
+                    // Check if time is within any event bounds of this row
+                    const hitEvent = pos.events.find(ev => cursorTime >= ev.start && cursorTime <= ev.end);
+                    if (hitEvent) {
+                        const info = skillInfoMap[pos.sourceCharName]?.[pos.skillName];
+                        if (info && info.effects.length > 0) {
+                            // Find active raw events for accurate stack calculation
+                            const activeEvents = pos.rawEvents.filter(ev => cursorTime >= ev.start && cursorTime <= ev.end);
+                            let summedValue = 0;
+                            let hasValues = false;
+
+                            activeEvents.forEach(ev => {
+                                if (ev.value !== undefined) {
+                                    summedValue += ev.value;
+                                    hasValues = true;
+                                }
+                            });
+
+                            const matchedEffects = info.effects.filter((eff) => isMatchingEffect(pos.buffType, eff.effect));
+                            const customInfo = { ...info, effects: [...(matchedEffects.length > 0 ? matchedEffects : info.effects)] };
+
+                            if (hasValues && customInfo.effects.length > 0) {
+                                const unit = customInfo.effects[0].value.includes('%') ? '%' : '';
+                                customInfo.effects[0] = { ...customInfo.effects[0], value: `${Number(summedValue.toFixed(3))}${unit}` };
+                                // 중복되는 나머지 stack_level 효과들은 제거하고 1개만 표시
+                                customInfo.effects = [customInfo.effects[0]];
+                            }
+
+                            setTooltip({
+                                x: mouseX,
+                                y: mouseY,
+                                charName: pos.sourceCharName,
+                                skillName: pos.skillName,
+                                buffType: pos.buffType,
+                                skillInfo: customInfo,
+                            });
+                            return;
+                        }
+                    }
+                } // row matched
             }
         }
         setTooltip(null);
