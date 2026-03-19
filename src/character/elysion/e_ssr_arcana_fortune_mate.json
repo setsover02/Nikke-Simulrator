@@ -1,0 +1,281 @@
+{
+    "characterID": "Arcana : Fortune Mate",
+    "characterName": "아르카나 : 포츈 메이트",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "베스트셀러",
+        "burstLevel": 2,
+        "atk": 12967,
+        "defense": 3124,
+        "hp": 471875,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 2.33,
+        "chargeTime": 0,
+        "fireRate": 1.51515,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "쌓여가는 사진첩",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_end",
+                    "target": "sg_allies",
+                    "effect": "atk_up_by_status_stack",
+                    "status_target": "precious_memories",
+                    "value": [
+                        0.68,
+                        1.37,
+                        2.05,
+                        2.74,
+                        3.43,
+                        4.11,
+                        4.80,
+                        5.48,
+                        6.17,
+                        6.86
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 15.0
+                },
+                {
+                    "trigger": "status_applied",
+                    "condition": {
+                        "status": "happy_memories"
+                    },
+                    "target": "self",
+                    "effect": "normal_attack_damage_up",
+                    "status": "youth_record",
+                    "value": [
+                        1.0,
+                        2.0,
+                        3.0,
+                        4.0,
+                        5.0,
+                        6.0,
+                        7.0,
+                        8.0,
+                        9.0,
+                        10.0
+                    ],
+                    "unit": "percent",
+                    "max_stack": 3,
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_status",
+                    "status_target": "leaving_memories"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_status",
+                    "status_target": "youth_record"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_status",
+                    "status_target": "happy_memories"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_status",
+                    "status_target": "precious_memories"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "기억과 추억",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "condition": {
+                        "status": "leaving_memories",
+                        "count": 2
+                    },
+                    "target": "self",
+                    "effect": "ammo_charge",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "count"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "condition": {
+                        "status": "leaving_memories",
+                        "count": 4
+                    },
+                    "target": "self",
+                    "effect": "pellet_count_up",
+                    "status": "happy_memories",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "count",
+                    "max_stack": 3,
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "condition": {
+                        "status": "leaving_memories",
+                        "count": 6
+                    },
+                    "target": "self",
+                    "effect": "atk_up",
+                    "status": "precious_memories",
+                    "value": [
+                        0.14,
+                        0.29,
+                        0.44,
+                        0.58,
+                        0.73,
+                        0.88,
+                        1.02,
+                        1.17,
+                        1.32,
+                        1.47
+                    ],
+                    "unit": "percent",
+                    "max_stack": 3,
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "sg_allies_excluding_self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.11,
+                        6.22,
+                        9.33,
+                        12.44,
+                        15.56,
+                        18.67,
+                        21.78,
+                        24.89,
+                        28.00,
+                        31.12
+                    ],
+                    "unit": "percent",
+                    "duration": 10.0
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "빛나는 청춘",
+            "type": "burst",
+            "cooldown": 40.0,
+            "effects": [
+                {
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "status": "leaving_memories",
+                    "value": [
+                        1.18,
+                        2.37,
+                        3.56,
+                        4.74,
+                        5.93,
+                        7.12,
+                        8.30,
+                        9.49,
+                        10.68,
+                        11.87
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "target": "self",
+                    "effect": "ammo_charge",
+                    "status": "leaving_memories",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "count"
+                },
+                {
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "status": "leaving_memories",
+                    "value": [
+                        1.77,
+                        3.54,
+                        5.31,
+                        7.08,
+                        8.86,
+                        10.63,
+                        12.40,
+                        14.17,
+                        15.94,
+                        17.72
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "damage",
+                    "value": [
+                        32.76,
+                        65.52,
+                        98.28,
+                        131.04,
+                        163.80,
+                        196.56,
+                        229.32,
+                        262.08,
+                        294.84,
+                        327.60
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                }
+            ]
+        }
+    ]
+}

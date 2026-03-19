@@ -62,3 +62,9 @@ shooting_focus: 사격 집중 (시뮬레이터에서 구현하지 않음)
 
 <!-- 시뮬레이션에서 적용 못할거 같음 -->
 explosion_range_up: 폭발 범위 증가 
+
+### 아르카나 추가 효과
+atk_up_by_status_stack: 공격력 증가 (특정 상태 중첩 수에 비례)
+normal_attack_damage_up: 일반 공격 대미지 증가
+pellet_count_up: 펠릿 개수 증가
+remove_status: 특정 상태 해제
