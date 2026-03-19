@@ -94,6 +94,23 @@ export interface Character {
 
     /* SG 펠릿 */
     pelletCount?: number;            // SG 펠릿 수 (기본 10)
+
+    /* change_weapon 효과 */
+    weaponOverride?: {
+        chargeTime?: number;
+        fireRate?: number;
+        fullChargeDamage?: number;
+        maxAmmo?: number | string;   // "infinity" = 무한 탄약
+    };
+    originalWeaponStats?: {
+        chargeTime: number;
+        fireRate: number;
+        fullChargeDamage: number;
+        maxAmmo: number;
+        atkCoef: number;
+        ammo: number;
+        reloadRemain: number;
+    };
 }
 
 export interface Team {

@@ -26,6 +26,12 @@ export interface SkillEffectDef {
   effects?: Omit<SkillEffectDef, 'trigger' | 'target'>[] // Nested effects
   status?: string
   stack_level?: number
+  weapon_override?: {
+    chargeTime?: number
+    fireRate?: number
+    fullChargeDamage?: number
+    maxAmmo?: number | string
+  }
 }
 
 export interface SkillDef {
@@ -159,6 +165,18 @@ function resolveTargets(
     return members.filter((c) => c.element === ELEMENT_TARGETS[target])
   }
 
+  // ── Element Enemy Targets (우월 코드 적 타겟) ──
+  const ELEMENT_ENEMY_TARGETS: Record<string, string> = {
+    fire_element_enemy: '작열',
+    water_element_enemy: '수냉',
+    electric_element_enemy: '전격',
+    iron_element_enemy: '철갑',
+    wind_element_enemy: '풍압',
+  }
+  if (ELEMENT_ENEMY_TARGETS[target]) {
+    return ctx.enemy.element === ELEMENT_ENEMY_TARGETS[target] ? [ctx.enemy] : []
+  }
+
   // ── Enemy Targets (all map to ctx.enemy since single-enemy sim) ──
   const ENEMY_TARGETS = new Set([
     'enemy',
@@ -277,6 +295,13 @@ export function resolveSkills(ctx: BattleContext) {
   })
 
   updateBuffTimers(ctx)
+
+  // enter_burst_n 플래그 초기화 (1틱에 한 번만 트리거되도록)
+  if (ctx.state) {
+    for (let lv = 1; lv <= 3; lv++) {
+      ctx.state[`__enterBurstLevel_${lv}`] = false
+    }
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -492,6 +517,27 @@ function handleEffectTrigger(
       effectDef.stack_level !== undefined &&
       effectDef.stack_level > castCount
     )
+      return
+
+    isTriggered = true
+  }
+
+  // ── enter_burst_1 / enter_burst_2 / enter_burst_3 ──
+  if (trigger === 'enter_burst_1' || trigger === 'enter_burst_2' || trigger === 'enter_burst_3') {
+    const level = parseInt(trigger.replace('enter_burst_', ''), 10)
+    const enterFlag = ctx.state[`__enterBurstLevel_${level}`]
+    if (!enterFlag) return
+
+    // stack_level 카운트: 트리거 1회당 스킬별 1회 증가
+    const stackKey = `${sourceChar.id}_${skillId}_enter_burst_${level}_count`
+    const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`
+    if (!ctx.state[stackTickKey]) {
+      ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1
+      ctx.state[stackTickKey] = true
+    }
+
+    const castCount = ctx.state[stackKey] || 0
+    if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount)
       return
 
     isTriggered = true
@@ -935,6 +981,59 @@ function applySpecificEffectToTarget(
       appliedFlatValue = 1
       applied = true
       break
+    case 'parts_damage_up':
+      appliedFlatValue = value / 100
+      char.buff.partDmgUp = (char.buff.partDmgUp || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Parts Damage Up' })
+      applied = true
+      break
+    case 'element_damage_up':
+      appliedFlatValue = value / 100
+      char.buff.elementDmgUp = (char.buff.elementDmgUp || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Element Damage Up' })
+      applied = true
+      break
+    case 'change_weapon': {
+      // 원본 스탯 백업 (이미 오버라이드 중이 아닌 경우에만)
+      if (!char.originalWeaponStats) {
+        char.originalWeaponStats = {
+          chargeTime: char.chargeTime ?? 0,
+          fireRate: char.fireRate,
+          fullChargeDamage: char.fullChargeDamage ?? 0,
+          maxAmmo: char.maxAmmo,
+          atkCoef: char.atkCoef ?? 0,
+          ammo: char.ammo,
+          reloadRemain: char.reloadRemain,
+        }
+      }
+
+      // weapon_override 스탯 적용
+      const wo = effectDef.weapon_override
+      if (wo) {
+        char.weaponOverride = wo
+        if (wo.chargeTime !== undefined) char.chargeTime = wo.chargeTime
+        if (wo.fireRate !== undefined) char.fireRate = wo.fireRate
+        if (wo.fullChargeDamage !== undefined) char.fullChargeDamage = wo.fullChargeDamage / 100
+        if (wo.maxAmmo === 'infinity') {
+          char.maxAmmo = 999999
+        } else if (typeof wo.maxAmmo === 'number') {
+          char.maxAmmo = wo.maxAmmo
+        }
+      }
+
+      // atkCoef를 스킬 value로 교체
+      char.atkCoef = value / 100
+
+      // 재장전 완료 상태로 설정
+      char.ammo = char.maxAmmo
+      char.reloadRemain = 0
+      char.currentCharge = 0
+
+      appliedFlatValue = 1 // marker value
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Change Weapon' })
+      applied = true
+      break
+    }
     case 'shooting_focus':
     case 'cover_defense_up':
     case 'explosion_range_up':
@@ -1070,6 +1169,27 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
       break
     case 'damage_share':
       char.buff.damageShare = false
+      break
+    case 'parts_damage_up':
+      char.buff.partDmgUp = Math.max(0, (char.buff.partDmgUp || 0) - value)
+      break
+    case 'element_damage_up':
+      char.buff.elementDmgUp = Math.max(0, (char.buff.elementDmgUp || 0) - value)
+      break
+    case 'change_weapon':
+      // 원본 무기 스탯으로 복원
+      if (char.originalWeaponStats) {
+        char.chargeTime = char.originalWeaponStats.chargeTime
+        char.fireRate = char.originalWeaponStats.fireRate
+        char.fullChargeDamage = char.originalWeaponStats.fullChargeDamage
+        char.maxAmmo = char.originalWeaponStats.maxAmmo
+        char.atkCoef = char.originalWeaponStats.atkCoef
+        char.ammo = char.originalWeaponStats.maxAmmo  // 원래 무기로 돌아올 때 최대 탄약으로 시작
+        char.reloadRemain = 0
+        char.currentCharge = 0
+        char.weaponOverride = undefined
+        char.originalWeaponStats = undefined
+      }
       break
     default:
       break

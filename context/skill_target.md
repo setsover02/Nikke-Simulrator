@@ -22,6 +22,12 @@ highest_def_enemy_3: 최종 방어력이 가장 높은 적 3기에게 (적이 1�
 highest_hp_enemy_1: 최종 체력이 가장 높은 적 1기에게 (남은 체력 수치가 가장 높은 적)
 lowest_hp_enemy: 남은 체력 수치가 가장 낮은 적에게
 random_enemies: 무작위 적에게 (적이 1기인 경우 1기에게)
+fire_element_enemy: 작열 코드 적에게
+water_element_enemy: 수냉 코드 적에게
+electric_element_enemy: 전격 코드 적에게
+iron_element_enemy: 철갑 코드 적에게
+wind_element_enemy: 풍압 코드 적에게
+
 
 ### 아군에게
 all_allies: 아군 전체에게
@@ -41,4 +47,9 @@ wind_element_allies: 풍압 코드 아군 전체에게
 lowest_hp_allies_1: 체력 비율이 가장 낮은 아군 1기에게 (현재 피격 개념이 없으므로 일단 미구현)
 lowest_hp_allies_2: 체력 비율이 가장 낮은 아군 2기에게 (현재 피격 개념이 없으므로 일단 미구현)
 lowest_hp_allies_3: 체력 비율이 가장 낮은 아군 3기에게 (현재 피격 개념이 없으므로 일단 미구현)
+
+### 아르카나
 sg_allies_excluding_self: 자신을 제외한 샷건 소지 아군 전체에게
+
+### 네온 : 블루 오션 추가 타겟
+

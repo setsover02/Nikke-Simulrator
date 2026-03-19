@@ -54,19 +54,23 @@ function fireBurst(ctx: BattleContext, char: Character): void {
     const cooldown = (burstSkill as any).cooldown ?? 20;
     ctx.burstCooldowns[char.id] = cooldown;
 
+    // enter_burst_n 플래그 기록 (skillResolver의 enter_burst_n 트리거 참조용)
+    ctx.state = ctx.state || {};
+    const burstLevel = char.burstLevel ?? 0;
+    ctx.state[`__enterBurstLevel_${burstLevel}`] = true;
+
     // 버스트 스킬 효과 적용
     const effects: any[] = (burstSkill as any).effects ?? [];
     for (const effectDef of effects) {
         applyEffect(ctx, char, (burstSkill as any).name || 'Burst Skill', effectDef);
     }
 
-
     ctx.log.push({
         time: ctx.time,
         type: 'burst',
         source: char.id,
-        description: `burst_l${char.burstLevel ?? 0}_fired`,
-        value: char.burstLevel ?? 0,
+        description: `burst_l${burstLevel}_fired`,
+        value: burstLevel,
     });
 }
 

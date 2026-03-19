@@ -18,6 +18,8 @@ distribute_damage: 분배 대미지 (모든 타겟에게 분배되어 들어가�
 atk_up: 공격력 증가 (기본값: target 기준 공격력으로 증가한다)
 atk_damage_up: 공격 대미지 증가 (공격력 증가와 공격 대미지 증가는 다름, 계산식 확인)
 atk_down: 공격력 감소 (기본값: target 기준 공격력으로 감소한다)
+parts_damage_up: 파츠 대미지 증가 (적에게 파츠가 있는 경우에만 적용, 파츠에 대미지가 들어갈때 버프 수치만큼 증가하며, 일반 공격의 경우는 증가하지 않는다.)
+element_damage_up: 우월 코드 공격 대미지 증가
 
 ### 장탄
 max_ammo_up: 최대 장탄수 증가 (기본값: target 기준 최대 장탄수로 증가한다)
@@ -59,6 +61,12 @@ shield: 보호막
 taunt: 도발
 dispel: 해로운 효과 해제 (캐릭터의 스킬로 얻는 부정적 효과들은 해제 안됨, 적에게서 받는 디버프만 해제 가능)
 shooting_focus: 사격 집중 (시뮬레이터에서 구현하지 않음)
+change_weapon : 사용 무기 변경
+    - 스킬의 duration 동안 또는 별도의 트리거 시간에 따라 해당 시간 동안만 무기가 변경된다.
+    - 무기 변경시 chargeTime, fireRate, fullChargeDamage, maxAmmo 등이 변경될 수 있다.
+    - 스킬 내부 weapon_override에 정의한다.
+    - 해당 무기의 atkCoef값은 현재까지 확인된 바로는 스킬의 value 값으로 적용한다.
+    - 무기 변경시 대미지는 우선 스킬 대미지로 분류하여 스킬 대미지: scatterChart에 표시할 수 있도록 한다. 
 
 <!-- 시뮬레이션에서 적용 못할거 같음 -->
 explosion_range_up: 폭발 범위 증가 
@@ -68,3 +76,5 @@ atk_up_by_status_stack: 공격력 증가 (특정 상태 중첩 수에 비례)
 normal_attack_damage_up: 일반 공격 대미지 증가
 pellet_count_up: 펠릿 개수 증가
 remove_status: 특정 상태 해제
+
+### 네온 : 블루 오션 추가 효과

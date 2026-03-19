@@ -19,6 +19,12 @@ export function processAttack(ctx: BattleContext) {
     const rangeMode: RangeMode = (ctx.config as any).rangeMode ?? 'mid';
 
     ctx.team.members.forEach((char) => {
+        // weaponOverride가 활성이면 차지형 무기로 처리 (무기 변경 효과)
+        if (char.weaponOverride) {
+            processWeaponOverrideAttack(char, ctx, rangeMode);
+            return;
+        }
+
         const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
         const isMG = weapon === WeaponType.MG;
         const isSG = weapon === WeaponType.SG;
@@ -72,7 +78,7 @@ export function processAttack(ctx: BattleContext) {
                 const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
                 applyDamage(ctx, pelletDmg, char.id);
             } else {
-                // 일반 단발 처리 (RL은 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
+                // 일반 단발 처리 (RL는 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
                 const dmg = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
                 const simulatedHits = 1;
                 applyDamage(ctx, dmg * simulatedHits, char.id);
@@ -223,7 +229,7 @@ function buildDamageParams(
 
         /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
-        weakPointExtra: (char.buff?.weak ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
+        weakPointExtra: (char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
         chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (char.buff?.chargeDmg ?? 0)) - 1) : 0,
@@ -233,7 +239,7 @@ function buildDamageParams(
         atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,
         dotDmgUp: char.buff?.dot ?? 0,
         pierceDmgUp: char.buff?.pierce ?? 0,
-        partDmgUp: char.buff?.part ?? 0,
+        partDmgUp: char.buff?.partDmgUp ?? 0,
         ignoreDefDmgUp: char.buff?.ignoreDef ?? 0,
         projectileDmgUp: char.buff?.projectile ?? 0,
         interruptionPartDmgUp: char.buff?.weakPart ?? 0,
@@ -253,15 +259,50 @@ function buildDamageParams(
 function applyDamage(
     ctx: BattleContext,
     dmg: number,
-    source: string
+    source: string,
+    type: string = 'attack'
 ) {
     ctx.enemy.hp -= dmg;
     ctx.totalDamage += dmg;
 
     ctx.log.push({
         time: ctx.time,
-        type: "attack",
+        type,
         value: dmg,
         source,
     });
+}
+
+/* =========================
+   무기 변경(weaponOverride) 중 차지 공격 처리
+========================= */
+
+function processWeaponOverrideAttack(
+    char: Character,
+    ctx: BattleContext,
+    rangeMode: RangeMode
+) {
+    const dt = ctx.delta;
+    const isFiring = canAttack(char);
+    if (!isFiring) {
+        char.currentCharge = 0;
+        return;
+    }
+
+    // 차지 공격 처리 (chargeTime 기반)
+    const chargeSpeedBuff = char.buff?.chargeSpeed ?? 0;
+    const chargeSeconds = Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
+    char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
+
+    if (char.currentCharge >= 1.0) {
+        char.currentCharge -= 1.0;
+
+        // 대미지 계산
+        const dmg = calcCharacterDamage(char, ctx, true, rangeMode);
+        applyDamage(ctx, dmg, char.id, 'skill_damage'); // 스킬 대미지로 기록
+
+        // full_charge_attack 트리거 플래그
+        ctx.state = ctx.state || {};
+        ctx.state[`${char.id}_fullcharge_flag`] = true;
+    }
 }

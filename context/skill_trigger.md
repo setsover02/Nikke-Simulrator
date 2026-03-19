@@ -20,6 +20,9 @@ full_burst_end: 풀 버스트 타임 종료 시
 full_burst_start: 풀 버스트 타임 시작 시
 full_burst_time: 풀 버스트 지속 시간 동안, 풀 버스트 타임일 때 한하여
 burst_cast: 버스트 스킬 사용 시 (이 스킬을 보유한 니케가 버스트 스킬을 사용한 경우)
+enter_burst_1: 버스트 1단계 돌입 시 (스쿼드의 아무 니케가 버스트 레벨 1 스킬을 사용한 경우)
+enter_burst_2: 버스트 2단계 돌입 시 (스쿼드의 아무 니케가 버스트 레벨 2 스킬을 사용한 경우)
+enter_burst_3: 버스트 3단계 돌입 시 (스쿼드의 아무 니케가 버스트 레벨 3 스킬을 사용한 경우)
 full_charge_attack: 풀 차지 공격 시, 풀 차지 n회 공격 시
 part_destroy: 파츠 파괴 시
 

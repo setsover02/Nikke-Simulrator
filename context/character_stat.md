@@ -37,6 +37,7 @@
 
 또 다른 캐릭터별 고유 스탯은 다음과 같습니다.
 - maxAmmo: 장탄 수
+    - infinity인 경우 무한 탄약으로 판정하며 이 버프 등의 유지 시간동안 재장전하지 않는다.
 - reloadTime: 재장전 시간
 - atkCoef: 공격 계수 %
 - chargeTime: 차지 시간
