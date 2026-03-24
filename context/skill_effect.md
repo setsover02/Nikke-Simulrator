@@ -20,10 +20,13 @@ atk_damage_up: 공격 대미지 증가 (공격력 증가와 공격 대미지 증
 atk_down: 공격력 감소 (기본값: target 기준 공격력으로 감소한다)
 parts_damage_up: 파츠 대미지 증가 (적에게 파츠가 있는 경우에만 적용, 파츠에 대미지가 들어갈때 버프 수치만큼 증가하며, 일반 공격의 경우는 증가하지 않는다.)
 element_damage_up: 우월 코드 공격 대미지 증가
+normal_attack_multiplier_up: 일반 공격 대미지 n% 배율 증가
 
 ### 장탄
 max_ammo_up: 최대 장탄수 증가 (기본값: target 기준 최대 장탄수로 증가한다)
-ammo_charge: 탄환 충전 (타겟의 장탄수에 비례하여 스킬 수치만큼 장탄 수 회복)
+ammo_charge: 탄환 충전 
+    - percent인 경우: 타겟의 장탄수 기준 스킬 퍼센트 수치만큼 장탄 수 회복
+    - count인 경우: 스킬 수치만큼 장탄 수 회복
 
 ### 방어력
 def_up: 방어력 증가 (기본값: target 기준 방어력으로 증가한다)
@@ -67,14 +70,15 @@ change_weapon : 사용 무기 변경
     - 스킬 내부 weapon_override에 정의한다.
     - 해당 무기의 atkCoef값은 현재까지 확인된 바로는 스킬의 value 값으로 적용한다.
     - 무기 변경시 대미지는 우선 스킬 대미지로 분류하여 스킬 대미지: scatterChart에 표시할 수 있도록 한다. 
+pellet_count_up: 펠릿 개수 증가 (삿건 니케의 경우만 적용)
+    - 기본 펠릿 개수 10 + 스킬로 증가하는 개수만큼 적용한다.
+    - 펠릿이 증가한다고 하여 공격력이 추가로 늘어나지 않는다.
+    - 니케의 atkCoef가 100%라면 (펠릿 개수 / atkCoef로 적용된다.)
 
 <!-- 시뮬레이션에서 적용 못할거 같음 -->
 explosion_range_up: 폭발 범위 증가 
 
-### 아르카나 추가 효과
-atk_up_by_status_stack: 공격력 증가 (특정 상태 중첩 수에 비례)
-normal_attack_damage_up: 일반 공격 대미지 증가
-pellet_count_up: 펠릿 개수 증가
-remove_status: 특정 상태 해제
+### status 관련 효과
+remove_status: status 해제 (특정 니케들이 가지고 있는 status를 해제한다.)
 
-### 네온 : 블루 오션 추가 효과
+### 아르카나 추가 효과

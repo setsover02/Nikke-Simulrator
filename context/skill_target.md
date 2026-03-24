@@ -39,6 +39,7 @@ highest_atk_allies_1: 최종 공격력이 가장 높은 아군 1기에게 (전�
 highest_atk_allies_2: 최종 공격력이 가장 높은 아군 2기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)
 highest_atk_allies_3:최종 공격력이 가장 높은 아군 3기에게 (전투중 버프가 적용된 수치를 계산후 공격력이 가장 높은 아군)
 sg_allies: 샷건 소지 아군 전체에게
+sg_allies_excluding_self: 자신을 제외한 샷건 소지 아군 전체에게
 fire_element_allies: 작열 코드 아군 전체에게
 water_element_allies: 수냉 코드 아군 전체에게
 electric_element_allies: 전동 코드 아군 전체에게
@@ -47,9 +48,3 @@ wind_element_allies: 풍압 코드 아군 전체에게
 lowest_hp_allies_1: 체력 비율이 가장 낮은 아군 1기에게 (현재 피격 개념이 없으므로 일단 미구현)
 lowest_hp_allies_2: 체력 비율이 가장 낮은 아군 2기에게 (현재 피격 개념이 없으므로 일단 미구현)
 lowest_hp_allies_3: 체력 비율이 가장 낮은 아군 3기에게 (현재 피격 개념이 없으므로 일단 미구현)
-
-### 아르카나
-sg_allies_excluding_self: 자신을 제외한 샷건 소지 아군 전체에게
-
-### 네온 : 블루 오션 추가 타겟
-

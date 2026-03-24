@@ -109,7 +109,7 @@ export function updateBurst(ctx: BattleContext): void {
         if (ctx.burstChainTimer > 0) {
             ctx.burstChainTimer -= ctx.delta;
         }
-        
+
         if (ctx.burstChainTimer <= 0) {
             // 게이지 100% 도달 → L1 체인 시작 시도 (쿨타임 될 때까지 대기)
             const l1Char = findBurstCandidate(ctx, 1);

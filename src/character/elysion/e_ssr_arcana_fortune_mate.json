@@ -29,19 +29,19 @@
                 {
                     "trigger": "full_burst_end",
                     "target": "sg_allies",
-                    "effect": "atk_up_by_status_stack",
+                    "effect": "atk_up",
                     "status_target": "precious_memories",
                     "value": [
-                        0.68,
-                        1.37,
-                        2.05,
-                        2.74,
-                        3.43,
-                        4.11,
-                        4.80,
-                        5.48,
-                        6.17,
-                        6.86
+                        6.86,
+                        7.54,
+                        8.22,
+                        8.91,
+                        9.59,
+                        10.27,
+                        10.96,
+                        11.64,
+                        12.32,
+                        13.00
                     ],
                     "unit": "percent",
                     "based_on": "caster_atk",
@@ -53,22 +53,11 @@
                         "status": "happy_memories"
                     },
                     "target": "self",
-                    "effect": "normal_attack_damage_up",
+                    "effect": "normal_attack_multiplier_up",
                     "status": "youth_record",
-                    "value": [
-                        1.0,
-                        2.0,
-                        3.0,
-                        4.0,
-                        5.0,
-                        6.0,
-                        7.0,
-                        8.0,
-                        9.0,
-                        10.0
-                    ],
+                    "value": 10.0,
                     "unit": "percent",
-                    "max_stack": 3,
+                    "stack": 3,
                     "duration": "permanent"
                 },
                 {
@@ -82,18 +71,6 @@
                     "target": "self",
                     "effect": "remove_status",
                     "status_target": "youth_record"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "remove_status",
-                    "status_target": "happy_memories"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "remove_status",
-                    "status_target": "precious_memories"
                 }
             ]
         },
@@ -110,18 +87,7 @@
                     },
                     "target": "self",
                     "effect": "ammo_charge",
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
+                    "value": 6,
                     "unit": "count"
                 },
                 {
@@ -133,20 +99,9 @@
                     "target": "self",
                     "effect": "pellet_count_up",
                     "status": "happy_memories",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
+                    "value": 1,
                     "unit": "count",
-                    "max_stack": 3,
+                    "stack": 3,
                     "duration": "permanent"
                 },
                 {
@@ -159,19 +114,19 @@
                     "effect": "atk_up",
                     "status": "precious_memories",
                     "value": [
-                        0.14,
-                        0.29,
-                        0.44,
-                        0.58,
-                        0.73,
-                        0.88,
-                        1.02,
-                        1.17,
-                        1.32,
-                        1.47
+                        1.47,
+                        1.59,
+                        1.7,
+                        1.81,
+                        1.93,
+                        2.04,
+                        2.15,
+                        2.27,
+                        2.38,
+                        2.49
                     ],
                     "unit": "percent",
-                    "max_stack": 3,
+                    "stack": 3,
                     "duration": "permanent"
                 },
                 {
@@ -179,16 +134,16 @@
                     "target": "sg_allies_excluding_self",
                     "effect": "atk_damage_up",
                     "value": [
-                        3.11,
-                        6.22,
-                        9.33,
-                        12.44,
-                        15.56,
-                        18.67,
-                        21.78,
-                        24.89,
-                        28.00,
-                        31.12
+                        31.12,
+                        33.77,
+                        36.42,
+                        39.08,
+                        41.73,
+                        44.38,
+                        47.04,
+                        49.69,
+                        52.34,
+                        55
                     ],
                     "unit": "percent",
                     "duration": 10.0
@@ -199,23 +154,23 @@
             "id": "burst",
             "name": "빛나는 청춘",
             "type": "burst",
-            "cooldown": 40.0,
+            "cooldown": 20.0,
             "effects": [
                 {
                     "target": "self",
                     "effect": "critical_rate_up",
                     "status": "leaving_memories",
                     "value": [
-                        1.18,
-                        2.37,
-                        3.56,
-                        4.74,
-                        5.93,
-                        7.12,
-                        8.30,
-                        9.49,
-                        10.68,
-                        11.87
+                        11.87,
+                        12.78,
+                        13.7,
+                        14.61,
+                        15.52,
+                        16.44,
+                        17.35,
+                        18.27,
+                        19.18,
+                        20.09
                     ],
                     "unit": "percent",
                     "duration": "permanent"
@@ -224,18 +179,7 @@
                     "target": "self",
                     "effect": "ammo_charge",
                     "status": "leaving_memories",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
+                    "value": 2,
                     "unit": "count"
                 },
                 {
@@ -243,16 +187,16 @@
                     "effect": "atk_damage_up",
                     "status": "leaving_memories",
                     "value": [
-                        1.77,
-                        3.54,
-                        5.31,
-                        7.08,
-                        8.86,
-                        10.63,
-                        12.40,
-                        14.17,
-                        15.94,
-                        17.72
+                        17.72,
+                        19.08,
+                        20.44,
+                        21.81,
+                        23.17,
+                        24.53,
+                        25.9,
+                        27.26,
+                        28.62,
+                        29.99
                     ],
                     "unit": "percent",
                     "duration": "permanent"
@@ -261,16 +205,16 @@
                     "target": "all_enemies",
                     "effect": "damage",
                     "value": [
-                        32.76,
-                        65.52,
-                        98.28,
-                        131.04,
-                        163.80,
-                        196.56,
-                        229.32,
-                        262.08,
-                        294.84,
-                        327.60
+                        327.6,
+                        352.8,
+                        378,
+                        403.2,
+                        428.4,
+                        453.6,
+                        478.8,
+                        504,
+                        529.2,
+                        554.4
                     ],
                     "unit": "percent",
                     "based_on": "caster_final_atk"

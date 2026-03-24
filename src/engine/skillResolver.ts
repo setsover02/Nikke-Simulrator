@@ -22,9 +22,13 @@ export interface SkillEffectDef {
     amount?: number
     count?: number
     target_status?: string
+    status?: string
+    chance?: number
   }
   effects?: Omit<SkillEffectDef, 'trigger' | 'target'>[] // Nested effects
   status?: string
+  status_target?: string  // 이 status의 스택 수에 따라 value가 곱해짐
+  stack?: number          // 최대 중첩 횟수
   stack_level?: number
   weapon_override?: {
     chargeTime?: number
@@ -138,6 +142,19 @@ function resolveTargets(
     const idx = sourceChar.slotIndex
     if (idx !== 1 && idx !== 3) return [] // 2번과 4번 자리인 경우에만
     return members.filter(m => m.slotIndex === idx - 1 || m.slotIndex === idx || m.slotIndex === idx + 1)
+  }
+
+  // ── Weapon-type Allies (excluding self) ──
+  const WEAPON_EXCLUDE_SELF_TARGETS: Record<string, string> = {
+    sg_allies_excluding_self: 'SG',
+    smg_allies_excluding_self: 'SMG',
+    mg_allies_excluding_self: 'MG',
+    sr_allies_excluding_self: 'SR',
+    rl_allies_excluding_self: 'RL',
+    ar_allies_excluding_self: 'AR',
+  }
+  if (WEAPON_EXCLUDE_SELF_TARGETS[target]) {
+    return members.filter((c) => c.weapon === WEAPON_EXCLUDE_SELF_TARGETS[target] && c.id !== sourceChar.id)
   }
 
   // ── Weapon-type Allies ──
@@ -543,6 +560,56 @@ function handleEffectTrigger(
     isTriggered = true
   }
 
+  // ── normal_attack: 일반 공격 시 (명중 무관, 공격 행위 자체) ──
+  if (trigger === 'normal_attack') {
+    // 조건에 status가 있으면 해당 상태가 있을 때만 카운트
+    if (typeof effectDef.condition === 'object' && effectDef.condition?.status) {
+      const requiredStatus = effectDef.condition.status
+      const hasStatus = sourceChar.buffSlots?.some(s => s.status === requiredStatus)
+      if (!hasStatus) return
+
+      if (effectDef.condition.count) {
+        // count 기반: 일반 공격 횟수 누적 (status 보유 상태에서만)
+        const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_status_${requiredStatus}`
+        const currentUsed = sourceChar.totalAmmoUsed || 0
+        ctx.state[countKey] = ctx.state[countKey] || 0
+        const prevUsed = ctx.state[`${countKey}_prev`] ?? currentUsed
+        const delta = currentUsed - prevUsed
+        ctx.state[`${countKey}_prev`] = currentUsed
+        ctx.state[countKey] += delta
+        if (ctx.state[countKey] >= effectDef.condition.count) {
+          isTriggered = true
+          ctx.state[countKey] -= effectDef.condition.count
+        }
+      } else {
+        // count 없으면 매 공격마다 발동
+        const prevKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_prev`
+        const currentUsed = sourceChar.totalAmmoUsed || 0
+        const prev = ctx.state[prevKey] ?? currentUsed
+        if (currentUsed > prev) {
+          isTriggered = true
+        }
+        ctx.state[prevKey] = currentUsed
+      }
+    } else {
+      // 조건 없이 매 공격마다 발동
+      const prevKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_prev`
+      const currentUsed = sourceChar.totalAmmoUsed || 0
+      const prev = ctx.state[prevKey] ?? currentUsed
+      if (currentUsed > prev) {
+        isTriggered = true
+      }
+      ctx.state[prevKey] = currentUsed
+    }
+  }
+
+  // ── status_applied: 특정 상태 적용 시 ──
+  if (trigger === 'status_applied') {
+    // status_applied는 applyEffect 이후에 별도 로직으로 처리됨
+    // handleEffectTrigger에서는 skip
+    return
+  }
+
   // ── kill_enemy: 단일 적 시뮬에서는 미구현 ──
   if (trigger === 'kill_enemy') return
 
@@ -866,7 +933,13 @@ function applySpecificEffectToTarget(
       } else {
         base = char.atk
       }
-      appliedFlatValue = base * (value / 100)
+      let atkUpValue = value
+      // status_target: 해당 status의 스택 수에 따라 value 곱
+      if (effectDef.status_target) {
+        const statusStacks = char.buffSlots?.filter(s => s.status === effectDef.status_target).length ?? 0
+        atkUpValue = value * statusStacks
+      }
+      appliedFlatValue = base * (atkUpValue / 100)
       char.buff.extraATK = (char.buff.extraATK || 0) + appliedFlatValue
       applied = true
       break
@@ -918,7 +991,14 @@ function applySpecificEffectToTarget(
       break
     case 'ammo_charge':
     case 'ammo_reload': {
-      const reloadAmount = Math.floor(char.maxAmmo * (value / 100))
+      let reloadAmount: number
+      if (effectDef.unit === 'count') {
+        // count 단위: value 발만큼 직접 충전
+        reloadAmount = Math.floor(value)
+      } else {
+        // percent 단위: 최대 장탄수 기준 %만큼 충전
+        reloadAmount = Math.floor(char.maxAmmo * (value / 100))
+      }
       char.ammo = Math.min(char.maxAmmo, char.ammo + reloadAmount)
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: reloadAmount, description: 'Ammo Charged' })
       appliedFlatValue = reloadAmount
@@ -1037,6 +1117,37 @@ function applySpecificEffectToTarget(
       applied = true
       break
     }
+    case 'pellet_count_up': {
+      appliedFlatValue = Math.floor(value)
+      char.pelletCount = (char.pelletCount ?? 10) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Pellet Count Up' })
+      applied = true
+      break
+    }
+    case 'normal_attack_multiplier_up': {
+      // 소장품 효과(normalAtkMultiplier)와 합산
+      appliedFlatValue = value
+      char.normalAtkMultiplier = (char.normalAtkMultiplier ?? 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Normal ATK Multiplier Up' })
+      applied = true
+      break
+    }
+    case 'remove_status': {
+      // 아군 대상: status_target에 해당하는 buffSlot 모두 제거
+      const statusToRemove = effectDef.status_target || effectDef.status
+      if (statusToRemove && char.buffSlots) {
+        char.buffSlots = char.buffSlots.filter(slot => {
+          if (slot.status === statusToRemove) {
+            subtractBuffValue(char, slot.effect, slot.appliedFlat)
+            endBuffTimeline(ctx, char, slot)
+            return false
+          }
+          return true
+        })
+        ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, description: `Removed Status: ${statusToRemove}` })
+      }
+      break
+    }
     case 'shooting_focus':
     case 'cover_defense_up':
     case 'explosion_range_up':
@@ -1053,6 +1164,36 @@ function applySpecificEffectToTarget(
 
   if (effectDef.stack_level !== undefined) {
     char.buff.stack_level = Math.max(char.buff.stack_level || 0, effectDef.stack_level)
+  }
+
+  // stack 제한 검사: 동일 status의 슬롯 수가 stack을 초과하면 가장 오래된 것 제거
+  if (applied && effectDef.stack !== undefined && effectDef.status && char.buffSlots) {
+    const statusSlots = char.buffSlots.filter(s => s.status === effectDef.status)
+    while (statusSlots.length > effectDef.stack) {
+      const oldest = statusSlots.shift()!
+      subtractBuffValue(char, oldest.effect, oldest.appliedFlat)
+      endBuffTimeline(ctx, char, oldest)
+      const idx = char.buffSlots.indexOf(oldest)
+      if (idx !== -1) char.buffSlots.splice(idx, 1)
+    }
+  }
+
+  // status_applied 트리거 처리: 방금 status가 적용됐다면 해당 status를 트리거로 감지하는 스킬 발동
+  if (applied && effectDef.status) {
+    const appliedStatusName = effectDef.status
+    // sourceChar의 모든 스킬에서 status_applied 트리거를 가진 effect 검색
+    sourceChar.skills?.forEach((skillDef: any) => {
+      if (skillDef.type !== 'passive' && skillDef.type !== 'active') return
+      skillDef.effects?.forEach((eff: any) => {
+        if (
+          eff.trigger === 'status_applied' &&
+          typeof eff.condition === 'object' &&
+          eff.condition?.status === appliedStatusName
+        ) {
+          applyEffect(ctx, sourceChar, skillDef.name, eff)
+        }
+      })
+    })
   }
 
   // 버프 슬롯 등록
@@ -1197,6 +1338,12 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
       break
     case 'damage_share':
       char.buff.damageShare = false
+      break
+    case 'pellet_count_up':
+      char.pelletCount = Math.max(10, (char.pelletCount ?? 10) - value)
+      break
+    case 'normal_attack_multiplier_up':
+      char.normalAtkMultiplier = Math.max(0, (char.normalAtkMultiplier ?? 0) - value)
       break
     case 'parts_damage_up':
       char.buff.partDmgUp = Math.max(0, (char.buff.partDmgUp || 0) - value)

@@ -26,7 +26,7 @@ effects는 스킬이 발동할 때 적용되는 실제 효과 목록이다. 하�
 
 ### status
 특정 니케들의 스킬에 포함된 특수한 상태
-캐릭터, 또는 타겟에게 버프, 디버프 형태로 트리거 발동에 따라 적용한다. 
+캐릭터, 또는 타겟에게 버프, 디버프 형태로 트리거 발동에 따라 적용한다.
 
 ### target
 effect가 적용될 대상이다. 아군, 적군, 또는 특정 조건을 만족하는 대상이 될 수 있다.
@@ -86,6 +86,7 @@ cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다�
 
 ### stack
 해당 effect가 중첩 가능한 경우, 중첩 가능한 횟수이다. 중첩 시 value가 중첩 개수만큼 합산하여 적용된다.
+> max_stack 으로 사용하지 않는다. stack으로 작성한다.
 
 ### stack_level
 하위 효과 중복 적용 이라는 툴팁의 경우 stack_level을 사용한다.
@@ -100,6 +101,11 @@ cooldown은 여러 요인으로 인해 감소할 수 있으며 duration 중 다�
 - trigger가 1회 발동할때 stack_level 1의 버프를 적용한다.
 - trigger가 2회 발동할때 stack_level 1과 2의 버프를 적용한다.
 - trigger가 3회 발동할때 stack_level 1, 2, 3의 버프를 모두 적용한다.
+
+### status_target
+이 항목이 있는 니케 스킬의 경우 status 스킬이 적용 될때 status 스킬의 중첩 수에 따라 value 항목이 곱해져서 계산된다.
+- effect: atk_up * status_stack
+- 예시 니케: 아르카나 : 포츈 메이트
 
 ### interval
 해당 스킬이 발동하는 간격을 의미한다.

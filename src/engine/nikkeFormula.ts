@@ -114,7 +114,7 @@ export function calcNikkeDamage(p: DamageParams): number {
    /* ================================================
       ✅ 최종 데미지
       = 기본데미지 × FinalATKMod × MajorModifiers
-        × 원소보너스 × 차지데미지 × 데미지UP × 받는데미지
+        × 우월코드 보너스 × 차지데미지 × 데미지UP × 받는데미지
    ================================================ */
    function iround(x: number) {
       return Math.floor(x + 0.5);

@@ -28,5 +28,5 @@ part_destroy: 파츠 파괴 시
 
 enemy_spawn: 적 등장 시 (시뮬레이터에서는 적이 항상 있으므로 트리거 충족됨)
 all_allies_ammo_consumed: 아군이 소비한 탄의 총합이 n발이 될 때 마다 (팀에 포함된 아군이 사용한 장탄 수 합산 필요)
-status_applied: 특정 상태 적용 시
+status_applied: 특정 상태 적용 시 (condition: status에 적힌 상태가 적용된 경우)
 normal_attack: 일반 공격 시 (명중과 무관하게 공격하는 행위 자체)
