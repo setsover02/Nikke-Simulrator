@@ -23,14 +23,30 @@ interface EmptySlotProps {
 }
 
 const CustomOption = (props: any) => {
-    const stats = props.data?.data?.stats;
+    const characterData = props.data?.data;
+    const stats = characterData?.stats;
     const burstLevel = stats?.burstLevel;
     const burstIcon = burstLevel ? BURST_ICONS[burstLevel as keyof typeof BURST_ICONS] : null;
+    const avatar = characterData ? avatarMap[characterData.characterID] : null;
 
     return (
         <components.Option {...props}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-                <span>{props.label}</span>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    {avatar && (
+                        <img
+                            src={avatar}
+                            alt={props.label}
+                            style={{
+                                width: '40px',
+                                height: '40px',
+                                objectFit: 'cover',
+                                borderRadius: '4px'
+                            }}
+                        />
+                    )}
+                    <span>{props.label}</span>
+                </div>
                 {burstIcon && <img src={burstIcon} alt={`Burst ${burstLevel}`} style={{ width: '16px', height: '16px', objectFit: 'contain' }} />}
             </div>
         </components.Option>
