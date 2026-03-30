@@ -16,7 +16,7 @@
         "maxAmmo": 300,
         "reloadTime": 2.33,
         "chargeTime": 0,
-        "fireRate": 60,
+        "fireRate": 11.1,
         "fullChargeDamage": 0,
         "coreDamage": 200,
         "treasure": true

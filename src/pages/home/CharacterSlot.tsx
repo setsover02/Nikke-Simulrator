@@ -285,7 +285,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                 <span className="color-777">소장품 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                     <input
-                        className="slot-input-sm"
+                        className="slot-input"
                         type="number"
                         min="0"
                         max="15"
@@ -308,7 +308,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                 <span className="color-777">큐브 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                     <input
-                        className="slot-input-sm"
+                        className="slot-input"
                         type="number"
                         min="1"
                         max="15"
@@ -340,47 +340,47 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
             <div className="slot-section">
                 <span className="color-777">우코</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipWeakPoint || '0'} onChange={e => handleEquipChange('equipWeakPoint', 116.64, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipWeakPoint || '0'} onChange={e => handleEquipChange('equipWeakPoint', 116.64, e.target.value)} />%
                 </span>
 
                 <span className="color-777">공격력</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipATK || '0'} onChange={e => handleEquipChange('equipATK', 58.52, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipATK || '0'} onChange={e => handleEquipChange('equipATK', 58.52, e.target.value)} />%
                 </span>
 
                 <span className="color-777">장탄</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipAmmo || '0'} onChange={e => handleEquipChange('equipAmmo', 341.48, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipAmmo || '0'} onChange={e => handleEquipChange('equipAmmo', 341.48, e.target.value)} />%
                 </span>
 
                 <span className="color-777">명중률</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipAccuracy || '0'} onChange={e => handleEquipChange('equipAccuracy', 58.52, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipAccuracy || '0'} onChange={e => handleEquipChange('equipAccuracy', 58.52, e.target.value)} />%
                 </span>
 
                 <span className="color-777">차댐</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipChargeDmg || '0'} onChange={e => handleEquipChange('equipChargeDmg', 58.52, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipChargeDmg || '0'} onChange={e => handleEquipChange('equipChargeDmg', 58.52, e.target.value)} />%
                 </span>
 
                 <span className="color-777">차속</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipChargeSpeed || '0'} onChange={e => handleEquipChange('equipChargeSpeed', 24.36, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipChargeSpeed || '0'} onChange={e => handleEquipChange('equipChargeSpeed', 24.36, e.target.value)} />%
                 </span>
 
                 <span className="color-777">크확</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipCritRate || '0'} onChange={e => handleEquipChange('equipCritRate', 28.28, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipCritRate || '0'} onChange={e => handleEquipChange('equipCritRate', 28.28, e.target.value)} />%
                 </span>
 
                 <span className="color-777">크댐</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipCritDmg || '0'} onChange={e => handleEquipChange('equipCritDmg', 81.44, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipCritDmg || '0'} onChange={e => handleEquipChange('equipCritDmg', 81.44, e.target.value)} />%
                 </span>
 
                 <span className="color-777">방어력</span>
                 <span className="percent-wrapper">
-                    <input className="slot-input-sm" value={slot.equipDef || '0'} onChange={e => handleEquipChange('equipDef', 58.52, e.target.value)} />%
+                    <input className="slot-input" value={slot.equipDef || '0'} onChange={e => handleEquipChange('equipDef', 58.52, e.target.value)} />%
                 </span>
             </div>
 

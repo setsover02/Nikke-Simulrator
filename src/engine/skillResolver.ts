@@ -1297,6 +1297,13 @@ function updateBuffTimers(ctx: BattleContext) {
 function subtractBuffValue(char: Character, effectName: string, value: number) {
   if (!char.buff || value === 0) return
   switch (effectName) {
+    case 'max_hp_up': {
+      // HP 버프 제거 시 maxHp와 hp를 차감
+      const oldMaxHp = char.maxHp ?? char.hp
+      char.maxHp = Math.max(1, oldMaxHp - value)
+      char.hp = Math.max(1, char.hp - value)
+      break
+    }
     case 'atk_up':
     case 'attack_power_up':
       char.buff.extraATK = Math.max(0, (char.buff.extraATK || 0) - value)
