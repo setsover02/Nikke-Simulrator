@@ -800,7 +800,7 @@ function applySpecificEffectToTarget(
           normalAtkMultiplier: 0,
           isNormalAttack: false,
           isCrit,
-          critBonusBase: sourceChar.critMult ? (sourceChar.critMult - 1) : wm.critBonus,
+          critBonusBase: (sourceChar.critMult ? (sourceChar.critMult - 1) : wm.critBonus) + (sourceChar.equipCritDmgPercent ?? 0),
           extraCritDmg: sourceChar.buff?.critDmg ?? 0,
           isCore: false,
           coreHitBonus: 0,

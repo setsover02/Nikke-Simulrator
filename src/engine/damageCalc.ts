@@ -219,7 +219,7 @@ function buildDamageParams(
 
         /* ③ Major Modifiers */
         isCrit,
-        critBonusBase: char.critMult ? (char.critMult - 1) : wm.critBonus,
+        critBonusBase: (char.critMult ? (char.critMult - 1) : wm.critBonus) + (char.equipCritDmgPercent ?? 0),
         extraCritDmg: char.buff?.critDmg ?? 0,
         isCore,
         coreHitBonus: char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus,

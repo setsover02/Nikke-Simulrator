@@ -141,6 +141,7 @@ export const calcHitDamages = (
         weapon?: string;
         equipATKPercent?: number;
         equipWeakPointPercent?: number;
+        equipCritDmgPercent?: number;
         normalAtkMultiplier?: number;
         chargeDmgMultiplier?: number;
         coreHitMultiplier?: number;
@@ -159,7 +160,7 @@ export const calcHitDamages = (
     const rangeBonus = getWeaponRangeBonus(char.weapon, rangeMode);
     const coreHitBonus = char.coreHitBonus !== undefined ? char.coreHitBonus :
         (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus);
-    const critBonus = char.critMult ? (char.critMult - 1) : wm.critBonus;
+    const critBonus = (char.critMult ? (char.critMult - 1) : wm.critBonus) + (char.equipCritDmgPercent ?? 0);
 
     // nikkeFormula.calcNikkeDamage와 동일한 파라미터 구조 사용
     const baseParams = {

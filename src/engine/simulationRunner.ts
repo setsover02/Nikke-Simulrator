@@ -97,6 +97,12 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
                 atkPercent: parseFloat(slot.equipATK || '0') / 100,
                 weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
                 ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
+                accuracyPercent: parseFloat(slot.equipAccuracy || '0') / 100,
+                chargeDmgPercent: parseFloat(slot.equipChargeDmg || '0') / 100,
+                chargeSpeedPercent: parseFloat(slot.equipChargeSpeed || '0') / 100,
+                critRatePercent: parseFloat(slot.equipCritRate || '0') / 100,
+                critDmgPercent: parseFloat(slot.equipCritDmg || '0') / 100,
+                defPercent: parseFloat(slot.equipDef || '0') / 100,
             };
             const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
             const skillLevels = {
@@ -162,10 +168,16 @@ function extractChars(
         const isWeak = checkAdvantage(enemy.element, charStats.element);
 
         const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
-        const eq = {
+        const eq: EquipmentOptions = {
             atkPercent,
             weakPointPercent: weakPercent,
             ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
+            accuracyPercent: parseFloat(slot.equipAccuracy || '0') / 100,
+            chargeDmgPercent: parseFloat(slot.equipChargeDmg || '0') / 100,
+            chargeSpeedPercent: parseFloat(slot.equipChargeSpeed || '0') / 100,
+            critRatePercent: parseFloat(slot.equipCritRate || '0') / 100,
+            critDmgPercent: parseFloat(slot.equipCritDmg || '0') / 100,
+            defPercent: parseFloat(slot.equipDef || '0') / 100,
         };
         const skillLevels = {
             skill1Level: slot.skill1Level || 10,
@@ -180,6 +192,7 @@ function extractChars(
                 weapon: char.weapon,
                 equipATKPercent: atkPercent,
                 equipWeakPointPercent: weakPercent,
+                equipCritDmgPercent: char.equipCritDmgPercent,
                 normalAtkMultiplier: char.normalAtkMultiplier,
                 chargeDmgMultiplier: char.chargeDmgMultiplier,
                 coreHitMultiplier: char.coreHitMultiplier,

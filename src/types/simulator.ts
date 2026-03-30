@@ -12,9 +12,17 @@ export interface SlotState {
     customDEF: string;
     collectionGrade: CollectionGrade;
     collectionLevel: string;
+    cubeName: string;
+    cubeLevel: string;
     equipATK: string;
     equipWeakPoint: string;
     equipAmmo: string;
+    equipAccuracy: string;
+    equipChargeDmg: string;
+    equipChargeSpeed: string;
+    equipCritRate: string;
+    equipCritDmg: string;
+    equipDef: string;
     skill1Level: number;
     skill2Level: number;
     burstLevel: number;

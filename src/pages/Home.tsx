@@ -95,7 +95,6 @@ const Home: React.FC = () => {
                     {/* Left Column: 스쿼드 (Squad) */}
                     <div className="home-grid-left">
                         <div className="home-squad-list">
-                            <h3 className="squad-title">스쿼드</h3>
                             {displaySlots.map((slot, idx) => (
                                 <CharacterSlot
                                     key={idx}
