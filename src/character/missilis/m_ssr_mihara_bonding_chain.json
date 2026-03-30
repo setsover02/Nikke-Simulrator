@@ -1,0 +1,179 @@
+{
+    "characterID": "MiharaBondingChain",
+    "characterName": "미하라 : 본딩 체인",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "워드리스",
+        "burstLevel": 3,
+        "atk": 418337,
+        "defense": 55160,
+        "hp": 9690473,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 60,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "바디 컨택",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "status": "capture_chain",
+                    "value": 10,
+                    "stack": 10
+                },
+                {
+                    "trigger": "full_burst_end_after_self_burst",
+                    "target": "self",
+                    "status": "capture_chain",
+                    "value": 10,
+                    "stack": 10
+                },
+                {
+                    "trigger": "designated_timing",
+                    "target": "random_enemies",
+                    "effect": "damage",
+                    "value": [
+                        29.58,
+                        31.86,
+                        34.13,
+                        36.41,
+                        38.68,
+                        40.96,
+                        43.24,
+                        45.51,
+                        47.79,
+                        50.06
+                    ],
+                    "based_on": "caster_final_atk",
+                    "cost": {
+                        "status": "capture_chain",
+                        "value": 1
+                    }
+                },
+                {
+                    "trigger": "designated_timing",
+                    "target": "same_target",
+                    "effect": "dot_damage",
+                    "status": "chain_binding",
+                    "value": [
+                        14.82,
+                        15.96,
+                        17.1,
+                        18.24,
+                        19.38,
+                        20.52,
+                        21.66,
+                        22.8,
+                        23.94,
+                        25.08
+                    ],
+                    "based_on": "caster_final_atk",
+                    "interval": 1,
+                    "stack": 20,
+                    "duration": "permanent",
+                    "irremovable": true
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "타이트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_normal_attack",
+                    "condition": {
+                        "count": 40,
+                        "target_status": "chain_binding"
+                    },
+                    "target": "target",
+                    "status": "chain_binding",
+                    "value": 1
+                },
+                {
+                    "trigger": "self_incapacitated",
+                    "target": "enemies_with_chain_binding",
+                    "status": "chain_binding",
+                    "value": 20
+                },
+                {
+                    "trigger": "enemy_death",
+                    "condition": {
+                        "target_status": "chain_binding"
+                    },
+                    "target": "self",
+                    "status": "capture_chain",
+                    "value": 1,
+                    "stack": 10
+                },
+                {
+                    "trigger": "enter_burst_3",
+                    "target": "self",
+                    "effect": "dot_damage_up",
+                    "value": [
+                        35.44,
+                        38.16,
+                        40.89,
+                        43.62,
+                        46.34,
+                        49.07,
+                        51.8,
+                        54.52,
+                        57.25,
+                        59.98
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "본딩 페인",
+            "type": "burst",
+            "cooldown": 40.0,
+            "effects": [
+                {
+                    "target": "enemies_with_chain_binding",
+                    "effect": "status_damage_with_stack_copy",
+                    "status": "chain_pull",
+                    "value": [
+                        29.57,
+                        31.85,
+                        34.12,
+                        36.4,
+                        38.67,
+                        40.95,
+                        43.22,
+                        45.5,
+                        47.77,
+                        50.05
+                    ],
+                    "based_on": "caster_final_atk",
+                    "interval": 1,
+                    "copy_status": "chain_binding",
+                    "duration": 10,
+                    "irremovable": true,
+                    "stack": 20
+                },
+                {
+                    "target": "enemies_with_chain_binding",
+                    "effect": "remove_status",
+                    "status": "chain_binding"
+                }
+            ]
+        }
+    ]
+}

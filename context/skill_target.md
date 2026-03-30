@@ -27,6 +27,9 @@ water_element_enemy: 수냉 코드 적에게
 electric_element_enemy: 전격 코드 적에게
 iron_element_enemy: 철갑 코드 적에게
 wind_element_enemy: 풍압 코드 적에게
+same_target: 동일 적 대상에게 (직전 공격이나 스킬과 동일한 타겟)
+
+enemies_with_chain_binding: 사슬 감기 상태인 대상에게 (미하라 전용)
 
 
 ### 아군에게

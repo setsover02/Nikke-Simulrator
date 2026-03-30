@@ -18,3 +18,6 @@ youth_record: 청춘의 기록 (아르카나: 포춘 메이트 전용 상태)
 happy_memories: 행복한 기억 (아르카나: 포춘 메이트 전용 상태)
 precious_memories: 소중한 추억 (아르카나: 포춘 메이트 전용 상태)
 leaving_memories: 추억 남기기 (아르카나: 포춘 메이트 전용 상태)
+
+capture_chain: 포획 사슬 (미하라: 본딩 체인 전용 상태)
+chain_binding: 사슬 감기 (미하라: 본딩 체인 전용 상태)

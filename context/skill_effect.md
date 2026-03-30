@@ -13,6 +13,7 @@ damage: 대미지 (해당 스킬이 트리거에 따라 발동할 때 추가 타
 extra_damage: 추가 대미지 (아마 평타에 이 만큼 추가 되는 것인듯? 사격장 테스트 필요, 풀버스트 발동시 적용되는 fullBurstBonus의 대미지 보너스가 적용됨)
 interval_damage: (interval이 있는 연속 공격, 지속 대미지 아님)
 distribute_damage: 분배 대미지 (모든 타겟에게 분배되어 들어가는 대미지, 적이 1명이면 그대로 다 들어감)
+dot_damage: 지속 대미지 (지속시간동안 이어지며 툴팁에 작성된 간격에 따른 지속 대미지, interval_damage와 다름)
 
 ### 공격력
 atk_up: 공격력 증가 (기본값: target 기준 공격력으로 증가한다)
@@ -21,6 +22,9 @@ atk_down: 공격력 감소 (기본값: target 기준 공격력으로 감소한�
 parts_damage_up: 파츠 대미지 증가 (적에게 파츠가 있는 경우에만 적용, 파츠에 대미지가 들어갈때 버프 수치만큼 증가하며, 일반 공격의 경우는 증가하지 않는다.)
 element_damage_up: 우월 코드 공격 대미지 증가
 normal_attack_multiplier_up: 일반 공격 대미지 n% 배율 증가
+dot_damage_up: 지속 대미지 증가 (dot_damage의 대미지만 증가함)
+status_damage_with_stack_copy: 대상의 특정 상태 중첩을 복사하여 적용하는 지속 대미지 (미하라 전용)
+    - 미하라의 버스트 스킬은 chain_binding 상태인 적에게 chain_pull status를 적용하여 대미지를 입히고, chain_binding 상태를 해제한다.
 
 ### 장탄
 max_ammo_up: 최대 장탄수 증가 (기본값: target 기준 최대 장탄수로 증가한다)
@@ -79,6 +83,10 @@ pellet_count_up: 펠릿 개수 증가 (삿건 니케의 경우만 적용)
 explosion_range_up: 폭발 범위 증가 
 
 ### status 관련 효과
-remove_status: status 해제 (특정 니케들이 가지고 있는 status를 해제한다.)
+remove_status: status 해제 (특정 니케들이 가지고 있는 target에게 적용된 status를 해제한다.)
 
-### 아르카나 추가 효과
+
+### 미하라: 본딩 체인 추가 효과
+charge_status: 특정 상태(status)의 스택을 충전 또는 증가시킴 
+> 불필요한 경우 삭제처리
+

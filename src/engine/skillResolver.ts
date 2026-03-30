@@ -7,7 +7,7 @@ import { getWeaponMultipliers } from '../constants/weaponStats'
 export interface SkillEffectDef {
   trigger?: string
   target: string
-  effect: string
+  effect?: string
   value?: number
   unit?: string
   bullet?: number
@@ -36,6 +36,9 @@ export interface SkillEffectDef {
     fullChargeDamage?: number
     maxAmmo?: number | string
   }
+  cost?: { status: string; value: number }   // 발동 시 소모할 status 수량 (미하라 전용)
+  irremovable?: boolean                       // 해제 불가 여부
+  copy_status?: string                        // stack copy 대상 status (미하라 전용)
 }
 
 export interface SkillDef {
@@ -194,6 +197,14 @@ function resolveTargets(
     return ctx.enemy.element === ELEMENT_ENEMY_TARGETS[target] ? [ctx.enemy] : []
   }
 
+  // ── Enemies with chain_binding (미하라 전용) ──
+  if (target === 'enemies_with_chain_binding') {
+    const hasChainBinding = ctx.enemy.debuff?.activeDots?.some(
+      (d: any) => d.status === 'chain_binding' && d.stacks > 0
+    )
+    return hasChainBinding ? [ctx.enemy] : []
+  }
+
   // ── Enemy Targets (all map to ctx.enemy since single-enemy sim) ──
   const ENEMY_TARGETS = new Set([
     'enemy',
@@ -205,6 +216,8 @@ function resolveTargets(
     'highest_atk_enemy_1',
     'highest_atk_enemy_2',
     'highest_def_enemy_1',
+    'same_target',
+    'target',
   ])
   if (ENEMY_TARGETS.has(target)) return [ctx.enemy]
 
@@ -313,6 +326,9 @@ export function resolveSkills(ctx: BattleContext) {
 
   updateBuffTimers(ctx)
 
+  // ── 적 활성 DoT 처리 ──
+  processEnemyDots(ctx)
+
   // enter_burst_n 플래그 초기화 (1틱에 한 번만 트리거되도록)
   if (ctx.state) {
     for (let lv = 1; lv <= 3; lv++) {
@@ -342,7 +358,7 @@ function handleEffectTrigger(
 
   // ── battle_start: 첫 틱에 1회만 발동 ──
   if (trigger === 'battle_start') {
-    const key = `battle_start_${sourceChar.id}_${skillId}_${effectDef.effect}`
+    const key = `battle_start_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
     if (!ctx.state[key]) {
       isTriggered = true
       ctx.state[key] = true
@@ -355,7 +371,7 @@ function handleEffectTrigger(
     trigger === 'self_focusing' ||
     trigger === 'focus'
   ) {
-    const key = `spawn_${sourceChar.id}_${skillId}_${effectDef.effect}`
+    const key = `spawn_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
     if (!ctx.state[key]) {
       isTriggered = true
       ctx.state[key] = true
@@ -610,6 +626,102 @@ function handleEffectTrigger(
     return
   }
 
+  // ── designated_timing: 미하라 전용, 3가지 타이밍에 발동 ──
+  if (trigger === 'designated_timing') {
+    const captureChainKey = `${sourceChar.id}_capture_chain`
+    const captureChainCount = ctx.state[captureChainKey] || 0
+
+    // 포획 사슬이 없으면 발동하지 않음
+    if (captureChainCount <= 0) return
+
+    // 타이밍 1: 전투 시작 (적 등장)
+    const battleStartKey = `designated_timing_spawn_${sourceChar.id}_${skillId}`
+    if (!ctx.state[battleStartKey] && ctx.time === 0) {
+      ctx.state[battleStartKey] = true
+      isTriggered = true
+    }
+
+    // 타이밍 2: 버스트 3단계 진입 시
+    if (!isTriggered) {
+      const enterBurst3Flag = ctx.state[`__enterBurstLevel_3`]
+      if (enterBurst3Flag) {
+        const tickKey = `designated_timing_b3_${sourceChar.id}_${ctx.time.toFixed(6)}`
+        if (!ctx.state[tickKey]) {
+          ctx.state[tickKey] = true
+          isTriggered = true
+        }
+      }
+    }
+
+    // 타이밍 3: 풀 버스트 종료 시
+    if (!isTriggered) {
+      const fbPrevKey = `designated_timing_fb_prev_${sourceChar.id}_${skillId}`
+      const wasActive = ctx.state[fbPrevKey] || false
+      if (wasActive && !ctx.burstActive) {
+        isTriggered = true
+      }
+      ctx.state[fbPrevKey] = ctx.burstActive
+    } else {
+      // 다른 타이밍에서 이미 트리거된 경우에도 fb prev 추적은 유지
+      const fbPrevKey = `designated_timing_fb_prev_${sourceChar.id}_${skillId}`
+      ctx.state[fbPrevKey] = ctx.burstActive
+    }
+  }
+
+  // ── full_burst_end_after_self_burst: 풀버스트 종료 시 자신이 버스트를 사용했다면 ──
+  if (trigger === 'full_burst_end_after_self_burst') {
+    const burstCastSources = ctx.state.__burstCastSources as Set<string> | undefined
+    const fbCycleKey = `${sourceChar.id}_burst_in_fb_cycle`
+
+    // 이번 풀버스트 사이클에서 자신이 버스트를 사용했는지 추적
+    if (burstCastSources?.has(sourceChar.id)) {
+      ctx.state[fbCycleKey] = true
+    }
+
+    // 풀버스트 종료 감지
+    const prevKey = `fb_self_burst_prev_${sourceChar.id}_${skillId}`
+    const wasActive = ctx.state[prevKey] || false
+    ctx.state[prevKey] = ctx.burstActive
+
+    if (wasActive && !ctx.burstActive && ctx.state[fbCycleKey]) {
+      isTriggered = true
+      ctx.state[fbCycleKey] = false
+    }
+  }
+
+  // ── full_burst_normal_attack: 풀버스트 중 일반 공격 n회 명중 시 ──
+  if (trigger === 'full_burst_normal_attack') {
+    if (!ctx.burstActive) {
+      // 풀버스트가 아닐 때 카운터 리셋
+      const countKey = `${sourceChar.id}_${skillId}_fb_normal_atk_count`
+      ctx.state[countKey] = 0
+      const prevKey = `${sourceChar.id}_${skillId}_fb_normal_atk_prev`
+      ctx.state[prevKey] = sourceChar.totalAmmoUsed || 0
+      return
+    }
+
+    const threshold = (typeof effectDef.condition === 'object' && effectDef.condition?.count) || 1
+    const countKey = `${sourceChar.id}_${skillId}_fb_normal_atk_count`
+    const prevKey = `${sourceChar.id}_${skillId}_fb_normal_atk_prev`
+
+    const currentUsed = sourceChar.totalAmmoUsed || 0
+    const prev = ctx.state[prevKey] ?? currentUsed
+    const delta = currentUsed - prev
+    ctx.state[prevKey] = currentUsed
+
+    ctx.state[countKey] = (ctx.state[countKey] || 0) + delta
+    if (ctx.state[countKey] >= threshold) {
+      ctx.state[countKey] -= threshold
+      isTriggered = true
+    }
+  }
+
+  // ── self_incapacitated: DPS 시뮬에서 미구현 → 스킵 ──
+  if (trigger === 'self_incapacitated') return
+
+  // ── enemy_death: DPS 시뮬에서 미구현 → 스킵 ──
+  if (trigger === 'enemy_death') return
+
   // ── kill_enemy: 단일 적 시뮬에서는 미구현 ──
   if (trigger === 'kill_enemy') return
 
@@ -688,6 +800,26 @@ export function applyEffect(
     return
   }
 
+  // ── cost 기반 다중 히트 처리 (미하라 포획 사슬) ──
+  if (effectDef.cost && effectDef.effect === 'damage') {
+    const costStatusKey = `${sourceChar.id}_${effectDef.cost.status}`
+    ctx.state = ctx.state || {}
+    const currentStacks = ctx.state[costStatusKey] || 0
+    if (currentStacks <= 0) return
+
+    const targets = resolveTargets(ctx, sourceChar, effectDef.target)
+    if (targets.length === 0) return
+
+    // 포획 사슬 개수만큼 공격, 공격 당 1개 소모
+    for (let i = 0; i < currentStacks; i++) {
+      ctx.state[costStatusKey] = Math.max(0, ctx.state[costStatusKey] - effectDef.cost.value)
+      targets.forEach((target) => {
+        applySpecificEffectToTarget(ctx, sourceChar, target, skillName, { ...effectDef, cost: undefined })
+      })
+    }
+    return
+  }
+
   const targets = resolveTargets(ctx, sourceChar, effectDef.target)
   targets.forEach((target) => {
     applySpecificEffectToTarget(ctx, sourceChar, target, skillName, effectDef)
@@ -724,6 +856,34 @@ function applySpecificEffectToTarget(
   const isEnemy = target === ctx.enemy
   const isChar = !isEnemy
 
+  // ── status-only 처리 (effect 없이 status만 있는 경우: 상태 충전/스택 변경) ──
+  if (!effectDef.effect && effectDef.status) {
+    ctx.state = ctx.state || {}
+    if (isEnemy) {
+      // 적에게 상태 스택 추가 (chain_binding 등)
+      target.debuff = target.debuff || {}
+      target.debuff.activeDots = target.debuff.activeDots || []
+      const existingDot = target.debuff.activeDots.find((d: any) => d.status === effectDef.status)
+      if (existingDot) {
+        existingDot.stacks = (existingDot.stacks || 0) + value
+        ctx.log.push({
+          time: ctx.time, type: 'skill', source: sourceChar.id,
+          value, description: `${effectDef.status} stacks +${value} (now ${existingDot.stacks})`,
+        })
+      }
+    } else {
+      // 자신에게 상태 충전 (capture_chain 등)
+      const statusKey = `${(target as Character).id}_${effectDef.status}`
+      const maxStack = effectDef.stack ?? Infinity
+      ctx.state[statusKey] = Math.min((ctx.state[statusKey] || 0) + value, maxStack)
+      ctx.log.push({
+        time: ctx.time, type: 'skill', source: sourceChar.id,
+        value, description: `${effectDef.status} charged to ${ctx.state[statusKey]}`,
+      })
+    }
+    return
+  }
+
   // ─── ENEMY DEBUFF / DAMAGE ─────────────────────────────────────────────
   if (isEnemy) {
     target.debuff = target.debuff || {}
@@ -749,16 +909,23 @@ function applySpecificEffectToTarget(
       case 'remove_status':
         if (effectDef.status === 'bubble' && target.debuff.bubble) {
           target.debuff.bubble = false
-          // 버블이 추가했던 takenUp 제거 (임시: 가장 최근 버블 수치 기준)
           target.debuff.takenUp = Math.max(
             0,
             (target.debuff.takenUp || 0) - (value || 0) / 100
           )
           ctx.log.push({
-            time: ctx.time,
-            type: 'skill',
-            source: sourceChar.id,
+            time: ctx.time, type: 'skill', source: sourceChar.id,
             description: 'Removed Bubble',
+          })
+        }
+        // chain_binding 제거 (미하라 버스트 스킬)
+        if (effectDef.status === 'chain_binding') {
+          target.debuff.activeDots = (target.debuff.activeDots || []).filter(
+            (d: any) => d.status !== 'chain_binding'
+          )
+          ctx.log.push({
+            time: ctx.time, type: 'skill', source: sourceChar.id,
+            description: 'Removed chain_binding',
           })
         }
         break
@@ -902,6 +1069,75 @@ function applySpecificEffectToTarget(
       case 'cover_defense_up':
         break
 
+      // ── dot_damage: 적에게 지속 대미지 등록 (미하라 사슬 감기) ──
+      case 'dot_damage': {
+        target.debuff.activeDots = target.debuff.activeDots || []
+        const existingDot = target.debuff.activeDots.find(
+          (d: any) => d.status === effectDef.status && d.casterId === sourceChar.id
+        )
+        const dotStacks = effectDef.stack || 1
+        if (existingDot) {
+          // 기존 DoT 갱신: 스택을 max(현재, 신규) 로 설정
+          existingDot.stacks = Math.max(existingDot.stacks, dotStacks)
+          existingDot.valuePerTick = value / 100
+          existingDot.timeSinceLastHit = 0
+        } else {
+          target.debuff.activeDots.push({
+            status: effectDef.status,
+            stacks: dotStacks,
+            valuePerTick: value / 100,
+            interval: effectDef.interval || 1,
+            duration: effectDef.duration === 'permanent' ? 'permanent' : (effectDef.duration || 10),
+            timeSinceLastHit: 0,
+            casterId: sourceChar.id,
+            irremovable: effectDef.irremovable || false,
+          })
+        }
+        ctx.log.push({
+          time: ctx.time, type: 'skill', source: sourceChar.id,
+          value: dotStacks, description: `Applied ${effectDef.status} (${dotStacks} stacks)`,
+        })
+        break
+      }
+
+      // ── status_damage_with_stack_copy: 중첩 복사 지속 대미지 (미하라 버스트 chain_pull) ──
+      case 'status_damage_with_stack_copy': {
+        target.debuff.activeDots = target.debuff.activeDots || []
+        // copy_status에서 스택 수를 복사 (최소 1 보장)
+        const copySource = target.debuff.activeDots.find(
+          (d: any) => d.status === effectDef.copy_status
+        )
+        const copiedStacks = Math.max(1, copySource?.stacks ?? 1)
+
+        // 기존 chain_pull이 있으면 갱신, 없으면 새로 생성
+        const existingPull = target.debuff.activeDots.find(
+          (d: any) => d.status === effectDef.status && d.casterId === sourceChar.id
+        )
+        if (existingPull) {
+          existingPull.stacks = copiedStacks
+          existingPull.valuePerTick = value / 100
+          existingPull.duration = typeof effectDef.duration === 'number' ? effectDef.duration : 10
+          existingPull.timeSinceLastHit = 0
+        } else {
+          target.debuff.activeDots.push({
+            status: effectDef.status,
+            stacks: copiedStacks,
+            valuePerTick: value / 100,
+            interval: effectDef.interval || 1,
+            duration: typeof effectDef.duration === 'number' ? effectDef.duration : 10,
+            timeSinceLastHit: 0,
+            casterId: sourceChar.id,
+            irremovable: effectDef.irremovable || false,
+          })
+        }
+        ctx.log.push({
+          time: ctx.time, type: 'skill', source: sourceChar.id,
+          value: copiedStacks,
+          description: `Applied ${effectDef.status} (${copiedStacks} stacks copied from ${effectDef.copy_status})`,
+        })
+        break
+      }
+
       default:
         break
     }
@@ -917,8 +1153,8 @@ function applySpecificEffectToTarget(
   char.buffTimeline = char.buffTimeline || []
 
   const stackLv = effectDef.stack_level !== undefined ? effectDef.stack_level : 0
-  const buffKey = effectDef.effect
-  const timerKey = `${sourceChar.id}__${skillName}__${effectDef.effect}__${stackLv}`
+  const buffKey = effectDef.effect || ''
+  const timerKey = `${sourceChar.id}__${skillName}__${effectDef.effect || 'status'}__${stackLv}`
   let applied = false
   let appliedFlatValue = 0
 
@@ -1158,6 +1394,12 @@ function applySpecificEffectToTarget(
     case 'stun':
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, description: 'Stunned (no-op)' })
       break
+    case 'dot_damage_up':
+      appliedFlatValue = value / 100
+      char.buff.dotDmgUp = (char.buff.dotDmgUp || 0) + appliedFlatValue
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'DoT Damage Up' })
+      applied = true
+      break
     default:
       break
   }
@@ -1250,6 +1492,89 @@ function applySpecificEffectToTarget(
       })
     }
   }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Enemy DoT Processing (미하라 chain_binding, chain_pull 등)
+// ─────────────────────────────────────────────────────────────────────────────
+
+function processEnemyDots(ctx: BattleContext) {
+  const enemy = ctx.enemy
+  if (!enemy.debuff?.activeDots || enemy.debuff.activeDots.length === 0) return
+
+  enemy.debuff.activeDots = enemy.debuff.activeDots.filter((dot: any) => {
+    dot.timeSinceLastHit += ctx.delta
+
+    // interval 도달 시 대미지 처리
+    if (dot.timeSinceLastHit >= dot.interval) {
+      dot.timeSinceLastHit -= dot.interval
+
+      // 시전자 찾기
+      const caster = ctx.team.members.find(c => c.id === dot.casterId)
+      if (caster) {
+        const wm = getWeaponMultipliers(caster.weapon)
+        const critChance = ((caster.crit ?? 15) + (caster.buff?.critRate || 0)) / 100
+        const isCrit = ctx.rng.next() < critChance
+        const dotDmgUp = caster.buff?.dotDmgUp ?? 0
+
+        const singleTickDmg = calcNikkeDamage({
+          baseATK: caster.atk,
+          extraATKPercent: caster.equipATKPercent ?? 0,
+          extraATKFlat: caster.buff?.extraATK ?? 0,
+          enemyBaseDEF: ctx.enemy.defense,
+          enemyDEFPercent: 0,
+          enemyDEFFlat: enemy.debuff?.defFlat ?? 0,
+          atkCoef: dot.valuePerTick,
+          finalATKModifier: caster.buff?.atkDmgUp ?? 0,
+          normalAtkMultiplier: 0,
+          isNormalAttack: false,
+          isCrit,
+          critBonusBase: (caster.critMult ? (caster.critMult - 1) : wm.critBonus) + (caster.equipCritDmgPercent ?? 0),
+          extraCritDmg: caster.buff?.critDmg ?? 0,
+          isCore: false,
+          coreHitBonus: 0,
+          coreHitMultiplier: 0,
+          fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+          rangeBonus: 0,
+          weakPointBase: checkAdvantage(ctx.enemy.element, caster.element) ? 1.1 : 1.0,
+          weakPointExtra:
+            (caster.buff?.weak ?? 0) +
+            (checkAdvantage(ctx.enemy.element, caster.element) ? (caster.equipWeakPointPercent ?? 0) : 0),
+          chargeDmgBonus: 0,
+          chargeDmgMultiplier: 0,
+          atkDmgUp: caster.buff?.atkDmgUpFinal ?? 0,
+          dotDmgUp: dotDmgUp,
+          pierceDmgUp: caster.cubePierceDmgUp ?? 0,
+          partDmgUp: caster.cubePartDmgUp ?? 0,
+          ignoreDefDmgUp: caster.cubeIgnoreDefDmgUp ?? 0,
+          projectileDmgUp: 0,
+          interruptionPartDmgUp: 0,
+          extraDmgUp: 0,
+          enemyTakenUp: enemy.debuff?.takenUp ?? 0,
+          shareDmgUp: 0,
+          enemyTakenDown: enemy.debuff?.takenDown ?? 0,
+        })
+
+        const totalDmg = singleTickDmg * dot.stacks
+        enemy.hp -= totalDmg
+        ctx.totalDamage += totalDmg
+        ctx.log.push({
+          time: ctx.time,
+          type: 'skill_damage',
+          source: caster.id,
+          value: totalDmg,
+          description: `${dot.status}_dot (${dot.stacks} stacks)`,
+        })
+      }
+    }
+
+    // duration 관리
+    if (dot.duration !== 'permanent') {
+      dot.duration -= ctx.delta
+      if (dot.duration <= 0) return false // 제거
+    }
+    return true // 유지
+  })
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -1372,6 +1697,9 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
         char.weaponOverride = undefined
         char.originalWeaponStats = undefined
       }
+      break
+    case 'dot_damage_up':
+      char.buff.dotDmgUp = Math.max(0, (char.buff.dotDmgUp || 0) - value)
       break
     default:
       break

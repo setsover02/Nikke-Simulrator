@@ -25,8 +25,18 @@ enter_burst_2: 버스트 2단계 돌입 시 (스쿼드의 아무 니케가 버�
 enter_burst_3: 버스트 3단계 돌입 시 (스쿼드의 아무 니케가 버스트 레벨 3 스킬을 사용한 경우)
 full_charge_attack: 풀 차지 공격 시, 풀 차지 n회 공격 시
 part_destroy: 파츠 파괴 시
+full_burst_end_after_self_burst: 풀 버스트 타임 종료 시 직전에 자신이 버스트 스킬을 사용했다면 (풀버스트 종료, 종료된 풀버스트 시간에 본인이 버스트를 사용한 상태)
+full_burst_normal_attack: 풀 버스트 타임 지속 시간 중 일반 공격 n회 명중 시
+self_incapacitated: 자신이 전투 불능 시
+enemy_death: 적 사망 시
 
 enemy_spawn: 적 등장 시 (시뮬레이터에서는 적이 항상 있으므로 트리거 충족됨)
 all_allies_ammo_consumed: 아군이 소비한 탄의 총합이 n발이 될 때 마다 (팀에 포함된 아군이 사용한 장탄 수 합산 필요)
 status_applied: 특정 상태 적용 시 (condition: status에 적힌 상태가 적용된 경우)
 normal_attack: 일반 공격 시 (명중과 무관하게 공격하는 행위 자체)
+
+### 미하라 사슬 이펙트
+designated_timing: 지정된 타이밍에
+    - 적이 전장에 진입 (적 등장 시) 포획 사슬(미하라의 status: capture_chain)이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
+    - 풀 버스트 타임 종료 후 포획 사슬이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
+    - 버스트 3단계 진입 시 포획 사슬이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
