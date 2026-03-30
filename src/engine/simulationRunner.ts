@@ -110,9 +110,10 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
                 skill2Level: slot.skill2Level || 10,
                 burstLevelSkill: slot.burstLevel || 10,
             };
+            const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) };
             const char = applyBaseStats(
                 slot.char.data, showCore, eq, slot.collectionGrade,
-                collectionLevelNum, originalIndex, skillLevels
+                collectionLevelNum, originalIndex, skillLevels, cubeOpts
             );
 
             const customHP = parseInt(slot.customHP || '0', 10);
@@ -184,14 +185,15 @@ function extractChars(
             skill2Level: slot.skill2Level || 10,
             burstLevelSkill: slot.burstLevel || 10,
         };
-        const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels);
+        const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) };
+        const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels, cubeOpts);
         const hitDamages = calcHitDamages(
             {
                 atk: customATK > 0 ? customATK : char.atk,
                 atkCoef: char.atkCoef,
                 weapon: char.weapon,
                 equipATKPercent: atkPercent,
-                equipWeakPointPercent: weakPercent,
+                equipWeakPointPercent: char.equipWeakPointPercent,
                 equipCritDmgPercent: char.equipCritDmgPercent,
                 normalAtkMultiplier: char.normalAtkMultiplier,
                 chargeDmgMultiplier: char.chargeDmgMultiplier,

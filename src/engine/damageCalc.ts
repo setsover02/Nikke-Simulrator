@@ -90,6 +90,11 @@ export function processAttack(ctx: BattleContext) {
             ctx.totalAmmoUsed++;
             ctx.totalTeamAmmoUsed++;
 
+            // 택티컬 베어 큐브: 10발 사격 시 탄환 충전
+            if (char.cubeBastionRefund && char.cubeBastionRefund > 0 && char.comboShots % 10 === 0) {
+                char.ammo = Math.min(char.ammo + char.cubeBastionRefund, char.maxAmmo);
+            }
+
             // bullet 기반 버프 카운터 감소
             decrementBulletBuffs(ctx, char);
 
@@ -238,9 +243,9 @@ function buildDamageParams(
         /* ⑥ Damage Up */
         atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,
         dotDmgUp: char.buff?.dot ?? 0,
-        pierceDmgUp: char.buff?.pierce ?? 0,
-        partDmgUp: char.buff?.partDmgUp ?? 0,
-        ignoreDefDmgUp: char.buff?.ignoreDef ?? 0,
+        pierceDmgUp: (char.buff?.pierce ?? 0) + (char.cubePierceDmgUp ?? 0),
+        partDmgUp: (char.buff?.partDmgUp ?? 0) + (char.cubePartDmgUp ?? 0),
+        ignoreDefDmgUp: (char.buff?.ignoreDef ?? 0) + (char.cubeIgnoreDefDmgUp ?? 0),
         projectileDmgUp: char.buff?.projectile ?? 0,
         interruptionPartDmgUp: char.buff?.weakPart ?? 0,
         extraDmgUp: 0,

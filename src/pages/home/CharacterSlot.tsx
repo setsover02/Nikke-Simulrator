@@ -4,6 +4,7 @@ import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, SLOT_COLORS } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 import { getCharDefaultState } from '../../utils/storageUtils';
+import Icon from '../../components/Icon';
 
 // Cube Data Source
 const CUBE_OPTIONS = [
@@ -47,6 +48,8 @@ const CustomOption = (props: any) => {
     const stats = characterData?.stats;
     const burstLevel = stats?.burstLevel;
     const burstIcon = burstLevel ? BURST_ICONS[burstLevel as keyof typeof BURST_ICONS] : null;
+    const element = stats?.element;
+    const elementIcon = element ? ELEMENT_ICONS[element as keyof typeof ELEMENT_ICONS] : null;
     const avatar = characterData ? avatarMap[characterData.characterID] : null;
 
     return (
@@ -67,7 +70,10 @@ const CustomOption = (props: any) => {
                     )}
                     <span>{props.label}</span>
                 </div>
-                {burstIcon && <img src={burstIcon} alt={`Burst ${burstLevel}`} style={{ width: '16px', height: '16px', objectFit: 'contain' }} />}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                    {elementIcon && <img src={elementIcon} alt={`Element ${element}`} style={{ width: '16px', height: '16px', objectFit: 'contain' }} />}
+                    {burstIcon && <img src={burstIcon} alt={`Burst ${burstLevel}`} style={{ width: '16px', height: '16px', objectFit: 'contain' }} />}
+                </div>
             </div>
         </components.Option>
     );
@@ -77,7 +83,7 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
     const DropdownIndicator = (props: any) => {
         return (
             <components.DropdownIndicator {...props}>
-                <span className="dropdown-indicator">▼</span>
+                <Icon name="arrow_drop_down" size={20} />
             </components.DropdownIndicator>
         );
     };
@@ -164,12 +170,21 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
     const DropdownIndicator = (props: any) => {
         return (
             <components.DropdownIndicator {...props}>
-                <span className="dropdown-indicator">▼</span>
+                <Icon name="arrow_drop_down" size={20} />
             </components.DropdownIndicator>
         );
     };
 
+    const ClearIndicator = (props: any) => {
+        return (
+            <components.ClearIndicator {...props}>
+                <Icon name="close" size={20} />
+            </components.ClearIndicator>
+        );
+    };
+
     const skillsRef = useRef<HTMLDivElement>(null);
+
     useEffect(() => {
         const preventScroll = (e: WheelEvent) => {
             if (document.activeElement === e.target) {
@@ -229,16 +244,9 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                             isClearable={true}
                             isSearchable={true}
                             menuPortalTarget={document.body}
-                            components={{ DropdownIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
-                            styles={{
-                                control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
-                                valueContainer: (b) => ({ ...b, padding: 0 }),
-                                singleValue: (b) => ({ ...b, color: '#fff', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
-                                input: (b) => ({ ...b, color: '#fff', margin: 0, padding: 0 }),
-                                menu: (b) => ({ ...b, background: '#252525', zIndex: 10 }),
-                                menuPortal: (b) => ({ ...b, zIndex: 9999 }),
-                                option: (b, s) => ({ ...b, background: s.isFocused ? '#353535' : '#252525', color: '#eee', fontSize: '13px' }),
-                            }}
+                            components={{ DropdownIndicator, ClearIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
+                            className="char-select-container"
+                            classNamePrefix="char-select"
                         />
                     </div>
                 </div>
@@ -246,7 +254,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
 
             <div className="slot-icons">
                 {classIcon && <img src={classIcon} alt={stats.class} className="slot-icon-sm" />}
-                {companyIcon && <img src={companyIcon} alt={stats.company} className="slot-icon-brightness" />}
+                {companyIcon && <img src={companyIcon} alt={stats.company} className="slot-icon-sm" />}
                 {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className="slot-icon-sm" />}
                 {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className="slot-icon-sm" />}
                 {elementIcon && <img src={elementIcon} alt={stats.element} className="slot-icon-sm" />}
@@ -255,41 +263,67 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
             {/* Equipment (Collection / Cube) */}
             <div className="slot-section">
                 <span className="color-777">소장품</span>
-                <select className="slot-select-sm" value={slot.collectionGrade || 'None'} onChange={e => {
-                    const grade = e.target.value as 'None' | 'R' | 'SR' | 'SSR';
-                    const level = grade === 'SSR' && (!slot.collectionLevel || slot.collectionLevel === '0') ? '1' : slot.collectionLevel;
-                    onUpdate({ collectionGrade: grade, collectionLevel: level });
-                }}>
-                    <option value="None">없음</option>
-                    <option value="R">R</option>
-                    <option value="SR">SR</option>
-                    {slot.char.data.stats.treasure && <option value="SSR">SSR (애장품)</option>}
-                </select>
+                <div
+                    className={`collection-chip ${slot.collectionGrade === 'SSR' ? 'chip-ssr' : slot.collectionGrade === 'SR' ? 'chip-sr' : slot.collectionGrade === 'R' ? 'chip-r' : 'chip-none'}`}
+                    onClick={() => {
+                        const hasTreasure = slot.char.data.stats.treasure;
+                        const current = slot.collectionGrade || 'None';
+                        let next: 'None' | 'R' | 'SR' | 'SSR' = 'None';
 
-                <span className="color-777">레벨</span>
-                <input
-                    className="slot-input-bg"
-                    type="number"
-                    min="0"
-                    max="15"
-                    value={slot.collectionLevel || '0'}
-                    onChange={e => onUpdate({ collectionLevel: e.target.value })}
-                    disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
-                />
+                        if (current === 'None') next = 'R';
+                        else if (current === 'R') next = 'SR';
+                        else if (current === 'SR') next = hasTreasure ? 'SSR' : 'None';
+                        else if (current === 'SSR') next = 'None';
+
+                        const level = next === 'SSR' && (!slot.collectionLevel || slot.collectionLevel === '0') ? '1' : slot.collectionLevel;
+                        onUpdate({ collectionGrade: next, collectionLevel: level });
+                    }}
+                >
+                    {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
+                </div>
+
+                <span className="color-777">소장품 레벨</span>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                    <input
+                        className="slot-input-sm"
+                        type="number"
+                        min="0"
+                        max="15"
+                        value={slot.collectionLevel || '0'}
+                        onChange={e => onUpdate({ collectionLevel: e.target.value })}
+                        disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
+                    />
+                </div>
 
                 <span className="color-777">큐브</span>
-                <div style={{ display: 'flex', gap: '4px', width: '100%', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '4px', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
                     {selectedCube?.icon && <img src={selectedCube.icon} alt="cube" style={{ width: '16px', height: '16px', borderRadius: '4px' }} />}
-                    <select className="slot-select-sm" value={slot.cubeName || 'None'} onChange={e => onUpdate({ cubeName: e.target.value })}>
+                    <select className="slot-select-sm" dir="rtl" value={slot.cubeName || 'None'} onChange={e => onUpdate({ cubeName: e.target.value, cubeLevel: e.target.value === 'None' ? '0' : (slot.cubeLevel || '1') })}>
                         {CUBE_OPTIONS.map(opt => (
-                            <option key={opt.value} value={opt.value}>{opt.label}</option>
+                            <option key={opt.value} value={opt.value} dir="ltr">{opt.label}</option>
                         ))}
                     </select>
+                </div>
+
+                <span className="color-777">큐브 레벨</span>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                    <input
+                        className="slot-input-sm"
+                        type="number"
+                        min="1"
+                        max="15"
+                        value={slot.cubeLevel || '0'}
+                        onChange={e => {
+                            const val = Math.max(1, Math.min(15, parseInt(e.target.value) || 1));
+                            onUpdate({ cubeLevel: val.toString() });
+                        }}
+                        disabled={!slot.cubeName || slot.cubeName === 'None'}
+                    />
                 </div>
             </div>
 
             {/* Stats */}
-            <div style={{ padding: '0 16px', marginBottom: '8px', fontSize: '11px', color: '#999' }}>스탯</div>
+            <div className="slot-subtitle">스탯</div>
             <div className="slot-section">
                 <span className="color-777">체력</span>
                 <input className="slot-input" value={formatNumber(slot.customHP)} onChange={e => onUpdate({ customHP: e.target.value.replace(/,/g, '') })} />
@@ -302,7 +336,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
             </div>
 
             {/* Equip Lines */}
-            <div style={{ padding: '0 16px', marginBottom: '8px', fontSize: '11px', color: '#999' }}>장비</div>
+            <div className="slot-subtitle">장비</div>
             <div className="slot-section">
                 <span className="color-777">우코</span>
                 <span className="percent-wrapper">
@@ -351,7 +385,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
             </div>
 
             {/* Skills */}
-            <div style={{ padding: '0 16px', marginBottom: '8px', fontSize: '11px', color: '#999' }}>스킬</div>
+            <div className="slot-subtitle">스킬</div>
             <div className="slot-section" ref={skillsRef}>
                 <span className="color-777">스킬1</span>
                 <input

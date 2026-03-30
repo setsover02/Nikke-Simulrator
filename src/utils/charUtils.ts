@@ -1,5 +1,6 @@
 import { Character } from '../types/battle';
 import { CollectionGrade, getCollectionEffect } from '../constants/collectionItems';
+import { getCubeEffect } from '../constants/cubeData';
 
 export interface EquipmentOptions {
     atkPercent: number;        // 추가 공격력% (0.1 = +10%)
@@ -36,26 +37,31 @@ export const applyBaseStats = (
     collectionGrade: CollectionGrade = 'None',
     collectionLevel: number = 0,
     slotIndex: number = 0,
-    skillLevels?: { skill1Level: number; skill2Level: number; burstLevelSkill: number; }
+    skillLevels?: { skill1Level: number; skill2Level: number; burstLevelSkill: number; },
+    cubeOptions?: { cubeName: string; cubeLevel: number }
 ): Character => {
     const s = charData.stats || {};
     const eq = equip || { atkPercent: 0, weakPointPercent: 0, ammoPercent: 0, accuracyPercent: 0, chargeDmgPercent: 0, chargeSpeedPercent: 0, critRatePercent: 0, critDmgPercent: 0, defPercent: 0 };
+    const cube = getCubeEffect(cubeOptions?.cubeName || 'None', cubeOptions?.cubeLevel || 0);
 
     const baseMaxAmmo = s.maxAmmo;
     const collectionEffect = getCollectionEffect(s.weapon, collectionGrade, collectionLevel);
     // 애장품 장착시 장탄수 가산
     const collectionMaxAmmo = Math.floor(baseMaxAmmo * (collectionEffect.maxAmmoMultiplier / 100));
-    const finalMaxAmmo = Math.floor(baseMaxAmmo * (1 + eq.ammoPercent)) + collectionMaxAmmo;
+    const finalMaxAmmo = Math.floor(baseMaxAmmo * (1 + eq.ammoPercent + cube.ammoPercent)) + collectionMaxAmmo;
 
-    // 소장품 효과 적용 (SG, SMG 한정) -> 이제 모든 무기 지원하므로 주석 수정
-    const finalDefense = s.defense * (1 + collectionEffect.defenseMultiplier / 100 + eq.defPercent);
+    // 소장품 + 장비 + 큐브 방어력
+    const finalDefense = s.defense * (1 + collectionEffect.defenseMultiplier / 100 + eq.defPercent + cube.defPercent);
+
+    // 큐브 + 장비 체력
+    const finalHp = Math.floor(s.hp * (1 + cube.hpPercent));
 
     return {
         id: `${charData.characterID || 'unknown'}_${slotIndex}`,
         slotIndex,
         atk: s.atk,
         defense: Math.floor(finalDefense),
-        hp: s.hp,
+        hp: finalHp,
         element: s.element,
         weapon: s.weapon,
         charClass: s.class,
@@ -64,10 +70,10 @@ export const applyBaseStats = (
         crit: (s.crit || 15) + (eq.critRatePercent * 100),
         maxAmmo: finalMaxAmmo,
         ammo: finalMaxAmmo,
-        reloadTime: s.reloadTime,
+        reloadTime: cube.reloadSpeedPercent > 0 ? s.reloadTime * (1 - cube.reloadSpeedPercent) : s.reloadTime,
         reloadRemain: 0,
-        chargeTime: s.chargeTime ? s.chargeTime * (1 - eq.chargeSpeedPercent) : 0,
-        fullChargeDamage: s.fullChargeDamage ? (s.fullChargeDamage / 100) - 1 + eq.chargeDmgPercent : 0,
+        chargeTime: s.chargeTime ? s.chargeTime * (1 - eq.chargeSpeedPercent - cube.chargeSpeedPercent) : 0,
+        fullChargeDamage: s.fullChargeDamage ? (s.fullChargeDamage / 100) - 1 + eq.chargeDmgPercent + cube.chargeDmgPercent : 0,
         currentCharge: 0,
         fireRate: s.fireRate,
         skills: (charData.skills || []).map((skillDef: any) => {
@@ -95,13 +101,19 @@ export const applyBaseStats = (
         coreDamage: includeCoreDamage ? (s.coreDamage || 0) : 0,
         coreHitBonus: s.coreHitBonus,
         comboShots: 0,
-        accuracyBuff: (s.accuracyBuff ?? 0) + eq.accuracyPercent,
+        accuracyBuff: (s.accuracyBuff ?? 0) + eq.accuracyPercent + cube.accuracyBuff,
         warmupLevel: 0,
         // 장비 추가 옵션
         equipATKPercent: eq.atkPercent,
-        equipWeakPointPercent: eq.weakPointPercent,
+        equipWeakPointPercent: eq.weakPointPercent + cube.weakPointPercent,
         equipAmmoPercent: eq.ammoPercent,
         equipCritDmgPercent: eq.critDmgPercent,
+
+        // 큐브 대미지 옵션
+        cubePartDmgUp: cube.partDmgUp,
+        cubePierceDmgUp: cube.pierceDmgUp,
+        cubeIgnoreDefDmgUp: cube.ignoreDefDmgUp,
+        cubeBastionRefund: cube.bastionRefund,
 
         normalAtkMultiplier: collectionEffect.normalAtkMultiplier,
         chargeDmgMultiplier: collectionEffect.chargeDmgMultiplier,

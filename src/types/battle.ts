@@ -93,6 +93,12 @@ export interface Character {
     equipAmmoPercent?: number;       // 장비 장탄수% (0.1 = +10%)
     equipCritDmgPercent?: number;    // 장비 크리티컬 대미지 증가% (0.1 = +10%)
 
+    /* 큐브 추가 옵션 */
+    cubePartDmgUp?: number;          // 큐브 파츠 대미지 증가 (0.1 = +10%)
+    cubePierceDmgUp?: number;        // 큐브 관통 대미지 증가 (0.1 = +10%)
+    cubeIgnoreDefDmgUp?: number;     // 큐브 방어력 무시 대미지 (0.1 = +10%)
+    cubeBastionRefund?: number;      // 큐브 10발 사격 시 탄환 충전 수
+
     /* 소장품 추가 옵션 */
     normalAtkMultiplier?: number;    // 일반 공격 대미지 배율 증가 (%)
     chargeDmgMultiplier?: number;    // RL, SR 소장품 배율 (%)
