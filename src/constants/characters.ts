@@ -1,7 +1,13 @@
 // 캐릭터 데이터 상수
 
-// 아바타 이미지 자동 불러오기
+// 아바타 및 전신 이미지 자동 불러오기
 const avatarModules = import.meta.glob('../assets/avatar/**/*.webp', {
+    eager: true,
+    query: '?url',
+    import: 'default'
+}) as Record<string, string>;
+
+const fullbodyModules = import.meta.glob('../assets/fullbody/**/*.webp', {
     eager: true,
     query: '?url',
     import: 'default'
@@ -14,6 +20,7 @@ const characterModules = import.meta.glob('../character/**/*.json', {
 }) as Record<string, any>;
 
 export const avatarMap: Record<string, string> = {};
+export const fullbodyMap: Record<string, string> = {};
 export const characterOptions: Array<{ value: string; label: string; data: any }> = [];
 
 // 두 모듈을 매칭시키기 위한 처리 로직
@@ -38,11 +45,14 @@ for (const path in characterModules) {
 
     // 매칭되는 아바타 파일 찾기
     const matchingAvatarPath = Object.keys(avatarModules).find(p => p.includes(`${filename}.webp`));
-
     if (matchingAvatarPath) {
-        // 기존 코드에서는 CharacterID (ex. 'Neve', 'Aria') 를 키 형태로 활용하곤 했음.
-        // 호환성을 위해 ID를 Key로 맵핑합시다.
         avatarMap[data.characterID] = avatarModules[matchingAvatarPath];
+    }
+
+    // 매칭되는 전신 파일 찾기
+    const matchingFullbodyPath = Object.keys(fullbodyModules).find(p => p.includes(`${filename}.webp`));
+    if (matchingFullbodyPath) {
+        fullbodyMap[data.characterID] = fullbodyModules[matchingFullbodyPath];
     }
 }
 

@@ -4,8 +4,29 @@ import { CollectionGrade } from '../constants/collectionItems';
 
 const STORAGE_KEY = 'nikke_sim_chars';
 const TEAM_LAYOUT_KEY = 'nikke_sim_team_layout';
+const CUBE_STORAGE_KEY = 'nikke_sim_cubes';
 
 export type SavedCharState = Omit<SlotState, 'char'>;
+
+export function loadGlobalCubeLevels(): Record<string, string> {
+    try {
+        const stored = localStorage.getItem(CUBE_STORAGE_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {}
+    return {};
+}
+
+export function saveGlobalCubeLevel(cubeName: string, level: string) {
+    if (!cubeName || cubeName === 'None') return;
+    const cubes = loadGlobalCubeLevels();
+    cubes[cubeName] = level;
+    localStorage.setItem(CUBE_STORAGE_KEY, JSON.stringify(cubes));
+}
+
+export function getGlobalCubeLevel(cubeName: string): string | null {
+    if (!cubeName || cubeName === 'None') return null;
+    return loadGlobalCubeLevels()[cubeName] || null;
+}
 
 export function loadAllCharSettings(): Record<string, SavedCharState> {
     try {
@@ -36,9 +57,15 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
     const saved = allSettings[charId];
 
     if (saved) {
+        // If a cube is equipped, sync its level from the global store, otherwise fallback to the saved char slot level.
+        const cubeLevel = (saved.cubeName && saved.cubeName !== 'None')
+            ? (getGlobalCubeLevel(saved.cubeName) || saved.cubeLevel || '1')
+            : '0';
+
         return {
             char: charOption,
-            ...saved
+            ...saved,
+            cubeLevel
         };
     }
 

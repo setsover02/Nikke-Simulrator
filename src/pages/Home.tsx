@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions } from '../constants/characters';
 import { RangeMode } from '../constants/weaponStats';
-import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout } from '../utils/storageUtils';
+import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout, getGlobalCubeLevel, saveGlobalCubeLevel } from '../utils/storageUtils';
 import { BurstWindow } from '../utils/simUtils';
 import { runSimulation } from '../engine/simulationRunner';
 
@@ -42,23 +42,56 @@ const Home: React.FC = () => {
     }, [slots]);
 
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
-        setSlots(slots.map((s, i) => {
-            if (i !== idx) return s;
-            if (patch === null) return null;
-            if (s === null) {
-                if (patch.char) {
-                    const newSlot = getCharDefaultState(patch.char);
-                    const merged = { ...newSlot, ...patch };
-                    const { char, ...stateToSave } = merged;
-                    saveCharSettings(char.data.characterID, stateToSave);
-                    return merged;
+        let globalCubeUpdateName: string | null = null;
+        let globalCubeUpdateLevel: string | null = null;
+        
+        const actualPatch = patch ? { ...patch } : null;
+
+        if (actualPatch && slots[idx]) {
+            // Did the user select a different cube?
+            if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== slots[idx]!.cubeName) {
+                // Drop the old level passed by CharacterSlot, load dynamically from global
+                actualPatch.cubeLevel = actualPatch.cubeName === 'None' ? '0' : (getGlobalCubeLevel(actualPatch.cubeName) || '1');
+            } 
+            // Did the user manually change the level of the CURRENT cube?
+            else if (actualPatch.cubeLevel !== undefined) {
+                const name = actualPatch.cubeName || slots[idx]!.cubeName;
+                if (name && name !== 'None') {
+                    saveGlobalCubeLevel(name, actualPatch.cubeLevel);
+                    globalCubeUpdateName = name;
+                    globalCubeUpdateLevel = actualPatch.cubeLevel;
                 }
-                return null;
             }
-            const merged = { ...s, ...patch };
-            const { char, ...stateToSave } = merged;
-            saveCharSettings(char.data.characterID, stateToSave);
-            return merged;
+        }
+
+        setSlots(slots.map((s, i) => {
+            if (i === idx) {
+                if (actualPatch === null) return null;
+                if (s === null) {
+                    if (actualPatch.char) {
+                        const newSlot = getCharDefaultState(actualPatch.char);
+                        const merged = { ...newSlot, ...actualPatch };
+                        const { char, ...stateToSave } = merged;
+                        saveCharSettings(char.data.characterID, stateToSave);
+                        return merged;
+                    }
+                    return null;
+                }
+                const merged = { ...s, ...actualPatch };
+                const { char, ...stateToSave } = merged;
+                saveCharSettings(char.data.characterID, stateToSave);
+                return merged;
+            }
+
+            // Sync other slots if they have the same cube and its level was just updated
+            if (s !== null && globalCubeUpdateName && globalCubeUpdateLevel && s.cubeName === globalCubeUpdateName) {
+                const merged = { ...s, cubeLevel: globalCubeUpdateLevel };
+                const { char, ...stateToSave } = merged;
+                saveCharSettings(char.data.characterID, stateToSave);
+                return merged;
+            }
+
+            return s;
         }));
     };
 

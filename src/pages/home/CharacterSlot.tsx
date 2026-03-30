@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
-import { characterOptions, avatarMap, SLOT_COLORS } from '../../constants/characters';
+import { characterOptions, avatarMap, fullbodyMap, SLOT_COLORS } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 import { getCharDefaultState } from '../../utils/storageUtils';
 import Icon from '../../components/Icon';
@@ -76,6 +76,29 @@ const CustomOption = (props: any) => {
                 </div>
             </div>
         </components.Option>
+    );
+};
+
+const CustomCubeOption = (props: any) => {
+    return (
+        <components.Option {...props}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
+                {props.data.icon ? (
+                    <img src={props.data.icon} alt={props.label} style={{ width: '20px', height: '20px', borderRadius: '4px' }} />
+                ) : (
+                    <div style={{ width: '20px', height: '20px' }} /> // Placeholder for 'None'
+                )}
+                <span>{props.label}</span>
+            </div>
+        </components.Option>
+    );
+};
+
+const CubeDropdownIndicator = (props: any) => {
+    return (
+        <components.DropdownIndicator {...props}>
+            <Icon name="keyboard_arrow_down" size={20} />
+        </components.DropdownIndicator>
     );
 };
 
@@ -160,6 +183,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
     const avatar = avatarMap[slot.char.data.characterID];
     const data = slot.char.data;
     const stats = data.stats;
+    const fullbody = fullbodyMap[data.characterID];
 
     const classIcon = CLASS_ICONS[stats.class];
     const companyIcon = COMPANY_ICONS[stats.company];
@@ -216,18 +240,18 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
     };
 
     return (
-        <div className="slot-container">
+        <div className="slot-container" style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}>
             {/* Slot color indicator left border (now on top) */}
-            <div className="slot-border-left" style={{ background: SLOT_COLORS[index % SLOT_COLORS.length] }} />
+            <div className="slot-border-left" style={{ background: SLOT_COLORS[index % SLOT_COLORS.length], zIndex: 1 }} />
             {/* Header Identity (Avatar + Select) */}
-            <div className="slot-header-identity">
-                <div className="slot-avatar">
+            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1 }}>
+                {/* <div className="slot-avatar">
                     {avatar ? (
                         <img src={avatar} alt={data.characterName} />
                     ) : (
                         <div className="slot-avatar-placeholder">IMG</div>
                     )}
-                </div>
+                </div> */}
 
                 <div className="slot-identity">
                     <div className="slot-select-wrapper">
@@ -294,17 +318,36 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                         disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
                     />
                 </div>
-
+            </div>
+            <div className="slot-section-fr">
                 <span className="color-777">큐브</span>
-                <div style={{ display: 'flex', gap: '4px', width: '100%', alignItems: 'center', justifyContent: 'flex-end' }}>
-                    {selectedCube?.icon && <img src={selectedCube.icon} alt="cube" style={{ width: '16px', height: '16px', borderRadius: '4px' }} />}
-                    <select className="slot-select-sm" dir="rtl" value={slot.cubeName || 'None'} onChange={e => onUpdate({ cubeName: e.target.value, cubeLevel: e.target.value === 'None' ? '0' : (slot.cubeLevel || '1') })}>
-                        {CUBE_OPTIONS.map(opt => (
-                            <option key={opt.value} value={opt.value} dir="ltr">{opt.label}</option>
-                        ))}
-                    </select>
+                <div className="slot-cube-wrapper">
+                    {selectedCube?.icon && <img src={selectedCube.icon} alt="cube" className="slot-cube-icon" />}
                 </div>
-
+                <Select
+                    className="slot-select-sm"
+                    value={CUBE_OPTIONS.find(opt => opt.value === (slot.cubeName || 'None'))}
+                    options={CUBE_OPTIONS}
+                    onChange={(sel: any) => {
+                        if (sel) {
+                            onUpdate({ cubeName: sel.value, cubeLevel: sel.value === 'None' ? '0' : (slot.cubeLevel || '1') });
+                        }
+                    }}
+                    components={{ DropdownIndicator: CubeDropdownIndicator, IndicatorSeparator: () => null, Option: CustomCubeOption }}
+                    menuPortalTarget={document.body}
+                    styles={{
+                        control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer', padding: 0 }),
+                        valueContainer: (b) => ({ ...b }),
+                        singleValue: (b) => ({ ...b, color: 'var(--shade-000)', fontSize: '12px', margin: 0 }),
+                        indicatorsContainer: (b) => ({ ...b }),
+                        menu: (b) => ({ ...b, background: '#2a2f3a', zIndex: 10 }),
+                        menuPortal: (b) => ({ ...b, zIndex: 9999 }),
+                        option: (b, s) => ({ ...b, background: s.isFocused ? '#35353e' : '#2a2f3a', color: '#eee', fontSize: '13px' }),
+                    }}
+                    isSearchable={false}
+                />
+            </div>
+            <div className="slot-section">
                 <span className="color-777">큐브 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
                     <input
@@ -321,6 +364,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                     />
                 </div>
             </div>
+
 
             {/* Stats */}
             <div className="slot-subtitle">스탯</div>
