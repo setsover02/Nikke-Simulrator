@@ -1560,7 +1560,7 @@ function processEnemyDots(ctx: BattleContext) {
         ctx.totalDamage += totalDmg
         ctx.log.push({
           time: ctx.time,
-          type: 'skill_damage',
+          type: 'dot_damage',
           source: caster.id,
           value: totalDmg,
           description: `${dot.status}_dot (${dot.stacks} stacks)`,

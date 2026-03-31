@@ -157,7 +157,7 @@ function extractChars(
 
     return activeSlots.map(({ slot, originalIndex }) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
-        const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
+        const DAMAGE_TYPES = new Set(['attack', 'skill_damage', 'dot_damage']);
         const totalDmg = resultData.log
             .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
             .reduce((s: number, l: any) => s + (l.value || 0), 0);
@@ -218,7 +218,7 @@ function extractChars(
 }
 
 function sumDamage(resultData: any): number {
-    const DAMAGE_TYPES = new Set(['attack', 'skill_damage']);
+    const DAMAGE_TYPES = new Set(['attack', 'skill_damage', 'dot_damage']);
     return resultData.log
         .filter((l: any) => DAMAGE_TYPES.has(l.type))
         .reduce((s: number, l: any) => s + l.value, 0);
@@ -235,12 +235,25 @@ function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSl
 
 function buildSkillChartDatasets(result: any, activeSlots: ActiveSlot[]) {
     const SKILL_TYPES = new Set(['skill_damage']);
-    return activeSlots.map(({ slot, originalIndex }, idx) => {
+    const DOT_TYPES = new Set(['dot_damage']);
+    const datasets: { label: string; color: string; data: any[] }[] = [];
+
+    activeSlots.forEach(({ slot, originalIndex }, idx) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
         const charName = slot.char.data.characterName;
         const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-        return { label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) };
+
+        // 일반 스킬 데미지 dataset
+        datasets.push({ label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) });
+
+        // DoT 데미지 dataset (캐릭터별, 별도 라벨)
+        const dotData = generateScatterData(result, charId, DOT_TYPES);
+        if (dotData.length > 0) {
+            datasets.push({ label: `${charName} (DoT)`, color, data: dotData });
+        }
     });
+
+    return datasets;
 }
 
 function buildSkillInfoMap(activeSlots: ActiveSlot[]): Record<string, Record<string, SkillInfoEntry>> {
