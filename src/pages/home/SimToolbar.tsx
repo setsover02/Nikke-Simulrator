@@ -50,7 +50,9 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
 
     const handlePointerDown = (e: React.PointerEvent) => {
         if (!sliderRef.current) return;
-        (e.target as Element).setPointerCapture(e.pointerId);
+        try {
+            (e.currentTarget as Element).setPointerCapture(e.pointerId);
+        } catch (err) { }
 
         const updateRange = (clientX: number) => {
             if (!sliderRef.current) return;
@@ -61,7 +63,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
 
             const indexFloat = percent * (RANGE_OPTIONS.length - 1);
             const index = Math.round(indexFloat);
-            const closest = RANGE_OPTIONS[index].value;
+            const closest = RANGE_OPTIONS[index]?.value || RANGE_OPTIONS[0].value;
 
             if (closest !== rangeMode) {
                 onRangeModeChange(closest);
@@ -132,18 +134,28 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                     </div>
                     <div
                         className="range-slider-bg"
-                        ref={sliderRef}
                         onPointerDown={handlePointerDown}
                         style={{ cursor: 'pointer', touchAction: 'none' }}
                     >
-                        {RANGE_OPTIONS.map((opt, i) => (
-                            <React.Fragment key={opt.value}>
-                                {i > 0 && <div className={`range-line ${rangeMode >= opt.value ? 'active' : 'inactive'}`} />}
-                                <div className={`range-point ${rangeMode === opt.value ? 'active' : 'inactive'}`}>
-                                    {rangeMode === opt.value && <div className="range-point-inner" />}
-                                </div>
-                            </React.Fragment>
-                        ))}
+                        <div className="range-slider-inner" ref={sliderRef}>
+                            <div className="range-track" />
+                            <div
+                                className="range-track-fill"
+                                style={{ width: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
+                            />
+                            {RANGE_OPTIONS.map((opt, i) => {
+                                const leftPercent = (i / (RANGE_OPTIONS.length - 1)) * 100;
+                                return (
+                                    <div key={opt.value} className="range-dot" style={{ left: `${leftPercent}%` }} />
+                                );
+                            })}
+                            <div
+                                className="range-thumb active"
+                                style={{ left: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
+                            >
+                                <div className="range-point-inner" />
+                            </div>
+                        </div>
                     </div>
                     <div className="range-values">
                         {RANGE_OPTIONS.map(opt => (

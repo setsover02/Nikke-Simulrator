@@ -84,13 +84,30 @@ const CustomCubeOption = (props: any) => {
         <components.Option {...props}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%' }}>
                 {props.data.icon ? (
-                    <img src={props.data.icon} alt={props.label} style={{ width: '20px', height: '20px', borderRadius: '4px' }} />
+                    <img src={props.data.icon} alt={props.label} style={{ width: '32px', height: '32px', borderRadius: '4px' }} />
                 ) : (
-                    <div style={{ width: '20px', height: '20px' }} /> // Placeholder for 'None'
+                    <div style={{ width: '32px', height: '32px' }} /> // Placeholder for 'None'
                 )}
                 <span>{props.label}</span>
             </div>
         </components.Option>
+    );
+};
+
+const CustomCubeSingleValue = (props: any) => {
+    return (
+        <components.SingleValue {...props}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                {props.data.icon ? (
+                    <img src={props.data.icon} alt={props.data.label} style={{ width: '32px', height: '32px', borderRadius: '4px' }} />
+                ) : (
+                    <div style={{ width: '32px', height: '32px' }} />
+                )}
+                <span style={{ color: '#eee', fontSize: '13px', whiteSpace: 'nowrap' }}>
+                    {props.data.label}
+                </span>
+            </div>
+        </components.SingleValue>
     );
 };
 
@@ -321,9 +338,6 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
             </div>
             <div className="slot-section-fr">
                 <span className="color-777">큐브</span>
-                <div className="slot-cube-wrapper">
-                    {selectedCube?.icon && <img src={selectedCube.icon} alt="cube" className="slot-cube-icon" />}
-                </div>
                 <Select
                     className="slot-select-sm"
                     value={CUBE_OPTIONS.find(opt => opt.value === (slot.cubeName || 'None'))}
@@ -333,12 +347,12 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
                             onUpdate({ cubeName: sel.value, cubeLevel: sel.value === 'None' ? '0' : (slot.cubeLevel || '1') });
                         }
                     }}
-                    components={{ DropdownIndicator: CubeDropdownIndicator, IndicatorSeparator: () => null, Option: CustomCubeOption }}
+                    components={{ DropdownIndicator: CubeDropdownIndicator, IndicatorSeparator: () => null, Option: CustomCubeOption, SingleValue: CustomCubeSingleValue }}
                     menuPortalTarget={document.body}
                     styles={{
                         control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer', padding: 0 }),
-                        valueContainer: (b) => ({ ...b }),
-                        singleValue: (b) => ({ ...b, color: 'var(--shade-000)', fontSize: '12px', margin: 0 }),
+                        valueContainer: (b) => ({ ...b, padding: 0, overflow: 'visible' }),
+                        singleValue: (b) => ({ ...b, color: 'var(--shade-000)', fontSize: '13px', margin: 0, position: 'static', overflow: 'visible', transform: 'none' }),
                         indicatorsContainer: (b) => ({ ...b }),
                         menu: (b) => ({ ...b, background: '#2a2f3a', zIndex: 10 }),
                         menuPortal: (b) => ({ ...b, zIndex: 9999 }),
