@@ -90,3 +90,7 @@ remove_status: status 해제 (특정 니케들이 가지고 있는 target에게 
 charge_status: 특정 상태(status)의 스택을 충전 또는 증가시킴 
 > 불필요한 경우 삭제처리
 
+### 마리 스킬 효과
+shield_damage_up: 보호막에 가하는 대미지 증가
+pierce_damage_up: 관통 대미지 증가
+pierce: 관통 특화 (관통 효과가 적용되는 특수 상태)
