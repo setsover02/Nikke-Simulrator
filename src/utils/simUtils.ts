@@ -42,6 +42,7 @@ export interface ScatterPoint {
     value: number;
     source: string;
     description: string;
+    skillName: string;
 }
 
 /**
@@ -64,6 +65,7 @@ export const generateScatterData = (
             value: log.value || 0,
             source: log.source,
             description: log.description || '',
+            skillName: log.skillName || '',
         });
     }
 

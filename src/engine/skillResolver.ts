@@ -1005,6 +1005,7 @@ function applySpecificEffectToTarget(
           source: sourceChar.id,
           value: totalDmg,
           description: effectDef.effect,
+          skillName,
         })
         break
       }
@@ -1091,6 +1092,7 @@ function applySpecificEffectToTarget(
             timeSinceLastHit: 0,
             casterId: sourceChar.id,
             irremovable: effectDef.irremovable || false,
+            skillName,
           })
         }
         ctx.log.push({
@@ -1128,6 +1130,7 @@ function applySpecificEffectToTarget(
             timeSinceLastHit: 0,
             casterId: sourceChar.id,
             irremovable: effectDef.irremovable || false,
+            skillName,
           })
         }
         ctx.log.push({
@@ -1349,6 +1352,7 @@ function applySpecificEffectToTarget(
       char.currentCharge = 0
 
       appliedFlatValue = 1 // marker value
+        ; (char as any).weaponOverrideSkillName = skillName
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Change Weapon' })
       applied = true
       break
@@ -1564,6 +1568,7 @@ function processEnemyDots(ctx: BattleContext) {
           source: caster.id,
           value: totalDmg,
           description: `${dot.status}_dot (${dot.stacks} stacks)`,
+          skillName: dot.skillName || '',
         })
       }
     }

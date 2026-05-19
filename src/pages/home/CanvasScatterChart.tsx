@@ -38,7 +38,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
     const [hoverInfo, setHoverInfo] = React.useState<{
         x: number;
         y: number;
-        points: { label: string; color: string; time: number; value: number; description: string }[];
+        points: { label: string; color: string; time: number; value: number; description: string; skillName: string }[];
     } | null>(null);
 
     const [viewMin, setViewMin] = React.useState(0);
@@ -322,7 +322,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         const toY = (v: number) => canvas.height - PB - (v / maxY) * graphH;
 
         const hitRadius = 10;
-        let matchedPoints: { label: string; color: string; time: number; value: number; description: string }[] = [];
+        let matchedPoints: { label: string; color: string; time: number; value: number; description: string; skillName: string }[] = [];
 
         datasets.forEach(ds => {
             ds.data.forEach(pt => {
@@ -335,6 +335,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                         time: pt.time,
                         value: pt.value,
                         description: pt.description,
+                        skillName: pt.skillName || '',
                     });
                 }
             });
@@ -403,6 +404,11 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                             <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
                                 ⚡ {pt.description}
                             </div>
+                            {pt.skillName && (
+                                <div style={{ color: '#81c784', fontSize: '11px', paddingLeft: '12px' }}>
+                                    🎯 {pt.skillName}
+                                </div>
+                            )}
                         </div>
                     ))}
                     {(() => {

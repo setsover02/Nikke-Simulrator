@@ -265,17 +265,20 @@ function applyDamage(
     ctx: BattleContext,
     dmg: number,
     source: string,
-    type: string = 'attack'
+    type: string = 'attack',
+    skillName?: string
 ) {
     ctx.enemy.hp -= dmg;
     ctx.totalDamage += dmg;
 
-    ctx.log.push({
+    const logEntry: any = {
         time: ctx.time,
         type,
         value: dmg,
         source,
-    });
+    };
+    if (skillName) logEntry.skillName = skillName;
+    ctx.log.push(logEntry);
 }
 
 /* =========================
@@ -304,7 +307,9 @@ function processWeaponOverrideAttack(
 
         // 대미지 계산
         const dmg = calcCharacterDamage(char, ctx, true, rangeMode);
-        applyDamage(ctx, dmg, char.id, 'skill_damage'); // 스킬 대미지로 기록
+        // weaponOverride 중 변경된 스킬 이름 추적
+        const overrideSkillName = (char as any).weaponOverrideSkillName || '';
+        applyDamage(ctx, dmg, char.id, 'skill_damage', overrideSkillName); // 스킬 대미지로 기록
 
         // full_charge_attack 트리거 플래그
         ctx.state = ctx.state || {};
