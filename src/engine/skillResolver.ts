@@ -49,6 +49,7 @@ export interface SkillDef {
   effects: SkillEffectDef[]
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
 // Target Resolution Helpers
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -83,6 +84,63 @@ function topNByMaxHp(members: Character[], n: number): Character[] {
   return [...members].sort((a, b) => getFinalHp(b) - getFinalHp(a)).slice(0, n)
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Target Resolution
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** 무기 타입 → 무기 코드 (자신 제외) */
+const WEAPON_EXCLUDE_SELF_TARGETS: Record<string, string> = {
+  sg_allies_excluding_self: 'SG',
+  smg_allies_excluding_self: 'SMG',
+  mg_allies_excluding_self: 'MG',
+  sr_allies_excluding_self: 'SR',
+  rl_allies_excluding_self: 'RL',
+  ar_allies_excluding_self: 'AR',
+}
+
+/** 무기 타입 → 무기 코드 */
+const WEAPON_TARGETS: Record<string, string> = {
+  sg_allies: 'SG',
+  smg_allies: 'SMG',
+  mg_allies: 'MG',
+  sr_allies: 'SR',
+  rl_allies: 'RL',
+  ar_allies: 'AR',
+}
+
+/** 원소 코드 → 원소명 (아군) */
+const ELEMENT_TARGETS: Record<string, string> = {
+  fire_element_allies: '작열',
+  water_element_allies: '수냉',
+  electric_element_allies: '전격',
+  iron_element_allies: '철갑',
+  wind_element_allies: '풍압',
+}
+
+/** 원소 코드 → 원소명 (적) */
+const ELEMENT_ENEMY_TARGETS: Record<string, string> = {
+  fire_element_enemy: '작열',
+  water_element_enemy: '수냉',
+  electric_element_enemy: '전격',
+  iron_element_enemy: '철갑',
+  wind_element_enemy: '풍압',
+}
+
+/** 단일 적 시뮬에서 모두 ctx.enemy로 매핑되는 적 타겟 */
+const ENEMY_TARGETS = new Set([
+  'enemy',
+  'all_enemies',
+  'random_enemies',
+  'enemies_in_range',
+  'lowest_hp_enemy',
+  'highest_hp_enemy_1',
+  'highest_atk_enemy_1',
+  'highest_atk_enemy_2',
+  'highest_def_enemy_1',
+  'same_target',
+  'target',
+])
+
 function resolveTargets(
   ctx: BattleContext,
   sourceChar: Character,
@@ -96,48 +154,36 @@ function resolveTargets(
   // ── All Allies ──
   if (target === 'all_allies' || target === 'allies') return members
 
-  // ── N Highest ATK Allies ──
-  if (
-    target === 'highest_atk_allies_1' ||
-    target === 'highest_atk_ally'
-  )
-    return topNByAtk(members, 1)
-  if (target === 'highest_atk_allies_2') return topNByAtk(members, 2)
-  if (target === 'highest_atk_allies_3')
-    return topNByAtk(members, 3)
+  // ── N Highest ATK Allies (highest_atk_ally, highest_atk_allies_N) ──
+  const highestAtkMatch = target.match(/^highest_atk_all(?:ies_(\d+)|y)$/)
+  if (highestAtkMatch) {
+    return topNByAtk(members, highestAtkMatch[1] ? parseInt(highestAtkMatch[1]) : 1)
+  }
 
   // ── Self + N Highest ATK Allies (excluding self) ──
-  if (target === 'self_and_highest_atk_allies_1') {
-    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 1)]
-  }
-  if (target === 'self_and_highest_atk_allies_2') {
-    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 2)]
-  }
-  if (target === 'self_and_highest_atk_allies_3') {
-    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), 3)]
+  const selfAtkMatch = target.match(/^self_and_highest_atk_allies_(\d+)$/)
+  if (selfAtkMatch) {
+    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), parseInt(selfAtkMatch[1]))]
   }
 
-  // ── N Highest DEF/HP Allies ──
-  if (target === 'highest_def_allies_1')
-    return topNByDef(members, 1)
-  if (target === 'highest_def_allies_2') return topNByDef(members, 2)
-  if (target === 'highest_def_allies_3') return topNByDef(members, 3)
+  // ── N Highest DEF Allies ──
+  const highestDefMatch = target.match(/^highest_def_allies_(\d+)$/)
+  if (highestDefMatch) {
+    return topNByDef(members, parseInt(highestDefMatch[1]))
+  }
 
-  if (target === 'highest_hp_allies_1')
-    return topNByMaxHp(members, 1)
-  if (target === 'highest_hp_allies_2') return topNByMaxHp(members, 2)
-  if (target === 'highest_hp_allies_3') return topNByMaxHp(members, 3)
+  // ── N Highest HP Allies ──
+  const highestHpMatch = target.match(/^highest_hp_allies_(\d+)$/)
+  if (highestHpMatch) {
+    return topNByMaxHp(members, parseInt(highestHpMatch[1]))
+  }
 
-  // ── Lowest/Highest HP Ally ──
-  if (target === 'lowest_hp_allies_1') {
+  // ── N Lowest HP Allies ──
+  const lowestHpMatch = target.match(/^lowest_hp_allies_(\d+)$/)
+  if (lowestHpMatch) {
     return [...members]
       .sort((a, b) => getFinalHp(a) - getFinalHp(b))
-      .slice(0, 1)
-  }
-  if (target === 'lowest_hp_allies_2') {
-    return [...members]
-      .sort((a, b) => getFinalHp(a) - getFinalHp(b))
-      .slice(0, 2)
+      .slice(0, parseInt(lowestHpMatch[1]))
   }
 
   // ── Self & Adjacent Allies ──
@@ -148,51 +194,21 @@ function resolveTargets(
   }
 
   // ── Weapon-type Allies (excluding self) ──
-  const WEAPON_EXCLUDE_SELF_TARGETS: Record<string, string> = {
-    sg_allies_excluding_self: 'SG',
-    smg_allies_excluding_self: 'SMG',
-    mg_allies_excluding_self: 'MG',
-    sr_allies_excluding_self: 'SR',
-    rl_allies_excluding_self: 'RL',
-    ar_allies_excluding_self: 'AR',
-  }
   if (WEAPON_EXCLUDE_SELF_TARGETS[target]) {
     return members.filter((c) => c.weapon === WEAPON_EXCLUDE_SELF_TARGETS[target] && c.id !== sourceChar.id)
   }
 
   // ── Weapon-type Allies ──
-  const WEAPON_TARGETS: Record<string, string> = {
-    sg_allies: 'SG',
-    smg_allies: 'SMG',
-    mg_allies: 'MG',
-    sr_allies: 'SR',
-    rl_allies: 'RL',
-    ar_allies: 'AR',
-  }
   if (WEAPON_TARGETS[target]) {
     return members.filter((c) => c.weapon === WEAPON_TARGETS[target])
   }
 
   // ── Element Allies ──
-  const ELEMENT_TARGETS: Record<string, string> = {
-    fire_element_allies: '작열',
-    water_element_allies: '수냉',
-    electric_element_allies: '전격',
-    iron_element_allies: '철갑',
-    wind_element_allies: '풍압',
-  }
   if (ELEMENT_TARGETS[target]) {
     return members.filter((c) => c.element === ELEMENT_TARGETS[target])
   }
 
   // ── Element Enemy Targets (우월 코드 적 타겟) ──
-  const ELEMENT_ENEMY_TARGETS: Record<string, string> = {
-    fire_element_enemy: '작열',
-    water_element_enemy: '수냉',
-    electric_element_enemy: '전격',
-    iron_element_enemy: '철갑',
-    wind_element_enemy: '풍압',
-  }
   if (ELEMENT_ENEMY_TARGETS[target]) {
     return ctx.enemy.element === ELEMENT_ENEMY_TARGETS[target] ? [ctx.enemy] : []
   }
@@ -206,19 +222,6 @@ function resolveTargets(
   }
 
   // ── Enemy Targets (all map to ctx.enemy since single-enemy sim) ──
-  const ENEMY_TARGETS = new Set([
-    'enemy',
-    'all_enemies',
-    'random_enemies',
-    'enemies_in_range',
-    'lowest_hp_enemy',
-    'highest_hp_enemy_1',
-    'highest_atk_enemy_1',
-    'highest_atk_enemy_2',
-    'highest_def_enemy_1',
-    'same_target',
-    'target',
-  ])
   if (ENEMY_TARGETS.has(target)) return [ctx.enemy]
 
   return []
@@ -231,6 +234,63 @@ function resolveTargets(
 function resolveValue(effectDef: SkillEffectDef): number {
   // Already resolved to a number by charUtils.applyBaseStats
   return (effectDef.value as number) ?? 0
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Skill Damage Params Builder
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * 스킬/DoT 대미지 계산에 공통으로 사용되는 DamageParams를 생성한다.
+ * 일반 공격이 아닌 스킬 대미지 전용 (isNormalAttack=false, rangeBonus=0 등).
+ */
+function buildSkillDamageParams(
+  ctx: BattleContext,
+  caster: Character,
+  target: any,
+  atkCoef: number,
+  isCrit: boolean,
+  overrides?: { dotDmgUp?: number }
+): DamageParams {
+  const wm = getWeaponMultipliers(caster.weapon)
+  const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element)
+  return {
+    baseATK: caster.atk,
+    extraATKPercent: caster.equipATKPercent ?? 0,
+    extraATKFlat: caster.buff?.extraATK ?? 0,
+    enemyBaseDEF: ctx.enemy.defense,
+    enemyDEFPercent: 0,
+    enemyDEFFlat: target.debuff?.defFlat ?? 0,
+    atkCoef,
+    finalATKModifier: caster.buff?.atkDmgUp ?? 0,
+    normalAtkMultiplier: 0,
+    isNormalAttack: false,
+    isCrit,
+    critBonusBase: (caster.critMult ? (caster.critMult - 1) : wm.critBonus) + (caster.equipCritDmgPercent ?? 0),
+    extraCritDmg: caster.buff?.critDmg ?? 0,
+    isCore: false,
+    coreHitBonus: 0,
+    coreHitMultiplier: 0,
+    fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+    rangeBonus: 0,
+    weakPointBase: hasAdvantage ? 1.1 : 1.0,
+    weakPointExtra:
+      (caster.buff?.weak ?? 0) +
+      (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
+    chargeDmgBonus: 0,
+    chargeDmgMultiplier: 0,
+    atkDmgUp: caster.buff?.atkDmgUpFinal ?? 0,
+    dotDmgUp: overrides?.dotDmgUp ?? 0,
+    pierceDmgUp: caster.cubePierceDmgUp ?? 0,
+    partDmgUp: caster.cubePartDmgUp ?? 0,
+    ignoreDefDmgUp: caster.cubeIgnoreDefDmgUp ?? 0,
+    projectileDmgUp: 0,
+    interruptionPartDmgUp: 0,
+    extraDmgUp: 0,
+    enemyTakenUp: target.debuff?.takenUp ?? 0,
+    shareDmgUp: 0,
+    enemyTakenDown: target.debuff?.takenDown ?? 0,
+  }
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -338,7 +398,381 @@ export function resolveSkills(ctx: BattleContext) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Trigger Evaluation
+// Trigger Handler Functions
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** battle_start: 첫 틱에 1회만 발동 */
+function triggerBattleStart(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  const key = `battle_start_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
+  if (!ctx.state![key]) {
+    ctx.state![key] = true
+    return true
+  }
+  return false
+}
+
+/** enemy_spawn / self_focusing / focus: 전투 시작 시 1회 */
+function triggerSpawn(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  const key = `spawn_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
+  if (!ctx.state![key]) {
+    ctx.state![key] = true
+    return true
+  }
+  return false
+}
+
+/** full_burst_start: 풀버스트 시작 시 (stack_level 검사 포함) */
+function triggerFullBurstStart(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  // stateKey는 stack_level별로 고유하게 만들어 각 이펙트가 독립적으로 발동 추적
+  const sl = effectDef.stack_level ?? 0
+  const stateKey = `fb_start_${sourceChar.id}_${skillId}_${effectDef.effect}_sl${sl}`
+  // stackKey(버스트 횟수 카운터)는 스킬 단위로 공유
+  const stackKey = `fb_start_${sourceChar.id}_${skillId}_stack_count`
+  // 버스트 사이클당 1회만 카운터 증가하기 위한 one-shot 키
+  const countedKey = `fb_start_${sourceChar.id}_${skillId}_counted`
+
+  let isTriggered = false
+  if (ctx.burstActive && !ctx.state![stateKey]) {
+    // 이번 풀버스트 사이클에서 아직 카운터를 올리지 않았으면 1회만 증가
+    if (!ctx.state![countedKey]) {
+      ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1
+      ctx.state![countedKey] = true
+    }
+    isTriggered = true
+    ctx.state![stateKey] = true
+  } else if (!ctx.burstActive) {
+    // 풀버스트가 끝나면 플래그 초기화
+    if (ctx.state![stateKey]) ctx.state![stateKey] = false
+    if (ctx.state![countedKey]) ctx.state![countedKey] = false
+  }
+
+  // stack_level 검사
+  if (isTriggered) {
+    const castCount = ctx.state![stackKey] || 0
+    if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) {
+      isTriggered = false // 스택 조건 미달
+    }
+  }
+
+  return isTriggered
+}
+
+/** full_burst_end: 풀버스트 종료 시 */
+function triggerFullBurstEnd(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  const stateKey = `fb_active_prev_${sourceChar.id}_${skillId}_${effectDef.effect}`
+  const wasActive = ctx.state![stateKey] || false
+  const triggered = wasActive && !ctx.burstActive
+  ctx.state![stateKey] = ctx.burstActive
+  return triggered
+}
+
+/** full_burst_time: 풀버스트 중 interval마다 발동 */
+function triggerFullBurstTime(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  if (!ctx.burstActive || !effectDef.interval) return false
+  const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_fb_timer`
+  ctx.state![stateKey] = (ctx.state![stateKey] || 0) + ctx.delta
+  if (ctx.state![stateKey] >= effectDef.interval) {
+    ctx.state![stateKey] -= effectDef.interval
+    return true
+  }
+  return false
+}
+
+/** last_bullet_hit: 마지막 탄환 사용 시 */
+function triggerLastBulletHit(
+  ctx: BattleContext, sourceChar: Character, skillId: string, _effectDef: SkillEffectDef
+): boolean {
+  const stateKey = `${sourceChar.id}_${skillId}_last_bullet`
+  const wasEmpty = ctx.state![stateKey] || false
+  if (sourceChar.ammo <= 0 && !wasEmpty) {
+    ctx.state![stateKey] = true
+    return true
+  } else if (sourceChar.ammo > 0) {
+    ctx.state![stateKey] = false
+  }
+  return false
+}
+
+/** ammo_consumed: 자신의 탄환 소모 총량 기준 */
+function triggerAmmoConsumed(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  if (typeof effectDef.condition !== 'object' || !effectDef.condition?.count) return false
+  const threshold = effectDef.condition.count
+  const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_ammo_consumed`
+  ctx.state![stateKey] = ctx.state![stateKey] || 0
+  const currentUsed = sourceChar.totalAmmoUsed || 0
+  if (currentUsed - ctx.state![stateKey] >= threshold) {
+    ctx.state![stateKey] = currentUsed
+    return true
+  }
+  return false
+}
+
+/** all_allies_ammo_consumed: 팀 전체 탄환 소모 합산 */
+function triggerAllAlliesAmmoConsumed(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  if (typeof effectDef.condition !== 'object' || !effectDef.condition?.count) return false
+  const threshold = effectDef.condition.count
+  const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_team_ammo`
+  ctx.state![stateKey] = ctx.state![stateKey] || 0
+  const currentTeamAmmo = ctx.totalTeamAmmoUsed || 0
+  if (currentTeamAmmo - ctx.state![stateKey] >= threshold) {
+    ctx.state![stateKey] = currentTeamAmmo
+    return true
+  }
+  return false
+}
+
+/** normal_attack_hit: 조건 count 기준 명중 시 */
+function triggerNormalAttackHit(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  if (typeof effectDef.condition !== 'object' || !effectDef.condition?.count) return false
+  let statusMet = true
+  if (effectDef.condition.target_status === 'bubble') {
+    statusMet = !!ctx.enemy.debuff?.bubble
+  }
+  if (!statusMet) return false
+
+  const threshold = effectDef.condition.count
+  const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_attack_hit`
+  ctx.state![stateKey] = ctx.state![stateKey] || 0
+  const currentUsed = sourceChar.totalAmmoUsed || 0
+  if (currentUsed - ctx.state![stateKey] >= threshold) {
+    ctx.state![stateKey] = currentUsed
+    return true
+  }
+  return false
+}
+
+/** on_hit: 피격 시 트리거 (chance 또는 count 기반, chance는 핸들러 내부에서 처리) */
+function triggerOnHit(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  if (typeof effectDef.condition === 'object' && effectDef.condition?.count) {
+    // count 기반: 피격 횟수 누적 (적의 초당 공격 약 2회로 근사)
+    const hitsPerSecond = ctx.enemyHitsPerSecond ?? 2
+    const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_on_hit_count`
+    ctx.state![countKey] = (ctx.state![countKey] || 0) + hitsPerSecond * ctx.delta
+    if (ctx.state![countKey] >= effectDef.condition.count) {
+      ctx.state![countKey] -= effectDef.condition.count
+      return true
+    }
+  } else {
+    // chance 기반: n% 확률
+    const chance =
+      typeof effectDef.condition === 'object'
+        ? ((effectDef.condition as any)?.chance ?? 0)
+        : 0
+    if (chance > 0 && ctx.rng.next() < chance / 100) {
+      return true
+    }
+  }
+  return false
+}
+
+/** full_charge_attack: SR/RL 풀차지 공격 시 */
+function triggerFullChargeAttack(
+  ctx: BattleContext, sourceChar: Character, _skillId: string, _effectDef: SkillEffectDef
+): boolean {
+  const stateKey = `${sourceChar.id}_fullcharge_flag`
+  if (ctx.state![stateKey]) {
+    ctx.state![stateKey] = false
+    return true
+  }
+  return false
+}
+
+/** burst_cast: 시전자가 버스트 스킬을 사용한 경우 */
+function triggerBurstCast(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  const burstCastSources = ctx.state!.__burstCastSources as Set<string> | undefined
+  if (!burstCastSources?.has(sourceChar.id)) return false
+
+  // stack_level 카운트는 버스트 시전 1회당 스킬별 1회 증가
+  const stackKey = `${sourceChar.id}_${skillId}_burst_cast_count`
+  const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`
+  if (!ctx.state![stackTickKey]) {
+    ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1
+    ctx.state![stackTickKey] = true
+  }
+
+  const castCount = ctx.state![stackKey] || 0
+  if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) return false
+
+  return true
+}
+
+/** enter_burst_N: 버스트 N단계 진입 시 */
+function triggerEnterBurst(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef,
+  level: number
+): boolean {
+  const enterFlag = ctx.state![`__enterBurstLevel_${level}`]
+  if (!enterFlag) return false
+
+  // stack_level 카운트: 트리거 1회당 스킬별 1회 증가
+  const stackKey = `${sourceChar.id}_${skillId}_enter_burst_${level}_count`
+  const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`
+  if (!ctx.state![stackTickKey]) {
+    ctx.state![stackKey] = (ctx.state![stackKey] || 0) + 1
+    ctx.state![stackTickKey] = true
+  }
+
+  const castCount = ctx.state![stackKey] || 0
+  if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) return false
+
+  return true
+}
+
+/** normal_attack: 일반 공격 시 (명중 무관, 공격 행위 자체) */
+function triggerNormalAttack(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  // 조건에 status가 있으면 해당 상태가 있을 때만 카운트
+  if (typeof effectDef.condition === 'object' && effectDef.condition?.status) {
+    const requiredStatus = effectDef.condition.status
+    const hasStatus = sourceChar.buffSlots?.some(s => s.status === requiredStatus)
+    if (!hasStatus) return false
+
+    if (effectDef.condition.count) {
+      // count 기반: 일반 공격 횟수 누적 (status 보유 상태에서만)
+      const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_status_${requiredStatus}`
+      const currentUsed = sourceChar.totalAmmoUsed || 0
+      ctx.state![countKey] = ctx.state![countKey] || 0
+      const prevUsed = ctx.state![`${countKey}_prev`] ?? currentUsed
+      const delta = currentUsed - prevUsed
+      ctx.state![`${countKey}_prev`] = currentUsed
+      ctx.state![countKey] += delta
+      if (ctx.state![countKey] >= effectDef.condition.count) {
+        ctx.state![countKey] -= effectDef.condition.count
+        return true
+      }
+      return false
+    }
+    // count 없으면 아래 공통 로직으로 fall through
+  }
+
+  // 조건 없이 또는 status 조건만 있을 때: 매 공격마다 발동
+  const prevKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_prev`
+  const currentUsed = sourceChar.totalAmmoUsed || 0
+  const prev = ctx.state![prevKey] ?? currentUsed
+  ctx.state![prevKey] = currentUsed
+  return currentUsed > prev
+}
+
+/** designated_timing: 미하라 전용, 3가지 타이밍에 발동 */
+function triggerDesignatedTiming(
+  ctx: BattleContext, sourceChar: Character, skillId: string, _effectDef: SkillEffectDef
+): boolean {
+  const captureChainKey = `${sourceChar.id}_capture_chain`
+  const captureChainCount = ctx.state![captureChainKey] || 0
+
+  // 포획 사슬이 없으면 발동하지 않음
+  if (captureChainCount <= 0) return false
+
+  let isTriggered = false
+
+  // 타이밍 1: 전투 시작 (적 등장)
+  const battleStartKey = `designated_timing_spawn_${sourceChar.id}_${skillId}`
+  if (!ctx.state![battleStartKey] && ctx.time === 0) {
+    ctx.state![battleStartKey] = true
+    isTriggered = true
+  }
+
+  // 타이밍 2: 버스트 3단계 진입 시
+  if (!isTriggered) {
+    const enterBurst3Flag = ctx.state![`__enterBurstLevel_3`]
+    if (enterBurst3Flag) {
+      const tickKey = `designated_timing_b3_${sourceChar.id}_${ctx.time.toFixed(6)}`
+      if (!ctx.state![tickKey]) {
+        ctx.state![tickKey] = true
+        isTriggered = true
+      }
+    }
+  }
+
+  // 타이밍 3: 풀 버스트 종료 시
+  const fbPrevKey = `designated_timing_fb_prev_${sourceChar.id}_${skillId}`
+  if (!isTriggered) {
+    const wasActive = ctx.state![fbPrevKey] || false
+    if (wasActive && !ctx.burstActive) {
+      isTriggered = true
+    }
+  }
+  // 다른 타이밍에서 이미 트리거된 경우에도 fb prev 추적은 유지
+  ctx.state![fbPrevKey] = ctx.burstActive
+
+  return isTriggered
+}
+
+/** full_burst_end_after_self_burst: 풀버스트 종료 시 자신이 버스트를 사용했다면 */
+function triggerFullBurstEndAfterSelfBurst(
+  ctx: BattleContext, sourceChar: Character, skillId: string, _effectDef: SkillEffectDef
+): boolean {
+  const burstCastSources = ctx.state!.__burstCastSources as Set<string> | undefined
+  const fbCycleKey = `${sourceChar.id}_burst_in_fb_cycle`
+
+  // 이번 풀버스트 사이클에서 자신이 버스트를 사용했는지 추적
+  if (burstCastSources?.has(sourceChar.id)) {
+    ctx.state![fbCycleKey] = true
+  }
+
+  // 풀버스트 종료 감지
+  const prevKey = `fb_self_burst_prev_${sourceChar.id}_${skillId}`
+  const wasActive = ctx.state![prevKey] || false
+  ctx.state![prevKey] = ctx.burstActive
+
+  if (wasActive && !ctx.burstActive && ctx.state![fbCycleKey]) {
+    ctx.state![fbCycleKey] = false
+    return true
+  }
+  return false
+}
+
+/** full_burst_normal_attack: 풀버스트 중 일반 공격 n회 명중 시 */
+function triggerFullBurstNormalAttack(
+  ctx: BattleContext, sourceChar: Character, skillId: string, effectDef: SkillEffectDef
+): boolean {
+  const countKey = `${sourceChar.id}_${skillId}_fb_normal_atk_count`
+  const prevKey = `${sourceChar.id}_${skillId}_fb_normal_atk_prev`
+
+  if (!ctx.burstActive) {
+    // 풀버스트가 아닐 때 카운터 리셋
+    ctx.state![countKey] = 0
+    ctx.state![prevKey] = sourceChar.totalAmmoUsed || 0
+    return false
+  }
+
+  const threshold = (typeof effectDef.condition === 'object' && effectDef.condition?.count) || 1
+  const currentUsed = sourceChar.totalAmmoUsed || 0
+  const prev = ctx.state![prevKey] ?? currentUsed
+  const delta = currentUsed - prev
+  ctx.state![prevKey] = currentUsed
+
+  ctx.state![countKey] = (ctx.state![countKey] || 0) + delta
+  if (ctx.state![countKey] >= threshold) {
+    ctx.state![countKey] -= threshold
+    return true
+  }
+  return false
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Trigger Evaluation (dispatch)
 // ─────────────────────────────────────────────────────────────────────────────
 
 function handleEffectTrigger(
@@ -348,389 +782,86 @@ function handleEffectTrigger(
   skillName: string,
   effectDef: SkillEffectDef
 ) {
-  let isTriggered = false
   ctx.state = ctx.state || {}
-
   const trigger = effectDef.trigger
 
   // No trigger → permanent / always apply (e.g., battle_start effects)
   if (!trigger) return
 
-  // ── battle_start: 첫 틱에 1회만 발동 ──
-  if (trigger === 'battle_start') {
-    const key = `battle_start_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
-    if (!ctx.state[key]) {
-      isTriggered = true
-      ctx.state[key] = true
+  let isTriggered = false
+
+  switch (trigger) {
+    case 'battle_start':
+      isTriggered = triggerBattleStart(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'enemy_spawn':
+    case 'self_focusing':
+    case 'focus':
+      isTriggered = triggerSpawn(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_burst_start':
+      isTriggered = triggerFullBurstStart(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_burst_end':
+      isTriggered = triggerFullBurstEnd(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_burst_time':
+      isTriggered = triggerFullBurstTime(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'last_bullet_hit':
+      isTriggered = triggerLastBulletHit(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'ammo_consumed':
+      isTriggered = triggerAmmoConsumed(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'all_allies_ammo_consumed':
+      isTriggered = triggerAllAlliesAmmoConsumed(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'normal_attack_hit':
+      isTriggered = triggerNormalAttackHit(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'on_hit':
+      isTriggered = triggerOnHit(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_charge_attack':
+      isTriggered = triggerFullChargeAttack(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'burst_cast':
+      isTriggered = triggerBurstCast(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'enter_burst_1':
+    case 'enter_burst_2':
+    case 'enter_burst_3': {
+      const level = parseInt(trigger.replace('enter_burst_', ''), 10)
+      isTriggered = triggerEnterBurst(ctx, sourceChar, skillId, effectDef, level)
+      break
     }
-  }
-
-  // ── enemy_spawn: 전투 시작 시 1회 ──
-  if (
-    trigger === 'enemy_spawn' ||
-    trigger === 'self_focusing' ||
-    trigger === 'focus'
-  ) {
-    const key = `spawn_${sourceChar.id}_${skillId}_${effectDef.effect || effectDef.status || ''}`
-    if (!ctx.state[key]) {
-      isTriggered = true
-      ctx.state[key] = true
-    }
-  }
-
-  // ── full_burst_start ──
-  if (trigger === 'full_burst_start') {
-    // stateKey는 stack_level별로 고유하게 만들어 각 이펙트가 독립적으로 발동 추적
-    const sl = effectDef.stack_level ?? 0
-    const stateKey = `fb_start_${sourceChar.id}_${skillId}_${effectDef.effect}_sl${sl}`
-    // stackKey(버스트 횟수 카운터)는 스킬 단위로 공유
-    const stackKey = `fb_start_${sourceChar.id}_${skillId}_stack_count`
-    // 버스트 사이클당 1회만 카운터 증가하기 위한 one-shot 키
-    const countedKey = `fb_start_${sourceChar.id}_${skillId}_counted`
-
-    if (ctx.burstActive && !ctx.state[stateKey]) {
-      // 이번 풀버스트 사이클에서 아직 카운터를 올리지 않았으면 1회만 증가
-      if (!ctx.state[countedKey]) {
-        ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1
-        ctx.state[countedKey] = true
-      }
-      isTriggered = true
-      ctx.state[stateKey] = true
-    } else if (!ctx.burstActive) {
-      // 풀버스트가 끝나면 플래그 초기화
-      if (ctx.state[stateKey]) ctx.state[stateKey] = false
-      if (ctx.state[countedKey]) ctx.state[countedKey] = false
-    }
-
-    // stack_level 검사
-    if (isTriggered) {
-      const castCount = ctx.state[stackKey] || 0
-      if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount) {
-        isTriggered = false // 스택 조건 미달
-      }
-    }
-  }
-
-  // ── full_burst_end ──
-  if (trigger === 'full_burst_end') {
-    const stateKey = `fb_active_prev_${sourceChar.id}_${skillId}_${effectDef.effect}`
-    const wasActive = ctx.state[stateKey] || false
-    if (wasActive && !ctx.burstActive) isTriggered = true
-    ctx.state[stateKey] = ctx.burstActive
-  }
-
-  // ── full_burst_time: 풀버스트 중 interval마다 ──
-  if (trigger === 'full_burst_time' && ctx.burstActive && effectDef.interval) {
-    const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_fb_timer`
-    ctx.state[stateKey] = (ctx.state[stateKey] || 0) + ctx.delta
-    if (ctx.state[stateKey] >= effectDef.interval) {
-      isTriggered = true
-      ctx.state[stateKey] -= effectDef.interval
-    }
-  }
-
-  // ── last_bullet_hit ──
-  if (trigger === 'last_bullet_hit') {
-    const stateKey = `${sourceChar.id}_${skillId}_last_bullet`
-    const wasEmpty = ctx.state[stateKey] || false
-    if (sourceChar.ammo <= 0 && !wasEmpty) {
-      isTriggered = true
-      ctx.state[stateKey] = true
-    } else if (sourceChar.ammo > 0) {
-      ctx.state[stateKey] = false
-    }
-  }
-
-  // ── ammo_consumed: 자신의 탄환 소모 총량 기준 ──
-  if (
-    trigger === 'ammo_consumed' &&
-    typeof effectDef.condition === 'object' &&
-    effectDef.condition?.count
-  ) {
-    const threshold = effectDef.condition.count
-    const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_ammo_consumed`
-    ctx.state[stateKey] = ctx.state[stateKey] || 0
-    const currentUsed = sourceChar.totalAmmoUsed || 0
-    if (currentUsed - ctx.state[stateKey] >= threshold) {
-      isTriggered = true
-      ctx.state[stateKey] = currentUsed
-    }
-  }
-
-  // ── all_allies_ammo_consumed: 팀 전체 탄환 소모 합산 ──
-  if (
-    trigger === 'all_allies_ammo_consumed' &&
-    typeof effectDef.condition === 'object' &&
-    effectDef.condition?.count
-  ) {
-    const threshold = effectDef.condition.count
-    const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_team_ammo`
-    ctx.state[stateKey] = ctx.state[stateKey] || 0
-    const currentTeamAmmo = ctx.totalTeamAmmoUsed || 0
-    if (currentTeamAmmo - ctx.state[stateKey] >= threshold) {
-      isTriggered = true
-      ctx.state[stateKey] = currentTeamAmmo
-    }
-  }
-
-  // ── normal_attack_hit (조건 count 기준) ──
-  if (
-    trigger === 'normal_attack_hit' &&
-    typeof effectDef.condition === 'object' &&
-    effectDef.condition?.count
-  ) {
-    let statusMet = true
-    if (effectDef.condition.target_status === 'bubble') {
-      statusMet = !!ctx.enemy.debuff?.bubble
-    }
-    if (statusMet) {
-      const threshold = effectDef.condition.count
-      const stateKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_attack_hit`
-      ctx.state[stateKey] = ctx.state[stateKey] || 0
-      const currentUsed = sourceChar.totalAmmoUsed || 0
-      if (currentUsed - ctx.state[stateKey] >= threshold) {
-        isTriggered = true
-        ctx.state[stateKey] = currentUsed
-      }
-    }
-  }
-
-  // ── on_hit: 피격 시 트리거 ──
-  // chance: n% 확률
-  // count: n회 피격 시 (적의 공격 빈도를 근사하여 카운트 누적)
-  if (trigger === 'on_hit') {
-    if (typeof effectDef.condition === 'object' && effectDef.condition?.count) {
-      // count 기반: 피격 횟수 누적 (적의 초당 공격 약 2회로 근사)
-      const hitsPerSecond = ctx.enemyHitsPerSecond ?? 2
-      const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_on_hit_count`
-      ctx.state[countKey] = (ctx.state[countKey] || 0) + hitsPerSecond * ctx.delta
-      if (ctx.state[countKey] >= effectDef.condition.count) {
-        isTriggered = true
-        ctx.state[countKey] -= effectDef.condition.count
-      }
-    } else {
-      // chance 기반: n% 확률
-      const chance =
-        typeof effectDef.condition === 'object'
-          ? ((effectDef.condition as any)?.chance ?? 0)
-          : 0
-      if (chance > 0 && ctx.rng.next() < chance / 100) {
-        isTriggered = true
-      }
-    }
-  }
-
-  // ── full_charge_attack: SR/RL 풀차지 공격 시 ──
-  if (trigger === 'full_charge_attack') {
-    const stateKey = `${sourceChar.id}_fullcharge_flag`
-    if (ctx.state[stateKey]) {
-      isTriggered = true
-      ctx.state[stateKey] = false
-    }
-  }
-
-  // ── burst_cast: 시전자가 버스트 스킬을 사용한 경우 ──
-  if (trigger === 'burst_cast') {
-    const burstCastSources = ctx.state.__burstCastSources as
-      | Set<string>
-      | undefined
-    const didBurstCastThisTick = !!burstCastSources?.has(sourceChar.id)
-    if (!didBurstCastThisTick) return
-
-    // stack_level 카운트는 버스트 시전 1회당 스킬별 1회 증가
-    const stackKey = `${sourceChar.id}_${skillId}_burst_cast_count`
-    const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`
-    if (!ctx.state[stackTickKey]) {
-      ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1
-      ctx.state[stackTickKey] = true
-    }
-
-    const castCount = ctx.state[stackKey] || 0
-    if (
-      effectDef.stack_level !== undefined &&
-      effectDef.stack_level > castCount
-    )
+    case 'normal_attack':
+      isTriggered = triggerNormalAttack(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'designated_timing':
+      isTriggered = triggerDesignatedTiming(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_burst_end_after_self_burst':
+      isTriggered = triggerFullBurstEndAfterSelfBurst(ctx, sourceChar, skillId, effectDef)
+      break
+    case 'full_burst_normal_attack':
+      isTriggered = triggerFullBurstNormalAttack(ctx, sourceChar, skillId, effectDef)
+      break
+    // ── 미구현 / 스킵 트리거 ──
+    case 'status_applied':
+    case 'self_incapacitated':
+    case 'enemy_death':
+    case 'kill_enemy':
+    case 'part_destroy':
       return
-
-    isTriggered = true
-  }
-
-  // ── enter_burst_1 / enter_burst_2 / enter_burst_3 ──
-  if (trigger === 'enter_burst_1' || trigger === 'enter_burst_2' || trigger === 'enter_burst_3') {
-    const level = parseInt(trigger.replace('enter_burst_', ''), 10)
-    const enterFlag = ctx.state[`__enterBurstLevel_${level}`]
-    if (!enterFlag) return
-
-    // stack_level 카운트: 트리거 1회당 스킬별 1회 증가
-    const stackKey = `${sourceChar.id}_${skillId}_enter_burst_${level}_count`
-    const stackTickKey = `${stackKey}_tick_${ctx.time.toFixed(6)}`
-    if (!ctx.state[stackTickKey]) {
-      ctx.state[stackKey] = (ctx.state[stackKey] || 0) + 1
-      ctx.state[stackTickKey] = true
-    }
-
-    const castCount = ctx.state[stackKey] || 0
-    if (effectDef.stack_level !== undefined && effectDef.stack_level > castCount)
+    default:
       return
-
-    isTriggered = true
   }
-
-  // ── normal_attack: 일반 공격 시 (명중 무관, 공격 행위 자체) ──
-  if (trigger === 'normal_attack') {
-    // 조건에 status가 있으면 해당 상태가 있을 때만 카운트
-    if (typeof effectDef.condition === 'object' && effectDef.condition?.status) {
-      const requiredStatus = effectDef.condition.status
-      const hasStatus = sourceChar.buffSlots?.some(s => s.status === requiredStatus)
-      if (!hasStatus) return
-
-      if (effectDef.condition.count) {
-        // count 기반: 일반 공격 횟수 누적 (status 보유 상태에서만)
-        const countKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_status_${requiredStatus}`
-        const currentUsed = sourceChar.totalAmmoUsed || 0
-        ctx.state[countKey] = ctx.state[countKey] || 0
-        const prevUsed = ctx.state[`${countKey}_prev`] ?? currentUsed
-        const delta = currentUsed - prevUsed
-        ctx.state[`${countKey}_prev`] = currentUsed
-        ctx.state[countKey] += delta
-        if (ctx.state[countKey] >= effectDef.condition.count) {
-          isTriggered = true
-          ctx.state[countKey] -= effectDef.condition.count
-        }
-      } else {
-        // count 없으면 매 공격마다 발동
-        const prevKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_prev`
-        const currentUsed = sourceChar.totalAmmoUsed || 0
-        const prev = ctx.state[prevKey] ?? currentUsed
-        if (currentUsed > prev) {
-          isTriggered = true
-        }
-        ctx.state[prevKey] = currentUsed
-      }
-    } else {
-      // 조건 없이 매 공격마다 발동
-      const prevKey = `${sourceChar.id}_${skillId}_${effectDef.effect}_normal_attack_prev`
-      const currentUsed = sourceChar.totalAmmoUsed || 0
-      const prev = ctx.state[prevKey] ?? currentUsed
-      if (currentUsed > prev) {
-        isTriggered = true
-      }
-      ctx.state[prevKey] = currentUsed
-    }
-  }
-
-  // ── status_applied: 특정 상태 적용 시 ──
-  if (trigger === 'status_applied') {
-    // status_applied는 applyEffect 이후에 별도 로직으로 처리됨
-    // handleEffectTrigger에서는 skip
-    return
-  }
-
-  // ── designated_timing: 미하라 전용, 3가지 타이밍에 발동 ──
-  if (trigger === 'designated_timing') {
-    const captureChainKey = `${sourceChar.id}_capture_chain`
-    const captureChainCount = ctx.state[captureChainKey] || 0
-
-    // 포획 사슬이 없으면 발동하지 않음
-    if (captureChainCount <= 0) return
-
-    // 타이밍 1: 전투 시작 (적 등장)
-    const battleStartKey = `designated_timing_spawn_${sourceChar.id}_${skillId}`
-    if (!ctx.state[battleStartKey] && ctx.time === 0) {
-      ctx.state[battleStartKey] = true
-      isTriggered = true
-    }
-
-    // 타이밍 2: 버스트 3단계 진입 시
-    if (!isTriggered) {
-      const enterBurst3Flag = ctx.state[`__enterBurstLevel_3`]
-      if (enterBurst3Flag) {
-        const tickKey = `designated_timing_b3_${sourceChar.id}_${ctx.time.toFixed(6)}`
-        if (!ctx.state[tickKey]) {
-          ctx.state[tickKey] = true
-          isTriggered = true
-        }
-      }
-    }
-
-    // 타이밍 3: 풀 버스트 종료 시
-    if (!isTriggered) {
-      const fbPrevKey = `designated_timing_fb_prev_${sourceChar.id}_${skillId}`
-      const wasActive = ctx.state[fbPrevKey] || false
-      if (wasActive && !ctx.burstActive) {
-        isTriggered = true
-      }
-      ctx.state[fbPrevKey] = ctx.burstActive
-    } else {
-      // 다른 타이밍에서 이미 트리거된 경우에도 fb prev 추적은 유지
-      const fbPrevKey = `designated_timing_fb_prev_${sourceChar.id}_${skillId}`
-      ctx.state[fbPrevKey] = ctx.burstActive
-    }
-  }
-
-  // ── full_burst_end_after_self_burst: 풀버스트 종료 시 자신이 버스트를 사용했다면 ──
-  if (trigger === 'full_burst_end_after_self_burst') {
-    const burstCastSources = ctx.state.__burstCastSources as Set<string> | undefined
-    const fbCycleKey = `${sourceChar.id}_burst_in_fb_cycle`
-
-    // 이번 풀버스트 사이클에서 자신이 버스트를 사용했는지 추적
-    if (burstCastSources?.has(sourceChar.id)) {
-      ctx.state[fbCycleKey] = true
-    }
-
-    // 풀버스트 종료 감지
-    const prevKey = `fb_self_burst_prev_${sourceChar.id}_${skillId}`
-    const wasActive = ctx.state[prevKey] || false
-    ctx.state[prevKey] = ctx.burstActive
-
-    if (wasActive && !ctx.burstActive && ctx.state[fbCycleKey]) {
-      isTriggered = true
-      ctx.state[fbCycleKey] = false
-    }
-  }
-
-  // ── full_burst_normal_attack: 풀버스트 중 일반 공격 n회 명중 시 ──
-  if (trigger === 'full_burst_normal_attack') {
-    if (!ctx.burstActive) {
-      // 풀버스트가 아닐 때 카운터 리셋
-      const countKey = `${sourceChar.id}_${skillId}_fb_normal_atk_count`
-      ctx.state[countKey] = 0
-      const prevKey = `${sourceChar.id}_${skillId}_fb_normal_atk_prev`
-      ctx.state[prevKey] = sourceChar.totalAmmoUsed || 0
-      return
-    }
-
-    const threshold = (typeof effectDef.condition === 'object' && effectDef.condition?.count) || 1
-    const countKey = `${sourceChar.id}_${skillId}_fb_normal_atk_count`
-    const prevKey = `${sourceChar.id}_${skillId}_fb_normal_atk_prev`
-
-    const currentUsed = sourceChar.totalAmmoUsed || 0
-    const prev = ctx.state[prevKey] ?? currentUsed
-    const delta = currentUsed - prev
-    ctx.state[prevKey] = currentUsed
-
-    ctx.state[countKey] = (ctx.state[countKey] || 0) + delta
-    if (ctx.state[countKey] >= threshold) {
-      ctx.state[countKey] -= threshold
-      isTriggered = true
-    }
-  }
-
-  // ── self_incapacitated: DPS 시뮬에서 미구현 → 스킵 ──
-  if (trigger === 'self_incapacitated') return
-
-  // ── enemy_death: DPS 시뮬에서 미구현 → 스킵 ──
-  if (trigger === 'enemy_death') return
-
-  // ── kill_enemy: 단일 적 시뮬에서는 미구현 ──
-  if (trigger === 'kill_enemy') return
-
-  // ── part_destroy: 미구현 ──
-  if (trigger === 'part_destroy') return
 
   if (!isTriggered) return
 
-  // Chance check (on_hit은 이미 위에서 처리)
+  // Chance check (on_hit은 이미 핸들러 내부에서 처리)
   if (
     trigger !== 'on_hit' &&
     effectDef.condition &&
@@ -951,51 +1082,11 @@ function applySpecificEffectToTarget(
           }
         }
 
-        const wm = getWeaponMultipliers(sourceChar.weapon)
         const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
         const isCrit = ctx.rng.next() < critChance
-        const dmgPercent = value / 100
-        const singleDmg = calcNikkeDamage({
-          baseATK: sourceChar.atk,
-          extraATKPercent: sourceChar.equipATKPercent ?? 0,
-          extraATKFlat: sourceChar.buff?.extraATK ?? 0,
-          enemyBaseDEF: ctx.enemy.defense,
-          enemyDEFPercent: 0,
-          enemyDEFFlat: target.debuff?.defFlat ?? 0,
-          atkCoef: dmgPercent,
-          finalATKModifier: sourceChar.buff?.atkDmgUp ?? 0,
-          normalAtkMultiplier: 0,
-          isNormalAttack: false,
-          isCrit,
-          critBonusBase: (sourceChar.critMult ? (sourceChar.critMult - 1) : wm.critBonus) + (sourceChar.equipCritDmgPercent ?? 0),
-          extraCritDmg: sourceChar.buff?.critDmg ?? 0,
-          isCore: false,
-          coreHitBonus: 0,
-          coreHitMultiplier: 0,
-          fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-          rangeBonus: 0,
-          weakPointBase: checkAdvantage(ctx.enemy.element, sourceChar.element)
-            ? 1.1
-            : 1.0,
-          weakPointExtra:
-            (sourceChar.buff?.weak ?? 0) +
-            (checkAdvantage(ctx.enemy.element, sourceChar.element)
-              ? (sourceChar.equipWeakPointPercent ?? 0)
-              : 0),
-          chargeDmgBonus: 0,
-          chargeDmgMultiplier: 0,
-          atkDmgUp: sourceChar.buff?.atkDmgUpFinal ?? 0,
-          dotDmgUp: 0,
-          pierceDmgUp: sourceChar.cubePierceDmgUp ?? 0,
-          partDmgUp: sourceChar.cubePartDmgUp ?? 0,
-          ignoreDefDmgUp: sourceChar.cubeIgnoreDefDmgUp ?? 0,
-          projectileDmgUp: 0,
-          interruptionPartDmgUp: 0,
-          extraDmgUp: 0,
-          enemyTakenUp: target.debuff?.takenUp ?? 0,
-          shareDmgUp: 0,
-          enemyTakenDown: target.debuff?.takenDown ?? 0,
-        })
+        const singleDmg = calcNikkeDamage(
+          buildSkillDamageParams(ctx, sourceChar, target, value / 100, isCrit)
+        )
         const totalDmg = singleDmg * hits
         target.hp -= totalDmg
         ctx.totalDamage += totalDmg
@@ -1151,8 +1242,6 @@ function applySpecificEffectToTarget(
   const char = target as Character
   char.buff = char.buff || {}
   char.buffSlots = char.buffSlots || []
-  char.buffTimeline = char.buffTimeline || []
-
   char.buffTimeline = char.buffTimeline || []
 
   const stackLv = effectDef.stack_level !== undefined ? effectDef.stack_level : 0
@@ -1516,48 +1605,13 @@ function processEnemyDots(ctx: BattleContext) {
       // 시전자 찾기
       const caster = ctx.team.members.find(c => c.id === dot.casterId)
       if (caster) {
-        const wm = getWeaponMultipliers(caster.weapon)
         const critChance = ((caster.crit ?? 15) + (caster.buff?.critRate || 0)) / 100
         const isCrit = ctx.rng.next() < critChance
         const dotDmgUp = caster.buff?.dotDmgUp ?? 0
 
-        const singleTickDmg = calcNikkeDamage({
-          baseATK: caster.atk,
-          extraATKPercent: caster.equipATKPercent ?? 0,
-          extraATKFlat: caster.buff?.extraATK ?? 0,
-          enemyBaseDEF: ctx.enemy.defense,
-          enemyDEFPercent: 0,
-          enemyDEFFlat: enemy.debuff?.defFlat ?? 0,
-          atkCoef: dot.valuePerTick,
-          finalATKModifier: caster.buff?.atkDmgUp ?? 0,
-          normalAtkMultiplier: 0,
-          isNormalAttack: false,
-          isCrit,
-          critBonusBase: (caster.critMult ? (caster.critMult - 1) : wm.critBonus) + (caster.equipCritDmgPercent ?? 0),
-          extraCritDmg: caster.buff?.critDmg ?? 0,
-          isCore: false,
-          coreHitBonus: 0,
-          coreHitMultiplier: 0,
-          fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-          rangeBonus: 0,
-          weakPointBase: checkAdvantage(ctx.enemy.element, caster.element) ? 1.1 : 1.0,
-          weakPointExtra:
-            (caster.buff?.weak ?? 0) +
-            (checkAdvantage(ctx.enemy.element, caster.element) ? (caster.equipWeakPointPercent ?? 0) : 0),
-          chargeDmgBonus: 0,
-          chargeDmgMultiplier: 0,
-          atkDmgUp: caster.buff?.atkDmgUpFinal ?? 0,
-          dotDmgUp: dotDmgUp,
-          pierceDmgUp: caster.cubePierceDmgUp ?? 0,
-          partDmgUp: caster.cubePartDmgUp ?? 0,
-          ignoreDefDmgUp: caster.cubeIgnoreDefDmgUp ?? 0,
-          projectileDmgUp: 0,
-          interruptionPartDmgUp: 0,
-          extraDmgUp: 0,
-          enemyTakenUp: enemy.debuff?.takenUp ?? 0,
-          shareDmgUp: 0,
-          enemyTakenDown: enemy.debuff?.takenDown ?? 0,
-        })
+        const singleTickDmg = calcNikkeDamage(
+          buildSkillDamageParams(ctx, caster, enemy, dot.valuePerTick, isCrit, { dotDmgUp })
+        )
 
         const totalDmg = singleTickDmg * dot.stacks
         enemy.hp -= totalDmg
@@ -1624,8 +1678,42 @@ function updateBuffTimers(ctx: BattleContext) {
   })
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Buff Subtraction
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** 단순 char.buff 속성 차감 맵: effectName → char.buff 프로퍼티명 */
+const BUFF_SUBTRACT_MAP: Record<string, string> = {
+  'atk_up': 'extraATK',
+  'attack_power_up': 'extraATK',
+  'critical_rate_up': 'critRate',
+  'critical_damage_up': 'critDmg',
+  'crit_damage_up': 'critDmg',
+  'attack_damage_up': 'atkDmgUp',
+  'atk_damage_up': 'atkDmgUp',
+  'def_up': 'defUp',
+  'damage_taken_down': 'takenDown',
+  'shield': 'shield',
+  'recevie_heal': 'receiveHeal',
+  'overheal_storage': 'overhealStorage',
+  'heal_efficacy_up': 'healEfficacy',
+  'pierce': 'pierceDmgUp',
+  'parts_damage_up': 'partDmgUp',
+  'element_damage_up': 'elementDmgUp',
+  'dot_damage_up': 'dotDmgUp',
+}
+
 function subtractBuffValue(char: Character, effectName: string, value: number) {
   if (!char.buff || value === 0) return
+
+  // 단순 char.buff 속성 차감 (대부분의 버프 유형)
+  const buffProp = BUFF_SUBTRACT_MAP[effectName]
+  if (buffProp) {
+    ; (char.buff as any)[buffProp] = Math.max(0, ((char.buff as any)[buffProp] || 0) - value)
+    return
+  }
+
+  // 특수 로직이 필요한 버프 유형
   switch (effectName) {
     case 'max_hp_up': {
       // HP 버프 제거 시 maxHp와 hp를 차감
@@ -1634,44 +1722,8 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
       char.hp = Math.max(1, char.hp - value)
       break
     }
-    case 'atk_up':
-    case 'attack_power_up':
-      char.buff.extraATK = Math.max(0, (char.buff.extraATK || 0) - value)
-      break
-    case 'critical_rate_up':
-      char.buff.critRate = Math.max(0, (char.buff.critRate || 0) - value)
-      break
-    case 'critical_damage_up':
-    case 'crit_damage_up':
-      char.buff.critDmg = Math.max(0, (char.buff.critDmg || 0) - value)
-      break
-    case 'attack_damage_up':
-    case 'atk_damage_up':
-      char.buff.atkDmgUp = Math.max(0, (char.buff.atkDmgUp || 0) - value)
-      break
     case 'accuracy_up':
       char.accuracyBuff = Math.max(0, (char.accuracyBuff || 0) - value)
-      break
-    case 'def_up':
-      char.buff.defUp = Math.max(0, (char.buff.defUp || 0) - value)
-      break
-    case 'damage_taken_down':
-      char.buff.takenDown = Math.max(0, (char.buff.takenDown || 0) - value)
-      break
-    case 'shield':
-      char.buff.shield = Math.max(0, (char.buff.shield || 0) - value)
-      break
-    case 'recevie_heal':
-      char.buff.receiveHeal = Math.max(0, (char.buff.receiveHeal || 0) - value)
-      break
-    case 'overheal_storage':
-      char.buff.overhealStorage = Math.max(0, (char.buff.overhealStorage || 0) - value)
-      break
-    case 'heal_efficacy_up':
-      char.buff.healEfficacy = Math.max(0, (char.buff.healEfficacy || 0) - value)
-      break
-    case 'pierce':
-      char.buff.pierceDmgUp = Math.max(0, (char.buff.pierceDmgUp || 0) - value)
       break
     case 'damage_share':
       char.buff.damageShare = false
@@ -1681,12 +1733,6 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
       break
     case 'normal_attack_multiplier_up':
       char.normalAtkMultiplier = Math.max(0, (char.normalAtkMultiplier ?? 0) - value)
-      break
-    case 'parts_damage_up':
-      char.buff.partDmgUp = Math.max(0, (char.buff.partDmgUp || 0) - value)
-      break
-    case 'element_damage_up':
-      char.buff.elementDmgUp = Math.max(0, (char.buff.elementDmgUp || 0) - value)
       break
     case 'change_weapon':
       // 원본 무기 스탯으로 복원
@@ -1702,9 +1748,6 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
         char.weaponOverride = undefined
         char.originalWeaponStats = undefined
       }
-      break
-    case 'dot_damage_up':
-      char.buff.dotDmgUp = Math.max(0, (char.buff.dotDmgUp || 0) - value)
       break
     default:
       break
