@@ -7,28 +7,6 @@ body {
     background: var(--Background-Body);
 }
 
-h1 {
-    font-size: 3.2em;
-    line-height: 1.1;
-}
-
-/* 
-@media (prefers-color-scheme: light) {
-    :root {
-        color: #213547;
-        background-color: #ffffff;
-    }
-
-    a:hover {
-        color: #747bff;
-    }
-}
-
-body {
-    justify-content: center;
-    background: var(--Shade00);
-}
-
 /* Header */
 .app-header {
     position: fixed;

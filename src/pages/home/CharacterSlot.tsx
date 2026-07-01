@@ -4,7 +4,7 @@ import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, fullbodyMap, SLOT_COLORS } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 import { getCharDefaultState } from '../../utils/storageUtils';
-import Icon from '../../components/Icon';
+import { Icon } from '../../components/Icon/Icon';
 
 // Cube Data Source
 const CUBE_OPTIONS = [

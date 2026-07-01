@@ -1,7 +1,9 @@
-// @import "../../assets/style/_theme.scss";
 @import "../../assets/style/_typography.scss";
 
 .button {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
     border: none;
     padding: 0 16px;
     border-radius: 10px;
