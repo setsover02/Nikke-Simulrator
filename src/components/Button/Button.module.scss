@@ -1,4 +1,5 @@
 @import "../../assets/style/_typography.scss";
+@import "../../assets/style/_variables.scss";
 
 .button {
     display: flex;
@@ -6,10 +7,10 @@
     gap: 8px;
     border: none;
     padding: 0 16px;
-    border-radius: 10px;
+    border-radius: map-get(map-get($button-sizes, 'default'), 'radius');
     cursor: pointer;
     transition: 0ms;
-    height: 44px; // default
+    height: map-get(map-get($button-sizes, 'default'), 'height');
     display: flex;
     align-items: center;
     justify-content: center;
@@ -17,70 +18,106 @@
     @extend .font-button;
 
     .icon {
-        font-size: 20px;
-        width: 20px;
-        height: 20px;
-    }
-
-    &.primary {
-        background-color: var(--Primary-100);
-        color: var(--Static-White);
-    }
-
-    &.assistive {
-        background-color: var(--Secondary-100);
-        color: var(--Font-Default);
+        font-size: map-get(map-get($button-sizes, 'default'), 'icon-size');
+        width: map-get(map-get($button-sizes, 'default'), 'icon-size');
+        height: map-get(map-get($button-sizes, 'default'), 'icon-size');
     }
 
     &:not(:disabled):hover {
-        opacity: .78;
+        transition: $cubic-bezier 100ms;
     }
 
     &:not(:disabled):active {
-        filter: brightness(0.8);
+        transform: scale(0.95);
     }
 
-    &:disabled {
-        background-color: var(--Disabled-Background);
-        color: var(--Disabled-Font);
-        cursor: not-allowed;
+    &.blockType {
+        &.primary {
+            background-color: var(--Primary-100);
+            color: var(--Static-White);
+        }
+
+        &.assistive {
+            background-color: var(--Secondary-100);
+            color: var(--Font-Default);
+        }
+
+        &:not(:disabled):hover {
+            opacity: .78;
+        }
+
+        &:not(:disabled):active {
+            filter: brightness(0.8);
+        }
+
+        &:disabled {
+            background-color: var(--Disabled-Background);
+            color: var(--Disabled-Font);
+            cursor: not-allowed;
+        }
+    }
+
+    &.textType {
+        background-color: transparent;
+
+        &.primary {
+            color: var(--Primary-F100);
+
+            &:not(:disabled):hover {
+                background-color: var(--Primary-12);
+            }
+        }
+
+        &.assistive {
+            color: var(--Font-Default);
+
+            &:not(:disabled):hover {
+                background-color: var(--Interact-Hover);
+            }
+        }
+
+        &:disabled {
+            background-color: transparent;
+            color: var(--Disabled-Font);
+            cursor: not-allowed;
+        }
     }
 
     &.large {
-        height: 48px;
-        border-radius: 12px;
+        height: map-get(map-get($button-sizes, 'large'), 'height');
+        border-radius: map-get(map-get($button-sizes, 'large'), 'radius');
         padding: 0 24px;
 
         .icon {
-            font-size: 24px;
-            width: 24px;
-            height: 24px;
+            font-size: map-get(map-get($button-sizes, 'large'), 'icon-size');
+            width: map-get(map-get($button-sizes, 'large'), 'icon-size');
+            height: map-get(map-get($button-sizes, 'large'), 'icon-size');
         }
     }
 
     &.small {
-        height: 36px;
-        border-radius: 8px;
+        height: map-get(map-get($button-sizes, 'small'), 'height');
+        border-radius: map-get(map-get($button-sizes, 'small'), 'radius');
         padding: 0 12px;
         @extend .font-button-small;
 
         .icon {
-            font-size: 18px;
-            width: 18px;
-            height: 18px;
+            font-size: map-get(map-get($button-sizes, 'small'), 'icon-size');
+            width: map-get(map-get($button-sizes, 'small'), 'icon-size');
+            height: map-get(map-get($button-sizes, 'small'), 'icon-size');
         }
     }
 
     &.xsmall {
-        height: 28px;
-        border-radius: 8px;
+        height: map-get(map-get($button-sizes, 'xsmall'), 'height');
+        border-radius: map-get(map-get($button-sizes, 'xsmall'), 'radius');
         padding: 0 12px;
         @extend .font-button-small;
 
         .icon {
-            font-size: 16px;
-            width: 16px;
-            height: 16px;
+            font-size: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
+            width: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
+            height: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
         }
     }
 }

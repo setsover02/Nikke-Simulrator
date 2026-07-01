@@ -3,8 +3,8 @@
 // -------------------------
 @font-face {
     font-family: 'Wanted Sans Variable';
-    src: url('./assets/fonts/WantedSansVariable.woff2') format('woff2-variations'),
-        url('./assets/fonts/WantedSansVariable.woff2') format('woff2');
+    src: url('../fonts/WantedSansVariable.woff2') format('woff2-variations'),
+        url('../fonts/WantedSansVariable.woff2') format('woff2');
     font-weight: 100 900;
     font-display: swap;
 }
@@ -12,7 +12,7 @@
 @font-face {
     font-family: 'Material Symbols Rounded';
     font-style: normal;
-    src: url('./fonts/MaterialSymbolsRounded-VariableFont.woff2') format('woff2');
+    src: url('../fonts/MaterialSymbolsRounded-VariableFont.woff2') format('woff2');
 }
 
 
@@ -146,4 +146,24 @@
 .font-black,
 .fw-900 {
     font-weight: 900;
+}
+
+// -------------------------
+// Font Color Helper Classes
+// -------------------------
+
+.color-default {
+    color: var(--Font-Default);
+}
+
+.color-muted {
+    color: var(--Font-isMuted);
+}
+
+.color-inactive {
+    color: var(--Font-Inactive);
+}
+
+.color-disabled {
+    color: var(--Disabled-Font);
 }

@@ -1,0 +1,22 @@
+// Effect
+$cubic-bezier: cubic-bezier(0.2, 0.2, 0.38, 0.9);
+
+// Button
+$button-sizes: (
+  'default': ('height': 44px,
+    'icon-size': 20px,
+    'custom-icon-size': 28px,
+    'radius': 10px),
+  'large': ('height': 48px,
+    'icon-size': 24px,
+    'custom-icon-size': 30px,
+    'radius': 12px),
+  'small': ('height': 36px,
+    'icon-size': 18px,
+    'custom-icon-size': 26px,
+    'radius': 8px),
+  'xsmall': ('height': 28px,
+    'icon-size': 16px,
+    'custom-icon-size': 24px,
+    'radius': 8px)
+);
