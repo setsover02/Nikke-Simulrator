@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from '../components/Button/Button';
 import { ButtonIcon } from '../components/ButtonIcon/ButtonIcon';
+import { Textfield } from '../components/Textfield/Textfield';
 import { Font } from '../components/Font';
 import { Ripple } from '../components/Ripple/Ripple';
 import burst1 from '../assets/icon/burst-1.svg';
@@ -119,21 +120,21 @@ const Playground: React.FC = () => {
                             <TableRow title={`${variant}`}>
                                 {sizes.map(size => (
                                     <DemoBox key={size} label={size}>
-                                        <ButtonIcon icon="settings" variant={variant} size={size} />
+                                        <ButtonIcon icon="settings" variant={variant} size={size} onClick={() => { }} />
                                     </DemoBox>
                                 ))}
                             </TableRow>
                             <TableRow title={`${variant} (Disabled)`}>
                                 {sizes.map(size => (
                                     <DemoBox key={`disabled-${size}`} label={size}>
-                                        <ButtonIcon icon="settings" variant={variant} size={size} disabled />
+                                        <ButtonIcon icon="settings" variant={variant} size={size} disabled onClick={() => { }} />
                                     </DemoBox>
                                 ))}
                             </TableRow>
                             <TableRow title={`${variant} (SVG)`}>
                                 {sizes.map(size => (
                                     <DemoBox key={`svg-${size}`} label={size}>
-                                        <ButtonIcon svgIcon={getSvgIcon(size)} variant={variant} size={size} />
+                                        <ButtonIcon svgIcon={getSvgIcon(size)} variant={variant} size={size} onClick={() => { }} />
                                     </DemoBox>
                                 ))}
                             </TableRow>
@@ -180,6 +181,63 @@ const Playground: React.FC = () => {
                     }}>
                         <Font variant="body" weight="bold">Circle</Font>
                         <Ripple />
+                    </div>
+                </div>
+            </section>
+            <section style={{ marginBottom: '48px' }}>
+                <Font as="h2" variant="body" weight="semibold" style={{ display: 'block', marginBottom: '16px' }}>Textfield</Font>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid var(--Divider-Normal)', paddingTop: '16px' }}>
+
+                    <div style={{ width: '320px' }}>
+                        <DemoBox label="Basic">
+                            <Textfield placeholder="Enter text..." />
+                        </DemoBox>
+                    </div>
+
+                    <div style={{ width: '320px' }}>
+                        <DemoBox label="With Left Icon & Label">
+                            <Textfield leftIcon="favorite" label="라벨 이름" placeholder="Value" />
+                        </DemoBox>
+                    </div>
+
+                    <div style={{ width: '320px' }}>
+                        <DemoBox label="With Suffix">
+                            <Textfield suffix="초" placeholder="Value" />
+                        </DemoBox>
+                    </div>
+
+                    <div style={{ width: '400px' }}>
+                        <DemoBox label="Full Example (with state)">
+                            {/* In a real scenario you would manage state, here we just show visual props */}
+                            <Textfield
+                                leftIcon="favorite"
+                                label="Label"
+                                placeholder="Value"
+                                suffix="초"
+                                value="Example Text"
+                                onClear={() => console.log('Clear')}
+                                rightElement={<Button size="small">Button</Button>}
+                                hintText="Hint text is here."
+                                maxLength={10}
+                                showCount
+                            />
+                        </DemoBox>
+                    </div>
+
+                    <div style={{ width: '400px' }}>
+                        <DemoBox label="Error State">
+                            <Textfield
+                                error
+                                leftIcon="favorite"
+                                label="Label"
+                                placeholder="Value"
+                                value="Error Text"
+                                onClear={() => console.log('Clear')}
+                                hintText="Error message goes here."
+                                maxLength={10}
+                                showCount
+                            />
+                        </DemoBox>
                     </div>
                 </div>
             </section>

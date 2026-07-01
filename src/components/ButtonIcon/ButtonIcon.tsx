@@ -20,21 +20,29 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
     className,
     ...props
 }) => {
+    const isReadonly = !props.onClick && type !== 'submit' && type !== 'reset';
+
     const classNames = [
         styles['button-icon'],
         styles[variant],
         size !== 'default' ? styles[size] : '',
+        isReadonly ? styles.readonly : '',
         className || ''
     ].filter(Boolean).join(' ');
 
     return (
-        <button className={classNames} type={type} {...props}>
+        <button 
+            className={classNames} 
+            type={type} 
+            tabIndex={isReadonly ? -1 : undefined}
+            {...props}
+        >
             {icon && <Icon name={icon} className={styles['button-icon__icon']} />}
             {svgIcon && <span className={styles['button-icon__svg']} style={{
                 mask: `url("${svgIcon}") no-repeat center / contain`,
                 WebkitMask: `url("${svgIcon}") no-repeat center / contain`
             }} />}
-            {!props.disabled && <Ripple />}
+            {!props.disabled && !isReadonly && <Ripple />}
         </button>
     );
 };

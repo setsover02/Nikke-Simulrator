@@ -16,6 +16,10 @@
     user-select: none;
     transition: $cubic-bezier 150ms;
 
+    &.readonly {
+        pointer-events: none;
+    }
+
     // &:not(:disabled):active {
     //     transform: scale(0.95);
     // }
