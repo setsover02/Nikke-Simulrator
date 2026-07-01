@@ -1,10 +1,10 @@
 export const theme = {
     colors: {
-        primary: "#3B82F6",
-        secondary: "#22C55E",
-        danger: "#EF4444",
-        bg: "#0F172A",
-        text: "#E5E7EB"
+        primary: "var(--Violet50)",
+        secondary: "var(--Green50)",
+        danger: "var(--Red50)",
+        bg: "var(--Shade00)",
+        text: "var(--Shade80)",
     },
 
     font: {
