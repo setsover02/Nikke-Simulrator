@@ -13,6 +13,7 @@
     width: map-get(map-get($button-sizes, 'default'), 'height');
     height: map-get(map-get($button-sizes, 'default'), 'height');
     border-radius: map-get(map-get($button-sizes, 'default'), 'radius');
+    user-select: none;
 
     &:not(:disabled):hover {
         transition: $cubic-bezier 100ms;
