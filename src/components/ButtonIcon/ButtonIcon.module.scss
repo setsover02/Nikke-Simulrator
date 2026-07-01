@@ -14,14 +14,11 @@
     height: map-get(map-get($button-sizes, 'default'), 'height');
     border-radius: map-get(map-get($button-sizes, 'default'), 'radius');
     user-select: none;
+    transition: $cubic-bezier 150ms;
 
-    &:not(:disabled):hover {
-        transition: $cubic-bezier 100ms;
-    }
-
-    &:not(:disabled):active {
-        transform: scale(0.95);
-    }
+    // &:not(:disabled):active {
+    //     transform: scale(0.95);
+    // }
 
     .button-icon__icon {
         font-size: map-get(map-get($button-sizes, 'default'), 'icon-size');

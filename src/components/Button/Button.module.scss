@@ -17,6 +17,7 @@
     gap: 8px;
     @extend .font-button;
     user-select: none;
+    transition: $cubic-bezier 150ms;
 
     .icon {
         font-size: map-get(map-get($button-sizes, 'default'), 'icon-size');
@@ -24,13 +25,8 @@
         height: map-get(map-get($button-sizes, 'default'), 'icon-size');
     }
 
-    &:not(:disabled):hover {
-        transition: $cubic-bezier 100ms;
-    }
-
     &:not(:disabled):active {
         transform: scale(0.95);
-    }
 
     &.blockType {
         &.primary {
