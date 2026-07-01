@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from 'react';
+import { Button } from '../../components/Button/Button';
 import iconAnmi from '../../assets/icon/code-anmi.svg';
 import iconDmtr from '../../assets/icon/code-dmtr.svg';
 import iconHsta from '../../assets/icon/code-hsta.svg';
@@ -196,9 +197,9 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
             </div>
 
             {/* Simulate 부튼 */}
-            <button onClick={onSimulate} className="simulate-btn">
+            <Button onClick={onSimulate} variant="primary" size="large">
                 시뮬레이션
-            </button>
+            </Button>
         </div>
     );
 };

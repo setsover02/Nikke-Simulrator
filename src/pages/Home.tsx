@@ -44,7 +44,7 @@ const Home: React.FC = () => {
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
         let globalCubeUpdateName: string | null = null;
         let globalCubeUpdateLevel: string | null = null;
-        
+
         const actualPatch = patch ? { ...patch } : null;
 
         if (actualPatch && slots[idx]) {
@@ -52,7 +52,7 @@ const Home: React.FC = () => {
             if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== slots[idx]!.cubeName) {
                 // Drop the old level passed by CharacterSlot, load dynamically from global
                 actualPatch.cubeLevel = actualPatch.cubeName === 'None' ? '0' : (getGlobalCubeLevel(actualPatch.cubeName) || '1');
-            } 
+            }
             // Did the user manually change the level of the CURRENT cube?
             else if (actualPatch.cubeLevel !== undefined) {
                 const name = actualPatch.cubeName || slots[idx]!.cubeName;

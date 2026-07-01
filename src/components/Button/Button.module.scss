@@ -1,58 +1,84 @@
-.buttonPrimary {
-  background-color: var(--Primary-100);
-  color: var(--Static-White);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.2s ease, filter 0.2s ease;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+// @import "../../assets/style/_theme.scss";
+@import "../../assets/style/_typography.scss";
 
-  &:hover {
-    background-color: var(--Primary-F100); // 텍스트 컬러지만 호버시 톤 변화용으로 임시 활용하거나, 밝기 조절 가능
-    // filter: brightness(0.9); // 혹은 filter 활용
-  }
+.button {
+    border: none;
+    padding: 0 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0ms;
+    height: 44px; // default
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    @extend .font-button;
 
-  &:active {
-    filter: brightness(0.8);
-  }
+    .icon {
+        font-size: 20px;
+        width: 20px;
+        height: 20px;
+    }
 
-  &:disabled {
-    background-color: var(--Disabled-Background);
-    color: var(--Disabled-Font);
-    cursor: not-allowed;
-    filter: none;
-  }
-}
+    &.primary {
+        background-color: var(--Primary-100);
+        color: var(--Static-White);
+    }
 
-.buttonSecondary {
-  background-color: var(--Interact-Default);
-  color: var(--Font-Default);
-  border: 1px solid var(--Interact-Stroke-Default);
-  padding: 10px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  font-family: inherit;
-  font-size: 14px;
-  font-weight: 600;
+    &.assistive {
+        background-color: var(--Secondary-100);
+        color: var(--Font-Default);
+    }
 
-  &:hover {
-    background-color: var(--Interact-Hover);
-    border-color: var(--Interact-Stroke-Hover);
-  }
+    &:not(:disabled):hover {
+        opacity: .78;
+    }
 
-  &:active {
-    background-color: var(--Interact-Active);
-    border-color: var(--Interact-Stroke-Active);
-  }
+    &:not(:disabled):active {
+        filter: brightness(0.8);
+    }
 
-  &:disabled {
-    background-color: var(--Disabled-Background);
-    color: var(--Disabled-Font);
-    border-color: transparent;
-    cursor: not-allowed;
-  }
+    &:disabled {
+        background-color: var(--Disabled-Background);
+        color: var(--Disabled-Font);
+        cursor: not-allowed;
+    }
+
+    &.large {
+        height: 48px;
+        border-radius: 12px;
+        padding: 0 24px;
+
+        .icon {
+            font-size: 24px;
+            width: 24px;
+            height: 24px;
+        }
+    }
+
+    &.small {
+        height: 36px;
+        border-radius: 8px;
+        padding: 0 12px;
+        @extend .font-button-small;
+
+        .icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    &.xsmall {
+        height: 28px;
+        border-radius: 8px;
+        padding: 0 12px;
+        @extend .font-button-small;
+
+        .icon {
+            font-size: 16px;
+            width: 16px;
+            height: 16px;
+        }
+    }
 }
