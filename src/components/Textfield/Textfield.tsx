@@ -3,7 +3,7 @@ import styles from './Textfield.module.scss';
 import { ButtonIcon } from '../ButtonIcon/ButtonIcon';
 import Font from '../Font';
 
-export interface TextfieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix'> {
+export interface TextfieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'size'> {
     label?: React.ReactNode;
     leftIcon?: string | React.ReactNode;
     leftElement?: React.ReactNode;
@@ -14,6 +14,7 @@ export interface TextfieldProps extends Omit<InputHTMLAttributes<HTMLInputElemen
     onClear?: () => void;
     align?: 'left' | 'right';
     error?: boolean;
+    size?: 'default' | 'small';
 }
 
 export const Textfield: React.FC<TextfieldProps> = ({
@@ -30,11 +31,12 @@ export const Textfield: React.FC<TextfieldProps> = ({
     error,
     value,
     className,
+    size = 'default',
     ...props
 }) => {
     const renderIcon = (icon: React.ReactNode) => {
         if (typeof icon === 'string') {
-            return <ButtonIcon icon={icon} size="small" variant="assistive" className={styles['textfield-icon']} />;
+            return <ButtonIcon icon={icon} size={size === 'small' ? 'xsmall' : 'small'} variant="assistive" className={styles['textfield-icon']} />;
         }
         return icon;
     };
@@ -51,7 +53,7 @@ export const Textfield: React.FC<TextfieldProps> = ({
     };
 
     return (
-        <div className={`${styles['textfield-wrapper']} ${error ? styles.error : ''} ${className || ''}`}>
+        <div className={`${styles['textfield-wrapper']} ${size === 'small' ? styles.small : ''} ${error ? styles.error : ''} ${className || ''}`}>
             <div className={styles['textfield-container']} onClick={handleContainerClick}>
                 {(leftIcon || label || leftElement) && (
                     <div className={styles['textfield-left-section']}>
@@ -85,7 +87,7 @@ export const Textfield: React.FC<TextfieldProps> = ({
                         {onClear && value !== undefined && String(value).length > 0 && (
                             <ButtonIcon
                                 icon="close"
-                                size="small"
+                                size={size === 'small' ? 'xsmall' : 'small'}
                                 variant="assistive"
                                 onClick={onClear}
                                 className={styles['textfield-clear-button']}

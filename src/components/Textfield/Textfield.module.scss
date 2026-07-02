@@ -6,6 +6,12 @@
     flex-direction: column;
     gap: 4px;
     width: 100%;
+
+    &.small {
+        .textfield-container {
+            height: 36px;
+        }
+    }
 }
 
 .textfield-container {

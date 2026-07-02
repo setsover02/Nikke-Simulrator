@@ -36,16 +36,7 @@
         height: map-get(map-get($button-sizes, 'default'), 'custom-icon-size');
     }
 
-    .button-icon__svg {
-        background-color: currentColor;
-        mask-size: contain;
-        mask-repeat: no-repeat;
-        mask-position: center;
-        -webkit-mask-size: contain;
-        -webkit-mask-repeat: no-repeat;
-        -webkit-mask-position: center;
-        display: inline-block;
-    }
+
 
     &.large {
         width: map-get(map-get($button-sizes, 'large'), 'height');

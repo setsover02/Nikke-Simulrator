@@ -38,10 +38,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
             {...props}
         >
             {icon && <Icon name={icon} className={styles['button-icon__icon']} />}
-            {svgIcon && <span className={styles['button-icon__svg']} style={{
-                mask: `url("${svgIcon}") no-repeat center / contain`,
-                WebkitMask: `url("${svgIcon}") no-repeat center / contain`
-            }} />}
+            {svgIcon && <img src={svgIcon} alt="" className={styles['button-icon__svg']} />}
             {!props.disabled && !isReadonly && <Ripple />}
         </button>
     );

@@ -195,6 +195,12 @@ const Playground: React.FC = () => {
                     </div>
 
                     <div style={{ width: '320px' }}>
+                        <DemoBox label="Small Size">
+                            <Textfield size="small" suffix="%" leftIcon="search" placeholder="Search..." defaultValue="Small input" onClear={() => console.log('Clear')} />
+                        </DemoBox>
+                    </div>
+
+                    <div style={{ width: '320px' }}>
                         <DemoBox label="With Left Icon & Label">
                             <Textfield leftIcon="favorite" label="라벨 이름" placeholder="Value" />
                         </DemoBox>
@@ -214,7 +220,7 @@ const Playground: React.FC = () => {
                                 label="Label"
                                 placeholder="Value"
                                 suffix="초"
-                                value="Example Text"
+                                defaultValue="Example Text"
                                 onClear={() => console.log('Clear')}
                                 rightElement={<Button size="small">Button</Button>}
                                 hintText="Hint text is here."
@@ -231,7 +237,7 @@ const Playground: React.FC = () => {
                                 leftIcon="favorite"
                                 label="Label"
                                 placeholder="Value"
-                                value="Error Text"
+                                defaultValue="Error Text"
                                 onClear={() => console.log('Clear')}
                                 hintText="Error message goes here."
                                 maxLength={10}

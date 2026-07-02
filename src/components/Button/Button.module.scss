@@ -1,5 +1,6 @@
-@import "../../assets/style/_typography.scss";
-@import "../../assets/style/_variables.scss";
+@use "sass:map";
+@use "../../assets/style/typography" as *;
+@use "../../assets/style/variables" as *;
 
 .button {
     display: flex;
@@ -7,10 +8,10 @@
     gap: 8px;
     border: none;
     padding: 0 16px;
-    border-radius: map-get(map-get($button-sizes, 'default'), 'radius');
+    border-radius: map.get(map.get($button-sizes, 'default'), 'radius');
     cursor: pointer;
     transition: 0ms;
-    height: map-get(map-get($button-sizes, 'default'), 'height');
+    height: map.get(map.get($button-sizes, 'default'), 'height');
     display: flex;
     align-items: center;
     justify-content: center;
@@ -20,9 +21,9 @@
     transition: $cubic-bezier 150ms;
 
     .icon {
-        font-size: map-get(map-get($button-sizes, 'default'), 'icon-size');
-        width: map-get(map-get($button-sizes, 'default'), 'icon-size');
-        height: map-get(map-get($button-sizes, 'default'), 'icon-size');
+        font-size: map.get(map.get($button-sizes, 'default'), 'icon-size');
+        width: map.get(map.get($button-sizes, 'default'), 'icon-size');
+        height: map.get(map.get($button-sizes, 'default'), 'icon-size');
     }
 
 
@@ -79,40 +80,40 @@
     }
 
     &.large {
-        height: map-get(map-get($button-sizes, 'large'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'large'), 'radius');
+        height: map.get(map.get($button-sizes, 'large'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'large'), 'radius');
         padding: 0 24px;
 
         .icon {
-            font-size: map-get(map-get($button-sizes, 'large'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'large'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'large'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'large'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'large'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'large'), 'icon-size');
         }
     }
 
     &.small {
-        height: map-get(map-get($button-sizes, 'small'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'small'), 'radius');
+        height: map.get(map.get($button-sizes, 'small'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'small'), 'radius');
         padding: 0 12px;
         @extend .font-button-small;
 
         .icon {
-            font-size: map-get(map-get($button-sizes, 'small'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'small'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'small'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'small'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'small'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'small'), 'icon-size');
         }
     }
 
     &.xsmall {
-        height: map-get(map-get($button-sizes, 'xsmall'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'xsmall'), 'radius');
+        height: map.get(map.get($button-sizes, 'xsmall'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'xsmall'), 'radius');
         padding: 0 12px;
         @extend .font-button-small;
 
         .icon {
-            font-size: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
         }
     }
 }
