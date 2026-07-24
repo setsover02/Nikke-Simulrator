@@ -7,25 +7,6 @@ body {
     background: var(--Background-Body);
 }
 
-/* Header */
-.app-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    padding: 24px;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}
-
-.app-logo {
-    height: 44px;
-    width: auto;
-    display: block;
-}
-
 /* Container and Layout */
 .home-container {
     padding: 24px;

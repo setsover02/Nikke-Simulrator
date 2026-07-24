@@ -3,6 +3,7 @@ import { Textfield } from '../../components/Textfield/Textfield';
 import Font from '../../components/Font';
 import { Icon } from '../../components/Icon/Icon';
 import { Avatar } from '../../components/Avatar/Avatar';
+import { DataTable, ColumnDef } from '../../components/DataTable/DataTable';
 import {
     loadOutpostState,
     saveOutpostState,
@@ -64,11 +65,24 @@ const Nikke: React.FC = () => {
 
     const handleNikkeChange = (charId: string, field: keyof SavedCharState, value: any) => {
         let processedValue = value;
-        if (typeof value === 'string' && OVERLOAD_MAX[field]) {
-            const maxVal = OVERLOAD_MAX[field]!;
-            const num = parseFloat(value);
-            if (!isNaN(num) && num > maxVal) {
-                processedValue = maxVal.toString();
+        if (typeof value === 'string') {
+            if (field !== 'cubeName') {
+                // 숫자와 소수점만 허용
+                processedValue = processedValue.replace(/[^0-9.]/g, '');
+                
+                // 소수점이 여러 개 입력되는 것 방지
+                const parts = processedValue.split('.');
+                if (parts.length > 2) {
+                    processedValue = parts[0] + '.' + parts.slice(1).join('');
+                }
+            }
+
+            if (OVERLOAD_MAX[field]) {
+                const maxVal = OVERLOAD_MAX[field]!;
+                const num = parseFloat(processedValue);
+                if (!isNaN(num) && num > maxVal) {
+                    processedValue = maxVal.toString();
+                }
             }
         }
 
@@ -89,10 +103,10 @@ const Nikke: React.FC = () => {
         const selectedCube = currentState.cubeName || '03-cube-resilience';
         const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
         const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
-        
+
         return (
             <div style={{ position: 'relative', width: '64px' }}>
-                <Textfield 
+                <Textfield
                     size="small"
                     value=""
                     readOnly
@@ -100,7 +114,7 @@ const Nikke: React.FC = () => {
                     rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
                     style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0 4px', width: '0px' }} // Hide text entirely, just padding for icons
                 />
-                <select 
+                <select
                     value={selectedCube}
                     onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
                     style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
@@ -165,59 +179,111 @@ const Nikke: React.FC = () => {
                         <Font variant="caption-1" weight="bold" style={{ color: 'var(--Primary-100)' }}>{characterOptions.length}</Font>
                     </div>
                 </div>
-                
-                <div style={{ marginTop: '16px', overflowX: 'auto', overflowY: 'auto', maxHeight: 'calc(100vh - 200px)', background: 'var(--Background-Card)', borderRadius: '8px', border: '1px solid var(--Divider-Normal)' }}>
-                    <table style={{ borderCollapse: 'collapse', textAlign: 'left', minWidth: 'max-content' }}>
-                        <thead style={{ position: 'sticky', top: 0, zIndex: 10 }}>
-                            <tr>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">이름</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', background: 'var(--Background-Header)', width: '80px' }}><Font variant="caption-1" weight="semibold">큐브</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">체력 (HP)</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">공격력 (ATK)</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">방어력 (DEF)</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">우월코드</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">명중률</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">장탄</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">공격력</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차댐</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차속</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크확</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크댐</Font></th>
-                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">방어력</Font></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {characterOptions.map((option, idx) => {
-                                const charId = option.data.characterID;
-                                const state = nikkeStates[charId] || {};
-                                return (
-                                    <tr key={charId} style={{ borderBottom: idx !== characterOptions.length - 1 ? '1px solid var(--Divider-Normal)' : 'none' }}>
-                                        <td style={{ padding: '12px 16px' }}>
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                                <Avatar charId={charId} size={32} />
-                                                <Font variant="body" weight="medium">{option.label}</Font>
-                                            </div>
-                                        </td>
-                                        <td style={{ padding: '8px 16px' }}>
-                                            {renderCubeOption(charId, state)}
-                                        </td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={option.data.stats?.hp?.toString() || '0'} /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={option.data.stats?.atk?.toString() || '0'} /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={option.data.stats?.defense?.toString() || '0'} /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipWeakPoint || ''} onChange={(e) => handleNikkeChange(charId, 'equipWeakPoint', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipAccuracy || ''} onChange={(e) => handleNikkeChange(charId, 'equipAccuracy', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipAmmo || ''} onChange={(e) => handleNikkeChange(charId, 'equipAmmo', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipATK || ''} onChange={(e) => handleNikkeChange(charId, 'equipATK', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipChargeDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeDmg', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipChargeSpeed || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeSpeed', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipCritRate || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritRate', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipCritDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritDmg', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipDef || ''} onChange={(e) => handleNikkeChange(charId, 'equipDef', e.target.value)} placeholder="0" suffix="%" /></td>
-                                    </tr>
-                                );
-                            })}
-                        </tbody>
-                    </table>
+
+                <div style={{ marginTop: '16px' }}>
+                    <DataTable
+                        data={characterOptions}
+                        keyExtractor={(row) => row.data.characterID}
+                        maxHeight="calc(100vh - 200px)"
+                        columns={[
+                            {
+                                id: 'name',
+                                header: <Font variant="caption-1" weight="semibold">이름</Font>,
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    return (
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                            <Avatar charId={charId} size={32} />
+                                            <Font variant="body" weight="medium">{row.label}</Font>
+                                        </div>
+                                    );
+                                }
+                            },
+                            {
+                                id: 'cube',
+                                header: <Font variant="caption-1" weight="semibold">큐브</Font>,
+                                width: '90px',
+                                narrow: true,
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    const state = nikkeStates[charId] || {};
+                                    const selectedCube = state.cubeName || '03-cube-resilience';
+                                    const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
+                                    const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
+                                    return (
+                                        <div style={{ position: 'relative', width: '100%', height: '36px' }}>
+                                            <Textfield
+                                                size="small"
+                                                value=""
+                                                readOnly
+                                                leftElement={imgSrc && <img src={imgSrc} alt="cube" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />}
+                                                rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
+                                                style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0', width: '0px' }} // Hide text entirely
+                                            />
+                                            <select
+                                                value={selectedCube}
+                                                onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
+                                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                                            >
+                                                {cubeList.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+                                            </select>
+                                        </div>
+                                    );
+                                }
+                            },
+                            {
+                                id: 'hp',
+                                header: <Font variant="caption-1" weight="semibold">체력 (HP)</Font>,
+                                width: '120px',
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    const state = nikkeStates[charId] || {};
+                                    return <Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={row.data.stats?.hp?.toString() || '0'} />;
+                                }
+                            },
+                            {
+                                id: 'atk',
+                                header: <Font variant="caption-1" weight="semibold">공격력 (ATK)</Font>,
+                                width: '120px',
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    const state = nikkeStates[charId] || {};
+                                    return <Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={row.data.stats?.atk?.toString() || '0'} />;
+                                }
+                            },
+                            {
+                                id: 'def',
+                                header: <Font variant="caption-1" weight="semibold">방어력 (DEF)</Font>,
+                                width: '120px',
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    const state = nikkeStates[charId] || {};
+                                    return <Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={row.data.stats?.defense?.toString() || '0'} />;
+                                }
+                            },
+                            ...[
+                                { id: 'equipWeakPoint', label: '우월코드' },
+                                { id: 'equipAccuracy', label: '명중률' },
+                                { id: 'equipAmmo', label: '장탄' },
+                                { id: 'equipATK', label: '공격력' },
+                                { id: 'equipChargeDmg', label: '차댐' },
+                                { id: 'equipChargeSpeed', label: '차속' },
+                                { id: 'equipCritRate', label: '크확' },
+                                { id: 'equipCritDmg', label: '크댐' },
+                                { id: 'equipDef', label: '방어력' }
+                            ].map(opt => ({
+                                id: opt.id,
+                                header: <Font variant="caption-1" weight="semibold">{opt.label}</Font>,
+                                width: '85px',
+                                narrow: true,
+                                cell: (row: any) => {
+                                    const charId = row.data.characterID;
+                                    const state = nikkeStates[charId] || {};
+                                    return <Textfield size="small" value={state[opt.id as keyof SavedCharState] || ''} onChange={(e) => handleNikkeChange(charId, opt.id as keyof SavedCharState, e.target.value)} placeholder="0" suffix="%" />;
+                                }
+                            }))
+                        ]}
+                    />
                 </div>
             </section>
         </div>

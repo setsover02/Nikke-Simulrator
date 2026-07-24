@@ -48,6 +48,14 @@
         padding: 0 4px 0 8px;
         user-select: none;
     }
+
+    .textfield-left-element {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin-right: 4px;
+    }
 }
 
 .textfield-input-wrapper {
