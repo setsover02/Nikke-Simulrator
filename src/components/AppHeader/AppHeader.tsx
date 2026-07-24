@@ -14,10 +14,13 @@ const AppHeader: React.FC = () => {
                 />
             </Link>
             <nav style={{ display: 'flex', gap: '16px', alignItems: 'center' }}>
-                <Link to="/Rules" className="body font-semibold" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="/nikke" className="body font-semibold">
+                    Nikke
+                </Link>
+                <Link to="/Rules" className="body font-semibold">
                     Rules
                 </Link>
-                <Link to="/playground" className="body font-semibold" style={{ textDecoration: 'none', color: 'inherit' }}>
+                <Link to="/playground" className="body font-semibold">
                     Playground
                 </Link>
             </nav>

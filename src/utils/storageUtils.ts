@@ -5,14 +5,31 @@ import { CollectionGrade } from '../constants/collectionItems';
 const STORAGE_KEY = 'nikke_sim_chars';
 const TEAM_LAYOUT_KEY = 'nikke_sim_team_layout';
 const CUBE_STORAGE_KEY = 'nikke_sim_cubes';
+const OUTPOST_KEY = 'nikke_sim_outpost';
 
-export type SavedCharState = Omit<SlotState, 'char'>;
+export interface SavedOutpostState {
+    synchroLevel: string;
+    commonResearchLevel: string;
+    elysionConsole: string;
+    missilisConsole: string;
+    tetraConsole: string;
+    pilgrimConsole: string;
+    abnormalConsole: string;
+    attackerConsole: string;
+    defenderConsole: string;
+    supporterConsole: string;
+}
+
+export type SavedCharState = Omit<SlotState, 'char'> & {
+    owned?: boolean;
+    limitBreak?: string;
+};
 
 export function loadGlobalCubeLevels(): Record<string, string> {
     try {
         const stored = localStorage.getItem(CUBE_STORAGE_KEY);
         if (stored) return JSON.parse(stored);
-    } catch (e) {}
+    } catch (e) { }
     return {};
 }
 
@@ -26,6 +43,35 @@ export function saveGlobalCubeLevel(cubeName: string, level: string) {
 export function getGlobalCubeLevel(cubeName: string): string | null {
     if (!cubeName || cubeName === 'None') return null;
     return loadGlobalCubeLevels()[cubeName] || null;
+}
+
+export function loadOutpostState(): SavedOutpostState {
+    try {
+        const stored = localStorage.getItem(OUTPOST_KEY);
+        if (stored) return JSON.parse(stored);
+    } catch (e) {
+        console.error('Failed to load outpost settings from localStorage', e);
+    }
+    return {
+        synchroLevel: '',
+        commonResearchLevel: '',
+        elysionConsole: '',
+        missilisConsole: '',
+        tetraConsole: '',
+        pilgrimConsole: '',
+        abnormalConsole: '',
+        attackerConsole: '',
+        defenderConsole: '',
+        supporterConsole: ''
+    };
+}
+
+export function saveOutpostState(state: SavedOutpostState) {
+    try {
+        localStorage.setItem(OUTPOST_KEY, JSON.stringify(state));
+    } catch (e) {
+        console.error('Failed to save outpost settings to localStorage', e);
+    }
 }
 
 export function loadAllCharSettings(): Record<string, SavedCharState> {

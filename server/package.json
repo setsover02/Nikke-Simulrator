@@ -1,0 +1,16 @@
+{
+  "name": "nikke-crawler-server",
+  "version": "1.0.0",
+  "description": "Proxy server for crawling BlablaLink Nikke data via Puppeteer",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "node --watch index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "puppeteer": "^24.9.0"
+  }
+}

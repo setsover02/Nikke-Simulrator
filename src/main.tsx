@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Home from './pages/Home'
 import Playground from './pages/Playground'
+import Nikke from './pages/Nikke'
 import { AppHeader } from './components/AppHeader'
 import './assets/style/main.scss'
 import './assets/app.css'
@@ -14,6 +15,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/playground" element={<Playground />} />
+        <Route path="/nikke" element={<Nikke />} />
       </Routes>
     </div>
   );

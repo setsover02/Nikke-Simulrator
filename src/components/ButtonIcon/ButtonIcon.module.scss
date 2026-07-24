@@ -1,3 +1,4 @@
+@use "sass:map";
 @import "../../assets/style/_variables.scss";
 
 .button-icon {
@@ -10,9 +11,9 @@
     background-color: transparent;
 
     // Default size
-    width: map-get(map-get($button-sizes, 'default'), 'height');
-    height: map-get(map-get($button-sizes, 'default'), 'height');
-    border-radius: map-get(map-get($button-sizes, 'default'), 'radius');
+    width: map.get(map.get($button-sizes, 'default'), 'height');
+    height: map.get(map.get($button-sizes, 'default'), 'height');
+    border-radius: map.get(map.get($button-sizes, 'default'), 'radius');
     user-select: none;
     transition: $cubic-bezier 150ms;
 
@@ -25,70 +26,70 @@
     // }
 
     .button-icon__icon {
-        font-size: map-get(map-get($button-sizes, 'default'), 'icon-size');
-        width: map-get(map-get($button-sizes, 'default'), 'icon-size');
-        height: map-get(map-get($button-sizes, 'default'), 'icon-size');
+        font-size: map.get(map.get($button-sizes, 'default'), 'icon-size');
+        width: map.get(map.get($button-sizes, 'default'), 'icon-size');
+        height: map.get(map.get($button-sizes, 'default'), 'icon-size');
     }
 
     .button-icon__svg {
-        font-size: map-get(map-get($button-sizes, 'default'), 'custom-icon-size');
-        width: map-get(map-get($button-sizes, 'default'), 'custom-icon-size');
-        height: map-get(map-get($button-sizes, 'default'), 'custom-icon-size');
+        font-size: map.get(map.get($button-sizes, 'default'), 'custom-icon-size');
+        width: map.get(map.get($button-sizes, 'default'), 'custom-icon-size');
+        height: map.get(map.get($button-sizes, 'default'), 'custom-icon-size');
     }
 
 
 
     &.large {
-        width: map-get(map-get($button-sizes, 'large'), 'height');
-        height: map-get(map-get($button-sizes, 'large'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'large'), 'radius');
+        width: map.get(map.get($button-sizes, 'large'), 'height');
+        height: map.get(map.get($button-sizes, 'large'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'large'), 'radius');
 
         .button-icon__icon {
-            font-size: map-get(map-get($button-sizes, 'large'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'large'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'large'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'large'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'large'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'large'), 'icon-size');
         }
 
         .button-icon__svg {
-            font-size: map-get(map-get($button-sizes, 'large'), 'custom-icon-size');
-            width: map-get(map-get($button-sizes, 'large'), 'custom-icon-size');
-            height: map-get(map-get($button-sizes, 'large'), 'custom-icon-size');
+            font-size: map.get(map.get($button-sizes, 'large'), 'custom-icon-size');
+            width: map.get(map.get($button-sizes, 'large'), 'custom-icon-size');
+            height: map.get(map.get($button-sizes, 'large'), 'custom-icon-size');
         }
     }
 
     &.small {
-        width: map-get(map-get($button-sizes, 'small'), 'height');
-        height: map-get(map-get($button-sizes, 'small'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'small'), 'radius');
+        width: map.get(map.get($button-sizes, 'small'), 'height');
+        height: map.get(map.get($button-sizes, 'small'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'small'), 'radius');
 
         .button-icon__icon {
-            font-size: map-get(map-get($button-sizes, 'small'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'small'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'small'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'small'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'small'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'small'), 'icon-size');
         }
 
         .button-icon__svg {
-            font-size: map-get(map-get($button-sizes, 'small'), 'custom-icon-size');
-            width: map-get(map-get($button-sizes, 'small'), 'custom-icon-size');
-            height: map-get(map-get($button-sizes, 'small'), 'custom-icon-size');
+            font-size: map.get(map.get($button-sizes, 'small'), 'custom-icon-size');
+            width: map.get(map.get($button-sizes, 'small'), 'custom-icon-size');
+            height: map.get(map.get($button-sizes, 'small'), 'custom-icon-size');
         }
     }
 
     &.xsmall {
-        width: map-get(map-get($button-sizes, 'xsmall'), 'height');
-        height: map-get(map-get($button-sizes, 'xsmall'), 'height');
-        border-radius: map-get(map-get($button-sizes, 'xsmall'), 'radius');
+        width: map.get(map.get($button-sizes, 'xsmall'), 'height');
+        height: map.get(map.get($button-sizes, 'xsmall'), 'height');
+        border-radius: map.get(map.get($button-sizes, 'xsmall'), 'radius');
 
         .button-icon__icon {
-            font-size: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
-            width: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
-            height: map-get(map-get($button-sizes, 'xsmall'), 'icon-size');
+            font-size: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
+            width: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
+            height: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
         }
 
         .button-icon__svg {
-            font-size: map-get(map-get($button-sizes, 'xsmall'), 'custom-icon-size');
-            width: map-get(map-get($button-sizes, 'xsmall'), 'custom-icon-size');
-            height: map-get(map-get($button-sizes, 'xsmall'), 'custom-icon-size');
+            font-size: map.get(map.get($button-sizes, 'xsmall'), 'custom-icon-size');
+            width: map.get(map.get($button-sizes, 'xsmall'), 'custom-icon-size');
+            height: map.get(map.get($button-sizes, 'xsmall'), 'custom-icon-size');
         }
     }
 
