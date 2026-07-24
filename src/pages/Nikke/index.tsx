@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Textfield } from '../../components/Textfield/Textfield';
 import Font from '../../components/Font';
 import { Icon } from '../../components/Icon/Icon';
+import { Avatar } from '../../components/Avatar/Avatar';
 import {
     loadOutpostState,
     saveOutpostState,
@@ -174,15 +175,15 @@ const Nikke: React.FC = () => {
                                 <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">체력 (HP)</Font></th>
                                 <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">공격력 (ATK)</Font></th>
                                 <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '120px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">방어력 (DEF)</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">우월코드</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">명중률</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">장탄</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">공격력</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차댐</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차속</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크확</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크댐</Font></th>
-                                <th style={{ padding: '12px 16px', borderBottom: '1px solid var(--Divider-Normal)', width: '110px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">방어력</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">우월코드</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">명중률</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">장탄</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">공격력</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차댐</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">차속</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크확</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">크댐</Font></th>
+                                <th style={{ padding: '12px 8px', borderBottom: '1px solid var(--Divider-Normal)', width: '85px', background: 'var(--Background-Header)' }}><Font variant="caption-1" weight="semibold">방어력</Font></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -192,7 +193,10 @@ const Nikke: React.FC = () => {
                                 return (
                                     <tr key={charId} style={{ borderBottom: idx !== characterOptions.length - 1 ? '1px solid var(--Divider-Normal)' : 'none' }}>
                                         <td style={{ padding: '12px 16px' }}>
-                                            <Font variant="body" weight="medium">{option.label}</Font>
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <Avatar charId={charId} size={32} />
+                                                <Font variant="body" weight="medium">{option.label}</Font>
+                                            </div>
                                         </td>
                                         <td style={{ padding: '8px 16px' }}>
                                             {renderCubeOption(charId, state)}
@@ -200,15 +204,15 @@ const Nikke: React.FC = () => {
                                         <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={option.data.stats?.hp?.toString() || '0'} /></td>
                                         <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={option.data.stats?.atk?.toString() || '0'} /></td>
                                         <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={option.data.stats?.defense?.toString() || '0'} /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipWeakPoint || ''} onChange={(e) => handleNikkeChange(charId, 'equipWeakPoint', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipAccuracy || ''} onChange={(e) => handleNikkeChange(charId, 'equipAccuracy', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipAmmo || ''} onChange={(e) => handleNikkeChange(charId, 'equipAmmo', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipATK || ''} onChange={(e) => handleNikkeChange(charId, 'equipATK', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipChargeDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeDmg', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipChargeSpeed || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeSpeed', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipCritRate || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritRate', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipCritDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritDmg', e.target.value)} placeholder="0" suffix="%" /></td>
-                                        <td style={{ padding: '8px 16px' }}><Textfield size="small" value={state.equipDef || ''} onChange={(e) => handleNikkeChange(charId, 'equipDef', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipWeakPoint || ''} onChange={(e) => handleNikkeChange(charId, 'equipWeakPoint', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipAccuracy || ''} onChange={(e) => handleNikkeChange(charId, 'equipAccuracy', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipAmmo || ''} onChange={(e) => handleNikkeChange(charId, 'equipAmmo', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipATK || ''} onChange={(e) => handleNikkeChange(charId, 'equipATK', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipChargeDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeDmg', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipChargeSpeed || ''} onChange={(e) => handleNikkeChange(charId, 'equipChargeSpeed', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipCritRate || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritRate', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipCritDmg || ''} onChange={(e) => handleNikkeChange(charId, 'equipCritDmg', e.target.value)} placeholder="0" suffix="%" /></td>
+                                        <td style={{ padding: '8px 8px' }}><Textfield size="small" value={state.equipDef || ''} onChange={(e) => handleNikkeChange(charId, 'equipDef', e.target.value)} placeholder="0" suffix="%" /></td>
                                     </tr>
                                 );
                             })}

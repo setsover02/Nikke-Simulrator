@@ -4,6 +4,8 @@ import { ButtonIcon } from '../components/ButtonIcon/ButtonIcon';
 import { Textfield } from '../components/Textfield/Textfield';
 import { Font } from '../components/Font';
 import { Ripple } from '../components/Ripple/Ripple';
+import { Avatar } from '../components/Avatar/Avatar';
+import { avatarMap } from '../constants/characters';
 import burst1 from '../assets/icon/burst-1.svg';
 import weaponAR from '../assets/icon/weapon-AR.svg';
 import classAtk from '../assets/icon/class-atk.svg';
@@ -184,6 +186,25 @@ const Playground: React.FC = () => {
                     </div>
                 </div>
             </section>
+            
+            <section style={{ marginBottom: '48px' }}>
+                <Font as="h2" variant="body" weight="semibold" style={{ display: 'block', marginBottom: '16px' }}>Avatar</Font>
+                <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid var(--Divider-Normal)', paddingTop: '16px' }}>
+                    <DemoBox label="Default (40px)">
+                        <Avatar src={Object.values(avatarMap)[0] || ''} />
+                    </DemoBox>
+                    <DemoBox label="Custom Size (64px)">
+                        <Avatar src={Object.values(avatarMap)[0] || ''} size={64} />
+                    </DemoBox>
+                    <DemoBox label="Custom Size (24px)">
+                        <Avatar src={Object.values(avatarMap)[0] || ''} size={24} />
+                    </DemoBox>
+                    <DemoBox label="Fallback (No Image)">
+                        <Avatar src="" size={40} />
+                    </DemoBox>
+                </div>
+            </section>
+
             <section style={{ marginBottom: '48px' }}>
                 <Font as="h2" variant="body" weight="semibold" style={{ display: 'block', marginBottom: '16px' }}>Textfield</Font>
                 <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid var(--Divider-Normal)', paddingTop: '16px' }}>
