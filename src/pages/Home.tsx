@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { SlotState, ScenarioSummary } from '../types/simulator';
 import { characterOptions } from '../constants/characters';
 import { RangeMode } from '../constants/weaponStats';
-import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout, getGlobalCubeLevel, saveGlobalCubeLevel } from '../utils/storageUtils';
+import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout, getGlobalCubeLevel, saveGlobalCubeLevel, loadOutpostState, saveOutpostState, SavedOutpostState } from '../utils/storageUtils';
 import { BurstWindow } from '../utils/simUtils';
 import { runSimulation } from '../engine/simulationRunner';
 
@@ -12,6 +12,7 @@ import CanvasChart from './home/CanvasChart';
 import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
+import GlobalLevelPanel from './home/GlobalLevelPanel';
 
 const Home: React.FC = () => {
     // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
@@ -23,6 +24,7 @@ const Home: React.FC = () => {
             return option ? getCharDefaultState(option) : null;
         });
     });
+    const [outpostState, setOutpostState] = useState<SavedOutpostState>(() => loadOutpostState());
     const [simResult, setSimResult] = useState<ScenarioSummary | null>(null);
     const [chartDatasets, setChartDatasets] = useState<any[]>([]);
     const [enemyDef, setEnemyDef] = useState<string>('100');
@@ -40,6 +42,14 @@ const Home: React.FC = () => {
         const layoutIds = slots.map(s => s ? s.char.data.characterID : null);
         saveTeamLayout(layoutIds);
     }, [slots]);
+
+    const handleOutpostChange = (patch: Partial<SavedOutpostState>) => {
+        setOutpostState(prev => {
+            const next = { ...prev, ...patch };
+            saveOutpostState(next);
+            return next;
+        });
+    };
 
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
         let globalCubeUpdateName: string | null = null;
@@ -122,6 +132,12 @@ const Home: React.FC = () => {
         <div className="home-container">
             <div className="home-content">
 
+                {/* 글로벌 레벨 설정 패널 */}
+                <GlobalLevelPanel
+                    outpostState={outpostState}
+                    onChange={handleOutpostChange}
+                />
+
                 {/* 2-Column Main Layout */}
                 <div className="home-grid">
 
@@ -134,6 +150,7 @@ const Home: React.FC = () => {
                                     slot={slot}
                                     index={idx}
                                     onUpdate={(patch) => updateSlot(idx, patch)}
+                                    outpostState={outpostState}
                                 />
                             ))}
                         </div>

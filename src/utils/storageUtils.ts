@@ -124,6 +124,21 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
         collectionLevel: '0',
         cubeName: 'None',
         cubeLevel: '0',
+        affinityLevel: '1',
+        growthStage: (() => {
+            const rarity = charOption.data.stats?.rarity;
+            if (rarity === 'R') return '0';
+            if (rarity === 'SR') return '2';
+            return '3'; // SSR default: 3돌
+        })(),
+        equipTierHead: 'none',
+        equipUpgradeHead: '0',
+        equipTierTorso: 'none',
+        equipUpgradeTorso: '0',
+        equipTierArms: 'none',
+        equipUpgradeArms: '0',
+        equipTierLegs: 'none',
+        equipUpgradeLegs: '0',
         equipATK: '0',
         equipWeakPoint: '0',
         equipAmmo: '0',

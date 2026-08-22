@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Select, { components } from 'react-select';
 import { SlotState } from '../../types/simulator';
 import { characterOptions, avatarMap, fullbodyMap, SLOT_COLORS } from '../../constants/characters';
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
-import { getCharDefaultState } from '../../utils/storageUtils';
+import { getCharDefaultState, SavedOutpostState } from '../../utils/storageUtils';
 import { Icon } from '../../components/Icon/Icon';
+import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
 
 // Cube Data Source
 const CUBE_OPTIONS = [
@@ -30,6 +31,7 @@ interface Props {
     slot: SlotState | null;
     index: number;
     onUpdate: (patch: Partial<SlotState> | null) => void;
+    outpostState: SavedOutpostState;
 }
 
 const formatNumber = (num: string | number) => {
@@ -194,7 +196,7 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
     );
 };
 
-const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
+const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState }) => {
     if (!slot) return <EmptySlot onUpdate={onUpdate} />;
 
     const avatar = avatarMap[slot.char.data.characterID];
@@ -242,6 +244,82 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
     }, []);
 
     const selectedCube = CUBE_OPTIONS.find(c => c.value === (slot.cubeName || 'None'));
+
+    // ── 장비 티어 옵션 ─────────────────────────────────────────────────
+    const EQUIP_TIER_OPTIONS = [
+        { value: 'none', label: '없음' },
+        { value: 'T9',   label: '일반 T9' },
+        { value: '기업',  label: '기업 전용' },
+        { value: 'Overload', label: '오버로드' },
+    ];
+
+    // ── 성장 단계 (돌파/코강) ──────────────────────────────────────────
+    const charRarity = data.stats.rarity || 'SSR';
+    const charCompany = data.stats.company || '';
+    const charName = data.characterName || '';
+    const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
+    const currentGrowthStage = Math.min(parseInt(slot.growthStage) || 0, maxStage);
+
+    const growthOptions = Array.from({ length: maxStage + 1 }, (_, i) => ({
+        value: i,
+        label: growthStageLabel(i)
+    }));
+
+    const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
+
+    // ── 자동 스탯 계산 ──────────────────────────────────────────────────
+    const calculatedStats = useMemo(() => {
+        if (!outpostState) return null;
+        const charStats = data.stats;
+        return calculateBaseStat({
+            classType:         charStats.class,
+            weaponType:        charStats.weapon,
+            level:             parseInt(outpostState.synchroLevel) || 1,
+            affinityLevel:     Math.min(parseInt(slot.affinityLevel) || 1, maxAffinity),
+            growthStage:       currentGrowthStage,
+            rarity:            charRarity,
+            company:           charCompany,
+            charName:          charName,
+            commonConsoleLevel: parseInt(outpostState.commonResearchLevel) || 0,
+            classConsoleLevel:  getClassConsoleLevel(charStats.class, outpostState),
+            corpConsoleLevel:   getCorpConsoleLevel(charStats.company, outpostState),
+            cubeLevel:         parseInt(slot.cubeLevel) || 0,
+            cubeLevel:         parseInt(slot.cubeLevel) || 0,
+            equipTierHead:     slot.equipTierHead || 'none',
+            equipUpgradeHead:  parseInt(slot.equipUpgradeHead) || 0,
+            equipTierTorso:    slot.equipTierTorso || 'none',
+            equipUpgradeTorso: parseInt(slot.equipUpgradeTorso) || 0,
+            equipTierArms:     slot.equipTierArms || 'none',
+            equipUpgradeArms:  parseInt(slot.equipUpgradeArms) || 0,
+            equipTierLegs:     slot.equipTierLegs || 'none',
+            equipUpgradeLegs:  parseInt(slot.equipUpgradeLegs) || 0,
+            collectionGrade:   slot.collectionGrade || 'None',
+            collectionLevel:   parseInt(slot.collectionLevel) || 0,
+        });
+    }, [
+        outpostState,
+        slot.affinityLevel,
+        slot.growthStage,
+        slot.cubeLevel,
+        slot.cubeLevel,
+        slot.equipTierHead, slot.equipUpgradeHead,
+        slot.equipTierTorso, slot.equipUpgradeTorso,
+        slot.equipTierArms, slot.equipUpgradeArms,
+        slot.equipTierLegs, slot.equipUpgradeLegs,
+        slot.collectionGrade,
+        slot.collectionLevel,
+    ]);
+
+    // 계산된 스탯을 customHP/ATK/DEF에 동기화 (시뮬레이션 엔진에서 사용)
+    useEffect(() => {
+        if (!calculatedStats) return;
+        const hp  = String(calculatedStats.hp);
+        const atk = String(calculatedStats.atk);
+        const def = String(calculatedStats.def);
+        if (hp !== slot.customHP || atk !== slot.customATK || def !== slot.customDEF) {
+            onUpdate({ customHP: hp, customATK: atk, customDEF: def });
+        }
+    }, [calculatedStats]);
 
     const handleEquipChange = (field: keyof SlotState, max: number, value: string) => {
         if (value === '' || value === '.') {
@@ -381,20 +459,157 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate }) => {
 
 
             {/* Stats */}
-            <div className="slot-subtitle">스탯</div>
+            <div className="slot-subtitle">스탯 (자동계산)</div>
             <div className="slot-section">
                 <span className="color-777">체력</span>
-                <input className="slot-input" value={formatNumber(slot.customHP)} onChange={e => onUpdate({ customHP: e.target.value.replace(/,/g, '') })} />
+                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+                    {calculatedStats ? calculatedStats.hp.toLocaleString() : formatNumber(slot.customHP)}
+                </span>
 
                 <span className="color-777">공격력</span>
-                <input className="slot-input" value={formatNumber(slot.customATK)} onChange={e => onUpdate({ customATK: e.target.value.replace(/,/g, '') })} />
+                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+                    {calculatedStats ? calculatedStats.atk.toLocaleString() : formatNumber(slot.customATK)}
+                </span>
 
                 <span className="color-777">방어력</span>
-                <input className="slot-input" value={formatNumber(slot.customDEF)} onChange={e => onUpdate({ customDEF: e.target.value.replace(/,/g, '') })} />
+                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+                    {calculatedStats ? calculatedStats.def.toLocaleString() : formatNumber(slot.customDEF)}
+                </span>
+            </div>
+
+            {/* 돌파 및 호감도 */}
+            <div className="slot-section">
+                <span className="color-777">돌파</span>
+                <select
+                    className="slot-input"
+                    value={currentGrowthStage}
+                    onChange={e => {
+                        const newStage = parseInt(e.target.value);
+                        // 돌파 단계 변경 시 호감도 최대값이 줄어들 수 있으므로 제한 적용
+                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, newStage).maxAffinity;
+                        const currentAffinity = parseInt(slot.affinityLevel) || 1;
+                        onUpdate({
+                            growthStage: String(newStage),
+                            affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
+                        });
+                    }}
+                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                >
+                    {growthOptions.map(opt => (
+                        <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>
+                            {opt.label}
+                        </option>
+                    ))}
+                </select>
+
+                <span className="color-777">호감도</span>
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', alignItems: 'center', gap: '4px' }}>
+                    <input
+                        className="slot-input"
+                        type="number"
+                        min="1"
+                        max={maxAffinity}
+                        value={slot.affinityLevel || '1'}
+                        onChange={e => {
+                            const v = Math.max(1, Math.min(maxAffinity, parseInt(e.target.value) || 1));
+                            onUpdate({ affinityLevel: String(v) });
+                        }}
+                        style={{ width: '40px' }}
+                    />
+                    <span style={{ fontSize: '10px', color: '#777' }}>/ {maxAffinity}</span>
+                </div>
             </div>
 
             {/* Equip Lines */}
             <div className="slot-subtitle">장비</div>
+            
+            <div className="slot-section">
+                <span className="color-777">머리</span>
+                <select
+                    className="slot-input"
+                    value={slot.equipTierHead || 'none'}
+                    onChange={e => onUpdate({ equipTierHead: e.target.value })}
+                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                >
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                </select>
+                {(slot.equipTierHead === 'Overload' || slot.equipTierHead === '기업') && (
+                    <>
+                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
+                        <input
+                            className="slot-input" type="number" min="0" max="5"
+                            value={slot.equipUpgradeHead || '0'}
+                            onChange={e => onUpdate({ equipUpgradeHead: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
+                        />
+                    </>
+                )}
+            </div>
+
+            <div className="slot-section">
+                <span className="color-777">몸통</span>
+                <select
+                    className="slot-input"
+                    value={slot.equipTierTorso || 'none'}
+                    onChange={e => onUpdate({ equipTierTorso: e.target.value })}
+                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                >
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                </select>
+                {(slot.equipTierTorso === 'Overload' || slot.equipTierTorso === '기업') && (
+                    <>
+                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
+                        <input
+                            className="slot-input" type="number" min="0" max="5"
+                            value={slot.equipUpgradeTorso || '0'}
+                            onChange={e => onUpdate({ equipUpgradeTorso: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
+                        />
+                    </>
+                )}
+            </div>
+
+            <div className="slot-section">
+                <span className="color-777">팔</span>
+                <select
+                    className="slot-input"
+                    value={slot.equipTierArms || 'none'}
+                    onChange={e => onUpdate({ equipTierArms: e.target.value })}
+                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                >
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                </select>
+                {(slot.equipTierArms === 'Overload' || slot.equipTierArms === '기업') && (
+                    <>
+                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
+                        <input
+                            className="slot-input" type="number" min="0" max="5"
+                            value={slot.equipUpgradeArms || '0'}
+                            onChange={e => onUpdate({ equipUpgradeArms: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
+                        />
+                    </>
+                )}
+            </div>
+
+            <div className="slot-section">
+                <span className="color-777">다리</span>
+                <select
+                    className="slot-input"
+                    value={slot.equipTierLegs || 'none'}
+                    onChange={e => onUpdate({ equipTierLegs: e.target.value })}
+                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                >
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                </select>
+                {(slot.equipTierLegs === 'Overload' || slot.equipTierLegs === '기업') && (
+                    <>
+                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
+                        <input
+                            className="slot-input" type="number" min="0" max="5"
+                            value={slot.equipUpgradeLegs || '0'}
+                            onChange={e => onUpdate({ equipUpgradeLegs: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
+                        />
+                    </>
+                )}
+            </div>
             <div className="slot-section">
                 <span className="color-777">우코</span>
                 <span className="percent-wrapper">

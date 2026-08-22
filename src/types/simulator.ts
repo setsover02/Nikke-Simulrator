@@ -14,6 +14,22 @@ export interface SlotState {
     collectionLevel: string;
     cubeName: string;
     cubeLevel: string;
+    /** 호감도 레벨 (1 ~ 40) — 캐릭터별 개별 설정 */
+    affinityLevel: string;
+    /**
+     * 성장 단계 (0=명함, 1~3=1돌~3돌, 4~10=코강1~7)
+     * R: 최대 0, SR: 최대 2, SSR: 최대 10
+     */
+    growthStage: string;
+    /** 장비 티어 (4부위): 'none' | 'T1'~'T9' | '기업' | 'Overload' */
+    equipTierHead: string;
+    equipUpgradeHead: string;
+    equipTierTorso: string;
+    equipUpgradeTorso: string;
+    equipTierArms: string;
+    equipUpgradeArms: string;
+    equipTierLegs: string;
+    equipUpgradeLegs: string;
     equipATK: string;
     equipWeakPoint: string;
     equipAmmo: string;
