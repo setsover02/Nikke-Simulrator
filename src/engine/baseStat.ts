@@ -367,12 +367,12 @@ export function calculateBaseStat(params: BaseStatParams): BaseStatResult {
 
     // ── 합산 및 코어 강화(Core Enhancement 0~7) 적용 ────────────────────────
     // 코어 강화(이후)는 장비/큐브/소장품을 제외한 합산값에 +2%씩 곱연산
-    // 인게임 규칙: 곱연산 후 바로 버림(Floor) 처리
+    // 인게임 규칙: 코어 강화 합산 후 최종적으로 반올림(Round) 처리
     const coreScale = 1 + (0.02 * core_enhancement);
 
-    const coreAtk = Math.floor((base.atk + affinity.atk + consoleStat.atk) * coreScale);
-    const coreDef = Math.floor((base.def + affinity.def + consoleStat.def) * coreScale);
-    const coreHp  = Math.floor((base.hp  + affinity.hp  + consoleStat.hp)  * coreScale);
+    const coreAtk = Math.round((base.atk + affinity.atk + consoleStat.atk) * coreScale);
+    const coreDef = Math.round((base.def + affinity.def + consoleStat.def) * coreScale);
+    const coreHp  = Math.round((base.hp  + affinity.hp  + consoleStat.hp)  * coreScale);
 
     return {
         atk: coreAtk + cubeStat.atk + equipment.atk + collectionStat.atk,
