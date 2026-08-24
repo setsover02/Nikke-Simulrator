@@ -13,6 +13,7 @@ import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
 import GlobalLevelPanel from './home/GlobalLevelPanel';
+import { Card } from '../components/Card/Card';
 
 const Home: React.FC = () => {
     // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
@@ -139,10 +140,10 @@ const Home: React.FC = () => {
                 />
 
                 {/* 2-Column Main Layout */}
-                <div className="home-grid">
+                <div style={{ display: 'flex', gap: '24px' }}>
 
                     {/* Left Column: 스쿼드 (Squad) */}
-                    <div className="home-grid-left">
+                    <Card style={{ flex: 1 }} className="pa-4">
                         <div className="home-squad-list">
                             {displaySlots.map((slot, idx) => (
                                 <CharacterSlot
@@ -154,10 +155,10 @@ const Home: React.FC = () => {
                                 />
                             ))}
                         </div>
-                    </div>
+                    </Card>
 
                     {/* Right Column: 타겟 설정 (Target Settings) */}
-                    <div className="home-grid-right">
+                    <Card style={{ width: '320px', flexShrink: 0 }} className="pa-4">
                         <SimToolbar
                             fullBurstInterval={fullBurstInterval}
                             onFullBurstIntervalChange={setFullBurstInterval}
@@ -171,22 +172,22 @@ const Home: React.FC = () => {
                             onEnemyDefChange={setEnemyDef}
                             onSimulate={handleSimulate}
                         />
-                    </div>
+                    </Card>
                 </div>
 
                 {/* 결과 요약 */}
                 {simResult && (
-                    <div className="result-summary-container">
+                    <Card className="pa-4 mb-4" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                         <ResultSummary
                             summary={simResult}
                             showTeamTotal={slots.filter(s => s !== null).length > 1}
                             isCore={showCore}
                         />
-                    </div>
+                    </Card>
                 )}
 
                 {/* 통합 차트 */}
-                <div className="chart-container-wrapper">
+                <Card className="pa-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '300px', flexDirection: 'column' }}>
                     {chartDatasets.length > 0 ? (
                         <div style={{ width: '100%' }}>
                             {/* Tab Bar */}
@@ -232,7 +233,7 @@ const Home: React.FC = () => {
                     ) : (
                         <h2 className="chart-title-empty">차트</h2>
                     )}
-                </div>
+                </Card>
             </div>
         </div>
     );

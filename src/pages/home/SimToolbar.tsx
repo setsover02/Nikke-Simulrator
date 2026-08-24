@@ -1,18 +1,15 @@
 import React, { useRef, useEffect } from 'react';
 import { Button } from '../../components/Button/Button';
-import iconAnmi from '../../assets/icon/code-anmi.svg';
-import iconDmtr from '../../assets/icon/code-dmtr.svg';
-import iconHsta from '../../assets/icon/code-hsta.svg';
-import iconPsid from '../../assets/icon/code-psid.svg';
-import iconZeus from '../../assets/icon/code-zeus.svg';
+import { Switch } from '../../components/Switch/Switch';
+import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { RangeMode } from '../../constants/weaponStats';
 
 const ELEMENT_OPTIONS = [
-    { value: '풍압', label: '풍압', icon: iconAnmi },
-    { value: '철갑', label: '철갑', icon: iconDmtr },
-    { value: '전격', label: '전격', icon: iconZeus },
-    { value: '수냉', label: '수냉', icon: iconPsid },
-    { value: '작열', label: '작열', icon: iconHsta },
+    { value: '풍압', label: '풍압', iconName: 'code-anmi', element: 'wind' as const },
+    { value: '철갑', label: '철갑', iconName: 'code-dmtr', element: 'iron' as const },
+    { value: '전격', label: '전격', iconName: 'code-zeus', element: 'electric' as const },
+    { value: '수냉', label: '수냉', iconName: 'code-psid', element: 'water' as const },
+    { value: '작열', label: '작열', iconName: 'code-hsta', element: 'fire' as const },
 ];
 
 const RANGE_OPTIONS: { value: RangeMode; label: string; weapons: string }[] = [
@@ -89,31 +86,30 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     };
 
     return (
-        <div className="toolbar-container">
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 className="toolbar-title">타겟 설정</h3>
 
             {/* 약점 속성 선택 */}
             <div className="flex-col-gap-8">
                 <span className="color-aaa-12">약점 속성</span>
-                <div className="element-buttons">
+                <div style={{ display: 'flex', gap: '8px', justifyContent: 'space-between' }}>
                     {ELEMENT_OPTIONS.map(opt => (
-                        <button key={opt.value}
+                        <ButtonIconToggle
+                            key={opt.value}
+                            svgIcon={opt.iconName}
+                            element={opt.element}
+                            selected={weaknessElement === opt.value}
                             onClick={() => onWeaknessChange(opt.value)}
-                            className={`element-btn ${weaknessElement === opt.value ? 'active' : 'inactive'}`}
                             title={opt.label}
-                        >
-                            <img src={opt.icon} alt={opt.label} className={`element-icon ${weaknessElement === opt.value ? 'active' : 'inactive'}`} />
-                        </button>
+                        />
                     ))}
                 </div>
             </div>
 
             {/* 코어 여부 */}
-            <div className="flex-between-center">
+            <div className="flex-between-center" style={{ marginBottom: '16px' }}>
                 <span className="color-aaa-12">코어 여부</span>
-                <div onClick={onToggleCore} className={`toggle-bg ${showCore ? 'on' : 'off'}`}>
-                    <div className={`toggle-knob ${showCore ? 'on' : 'off'}`} />
-                </div>
+                <Switch checked={showCore} onChange={onToggleCore} />
             </div>
 
             {/* 교전 거리 */}

@@ -10,126 +10,35 @@
 
 import React from 'react';
 import { SavedOutpostState } from '../../utils/storageUtils';
+import { Textfield } from '../../components/Textfield/Textfield';
+import { Font } from '../../components/Font';
 
 interface GlobalLevelPanelProps {
     outpostState: SavedOutpostState;
     onChange: (patch: Partial<SavedOutpostState>) => void;
 }
 
+import { Card } from '../../components/Card/Card';
+
 /* ─── 인라인 스타일 상수 ──────────────────────────────────────────── */
 
 const S = {
-    panel: {
-        background: 'var(--Shade10, #161b26)',
-        border: '1px solid rgba(255,255,255,0.07)',
-        borderRadius: '12px',
-        padding: '16px 20px',
-        display: 'flex',
-        flexDirection: 'column' as const,
-        gap: '14px',
-    },
     header: {
         display: 'flex',
         alignItems: 'center',
         gap: '8px',
         marginBottom: '2px',
     },
-    headerTitle: {
-        color: '#e0e0e0',
-        fontSize: '13px',
-        fontWeight: 700,
-        letterSpacing: '0.04em',
-        margin: 0,
-    },
-    headerBadge: {
-        fontSize: '10px',
-        color: '#60a5fa',
-        background: 'rgba(96,165,250,0.12)',
-        border: '1px solid rgba(96,165,250,0.3)',
-        borderRadius: '4px',
-        padding: '1px 6px',
-    },
     divider: {
         height: '1px',
         background: 'rgba(255,255,255,0.06)',
         margin: '0 -4px',
-    },
-    row: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '20px',
-        flexWrap: 'wrap' as const,
-    },
-    group: {
-        display: 'flex',
-        flexDirection: 'column' as const,
-        gap: '6px',
-    },
-    label: {
-        fontSize: '11px',
-        color: '#888',
-        letterSpacing: '0.03em',
-        whiteSpace: 'nowrap' as const,
     },
     fieldRow: {
         display: 'flex',
         alignItems: 'center',
         gap: '12px',
         flexWrap: 'wrap' as const,
-    },
-    field: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '6px',
-    },
-    fieldLabel: {
-        fontSize: '11px',
-        color: '#aaa',
-        whiteSpace: 'nowrap' as const,
-        minWidth: '48px',
-    },
-    input: {
-        background: 'rgba(255,255,255,0.05)',
-        border: '1px solid rgba(255,255,255,0.12)',
-        borderRadius: '6px',
-        color: '#e0e0e0',
-        fontSize: '13px',
-        fontFamily: 'inherit',
-        textAlign: 'right' as const,
-        width: '52px',
-        padding: '4px 8px',
-        outline: 'none',
-        transition: 'border-color 0.15s',
-    },
-    inputWide: {
-        width: '64px',
-    },
-    synchroInput: {
-        width: '72px',
-        fontSize: '16px',
-        fontWeight: 700,
-        color: '#60a5fa',
-        background: 'rgba(96,165,250,0.08)',
-        border: '1px solid rgba(96,165,250,0.3)',
-        borderRadius: '8px',
-        textAlign: 'center' as const,
-        padding: '6px 8px',
-        outline: 'none',
-        fontFamily: 'inherit',
-        transition: 'border-color 0.15s',
-    },
-    synchroLabel: {
-        fontSize: '11px',
-        color: '#60a5fa',
-        letterSpacing: '0.04em',
-    },
-    sectionTitle: {
-        fontSize: '11px',
-        color: '#666',
-        letterSpacing: '0.06em',
-        textTransform: 'uppercase' as const,
-        marginRight: '4px',
-        whiteSpace: 'nowrap' as const,
     },
     columns: {
         display: 'flex',
@@ -145,10 +54,8 @@ const S = {
         minWidth: '200px',
     },
     columnHeader: {
-        fontSize: '11px',
-        color: '#666',
-        letterSpacing: '0.06em',
         textTransform: 'uppercase' as const,
+        letterSpacing: '0.06em',
         borderBottom: '1px solid rgba(255,255,255,0.05)',
         paddingBottom: '4px',
         marginBottom: '2px',
@@ -177,18 +84,16 @@ const LevelInput: React.FC<LevelInputProps> = ({ id, label, value, onChange, max
     };
 
     return (
-        <div style={S.field}>
-            <label htmlFor={id} style={S.fieldLabel}>{label}</label>
-            <input
+        <div style={{ width: wide ? '140px' : '120px' }}>
+            <Textfield
                 id={id}
                 type="number"
                 min={min}
                 max={max}
                 value={value}
                 onChange={handleChange}
-                style={{ ...S.input, ...(wide ? S.inputWide : {}) }}
-                onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(96,165,250,0.5)'; }}
-                onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(255,255,255,0.12)'; }}
+                label={label}
+                size="small"
             />
         </div>
     );
@@ -198,12 +103,10 @@ const LevelInput: React.FC<LevelInputProps> = ({ id, label, value, onChange, max
 
 const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onChange }) => {
     return (
-        <div style={S.panel}>
+        <Card as="section" className="mb-4 pa-4" style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
             {/* 헤더 */}
             <div style={S.header}>
-                <span style={{ fontSize: '15px' }}>⚙</span>
-                <h3 style={S.headerTitle}>글로벌 레벨 설정</h3>
-                <span style={S.headerBadge}>전체 공통 적용</span>
+                <Font as="h3" variant="subtitle" weight="bold" color="default" style={{ margin: 0, letterSpacing: '0.04em' }}>전초기지 레벨 설정</Font>
             </div>
 
             <div style={S.divider} />
@@ -212,9 +115,8 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
             <div style={{ display: 'flex', gap: '24px', alignItems: 'flex-start', flexWrap: 'wrap' }}>
 
                 {/* 싱크로 레벨 */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px', minWidth: '90px' }}>
-                    <span style={S.synchroLabel}>싱크로 레벨</span>
-                    <input
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', minWidth: '160px' }}>
+                    <Textfield
                         id="global-synchro-level"
                         type="number"
                         min={1}
@@ -226,11 +128,8 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
                             const n = parseInt(v);
                             if (!isNaN(n)) onChange({ synchroLevel: String(Math.max(1, Math.min(1200, n))) });
                         }}
-                        style={S.synchroInput}
-                        onFocus={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(96,165,250,0.7)'; }}
-                        onBlur={e => { (e.target as HTMLInputElement).style.borderColor = 'rgba(96,165,250,0.3)'; }}
+                        label="싱크로 레벨"
                     />
-                    <span style={{ fontSize: '10px', color: '#555' }}>1 ~ 1200</span>
                 </div>
 
                 <div style={{ width: '1px', background: 'rgba(255,255,255,0.06)', alignSelf: 'stretch', margin: '0 4px' }} />
@@ -240,7 +139,9 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
 
                     {/* 공통 콘솔 */}
                     <div style={{ ...S.column, flex: '0 0 auto', minWidth: 'auto' }}>
-                        <div style={S.columnHeader}>공통 콘솔</div>
+                        <div style={S.columnHeader}>
+                            <Font variant="caption-1" color="muted">공통 콘솔</Font>
+                        </div>
                         <LevelInput
                             id="global-common-console"
                             label="공통"
@@ -252,7 +153,9 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
 
                     {/* 클래스 콘솔 */}
                     <div style={S.column}>
-                        <div style={S.columnHeader}>클래스 콘솔</div>
+                        <div style={S.columnHeader}>
+                            <Font variant="caption-1" color="muted">클래스 콘솔</Font>
+                        </div>
                         <div style={S.fieldRow}>
                             <LevelInput
                                 id="global-attacker-console"
@@ -280,7 +183,9 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
 
                     {/* 기업 콘솔 */}
                     <div style={S.column}>
-                        <div style={S.columnHeader}>기업 콘솔</div>
+                        <div style={S.columnHeader}>
+                            <Font variant="caption-1" color="muted">기업 콘솔</Font>
+                        </div>
                         <div style={S.fieldRow}>
                             <LevelInput
                                 id="global-elysion-console"
@@ -329,7 +234,7 @@ const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onCha
 
                 </div>
             </div>
-        </div>
+        </Card>
     );
 };
 

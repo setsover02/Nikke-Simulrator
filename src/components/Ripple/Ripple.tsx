@@ -30,7 +30,7 @@ export const Ripple: React.FC = () => {
             const size = Math.max(rect.width, rect.height) * 2.5;
             const x = e.clientX - rect.left - size / 2;
             const y = e.clientY - rect.top - size / 2;
-            
+
             const newRipple: RippleEvent = { x, y, size, id: Date.now() };
             setRipples((prev) => [...prev, newRipple]);
         };

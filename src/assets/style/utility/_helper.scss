@@ -1,0 +1,94 @@
+$base-spacing: 8px;
+
+// Padding, Margin Helper
+$max-multiplier: 15; // 15 * 8 = 120px
+
+$properties: (
+    'p': 'padding',
+    'm': 'margin'
+);
+
+$directions: (
+    'a': 'all',
+    't': 'top',
+    'b': 'bottom',
+    'l': 'left',
+    'r': 'right',
+    'x': 'horizontal',
+    'y': 'vertical'
+);
+
+@each $prop-prefix, $prop-name in $properties {
+    @each $dir-prefix, $dir-name in $directions {
+        @for $i from 0 through $max-multiplier {
+            $value: $i * $base-spacing;
+
+            .#{$prop-prefix}#{$dir-prefix}-#{$i} {
+                @if $dir-name =='all' {
+                    #{$prop-name}: $value;
+                }
+
+                @else if $dir-name =='top' {
+                    #{$prop-name}-top: $value;
+                }
+
+                @else if $dir-name =='bottom' {
+                    #{$prop-name}-bottom: $value;
+                }
+
+                @else if $dir-name =='left' {
+                    #{$prop-name}-left: $value;
+                }
+
+                @else if $dir-name =='right' {
+                    #{$prop-name}-right: $value;
+                }
+
+                @else if $dir-name =='horizontal' {
+                    #{$prop-name}-left: $value;
+                    #{$prop-name}-right: $value;
+                }
+
+                @else if $dir-name =='vertical' {
+                    #{$prop-name}-top: $value;
+                    #{$prop-name}-bottom: $value;
+                }
+            }
+        }
+    }
+}
+
+// Auto margin helpers
+@each $dir-prefix, $dir-name in $directions {
+    .m#{$dir-prefix}-auto {
+        @if $dir-name =='all' {
+            margin: auto;
+        }
+
+        @else if $dir-name =='top' {
+            margin-top: auto;
+        }
+
+        @else if $dir-name =='bottom' {
+            margin-bottom: auto;
+        }
+
+        @else if $dir-name =='left' {
+            margin-left: auto;
+        }
+
+        @else if $dir-name =='right' {
+            margin-right: auto;
+        }
+
+        @else if $dir-name =='horizontal' {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        @else if $dir-name =='vertical' {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    }
+}

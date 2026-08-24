@@ -1,31 +1,181 @@
 @use "sass:map";
-@use "../../assets/style/typography" as *;
-@use "../../assets/style/variables" as *;
+@use "../../assets/style/base/typography" as *;
+@use "../../assets/style/abstracts/variables" as *;
 
-.button {
-    display: flex;
-    flex-direction: row;
-    gap: 8px;
-    border: none;
-    padding: 0 16px;
-    border-radius: map.get(map.get($button-sizes, 'default'), 'radius');
-    cursor: pointer;
-    transition: 0ms;
-    height: map.get(map.get($button-sizes, 'default'), 'height');
+// ==========================================
+// Mixins
+// ==========================================
+
+@mixin button-size($size, $has-padding: true) {
+    height: map.get(map.get($button-sizes, $size), 'height');
+    border-radius: map.get(map.get($button-sizes, $size), 'radius');
+
+    @if $has-padding {
+        @if $size =='large' {
+            padding: 0 24px;
+        }
+
+        @else if $size =='default' {
+            padding: 0 16px;
+        }
+
+        @else {
+            padding: 0 12px;
+            @extend .font-button-small;
+        }
+    }
+
+    @else {
+        width: map.get(map.get($button-sizes, $size), 'height');
+    }
+
+    .icon,
+    .button-icon__icon,
+    .button-icon-toggle__icon {
+        font-size: map.get(map.get($button-sizes, $size), 'icon-size');
+        width: map.get(map.get($button-sizes, $size), 'icon-size');
+        height: map.get(map.get($button-sizes, $size), 'icon-size');
+    }
+
+    .button-icon__svg,
+    .button-icon-toggle__svg {
+        font-size: map.get(map.get($button-sizes, $size), 'custom-icon-size');
+        width: map.get(map.get($button-sizes, $size), 'custom-icon-size');
+        height: map.get(map.get($button-sizes, $size), 'custom-icon-size');
+    }
+}
+
+@mixin apply-sizes($has-padding: true) {
+    @include button-size('default', $has-padding);
+
+    &.large {
+        @include button-size('large', $has-padding);
+    }
+
+    &.small {
+        @include button-size('small', $has-padding);
+    }
+
+    &.xsmall {
+        @include button-size('xsmall', $has-padding);
+    }
+}
+
+@mixin text-variant-styles {
+    background-color: transparent;
+
+    &.primary {
+        color: var(--Primary-F100);
+
+        &:not(:disabled):hover {
+            background-color: var(--Primary-12);
+        }
+    }
+
+    &.assistive {
+        color: var(--Font-Default);
+
+        &:not(:disabled):hover {
+            background-color: var(--Interact-Hover);
+        }
+    }
+
+    &:disabled {
+        background-color: transparent;
+        color: var(--Disabled-Font);
+        cursor: not-allowed;
+    }
+}
+
+@mixin toggle-styles {
+    background-color: var(--Interact-Default);
+    border: 1px solid var(--Divider-Strong);
+    color: var(--Font-Default);
+    box-sizing: border-box;
+
+    &:not(:disabled):not(.selected):hover {
+        background-color: var(--Interact-Hover);
+    }
+
+    &.selected {
+        background-color: var(--Primary-24);
+        border: 2px solid var(--Primary-100);
+        color: var(--Primary-F100);
+
+        &.element-electric {
+            background-color: var(--Element-Electric-24);
+            border-color: var(--Element-Electric-100);
+            color: var(--Element-Electric-100);
+        }
+
+        &.element-water {
+            background-color: var(--Element-Water-24);
+            border-color: var(--Element-Water-100);
+            color: var(--Element-Water-100);
+        }
+
+        &.element-iron {
+            background-color: var(--Element-Iron-24);
+            border-color: var(--Element-Iron-100);
+            color: var(--Element-Iron-100);
+        }
+
+        &.element-wind {
+            background-color: var(--Element-Wind-24);
+            border-color: var(--Element-Wind-100);
+            color: var(--Element-Wind-100);
+        }
+
+        &.element-fire {
+            background-color: var(--Element-Fire-24);
+            border-color: var(--Element-Fire-100);
+            color: var(--Element-Fire-100);
+        }
+
+        &:not(:disabled):hover {
+            filter: brightness(0.95);
+        }
+
+        &:disabled {
+            background-color: var(--Disabled-Background);
+            border: 2px solid var(--Divider-Strong);
+            color: var(--Disabled-Font);
+        }
+    }
+
+    &:disabled {
+        color: var(--Disabled-Font);
+        background-color: transparent;
+        border: 0px;
+        cursor: not-allowed;
+    }
+}
+
+@mixin base-button-styles {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 8px;
-    @extend .font-button;
+    cursor: pointer;
     user-select: none;
-    transition: $cubic-bezier 150ms;
+    transition: $cubic-bezier 100ms;
 
-    .icon {
-        font-size: map.get(map.get($button-sizes, 'default'), 'icon-size');
-        width: map.get(map.get($button-sizes, 'default'), 'icon-size');
-        height: map.get(map.get($button-sizes, 'default'), 'icon-size');
+    &.readonly {
+        pointer-events: none;
     }
+}
 
+
+// ==========================================
+// Components
+// ==========================================
+
+.button {
+    @include base-button-styles;
+    flex-direction: row;
+    gap: 8px;
+    border: none;
+    @extend .font-button;
+    @include apply-sizes(true);
 
     &.blockType {
         &.primary {
@@ -54,66 +204,40 @@
     }
 
     &.textType {
-        background-color: transparent;
+        @include text-variant-styles;
+    }
+}
 
-        &.primary {
-            color: var(--Primary-F100);
+.button-icon {
+    @include base-button-styles;
+    border: none;
+    @include apply-sizes(false);
+    @include text-variant-styles;
+}
 
-            &:not(:disabled):hover {
-                background-color: var(--Primary-12);
-            }
+.button-toggle {
+    @include base-button-styles;
+    gap: 8px;
+    @extend .font-button;
+    @include apply-sizes(true);
+    @include toggle-styles;
+
+    &.selected {
+        padding: 0 15px; // default(16px) - 1px (for border)
+
+        &.large {
+            padding: 0 23px; // large(24px) - 1px
         }
 
-        &.assistive {
-            color: var(--Font-Default);
-
-            &:not(:disabled):hover {
-                background-color: var(--Interact-Hover);
-            }
-        }
-
-        &:disabled {
-            background-color: transparent;
-            color: var(--Disabled-Font);
-            cursor: not-allowed;
+        &.small,
+        &.xsmall {
+            padding: 0 11px; // small(12px) - 1px
         }
     }
+}
 
-    &.large {
-        height: map.get(map.get($button-sizes, 'large'), 'height');
-        border-radius: map.get(map.get($button-sizes, 'large'), 'radius');
-        padding: 0 24px;
-
-        .icon {
-            font-size: map.get(map.get($button-sizes, 'large'), 'icon-size');
-            width: map.get(map.get($button-sizes, 'large'), 'icon-size');
-            height: map.get(map.get($button-sizes, 'large'), 'icon-size');
-        }
-    }
-
-    &.small {
-        height: map.get(map.get($button-sizes, 'small'), 'height');
-        border-radius: map.get(map.get($button-sizes, 'small'), 'radius');
-        padding: 0 12px;
-        @extend .font-button-small;
-
-        .icon {
-            font-size: map.get(map.get($button-sizes, 'small'), 'icon-size');
-            width: map.get(map.get($button-sizes, 'small'), 'icon-size');
-            height: map.get(map.get($button-sizes, 'small'), 'icon-size');
-        }
-    }
-
-    &.xsmall {
-        height: map.get(map.get($button-sizes, 'xsmall'), 'height');
-        border-radius: map.get(map.get($button-sizes, 'xsmall'), 'radius');
-        padding: 0 12px;
-        @extend .font-button-small;
-
-        .icon {
-            font-size: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
-            width: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
-            height: map.get(map.get($button-sizes, 'xsmall'), 'icon-size');
-        }
-    }
+.button-icon-toggle {
+    @include base-button-styles;
+    @include apply-sizes(false);
+    @include toggle-styles;
 }

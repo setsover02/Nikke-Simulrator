@@ -4,33 +4,30 @@ import { Ripple } from '../Ripple/Ripple';
 import { getCustomIconUrl } from '../../utils/iconRegistry';
 import styles from './Button.module.scss';
 
-interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
-    variant?: 'primary' | 'assistive';
+export interface ButtonToggleProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     size?: 'large' | 'small' | 'xsmall' | 'default';
-    type?: 'block' | 'text' | 'button' | 'submit' | 'reset';
     leftIcon?: React.ReactNode;
     rightIcon?: React.ReactNode;
     children: React.ReactNode;
+    selected?: boolean;
 }
 
-export const Button: React.FC<ButtonProps> = ({
-    variant = 'primary',
+export const ButtonToggle: React.FC<ButtonToggleProps> = ({
     size = 'default',
-    type = 'block',
     leftIcon,
     rightIcon,
     children,
+    selected = false,
     className,
     ...props
 }) => {
-    const isTextType = type === 'text';
-    const htmlType = (type === 'button' || type === 'submit' || type === 'reset') ? type : 'button';
+    const isReadonly = !props.onClick;
 
     const classNames = [
-        styles.button,
-        styles[variant],
-        isTextType ? styles.textType : styles.blockType,
+        styles['button-toggle'],
+        selected ? styles.selected : '',
         size !== 'default' ? styles[size] : '',
+        isReadonly ? styles.readonly : '',
         className || ''
     ].filter(Boolean).join(' ');
 
@@ -48,13 +45,14 @@ export const Button: React.FC<ButtonProps> = ({
     return (
         <button
             className={classNames}
-            type={htmlType}
+            type="button"
+            tabIndex={isReadonly ? -1 : undefined}
             {...props}
         >
             {leftIcon && renderIcon(leftIcon)}
             {children}
             {rightIcon && renderIcon(rightIcon)}
-            {!props.disabled && <Ripple />}
+            {!props.disabled && !isReadonly && <Ripple />}
         </button>
     );
 };

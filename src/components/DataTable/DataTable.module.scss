@@ -1,8 +1,10 @@
+@use "../../assets/style/abstracts/variables" as *;
+
 .datatable-container {
     overflow-x: auto;
     overflow-y: auto;
     background-color: var(--Background-Card);
-    border-radius: 8px;
+    border-radius: $radius-surface;
     border: 1px solid var(--Divider-Normal);
 }
 

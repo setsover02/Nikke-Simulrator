@@ -1,5 +1,5 @@
-@import "../../assets/style/_typography.scss";
-@import "../../assets/style/_variables.scss";
+@use "../../assets/style/base/typography" as *;
+@use "../../assets/style/abstracts/variables" as *;
 
 .textfield-wrapper {
     display: flex;
@@ -19,7 +19,7 @@
     align-items: center;
     height: 44px;
     padding: 4px;
-    border-radius: 10px;
+    border-radius: map-get($radius-components, 'default');
     background-color: var(--Interact-Default);
     border: 1px solid transparent;
     box-sizing: border-box;

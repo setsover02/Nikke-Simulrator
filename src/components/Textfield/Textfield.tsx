@@ -1,6 +1,6 @@
 import React, { InputHTMLAttributes, useRef } from 'react';
 import styles from './Textfield.module.scss';
-import { ButtonIcon } from '../ButtonIcon/ButtonIcon';
+import { ButtonIcon } from '../Button/ButtonIcon';
 import Font from '../Font';
 
 export interface TextfieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'size'> {

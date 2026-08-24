@@ -1,3 +1,5 @@
-@import 'theme';
-@import 'typography';
-@import 'reset';
+@use 'themes/theme';
+@use 'base/typography';
+@use 'base/reset';
+@use 'layout/layout';
+@use 'utility/helper';

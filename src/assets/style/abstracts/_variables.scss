@@ -1,0 +1,31 @@
+// Enviroments
+$cubic-bezier: cubic-bezier(0.2, 0.2, 0.38, 0.9);
+
+// Border Radius
+$radius-surface: 16px;
+$radius-components: (
+  'large': 12px,
+  'default': 10px,
+  'small': 8px
+);
+
+// Components
+// Button
+$button-sizes: (
+  'large': ('height': 48px,
+    'icon-size': 24px,
+    'custom-icon-size': 28px,
+    'radius': 12px),
+  'default': ('height': 44px,
+    'icon-size': 20px,
+    'custom-icon-size': 24px,
+    'radius': 10px),
+  'small': ('height': 36px,
+    'icon-size': 18px,
+    'custom-icon-size': 20px,
+    'radius': 8px),
+  'xsmall': ('height': 28px,
+    'icon-size': 16px,
+    'custom-icon-size': 18px,
+    'radius': 8px)
+);
