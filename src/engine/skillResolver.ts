@@ -757,6 +757,15 @@ function triggerFullBurstNormalAttack(
     return false
   }
 
+  // target_status 조건 검사: 적에게 해당 debuff가 있어야 발동
+  if (typeof effectDef.condition === 'object' && effectDef.condition?.target_status) {
+    const requiredStatus = effectDef.condition.target_status
+    const hasStatus = ctx.enemy.debuff?.activeDots?.some(
+      (d: any) => d.status === requiredStatus && d.stacks > 0
+    )
+    if (!hasStatus) return false
+  }
+
   const threshold = (typeof effectDef.condition === 'object' && effectDef.condition?.count) || 1
   const currentUsed = sourceChar.totalAmmoUsed || 0
   const prev = ctx.state![prevKey] ?? currentUsed
@@ -948,6 +957,25 @@ export function applyEffect(
         applySpecificEffectToTarget(ctx, sourceChar, target, skillName, { ...effectDef, cost: undefined })
       })
     }
+    return
+  }
+
+  // ── chain_binding dot_damage: 포획 사슬 게이지 수 기반 중첩 부여 (미하라 사슬 감기) ──
+  if (effectDef.effect === 'dot_damage' && effectDef.status === 'chain_binding') {
+    const captureChainKey = `${sourceChar.id}_capture_chain`
+    ctx.state = ctx.state || {}
+    const currentGauge = ctx.state[captureChainKey] || 0
+    if (currentGauge <= 0) return // 게이지 없으면 사슬 감기 미부여
+
+    const maxStack = effectDef.stack || 20
+    const dotStacks = Math.min(currentGauge, maxStack)
+    const targets = resolveTargets(ctx, sourceChar, effectDef.target)
+    targets.forEach((target) => {
+      applySpecificEffectToTarget(ctx, sourceChar, target, skillName, {
+        ...effectDef,
+        stack: dotStacks, // stack을 게이지 수로 오버라이드
+      })
+    })
     return
   }
 

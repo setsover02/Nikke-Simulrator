@@ -3,8 +3,8 @@
 // -------------------------
 @font-face {
     font-family: 'Wanted Sans Variable';
-    src: url('../fonts/WantedSansVariable.woff2') format('woff2-variations'),
-        url('../fonts/WantedSansVariable.woff2') format('woff2');
+    src: url('../../fonts/WantedSansVariable.woff2') format('woff2-variations'),
+        url('../../fonts/WantedSansVariable.woff2') format('woff2');
     font-weight: 100 900;
     font-display: swap;
 }
@@ -12,7 +12,10 @@
 @font-face {
     font-family: 'Material Symbols Rounded';
     font-style: normal;
-    src: url('../fonts/MaterialSymbolsRounded-VariableFont.woff2') format('woff2');
+    font-weight: 100 700;
+    src: url('../../fonts/MaterialSymbolsRounded-VariableFont.woff2') format('woff2-variations'),
+        url('../../fonts/MaterialSymbolsRounded-VariableFont.woff2') format('woff2');
+    font-display: block;
 }
 
 

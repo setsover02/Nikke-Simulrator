@@ -248,8 +248,8 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     // ── 장비 티어 옵션 ─────────────────────────────────────────────────
     const EQUIP_TIER_OPTIONS = [
         { value: 'none', label: '없음' },
-        { value: 'T9',   label: '일반 T9' },
-        { value: '기업',  label: '기업 전용' },
+        { value: 'T9', label: '일반 T9' },
+        { value: '기업', label: '기업 전용' },
         { value: 'Overload', label: '오버로드' },
     ];
 
@@ -272,29 +272,28 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
         if (!outpostState) return null;
         const charStats = data.stats;
         return calculateBaseStat({
-            classType:         charStats.class,
-            weaponType:        charStats.weapon,
-            level:             parseInt(outpostState.synchroLevel) || 1,
-            affinityLevel:     Math.min(parseInt(slot.affinityLevel) || 1, maxAffinity),
-            growthStage:       currentGrowthStage,
-            rarity:            charRarity,
-            company:           charCompany,
-            charName:          charName,
+            classType: charStats.class,
+            weaponType: charStats.weapon,
+            level: parseInt(outpostState.synchroLevel) || 1,
+            affinityLevel: Math.min(parseInt(slot.affinityLevel) || 1, maxAffinity),
+            growthStage: currentGrowthStage,
+            rarity: charRarity,
+            company: charCompany,
+            charName: charName,
             commonConsoleLevel: parseInt(outpostState.commonResearchLevel) || 0,
-            classConsoleLevel:  getClassConsoleLevel(charStats.class, outpostState),
-            corpConsoleLevel:   getCorpConsoleLevel(charStats.company, outpostState),
-            cubeLevel:         parseInt(slot.cubeLevel) || 0,
-            cubeLevel:         parseInt(slot.cubeLevel) || 0,
-            equipTierHead:     slot.equipTierHead || 'none',
-            equipUpgradeHead:  parseInt(slot.equipUpgradeHead) || 0,
-            equipTierTorso:    slot.equipTierTorso || 'none',
+            classConsoleLevel: getClassConsoleLevel(charStats.class, outpostState),
+            corpConsoleLevel: getCorpConsoleLevel(charStats.company, outpostState),
+            cubeLevel: parseInt(slot.cubeLevel) || 0,
+            equipTierHead: slot.equipTierHead || 'none',
+            equipUpgradeHead: parseInt(slot.equipUpgradeHead) || 0,
+            equipTierTorso: slot.equipTierTorso || 'none',
             equipUpgradeTorso: parseInt(slot.equipUpgradeTorso) || 0,
-            equipTierArms:     slot.equipTierArms || 'none',
-            equipUpgradeArms:  parseInt(slot.equipUpgradeArms) || 0,
-            equipTierLegs:     slot.equipTierLegs || 'none',
-            equipUpgradeLegs:  parseInt(slot.equipUpgradeLegs) || 0,
-            collectionGrade:   slot.collectionGrade || 'None',
-            collectionLevel:   parseInt(slot.collectionLevel) || 0,
+            equipTierArms: slot.equipTierArms || 'none',
+            equipUpgradeArms: parseInt(slot.equipUpgradeArms) || 0,
+            equipTierLegs: slot.equipTierLegs || 'none',
+            equipUpgradeLegs: parseInt(slot.equipUpgradeLegs) || 0,
+            collectionGrade: slot.collectionGrade || 'None',
+            collectionLevel: parseInt(slot.collectionLevel) || 0,
         });
     }, [
         outpostState,
@@ -313,7 +312,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     // 계산된 스탯을 customHP/ATK/DEF에 동기화 (시뮬레이션 엔진에서 사용)
     useEffect(() => {
         if (!calculatedStats) return;
-        const hp  = String(calculatedStats.hp);
+        const hp = String(calculatedStats.hp);
         const atk = String(calculatedStats.atk);
         const def = String(calculatedStats.def);
         if (hp !== slot.customHP || atk !== slot.customATK || def !== slot.customDEF) {
@@ -522,7 +521,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
 
             {/* Equip Lines */}
             <div className="slot-subtitle">장비</div>
-            
+
             <div className="slot-section">
                 <span className="color-777">머리</span>
                 <select
