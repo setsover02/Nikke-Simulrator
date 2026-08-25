@@ -1,4 +1,4 @@
-$base-spacing: 8px;
+@use '../layout/layout' as layout;
 
 // Padding, Margin Helper
 $max-multiplier: 15; // 15 * 8 = 120px
@@ -21,7 +21,7 @@ $directions: (
 @each $prop-prefix, $prop-name in $properties {
     @each $dir-prefix, $dir-name in $directions {
         @for $i from 0 through $max-multiplier {
-            $value: $i * $base-spacing;
+            $value: $i * layout.$base-spacing;
 
             .#{$prop-prefix}#{$dir-prefix}-#{$i} {
                 @if $dir-name =='all' {

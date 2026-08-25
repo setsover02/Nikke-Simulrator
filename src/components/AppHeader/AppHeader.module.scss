@@ -1,18 +1,22 @@
+@use '../../assets/style/layout/layout' as layout;
+
 /* Header */
 .app-header {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    padding: 24px;
+    height: layout.$header-height;
+    padding: layout.$header-padding-y 24px;
     z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    box-sizing: border-box;
 }
 
 .app-logo {
-    height: 44px;
+    height: layout.$header-logo-height;
     width: auto;
     display: block;
 }

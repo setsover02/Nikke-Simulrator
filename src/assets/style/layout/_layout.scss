@@ -1,8 +1,26 @@
+$base-spacing: 8px;
+
+$breakpoints: (
+    'xs': 0px,
+    'sm': 600px,
+    'md': 960px,
+    'lg': 1280px
+);
+
+// Header Sizing
+$header-padding-y: $base-spacing * 3; // 24px
+$header-logo-height: 44px;
+$header-height: $header-logo-height + ($header-padding-y * 2); // 92px
+
 body {
     margin: 0;
-    display: flex;
-    place-items: center;
-    min-width: 320px;
+    width: 100%;
     min-height: 100vh;
     background: var(--Background-Body);
+    color: var(--Font-Default);
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
 }

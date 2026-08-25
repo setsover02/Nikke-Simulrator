@@ -1,0 +1,134 @@
+@use 'sass:map';
+@use '../../assets/style/layout/layout' as layout;
+
+// -------------------------
+// Container System
+// -------------------------
+.container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    box-sizing: border-box;
+    padding-top: layout.$header-height + layout.$base-spacing;
+    padding-bottom: layout.$base-spacing * 4;
+    padding-left: layout.$base-spacing * 2; // 16px
+    padding-right: layout.$base-spacing * 2;
+
+    @if map.get(layout.$breakpoints, 'md') {
+        @media (min-width: map.get(layout.$breakpoints, 'md')) {
+            padding-left: layout.$base-spacing * 3; // 24px
+            padding-right: layout.$base-spacing * 3;
+        }
+    }
+}
+
+.container-disable-gutters {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+// Container Max-Width Variants (layout.$breakpoints 기준 동적 생성)
+@each $bp, $min-width in layout.$breakpoints {
+    @if $min-width != 0px {
+        .max-width-#{$bp} {
+            max-width: $min-width;
+        }
+    }
+}
+
+.max-width-xs {
+    max-width: 480px;
+}
+
+.max-width-full {
+    max-width: 100%;
+}
+
+// -------------------------
+// Responsive Grid System (Grid Container Only)
+// -------------------------
+.grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    width: 100%;
+    box-sizing: border-box;
+    gap: layout.$base-spacing;
+}
+
+// Gap (0 ~ 10 * 8px)
+@for $i from 0 through 10 {
+    .gap-#{$i} {
+        gap: $i * layout.$base-spacing;
+    }
+
+    .row-gap-#{$i} {
+        row-gap: $i * layout.$base-spacing;
+    }
+
+    .col-gap-#{$i} {
+        column-gap: $i * layout.$base-spacing;
+    }
+}
+
+// Alignment
+.items-start {
+    align-items: start;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.items-end {
+    align-items: end;
+}
+
+.items-stretch {
+    align-items: stretch;
+}
+
+.justify-start {
+    justify-content: start;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.justify-end {
+    justify-content: end;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+// Responsive Breakpoints generation (cols-* and rows-*)
+@each $bp, $min-width in layout.$breakpoints {
+    @if $min-width == 0px {
+        // Base / xs (no media query)
+        @for $i from 1 through 12 {
+            .cols-#{$bp}-#{$i},
+            .cols-#{$i} {
+                grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+            }
+
+            .rows-#{$bp}-#{$i},
+            .rows-#{$i} {
+                grid-template-rows: repeat(#{$i}, minmax(0, 1fr));
+            }
+        }
+    } @else {
+        @media (min-width: #{$min-width}) {
+            @for $i from 1 through 12 {
+                .cols-#{$bp}-#{$i} {
+                    grid-template-columns: repeat(#{$i}, minmax(0, 1fr));
+                }
+
+                .rows-#{$bp}-#{$i} {
+                    grid-template-rows: repeat(#{$i}, minmax(0, 1fr));
+                }
+            }
+        }
+    }
+}

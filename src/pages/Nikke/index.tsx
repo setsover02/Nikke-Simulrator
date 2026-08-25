@@ -15,6 +15,9 @@ import {
 import { characterOptions } from '../../constants/characters';
 import GlobalLevelPanel from '../home/GlobalLevelPanel';
 import { OutpostCard } from '../../components/OutpostCard/OutpostCard';
+import { Card } from '../../components/Card/Card';
+import { Container } from '../../components/Layout/Container';
+import { Grid } from '../../components/Layout/Grid';
 
 const cubeList = [
     { value: 'None', label: '장착 해제' },
@@ -128,14 +131,16 @@ const Nikke: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', gap: '32px' }}>
-            <div style={{ paddingBottom: '16px', borderBottom: '1px solid var(--Divider-Normal)' }}>
-                <Font variant="display-3" weight="bold">Nikke Information</Font>
-                <div style={{ marginTop: '8px' }}>
+        <Grid columns={1}>
+            {/* 1. Header */}
+            <div className="pb-2" style={{ borderBottom: '1px solid var(--Divider-Normal)' }}>
+                <Font variant="display-3" weight="bold" as="h1">Nikke Information</Font>
+                <div className="mt-1">
                     <Font variant="body" color="muted">니케 및 전초기지 정보를 로컬에 저장하고 관리합니다.</Font>
                 </div>
             </div>
 
+            {/* 2. 전초기지 레벨 패널 */}
             <OutpostCard>
                 <GlobalLevelPanel
                     outpostState={outpostState}
@@ -143,121 +148,122 @@ const Nikke: React.FC = () => {
                 />
             </OutpostCard>
 
-            <section style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '500px' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <Font variant="heading-2" weight="bold">니케 (Nikke)</Font>
-                    <div style={{ background: 'var(--Primary-24)', padding: '2px 8px', borderRadius: '12px' }}>
-                        <Font variant="caption-1" weight="bold" style={{ color: 'var(--Primary-100)' }}>{characterOptions.length}</Font>
+            {/* 3. 니케 목록 */}
+            <Card as="section" className="pa-4" style={{ minHeight: '500px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        <Font variant="heading-2" weight="bold">니케 (Nikke)</Font>
+                        <div style={{ background: 'var(--Primary-24)', padding: '2px 8px', borderRadius: '12px' }}>
+                            <Font variant="caption-1" weight="bold" style={{ color: 'var(--Primary-100)' }}>{characterOptions.length}</Font>
+                        </div>
                     </div>
-                </div>
 
-                <div style={{ marginTop: '16px' }}>
-                    <DataTable
-                        data={characterOptions}
-                        keyExtractor={(row) => row.data.characterID}
-                        maxHeight="calc(100vh - 200px)"
-                        columns={[
-                            {
-                                id: 'name',
-                                header: <Font variant="caption-1" weight="semibold">이름</Font>,
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    return (
-                                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                            <Avatar charId={charId} size={32} />
-                                            <Font variant="body" weight="medium">{row.label}</Font>
-                                        </div>
-                                    );
-                                }
-                            },
-                            {
-                                id: 'cube',
-                                header: <Font variant="caption-1" weight="semibold">큐브</Font>,
-                                width: '90px',
-                                narrow: true,
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    const state = nikkeStates[charId] || {};
-                                    const selectedCube = state.cubeName || '03-cube-resilience';
-                                    const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
-                                    const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
-                                    return (
-                                        <div style={{ position: 'relative', width: '100%', height: '36px' }}>
-                                            <Textfield
-                                                size="small"
-                                                value=""
-                                                readOnly
-                                                leftElement={imgSrc && <img src={imgSrc} alt="cube" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />}
-                                                rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
-                                                style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0', width: '0px' }} // Hide text entirely
-                                            />
-                                            <select
-                                                value={selectedCube}
-                                                onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
-                                                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
-                                            >
-                                                {cubeList.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                                            </select>
-                                        </div>
-                                    );
-                                }
-                            },
-                            {
-                                id: 'hp',
-                                header: <Font variant="caption-1" weight="semibold">체력 (HP)</Font>,
-                                width: '120px',
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    const state = nikkeStates[charId] || {};
-                                    return <Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={row.data.stats?.hp?.toString() || '0'} />;
-                                }
-                            },
-                            {
-                                id: 'atk',
-                                header: <Font variant="caption-1" weight="semibold">공격력 (ATK)</Font>,
-                                width: '120px',
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    const state = nikkeStates[charId] || {};
-                                    return <Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={row.data.stats?.atk?.toString() || '0'} />;
-                                }
-                            },
-                            {
-                                id: 'def',
-                                header: <Font variant="caption-1" weight="semibold">방어력 (DEF)</Font>,
-                                width: '120px',
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    const state = nikkeStates[charId] || {};
-                                    return <Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={row.data.stats?.defense?.toString() || '0'} />;
-                                }
-                            },
-                            ...[
-                                { id: 'equipWeakPoint', label: '우월코드' },
-                                { id: 'equipAccuracy', label: '명중률' },
-                                { id: 'equipAmmo', label: '장탄' },
-                                { id: 'equipATK', label: '공격력' },
-                                { id: 'equipChargeDmg', label: '차댐' },
-                                { id: 'equipChargeSpeed', label: '차속' },
-                                { id: 'equipCritRate', label: '크확' },
-                                { id: 'equipCritDmg', label: '크댐' },
-                                { id: 'equipDef', label: '방어력' }
-                            ].map(opt => ({
-                                id: opt.id,
-                                header: <Font variant="caption-1" weight="semibold">{opt.label}</Font>,
-                                width: '85px',
-                                narrow: true,
-                                cell: (row: any) => {
-                                    const charId = row.data.characterID;
-                                    const state = nikkeStates[charId] || {};
-                                    return <Textfield size="small" value={state[opt.id as keyof SavedCharState] || ''} onChange={(e) => handleNikkeChange(charId, opt.id as keyof SavedCharState, e.target.value)} placeholder="0" suffix="%" />;
-                                }
-                            }))
-                        ]}
-                    />
-                </div>
-            </section>
-        </div>
+                    <div className="mt-2">
+                        <DataTable
+                            data={characterOptions}
+                            keyExtractor={(row) => row.data.characterID}
+                            maxHeight="calc(100vh - 200px)"
+                            columns={[
+                                {
+                                    id: 'name',
+                                    header: <Font variant="caption-1" weight="semibold">이름</Font>,
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        return (
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <Avatar charId={charId} size={32} />
+                                                <Font variant="body" weight="medium">{row.label}</Font>
+                                            </div>
+                                        );
+                                    }
+                                },
+                                {
+                                    id: 'cube',
+                                    header: <Font variant="caption-1" weight="semibold">큐브</Font>,
+                                    width: '90px',
+                                    narrow: true,
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        const selectedCube = state.cubeName || '03-cube-resilience';
+                                        const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
+                                        const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
+                                        return (
+                                            <div style={{ position: 'relative', width: '100%', height: '36px' }}>
+                                                <Textfield
+                                                    size="small"
+                                                    value=""
+                                                    readOnly
+                                                    leftElement={imgSrc && <img src={imgSrc} alt="cube" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />}
+                                                    rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
+                                                    style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0', width: '0px' }} // Hide text entirely
+                                                />
+                                                <select
+                                                    value={selectedCube}
+                                                    onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
+                                                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
+                                                >
+                                                    {cubeList.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
+                                                </select>
+                                            </div>
+                                        );
+                                    }
+                                },
+                                {
+                                    id: 'hp',
+                                    header: <Font variant="caption-1" weight="semibold">체력 (HP)</Font>,
+                                    width: '120px',
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        return <Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={row.data.stats?.hp?.toString() || '0'} />;
+                                    }
+                                },
+                                {
+                                    id: 'atk',
+                                    header: <Font variant="caption-1" weight="semibold">공격력 (ATK)</Font>,
+                                    width: '120px',
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        return <Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={row.data.stats?.atk?.toString() || '0'} />;
+                                    }
+                                },
+                                {
+                                    id: 'def',
+                                    header: <Font variant="caption-1" weight="semibold">방어력 (DEF)</Font>,
+                                    width: '120px',
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        return <Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={row.data.stats?.defense?.toString() || '0'} />;
+                                    }
+                                },
+                                ...[
+                                    { id: 'equipWeakPoint', label: '우월코드' },
+                                    { id: 'equipAccuracy', label: '명중률' },
+                                    { id: 'equipAmmo', label: '장탄' },
+                                    { id: 'equipATK', label: '공격력' },
+                                    { id: 'equipChargeDmg', label: '차댐' },
+                                    { id: 'equipChargeSpeed', label: '차속' },
+                                    { id: 'equipCritRate', label: '크확' },
+                                    { id: 'equipCritDmg', label: '크댐' },
+                                    { id: 'equipDef', label: '방어력' }
+                                ].map(opt => ({
+                                    id: opt.id,
+                                    header: <Font variant="caption-1" weight="semibold">{opt.label}</Font>,
+                                    width: '85px',
+                                    narrow: true,
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        return <Textfield size="small" value={state[opt.id as keyof SavedCharState] || ''} onChange={(e) => handleNikkeChange(charId, opt.id as keyof SavedCharState, e.target.value)} placeholder="0" suffix="%" />;
+                                    }
+                                }))
+                            ]}
+                        />
+                    </div>
+                </Card>
+            </Grid>
     );
 };
 

@@ -1,56 +1,65 @@
 import React, { useState, useEffect } from 'react';
-import { SlotState, ScenarioSummary } from '../types/simulator';
-import { characterOptions } from '../constants/characters';
-import { RangeMode } from '../constants/weaponStats';
-import { getCharDefaultState, saveCharSettings, loadTeamLayout, saveTeamLayout, getGlobalCubeLevel, saveGlobalCubeLevel, loadOutpostState, saveOutpostState, SavedOutpostState } from '../utils/storageUtils';
-import { BurstWindow } from '../utils/simUtils';
-import { runSimulation } from '../engine/simulationRunner';
-
 import CharacterSlot from './home/CharacterSlot';
+import SimToolbar from './home/SimToolbar';
 import ResultSummary from './home/ResultSummary';
+import GlobalLevelPanel from './home/GlobalLevelPanel';
 import CanvasChart from './home/CanvasChart';
 import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
-import SimToolbar from './home/SimToolbar';
-import GlobalLevelPanel from './home/GlobalLevelPanel';
+import { runSimulation } from '../engine/simulationRunner';
+import {
+    loadOutpostState,
+    saveOutpostState,
+    SavedOutpostState,
+    saveCharSettings,
+    loadAllCharSettings,
+    loadGlobalCubeLevels,
+    saveGlobalCubeLevel,
+    getGlobalCubeLevel,
+    getCharDefaultState
+} from '../utils/storageUtils';
+import { RangeMode } from '../constants/weaponStats';
+import { SlotState } from '../types/simulator';
 import { Card } from '../components/Card/Card';
 import { OutpostCard } from '../components/OutpostCard/OutpostCard';
+import { Container } from '../components/Layout/Container';
+import { Grid } from '../components/Layout/Grid';
 
 const Home: React.FC = () => {
-    // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
-    const [slots, setSlots] = useState<(SlotState | null)[]>(() => {
-        const layoutIds = loadTeamLayout();
-        return layoutIds.map(id => {
-            if (!id) return null;
-            const option = characterOptions.find(o => o.data.characterID === id);
-            return option ? getCharDefaultState(option) : null;
-        });
-    });
-    const [outpostState, setOutpostState] = useState<SavedOutpostState>(() => loadOutpostState());
-    const [simResult, setSimResult] = useState<ScenarioSummary | null>(null);
+    // 5 Character slots: null means empty
+    const [slots, setSlots] = useState<(SlotState | null)[]>([null, null, null, null, null]);
+
+    // Outpost level settings
+    const [outpostState, setOutpostState] = useState<SavedOutpostState>(loadOutpostState);
+
+    // Toolbar settings
+    const [fullBurstInterval, setFullBurstInterval] = useState<string>('0');
+    const [showCore, setShowCore] = useState<boolean>(true);
+    const [rangeMode, setRangeMode] = useState<RangeMode>(25);
+    const [weaknessElement, setWeaknessElement] = useState<string>('none');
+    const [enemyDef, setEnemyDef] = useState<string>('4000');
+
+    // Simulation Results
+    const [simResult, setSimResult] = useState<any | null>(null);
     const [chartDatasets, setChartDatasets] = useState<any[]>([]);
-    const [enemyDef, setEnemyDef] = useState<string>('100');
-    const [fullBurstInterval, setFullBurstInterval] = useState<string>('4.58');
-    const [rangeMode, setRangeMode] = useState<RangeMode>(45);
-    const [weaknessElement, setWeaknessElement] = useState<string>('작열');
-    const [burstWindows, setBurstWindows] = useState<BurstWindow[]>([]);
-    const [showCore, setShowCore] = useState<boolean>(false);
-    const [skillInfoMap, setSkillInfoMap] = useState<Record<string, Record<string, { effects: { target: string; effect: string; value: string }[]; duration?: number; cooldown?: number }>>>({});
+    const [skillChartDatasets, setSkillChartDatasets] = useState<any[]>([]);
+    const [burstWindows, setBurstWindows] = useState<any[]>([]);
+    const [skillInfoMap, setSkillInfoMap] = useState<Record<string, { skill1?: string; skill2?: string; burst?: string }>>({});
     const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
     const [chartTab, setChartTab] = useState<'total' | 'skill'>('total');
-    const [skillChartDatasets, setSkillChartDatasets] = useState<any[]>([]);
 
+    // Load saved settings on mount
     useEffect(() => {
-        const layoutIds = slots.map(s => s ? s.char.data.characterID : null);
-        saveTeamLayout(layoutIds);
-    }, [slots]);
+        const savedMap = loadAllCharSettings();
+        // Pre-populate if saved characters exist in slots
+        // Slots initial empty
+    }, []);
 
+    // Save outpost changes
     const handleOutpostChange = (patch: Partial<SavedOutpostState>) => {
-        setOutpostState(prev => {
-            const next = { ...prev, ...patch };
-            saveOutpostState(next);
-            return next;
-        });
+        const next = { ...outpostState, ...patch };
+        setOutpostState(next);
+        saveOutpostState(next);
     };
 
     const updateSlot = (idx: number, patch: Partial<SlotState> | null) => {
@@ -107,13 +116,50 @@ const Home: React.FC = () => {
         }));
     };
 
-    const handleSimulate = () => {
+    // Auto-run simulation whenever slots or settings change
+    useEffect(() => {
+        const activeChars = slots.filter((s): s is SlotState => s !== null && s.char !== null);
+        if (activeChars.length === 0) {
+            setSimResult(null);
+            setChartDatasets([]);
+            setSkillChartDatasets([]);
+            setBurstWindows([]);
+            setSkillInfoMap({});
+            setCharIdToName({});
+            return;
+        }
+
         const output = runSimulation({
             slots,
             enemyDef,
             fullBurstInterval,
             rangeMode,
             weaknessElement,
+            outpostState,
+            showCore,
+        });
+        if (!output) return;
+
+        setSimResult(output.summary);
+        setChartDatasets(output.chartDatasets);
+        setSkillChartDatasets(output.skillChartDatasets);
+        setBurstWindows(output.burstWindows);
+        setSkillInfoMap(output.skillInfoMap);
+        setCharIdToName(output.charIdToName);
+    }, [slots, outpostState, fullBurstInterval, showCore, rangeMode, weaknessElement, enemyDef]);
+
+    // Manual Re-calculate Trigger
+    const handleSimulate = () => {
+        const activeChars = slots.filter((s): s is SlotState => s !== null && s.char !== null);
+        if (activeChars.length === 0) return;
+
+        const output = runSimulation({
+            slots,
+            enemyDef,
+            fullBurstInterval,
+            rangeMode,
+            weaknessElement,
+            outpostState,
             showCore,
         });
         if (!output) return;
@@ -131,114 +177,110 @@ const Home: React.FC = () => {
     while (displaySlots.length < 5) displaySlots.push(null as any);
 
     return (
-        <div className="home-container">
-            <div className="home-content">
+        <Grid columns={1}>
+            {/* 1. 글로벌 레벨 설정 패널 (전체 넓이) */}
+            <OutpostCard>
+                <GlobalLevelPanel
+                    outpostState={outpostState}
+                    onChange={handleOutpostChange}
+                />
+            </OutpostCard>
 
-                {/* 글로벌 레벨 설정 패널 (사이드바) */}
-                <OutpostCard>
-                    <GlobalLevelPanel
-                        outpostState={outpostState}
-                        onChange={handleOutpostChange}
-                    />
-                </OutpostCard>
-
-                {/* 2-Column Main Layout */}
-                <div style={{ display: 'flex', gap: '24px' }}>
-
-                    {/* Left Column: 스쿼드 (Squad) */}
-                    <Card style={{ flex: 1 }} className="pa-4">
-                        <div className="home-squad-list">
-                            {displaySlots.map((slot, idx) => (
-                                <CharacterSlot
-                                    key={idx}
-                                    slot={slot}
-                                    index={idx}
-                                    onUpdate={(patch) => updateSlot(idx, patch)}
-                                    outpostState={outpostState}
-                                />
-                            ))}
-                        </div>
-                    </Card>
-
-                    {/* Right Column: 타겟 설정 (Target Settings) */}
-                    <Card style={{ width: '320px', flexShrink: 0 }} className="pa-4">
-                        <SimToolbar
-                            fullBurstInterval={fullBurstInterval}
-                            onFullBurstIntervalChange={setFullBurstInterval}
-                            showCore={showCore}
-                            onToggleCore={() => setShowCore(v => !v)}
-                            rangeMode={rangeMode}
-                            onRangeModeChange={setRangeMode}
-                            weaknessElement={weaknessElement}
-                            onWeaknessChange={setWeaknessElement}
-                            enemyDef={enemyDef}
-                            onEnemyDefChange={setEnemyDef}
-                            onSimulate={handleSimulate}
-                        />
-                    </Card>
-                </div>
-
-                {/* 결과 요약 */}
-                {simResult && (
-                    <Card className="pa-4 mb-4" style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                        <ResultSummary
-                            summary={simResult}
-                            showTeamTotal={slots.filter(s => s !== null).length > 1}
-                            isCore={showCore}
-                        />
-                    </Card>
-                )}
-
-                {/* 통합 차트 */}
-                <Card className="pa-4" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '300px', flexDirection: 'column' }}>
-                    {chartDatasets.length > 0 ? (
-                        <div style={{ width: '100%' }}>
-                            {/* Tab Bar */}
-                            <div style={{ display: 'flex', gap: '0', marginBottom: '8px' }}>
-                                <button
-                                    onClick={() => setChartTab('total')}
-                                    style={{
-                                        padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'total' ? 'bold' : 'normal',
-                                        background: chartTab === 'total' ? '#333' : '#1e1e1e',
-                                        color: chartTab === 'total' ? '#fff' : '#888',
-                                        border: '1px solid #444', borderBottom: chartTab === 'total' ? '2px solid #4fc3f7' : '1px solid #444',
-                                        borderRadius: '6px 6px 0 0', cursor: 'pointer',
-                                    }}
-                                >전체 대미지</button>
-                                <button
-                                    onClick={() => setChartTab('skill')}
-                                    style={{
-                                        padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'skill' ? 'bold' : 'normal',
-                                        background: chartTab === 'skill' ? '#333' : '#1e1e1e',
-                                        color: chartTab === 'skill' ? '#fff' : '#888',
-                                        border: '1px solid #444', borderBottom: chartTab === 'skill' ? '2px solid #ff9800' : '1px solid #444',
-                                        borderRadius: '6px 6px 0 0', cursor: 'pointer',
-                                    }}
-                                >스킬 대미지</button>
-                            </div>
-                            {chartTab === 'total' ? (
-                                <CanvasChart
-                                    datasets={chartDatasets}
-                                    burstWindows={burstWindows}
-                                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
-                                    charIdToName={charIdToName}
-                                />
-                            ) : (
-                                <CanvasScatterChart
-                                    datasets={skillChartDatasets}
-                                    burstWindows={burstWindows}
-                                    title="Skill Damage Instances"
-                                    charIdToName={charIdToName}
-                                />
-                            )}
-                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
-                        </div>
-                    ) : (
-                        <h2 className="chart-title-empty">차트</h2>
-                    )}
+            {/* 2. 스쿼드(최대 넓이 1fr) + 타겟 설정(320px 고정) (2열 중첩 Grid) */}
+            <Grid columns="1fr 320px">
+                {/* Left Column: 스쿼드 (Squad - 최대 넓이) */}
+                <Card className="pa-4">
+                    <div className="home-squad-list">
+                        {displaySlots.map((slot, idx) => (
+                            <CharacterSlot
+                                key={idx}
+                                slot={slot}
+                                index={idx}
+                                onUpdate={(patch) => updateSlot(idx, patch)}
+                                outpostState={outpostState}
+                            />
+                        ))}
+                    </div>
                 </Card>
-            </div>
-        </div>
+
+                {/* Right Column: 타겟 설정 (Target Settings - 320px 고정) */}
+                <Card className="pa-4">
+                    <SimToolbar
+                        fullBurstInterval={fullBurstInterval}
+                        onFullBurstIntervalChange={setFullBurstInterval}
+                        showCore={showCore}
+                        onToggleCore={() => setShowCore(v => !v)}
+                        rangeMode={rangeMode}
+                        onRangeModeChange={setRangeMode}
+                        weaknessElement={weaknessElement}
+                        onWeaknessChange={setWeaknessElement}
+                        enemyDef={enemyDef}
+                        onEnemyDefChange={setEnemyDef}
+                        onSimulate={handleSimulate}
+                    />
+                </Card>
+            </Grid>
+
+            {/* 3. 결과 요약 (전체 넓이) */}
+            {simResult && (
+                <Card className="pa-4">
+                    <ResultSummary
+                        summary={simResult}
+                        showTeamTotal={slots.filter(s => s !== null).length > 1}
+                        isCore={showCore}
+                    />
+                </Card>
+            )}
+
+            {/* 4. 하단 1열 전체넓이 통합 차트 */}
+            <Card className="pa-4" style={{ minHeight: '300px' }}>
+                {chartDatasets.length > 0 ? (
+                    <div>
+                        {/* Tab Bar */}
+                        <div className="mb-2" style={{ display: 'flex', gap: '0' }}>
+                            <button
+                                onClick={() => setChartTab('total')}
+                                style={{
+                                    padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'total' ? 'bold' : 'normal',
+                                    background: chartTab === 'total' ? '#333' : '#1e1e1e',
+                                    color: chartTab === 'total' ? '#fff' : '#888',
+                                    border: '1px solid #444', borderBottom: chartTab === 'total' ? '2px solid #4fc3f7' : '1px solid #444',
+                                    borderRadius: '6px 6px 0 0', cursor: 'pointer',
+                                }}
+                            >전체 대미지</button>
+                            <button
+                                onClick={() => setChartTab('skill')}
+                                style={{
+                                    padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'skill' ? 'bold' : 'normal',
+                                    background: chartTab === 'skill' ? '#333' : '#1e1e1e',
+                                    color: chartTab === 'skill' ? '#fff' : '#888',
+                                    border: '1px solid #444', borderBottom: chartTab === 'skill' ? '2px solid #ff9800' : '1px solid #444',
+                                    borderRadius: '6px 6px 0 0', cursor: 'pointer',
+                                }}
+                            >스킬 대미지</button>
+                        </div>
+                        {chartTab === 'total' ? (
+                            <CanvasChart
+                                datasets={chartDatasets}
+                                burstWindows={burstWindows}
+                                title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                charIdToName={charIdToName}
+                            />
+                        ) : (
+                            <CanvasScatterChart
+                                datasets={skillChartDatasets}
+                                burstWindows={burstWindows}
+                                title="Skill Damage Instances"
+                                charIdToName={charIdToName}
+                            />
+                        )}
+                        {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
+                    </div>
+                ) : (
+                    <h2 className="chart-title-empty">차트</h2>
+                )}
+            </Card>
+        </Grid>
     );
 };
 
