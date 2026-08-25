@@ -21,3 +21,6 @@ leaving_memories: 추억 남기기 (아르카나: 포춘 메이트 전용 상태
 
 capture_chain: 포획 사슬 (미하라: 본딩 체인 전용 상태)
 chain_binding: 사슬 감기 (미하라: 본딩 체인 전용 상태)
+chain_pull: 사슬 당기기 (미하라: 본딩 체인 전용 상태)
+
+relax: 휴식 (크라운 전용 상태)

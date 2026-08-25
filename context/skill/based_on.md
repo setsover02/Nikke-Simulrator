@@ -10,10 +10,18 @@
 ## based_on
 ### 타겟 기준
 attack_damage: 공격 대미지 (시전자가 아닌 target 기준 공격력)
+final_atk: 최종 공격력 (타겟 기준 최종 공격력)
+final_hp: 최종 체력 (타겟 기준 최종 체력)
+final_def: 최종 방어력 (타겟 기준 최종 방어력)
+final_max_ammo: 최종 최대 장탄수 (타겟 기준 최종 최대 장탄수)
+final_reload_time: 최종 재장전 시간
+final_charge_time: 최종 차지 시간
 
 ### 시전자 기준
 caster_hp: 시전자 기준 최대 체력 (버프 적용 전의 수치)
+caster_max_hp: 시전자 최대 체력 (버프 적용 전 기본 최대 체력 기준 수치)
 caster_final_max_hp: 시전자 최종 최대 체력 기준 (버프 적용 후의 수치)
 caster_def: 시전자 방어력 비례 (버프 적용 전의 수치)
 caster_final_atk: 최종 공격력(대미지인 경우) 또는 시전자 최종 공격력 기준(버프인 경우)
 caster_atk: 시전자 기준 공격력
+

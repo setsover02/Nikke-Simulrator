@@ -97,4 +97,20 @@ pierce_damage_up: 관통 대미지 증가
 pierce: 관통 특화 (관통 효과가 적용되는 특수 상태)
 
 ### 홍련 : 흑영 전용
-full_charge_count_change: 풀 차지 공격 횟수 조건 변경 (홍련 : 흑영 버스트 전용 효과, target_skill: "skill_1", counts: [1, 2, 3])
+full_charge_count_change: 풀 차지 공격 횟수 조건 변경 (홍련 : 흑영 버스트 전용 효과, target_skill: "skill_1", counts: [1, 2, 3])
+
+### 리틀 머메이드 전용
+burst_bubble: 버블 파열 (리틀 머메이드 전용, 버블 상태인 적에게 추가 폭발 대미지)
+bubble_barrage: 버블 세례 (리틀 머메이드 전용, 다단 히트 스킬 대미지)
+
+### 추가 공통 / 스탯 효과
+reload_speed_up: 재장전 속도 증가 (재장전 시간 감소 / 장전 속도 % 증가)
+attack_power_up: 공격력 증가 (공격력 n% 증가, atk_up과 동일 계열)
+heal_efficacy_up: 받는 회복량 증가 (체력 회복 효과 증가)
+receive_heal_up: 받는 체력 회복량 증가 (자신이 받는 회복량 % 증가)
+damage_taken_up: 받는 대미지 증가 (적이 받는 대미지 n% 증가 디버프)
+invincible: 무적 (지속 시간 동안 모든 피해 무효화)
+stun: 기절 (지속 시간 동안 행동 불가 상태이상)
+buff: 일반 버프 (다중 능력치 강화 통합 버프)
+stat_buff: 스탯 버프 (기본 능력치 버프)
+
