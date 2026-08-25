@@ -44,7 +44,8 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "reload_speed_up",
+                    "effect": "buff",
+                    "status": "방열",
                     "value": [
                         50,
                         50,
@@ -57,6 +58,12 @@
                         50,
                         50
                     ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
@@ -75,12 +82,15 @@
                         2,
                         2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent",
+                    "interval": 1
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_gauge_charge_speed_up",
                     "value": [
                         23.02,
                         24.79,
@@ -93,12 +103,13 @@
                         37.19,
                         38.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "pierce_damage_up",
                     "value": [
                         28.6,
                         30.8,
@@ -111,7 +122,8 @@
                         46.2,
                         48.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -121,9 +133,24 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15
+                        ]
+                    },
+                    "status": "과열 I",
                     "value": [
                         9.15,
                         9.85,
@@ -139,27 +166,30 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        30,
-                        30,
-                        30,
-                        30,
-                        30,
-                        30,
-                        30,
-                        30,
-                        30,
-                        30
-                    ],
-                    "unit": "seconds"
+                    "condition": {
+                        "count": [
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15
+                        ]
+                    },
+                    "unit": "percent"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "과열 II",
                     "value": [
                         12.21,
                         13.14,
@@ -172,30 +202,14 @@
                         19.72,
                         20.66
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "status": "과열 III",
                     "value": [
                         18.2,
                         19.6,
@@ -208,7 +222,8 @@
                         29.4,
                         30.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -219,9 +234,15 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "current_hp_down",
                     "value": [
                         1,
                         1,
@@ -234,12 +255,28 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "interval": 1
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "infinite_ammo",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "pierce_damage_up",
                     "value": [
                         31.2,
                         33.6,
@@ -252,10 +289,11 @@
                         50.4,
                         52.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
@@ -270,11 +308,12 @@
                         81.64,
                         85.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         28.48,
@@ -288,12 +327,13 @@
                         46.01,
                         48.2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "pierce_damage_up",
                     "value": [
                         23.63,
                         25.44,
@@ -306,11 +346,12 @@
                         38.17,
                         39.98
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         3,
@@ -324,7 +365,8 @@
                         3,
                         3
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 }
             ]
         }

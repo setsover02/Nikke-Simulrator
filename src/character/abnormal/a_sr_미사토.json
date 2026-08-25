@@ -26,7 +26,22 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
+                    "status": "사격 매뉴얼",
                     "value": [
                         2.52,
                         2.8,
@@ -39,12 +54,28 @@
                         4.76,
                         5.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 3
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
                     "effect": "heal",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
                     "value": [
                         4.02,
                         4.47,
@@ -57,7 +88,8 @@
                         7.6,
                         8.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -68,8 +100,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "shield",
                     "value": [
                         75,
                         83.33,
@@ -82,7 +114,9 @@
                         141.66,
                         150
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
@@ -100,7 +134,8 @@
                         28.38,
                         30.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -111,8 +146,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         2.42,
@@ -126,7 +161,10 @@
                         4.76,
                         5.06
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5,
+                    "interval": 1
                 }
             ]
         }

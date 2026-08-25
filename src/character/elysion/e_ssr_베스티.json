@@ -52,7 +52,8 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "attack_power_up",
+                    "effect": "atk_up",
+                    "status": "생존본능 1",
                     "value": [
                         3.16,
                         3.4,
@@ -73,6 +74,7 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_damage_up",
+                    "status": "생존본능 2",
                     "value": [
                         13.2,
                         14.21,
@@ -93,6 +95,7 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "생존본능 3",
                     "value": [
                         9.17,
                         9.87,
@@ -118,26 +121,14 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "target": "lowest_hp_enemy",
-                    "effect": "interval_damage",
-                    "value": [
-                        9.19,
-                        9.9,
-                        10.61,
-                        11.32,
-                        12.02,
-                        12.73,
-                        13.44,
-                        14.15,
-                        14.86,
-                        15.56
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "interval": 1,
-                    "duration": 18
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 2,
+                    "unit": "percent"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "extra_damage",
                     "value": [
@@ -153,10 +144,10 @@
                         210.62
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 1
+                    "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "extra_damage",
                     "value": [
@@ -172,10 +163,10 @@
                         247.25
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 2
+                    "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "extra_damage",
                     "value": [
@@ -191,10 +182,10 @@
                         302.19
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 3
+                    "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "full_burst_time_down",
                     "value": 5,

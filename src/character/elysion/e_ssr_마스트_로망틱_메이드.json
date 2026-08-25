@@ -24,9 +24,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "enter_burst_1",
                     "target": "self",
                     "effect": "buff",
+                    "status": "취기",
                     "value": [
                         35.92,
                         34.15,
@@ -39,11 +40,13 @@
                         21.77,
                         20
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 3
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "critical_rate_up",
                     "value": [
                         11.85,
@@ -57,11 +60,12 @@
                         19.14,
                         20.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         20.69,
@@ -75,7 +79,9 @@
                         33.42,
                         35.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -85,58 +91,12 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        8.88,
-                        9.56,
-                        10.24,
-                        10.93,
-                        11.61,
-                        12.29,
-                        12.98,
-                        13.66,
-                        14.34,
-                        15.03
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "reload_speed_up",
-                    "value": [
-                        8.73,
-                        9.43,
-                        10.13,
-                        10.83,
-                        11.53,
-                        12.24,
-                        12.94,
-                        13.64,
-                        14.34,
-                        15.04
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "stun",
+                    "status": "숙취",
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -147,9 +107,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "critical_damage_up",
                     "value": [
                         23.51,
                         25.34,
@@ -162,11 +122,12 @@
                         38.2,
                         40.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         8.89,
@@ -180,25 +141,8 @@
                         14.36,
                         15.04
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        11.85,
-                        12.76,
-                        13.68,
-                        14.59,
-                        15.5,
-                        16.41,
-                        17.32,
-                        18.24,
-                        19.15,
-                        20.06
-                    ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "last_bullet_hit",
-                    "target": "lowest_hp_ally",
+                    "target": "self",
                     "effect": "heal",
                     "value": [
                         1.21,
@@ -47,11 +47,11 @@
         {
             "id": "skill_2",
             "name": "오션 클렌징",
-            "type": "active",
-            "cooldown": 15,
+            "type": "passive",
             "effects": [
                 {
-                    "target": "lowest_hp_ally",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "heal",
                     "value": [
                         2.42,
@@ -77,6 +77,7 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "heal",
                     "value": [

@@ -93,7 +93,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "element_damage_up",
+                    "effect": "atk_damage_up",
                     "value": [
                         8.32,
                         9.68,
@@ -113,7 +113,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "element_damage_up",
+                    "effect": "atk_damage_up",
                     "value": [
                         8.32,
                         9.64,
@@ -133,7 +133,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "element_damage_up",
+                    "effect": "atk_damage_up",
                     "value": [
                         8.32,
                         9.64,
@@ -159,32 +159,28 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "change_weapon",
-                    "value": [
-                        19.5,
-                        21,
-                        22.5,
-                        24,
-                        25.5,
-                        27,
-                        28.5,
-                        30,
-                        31.5,
-                        33
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 7,
                     "weapon_override": {
-                        "chargeTime": 0.71,
-                        "fireRate": 0,
-                        "fullChargeDamage": 100,
-                        "maxAmmo": "infinity"
-                    }
+                        "atkCoef": [
+                            19.5,
+                            21,
+                            22.5,
+                            24,
+                            25.5,
+                            27,
+                            28.5,
+                            30,
+                            31.5,
+                            33
+                        ]
+                    },
+                    "duration": 7
                 },
                 {
-                    "target": "fire_element_enemy",
+                    "trigger": "burst_cast",
+                    "target": "target",
                     "effect": "extra_damage",
                     "value": [
                         6.5,

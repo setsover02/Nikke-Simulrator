@@ -27,6 +27,7 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "소원",
                     "value": [
                         27.45,
                         29.56,
@@ -39,7 +40,9 @@
                         44.35,
                         46.46
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -52,6 +55,7 @@
                     "trigger": "full_burst_start",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "status": "일과 보고",
                     "value": [
                         27.31,
                         29.41,
@@ -64,7 +68,8 @@
                         44.12,
                         46.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -75,8 +80,15 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "burst_reenter",
+                    "value": 2,
+                    "unit": "count"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         11.82,
@@ -90,12 +102,14 @@
                         19.09,
                         20
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "status": "충심",
                     "value": [
                         54.62,
                         58.82,
@@ -108,7 +122,8 @@
                         88.24,
                         92.44
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

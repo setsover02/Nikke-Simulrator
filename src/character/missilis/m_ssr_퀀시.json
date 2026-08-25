@@ -26,7 +26,21 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "copy_max_hp",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
                     "value": [
                         6.21,
                         6.9,
@@ -39,7 +53,8 @@
                         11.73,
                         12.42
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -64,7 +79,8 @@
                         15.21,
                         16.11
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -75,9 +91,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         21.93,
                         24.37,
@@ -90,12 +106,13 @@
                         41.43,
                         43.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
                     "value": [
                         14.95,
                         16.61,
@@ -108,7 +125,8 @@
                         28.24,
                         29.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

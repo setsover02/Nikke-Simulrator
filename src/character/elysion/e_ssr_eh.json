@@ -27,6 +27,19 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 1,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
                     "value": [
                         4,
                         4,
@@ -39,7 +52,8 @@
                         4,
                         4
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
@@ -57,7 +71,8 @@
                         7.16,
                         7.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -82,7 +97,26 @@
                         10,
                         10
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
@@ -99,86 +133,6 @@
                         1,
                         1,
                         1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        9.67,
-                        10.41,
-                        11.16,
-                        11.9,
-                        12.64,
-                        13.39,
-                        14.13,
-                        14.88,
-                        15.62,
-                        16.36
-                    ],
-                    "unit": "percent"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "인 투 더 헤븐",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        36.02,
-                        38.8,
-                        41.57,
-                        44.35,
-                        47.12,
-                        49.9,
-                        52.67,
-                        55.45,
-                        58.22,
-                        61
                     ],
                     "unit": "percent"
                 },
@@ -198,10 +152,135 @@
                         10,
                         10
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        9.67,
+                        10.41,
+                        11.16,
+                        11.9,
+                        12.64,
+                        13.39,
+                        14.13,
+                        14.88,
+                        15.62,
+                        16.36
+                    ],
+                    "unit": "percent",
+                    "duration": 15
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "인 투 더 헤븐",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "chargeTime": 0.4,
+                        "atkCoef": [
+                            36.02,
+                            38.8,
+                            41.57,
+                            44.35,
+                            47.12,
+                            49.9,
+                            52.67,
+                            55.45,
+                            58.22,
+                            61
+                        ],
+                        "fullChargeDamage": 250,
+                        "maxAmmo": 1
+                    },
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -216,7 +295,8 @@
                         410.5,
                         430.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

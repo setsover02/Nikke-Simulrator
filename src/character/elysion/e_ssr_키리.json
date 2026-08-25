@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "target",
+                    "effect": "atk_down",
                     "value": [
                         5.28,
                         5.69,
@@ -39,7 +39,9 @@
                         8.54,
                         8.94
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 3
                 },
                 {
                     "trigger": "full_charge_attack",
@@ -57,7 +59,9 @@
                         5.55,
                         5.81
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 3
                 }
             ]
         },
@@ -69,7 +73,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         6.87,
                         7.4,
@@ -82,7 +86,8 @@
                         11.1,
                         11.63
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -93,8 +98,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         4.11,
@@ -108,11 +113,14 @@
                         6.65,
                         6.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10,
+                    "interval": 1
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "defender_allies",
                     "effect": "critical_rate_up",
                     "value": [
                         11.76,
@@ -126,7 +134,8 @@
                         19,
                         19.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

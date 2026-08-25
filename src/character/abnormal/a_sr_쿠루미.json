@@ -24,9 +24,24 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "dot_damage",
+                    "condition": {
+                        "count": [
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36
+                        ]
+                    },
+                    "status": "해킹",
                     "value": [
                         30.87,
                         33.24,
@@ -39,12 +54,16 @@
                         49.86,
                         52.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 5,
+                    "interval": 1
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "all_enemies",
+                    "effect": "dot_damage",
+                    "status": "해킹",
                     "value": [
                         30.87,
                         33.24,
@@ -57,7 +76,10 @@
                         49.86,
                         52.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 5,
+                    "interval": 1
                 }
             ]
         },
@@ -67,9 +89,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "full_burst_normal_attack",
+                    "target": "target",
+                    "effect": "extra_damage",
+                    "condition": {
+                        "count": [
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36,
+                            36
+                        ]
+                    },
                     "value": [
                         50.92,
                         54.83,
@@ -82,7 +118,8 @@
                         82.25,
                         86.17
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -93,9 +130,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage_taken_up",
                     "value": [
                         10.67,
                         11.49,
@@ -108,7 +145,8 @@
                         17.24,
                         18.06
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

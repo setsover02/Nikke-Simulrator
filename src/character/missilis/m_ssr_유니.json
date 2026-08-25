@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "charge_speed_up",
                     "value": [
                         4.93,
                         5.38,
@@ -39,7 +39,8 @@
                         8.53,
                         8.97
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -50,7 +51,7 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         1.52,
@@ -64,12 +65,13 @@
                         2.63,
                         2.77
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "heal",
                     "value": [
                         1.52,
                         1.66,
@@ -82,11 +84,13 @@
                         2.63,
                         2.77
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         1,
@@ -100,7 +104,8 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 5
                 }
             ]
         },
@@ -111,9 +116,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         172.4,
                         192,
@@ -126,25 +131,15 @@
                         329.14,
                         348.73
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "immobile",
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         }

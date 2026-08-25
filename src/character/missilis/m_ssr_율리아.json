@@ -39,7 +39,8 @@
                         24.85,
                         26.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -49,9 +50,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "status": "크레센도",
                     "value": [
                         14.65,
                         15.78,
@@ -64,7 +66,9 @@
                         23.67,
                         24.79
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -75,9 +79,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         321.75,
                         346.5,
@@ -90,12 +94,13 @@
                         519.75,
                         544.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "same_target",
+                    "effect": "extra_damage",
                     "value": [
                         321.75,
                         346.5,
@@ -108,7 +113,8 @@
                         519.75,
                         544.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

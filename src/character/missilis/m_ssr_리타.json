@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         2.34,
                         2.34,
@@ -39,12 +39,13 @@
                         2.34,
                         2.34
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         2.7,
                         2.7,
@@ -57,12 +58,13 @@
                         2.7,
                         2.7
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 2
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         3.17,
                         3.17,
@@ -75,11 +77,12 @@
                         3.17,
                         3.17
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 3
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         7.05,
@@ -93,12 +96,14 @@
                         40.93,
                         45.17
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "critical_damage_up",
                     "value": [
                         3.36,
                         4.37,
@@ -111,11 +116,13 @@
                         11.45,
                         12.46
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 2
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         5.05,
@@ -129,7 +136,9 @@
                         13.37,
                         14.42
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 3
                 }
             ]
         },
@@ -165,8 +174,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         36.3,
@@ -180,7 +189,8 @@
                         62.7,
                         66
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         }

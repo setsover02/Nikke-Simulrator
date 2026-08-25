@@ -24,7 +24,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -39,12 +39,14 @@
                         4.25,
                         4.45
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "last_bullet_hit",
+                    "target": "all_allies",
                     "effect": "heal",
+                    "status": "refresh_heart",
                     "value": [
                         3.86,
                         4.15,
@@ -57,7 +59,9 @@
                         6.23,
                         6.53
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -69,7 +73,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         94.54,
                         101.81,
@@ -82,12 +86,13 @@
                         152.72,
                         160
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_down",
                     "value": [
                         2.1,
                         2.26,
@@ -100,7 +105,8 @@
                         3.39,
                         3.55
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -111,9 +117,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         731.25,
                         787.5,
@@ -126,29 +132,12 @@
                         1181.25,
                         1237.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "max_stack_applied",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         16.08,
@@ -162,7 +151,8 @@
                         25.98,
                         27.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         }

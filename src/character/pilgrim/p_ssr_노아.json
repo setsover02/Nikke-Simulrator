@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "on_hit",
+                    "target": "all_allies",
+                    "effect": "damage_taken_down",
+                    "condition": {
+                        "chance": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         4.4,
                         4.8,
@@ -39,7 +53,8 @@
                         7.6,
                         8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -50,26 +65,15 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "seconds"
+                    "target": "target",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": 2
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "target",
+                    "effect": "atk_down",
                     "value": [
                         9.35,
                         9.78,
@@ -82,7 +86,8 @@
                         12.82,
                         13.25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -93,44 +98,22 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "invincible",
+                    "unit": "percent",
+                    "duration": 3
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         88.93,
@@ -144,7 +127,8 @@
                         128.53,
                         133.48
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

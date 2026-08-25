@@ -25,11 +25,22 @@
             "effects": [
                 {
                     "trigger": "on_hit",
-                    "condition": {
-                        "count": 40
-                    },
                     "target": "self",
                     "effect": "def_up",
+                    "condition": {
+                        "count": [
+                            40,
+                            40,
+                            40,
+                            40,
+                            40,
+                            40,
+                            40,
+                            40,
+                            40,
+                            40
+                        ]
+                    },
                     "value": [
                         52.5,
                         60,
@@ -51,9 +62,9 @@
             "id": "skill_2",
             "name": "포메이션 C.H",
             "type": "passive",
-            "cooldown": 30,
             "effects": [
                 {
+                    "trigger": "passive",
                     "target": "self_and_highest_atk_allies_2",
                     "effect": "def_up",
                     "value": [
@@ -72,8 +83,10 @@
                     "duration": 5
                 },
                 {
+                    "trigger": "passive",
                     "target": "self_and_highest_atk_allies_2",
                     "effect": "damage_share",
+                    "unit": "percent",
                     "duration": 10
                 }
             ]
@@ -85,6 +98,7 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "enemies_in_range",
                     "effect": "damage",
                     "value": [
@@ -103,6 +117,7 @@
                     "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "enemies_in_range",
                     "effect": "def_down",
                     "value": [

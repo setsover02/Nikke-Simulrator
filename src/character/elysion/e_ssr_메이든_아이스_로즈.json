@@ -24,7 +24,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "enter_burst_1",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -39,7 +39,20 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "enter_burst_1",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 12,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "enter_burst_1",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
                 },
                 {
                     "trigger": "full_burst_start",
@@ -57,12 +70,25 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 12,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         3.74,
                         4.03,
@@ -75,7 +101,9 @@
                         6.05,
                         6.34
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 10
                 }
             ]
         },
@@ -86,7 +114,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "electric_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         24.2,
@@ -100,11 +128,12 @@
                         39.04,
                         40.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "electric_element_allies",
                     "effect": "atk_up",
                     "value": [
                         12.35,
@@ -118,7 +147,9 @@
                         19.95,
                         20.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
                     "trigger": "passive",
@@ -136,7 +167,8 @@
                         30.24,
                         31.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "passive",
@@ -154,12 +186,14 @@
                         3.05,
                         3.2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "closest_enemy",
+                    "effect": "damage",
                     "value": [
                         323.58,
                         348.48,
@@ -172,7 +206,8 @@
                         522.73,
                         547.62
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -183,9 +218,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "closest_enemy",
+                    "effect": "damage",
                     "value": [
                         10,
                         10,
@@ -198,6 +233,13 @@
                         10,
                         10
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "closest_enemy",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]

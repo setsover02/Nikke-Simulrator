@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         8.98,
@@ -39,12 +39,15 @@
                         14.51,
                         15.2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 5
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
                     "effect": "buff",
+                    "status": "스파이 렌즈",
                     "value": [
                         4.44,
                         4.44,
@@ -57,7 +60,9 @@
                         4.44,
                         4.44
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 10
                 }
             ]
         },
@@ -68,8 +73,8 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "pierce_damage_up",
                     "value": [
                         9.15,
                         10.17,
@@ -82,10 +87,18 @@
                         17.34,
                         18.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -100,7 +113,8 @@
                         15.26,
                         16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -111,7 +125,7 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -126,11 +140,12 @@
                         55.56,
                         55.56
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         29.85,
@@ -144,12 +159,13 @@
                         52.24,
                         55.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "pierce_damage_up",
                     "value": [
                         5.14,
                         5.7,
@@ -162,7 +178,8 @@
                         9.58,
                         10.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -39,12 +39,13 @@
                         3,
                         3
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
                     "value": [
                         2.45,
                         3.33,
@@ -57,7 +58,8 @@
                         9.46,
                         10.34
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -69,7 +71,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         11.3,
                         12.92,
@@ -82,7 +84,8 @@
                         24.23,
                         25.84
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -93,8 +96,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         11.31,
@@ -108,7 +111,8 @@
                         24.24,
                         25.86
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

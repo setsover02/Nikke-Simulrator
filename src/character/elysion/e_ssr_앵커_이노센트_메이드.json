@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         18.29,
@@ -39,12 +39,14 @@
                         29.55,
                         30.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "distribute_damage",
                     "value": [
                         17.96,
                         19.34,
@@ -57,29 +59,14 @@
                         29.01,
                         30.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10,
+                    "stack_level": 2
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         1.79,
@@ -93,7 +80,10 @@
                         2.9,
                         3.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 8,
+                    "interval": 1
                 }
             ]
         },
@@ -103,9 +93,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "full_burst_end",
+                    "target": "all_allies",
+                    "effect": "accuracy_up",
                     "value": [
                         5.98,
                         6.44,
@@ -118,11 +108,13 @@
                         9.67,
                         10.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack_level": 1
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "full_burst_end",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         20.65,
@@ -136,11 +128,14 @@
                         33.43,
                         35.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10,
+                    "stack_level": 2
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "full_burst_end",
+                    "target": "all_allies",
                     "effect": "reload_speed_up",
                     "value": [
                         23.82,
@@ -154,7 +149,9 @@
                         38.24,
                         40.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack_level": 3
                 }
             ]
         },
@@ -165,9 +162,10 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
+                    "status": "저장",
                     "value": [
                         35.56,
                         38.3,
@@ -180,11 +178,13 @@
                         57.45,
                         60.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 25
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         23.56,
@@ -198,11 +198,12 @@
                         38.33,
                         40.18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         17.78,
@@ -216,7 +217,9 @@
                         28.72,
                         30.09
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         }

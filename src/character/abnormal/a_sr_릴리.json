@@ -39,7 +39,9 @@
                         19.09,
                         20
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 5
                 }
             ]
         },
@@ -50,7 +52,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         5.91,
@@ -75,9 +77,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "revive",
                     "value": [
                         17.73,
                         19.09,
@@ -93,7 +95,7 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -108,10 +110,12 @@
                         19.09,
                         20
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -126,7 +130,9 @@
                         38.18,
                         40
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         }

@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "full_burst_end",
+                    "target": "all_allies",
+                    "effect": "dot_heal",
                     "value": [
                         2.4,
                         2.58,
@@ -39,29 +39,13 @@
                         3.88,
                         4.06
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "interval": 1
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "target",
                     "effect": "heal",
                     "value": [
                         1.2,
@@ -75,11 +59,12 @@
                         1.94,
                         2.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "target",
                     "effect": "heal",
                     "value": [
                         1.03,
@@ -93,7 +78,8 @@
                         1.51,
                         1.57
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -104,8 +90,8 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         26.57,
                         28.62,
@@ -118,25 +104,16 @@
                         42.93,
                         44.98
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "seconds"
+                    "effect": "invincible",
+                    "unit": "percent",
+                    "duration": 2
                 },
                 {
                     "trigger": "burst_cast",
@@ -154,7 +131,8 @@
                         89.87,
                         94.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "burst_cast",
@@ -172,7 +150,8 @@
                         48.51,
                         50.82
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -183,9 +162,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         11.9,
                         12.82,
@@ -198,11 +177,13 @@
                         19.23,
                         20.14
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         12.35,
@@ -216,12 +197,14 @@
                         19.95,
                         20.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "atk_damage_up",
+                    "effect": "single_target_burst_damage_up",
+                    "status": "뻗은 뿌리",
                     "value": [
                         257.4,
                         277.2,
@@ -234,12 +217,20 @@
                         415.8,
                         435.6
                     ],
+                    "unit": "percent",
+                    "duration": 5
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "atk_damage_up",
+                    "effect": "single_target_burst_damage_up",
+                    "status": "시든 뿌리",
                     "value": [
                         38.09,
                         41.02,
@@ -252,12 +243,13 @@
                         61.53,
                         64.46
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "accuracy_up",
                     "value": [
                         26.76,
                         28.82,
@@ -270,11 +262,12 @@
                         43.24,
                         45.3
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         10,
@@ -288,7 +281,8 @@
                         18,
                         20
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 }
             ]
         }

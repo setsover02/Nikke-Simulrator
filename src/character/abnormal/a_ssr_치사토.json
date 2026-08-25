@@ -57,64 +57,100 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        70,
-                        70,
-                        70,
-                        70,
-                        70,
-                        70,
-                        70,
-                        70,
-                        70,
-                        70
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        55,
-                        55,
-                        55,
-                        55,
-                        55,
-                        55,
-                        55,
-                        55,
-                        55,
-                        55
-                    ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        25,
-                        25,
-                        25,
-                        25,
-                        25,
-                        25,
-                        25,
-                        25,
-                        25,
-                        25
-                    ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "invincible",
+                    "status": "사격 간파",
+                    "unit": "percent",
+                    "duration": 2
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        31.72,
+                        34.16,
+                        36.61,
+                        39.05,
+                        41.49,
+                        43.93,
+                        46.37,
+                        48.81,
+                        51.25,
+                        53.69
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        28.73,
+                        30.94,
+                        33.15,
+                        35.36,
+                        37.57,
+                        39.78,
+                        41.99,
+                        44.2,
+                        46.41,
+                        48.62
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "accuracy_up",
+                    "value": [
+                        13.22,
+                        14.23,
+                        15.25,
+                        16.27,
+                        17.28,
+                        18.3,
+                        19.32,
+                        20.33,
+                        21.35,
+                        22.37
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -141,25 +177,29 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "damage",
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "damage",
+                    "condition": {
+                        "count": [
+                            48,
+                            48,
+                            48,
+                            48,
+                            48,
+                            48,
+                            48,
+                            48,
+                            48,
+                            48
+                        ]
+                    },
                     "value": [
                         279.01,
                         300.48,
@@ -172,7 +212,8 @@
                         450.72,
                         472.18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -183,7 +224,7 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -201,7 +242,7 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -216,7 +257,8 @@
                         69.84,
                         73.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

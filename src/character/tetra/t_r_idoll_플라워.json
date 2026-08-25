@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "last_bullet_hit",
-                    "target": "enemy",
+                    "target": "target",
                     "effect": "atk_down",
                     "value": [
                         4.13,
@@ -47,11 +47,11 @@
         {
             "id": "skill_2",
             "name": "플라워 컬러",
-            "type": "active",
-            "cooldown": 15,
+            "type": "passive",
             "effects": [
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "atk_down",
                     "value": [
                         9.84,
@@ -77,7 +77,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "burst_cast",
+                    "target": "self",
                     "effect": "damage",
                     "value": [
                         110.2,
@@ -95,8 +96,10 @@
                     "based_on": "caster_final_atk"
                 },
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "burst_cast",
+                    "target": "self",
                     "effect": "taunt",
+                    "unit": "percent",
                     "duration": 2
                 }
             ]

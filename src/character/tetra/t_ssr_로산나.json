@@ -24,27 +24,46 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "stealth",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
+                    "status": "stealth",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
                     "value": [
                         8.98,
                         10.13,
@@ -57,12 +76,27 @@
                         18.19,
                         19.34
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 3
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "dispel_buff",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         1,
                         1,
@@ -75,7 +109,8 @@
                         5,
                         5
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "count_limit": 1
                 }
             ]
         },
@@ -87,25 +122,17 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "effect": "stealth",
+                    "status": "stealth",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "광기",
                     "value": [
                         12.83,
                         13.92,
@@ -118,12 +145,14 @@
                         21.53,
                         22.61
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 30,
+                    "stack": 10
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_gauge_charge",
                     "value": [
                         20.54,
                         22.32,
@@ -147,9 +176,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         720.72,
                         786.24,
@@ -162,12 +191,13 @@
                         1244.88,
                         1310.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "same_target",
+                    "effect": "extra_damage",
                     "value": [
                         308.88,
                         336.96,
@@ -180,7 +210,8 @@
                         533.52,
                         561.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

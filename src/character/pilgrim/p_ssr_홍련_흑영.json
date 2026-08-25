@@ -25,12 +25,11 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 3,
-                        "single_stage": true
-                    },
-                    "target": "lowest_def_enemy_1",
+                    "target": "self",
                     "effect": "damage",
+                    "condition": {
+                        "count": 3
+                    },
                     "value": [
                         218.46,
                         225.63,
@@ -48,12 +47,11 @@
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 6,
-                        "single_stage": true
-                    },
-                    "target": "enemies_in_range",
+                    "target": "self",
                     "effect": "distribute_damage",
+                    "condition": {
+                        "count": 6
+                    },
                     "value": [
                         371.28,
                         392.79,
@@ -64,19 +62,18 @@
                         500.42,
                         521.94,
                         543.47,
-                        565.0
+                        565
                     ],
                     "unit": "percent",
                     "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 9,
-                        "single_stage": true
-                    },
-                    "target": "all_enemies",
+                    "target": "self",
                     "effect": "distribute_damage",
+                    "condition": {
+                        "count": 9
+                    },
                     "value": [
                         441.23,
                         486.43,
@@ -142,9 +139,10 @@
             "id": "burst",
             "name": "화무십일홍 · 만개",
             "type": "burst",
-            "cooldown": 40.0,
+            "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "full_charge_count_change",
                     "target_skill": "skill_1",
@@ -156,6 +154,7 @@
                     "duration": 10
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -171,10 +170,10 @@
                         115.12
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
                     "duration": 10
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "charge_damage_up",
                     "value": [

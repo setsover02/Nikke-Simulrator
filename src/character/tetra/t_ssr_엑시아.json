@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "last_bullet_hit",
+                    "target": "target",
+                    "effect": "atk_down",
                     "value": [
                         7.57,
                         8.26,
@@ -39,12 +39,13 @@
                         13.08,
                         13.77
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "trigger": "last_bullet_hit",
+                    "target": "target",
+                    "effect": "def_down",
                     "value": [
                         7.57,
                         8.26,
@@ -57,7 +58,8 @@
                         13.08,
                         13.77
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -67,9 +69,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "hacking_code_collection",
                     "value": [
                         9.24,
                         10.08,
@@ -82,7 +85,9 @@
                         15.96,
                         16.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -93,9 +98,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         67.27,
                         73.39,
@@ -108,12 +113,13 @@
                         116.21,
                         122.32
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_down",
                     "value": [
                         1.49,
                         1.63,
@@ -126,12 +132,13 @@
                         2.58,
                         2.71
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "same_target",
+                    "effect": "extra_damage",
                     "value": [
                         67.27,
                         73.39,
@@ -144,7 +151,8 @@
                         116.21,
                         122.32
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

@@ -24,9 +24,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "기울어지는 천칭",
                     "value": [
                         0.44,
                         0.47,
@@ -39,30 +40,14 @@
                         0.71,
                         0.75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 100
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        9,
-                        9,
-                        9,
-                        19,
-                        19,
-                        19,
-                        29,
-                        29,
-                        29,
-                        29
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         14.12,
                         15.21,
@@ -75,6 +60,13 @@
                         22.82,
                         23.9
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -86,8 +78,14 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "max_ammo_up",
+                    "target": "all_allies",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "max_ammo_down",
                     "value": [
                         30.21,
                         32.54,
@@ -100,11 +98,12 @@
                         48.81,
                         51.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         6.27,
@@ -118,6 +117,13 @@
                         10.14,
                         10.62
                     ],
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "all_allies",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -129,43 +135,27 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        54.66,
-                        58.86,
-                        63.07,
-                        67.27,
-                        71.48,
-                        75.68,
-                        79.89,
-                        84.09,
-                        88.3,
-                        92.5
-                    ],
-                    "unit": "percent"
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "atkCoef": [
+                            54.66,
+                            58.86,
+                            63.07,
+                            67.27,
+                            71.48,
+                            75.68,
+                            79.89,
+                            84.09,
+                            88.3,
+                            92.5
+                        ]
+                    },
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -180,10 +170,12 @@
                         60.48,
                         63.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -198,7 +190,8 @@
                         20.16,
                         21.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -25,12 +25,22 @@
             "effects": [
                 {
                     "trigger": "on_hit",
-                    "condition": {
-                        "chance": 10,
-                        "unit": "percent"
-                    },
                     "target": "self",
                     "effect": "def_up",
+                    "condition": {
+                        "chance": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         0.9,
                         1.81,
@@ -51,10 +61,10 @@
         {
             "id": "skill_2",
             "name": "팔콘 네스트",
-            "type": "active",
-            "cooldown": 15,
+            "type": "passive",
             "effects": [
                 {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -82,6 +92,7 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "max_hp_up",
                     "value": [

@@ -24,7 +24,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -39,7 +39,8 @@
                         7.98,
                         8.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -50,7 +51,7 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         13.08,
@@ -64,7 +65,8 @@
                         22.59,
                         23.78
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 }
             ]
         },
@@ -75,8 +77,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         21.78,
@@ -90,12 +92,27 @@
                         37.62,
                         39.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "def_up",
+                    "condition": {
+                        "hp_above": [
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50
+                        ]
+                    },
                     "value": [
                         10.89,
                         11.88,
@@ -108,7 +125,8 @@
                         18.81,
                         19.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -26,7 +26,8 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "nano_coating",
                     "value": [
                         11.61,
                         12.67,
@@ -39,12 +40,15 @@
                         20.06,
                         21.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "nano_coating",
                     "value": [
                         11.61,
                         12.67,
@@ -57,7 +61,9 @@
                         20.06,
                         21.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -69,7 +75,21 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield_hp_heal",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         1.57,
                         1.71,
@@ -82,12 +102,13 @@
                         2.71,
                         2.85
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "next_shield_hp_up",
                     "value": [
                         9.76,
                         10.65,
@@ -100,12 +121,14 @@
                         16.86,
                         17.75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "next_shield_hp_up",
                     "value": [
                         14.66,
                         16,
@@ -118,12 +141,14 @@
                         25.33,
                         26.66
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 2
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "next_shield_hp_up",
                     "value": [
                         19.54,
                         21.32,
@@ -136,7 +161,9 @@
                         33.76,
                         35.53
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 3
                 }
             ]
         },
@@ -147,9 +174,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         5,
                         5,
@@ -162,12 +189,13 @@
                         5,
                         5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "final_hp"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         26.4,
                         28.8,
@@ -180,7 +208,8 @@
                         45.6,
                         48
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 20
                 }
             ]
         }

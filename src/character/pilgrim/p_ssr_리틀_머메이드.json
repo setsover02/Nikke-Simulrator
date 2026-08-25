@@ -26,7 +26,8 @@
                 {
                     "trigger": "focus",
                     "target": "all_allies",
-                    "effect": "shooting_focus",
+                    "effect": "buff",
+                    "unit": "percent",
                     "duration": "permanent"
                 },
                 {
@@ -67,12 +68,23 @@
                     "duration": 10
                 },
                 {
-                    "trigger": "ammo_consumed",
-                    "condition": {
-                        "count": 400
-                    },
+                    "trigger": "all_allies_ammo_consumed",
                     "target": "all_allies",
                     "effect": "burst_gauge_charge",
+                    "condition": {
+                        "count": [
+                            400,
+                            400,
+                            400,
+                            400,
+                            400,
+                            400,
+                            400,
+                            400,
+                            400,
+                            400
+                        ]
+                    },
                     "value": [
                         23.12,
                         24.66,
@@ -96,9 +108,9 @@
             "effects": [
                 {
                     "trigger": "enemy_spawn",
-                    "target": "enemy",
-                    "status": "bubble",
+                    "target": "target",
                     "effect": "damage_taken_up",
+                    "status": "거품",
                     "value": [
                         3.16,
                         3.37,
@@ -116,42 +128,81 @@
                 },
                 {
                     "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "damage_taken_up",
                     "condition": {
-                        "count": 50,
-                        "target_status": "bubble"
+                        "count": [
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50
+                        ]
                     },
-                    "target": "enemy",
-                    "effects": [
-                        {
-                            "effect": "burst_bubble",
-                            "value": [
-                                3.16,
-                                3.37,
-                                3.58,
-                                3.79,
-                                4,
-                                4.21,
-                                4.42,
-                                4.63,
-                                4.84,
-                                5.05
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent"
-                        },
-                        {
-                            "effect": "stun",
-                            "duration": 3
-                        },
-                        {
-                            "effect": "remove_status",
-                            "status": "bubble"
-                        }
-                    ]
+                    "status": "터진 거품",
+                    "value": [
+                        3.16,
+                        3.37,
+                        3.58,
+                        3.79,
+                        4,
+                        4.21,
+                        4.42,
+                        4.63,
+                        4.84,
+                        5.05
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "stun",
+                    "condition": {
+                        "count": [
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": 3
+                },
+                {
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "buff",
+                    "condition": {
+                        "count": [
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50
+                        ]
+                    },
+                    "unit": "percent"
                 },
                 {
                     "trigger": "full_burst_time",
-                    "interval": 1,
                     "target": "random_enemies",
                     "effect": "damage",
                     "value": [
@@ -166,16 +217,46 @@
                         60.72,
                         63.36
                     ],
-                    "unit": "caster_final_atk",
-                    "hits": 4
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "full_burst_time",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
+                    ],
+                    "unit": "percent"
                 },
                 {
                     "trigger": "all_allies_ammo_consumed",
-                    "condition": {
-                        "count": 500
-                    },
                     "target": "random_enemies",
-                    "effect": "bubble_barrage",
+                    "effect": "damage",
+                    "condition": {
+                        "count": [
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500
+                        ]
+                    },
+                    "status": "거품 난사",
                     "value": [
                         53.12,
                         56.66,
@@ -188,8 +269,40 @@
                         81.46,
                         85
                     ],
-                    "unit": "caster_final_atk",
-                    "hits": 10
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "all_allies_ammo_consumed",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "condition": {
+                        "count": [
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500,
+                            500
+                        ]
+                    },
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent"
                 }
             ]
         },
@@ -200,44 +313,44 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effects": [
-                        {
-                            "effect": "atk_damage_up",
-                            "value": [
-                                6.33,
-                                6.75,
-                                7.18,
-                                7.6,
-                                8.02,
-                                8.44,
-                                8.87,
-                                9.29,
-                                9.71,
-                                10.13
-                            ],
-                            "unit": "percent",
-                            "duration": 10
-                        },
-                        {
-                            "effect": "ammo_charge",
-                            "value": [
-                                20.79,
-                                22.17,
-                                23.56,
-                                24.94,
-                                26.33,
-                                27.72,
-                                29.1,
-                                30.49,
-                                31.87,
-                                33.26
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
+                    "effect": "atk_damage_up",
+                    "value": [
+                        6.33,
+                        6.75,
+                        7.18,
+                        7.6,
+                        8.02,
+                        8.44,
+                        8.87,
+                        9.29,
+                        9.71,
+                        10.13
+                    ],
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "ammo_charge",
+                    "value": [
+                        20.79,
+                        22.17,
+                        23.56,
+                        24.94,
+                        26.33,
+                        27.72,
+                        29.1,
+                        30.49,
+                        31.87,
+                        33.26
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -253,8 +366,8 @@
                         17.28
                     ],
                     "unit": "percent",
-                    "duration": 10,
-                    "based_on": "caster_atk"
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         }

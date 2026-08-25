@@ -26,7 +26,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "explosion_range_up",
                     "value": [
                         3.41,
                         4.09,
@@ -39,7 +39,8 @@
                         8.87,
                         9.55
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -50,8 +51,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "target": "target",
+                    "effect": "def_down",
                     "value": [
                         1.25,
                         1.51,
@@ -64,12 +65,13 @@
                         3.27,
                         3.52
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         5.34,
                         6.41,
@@ -82,7 +84,8 @@
                         13.89,
                         14.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -93,9 +96,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         68.57,
                         82.28,
@@ -108,12 +111,13 @@
                         178.28,
                         192
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "charge_speed_up",
                     "value": [
                         1.01,
                         1.21,
@@ -126,7 +130,8 @@
                         2.62,
                         2.82
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

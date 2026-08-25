@@ -25,43 +25,21 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
+                    "target": "random_enemies",
                     "effect": "buff",
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 6
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "all_allies",
+                    "target": "random_enemies",
                     "effect": "buff",
-                    "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
-                    ],
-                    "unit": "seconds"
+                    "value": 100,
+                    "unit": "percent"
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "self",
+                    "target": "random_enemies",
                     "effect": "buff",
                     "value": [
                         13,
@@ -78,26 +56,8 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "water_element_allies",
                     "effect": "atk_up",
                     "value": [
                         9.57,
@@ -111,29 +71,13 @@
                         15.46,
                         16.2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         20.68,
@@ -147,7 +91,8 @@
                         33.41,
                         35
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -172,12 +117,13 @@
                         38.18,
                         40
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "passive",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         650,
                         700,
@@ -190,7 +136,8 @@
                         1050,
                         1100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -201,9 +148,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "damage",
                     "value": [
                         472.72,
                         509.09,
@@ -216,11 +163,12 @@
                         763.63,
                         800
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
                     "effect": "buff",
                     "value": [
                         6,
@@ -234,12 +182,37 @@
                         6,
                         6
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": 1,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "damage",
                     "value": [
                         472.72,
                         509.09,
@@ -252,11 +225,30 @@
                         763.63,
                         800
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13
+                    ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
                     "effect": "buff",
                     "value": [
                         9,
@@ -270,7 +262,7 @@
                         9,
                         9
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
                 }
             ]
         }

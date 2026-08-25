@@ -24,23 +24,34 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
-                    "condition": {
-                        "count": 200
-                    },
+                    "trigger": "normal_attack",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         2.07,
+                        2.76,
+                        3.45,
                         4.14,
+                        4.83,
+                        5.52,
                         6.21,
-                        8.28,
-                        10.35,
-                        12.42,
-                        14.49,
-                        16.56,
-                        18.63,
-                        20.7
+                        6.9,
+                        7.59,
+                        8.28
                     ],
                     "unit": "percent",
                     "duration": 5
@@ -50,11 +61,11 @@
         {
             "id": "skill_2",
             "name": "행동 : 화력 집중",
-            "type": "active",
-            "cooldown": 10,
+            "type": "passive",
             "effects": [
                 {
-                    "target": "lowest_hp_enemy",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "damage",
                     "value": [
                         27.27,
@@ -80,6 +91,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "enemies_in_range",
                     "effect": "damage",
                     "value": [

@@ -24,9 +24,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "def_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "def_down",
+                    "status": "예고장",
                     "value": [
                         19.02,
                         20.49,
@@ -39,12 +40,14 @@
                         30.75,
                         32.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
+                    "status": "괴도의 단검",
                     "value": [
                         15.22,
                         16.39,
@@ -57,10 +60,12 @@
                         24.6,
                         25.75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 3
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -75,7 +80,8 @@
                         71.75,
                         75.17
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 1
                 }
             ]
         },
@@ -85,9 +91,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         49.82,
                         53.66,
@@ -100,12 +106,19 @@
                         80.5,
                         84.33
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "max_stack_applied",
+                    "target": "target",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "max_stack_applied",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "distribute_damage",
                     "value": [
                         7.61,
                         8.18,
@@ -118,12 +131,29 @@
                         12.29,
                         12.86
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": "permanent",
+                    "stack": 3
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         50.32,
                         54.16,
@@ -136,12 +166,27 @@
                         81.28,
                         85.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "distribute_damage",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         18.87,
                         20.31,
@@ -154,7 +199,9 @@
                         30.48,
                         31.92
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10
                 }
             ]
         },
@@ -165,9 +212,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "distribute_damage",
                     "value": [
                         861.12,
                         927.36,
@@ -180,7 +227,8 @@
                         1391.04,
                         1457.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "electric_element_allies",
                     "effect": "atk_up",
                     "value": [
                         32.68,
@@ -39,11 +39,13 @@
                         52.8,
                         55.31
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "electric_element_allies",
                     "effect": "reload_speed_up",
                     "value": [
                         29.12,
@@ -57,7 +59,8 @@
                         47.04,
                         49.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -67,9 +70,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         225.97,
                         243.36,
@@ -82,10 +85,11 @@
                         365.04,
                         382.42
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -100,7 +104,8 @@
                         6.6,
                         6.91
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -111,9 +116,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_down",
                     "value": [
                         43.68,
                         47.04,
@@ -126,10 +131,11 @@
                         70.56,
                         73.92
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "reload_speed_up",
                     "value": [
@@ -144,10 +150,11 @@
                         26.46,
                         27.72
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -162,7 +169,8 @@
                         40.32,
                         42.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -25,12 +25,22 @@
             "effects": [
                 {
                     "trigger": "normal_attack_hit",
-                    "condition": {
-                        "chance": 5,
-                        "unit": "percent"
-                    },
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "chance": [
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5
+                        ]
+                    },
                     "value": [
                         1.98,
                         2.64,
@@ -51,17 +61,17 @@
         {
             "id": "skill_2",
             "name": "이글 택틱",
-            "type": "active",
-            "cooldown": 9,
+            "type": "passive",
             "effects": [
                 {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "max_ammo_up",
                     "value": [
                         28.19,
                         37.59,
                         46.99,
-                        56.39,
+                        56.38,
                         65.78,
                         75.18,
                         84.58,
@@ -81,6 +91,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "enemies_in_range",
                     "effect": "damage",
                     "value": [

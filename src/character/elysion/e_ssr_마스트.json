@@ -24,9 +24,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "def_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "def_down",
+                    "status": "해풍",
                     "value": [
                         1.12,
                         1.2,
@@ -39,12 +40,29 @@
                         1.81,
                         1.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_def",
+                    "duration": 3,
+                    "stack": 50
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "condition": {
+                        "hp_below": [
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70
+                        ]
+                    },
                     "value": [
                         30.1,
                         32.42,
@@ -57,7 +75,8 @@
                         48.63,
                         50.94
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -82,7 +101,8 @@
                         22.49,
                         23.56
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 30
                 }
             ]
         },
@@ -93,9 +113,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         50.93,
                         54.85,
@@ -108,12 +128,14 @@
                         82.28,
                         86.2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 7
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
                     "value": [
                         14.88,
                         16.03,
@@ -126,12 +148,14 @@
                         24.04,
                         25.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 7
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "target",
+                    "effect": "damage",
+                    "status": "폭풍",
                     "value": [
                         2.67,
                         2.88,
@@ -144,7 +168,10 @@
                         4.32,
                         4.52
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 7,
+                    "interval": 1
                 }
             ]
         }

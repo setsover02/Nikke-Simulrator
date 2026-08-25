@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "extra_damage",
+                    "condition": {
+                        "count": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         51.75,
                         55.2,
@@ -39,12 +53,27 @@
                         79.35,
                         82.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         5.17,
                         5.52,
@@ -57,7 +86,8 @@
                         7.93,
                         8.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -68,8 +98,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         90.46,
                         96.49,
@@ -82,10 +112,11 @@
                         138.7,
                         144.73
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_time",
                     "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
@@ -100,7 +131,8 @@
                         25.01,
                         26.1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -111,40 +143,38 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        124.87,
-                        166.5,
-                        208.12,
-                        249.75,
-                        291.37,
-                        333,
-                        374.62,
-                        416.25,
-                        457.87,
-                        499.5
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "chargeTime": 5,
+                        "atkCoef": [
+                            124.87,
+                            166.5,
+                            208.12,
+                            249.75,
+                            291.37,
+                            333,
+                            374.62,
+                            416.25,
+                            457.87,
+                            499.5
+                        ],
+                        "fullChargeDamage": 1000,
+                        "maxAmmo": [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    },
+                    "duration": 10
                 }
             ]
         }

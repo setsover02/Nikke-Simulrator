@@ -24,9 +24,35 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_end",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "애프터 쇼",
+                    "value": [
+                        47.42,
+                        51.07,
+                        54.72,
+                        58.37,
+                        62.02,
+                        65.66,
+                        69.31,
+                        72.96,
+                        76.61,
+                        80.26
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_atk"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "heal",
                     "value": [
                         2.08,
                         2.24,
@@ -39,24 +65,15 @@
                         3.36,
                         3.52
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10,
+                    "interval": 1
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "heal",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -69,7 +86,21 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "current_hp_down",
+                    "condition": {
+                        "hp_above": [
+                            25,
+                            25,
+                            25,
+                            25,
+                            25,
+                            25,
+                            25,
+                            25,
+                            25,
+                            25
+                        ]
+                    },
                     "value": [
                         20,
                         20,
@@ -87,7 +118,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "buff",
                     "value": [
                         23.71,
                         25.54,
@@ -100,7 +131,8 @@
                         38.3,
                         40.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "full_burst_start",
@@ -118,7 +150,8 @@
                         38.3,
                         40.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -129,9 +162,17 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "burst_reenter",
+                    "value": 1,
+                    "unit": "count"
+                },
+                {
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
+                    "status": "스타게이저",
                     "value": [
                         15.6,
                         16.8,
@@ -144,7 +185,9 @@
                         25.2,
                         26.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": "permanent"
                 }
             ]
         }

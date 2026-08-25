@@ -25,12 +25,22 @@
             "effects": [
                 {
                     "trigger": "normal_attack_hit",
-                    "condition": {
-                        "chance": 20,
-                        "unit": "percent"
-                    },
-                    "target": "lowest_hp_ally",
+                    "target": "self",
                     "effect": "def_up",
+                    "condition": {
+                        "chance": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         2.27,
                         3.03,
@@ -51,11 +61,11 @@
         {
             "id": "skill_2",
             "name": "전술 : 정밀 사격",
-            "type": "active",
-            "cooldown": 17,
+            "type": "passive",
             "effects": [
                 {
-                    "target": "highest_atk_allies_1",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
                         5.74,
@@ -81,6 +91,7 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "atk_up",
                     "value": [

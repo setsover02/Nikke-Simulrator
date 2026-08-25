@@ -27,6 +27,7 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "타겟 마킹 1",
                     "value": [
                         3.91,
                         4.17,
@@ -39,12 +40,15 @@
                         6,
                         6.26
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "status": "타겟 마킹 2",
                     "value": [
                         11.27,
                         12.02,
@@ -57,12 +61,15 @@
                         17.28,
                         18.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 2
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "타겟 마킹 3",
                     "value": [
                         10.8,
                         11.52,
@@ -75,7 +82,9 @@
                         16.56,
                         17.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 3
                 }
             ]
         },
@@ -87,7 +96,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         106.61,
                         113.72,
@@ -100,7 +109,8 @@
                         163.47,
                         170.58
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -111,9 +121,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         93.65,
                         99.9,
@@ -126,12 +136,13 @@
                         143.6,
                         149.85
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage_taken_up",
                     "value": [
                         24.97,
                         26.64,
@@ -144,12 +155,13 @@
                         38.29,
                         39.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
                     "value": [
                         187.31,
                         199.8,
@@ -162,12 +174,13 @@
                         287.21,
                         299.7
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
                     "value": [
                         218.53,
                         233.1,
@@ -180,7 +193,15 @@
                         335.08,
                         349.65
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "full_burst_time_down",
+                    "value": 5,
+                    "unit": "seconds"
                 }
             ]
         }

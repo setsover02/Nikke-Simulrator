@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "on_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_up",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         5,
                         5.45,
@@ -39,12 +53,27 @@
                         8.63,
                         9.09
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "on_hit",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_down",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         5,
                         5.45,
@@ -57,7 +86,8 @@
                         8.63,
                         9.09
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -69,20 +99,9 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120
-                    ],
-                    "unit": "seconds"
+                    "effect": "damage_share",
+                    "unit": "percent",
+                    "duration": 120
                 },
                 {
                     "trigger": "battle_start",
@@ -100,7 +119,8 @@
                         7.85,
                         8.27
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 120
                 }
             ]
         },
@@ -111,9 +131,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "single_target_burst_damage_up",
                     "value": [
                         21.4,
                         23.35,
@@ -126,11 +146,12 @@
                         36.97,
                         38.91
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         8.08,
@@ -144,7 +165,8 @@
                         13.95,
                         14.69
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

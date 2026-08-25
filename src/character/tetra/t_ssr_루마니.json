@@ -26,7 +26,8 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
+                    "status": "머슬 업",
                     "value": [
                         1.79,
                         1.93,
@@ -39,25 +40,16 @@
                         2.9,
                         3.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 2,
+                    "stack": 5
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "trigger": "full_burst_normal_attack",
+                    "target": "target",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -68,8 +60,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "parts_damage_up",
                     "value": [
                         5.94,
                         6.39,
@@ -82,7 +74,8 @@
                         9.59,
                         10.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -93,9 +86,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         8.94,
                         9.63,
@@ -108,11 +101,12 @@
                         14.44,
                         15.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         5.94,
@@ -126,12 +120,13 @@
                         9.59,
                         10.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "max_stack_applied",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_down",
                     "value": [
                         11.85,
                         12.76,
@@ -144,7 +139,8 @@
                         19.15,
                         20.06
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

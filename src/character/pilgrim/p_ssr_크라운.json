@@ -25,11 +25,11 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "full_burst_caster_allies",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         40.32,
-                        43.0,
+                        43,
                         45.69,
                         48.38,
                         51.07,
@@ -45,7 +45,7 @@
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "full_burst_caster_allies",
+                    "target": "all_allies",
                     "effect": "reload_speed_up",
                     "value": [
                         27.72,
@@ -63,8 +63,8 @@
                     "duration": 15
                 },
                 {
-                    "trigger": "full_burst_start",
-                    "target": "full_burst_non_caster_allies",
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         23.4,
@@ -83,8 +83,8 @@
                     "duration": 15
                 },
                 {
-                    "trigger": "full_burst_start",
-                    "target": "full_burst_non_caster_allies",
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "reload_speed_up",
                     "value": [
                         27.72,
@@ -110,6 +110,8 @@
             "effects": [
                 {
                     "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
                     "condition": {
                         "count": [
                             65,
@@ -124,8 +126,6 @@
                             43
                         ]
                     },
-                    "target": "self",
-                    "effect": "receive_heal_up",
                     "status": "relax",
                     "value": [
                         2.54,
@@ -140,98 +140,66 @@
                         4.06
                     ],
                     "unit": "percent",
-                    "stack": 20,
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "stack": 20
                 },
                 {
                     "trigger": "max_stack_applied",
-                    "condition": {
-                        "status": "relax"
-                    },
                     "target": "self",
-                    "effects": [
-                        {
-                            "effect": "invincible",
-                            "value": [
-                                2.57,
-                                2.84,
-                                3.11,
-                                3.38,
-                                3.65,
-                                3.92,
-                                4.19,
-                                4.46,
-                                4.73,
-                                5.0
-                            ],
-                            "unit": "seconds",
-                            "duration": [
-                                2.57,
-                                2.84,
-                                3.11,
-                                3.38,
-                                3.65,
-                                3.92,
-                                4.19,
-                                4.46,
-                                4.73,
-                                5.0
-                            ]
-                        },
-                        {
-                            "effect": "taunt",
-                            "target": "all_enemies",
-                            "value": [
-                                2.57,
-                                2.84,
-                                3.11,
-                                3.38,
-                                3.65,
-                                3.92,
-                                4.19,
-                                4.46,
-                                4.73,
-                                5.0
-                            ],
-                            "unit": "seconds",
-                            "duration": [
-                                2.57,
-                                2.84,
-                                3.11,
-                                3.38,
-                                3.65,
-                                3.92,
-                                4.19,
-                                4.46,
-                                4.73,
-                                5.0
-                            ]
-                        },
-                        {
-                            "effect": "heal",
-                            "value": [
-                                3.27,
-                                3.49,
-                                3.7,
-                                3.92,
-                                4.14,
-                                4.36,
-                                4.58,
-                                4.8,
-                                5.01,
-                                5.23
-                            ],
-                            "unit": "percent",
-                            "based_on": "caster_final_max_hp"
-                        },
-                        {
-                            "effect": "remove_status",
-                            "status": "relax"
-                        }
+                    "effect": "invincible",
+                    "unit": "percent",
+                    "duration": [
+                        2.57,
+                        2.84,
+                        3.11,
+                        3.38,
+                        3.65,
+                        3.92,
+                        4.19,
+                        4.46,
+                        4.73,
+                        5
                     ]
                 },
                 {
-                    "trigger": "heal_received",
+                    "trigger": "max_stack_applied",
+                    "target": "self",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": [
+                        2.57,
+                        2.84,
+                        3.11,
+                        3.38,
+                        3.65,
+                        3.92,
+                        4.19,
+                        4.46,
+                        4.73,
+                        5
+                    ]
+                },
+                {
+                    "trigger": "max_stack_applied",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.27,
+                        3.49,
+                        3.7,
+                        3.92,
+                        4.14,
+                        4.36,
+                        4.58,
+                        4.8,
+                        5.01,
+                        5.23
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
+                },
+                {
+                    "trigger": "passive",
                     "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
@@ -255,9 +223,10 @@
             "id": "burst",
             "name": "라스트 킹덤",
             "type": "burst",
-            "cooldown": 20.0,
+            "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
@@ -276,6 +245,7 @@
                     "duration": 15
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "shield",
                     "value": [

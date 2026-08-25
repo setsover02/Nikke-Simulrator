@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         9.77,
@@ -44,7 +44,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "dispel",
                     "value": [
                         1,
                         1,
@@ -57,7 +57,7 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count"
                 }
             ]
         },
@@ -69,7 +69,8 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_down",
+                    "status": "프로 케첩",
                     "value": [
                         2.4,
                         2.62,
@@ -82,7 +83,9 @@
                         4.15,
                         4.37
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 15
                 }
             ]
         },
@@ -93,9 +96,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "dispel",
                     "value": [
                         1,
                         1,
@@ -108,12 +111,12 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "all_enemies",
+                    "effect": "atk_down",
                     "value": [
                         7.47,
                         8.15,
@@ -126,7 +129,8 @@
                         12.91,
                         13.59
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

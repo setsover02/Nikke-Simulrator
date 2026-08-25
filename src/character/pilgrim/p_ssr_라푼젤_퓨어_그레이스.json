@@ -26,7 +26,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
                     "value": [
                         12.16,
                         13.1,
@@ -39,12 +39,14 @@
                         19.65,
                         20.59
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
                     "value": [
                         12.16,
                         13.1,
@@ -57,11 +59,13 @@
                         19.65,
                         20.59
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         6.15,
@@ -75,7 +79,8 @@
                         9.93,
                         10.41
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -100,12 +105,13 @@
                         1.91,
                         2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "current_hp_down",
                     "value": [
                         2,
                         2,
@@ -118,10 +124,12 @@
                         2,
                         2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "interval": 1
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -136,7 +144,10 @@
                         3.02,
                         3.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent",
+                    "interval": 1
                 }
             ]
         },
@@ -147,9 +158,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         5.99,
                         6.45,
@@ -162,11 +173,12 @@
                         9.67,
                         10.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         9,
@@ -180,7 +192,8 @@
                         14.54,
                         15.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

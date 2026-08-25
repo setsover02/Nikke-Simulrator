@@ -20,16 +20,27 @@
     "skills": [
         {
             "id": "skill_1",
-            "name": "포메이션 F. F",
+            "name": "포메이션 F.F",
             "type": "passive",
             "effects": [
                 {
                     "trigger": "on_hit",
-                    "condition": {
-                        "count": 40
-                    },
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         10.9,
                         12.12,
@@ -50,11 +61,11 @@
         {
             "id": "skill_2",
             "name": "미사일",
-            "type": "active",
-            "cooldown": 20,
+            "type": "passive",
             "effects": [
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "damage",
                     "value": [
                         308.57,
@@ -72,8 +83,10 @@
                     "based_on": "caster_final_atk"
                 },
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "taunt",
+                    "unit": "percent",
                     "duration": 5
                 }
             ]
@@ -85,7 +98,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "burst_cast",
+                    "target": "self",
                     "effect": "damage",
                     "value": [
                         328.86,
@@ -103,6 +117,7 @@
                     "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [

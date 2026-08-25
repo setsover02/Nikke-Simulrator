@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "target",
+                    "effect": "damage_taken_down",
                     "value": [
                         8.07,
                         8.74,
@@ -39,12 +39,14 @@
                         13.47,
                         14.14
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_down",
+                    "status": "고양이 보은",
                     "value": [
                         5.24,
                         5.59,
@@ -57,7 +59,9 @@
                         8.08,
                         8.43
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 5
                 }
             ]
         },
@@ -67,9 +71,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "on_hit",
+                    "target": "target",
+                    "effect": "damage_taken_up",
+                    "condition": {
+                        "chance": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         5.33,
                         5.66,
@@ -82,12 +100,27 @@
                         7.94,
                         8.26
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "on_hit",
+                    "target": "target",
+                    "effect": "damage",
+                    "condition": {
+                        "chance": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         62.4,
                         73.02,
@@ -100,12 +133,13 @@
                         147.42,
                         158.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         38.68,
                         41.08,
@@ -118,7 +152,8 @@
                         57.88,
                         60.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -129,9 +164,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         975.31,
                         989.71,
@@ -144,13 +179,15 @@
                         1090.51,
                         1104.91
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "value": [
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": [
                         8,
                         8,
                         8,
@@ -161,13 +198,13 @@
                         15,
                         15,
                         15
-                    ],
-                    "unit": "seconds"
+                    ]
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "max_stack_applied",
                     "target": "self",
                     "effect": "heal",
+                    "status": "큰 고양이",
                     "value": [
                         38.48,
                         40.88,
@@ -180,7 +217,8 @@
                         57.68,
                         60.08
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 }
             ]
         }

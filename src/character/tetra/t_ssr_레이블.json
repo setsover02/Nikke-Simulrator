@@ -26,7 +26,8 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "망상",
                     "value": [
                         17.82,
                         19.19,
@@ -39,10 +40,18 @@
                         28.78,
                         30.15
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -57,10 +66,19 @@
                         2,
                         2
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "remove_status",
+                    "status": "상상 실연",
+                    "value": 1,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -75,10 +93,16 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "stun",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -93,12 +117,13 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "망상",
                     "value": [
                         17.82,
                         19.19,
@@ -111,12 +136,15 @@
                         28.78,
                         30.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "망상",
                     "value": [
                         17.82,
                         19.19,
@@ -129,7 +157,9 @@
                         28.78,
                         30.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -140,8 +170,8 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "allies_excluding_self",
+                    "effect": "damage_taken_down",
                     "value": [
                         41.6,
                         44.8,
@@ -154,12 +184,14 @@
                         67.2,
                         70.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "count_limit": 1
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_gauge_charge_speed_up",
                     "value": [
                         41.6,
                         44.8,
@@ -172,10 +204,11 @@
                         67.2,
                         70.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -190,12 +223,13 @@
                         89.14,
                         93.39
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_down",
                     "value": [
                         41.6,
                         44.8,
@@ -208,11 +242,12 @@
                         67.2,
                         70.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "allies_excluding_self",
                     "effect": "atk_up",
                     "value": [
                         47.48,
@@ -226,7 +261,9 @@
                         76.7,
                         80.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -237,9 +274,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         11.97,
                         12.89,
@@ -252,25 +289,17 @@
                         19.34,
                         20.26
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "shield",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "status": "망상 공유",
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 }
             ]
         }

@@ -27,6 +27,7 @@
                     "trigger": "full_charge_attack",
                     "target": "self",
                     "effect": "heal",
+                    "status": "녹색 허브",
                     "value": [
                         1.26,
                         1.44,
@@ -39,7 +40,8 @@
                         2.68,
                         2.86
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -50,8 +52,9 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "shield",
+                    "status": "푸른 허브",
                     "value": [
                         4.43,
                         5.06,
@@ -64,7 +67,9 @@
                         9.5,
                         10.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 }
             ]
         },
@@ -75,8 +80,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         14.96,
@@ -90,12 +95,13 @@
                         32.2,
                         34.35
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "dispel",
                     "value": [
                         1,
                         1,
@@ -108,7 +114,7 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count"
                 }
             ]
         }

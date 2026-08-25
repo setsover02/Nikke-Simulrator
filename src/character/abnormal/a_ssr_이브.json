@@ -27,6 +27,7 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "임팩트 타입 엑소스파인",
                     "value": [
                         35.45,
                         38.18,
@@ -39,12 +40,14 @@
                         57.27,
                         60
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "random_enemies",
+                    "effect": "damage",
+                    "status": "불안정 에너지",
                     "value": [
                         141.82,
                         152.72,
@@ -57,12 +60,31 @@
                         229.09,
                         240
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "normal_attack_hit",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "passive",
+                    "target": "target",
+                    "effect": "damage_taken_up",
                     "value": [
                         5.91,
                         6.36,
@@ -75,7 +97,8 @@
                         9.55,
                         10
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -100,7 +123,9 @@
                         47.73,
                         50
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "battle_start",
@@ -118,12 +143,27 @@
                         23.86,
                         25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "ammo_charge",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         3,
                         3,
@@ -136,7 +176,7 @@
                         3,
                         3
                     ],
-                    "unit": "seconds"
+                    "unit": "count"
                 }
             ]
         },
@@ -147,9 +187,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "damage",
                     "value": [
                         270.13,
                         290.91,
@@ -162,25 +202,47 @@
                         436.36,
                         457.14
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        5,
-                        5,
-                        5,
-                        7,
-                        7,
-                        7,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "value": 2,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 2,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": 2,
+                    "unit": "percent"
                 }
             ]
         }

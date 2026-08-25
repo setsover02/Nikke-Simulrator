@@ -27,6 +27,7 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "status": "매그넘탄",
                     "value": [
                         17.01,
                         18.46,
@@ -39,12 +40,13 @@
                         28.56,
                         30
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 9
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "def_up",
                     "value": [
                         20.59,
                         22.19,
@@ -57,7 +59,8 @@
                         33.39,
                         34.99
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -69,7 +72,13 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "dot_damage",
                     "value": [
                         113.45,
                         122.18,
@@ -82,7 +91,10 @@
                         183.27,
                         192
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 30,
+                    "interval": 1
                 },
                 {
                     "trigger": "full_burst_start",
@@ -100,7 +112,8 @@
                         38.04,
                         40.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -111,7 +124,7 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "reload_speed_up",
                     "value": [
@@ -126,30 +139,56 @@
                         94.92,
                         99.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
                     "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
                     ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "accuracy_up",
+                    "value": [
+                        47.73,
+                        51.4,
+                        55.08,
+                        58.75,
+                        62.42,
+                        66.09,
+                        69.76,
+                        73.44,
+                        77.11,
+                        80.78
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
                     "value": [
                         42.43,
                         46.05,
@@ -162,43 +201,16 @@
                         71.38,
                         75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "seconds"
+                    "effect": "damage",
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10
                 }
             ]
         }

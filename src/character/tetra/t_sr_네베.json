@@ -21,10 +21,10 @@
         {
             "id": "skill_1",
             "name": "북극곰의 힘",
-            "type": "active",
-            "cooldown": 10,
+            "type": "passive",
             "effects": [
                 {
+                    "trigger": "passive",
                     "target": "lowest_hp_enemy",
                     "effect": "damage",
                     "value": [
@@ -32,7 +32,7 @@
                         72.72,
                         81.81,
                         90.9,
-                        99.99,
+                        100,
                         109.09,
                         118.18,
                         127.27,
@@ -53,6 +53,7 @@
                     "trigger": "full_burst_start",
                     "target": "self",
                     "effect": "pierce",
+                    "unit": "percent",
                     "bullet": 2
                 },
                 {
@@ -83,6 +84,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
@@ -101,6 +103,7 @@
                     "duration": 20
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "accuracy_up",
                     "value": [

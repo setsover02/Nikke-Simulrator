@@ -24,50 +24,37 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_end",
-                    "target": "sg_allies",
-                    "effect": "atk_up",
-                    "status_target": "precious_memories",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "status": "youth_record",
                     "value": [
-                        6.86,
-                        7.54,
-                        8.22,
-                        8.91,
-                        9.59,
-                        10.27,
-                        10.96,
-                        11.64,
-                        12.32,
-                        13
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 15
-                },
-                {
-                    "trigger": "status_applied",
-                    "condition": {
-                        "status": "happy_memories"
-                    },
-                    "target": "self",
-                    "effect": "normal_attack_multiplier_up",
-                    "status": "youth_record",
-                    "value": 10,
-                    "unit": "percent",
-                    "stack": 3,
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "stack": 3
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "remove_status",
-                    "status_target": "leaving_memories"
+                    "effect": "buff",
+                    "unit": "percent"
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "remove_status",
-                    "status_target": "youth_record"
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         },
@@ -78,37 +65,56 @@
             "effects": [
                 {
                     "trigger": "normal_attack",
-                    "condition": {
-                        "status": "leaving_memories",
-                        "count": 2
-                    },
                     "target": "self",
                     "effect": "ammo_charge",
-                    "value": 6,
+                    "condition": {
+                        "count": 2
+                    },
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
                     "unit": "count"
                 },
                 {
                     "trigger": "normal_attack",
-                    "condition": {
-                        "status": "leaving_memories",
-                        "count": 4
-                    },
                     "target": "self",
                     "effect": "pellet_count_up",
+                    "condition": {
+                        "count": 4
+                    },
                     "status": "happy_memories",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "count",
-                    "stack": 3,
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "stack": 3
                 },
                 {
                     "trigger": "normal_attack",
-                    "condition": {
-                        "status": "leaving_memories",
-                        "count": 6
-                    },
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": 6
+                    },
                     "status": "precious_memories",
                     "value": [
                         1.47,
@@ -123,8 +129,8 @@
                         2.49
                     ],
                     "unit": "percent",
-                    "stack": 3,
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "stack": 3
                 },
                 {
                     "trigger": "burst_cast",
@@ -154,9 +160,15 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
-                    "status": "leaving_memories",
                     "value": [
                         11.87,
                         12.78,
@@ -173,16 +185,27 @@
                     "duration": "permanent"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "ammo_charge",
-                    "status": "leaving_memories",
-                    "value": 2,
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "unit": "count"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
-                    "status": "leaving_memories",
                     "value": [
                         17.72,
                         19.08,
@@ -199,6 +222,7 @@
                     "duration": "permanent"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "damage",
                     "value": [

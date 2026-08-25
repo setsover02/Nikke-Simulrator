@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "heal_received",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         7,
                         7,
@@ -39,11 +39,13 @@
                         13,
                         13
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "duration": 12,
+                    "stack": 2
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "heal_received",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         17.46,
@@ -57,7 +59,8 @@
                         30.48,
                         32.11
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -67,9 +70,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
+                    "condition": {
+                        "count": [
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5
+                        ]
+                    },
                     "value": [
                         19.35,
                         20.84,
@@ -82,25 +99,29 @@
                         31.26,
                         32.75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "trigger": "normal_attack_hit",
+                    "target": "self",
+                    "effect": "taunt",
+                    "condition": {
+                        "count": [
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5,
+                            5
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
                     "trigger": "burst_cast",
@@ -118,12 +139,13 @@
                         20.2,
                         21.41
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         18.03,
                         18.47,
@@ -136,7 +158,9 @@
                         21.53,
                         21.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 }
             ]
         },
@@ -147,9 +171,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
                     "value": [
                         20.72,
                         22.32,
@@ -162,12 +186,14 @@
                         33.48,
                         35.07
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "burst_cast",
+                    "target": "allies_excluding_self",
+                    "effect": "shield",
                     "value": [
                         6.03,
                         6.49,
@@ -180,7 +206,16 @@
                         9.74,
                         10.21
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "burst_reenter",
+                    "value": 1,
+                    "unit": "count"
                 }
             ]
         }

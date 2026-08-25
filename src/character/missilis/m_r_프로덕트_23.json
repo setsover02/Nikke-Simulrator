@@ -47,10 +47,10 @@
         {
             "id": "skill_2",
             "name": "명령 : 응급 조치",
-            "type": "active",
-            "cooldown": 15,
+            "type": "passive",
             "effects": [
                 {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -78,7 +78,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "target": "highest_atk_enemy_2",
+                    "trigger": "burst_cast",
+                    "target": "self",
                     "effect": "def_down",
                     "value": [
                         4.87,

@@ -27,6 +27,15 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
+                    "status": "용사 레벨 업",
+                    "value": 11,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "ammo_charge",
+                    "status": "용사 레벨 업 보상",
                     "value": [
                         6.06,
                         6.53,
@@ -45,6 +54,7 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
+                    "status": "용사 레벨 업 보상",
                     "value": [
                         1.44,
                         1.55,
@@ -57,11 +67,12 @@
                         2.33,
                         2.44
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         0.68,
@@ -75,11 +86,12 @@
                         1.1,
                         1.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "water_element_allies",
                     "effect": "atk_up",
                     "value": [
                         0.55,
@@ -93,7 +105,9 @@
                         0.88,
                         0.91
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -103,9 +117,24 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            6,
+                            6,
+                            6,
+                            6,
+                            6,
+                            6,
+                            6,
+                            6,
+                            6,
+                            6
+                        ]
+                    },
+                    "status": "경험치",
                     "value": [
                         1.07,
                         1.15,
@@ -118,12 +147,15 @@
                         1.73,
                         1.81
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 100
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "경험치",
                     "value": [
                         1.07,
                         1.15,
@@ -136,10 +168,12 @@
                         1.73,
                         1.81
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 100
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -154,7 +188,8 @@
                         7.07,
                         7.46
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -165,8 +200,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         5.99,
@@ -180,11 +215,12 @@
                         9.68,
                         10.14
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         11.08,
@@ -198,12 +234,13 @@
                         17.9,
                         18.75
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "dot_damage",
                     "value": [
                         12.34,
                         13.28,
@@ -216,7 +253,10 @@
                         19.93,
                         20.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10,
+                    "interval": 1
                 }
             ]
         }

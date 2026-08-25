@@ -20,22 +20,58 @@
     "skills": [
         {
             "id": "skill_1",
-            "name": "바디 컨택",
+            "name": "바디 컨텍",
             "type": "passive",
             "effects": [
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "status": "capture_chain",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
                     "value": 10,
-                    "stack": 10
+                    "unit": "percent"
                 },
                 {
                     "trigger": "full_burst_end_after_self_burst",
                     "target": "self",
-                    "status": "capture_chain",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_end_after_self_burst",
+                    "target": "self",
+                    "effect": "buff",
                     "value": 10,
-                    "stack": 10
+                    "unit": "percent"
                 },
                 {
                     "trigger": "designated_timing",
@@ -53,14 +89,24 @@
                         47.79,
                         50.06
                     ],
-                    "based_on": "caster_final_atk",
-                    "cost": {
-                        "status": "capture_chain",
-                        "value": 1
-                    }
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "designated_timing",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "designated_timing",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": 1,
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "same_target",
                     "effect": "dot_damage",
                     "status": "chain_binding",
@@ -76,11 +122,17 @@
                         23.94,
                         25.08
                     ],
+                    "unit": "percent",
                     "based_on": "caster_final_atk",
-                    "interval": 1,
-                    "stack": 20,
                     "duration": "permanent",
-                    "irremovable": true
+                    "stack": 20,
+                    "interval": 1
+                },
+                {
+                    "trigger": "passive",
+                    "target": "same_target",
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         },
@@ -90,30 +142,29 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_normal_attack",
-                    "condition": {
-                        "count": 40,
-                        "target_status": "chain_binding"
-                    },
-                    "target": "target",
-                    "status": "chain_binding",
-                    "value": 1
-                },
-                {
-                    "trigger": "self_incapacitated",
-                    "target": "enemies_with_chain_binding",
-                    "status": "chain_binding",
-                    "value": 20
+                    "trigger": "enemy_death",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent"
                 },
                 {
                     "trigger": "enemy_death",
-                    "condition": {
-                        "target_status": "chain_binding"
-                    },
                     "target": "self",
-                    "status": "capture_chain",
-                    "value": 1,
-                    "stack": 10
+                    "effect": "buff",
+                    "value": 10,
+                    "unit": "percent"
                 },
                 {
                     "trigger": "enter_burst_3",
@@ -143,8 +194,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "target": "enemies_with_chain_binding",
-                    "effect": "status_damage_with_stack_copy",
+                    "trigger": "burst_cast",
+                    "target": "target",
+                    "effect": "dot_damage",
                     "status": "chain_pull",
                     "value": [
                         29.57,
@@ -158,17 +210,22 @@
                         47.77,
                         50.05
                     ],
+                    "unit": "percent",
                     "based_on": "caster_final_atk",
-                    "interval": 1,
-                    "copy_status": "chain_binding",
                     "duration": 10,
-                    "irremovable": true,
-                    "stack": 20
+                    "interval": 1
                 },
                 {
-                    "target": "enemies_with_chain_binding",
-                    "effect": "remove_status",
-                    "status": "chain_binding"
+                    "trigger": "burst_cast",
+                    "target": "target",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "target",
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         }

@@ -26,6 +26,13 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
+                    "effect": "charge_status",
+                    "value": 4,
+                    "unit": "count"
+                },
+                {
+                    "trigger": "enter_burst_3",
+                    "target": "self",
                     "effect": "atk_up",
                     "value": [
                         41.18,
@@ -39,7 +46,8 @@
                         66.91,
                         70.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -50,8 +58,9 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "random_enemies",
+                    "effect": "damage",
+                    "status": "니어 페더 공격",
                     "value": [
                         59.01,
                         62.54,
@@ -64,12 +73,13 @@
                         87.28,
                         90.81
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         47.27,
                         50.91,
@@ -82,7 +92,8 @@
                         76.36,
                         80
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 1
                 }
             ]
         },
@@ -93,9 +104,16 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_status",
+                    "value": 6,
+                    "unit": "count"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "def_up",
                     "value": [
                         31.2,
                         33.87,
@@ -108,12 +126,13 @@
                         52.62,
                         55.3
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         82.36,
                         88.84,
@@ -126,12 +145,13 @@
                         134.2,
                         140.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         170.32,
                         184.73,
@@ -144,7 +164,8 @@
                         285.61,
                         300.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

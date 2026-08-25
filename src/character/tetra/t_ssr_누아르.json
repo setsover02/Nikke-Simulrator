@@ -25,8 +25,22 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
+                    "condition": {
+                        "hp_above": [
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70
+                        ]
+                    },
                     "value": [
                         8.32,
                         8.96,
@@ -39,7 +53,9 @@
                         13.44,
                         14.08
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -50,7 +66,7 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         3,
@@ -64,12 +80,13 @@
                         5,
                         5
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "ammo_charge",
                     "value": [
                         26.02,
                         27.56,
@@ -93,9 +110,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         207.79,
                         223.77,
@@ -108,12 +125,13 @@
                         335.66,
                         351.64
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "sg_allies",
+                    "effect": "accuracy_up",
                     "value": [
                         8.23,
                         8.87,
@@ -126,11 +144,12 @@
                         13.3,
                         13.93
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "sg_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         13.72,
@@ -144,12 +163,13 @@
                         22.17,
                         23.23
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "accuracy_up",
                     "value": [
                         6.86,
                         7.39,
@@ -162,11 +182,12 @@
                         11.08,
                         11.61
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 30
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         11.44,
@@ -180,7 +201,8 @@
                         18.48,
                         19.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 30
                 }
             ]
         }

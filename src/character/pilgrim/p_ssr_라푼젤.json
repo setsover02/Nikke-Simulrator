@@ -39,7 +39,8 @@
                         3.86,
                         4.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -51,7 +52,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         5.11,
                         5.46,
@@ -64,7 +65,8 @@
                         7.84,
                         8.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
                     "trigger": "passive",
@@ -82,7 +84,8 @@
                         13.08,
                         13.65
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 }
             ]
         },
@@ -93,8 +96,8 @@
             "cooldown": 60,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         18.56,
@@ -108,12 +111,13 @@
                         38.36,
                         40.83
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "burst_cast",
+                    "target": "highest_atk_dead_allies_1",
+                    "effect": "revive",
                     "value": [
                         37.12,
                         42.07,
@@ -129,22 +133,25 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "stun",
+                    "condition": {
+                        "hp_below": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": 1
                 }
             ]
         }

@@ -26,7 +26,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "shield",
                     "value": [
                         404.65,
                         426.47,
@@ -39,10 +39,12 @@
                         579.2,
                         601.01
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -57,7 +59,8 @@
                         92.64,
                         96.98
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 25
                 }
             ]
         },
@@ -82,12 +85,13 @@
                         28.66,
                         30.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "fire_element_allies",
+                    "effect": "core_damage_up",
                     "value": [
                         33.19,
                         36.18,
@@ -100,7 +104,8 @@
                         57.09,
                         60.07
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -111,10 +116,11 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": [
                         15,
                         15,
                         15,
@@ -125,11 +131,10 @@
                         25,
                         25,
                         25
-                    ],
-                    "unit": "seconds"
+                    ]
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -144,12 +149,13 @@
                         140.44,
                         150.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         1.87,
                         2.01,
@@ -162,12 +168,14 @@
                         3.02,
                         3.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
                     "value": [
                         59.9,
                         64.51,
@@ -180,7 +188,8 @@
                         96.76,
                         101.37
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

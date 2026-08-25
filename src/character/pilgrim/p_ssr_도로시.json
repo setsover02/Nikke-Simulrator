@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "last_bullet_hit",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         0.97,
                         1.04,
@@ -42,9 +42,9 @@
                     "unit": "seconds"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "last_bullet_hit",
+                    "target": "all_allies",
+                    "effect": "parts_damage_up",
                     "value": [
                         31.68,
                         33.79,
@@ -57,7 +57,8 @@
                         48.57,
                         50.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -68,8 +69,9 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "all_enemies",
+                    "effect": "distribute_damage",
+                    "status": "초토화",
                     "value": [
                         135,
                         144,
@@ -82,7 +84,8 @@
                         207,
                         216
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -93,9 +96,10 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "skill_cooldown_reduction",
+                    "status": "발현",
                     "value": [
                         18,
                         18,
@@ -108,30 +112,22 @@
                         18,
                         18
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "duration": 10,
+                    "target_skill": "skill_2"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "distribute_damage",
+                    "status": "낙인",
                     "value": [
                         5563.01,
                         5933.88,
@@ -144,7 +140,9 @@
                         8529.96,
                         8900.83
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10
                 }
             ]
         }

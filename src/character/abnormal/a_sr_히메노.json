@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "def_up",
+                    "target": "target",
+                    "effect": "def_down",
                     "value": [
                         3.03,
                         3.47,
@@ -39,7 +39,8 @@
                         6.5,
                         6.94
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 3
                 }
             ]
         },
@@ -50,7 +51,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "sr_allies",
                     "effect": "atk_up",
                     "value": [
                         1.47,
@@ -64,11 +65,12 @@
                         9.92,
                         10.98
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "sr_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         2,
@@ -82,7 +84,8 @@
                         2,
                         2
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 }
             ]
         },
@@ -93,9 +96,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         7.56,
                         9.36,
@@ -108,10 +111,11 @@
                         21.96,
                         23.76
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
@@ -126,7 +130,8 @@
                         15.48,
                         16.35
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

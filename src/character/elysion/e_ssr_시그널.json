@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "def_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "def_down",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
                     "value": [
                         2.97,
                         3.3,
@@ -39,12 +53,27 @@
                         5.61,
                         5.94
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "atk_down",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
                     "value": [
                         2.97,
                         3.3,
@@ -57,7 +86,8 @@
                         5.61,
                         5.94
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -69,7 +99,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         22.04,
                         24.48,
@@ -82,7 +112,9 @@
                         41.63,
                         44.08
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 }
             ]
         },
@@ -93,9 +125,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         114.61,
                         127.34,
@@ -108,12 +140,13 @@
                         216.48,
                         229.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "def_down",
                     "value": [
                         6.17,
                         6.85,
@@ -126,7 +159,8 @@
                         11.65,
                         12.34
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

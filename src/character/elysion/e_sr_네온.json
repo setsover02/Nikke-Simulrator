@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "kill_enemy",
-                    "target": "highest_atk_allies_2",
+                    "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
                         1.78,
@@ -77,7 +77,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "target": "highest_def_enemy_1",
+                    "trigger": "burst_cast",
+                    "target": "self",
                     "effect": "damage",
                     "value": [
                         198.36,
@@ -95,6 +96,7 @@
                     "based_on": "caster_final_atk"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "sg_allies",
                     "effect": "max_ammo_up",
                     "value": [

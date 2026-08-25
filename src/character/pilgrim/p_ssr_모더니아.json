@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         1.9,
                         2.03,
@@ -39,12 +39,27 @@
                         2.92,
                         3.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         9.93,
                         10.41,
@@ -57,12 +72,28 @@
                         13.77,
                         14.25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack": 5
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_down",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         5.04,
                         5.04,
@@ -75,7 +106,9 @@
                         5.04,
                         5.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack": 5
                 }
             ]
         },
@@ -86,8 +119,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "accuracy_up",
                     "value": [
                         5.35,
                         5.7,
@@ -100,12 +133,27 @@
                         8.2,
                         8.56
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         18.36,
                         19.59,
@@ -118,7 +166,8 @@
                         28.16,
                         29.38
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -129,58 +178,24 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15
-                    ],
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "full_burst_time_up",
+                    "value": 5,
                     "unit": "seconds"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        1.52,
-                        1.6,
-                        1.68,
-                        1.76,
-                        1.84,
-                        1.92,
-                        2,
-                        2.08,
-                        2.16,
-                        2.24
-                    ],
+                    "effect": "infinite_ammo",
+                    "unit": "percent",
+                    "duration": 15
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "extermination_mode",
                     "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15,
-                        15
-                    ],
-                    "unit": "seconds"
                 }
             ]
         }

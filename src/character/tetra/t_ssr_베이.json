@@ -25,7 +25,14 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
+                    "effect": "differential_damage_share",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         5.57,
@@ -39,7 +46,9 @@
                         9.63,
                         10.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_def",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -51,7 +60,14 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "differential_damage_share",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "dot_heal",
                     "value": [
                         1.58,
                         1.72,
@@ -64,7 +80,10 @@
                         2.73,
                         2.88
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5,
+                    "interval": 1
                 }
             ]
         },
@@ -75,9 +94,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         9.9,
                         10.8,
@@ -90,12 +109,13 @@
                         17.1,
                         18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 20
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "damage_taken_down",
                     "value": [
                         4.87,
                         5.32,
@@ -108,7 +128,8 @@
                         8.42,
                         8.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

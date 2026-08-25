@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "on_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "condition": {
+                        "chance": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         9.68,
                         10.43,
@@ -39,12 +53,27 @@
                         15.64,
                         16.39
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "on_hit",
                     "target": "self",
                     "effect": "reload_speed_up",
+                    "condition": {
+                        "chance": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         7.16,
                         7.71,
@@ -57,7 +86,8 @@
                         11.57,
                         12.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -82,11 +112,12 @@
                         12.42,
                         13.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "sg_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         49.52,
@@ -100,7 +131,8 @@
                         80,
                         83.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -111,9 +143,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "atk_speed_up",
                     "value": [
                         39,
                         42,
@@ -126,12 +158,13 @@
                         63,
                         66
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
                     "value": [
                         19.5,
                         21,
@@ -144,7 +177,8 @@
                         31.5,
                         33
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 }
             ]
         }

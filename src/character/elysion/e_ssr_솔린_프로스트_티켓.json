@@ -25,8 +25,17 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "buff",
+                    "status": "티켓 1장 발권",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         5.91,
                         6.36,
@@ -39,12 +48,13 @@
                         9.55,
                         10
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         5.34,
                         5.58,
@@ -58,6 +68,12 @@
                         7.48
                     ],
                     "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "all_allies",
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         },
@@ -68,8 +84,22 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "target",
                     "effect": "heal",
+                    "condition": {
+                        "hp_below": [
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15
+                        ]
+                    },
                     "value": [
                         7.25,
                         7.8,
@@ -82,12 +112,27 @@
                         11.71,
                         12.27
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "target",
                     "effect": "buff",
+                    "condition": {
+                        "hp_below": [
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15
+                        ]
+                    },
                     "value": [
                         1,
                         1,
@@ -100,25 +145,14 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent"
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "buff",
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 6
                 }
             ]
         },
@@ -129,8 +163,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         19.06,
@@ -144,7 +178,8 @@
                         30.8,
                         32.26
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         }

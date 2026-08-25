@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "on_hit",
+                    "target": "all_allies",
                     "effect": "reload_speed_up",
+                    "condition": {
+                        "count": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         20.32,
                         22.17,
@@ -39,12 +53,27 @@
                         35.11,
                         36.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "on_hit",
+                    "target": "all_allies",
                     "effect": "def_up",
+                    "condition": {
+                        "count": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         8.13,
                         8.87,
@@ -57,7 +86,8 @@
                         14.04,
                         14.78
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -68,44 +98,37 @@
             "effects": [
                 {
                     "trigger": "normal_attack",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
+                    "target": "self",
+                    "effect": "taunt",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": 3
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        7,
-                        7,
-                        7,
-                        7,
-                        7,
-                        7,
-                        7,
-                        7,
-                        7,
-                        7
-                    ],
-                    "unit": "seconds"
+                    "effect": "immortality",
+                    "unit": "percent",
+                    "duration": 7,
+                    "count_limit": 1
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         8.51,
                         8.85,
@@ -129,27 +152,16 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         17.82,
                         19.62,
@@ -162,10 +174,12 @@
                         32.22,
                         34.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -180,7 +194,8 @@
                         37.95,
                         41.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

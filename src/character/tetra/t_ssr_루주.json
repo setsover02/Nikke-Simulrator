@@ -25,11 +25,22 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 8
-                    },
                     "target": "all_allies",
                     "effect": "max_hp_up",
+                    "condition": {
+                        "count": [
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8
+                        ]
+                    },
                     "value": [
                         2.95,
                         3.18,
@@ -42,17 +53,28 @@
                         4.77,
                         5
                     ],
-                    "based_on": "caster_hp",
                     "unit": "percent",
+                    "based_on": "caster_max_hp",
                     "duration": 5
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 8
-                    },
                     "target": "all_allies",
                     "effect": "burst_cooldown_reduction",
+                    "condition": {
+                        "count": [
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8,
+                            8
+                        ]
+                    },
                     "value": [
                         4.13,
                         4.45,
@@ -65,7 +87,7 @@
                         6.68,
                         7
                     ],
-                    "unit": "second"
+                    "unit": "seconds"
                 }
             ]
         },
@@ -76,11 +98,9 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "condition": {
-                        "position": "back"
-                    },
                     "target": "self_and_adjacent_allies_2",
                     "effect": "atk_damage_up",
+                    "status": "sword_coin",
                     "value": [
                         3.93,
                         4.23,
@@ -94,17 +114,27 @@
                         6.65
                     ],
                     "unit": "percent",
-                    "duration": "permanent",
-                    "status": "sword_coin"
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "condition": {
-                        "count": 30,
-                        "status": "sword_coin"
-                    },
                     "target": "self_and_adjacent_allies_2",
                     "effect": "damage_taken_down",
+                    "condition": {
+                        "count": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
+                    "status": "shield_coin",
                     "value": [
                         8.98,
                         9.67,
@@ -118,17 +148,13 @@
                         15.2
                     ],
                     "unit": "percent",
-                    "duration": "permanent",
-                    "status": "shield_coin"
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "burst_cast",
-                    "condition": {
-                        "count": 5,
-                        "status": "shield_coin"
-                    },
+                    "trigger": "passive",
                     "target": "all_allies",
                     "effect": "max_hp_up",
+                    "status": "double_sword_coin",
                     "value": [
                         8.91,
                         9.59,
@@ -141,10 +167,9 @@
                         14.39,
                         15.08
                     ],
-                    "based_on": "caster_hp",
                     "unit": "percent",
-                    "duration": "permanent",
-                    "status": "double_sword_coin"
+                    "based_on": "caster_max_hp",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -155,88 +180,83 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
-                        7.54,
-                        8.37,
-                        9.21,
-                        10.05,
-                        10.88,
-                        11.72,
-                        12.56,
-                        13.4,
-                        14.23,
+                        7.12,
+                        8.01,
+                        8.89,
+                        9.77,
+                        10.66,
+                        11.54,
+                        12.42,
+                        13.31,
+                        14.19,
                         15.07
                     ],
-                    "based_on": "caster_atk",
                     "unit": "percent",
+                    "based_on": "caster_atk",
                     "duration": 10
                 },
                 {
-                    "condition": {
-                        "status": "sword_coin"
-                    },
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "max_hp_up",
                     "value": [
-                        5.08,
-                        5.64,
-                        6.2,
-                        6.77,
-                        7.33,
-                        7.89,
-                        8.46,
-                        9.02,
-                        9.59,
+                        6,
+                        6.46,
+                        6.92,
+                        7.38,
+                        7.85,
+                        8.31,
+                        8.77,
+                        9.23,
+                        9.69,
                         10.15
                     ],
-                    "based_on": "caster_hp",
                     "unit": "percent",
+                    "based_on": "caster_max_hp",
                     "duration": 10
                 },
                 {
-                    "condition": {
-                        "status": "shield_coin"
-                    },
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "max_hp_up",
                     "value": [
-                        10.05,
-                        11.17,
-                        12.28,
-                        13.4,
-                        14.52,
-                        15.63,
-                        16.75,
-                        17.87,
-                        18.98,
+                        11.88,
+                        12.79,
+                        13.7,
+                        14.62,
+                        15.53,
+                        16.44,
+                        17.36,
+                        18.27,
+                        19.19,
                         20.1
                     ],
-                    "based_on": "caster_hp",
                     "unit": "percent",
+                    "based_on": "caster_max_hp",
                     "duration": 10
                 },
                 {
-                    "condition": {
-                        "status": "double_sword_coin"
-                    },
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "max_hp_up",
                     "value": [
-                        15.01,
-                        16.68,
-                        18.35,
-                        20.01,
-                        21.68,
-                        23.35,
-                        25.02,
-                        26.68,
-                        28.35,
+                        17.74,
+                        19.1,
+                        20.47,
+                        21.83,
+                        23.19,
+                        24.56,
+                        25.92,
+                        27.29,
+                        28.65,
                         30.02
                     ],
-                    "based_on": "caster_max_hp",
                     "unit": "percent",
+                    "based_on": "caster_max_hp",
                     "duration": 10
                 }
             ]

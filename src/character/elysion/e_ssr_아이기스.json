@@ -26,7 +26,21 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
+                    "effect": "buff",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
                     "effect": "atk_up",
+                    "status": "타루카쟈",
                     "value": [
                         12.48,
                         13.44,
@@ -39,12 +53,20 @@
                         20.16,
                         21.12
                     ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "def_up",
+                    "status": "라쿠카쟈",
                     "value": [
                         12.48,
                         13.44,
@@ -57,6 +79,13 @@
                         20.16,
                         21.12
                     ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -68,8 +97,22 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "atk_up",
+                    "status": "마하타루카쟈",
                     "value": [
                         12.48,
                         13.44,
@@ -82,12 +125,21 @@
                         20.16,
                         21.12
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "def_up",
+                    "status": "마하라쿠카쟈",
                     "value": [
                         12.48,
                         13.44,
@@ -100,6 +152,14 @@
                         20.16,
                         21.12
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_def",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -111,9 +171,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "distribute_damage",
                     "value": [
                         234,
                         252,
@@ -126,7 +186,8 @@
                         378,
                         396
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

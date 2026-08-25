@@ -51,7 +51,7 @@
             "effects": [
                 {
                     "trigger": "last_bullet_hit",
-                    "target": "enemy",
+                    "target": "target",
                     "effect": "extra_damage",
                     "value": [
                         52.65,
@@ -96,6 +96,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "highest_atk_enemy_1",
                     "effect": "damage",
                     "value": [
@@ -103,12 +104,12 @@
                         582.75,
                         624.37,
                         666,
-                        707.63,
-                        749.26,
-                        790.89,
-                        832.52,
-                        874.15,
-                        915.78
+                        707.62,
+                        749.25,
+                        790.87,
+                        832.5,
+                        874.12,
+                        915.75
                     ],
                     "unit": "percent",
                     "based_on": "caster_final_atk"

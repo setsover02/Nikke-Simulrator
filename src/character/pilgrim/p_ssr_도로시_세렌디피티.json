@@ -24,27 +24,44 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
+                    "effect": "pierce",
+                    "condition": {
+                        "count": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
+                    "unit": "percent",
+                    "bullet": 3
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
+                    "condition": {
+                        "count": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
                     "value": [
                         78.54,
                         80.72,
@@ -57,12 +74,27 @@
                         96,
                         98.18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 3
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "condition": {
+                        "count": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
                     "value": [
                         43.2,
                         46.4,
@@ -75,30 +107,49 @@
                         68.8,
                         72
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 3
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
+                    "condition": {
+                        "count": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
+                    "value": 1,
+                    "unit": "percent",
+                    "bullet": 3
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "pierce_range_up",
+                    "condition": {
+                        "count": [
+                            160,
+                            160,
+                            160,
+                            160,
+                            160,
+                            160,
+                            160,
+                            160,
+                            160,
+                            160
+                        ]
+                    },
                     "value": [
                         200,
                         200,
@@ -111,7 +162,8 @@
                         200,
                         200
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "bullet": 3
                 }
             ]
         },
@@ -123,7 +175,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "pierce_damage_up",
                     "value": [
                         31.68,
                         34.28,
@@ -136,10 +188,11 @@
                         52.48,
                         55.08
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -154,12 +207,13 @@
                         71.88,
                         75.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accuracy_up",
                     "value": [
                         23.4,
                         25.32,
@@ -172,7 +226,8 @@
                         38.76,
                         40.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -183,9 +238,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "atk_speed_up",
                     "value": [
                         36.72,
                         39.86,
@@ -198,10 +253,11 @@
                         61.86,
                         65
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -216,12 +272,13 @@
                         84,
                         88.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "pellet_count_up",
                     "value": [
                         3,
                         3,
@@ -234,7 +291,8 @@
                         5,
                         5
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 15
                 }
             ]
         }

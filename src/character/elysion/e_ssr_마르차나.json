@@ -40,24 +40,24 @@
                         10.95
                     ],
                     "unit": "percent",
-                    "duration": 3,
-                    "based_on": "attack_damage"
+                    "based_on": "attack_damage",
+                    "duration": 3
                 },
                 {
                     "trigger": "last_bullet_hit",
-                    "target": "highest_atk_allies_2",
-                    "effect": "recevie_heal",
+                    "target": "self",
+                    "effect": "heal",
                     "value": [
                         15.94,
                         17.16,
                         18.39,
                         19.62,
-                        22.11,
-                        23.31,
-                        24.51,
-                        25.71,
-                        26.91,
-                        28.11
+                        20.84,
+                        22.07,
+                        23.3,
+                        24.52,
+                        25.75,
+                        26.98
                     ],
                     "unit": "percent",
                     "duration": 3
@@ -67,8 +67,7 @@
         {
             "id": "skill_2",
             "name": "양호 선생님",
-            "type": "active",
-            "cooldown": 9,
+            "type": "passive",
             "effects": [
                 {
                     "trigger": "burst_cast",
@@ -87,7 +86,6 @@
                         28.11
                     ],
                     "unit": "percent",
-                    "duration": 5,
                     "based_on": "caster_final_max_hp"
                 }
             ]
@@ -99,8 +97,10 @@
             "cooldown": 20,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "overheal_storage",
+                    "effect": "heal",
+                    "status": "저장",
                     "value": [
                         16.47,
                         17.74,
@@ -114,9 +114,11 @@
                         27.87
                     ],
                     "unit": "percent",
-                    "based_on": "caster_hp"
+                    "based_on": "caster_max_hp",
+                    "duration": 10
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "def_up",
                     "value": [
@@ -132,7 +134,8 @@
                         20.9
                     ],
                     "unit": "percent",
-                    "based_on": "caster_def"
+                    "based_on": "caster_def",
+                    "duration": 10
                 }
             ]
         }

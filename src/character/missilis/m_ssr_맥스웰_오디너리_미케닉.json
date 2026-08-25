@@ -25,8 +25,8 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         0.5,
                         0.56,
@@ -39,11 +39,14 @@
                         0.95,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": "permanent",
+                    "stack": 30
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         6.25,
@@ -57,7 +60,8 @@
                         9.58,
                         10
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -68,7 +72,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         0.5,
@@ -82,12 +86,15 @@
                         0.95,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 15
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "과전류",
                     "value": [
                         15,
                         16.67,
@@ -103,9 +110,28 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "all_allies",
+                    "effect": "burst_gauge_charge",
                     "value": [
                         3.58,
                         3.98,
@@ -129,152 +155,28 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        175,
-                        194.44,
-                        213.89,
-                        233.33,
-                        252.78,
-                        272.22,
-                        291.67,
-                        311.11,
-                        330.56,
-                        350
-                    ],
+                    "status": "사용 무기 변경",
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
+                    "effect": "charge_speed_up",
+                    "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "stack_level": 4
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         12.5,
@@ -288,7 +190,8 @@
                         23.61,
                         25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

@@ -9,43 +9,40 @@
 
 ## trigger list
 battle_start: 전투 시작 시 (시뮬레이션 시작 시)
-focus: 자신에게 포커싱 상태일 때 (해당 캐릭터를 컨트롤 하는 경우, 시뮬레이터에서 구현하지 않음)
+focus: 자신에게 포커싱 상태일 때 (해당 캐릭터를 컨트롤 하는 경우)
 on_hit: 피격 시 n% 확률로 자신에게, n회 피격 시 (시전자 본인이 피격된 경우) 
     - chance 인 경우 n% 확률로
     - count 인 경우 n회 피격 시
 normal_attack_hit: 일반 공격 명중 시 (시전자의 일반 공격이 적에게 명중한 경우, 명중 횟수 포함)
-last_bullet_hit: 마지막 탄환 명중 시 (시전자의 마지막 탄환 소모 시, 인게임 상 마지막 탄환 소모시 재장전 한다)
-kill_enemy: 적 처치 시
-full_burst_end: 풀 버스트 타임 종료 시
+last_bullet_hit: 마지막 탄환 명중 시 (시전자의 마지막 탄환 소모/사격 시, 인게임 상 마지막 탄환 소모 시 재장전 한다)
+kill_enemy: 적 처치 시 (적 격추 시)
+full_burst_end: 풀 버스트 타임 종료 시 (풀 버스트 타임 종료 후)
 full_burst_start: 풀 버스트 타임 시작 시
 full_burst_time: 풀 버스트 지속 시간 동안, 풀 버스트 타임일 때 한하여
 burst_cast: 버스트 스킬 사용 시 (이 스킬을 보유한 니케가 버스트 스킬을 사용한 경우)
-enter_burst_1: 버스트 1단계 돌입 시 (스쿼드의 니케가 버스트 레벨 1 스킬을 사용한 경우)
-enter_burst_2: 버스트 2단계 돌입 시 (스쿼드의 니케가 버스트 레벨 2 스킬을 사용한 경우)
-enter_burst_3: 버스트 3단계 돌입 시 (스쿼드의 니케가 버스트 레벨 3 스킬을 사용한 경우)
-full_charge_attack: 풀 차지 공격 시, 풀 차지 n회 공격 시
+enter_burst_1: 버스트 1단계 돌입/진입 시 (스쿼드의 니케가 버스트 레벨 1 스킬을 사용한 경우)
+enter_burst_2: 버스트 2단계 돌입/진입 시 (스쿼드의 니케가 버스트 레벨 2 스킬을 사용한 경우)
+enter_burst_3: 버스트 3단계 돌입/진입 시 (스쿼드의 니케가 버스트 레벨 3 스킬을 사용한 경우)
+full_charge_attack: 풀 차지 공격 시, 풀 차지 n회 공격 시 (풀 차지 공격 명중 시)
 part_destroy: 파츠 파괴 시
-full_burst_end_after_self_burst: 풀 버스트 타임 종료 시 직전에 자신이 버스트 스킬을 사용했다면 (풀버스트 종료, 종료된 풀버스트 시간에 본인이 버스트를 사용한 상태)
+part_hit: 대상 파츠 명중 시 (파츠 명중 시)
+core_hit: 대상 코어 명중 시 (시전자의 공격이 대상의 코어에 명중한 경우)
+full_burst_end_after_self_burst: 풀 버스트 타임 종료 시 직전에 자신이 버스트 스킬을 사용했다면
 full_burst_normal_attack: 풀 버스트 타임 지속 시간 중 일반 공격 n회 명중 시
 self_incapacitated: 자신이 전투 불능 시
 enemy_death: 적 사망 시
-
-enemy_spawn: 적 등장 시 (시뮬레이터에서는 적이 항상 있으므로 트리거 충족됨)
-all_allies_ammo_consumed: 아군이 소비한 탄의 총합이 n발이 될 때 마다 (팀에 포함된 아군이 사용한 장탄 수 합산 필요)
+enemy_spawn: 적 등장 시 (적이 전장에 진입 시)
+all_allies_ammo_consumed: 아군이 소비한 탄의 총합이 n발이 될 때 마다
+ammo_consumed: 자신이 소비한 탄의 총합이 n발이 될 때마다
 status_applied: 특정 상태 적용 시 (condition: status에 적힌 상태가 적용된 경우)
 normal_attack: 일반 공격 시 (명중과 무관하게 공격하는 행위 자체)
+passive: 패시브 (상시 적용 / 기본 발동 상태)
+max_stack_applied: 최대 중첩 시 (상태나 효과가 최대 중첩 수에 도달했을 때)
+heal_received: 자신이 체력 회복 시 (자신이 체력 회복/힐 효과를 받았을 때)
+full_reload: 재장전 완료 시 (재장전 시)
 
 ### 미하라 사슬 이펙트
 designated_timing: 지정된 타이밍에
     - 적이 전장에 진입 (적 등장 시) 포획 사슬(미하라의 status: capture_chain)이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
     - 풀 버스트 타임 종료 후 포획 사슬이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
     - 버스트 3단계 진입 시 포획 사슬이 있다면 가지고 있는 모든 포획 사슬을 사용합니다.
-
-### 마리 스킬 트리거
-core_hit: 대상 코어 명중 시 (시전자의 공격이 대상의 코어에 명중한 경우, 적의 코어가 없는 경우는 발동하지 않는다.)
-
-### 추가 트리거
-passive: 패시브 (상시 적용 / 기본 발동 상태)
-ammo_consumed: 자신이 소비한 탄의 총합이 n발이 될 때마다 (자신이 사용한 장탄 수 조건)
-max_stack_applied: 최대 중첩 시 (상태나 효과가 최대 중첩 수에 도달했을 때)
-heal_received: 자신이 체력 회복 시 (자신이 체력 회복/힐 효과를 받았을 때)

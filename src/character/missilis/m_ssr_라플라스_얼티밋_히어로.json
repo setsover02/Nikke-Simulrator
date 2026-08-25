@@ -39,12 +39,15 @@
                         3.78,
                         4.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
+                    "status": "예열",
                     "value": [
                         5,
                         5.56,
@@ -57,46 +60,19 @@
                         9.48,
                         10
                     ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 5
+                },
+                {
+                    "trigger": "max_stack_applied",
+                    "target": "self",
+                    "effect": "buff",
+                    "status": "사용 무기 변경",
                     "unit": "percent"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        2.64,
-                        3.4,
-                        4.16,
-                        4.91,
-                        5.67,
-                        6.42,
-                        7.18,
-                        7.94,
-                        8.69,
-                        9.45
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120,
-                        120
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "full_charge_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -121,7 +97,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "full_charge_attack",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -139,9 +115,28 @@
                     "unit": "percent"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_hp_up",
                     "value": [
                         1.18,
                         1.27,
@@ -154,12 +149,14 @@
                         1.91,
                         2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 1
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         1.77,
                         1.91,
@@ -172,12 +169,14 @@
                         2.86,
                         3
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 2
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         4.13,
                         4.45,
@@ -190,12 +189,14 @@
                         6.68,
                         7
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 3
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         6.2,
                         6.68,
@@ -208,10 +209,12 @@
                         10.02,
                         10.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack_level": 4
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "enter_burst_3",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -226,7 +229,8 @@
                         49.77,
                         52.14
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -237,7 +241,7 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -252,12 +256,13 @@
                         60.48,
                         63.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         1745.45,
                         1879.71,
@@ -270,12 +275,13 @@
                         2819.57,
                         2953.84
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "closest_enemy",
+                    "effect": "extra_damage",
                     "value": [
                         552.36,
                         594.85,
@@ -288,7 +294,8 @@
                         892.27,
                         934.76
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

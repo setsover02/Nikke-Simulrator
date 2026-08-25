@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "count": [
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15,
+                            15
+                        ]
+                    },
                     "value": [
                         2.49,
                         2.68,
@@ -39,25 +53,16 @@
                         4.03,
                         4.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack": 30
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -69,7 +74,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         24.96,
                         26.88,
@@ -82,7 +87,16 @@
                         40.32,
                         42.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "rl_allies",
+                    "effect": "heal",
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -93,9 +107,10 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "도깨비 기운",
                     "value": [
                         7.4,
                         10.4,
@@ -108,11 +123,12 @@
                         33.6,
                         37.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "rl_allies",
                     "effect": "atk_up",
                     "value": [
                         30.01,
@@ -126,11 +142,13 @@
                         48.47,
                         50.78
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "rl_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         3,
@@ -144,7 +162,8 @@
                         5,
                         5
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 10
                 }
             ]
         }

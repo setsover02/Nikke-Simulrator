@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         0.62,
@@ -39,11 +39,15 @@
                         1,
                         1.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5,
+                    "stack_level": 1,
+                    "interval": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         2.18,
@@ -57,11 +61,15 @@
                         3.52,
                         3.69
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5,
+                    "stack_level": 2,
+                    "interval": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         4.05,
@@ -75,7 +83,11 @@
                         6.55,
                         6.86
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5,
+                    "stack_level": 3,
+                    "interval": 1
                 }
             ]
         },
@@ -86,7 +98,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         3.43,
@@ -100,11 +112,13 @@
                         18.92,
                         20.85
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 3,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         3.43,
@@ -118,11 +132,13 @@
                         12.72,
                         13.88
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 2
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "water_element_allies",
                     "effect": "atk_damage_up",
                     "value": [
                         2.97,
@@ -136,7 +152,9 @@
                         7.76,
                         8.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack_level": 3
                 }
             ]
         },
@@ -147,8 +165,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "water_element_allies",
                     "effect": "atk_up",
                     "value": [
                         13.72,
@@ -162,12 +180,13 @@
                         22.17,
                         23.23
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 3
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         16.47,
                         17.74,
@@ -180,7 +199,9 @@
                         26.61,
                         27.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 }
             ]
         }

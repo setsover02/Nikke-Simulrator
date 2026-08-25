@@ -26,7 +26,22 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
+                    "condition": {
+                        "count": [
+                            180,
+                            180,
+                            180,
+                            180,
+                            180,
+                            180,
+                            180,
+                            180,
+                            180,
+                            180
+                        ]
+                    },
+                    "status": "메이드정신",
                     "value": [
                         7.15,
                         7.8,
@@ -39,7 +54,9 @@
                         12.35,
                         13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10,
+                    "stack": 5
                 }
             ]
         },
@@ -50,7 +67,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         2.04,
@@ -64,11 +81,12 @@
                         3.1,
                         3.23
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "max_stack_applied",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         5.37,
@@ -82,7 +100,8 @@
                         11.89,
                         12.71
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -93,9 +112,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "damage",
                     "value": [
                         110.68,
                         134.08,
@@ -108,43 +127,15 @@
                         297.88,
                         321.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "stun",
+                    "unit": "percent",
+                    "duration": 1
                 }
             ]
         }

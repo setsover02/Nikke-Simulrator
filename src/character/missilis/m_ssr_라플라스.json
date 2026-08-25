@@ -26,7 +26,8 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "explosion_range_up",
+                    "status": "hero_vision",
                     "value": [
                         2.11,
                         2.27,
@@ -39,7 +40,9 @@
                         3.41,
                         3.57
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 5
                 }
             ]
         },
@@ -49,9 +52,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "last_bullet_hit",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         48.25,
                         51.96,
@@ -64,12 +67,13 @@
                         77.95,
                         81.66
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "part_hit",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         8.73,
                         9.4,
@@ -82,7 +86,8 @@
                         14.11,
                         14.78
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -93,63 +98,29 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        530.4,
-                        571.2,
-                        612,
-                        652.8,
-                        693.6,
-                        734.4,
-                        775.2,
-                        816,
-                        856.8,
-                        897.6
-                    ],
-                    "unit": "percent"
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "atkCoef": [
+                            530.4,
+                            571.2,
+                            612,
+                            652.8,
+                            693.6,
+                            734.4,
+                            775.2,
+                            816,
+                            856.8,
+                            897.6
+                        ]
+                    },
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        8.58,
-                        9.24,
-                        9.9,
-                        10.56,
-                        11.22,
-                        11.88,
-                        12.54,
-                        13.2,
-                        13.86,
-                        14.52
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "same_target",
+                    "effect": "damage",
                     "value": [
                         7.03,
                         7.57,
@@ -162,7 +133,8 @@
                         11.36,
                         11.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

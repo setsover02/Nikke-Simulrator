@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "damage_taken_up",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
                     "value": [
                         10.15,
                         10.93,
@@ -39,7 +53,8 @@
                         16.4,
                         17.18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -52,6 +67,20 @@
                     "trigger": "normal_attack",
                     "target": "self",
                     "effect": "heal",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
                     "value": [
                         8.97,
                         9.66,
@@ -64,12 +93,27 @@
                         14.49,
                         15.18
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_down",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
                     "value": [
                         8.84,
                         9.53,
@@ -82,7 +126,8 @@
                         14.29,
                         14.97
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -93,9 +138,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "dot_heal",
                     "value": [
                         5.93,
                         6.38,
@@ -108,7 +153,10 @@
                         9.58,
                         10.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10,
+                    "interval": 1
                 }
             ]
         }

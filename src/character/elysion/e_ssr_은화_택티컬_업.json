@@ -26,43 +26,33 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "effect": "remove_status",
+                    "status": "카모플라쥬",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "seconds"
+                    "effect": "remove_status",
+                    "status": "카모플라쥬",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage",
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
                     "value": [
                         24.96,
                         26.88,
@@ -75,7 +65,8 @@
                         40.32,
                         42.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -84,6 +75,12 @@
             "name": "포메이션 AS",
             "type": "passive",
             "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
@@ -100,12 +97,13 @@
                         7.79,
                         8.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         24.71,
                         26.61,
@@ -118,7 +116,8 @@
                         39.91,
                         41.81
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
@@ -136,12 +135,19 @@
                         40.32,
                         42.24
                     ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "buff",
                     "value": [
                         3.02,
                         3.25,
@@ -154,12 +160,13 @@
                         4.87,
                         5.11
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "def_up",
                     "value": [
                         18.3,
                         19.71,
@@ -172,7 +179,8 @@
                         29.56,
                         30.97
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -183,45 +191,44 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "value": [
-                        62.4,
-                        67.2,
-                        72,
-                        76.8,
-                        81.6,
-                        86.4,
-                        91.19,
-                        95.99,
-                        100.8,
-                        105.6
-                    ],
-                    "unit": "percent"
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "chargeTime": 0.3,
+                        "atkCoef": [
+                            62.4,
+                            67.2,
+                            72,
+                            76.8,
+                            81.6,
+                            86.4,
+                            91.19,
+                            95.99,
+                            100.8,
+                            105.6
+                        ],
+                        "fullChargeDamage": 300,
+                        "maxAmmo": [
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1,
+                            1
+                        ]
+                    },
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_ammo_up",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_up",
+                    "status": "내부 폭발탄",
                     "value": [
                         16.47,
                         17.74,
@@ -234,7 +241,8 @@
                         26.61,
                         27.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

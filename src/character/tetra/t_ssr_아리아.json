@@ -30,7 +30,7 @@
                     "value": [
                         13.49,
                         14.99,
-                        16.47,
+                        16.49,
                         17.99,
                         19.49,
                         20.99,
@@ -74,9 +74,10 @@
             "id": "burst",
             "name": "아리아 디 캄포",
             "type": "burst",
-            "cooldown": 20,
+            "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "shield",
                     "value": [
@@ -92,10 +93,11 @@
                         37.86
                     ],
                     "unit": "percent",
-                    "duration": 10,
-                    "based_on": "caster_final_max_hp"
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "accuracy_up",
                     "value": [

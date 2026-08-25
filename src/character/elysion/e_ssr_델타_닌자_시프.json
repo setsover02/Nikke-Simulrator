@@ -25,8 +25,9 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_enemies",
+                    "effect": "damage_taken_up",
+                    "status": "인법 애시드 봄",
                     "value": [
                         7.09,
                         7.64,
@@ -39,7 +40,8 @@
                         11.46,
                         12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15
                 },
                 {
                     "trigger": "burst_cast",
@@ -57,12 +59,14 @@
                         14.35,
                         15.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "enemies_in_range",
+                    "effect": "damage_taken_up",
+                    "status": "인법 하이퍼 애시드 봄",
                     "value": [
                         4.74,
                         5.1,
@@ -75,7 +79,8 @@
                         7.66,
                         8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -87,7 +92,19 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "shield",
                     "value": [
                         7.24,
                         7.8,
@@ -100,30 +117,31 @@
                         11.7,
                         12.25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "remove_status",
+                    "status": "인법 카모플라쥬",
+                    "value": 1,
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "status": "인법 인젝션",
                     "value": [
                         6.17,
                         6.73,
@@ -136,12 +154,28 @@
                         10.66,
                         11.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "condition": {
+                        "count": [
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200,
+                            200
+                        ]
+                    },
                     "value": [
                         7.24,
                         7.8,
@@ -154,30 +188,21 @@
                         11.7,
                         12.25
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
-                    "value": [
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4
-                    ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 4
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "buff",
                     "value": [
                         90.9,
                         99.17,
@@ -190,6 +215,13 @@
                         157.02,
                         165.28
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "buff",
                     "unit": "percent"
                 }
             ]
@@ -201,9 +233,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "distribute_damage",
                     "value": [
                         11.82,
                         12.73,
@@ -216,11 +248,13 @@
                         19.1,
                         20
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         8.86,
@@ -234,12 +268,14 @@
                         14.31,
                         15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "distribute_damage",
                     "value": [
                         102.6,
                         110.49,
@@ -252,12 +288,13 @@
                         165.73,
                         170
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "next_shield_hp_up",
                     "value": [
                         11.9,
                         12.81,
@@ -270,10 +307,11 @@
                         19.22,
                         20.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
                     "value": [
@@ -288,7 +326,8 @@
                         19.22,
                         20.13
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

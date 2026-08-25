@@ -26,7 +26,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "skill_cooldown_reduction",
                     "value": [
                         4.58,
                         5.09,
@@ -39,7 +39,8 @@
                         8.65,
                         9.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "target_skill": "skill_2"
                 }
             ]
         },
@@ -51,7 +52,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
                     "value": [
                         3.19,
                         3.54,
@@ -64,7 +65,9 @@
                         6.02,
                         6.38
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 5
                 }
             ]
         },
@@ -75,9 +78,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         72.73,
                         80.81,
@@ -90,12 +93,13 @@
                         137.38,
                         145.46
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_down",
                     "value": [
                         7.27,
                         8.08,
@@ -108,7 +112,8 @@
                         13.73,
                         14.54
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

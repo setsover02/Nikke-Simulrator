@@ -24,9 +24,10 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "kill_enemy",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "슈퍼 루키",
                     "value": [
                         8.18,
                         8.82,
@@ -39,7 +40,9 @@
                         13.23,
                         13.86
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -49,7 +52,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
                     "effect": "critical_rate_up",
                     "value": [
@@ -64,12 +67,13 @@
                         4.82,
                         5.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
                     "value": [
                         3.78,
                         4.07,
@@ -82,7 +86,8 @@
                         6.11,
                         6.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -93,9 +98,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         270.56,
                         291.37,
@@ -108,12 +113,13 @@
                         437.06,
                         457.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "max_stack_applied",
+                    "target": "same_target",
+                    "effect": "extra_damage",
                     "value": [
                         270.56,
                         291.37,
@@ -126,7 +132,8 @@
                         437.06,
                         457.87
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

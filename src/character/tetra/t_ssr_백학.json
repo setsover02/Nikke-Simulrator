@@ -25,8 +25,9 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "status": "회복 독점 서약",
                     "value": [
                         5.9,
                         6.36,
@@ -39,12 +40,15 @@
                         9.54,
                         10
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
+                    "status": "서약 위반 증거",
                     "value": [
                         16.93,
                         16.16,
@@ -58,6 +62,25 @@
                         10
                     ],
                     "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -68,7 +91,7 @@
             "effects": [
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         0.78,
@@ -82,12 +105,13 @@
                         1.26,
                         1.32
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "shield",
                     "value": [
                         5.61,
                         6.04,
@@ -100,10 +124,20 @@
                         9.07,
                         9.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "status": "서약 해지",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -118,7 +152,10 @@
                         0.23,
                         0.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent",
+                    "interval": 1
                 }
             ]
         },
@@ -129,8 +166,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "heal",
                     "value": [
                         26.4,
@@ -144,25 +181,15 @@
                         42.65,
                         44.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "seconds"
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

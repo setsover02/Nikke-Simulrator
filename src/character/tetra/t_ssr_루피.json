@@ -24,27 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "normal_attack",
-                    "target": "self",
+                    "trigger": "normal_attack_hit",
+                    "target": "iron_element_allies",
                     "effect": "critical_rate_up",
+                    "condition": {
+                        "count": [
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100
+                        ]
+                    },
                     "value": [
                         1.23,
                         1.34,
@@ -57,7 +53,8 @@
                         2.13,
                         2.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -70,6 +67,7 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "마일리지",
                     "value": [
                         7.59,
                         8.28,
@@ -82,7 +80,9 @@
                         13.11,
                         13.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -93,9 +93,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         150.85,
                         164.57,
@@ -108,11 +108,12 @@
                         260.57,
                         274.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "max_stack_applied",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         10.89,
@@ -126,7 +127,8 @@
                         18.81,
                         19.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         }

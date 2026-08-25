@@ -24,9 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
                     "value": [
                         8.18,
                         9.35,
@@ -39,7 +39,8 @@
                         17.53,
                         18.7
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -52,6 +53,7 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "페인 로드 1",
                     "value": [
                         6.81,
                         7.78,
@@ -64,12 +66,15 @@
                         14.59,
                         15.56
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "status": "페인 로드 2",
                     "value": [
                         4.93,
                         5.64,
@@ -82,7 +87,9 @@
                         10.58,
                         11.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 2
                 }
             ]
         },
@@ -93,9 +100,16 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "full_burst_time_down",
+                    "value": 5,
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "damage",
                     "value": [
                         174.82,
                         199.8,
@@ -108,12 +122,13 @@
                         374.62,
                         399.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
                     "value": [
                         116.55,
                         133.2,
@@ -126,7 +141,8 @@
                         249.75,
                         266.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

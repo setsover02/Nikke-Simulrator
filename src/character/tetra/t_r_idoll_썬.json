@@ -25,18 +25,29 @@
             "effects": [
                 {
                     "trigger": "normal_attack_hit",
-                    "condition": {
-                        "count": 10
-                    },
                     "target": "self",
                     "effect": "def_up",
+                    "condition": {
+                        "count": [
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10,
+                            10
+                        ]
+                    },
                     "value": [
                         1.89,
                         2.52,
                         3.15,
                         3.78,
                         4.41,
-                        5.05,
+                        5.04,
                         5.67,
                         6.3,
                         6.93,
@@ -54,12 +65,22 @@
             "effects": [
                 {
                     "trigger": "on_hit",
-                    "condition": {
-                        "chance": 20,
-                        "unit": "percent"
-                    },
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "chance": [
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20,
+                            20
+                        ]
+                    },
                     "value": [
                         2.27,
                         3.03,
@@ -69,7 +90,7 @@
                         6.06,
                         6.81,
                         7.57,
-                        8.38,
+                        8.33,
                         9.09
                     ],
                     "unit": "percent",
@@ -84,6 +105,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "max_ammo_up",
                     "value": [

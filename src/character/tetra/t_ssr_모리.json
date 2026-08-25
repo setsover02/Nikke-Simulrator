@@ -26,7 +26,8 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "발버둥",
                     "value": [
                         23.71,
                         25.53,
@@ -39,12 +40,15 @@
                         38.3,
                         40.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "final_hp",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "shield",
+                    "status": "발버둥",
                     "value": [
                         23.71,
                         25.53,
@@ -57,12 +61,14 @@
                         38.3,
                         40.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "final_hp",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         2.99,
                         3.22,
@@ -75,7 +81,9 @@
                         4.83,
                         5.06
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 5
                 }
             ]
         },
@@ -85,27 +93,30 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4
-                    ],
-                    "unit": "seconds"
+                    "trigger": "normal_attack_hit",
+                    "target": "target",
+                    "effect": "taunt",
+                    "condition": {
+                        "count": [
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60,
+                            60
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": 4
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "part_destroy",
+                    "target": "all_allies",
+                    "effect": "dot_damage_up",
                     "value": [
                         1.2,
                         1.29,
@@ -118,12 +129,14 @@
                         1.94,
                         2.03
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "part_destroy",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "dot_damage",
                     "value": [
                         13.72,
                         14.78,
@@ -136,7 +149,10 @@
                         22.17,
                         23.23
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 15,
+                    "interval": 1
                 }
             ]
         },
@@ -147,7 +163,7 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -162,12 +178,13 @@
                         14.36,
                         15.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
                     "value": [
                         5.96,
                         6.42,
@@ -180,12 +197,13 @@
                         9.63,
                         10.09
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "dot_damage_up",
                     "value": [
                         6,
                         6.46,
@@ -198,7 +216,8 @@
                         9.7,
                         10.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

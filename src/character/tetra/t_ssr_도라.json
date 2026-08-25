@@ -25,7 +25,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         8.88,
@@ -39,7 +39,8 @@
                         15.35,
                         16.16
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -50,8 +51,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         1.82,
                         1.82,
@@ -64,12 +65,13 @@
                         1.82,
                         1.82
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         2.2,
                         2.2,
@@ -82,12 +84,13 @@
                         2.2,
                         2.2
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 2
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
                     "value": [
                         2.6,
                         2.6,
@@ -100,11 +103,12 @@
                         2.6,
                         2.6
                     ],
-                    "unit": "seconds"
+                    "unit": "seconds",
+                    "stack_level": 3
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         1.18,
@@ -118,11 +122,13 @@
                         6.99,
                         7.72
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 1
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "critical_rate_up",
                     "value": [
                         1.05,
@@ -136,12 +142,14 @@
                         3.85,
                         4.21
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 2
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "critical_damage_up",
                     "value": [
                         3.85,
                         4.89,
@@ -154,7 +162,9 @@
                         12.18,
                         13.22
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack_level": 3
                 }
             ]
         },
@@ -165,9 +175,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         404.08,
                         440.81,
@@ -180,7 +190,8 @@
                         697.95,
                         734.69
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

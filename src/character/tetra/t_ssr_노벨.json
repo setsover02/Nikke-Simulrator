@@ -26,7 +26,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         26.18,
                         29.09,
@@ -39,12 +39,13 @@
                         49.45,
                         52.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_down",
                     "value": [
                         3.52,
                         3.91,
@@ -57,7 +58,8 @@
                         6.66,
                         7.05
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -67,9 +69,24 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "def_up",
+                    "condition": {
+                        "count": [
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100,
+                            100
+                        ]
+                    },
+                    "status": "증거품 수집",
                     "value": [
                         6.75,
                         7.5,
@@ -82,7 +99,9 @@
                         12.75,
                         13.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 5
                 }
             ]
         },
@@ -93,9 +112,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "damage",
                     "value": [
                         165.3,
                         183.67,
@@ -108,12 +127,13 @@
                         312.24,
                         330.61
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "max_stack_applied",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "damage_taken_up",
                     "value": [
                         33.75,
                         37.5,
@@ -126,7 +146,8 @@
                         63.75,
                         67.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         }

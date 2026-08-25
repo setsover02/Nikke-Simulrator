@@ -24,7 +24,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "enter_burst_3",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -39,12 +39,14 @@
                         2.58,
                         2.71
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "charge_speed_up",
                     "value": [
                         100,
                         100,
@@ -62,7 +64,13 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         80.72,
                         86.94,
@@ -75,7 +83,8 @@
                         130.39,
                         136.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -87,7 +96,8 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "decoy",
+                    "status": "디코이",
                     "value": [
                         52.8,
                         57.6,
@@ -100,12 +110,15 @@
                         91.2,
                         96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "decoy",
+                    "status": "디코이",
                     "value": [
                         52.8,
                         57.6,
@@ -118,12 +131,15 @@
                         91.2,
                         96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp",
+                    "duration": "permanent"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "max_hp_up",
+                    "status": "아름다움",
                     "value": [
                         0.98,
                         1.07,
@@ -136,7 +152,9 @@
                         1.54,
                         1.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "stack": 12
                 }
             ]
         },
@@ -147,9 +165,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "damage",
                     "value": [
                         853.7,
                         910.62,
@@ -162,12 +180,31 @@
                         1309,
                         1365.92
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "random_enemies",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
                     "unit": "percent"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "same_target",
+                    "effect": "extra_damage",
                     "value": [
                         18.07,
                         19.28,
@@ -180,7 +217,8 @@
                         27.69,
                         28.9
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

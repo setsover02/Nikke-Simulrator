@@ -26,7 +26,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal_efficacy_up",
+                    "effect": "heal",
                     "value": [
                         20.8,
                         22.4,
@@ -52,7 +52,8 @@
                 {
                     "trigger": "part_destroy",
                     "target": "all_allies",
-                    "effect": "overheal_storage",
+                    "effect": "heal",
+                    "status": "저장",
                     "value": [
                         3.17,
                         3.41,
@@ -66,7 +67,7 @@
                         5.36
                     ],
                     "unit": "percent",
-                    "based_on": "caster_hp",
+                    "based_on": "caster_max_hp",
                     "duration": 15,
                     "stack": 5
                 },
@@ -81,7 +82,7 @@
                         17.27,
                         18.35,
                         19.43,
-                        20.51,
+                        20.5,
                         21.58,
                         22.66,
                         23.74
@@ -99,6 +100,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "heal",
                     "value": [
@@ -117,9 +119,22 @@
                     "based_on": "caster_final_max_hp"
                 },
                 {
+                    "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "dispel",
-                    "count": 1
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "count"
                 }
             ]
         }

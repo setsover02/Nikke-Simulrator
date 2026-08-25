@@ -27,6 +27,7 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "atk_up",
+                    "status": "matter_gamma",
                     "value": [
                         34.32,
                         36.96,
@@ -39,12 +40,17 @@
                         55.44,
                         58.08
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "count_limit": 1
                 },
                 {
                     "trigger": "normal_attack",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "heal",
+                    "condition": {
+                        "count": 10
+                    },
                     "value": [
                         1.2,
                         1.3,
@@ -57,12 +63,13 @@
                         1.95,
                         2.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "passive",
+                    "target": "highest_atk_dead_allies_1",
+                    "effect": "revive",
                     "value": [
                         56.72,
                         61.09,
@@ -76,6 +83,12 @@
                         96
                     ],
                     "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         },
@@ -87,7 +100,8 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_gauge_charge_speed_up",
+                    "status": "matter_sigma",
                     "value": [
                         41.6,
                         44.8,
@@ -100,7 +114,8 @@
                         67.2,
                         70.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "full_burst_start",
@@ -118,7 +133,8 @@
                         20.16,
                         21.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
@@ -136,12 +152,19 @@
                         60.48,
                         63.36
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
                     "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "charge_speed_up",
                     "value": [
                         0.09,
                         0.1,
@@ -154,12 +177,14 @@
                         0.17,
                         0.18
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "full_burst_end_after_self_burst",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_gauge_charge_speed_up",
+                    "status": "matter_sigma",
                     "value": [
                         41.6,
                         44.8,
@@ -172,7 +197,8 @@
                         67.2,
                         70.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -183,9 +209,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "dot_damage_up",
                     "value": [
                         31.2,
                         33.6,
@@ -198,12 +224,13 @@
                         50.4,
                         52.8
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "closest_enemy",
+                    "effect": "dot_damage",
                     "value": [
                         234,
                         252,
@@ -216,7 +243,10 @@
                         378,
                         396
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10,
+                    "interval": 1
                 }
             ]
         }

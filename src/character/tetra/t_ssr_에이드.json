@@ -25,8 +25,9 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "debuff_immunity",
+                    "status": "perfect_maid",
                     "value": [
                         1,
                         1,
@@ -39,12 +40,28 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": "permanent",
+                    "stack": 1
                 },
                 {
-                    "trigger": "battle_start",
-                    "target": "self",
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "atk_up",
+                    "condition": {
+                        "hp_below": [
+                            90,
+                            90,
+                            90,
+                            90,
+                            90,
+                            90,
+                            90,
+                            90,
+                            90,
+                            90
+                        ]
+                    },
                     "value": [
                         3.29,
                         3.5,
@@ -57,7 +74,9 @@
                         4.98,
                         5.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 5
                 }
             ]
         },
@@ -68,8 +87,23 @@
             "effects": [
                 {
                     "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "all_allies",
+                    "effect": "debuff_immunity",
+                    "condition": {
+                        "count": [
+                            420,
+                            420,
+                            420,
+                            420,
+                            420,
+                            420,
+                            420,
+                            420,
+                            420,
+                            420
+                        ]
+                    },
+                    "status": "perfect_maid",
                     "value": [
                         1,
                         1,
@@ -82,12 +116,28 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": "permanent",
+                    "stack": 1
                 },
                 {
                     "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
                     "value": [
                         8.78,
                         9.54,
@@ -100,7 +150,9 @@
                         14.86,
                         15.62
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 5
                 }
             ]
         },
@@ -111,9 +163,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
                     "value": [
                         16.88,
                         17.8,
@@ -126,11 +178,13 @@
                         24.23,
                         25.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_max_hp",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         6.58,
@@ -144,7 +198,9 @@
                         9.75,
                         10.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         }

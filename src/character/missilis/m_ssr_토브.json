@@ -26,7 +26,22 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "ammo_charge",
+                    "condition": {
+                        "chance": [
+                            2,
+                            2,
+                            3,
+                            3,
+                            3,
+                            4,
+                            4,
+                            4,
+                            5,
+                            5
+                        ]
+                    },
+                    "status": "급조 탄환",
                     "value": [
                         3.13,
                         3.37,
@@ -43,8 +58,9 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
+                    "status": "임시 개조",
                     "value": [
                         1,
                         1,
@@ -57,12 +73,14 @@
                         2,
                         2
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 5,
+                    "stack": 3
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "target": "all_allies",
+                    "effect": "critical_damage_up",
                     "value": [
                         2.96,
                         3.21,
@@ -75,7 +93,8 @@
                         4.99,
                         5.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -86,7 +105,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
+                    "target": "all_allies",
                     "effect": "critical_rate_up",
                     "value": [
                         1.96,
@@ -100,12 +119,13 @@
                         3.17,
                         3.32
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "target": "sg_allies",
+                    "effect": "atk_speed_up",
                     "value": [
                         24.96,
                         26.88,
@@ -118,7 +138,8 @@
                         40.32,
                         42.24
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -129,9 +150,10 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
+                    "status": "급조품의 기적",
                     "value": [
                         1.37,
                         1.47,
@@ -144,12 +166,15 @@
                         2.21,
                         2.32
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "sg_allies",
                     "effect": "atk_up",
+                    "status": "급조품의 기적",
                     "value": [
                         14.31,
                         15.41,
@@ -162,7 +187,9 @@
                         23.11,
                         24.21
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         }

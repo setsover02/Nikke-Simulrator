@@ -24,9 +24,24 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_damage_up",
+                    "trigger": "normal_attack_hit",
+                    "target": "all_allies",
+                    "effect": "damage_taken_down",
+                    "condition": {
+                        "count": [
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120,
+                            120
+                        ]
+                    },
+                    "status": "정리정돈",
                     "value": [
                         1.1,
                         1.2,
@@ -39,11 +54,13 @@
                         1.9,
                         2
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 15,
+                    "stack": 10
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
+                    "trigger": "max_stack_applied",
+                    "target": "all_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         22,
@@ -57,7 +74,8 @@
                         38,
                         40
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -67,27 +85,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
-                },
-                {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_gauge_charge_speed_up",
                     "value": [
                         120,
                         140,
@@ -100,7 +100,8 @@
                         280,
                         300
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -111,9 +112,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "dispel",
                     "value": [
                         1,
                         1,
@@ -126,11 +127,11 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "count"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         23.59,
@@ -144,7 +145,9 @@
                         38.12,
                         39.93
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 5
                 }
             ]
         }

@@ -39,7 +39,8 @@
                         5.93,
                         6.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         },
@@ -49,7 +50,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "enter_burst_1",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -64,7 +65,8 @@
                         36.26,
                         38.4
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -75,7 +77,7 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "heal",
                     "value": [
@@ -90,7 +92,8 @@
                         52.22,
                         55.29
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
                 }
             ]
         }

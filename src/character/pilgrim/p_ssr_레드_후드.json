@@ -8,7 +8,7 @@
         "class": "화력형",
         "company": "Pilgrim",
         "squad": "갓데스",
-        "burstLevel": 1,
+        "burstLevel": "all",
         "atkCoef": 13.65,
         "maxAmmo": 6,
         "reloadTime": 2,
@@ -26,7 +26,7 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
                     "value": [
                         2.28,
                         2.45,
@@ -39,12 +39,21 @@
                         3.64,
                         3.81
                     ],
+                    "unit": "percent",
+                    "duration": 5,
+                    "stack": 10
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "charge_speed_up",
+                    "value": 100,
                     "unit": "percent"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         240,
                         240,
@@ -57,7 +66,8 @@
                         240,
                         240
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -69,6 +79,13 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
                     "effect": "def_up",
                     "value": [
                         31.68,
@@ -82,12 +99,14 @@
                         48.57,
                         50.68
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_def",
+                    "duration": 10
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "heal",
                     "value": [
                         14.4,
                         15.36,
@@ -100,10 +119,12 @@
                         22.08,
                         23.04
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -118,7 +139,8 @@
                         68.44,
                         71.42
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -129,8 +151,8 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
                     "effect": "atk_up",
                     "value": [
                         48.47,
@@ -144,12 +166,29 @@
                         74.32,
                         77.55
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "buff",
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "burst_cooldown_reduction",
+                    "value": 40,
+                    "unit": "seconds",
+                    "count_limit": 1
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "taunt",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "heal",
                     "value": [
                         46.8,
                         49.92,
@@ -162,30 +201,42 @@
                         71.76,
                         74.88
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
+                    "effect": "burst_cooldown_reduction",
+                    "value": 40,
+                    "unit": "seconds",
+                    "count_limit": 1
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "change_weapon",
+                    "weapon_override": {
+                        "atkCoef": [
+                            37.02,
+                            38.63,
+                            40.23,
+                            41.84,
+                            43.44,
+                            45.05,
+                            46.65,
+                            48.26,
+                            49.86,
+                            51.46
+                        ],
+                        "fullChargeDamage": 250
+                    },
+                    "duration": 10
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "pierce_range_up",
                     "value": [
                         100,
                         100,
@@ -198,43 +249,27 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
                     "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8,
+                        100.8
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

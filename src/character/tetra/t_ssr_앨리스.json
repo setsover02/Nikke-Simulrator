@@ -26,7 +26,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
                     "value": [
                         6.89,
                         7.42,
@@ -39,12 +39,14 @@
                         11.14,
                         11.67
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "charge_damage_up",
                     "value": [
                         4.13,
                         4.45,
@@ -57,7 +59,8 @@
                         6.68,
                         7
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         },
@@ -69,7 +72,42 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "pierce",
+                    "condition": {
+                        "hp_above": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "condition": {
+                        "hp_below": [
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80,
+                            80
+                        ]
+                    },
                     "value": [
                         2.45,
                         3.08,
@@ -82,7 +120,9 @@
                         7.49,
                         8.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -93,9 +133,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
                     "value": [
                         54.84,
                         57.65,
@@ -108,10 +148,11 @@
                         77.34,
                         80.15
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
@@ -126,7 +167,8 @@
                         50.62,
                         55.12
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 }
             ]
         }

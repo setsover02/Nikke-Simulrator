@@ -26,43 +26,22 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "seconds"
+                    "effect": "pierce",
+                    "unit": "percent",
+                    "bullet": 1
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent"
+                    "effect": "pierce_range_up",
+                    "value": 50,
+                    "unit": "percent",
+                    "bullet": 1
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "passive",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         11.28,
                         15.62,
@@ -75,7 +54,8 @@
                         45.99,
                         50.33
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -86,8 +66,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         66.56,
                         71.68,
@@ -100,7 +80,8 @@
                         107.52,
                         112.64
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
@@ -111,9 +92,9 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "damage",
                     "value": [
                         99.84,
                         106.36,
@@ -126,12 +107,14 @@
                         152.06,
                         158.59
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "enemies_in_range",
+                    "effect": "dot_damage",
+                    "status": "화상",
                     "value": [
                         7.48,
                         8.12,
@@ -144,10 +127,13 @@
                         12.55,
                         13.19
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "duration": 10,
+                    "interval": 1
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "max_ammo_up",
                     "value": [
@@ -162,7 +148,8 @@
                         6,
                         6
                     ],
-                    "unit": "seconds"
+                    "unit": "count",
+                    "duration": 15
                 }
             ]
         }

@@ -91,10 +91,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
-                    "condition": {
-                        "count": 300
-                    },
+                    "trigger": "passive",
                     "target": "all_enemies",
                     "effect": "damage",
                     "value": [
@@ -141,6 +138,7 @@
             "cooldown": 40,
             "effects": [
                 {
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "distribute_damage",
                     "value": [
@@ -159,8 +157,9 @@
                     "based_on": "caster_final_atk"
                 },
                 {
-                    "target": "highest_hp_enemy_1",
-                    "effect": "damage",
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "extra_damage",
                     "value": [
                         468,
                         504,

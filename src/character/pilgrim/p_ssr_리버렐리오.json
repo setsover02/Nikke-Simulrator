@@ -39,7 +39,8 @@
                         152.73,
                         160
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 3
                 },
                 {
                     "trigger": "full_charge_attack",
@@ -57,12 +58,13 @@
                         19.89,
                         20.83
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 60
                 },
                 {
                     "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "target",
+                    "effect": "extra_damage",
                     "value": [
                         23.93,
                         25.77,
@@ -75,12 +77,22 @@
                         38.66,
                         40.5
                     ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "target",
+                    "effect": "buff",
                     "unit": "percent"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "charge_speed_up",
+                    "condition": {
+                        "step": 3
+                    },
                     "value": [
                         7.52,
                         8.1,
@@ -93,7 +105,9 @@
                         12.16,
                         12.74
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
                 }
             ]
         },
@@ -106,6 +120,7 @@
                     "trigger": "full_charge_attack",
                     "target": "self",
                     "effect": "atk_damage_up",
+                    "status": "격류",
                     "value": [
                         136.5,
                         147,
@@ -118,12 +133,20 @@
                         220.5,
                         231
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
                     "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "charge_speed_up",
+                    "status": "완만류",
                     "value": [
                         1,
                         1,
@@ -136,7 +159,40 @@
                         1,
                         1
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "charge_speed_up",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "charge_speed_up",
+                    "unit": "percent",
+                    "duration": "permanent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "unit": "percent"
                 }
             ]
         },
@@ -147,7 +203,7 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "self",
                     "effect": "atk_damage_up",
                     "value": [
@@ -162,12 +218,13 @@
                         47.73,
                         50
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
                     "value": [
                         546.59,
                         588.63,
@@ -180,7 +237,8 @@
                         882.95,
                         925
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }

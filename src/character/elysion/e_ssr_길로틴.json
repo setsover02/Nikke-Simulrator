@@ -24,9 +24,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
                     "effect": "critical_rate_up",
+                    "condition": {
+                        "count": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         6.28,
                         6.61,
@@ -39,12 +53,27 @@
                         8.95,
                         9.28
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "current_hp_down",
+                    "condition": {
+                        "count": [
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30,
+                            30
+                        ]
+                    },
                     "value": [
                         2.01,
                         2.01,
@@ -67,9 +96,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "normal_attack_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "critical_damage_up",
+                    "condition": {
+                        "count": [
+                            150,
+                            150,
+                            150,
+                            150,
+                            150,
+                            150,
+                            150,
+                            150,
+                            150,
+                            150
+                        ]
+                    },
                     "value": [
                         8.68,
                         9.35,
@@ -82,12 +125,27 @@
                         14.02,
                         14.69
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "passive",
                     "target": "self",
                     "effect": "atk_up",
+                    "condition": {
+                        "hp_below": [
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70,
+                            70
+                        ]
+                    },
                     "value": [
                         0.56,
                         0.61,
@@ -100,7 +158,8 @@
                         0.91,
                         0.96
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent"
                 }
             ]
         },
@@ -111,9 +170,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "highest_atk_enemy_1",
+                    "effect": "damage",
                     "value": [
                         731.25,
                         787.5,
@@ -126,12 +185,27 @@
                         1181.25,
                         1237.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "burst_cast",
+                    "target": "same_target",
+                    "effect": "extra_damage",
+                    "condition": {
+                        "hp_below": [
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50,
+                            50
+                        ]
+                    },
                     "value": [
                         731.25,
                         787.5,
@@ -144,7 +218,8 @@
                         1181.25,
                         1237.5
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         }
