@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_203",
+    "characterName": "루피 : 윈터 쇼퍼",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "AR",
+        "class": "방어형",
+        "company": "Tetra",
+        "squad": "달란트",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "윈터 프리미엄",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        10.46,
+                        11.41,
+                        12.36,
+                        13.31,
+                        14.26,
+                        15.21,
+                        16.17,
+                        17.12,
+                        18.07,
+                        19.02
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "VIP 기프트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        0.73,
+                        0.8,
+                        0.86,
+                        0.93,
+                        0.99,
+                        1.06,
+                        1.13,
+                        1.2,
+                        1.26,
+                        1.33
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4.34,
+                        4.74,
+                        5.13,
+                        5.53,
+                        5.92,
+                        6.32,
+                        6.72,
+                        7.11,
+                        7.51,
+                        7.9
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "쇼퍼홀릭 데이트",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "all_enemies",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        33.94,
+                        35.77,
+                        37.61,
+                        39.45,
+                        41.28,
+                        43.12,
+                        44.96,
+                        46.8,
+                        48.63,
+                        50.47
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        20.74,
+                        25.45,
+                        30.17,
+                        34.88,
+                        39.6,
+                        44.31,
+                        49.02,
+                        53.74,
+                        58.45,
+                        63.17
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

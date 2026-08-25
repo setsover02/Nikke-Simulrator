@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_313",
+    "characterName": "프리바티 : 언카인드 메이드",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "메이드 포 유",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 2,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "열정 충만 메이드",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        119.86,
+                        129.08,
+                        138.3,
+                        147.52,
+                        156.74,
+                        165.96,
+                        175.18,
+                        184.4,
+                        193.62,
+                        202.84
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "사랑 가득 메이드",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        12.33,
+                        13.28,
+                        14.23,
+                        15.18,
+                        16.13,
+                        17.08,
+                        18.03,
+                        18.98,
+                        19.93,
+                        20.88
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        6.63,
+                        7.14,
+                        7.65,
+                        8.16,
+                        8.67,
+                        9.18,
+                        9.69,
+                        10.2,
+                        10.71,
+                        11.22
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "부끄러운! 당신의 메이드",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        6.24,
+                        6.72,
+                        7.2,
+                        7.68,
+                        8.16,
+                        8.64,
+                        9.12,
+                        9.6,
+                        10.08,
+                        10.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        52.1,
+                        56.11,
+                        60.12,
+                        64.12,
+                        68.13,
+                        72.14,
+                        76.15,
+                        80.16,
+                        84.16,
+                        88.17
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        630.3,
+                        678.78,
+                        727.27,
+                        775.75,
+                        824.24,
+                        872.72,
+                        921.21,
+                        969.69,
+                        1018.18,
+                        1066.66
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

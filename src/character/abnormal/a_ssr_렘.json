@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_820",
+    "characterName": "렘",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "MG",
+        "class": "지원형",
+        "company": "Abnormal",
+        "squad": "에밀리아 진영",
+        "burstLevel": 2,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "렘에게 맡겨주세요!",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.49,
+                        2.68,
+                        2.88,
+                        3.07,
+                        3.26,
+                        3.45,
+                        3.64,
+                        3.84,
+                        4.03,
+                        4.22
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "렘이 치료하겠습니다!",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.96,
+                        26.88,
+                        28.8,
+                        30.72,
+                        32.64,
+                        34.56,
+                        36.48,
+                        38.4,
+                        40.32,
+                        42.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "렘은 용서하지 않습니다!",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        7.4,
+                        10.4,
+                        13.76,
+                        17.29,
+                        20.37,
+                        23.69,
+                        27.25,
+                        30.78,
+                        33.6,
+                        37.8
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        30.01,
+                        32.31,
+                        34.62,
+                        36.93,
+                        39.24,
+                        41.55,
+                        43.86,
+                        46.17,
+                        48.47,
+                        50.78
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        3,
+                        3,
+                        4,
+                        4,
+                        4,
+                        4,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

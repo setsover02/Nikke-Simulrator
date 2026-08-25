@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_411",
+    "characterName": "플로라",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "MG",
+        "class": "지원형",
+        "company": "Missilis",
+        "squad": "보타닉 가든",
+        "burstLevel": 2,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "피튜니아",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2.36,
+                        2.55,
+                        2.73,
+                        2.91,
+                        3.09,
+                        3.27,
+                        3.46,
+                        3.64,
+                        3.82,
+                        4
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "아이리스",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        6.04,
+                        6.5,
+                        6.96,
+                        7.43,
+                        7.89,
+                        8.36,
+                        8.82,
+                        9.29,
+                        9.75,
+                        10.22
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.3,
+                        19.71,
+                        21.12,
+                        22.52,
+                        23.93,
+                        25.34,
+                        26.75,
+                        28.16,
+                        29.56,
+                        30.97
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "시크릿 가든",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        6.17,
+                        6.65,
+                        7.12,
+                        7.6,
+                        8.07,
+                        8.55,
+                        9.02,
+                        9.5,
+                        9.97,
+                        10.45
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        25.05,
+                        26.98,
+                        28.9,
+                        30.83,
+                        32.76,
+                        34.68,
+                        36.61,
+                        38.54,
+                        40.47,
+                        42.39
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

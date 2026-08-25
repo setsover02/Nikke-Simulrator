@@ -1,0 +1,206 @@
+{
+    "characterID": "Char_861",
+    "characterName": "타키나",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Abnormal",
+        "squad": "찻집 리코리코",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "전투 보정",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        47.29,
+                        50.93,
+                        54.57,
+                        58.21,
+                        61.85,
+                        65.49,
+                        69.12,
+                        72.76,
+                        76.4,
+                        80.04
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        20.71,
+                        22.3,
+                        23.9,
+                        25.49,
+                        27.08,
+                        28.68,
+                        30.27,
+                        31.86,
+                        33.46,
+                        35.05
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "전장 통제",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        5.96,
+                        6.42,
+                        6.88,
+                        7.33,
+                        7.79,
+                        8.25,
+                        8.71,
+                        9.17,
+                        9.63,
+                        10.09
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        83.01,
+                        89.4,
+                        95.79,
+                        102.17,
+                        108.56,
+                        114.94,
+                        121.33,
+                        127.72,
+                        134.1,
+                        140.49
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "제압 개시",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        118.56,
+                        127.68,
+                        136.8,
+                        145.92,
+                        155.04,
+                        164.16,
+                        173.28,
+                        182.4,
+                        191.52,
+                        200.64
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.56,
+                        3.84,
+                        4.11,
+                        4.39,
+                        4.66,
+                        4.94,
+                        5.21,
+                        5.49,
+                        5.76,
+                        6.04
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

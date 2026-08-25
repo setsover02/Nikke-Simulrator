@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_430",
+    "characterName": "노이즈",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "프리마돈나",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "코러스",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        5.86,
+                        6.4,
+                        6.93,
+                        7.46,
+                        8,
+                        8.53,
+                        9.06,
+                        9.59,
+                        10.13,
+                        10.66
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "싱잉 투게더",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        17.54,
+                        18.35,
+                        19.16,
+                        19.98,
+                        20.79,
+                        21.6,
+                        22.42,
+                        23.23,
+                        24.04,
+                        24.86
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "에너제틱 노이즈",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.36,
+                        1.48,
+                        1.6,
+                        1.73,
+                        1.85,
+                        1.98,
+                        2.1,
+                        2.22,
+                        2.35,
+                        2.47
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        27.22,
+                        29.7,
+                        32.17,
+                        34.65,
+                        37.12,
+                        39.6,
+                        42.07,
+                        44.55,
+                        47.02,
+                        49.5
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

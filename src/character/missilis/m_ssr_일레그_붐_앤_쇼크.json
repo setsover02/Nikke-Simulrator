@@ -1,0 +1,278 @@
+{
+    "characterID": "Char_502",
+    "characterName": "일레그 : 붐 앤 쇼크",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "일렉트릭 쇼크",
+        "burstLevel": 3,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "헬로 고스트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "all_allies",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13,
+                        13
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        9.57,
+                        10.3,
+                        11.04,
+                        11.78,
+                        12.51,
+                        13.25,
+                        13.99,
+                        14.72,
+                        15.46,
+                        16.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        20.68,
+                        22.27,
+                        23.86,
+                        25.45,
+                        27.04,
+                        28.64,
+                        30.23,
+                        31.82,
+                        33.41,
+                        35
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "고스트 버스터",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        23.63,
+                        25.45,
+                        27.27,
+                        29.09,
+                        30.91,
+                        32.72,
+                        34.54,
+                        36.36,
+                        38.18,
+                        40
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        650,
+                        700,
+                        750,
+                        800,
+                        850,
+                        900,
+                        950,
+                        1000,
+                        1050,
+                        1100
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "13 고스트",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        472.72,
+                        509.09,
+                        545.45,
+                        581.81,
+                        618.18,
+                        654.54,
+                        690.9,
+                        727.27,
+                        763.63,
+                        800
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        472.72,
+                        509.09,
+                        545.45,
+                        581.81,
+                        618.18,
+                        654.54,
+                        690.9,
+                        727.27,
+                        763.63,
+                        800
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9,
+                        9
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

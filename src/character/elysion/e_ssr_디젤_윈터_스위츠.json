@@ -1,0 +1,278 @@
+{
+    "characterID": "Char_75",
+    "characterName": "디젤 : 윈터 스위츠",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "인피니티 레일",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "아아, 마이크 테스트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        11.98,
+                        12.9,
+                        13.82,
+                        14.74,
+                        15.67,
+                        16.59,
+                        17.51,
+                        18.43,
+                        19.35,
+                        20.28
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        11.98,
+                        12.9,
+                        13.82,
+                        14.74,
+                        15.67,
+                        16.59,
+                        17.51,
+                        18.43,
+                        19.35,
+                        20.28
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        35.56,
+                        38.3,
+                        41.04,
+                        43.77,
+                        46.51,
+                        49.24,
+                        51.98,
+                        54.72,
+                        57.45,
+                        60.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        138.88,
+                        149.56,
+                        160.24,
+                        170.93,
+                        181.61,
+                        192.29,
+                        202.98,
+                        213.66,
+                        224.34,
+                        235.03
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "노래할게요!",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        40.2,
+                        43.29,
+                        46.39,
+                        49.48,
+                        52.57,
+                        55.67,
+                        58.76,
+                        61.85,
+                        64.94,
+                        68.04
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        187.99,
+                        202.45,
+                        216.91,
+                        231.37,
+                        245.83,
+                        260.29,
+                        274.75,
+                        289.22,
+                        303.68,
+                        318.14
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        37.42,
+                        40.3,
+                        43.18,
+                        46.06,
+                        48.94,
+                        51.82,
+                        54.7,
+                        57.58,
+                        60.45,
+                        63.33
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "라라라♬",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        14.82,
+                        15.96,
+                        17.1,
+                        18.24,
+                        19.38,
+                        20.52,
+                        21.66,
+                        22.8,
+                        23.95,
+                        25.09
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        10.89,
+                        11.72,
+                        12.56,
+                        13.4,
+                        14.24,
+                        15.07,
+                        15.91,
+                        16.75,
+                        17.59,
+                        18.43
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        107.07,
+                        115.31,
+                        123.55,
+                        131.78,
+                        140.02,
+                        148.26,
+                        156.49,
+                        164.73,
+                        172.97,
+                        181.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

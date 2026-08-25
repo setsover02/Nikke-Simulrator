@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_262",
+    "characterName": "리버렐리오",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "SR",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "헬레틱",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 3.3333,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "차분한 수심",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        94.54,
+                        101.82,
+                        109.09,
+                        116.36,
+                        123.64,
+                        130.91,
+                        138.18,
+                        145.46,
+                        152.73,
+                        160
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        12.31,
+                        13.26,
+                        14.2,
+                        15.15,
+                        16.1,
+                        17.04,
+                        17.99,
+                        18.94,
+                        19.89,
+                        20.83
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        23.93,
+                        25.77,
+                        27.61,
+                        29.46,
+                        31.3,
+                        33.14,
+                        34.98,
+                        36.82,
+                        38.66,
+                        40.5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        7.52,
+                        8.1,
+                        8.68,
+                        9.26,
+                        9.84,
+                        10.42,
+                        11,
+                        11.58,
+                        12.16,
+                        12.74
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "기묘한 해류",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        136.5,
+                        147,
+                        157.5,
+                        168,
+                        178.5,
+                        189,
+                        199.5,
+                        210,
+                        220.5,
+                        231
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "잠기는 세계",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        29.54,
+                        31.82,
+                        34.09,
+                        36.36,
+                        38.64,
+                        40.91,
+                        43.18,
+                        45.45,
+                        47.73,
+                        50
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        546.59,
+                        588.63,
+                        630.68,
+                        672.72,
+                        714.77,
+                        756.82,
+                        798.86,
+                        840.91,
+                        882.95,
+                        925
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

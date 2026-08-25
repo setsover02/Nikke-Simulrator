@@ -1,0 +1,224 @@
+{
+    "characterID": "Char_840",
+    "characterName": "에이다",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Abnormal",
+        "squad": "B.S.T.",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "은밀한 지원",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        35.46,
+                        38.19,
+                        40.92,
+                        43.64,
+                        46.37,
+                        49.1,
+                        51.83,
+                        54.56,
+                        57.28,
+                        60
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        29.54,
+                        31.82,
+                        34.09,
+                        36.36,
+                        38.63,
+                        40.91,
+                        43.18,
+                        45.45,
+                        47.73,
+                        50
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        5.91,
+                        6.36,
+                        6.81,
+                        7.27,
+                        7.72,
+                        8.18,
+                        8.63,
+                        9.09,
+                        9.54,
+                        10
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "섬광 수류탄",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        248.18,
+                        267.27,
+                        286.36,
+                        305.45,
+                        324.54,
+                        343.63,
+                        362.72,
+                        381.82,
+                        400.91,
+                        420
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "시크릿 에이전트",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        23.63,
+                        25.45,
+                        27.27,
+                        29.09,
+                        30.9,
+                        32.72,
+                        34.54,
+                        36.36,
+                        38.18,
+                        40
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.82,
+                        26.73,
+                        28.64,
+                        30.55,
+                        32.46,
+                        34.37,
+                        36.28,
+                        38.19,
+                        40.1,
+                        42
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        886.37,
+                        954.55,
+                        1022.73,
+                        1090.92,
+                        1159.1,
+                        1227.28,
+                        1295.46,
+                        1363.65,
+                        1431.83,
+                        1500
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

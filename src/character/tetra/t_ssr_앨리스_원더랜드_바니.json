@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_195",
+    "characterName": "앨리스 : 원더랜드 바니",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SMG",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "언리미티드",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 24,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "당근과 토끼 파티",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.21,
+                        3.67,
+                        4.14,
+                        4.6,
+                        5.07,
+                        5.54,
+                        6,
+                        6.47,
+                        6.93,
+                        7.4
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        0.89,
+                        1.02,
+                        1.14,
+                        1.26,
+                        1.39,
+                        1.51,
+                        1.63,
+                        1.76,
+                        1.88,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "좀 더 많은 당근",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4.73,
+                        5.32,
+                        5.9,
+                        6.49,
+                        7.07,
+                        7.66,
+                        8.24,
+                        8.83,
+                        9.41,
+                        10
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        10.57,
+                        13.84,
+                        17.11,
+                        20.38,
+                        23.65,
+                        26.92,
+                        30.19,
+                        33.46,
+                        36.73,
+                        40
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10.57,
+                        13.84,
+                        17.11,
+                        20.38,
+                        23.65,
+                        26.92,
+                        30.19,
+                        33.46,
+                        36.73,
+                        40
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "소중한 큰 당근",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        12.46,
+                        14.08,
+                        15.69,
+                        17.31,
+                        18.92,
+                        20.54,
+                        22.16,
+                        23.77,
+                        25.39,
+                        27
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        74.2,
+                        82.62,
+                        91.05,
+                        99.47,
+                        107.89,
+                        116.31,
+                        124.73,
+                        133.16,
+                        141.58,
+                        150
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

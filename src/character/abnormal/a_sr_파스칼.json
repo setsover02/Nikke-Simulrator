@@ -1,0 +1,98 @@
+{
+    "characterID": "Char_812",
+    "characterName": "파스칼",
+    "stats": {
+        "rarity": "SR",
+        "element": "철갑",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Abnormal",
+        "squad": "기계생명체",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "조심해요!",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.14,
+                        3.49,
+                        3.84,
+                        4.18,
+                        4.53,
+                        4.88,
+                        5.23,
+                        5.58,
+                        5.93,
+                        6.28
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "최선을 다해볼게요.",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        19.2,
+                        21.33,
+                        23.46,
+                        25.6,
+                        27.73,
+                        29.86,
+                        32,
+                        34.13,
+                        36.26,
+                        38.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "다들 다치지 말아요!",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        27.64,
+                        30.72,
+                        33.79,
+                        36.86,
+                        39.93,
+                        43,
+                        46.08,
+                        49.15,
+                        52.22,
+                        55.29
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_60",
+    "characterName": "벨로타",
+    "stats": {
+        "rarity": "SR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "리틀 캐논",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "서프라이즈",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3.41,
+                        4.09,
+                        4.77,
+                        5.46,
+                        6.14,
+                        6.82,
+                        7.5,
+                        8.18,
+                        8.87,
+                        9.55
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "그리디",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        1.25,
+                        1.51,
+                        1.76,
+                        2.01,
+                        2.26,
+                        2.51,
+                        2.77,
+                        3.02,
+                        3.27,
+                        3.52
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        5.34,
+                        6.41,
+                        7.48,
+                        8.55,
+                        9.61,
+                        10.68,
+                        11.75,
+                        12.82,
+                        13.89,
+                        14.96
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "트릭키 봄버",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        68.57,
+                        82.28,
+                        95.99,
+                        109.71,
+                        123.42,
+                        137.14,
+                        150.85,
+                        164.57,
+                        178.28,
+                        192
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1.01,
+                        1.21,
+                        1.41,
+                        1.61,
+                        1.81,
+                        2.02,
+                        2.22,
+                        2.42,
+                        2.62,
+                        2.82
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

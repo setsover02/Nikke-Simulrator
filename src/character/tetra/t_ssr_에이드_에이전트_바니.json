@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_315",
+    "characterName": "에이드 : 에이전트 바니",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "메이드 포 유",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "요원의 시선",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        8.98,
+                        9.67,
+                        10.36,
+                        11.05,
+                        11.75,
+                        12.44,
+                        13.13,
+                        13.82,
+                        14.51,
+                        15.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44,
+                        4.44
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "요원의 움직임",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        9.15,
+                        10.17,
+                        11.2,
+                        12.22,
+                        13.24,
+                        14.27,
+                        15.29,
+                        16.32,
+                        17.34,
+                        18.36
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        9.36,
+                        10.09,
+                        10.83,
+                        11.57,
+                        12.31,
+                        13.05,
+                        13.78,
+                        14.52,
+                        15.26,
+                        16
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "최첨단 요원 장비",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56,
+                        55.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        29.85,
+                        32.65,
+                        35.45,
+                        38.25,
+                        41.05,
+                        43.85,
+                        46.64,
+                        49.44,
+                        52.24,
+                        55.04
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        5.14,
+                        5.7,
+                        6.25,
+                        6.81,
+                        7.36,
+                        7.92,
+                        8.47,
+                        9.02,
+                        9.58,
+                        10.13
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,116 @@
+{
+    "characterID": "Char_862",
+    "characterName": "쿠루미",
+    "stats": {
+        "rarity": "SR",
+        "element": "철갑",
+        "weapon": "AR",
+        "class": "지원형",
+        "company": "Abnormal",
+        "squad": "찻집 리코리코",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "악성 코드 주입",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        30.87,
+                        33.24,
+                        35.62,
+                        37.99,
+                        40.37,
+                        42.74,
+                        45.12,
+                        47.49,
+                        49.86,
+                        52.24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        30.87,
+                        33.24,
+                        35.62,
+                        37.99,
+                        40.37,
+                        42.74,
+                        45.12,
+                        47.49,
+                        49.86,
+                        52.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "페이로드 확산",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        50.92,
+                        54.83,
+                        58.75,
+                        62.67,
+                        66.59,
+                        70.5,
+                        74.42,
+                        78.34,
+                        82.25,
+                        86.17
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "방어 프로토콜 붕괴",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        10.67,
+                        11.49,
+                        12.31,
+                        13.13,
+                        13.95,
+                        14.77,
+                        15.59,
+                        16.42,
+                        17.24,
+                        18.06
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

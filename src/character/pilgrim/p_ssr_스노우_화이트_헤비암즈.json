@@ -1,0 +1,386 @@
+{
+    "characterID": "Char_471",
+    "characterName": "스노우 화이트 : 헤비암즈",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SR",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "갓데스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "세븐스 드워프 V+VI",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        24.96,
+                        26.88,
+                        28.8,
+                        30.72,
+                        32.64,
+                        34.56,
+                        36.48,
+                        38.4,
+                        40.32,
+                        42.24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.48,
+                        2.67,
+                        2.86,
+                        3.05,
+                        3.24,
+                        3.43,
+                        3.62,
+                        3.81,
+                        4,
+                        4.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "all_enemies",
+                    "effect": "atk_up",
+                    "value": [
+                        24.76,
+                        26.66,
+                        28.57,
+                        30.47,
+                        32.38,
+                        34.28,
+                        36.19,
+                        38.09,
+                        40,
+                        41.9
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        62.39,
+                        67.19,
+                        71.99,
+                        76.79,
+                        81.59,
+                        86.39,
+                        91.19,
+                        95.99,
+                        100.79,
+                        105.59
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "어나더 화이트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        27.68,
+                        29.81,
+                        31.94,
+                        34.07,
+                        36.2,
+                        38.33,
+                        40.46,
+                        42.58,
+                        44.71,
+                        46.84
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        37.01,
+                        39.86,
+                        42.71,
+                        45.55,
+                        48.4,
+                        51.25,
+                        54.1,
+                        56.94,
+                        59.79,
+                        62.64
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        43.68,
+                        47.04,
+                        50.4,
+                        53.76,
+                        57.12,
+                        60.48,
+                        63.84,
+                        67.2,
+                        70.56,
+                        73.92
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        312,
+                        336,
+                        360,
+                        384,
+                        408,
+                        432,
+                        456,
+                        480,
+                        504,
+                        528
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        93.6,
+                        100.8,
+                        108,
+                        115.2,
+                        122.4,
+                        129.6,
+                        136.8,
+                        144,
+                        151.2,
+                        158.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "세븐스 드워프 풀 액티브",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        49.92,
+                        53.76,
+                        57.6,
+                        61.44,
+                        65.28,
+                        69.12,
+                        72.96,
+                        76.8,
+                        80.64,
+                        84.48
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        24.76,
+                        26.66,
+                        28.57,
+                        30.47,
+                        32.38,
+                        34.28,
+                        36.19,
+                        38.09,
+                        40,
+                        41.9
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,242 @@
+{
+    "characterID": "Char_234",
+    "characterName": "도로시 : 세렌디피티",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "인헤르트",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 1.5,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "섬광",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        78.54,
+                        80.72,
+                        82.9,
+                        85.09,
+                        87.27,
+                        89.45,
+                        91.63,
+                        93.81,
+                        96,
+                        98.18
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        43.2,
+                        46.4,
+                        49.6,
+                        52.8,
+                        56,
+                        59.2,
+                        62.4,
+                        65.6,
+                        68.8,
+                        72
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        200,
+                        200,
+                        200,
+                        200,
+                        200,
+                        200,
+                        200,
+                        200,
+                        200,
+                        200
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "광익",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        31.68,
+                        34.28,
+                        36.88,
+                        39.48,
+                        42.08,
+                        44.68,
+                        47.28,
+                        49.88,
+                        52.48,
+                        55.08
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        45,
+                        48.36,
+                        51.72,
+                        55.08,
+                        58.44,
+                        61.8,
+                        65.16,
+                        68.52,
+                        71.88,
+                        75.24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        23.4,
+                        25.32,
+                        27.24,
+                        29.16,
+                        31.08,
+                        33,
+                        34.92,
+                        36.84,
+                        38.76,
+                        40.68
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "위구원",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        36.72,
+                        39.86,
+                        43,
+                        46.14,
+                        49.29,
+                        52.43,
+                        55.57,
+                        58.71,
+                        61.86,
+                        65
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        51.08,
+                        55.19,
+                        59.31,
+                        63.42,
+                        67.54,
+                        71.65,
+                        75.77,
+                        79.89,
+                        84,
+                        88.12
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        4,
+                        4,
+                        4,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_353",
+    "characterName": "헬름 : 아쿠아마린",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "이지스",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "위드 어드마이어",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        38.76,
+                        49.05,
+                        59.34,
+                        69.61,
+                        79.92,
+                        90.19,
+                        100.48,
+                        110.76,
+                        121.05,
+                        131.34
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82,
+                        1.82
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2,
+                        2.2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6,
+                        2.6
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "이지스 캐논 견제 사격",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        62.38,
+                        67.2,
+                        71.98,
+                        76.79,
+                        81.59,
+                        86.39,
+                        91.18,
+                        95.98,
+                        100.8,
+                        105.58
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.33,
+                        3.6,
+                        3.84,
+                        4.11,
+                        4.35,
+                        4.62,
+                        4.86,
+                        5.13,
+                        5.4,
+                        5.64
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "이지스 캐논 오버로드",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        97.39,
+                        104.89,
+                        112.38,
+                        119.88,
+                        127.36,
+                        134.86,
+                        142.35,
+                        149.85,
+                        157.33,
+                        164.83
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        97.39,
+                        104.89,
+                        112.38,
+                        119.88,
+                        127.36,
+                        134.86,
+                        142.35,
+                        149.85,
+                        157.33,
+                        164.83
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

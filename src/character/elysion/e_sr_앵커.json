@@ -1,0 +1,116 @@
+{
+    "characterID": "Char_351",
+    "characterName": "앵커",
+    "stats": {
+        "rarity": "SR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Elysion",
+        "squad": "이지스",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "GS",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        10.42,
+                        11.91,
+                        13.39,
+                        14.88,
+                        16.37,
+                        17.86,
+                        19.35,
+                        20.84,
+                        22.33,
+                        23.82
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "MDS",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        11.2,
+                        12.8,
+                        14.4,
+                        16,
+                        17.6,
+                        19.2,
+                        20.8,
+                        22.4,
+                        24,
+                        25.6
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "CIWS",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        133.2,
+                        152.22,
+                        171.25,
+                        190.28,
+                        209.31,
+                        228.34,
+                        247.37,
+                        266.4,
+                        285.42,
+                        304.45
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

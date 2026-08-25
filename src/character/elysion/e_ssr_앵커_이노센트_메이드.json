@@ -1,0 +1,224 @@
+{
+    "characterID": "Char_355",
+    "characterName": "앵커 : 이노센트 메이드",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "이지스",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "불가사리(모양) 오므라이스",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        18.29,
+                        19.7,
+                        21.11,
+                        22.51,
+                        23.92,
+                        25.33,
+                        26.74,
+                        28.14,
+                        29.55,
+                        30.96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        17.96,
+                        19.34,
+                        20.72,
+                        22.1,
+                        23.49,
+                        24.87,
+                        26.25,
+                        27.63,
+                        29.01,
+                        30.4
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.79,
+                        1.93,
+                        2.07,
+                        2.21,
+                        2.34,
+                        2.48,
+                        2.62,
+                        2.76,
+                        2.9,
+                        3.04
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "말미잘(모양) 파스타",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5.98,
+                        6.44,
+                        6.9,
+                        7.36,
+                        7.83,
+                        8.29,
+                        8.75,
+                        9.21,
+                        9.67,
+                        10.13
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        20.65,
+                        22.25,
+                        23.85,
+                        25.44,
+                        27.04,
+                        28.64,
+                        30.23,
+                        31.83,
+                        33.43,
+                        35.02
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        23.82,
+                        25.62,
+                        27.42,
+                        29.23,
+                        31.03,
+                        32.83,
+                        34.63,
+                        36.44,
+                        38.24,
+                        40.04
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "바다 산책",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        35.56,
+                        38.3,
+                        41.04,
+                        43.77,
+                        46.51,
+                        49.24,
+                        51.98,
+                        54.72,
+                        57.45,
+                        60.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        23.56,
+                        25.41,
+                        27.25,
+                        29.1,
+                        30.95,
+                        32.79,
+                        34.64,
+                        36.49,
+                        38.33,
+                        40.18
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        17.78,
+                        19.15,
+                        20.52,
+                        21.88,
+                        23.25,
+                        24.62,
+                        25.99,
+                        27.36,
+                        28.72,
+                        30.09
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

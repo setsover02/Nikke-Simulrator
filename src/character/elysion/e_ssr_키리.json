@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_33",
+    "characterName": "키리",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "A.C.P.U.",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "곁눈질",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        5.28,
+                        5.69,
+                        6.1,
+                        6.5,
+                        6.91,
+                        7.32,
+                        7.72,
+                        8.13,
+                        8.54,
+                        8.94
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        3.43,
+                        3.7,
+                        3.96,
+                        4.23,
+                        4.49,
+                        4.75,
+                        5.02,
+                        5.28,
+                        5.55,
+                        5.81
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "훑어보기",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        6.87,
+                        7.4,
+                        7.93,
+                        8.46,
+                        8.98,
+                        9.51,
+                        10.04,
+                        10.57,
+                        11.1,
+                        11.63
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "꿰뚫어보기",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        4.11,
+                        4.43,
+                        4.75,
+                        5.06,
+                        5.38,
+                        5.7,
+                        6.01,
+                        6.33,
+                        6.65,
+                        6.96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        11.76,
+                        12.66,
+                        13.57,
+                        14.47,
+                        15.38,
+                        16.28,
+                        17.19,
+                        18.09,
+                        19,
+                        19.9
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

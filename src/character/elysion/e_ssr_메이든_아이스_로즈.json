@@ -1,0 +1,206 @@
+{
+    "characterID": "Char_183",
+    "characterName": "메이든 : 아이스 로즈",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Elysion",
+        "squad": "익스터너",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "메디테이션",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.74,
+                        4.03,
+                        4.32,
+                        4.61,
+                        4.9,
+                        5.19,
+                        5.47,
+                        5.76,
+                        6.05,
+                        6.34
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "블레스 유",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.2,
+                        26.06,
+                        27.91,
+                        29.77,
+                        31.62,
+                        33.48,
+                        35.33,
+                        37.19,
+                        39.04,
+                        40.9
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        12.35,
+                        13.3,
+                        14.25,
+                        15.2,
+                        16.15,
+                        17.1,
+                        18.05,
+                        19,
+                        19.95,
+                        20.9
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.72,
+                        20.16,
+                        21.6,
+                        23.04,
+                        24.48,
+                        25.92,
+                        27.36,
+                        28.8,
+                        30.24,
+                        31.68
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1.89,
+                        2.03,
+                        2.18,
+                        2.32,
+                        2.47,
+                        2.62,
+                        2.76,
+                        2.91,
+                        3.05,
+                        3.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        323.58,
+                        348.48,
+                        373.37,
+                        398.26,
+                        423.16,
+                        448.05,
+                        472.94,
+                        497.84,
+                        522.73,
+                        547.62
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "다이아몬드 더스트",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

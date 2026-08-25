@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_801",
+    "characterName": "파워",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Abnormal",
+        "squad": "데블 헌터",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "피의 마인",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        3.78,
+                        4.07,
+                        4.36,
+                        4.65,
+                        4.94,
+                        5.23,
+                        5.52,
+                        5.81,
+                        6.1,
+                        6.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "피의 폭발",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        15.21,
+                        17.81,
+                        20.41,
+                        23.01,
+                        25.61,
+                        28.21,
+                        30.81,
+                        33.41,
+                        36.01,
+                        38.61
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "피의 해머",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        936,
+                        1008,
+                        1080,
+                        1152,
+                        1224,
+                        1296,
+                        1368,
+                        1440,
+                        1512,
+                        1584
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        936,
+                        1008,
+                        1080,
+                        1152,
+                        1224,
+                        1296,
+                        1368,
+                        1440,
+                        1512,
+                        1584
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

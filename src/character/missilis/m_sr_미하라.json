@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_161",
+    "characterName": "미하라",
+    "stats": {
+        "rarity": "SR",
+        "element": "수냉",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "워드리스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1.67,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "인듀어",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        8.18,
+                        9.35,
+                        10.52,
+                        11.69,
+                        12.85,
+                        14.02,
+                        15.19,
+                        16.36,
+                        17.53,
+                        18.7
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "페인 로드",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        6.81,
+                        7.78,
+                        8.75,
+                        9.72,
+                        10.7,
+                        11.67,
+                        12.64,
+                        13.62,
+                        14.59,
+                        15.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        4.93,
+                        5.64,
+                        6.34,
+                        7.05,
+                        7.75,
+                        8.46,
+                        9.17,
+                        9.87,
+                        10.58,
+                        11.28
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "센스 쉐어링",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        174.82,
+                        199.8,
+                        224.77,
+                        249.75,
+                        274.72,
+                        299.7,
+                        324.67,
+                        349.65,
+                        374.62,
+                        399.6
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        116.55,
+                        133.2,
+                        149.85,
+                        166.5,
+                        183.15,
+                        199.8,
+                        216.45,
+                        233.1,
+                        249.75,
+                        266.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

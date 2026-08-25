@@ -1,0 +1,224 @@
+{
+    "characterID": "Char_520",
+    "characterName": "브래디",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SR",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "쿠킹오일",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "론리 구르메",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        41.37,
+                        44.55,
+                        47.73,
+                        50.91,
+                        54.1,
+                        57.28,
+                        60.46,
+                        63.64,
+                        66.83,
+                        70.01
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "페이버릿 캔디",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        6.02,
+                        6.49,
+                        6.95,
+                        7.41,
+                        7.88,
+                        8.34,
+                        8.81,
+                        9.27,
+                        9.73,
+                        10.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        88.66,
+                        95.48,
+                        102.3,
+                        109.12,
+                        115.94,
+                        122.76,
+                        129.58,
+                        136.4,
+                        143.22,
+                        150.04
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        35.46,
+                        38.19,
+                        40.92,
+                        43.65,
+                        46.37,
+                        49.1,
+                        51.83,
+                        54.56,
+                        57.29,
+                        60.01
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        156.63,
+                        168.68,
+                        180.73,
+                        192.78,
+                        204.82,
+                        216.87,
+                        228.92,
+                        240.97,
+                        253.02,
+                        265.07
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "뉴 플레이버",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        35.56,
+                        38.3,
+                        41.04,
+                        43.77,
+                        46.51,
+                        49.24,
+                        51.98,
+                        54.72,
+                        57.45,
+                        60.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        206.7,
+                        222.6,
+                        238.5,
+                        254.4,
+                        270.3,
+                        286.2,
+                        302.1,
+                        318,
+                        333.9,
+                        349.8
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        41.41,
+                        44.6,
+                        47.79,
+                        50.97,
+                        54.16,
+                        57.34,
+                        60.53,
+                        63.72,
+                        66.9,
+                        70.09
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

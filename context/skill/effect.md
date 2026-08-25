@@ -25,6 +25,7 @@ normal_attack_multiplier_up: 일반 공격 대미지 n% 배율 증가
 dot_damage_up: 지속 대미지 증가 (dot_damage의 대미지만 증가함)
 status_damage_with_stack_copy: 대상의 특정 상태 중첩을 복사하여 적용하는 지속 대미지 (미하라 전용)
     - 미하라의 버스트 스킬은 chain_binding 상태인 적에게 chain_pull status를 적용하여 대미지를 입히고, chain_binding 상태를 해제한다.
+charge_damage_up: 차지 대미지 증가
 
 ### 장탄
 max_ammo_up: 최대 장탄수 증가 (기본값: target 기준 최대 장탄수로 증가한다)
@@ -94,3 +95,6 @@ charge_status: 특정 상태(status)의 스택을 충전 또는 증가시킴
 shield_damage_up: 보호막에 가하는 대미지 증가
 pierce_damage_up: 관통 대미지 증가
 pierce: 관통 특화 (관통 효과가 적용되는 특수 상태)
+
+### 홍련 : 흑영 전용
+full_charge_count_change: 풀 차지 공격 횟수 조건 변경 (홍련 : 흑영 버스트 전용 효과, target_skill: "skill_1", counts: [1, 2, 3])

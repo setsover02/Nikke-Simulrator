@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_580",
+    "characterName": "팬텀",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "베스트 셀러",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 2,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "괴도의 예고장",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        19.02,
+                        20.49,
+                        21.96,
+                        23.43,
+                        24.87,
+                        26.34,
+                        27.81,
+                        29.28,
+                        30.75,
+                        32.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        15.22,
+                        16.39,
+                        17.57,
+                        18.74,
+                        19.9,
+                        21.07,
+                        22.25,
+                        23.42,
+                        24.6,
+                        25.75
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        44.41,
+                        47.83,
+                        51.25,
+                        54.67,
+                        58.09,
+                        61.49,
+                        64.91,
+                        68.33,
+                        71.75,
+                        75.17
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "괴도의 시선",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        49.82,
+                        53.66,
+                        57.49,
+                        61.33,
+                        65.16,
+                        68.99,
+                        72.82,
+                        76.67,
+                        80.5,
+                        84.33
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        7.61,
+                        8.18,
+                        8.78,
+                        9.36,
+                        9.94,
+                        10.54,
+                        11.11,
+                        11.71,
+                        12.29,
+                        12.86
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        50.32,
+                        54.16,
+                        58.08,
+                        61.92,
+                        65.76,
+                        69.68,
+                        73.52,
+                        77.44,
+                        81.28,
+                        85.12
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.87,
+                        20.31,
+                        21.78,
+                        23.22,
+                        24.66,
+                        26.13,
+                        27.57,
+                        29.04,
+                        30.48,
+                        31.92
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "비기 괴도 난무",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        861.12,
+                        927.36,
+                        993.6,
+                        1059.84,
+                        1126.08,
+                        1192.32,
+                        1258.56,
+                        1324.8,
+                        1391.04,
+                        1457.28
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

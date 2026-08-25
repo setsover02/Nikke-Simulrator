@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_15",
+    "characterName": "아니스 : 스파클링 서머",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "SG",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "카운터스",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 5,
+        "reloadTime": 2,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "스파클링 부스트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        32.68,
+                        35.2,
+                        37.71,
+                        40.22,
+                        42.74,
+                        45.25,
+                        47.77,
+                        50.28,
+                        52.8,
+                        55.31
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        29.12,
+                        31.36,
+                        33.6,
+                        35.84,
+                        38.08,
+                        40.32,
+                        42.56,
+                        44.8,
+                        47.04,
+                        49.28
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "스파클링 미사일",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        225.97,
+                        243.36,
+                        260.74,
+                        278.12,
+                        295.5,
+                        312.89,
+                        330.27,
+                        347.65,
+                        365.04,
+                        382.42
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        4.08,
+                        4.4,
+                        4.71,
+                        5.02,
+                        5.34,
+                        5.65,
+                        5.97,
+                        6.28,
+                        6.6,
+                        6.91
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "스파클링 웨이브",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        43.68,
+                        47.04,
+                        50.4,
+                        53.76,
+                        57.12,
+                        60.48,
+                        63.84,
+                        67.2,
+                        70.56,
+                        73.92
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        16.38,
+                        17.64,
+                        18.9,
+                        20.16,
+                        21.42,
+                        22.68,
+                        23.94,
+                        25.2,
+                        26.46,
+                        27.72
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.96,
+                        26.88,
+                        28.8,
+                        30.72,
+                        32.64,
+                        34.56,
+                        36.48,
+                        38.4,
+                        40.32,
+                        42.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

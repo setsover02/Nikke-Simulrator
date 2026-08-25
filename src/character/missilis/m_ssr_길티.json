@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_400",
+    "characterName": "길티",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "리얼 카인드니스",
+        "burstLevel": 2,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 2.67,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "빌려 갈게에….",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        4.4,
+                        4.89,
+                        5.38,
+                        5.87,
+                        6.36,
+                        6.85,
+                        7.34,
+                        7.83,
+                        8.32,
+                        8.81
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "같이 놀자아….",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.06,
+                        2.29,
+                        2.52,
+                        2.75,
+                        2.98,
+                        3.21,
+                        3.44,
+                        3.67,
+                        3.9,
+                        4.13
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "잡았다아….",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        142.16,
+                        157.95,
+                        173.75,
+                        189.55,
+                        205.34,
+                        221.14,
+                        236.93,
+                        252.73,
+                        268.53,
+                        284.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        10.12,
+                        11.25,
+                        12.37,
+                        13.5,
+                        14.62,
+                        15.75,
+                        16.87,
+                        18,
+                        19.12,
+                        20.25
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        138.85,
+                        154.28,
+                        169.71,
+                        185.14,
+                        200.57,
+                        216,
+                        231.42,
+                        246.85,
+                        262.28,
+                        277.71
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

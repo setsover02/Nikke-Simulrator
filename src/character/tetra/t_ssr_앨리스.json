@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_191",
+    "characterName": "앨리스",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "SR",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "언리미티드",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "힘나는 당근",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6.89,
+                        7.42,
+                        7.95,
+                        8.48,
+                        9.02,
+                        9.55,
+                        10.08,
+                        10.61,
+                        11.14,
+                        11.67
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        4.13,
+                        4.45,
+                        4.77,
+                        5.09,
+                        5.41,
+                        5.73,
+                        6.04,
+                        6.36,
+                        6.68,
+                        7
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "건강한 당근",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.45,
+                        3.08,
+                        3.71,
+                        4.34,
+                        4.97,
+                        5.6,
+                        6.23,
+                        6.86,
+                        7.49,
+                        8.12
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "신기하고 이상한 나라",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        54.84,
+                        57.65,
+                        60.46,
+                        63.28,
+                        66.09,
+                        68.9,
+                        71.71,
+                        74.53,
+                        77.34,
+                        80.15
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        14.62,
+                        19.12,
+                        23.62,
+                        28.12,
+                        32.62,
+                        37.12,
+                        41.62,
+                        46.12,
+                        50.62,
+                        55.12
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

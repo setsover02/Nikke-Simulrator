@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_62",
+    "characterName": "미카 : 스노우 버디",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "SMG",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "리틀 캐논",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 2,
+        "chargeTime": 0,
+        "fireRate": 24,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "정리정돈",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1.1,
+                        1.2,
+                        1.3,
+                        1.4,
+                        1.5,
+                        1.6,
+                        1.7,
+                        1.8,
+                        1.9,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        22,
+                        24,
+                        26,
+                        28,
+                        30,
+                        32,
+                        34,
+                        36,
+                        38,
+                        40
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "응원의 축포",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        120,
+                        140,
+                        160,
+                        180,
+                        200,
+                        220,
+                        240,
+                        260,
+                        280,
+                        300
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "설온제",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        23.59,
+                        25.41,
+                        27.22,
+                        29.04,
+                        30.85,
+                        32.67,
+                        34.49,
+                        36.3,
+                        38.12,
+                        39.93
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

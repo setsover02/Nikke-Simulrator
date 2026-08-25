@@ -1,0 +1,198 @@
+{
+    "characterID": "ScarletBlackShadow",
+    "characterName": "홍련 : 흑영",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "갓데스",
+        "burstLevel": 3,
+        "atkCoef": 57.29,
+        "maxAmmo": 9,
+        "reloadTime": 2,
+        "chargeTime": 0.3,
+        "fireRate": 0,
+        "fullChargeDamage": 150,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "화무십일홍 · 파죽",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 3,
+                        "single_stage": true
+                    },
+                    "target": "lowest_def_enemy_1",
+                    "effect": "damage",
+                    "value": [
+                        218.46,
+                        225.63,
+                        232.81,
+                        239.98,
+                        247.16,
+                        254.32,
+                        261.5,
+                        268.68,
+                        275.85,
+                        283.03
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 6,
+                        "single_stage": true
+                    },
+                    "target": "enemies_in_range",
+                    "effect": "distribute_damage",
+                    "value": [
+                        371.28,
+                        392.79,
+                        414.32,
+                        435.85,
+                        457.37,
+                        478.89,
+                        500.42,
+                        521.94,
+                        543.47,
+                        565.0
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 9,
+                        "single_stage": true
+                    },
+                    "target": "all_enemies",
+                    "effect": "distribute_damage",
+                    "value": [
+                        441.23,
+                        486.43,
+                        531.63,
+                        576.83,
+                        622.03,
+                        667.23,
+                        712.43,
+                        757.63,
+                        802.83,
+                        848.03
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "화무십일홍 · 수라",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        40,
+                        42.22,
+                        44.44,
+                        46.66,
+                        48.88,
+                        51.1,
+                        53.32,
+                        55.54,
+                        57.76,
+                        60
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "ammo_charge",
+                    "value": [
+                        30,
+                        30,
+                        30,
+                        60,
+                        60,
+                        60,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "화무십일홍 · 만개",
+            "type": "burst",
+            "cooldown": 40.0,
+            "effects": [
+                {
+                    "target": "self",
+                    "effect": "full_charge_count_change",
+                    "target_skill": "skill_1",
+                    "counts": [
+                        1,
+                        2,
+                        3
+                    ],
+                    "duration": 10
+                },
+                {
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        17.28,
+                        28.15,
+                        39.02,
+                        49.89,
+                        60.76,
+                        71.64,
+                        82.51,
+                        93.38,
+                        104.25,
+                        115.12
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 10
+                },
+                {
+                    "target": "self",
+                    "effect": "charge_damage_up",
+                    "value": [
+                        96.41,
+                        104.54,
+                        112.68,
+                        120.81,
+                        128.95,
+                        137.09,
+                        145.22,
+                        153.36,
+                        161.49,
+                        169.63
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        }
+    ]
+}

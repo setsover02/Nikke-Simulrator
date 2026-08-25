@@ -1,0 +1,116 @@
+{
+    "characterID": "Char_842",
+    "characterName": "클레어",
+    "stats": {
+        "rarity": "SR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Abnormal",
+        "squad": "B.S.T.",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "녹색 약초",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.26,
+                        1.44,
+                        1.62,
+                        1.79,
+                        1.97,
+                        2.15,
+                        2.33,
+                        2.5,
+                        2.68,
+                        2.86
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "임시 바리케이드",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        4.43,
+                        5.06,
+                        5.7,
+                        6.33,
+                        6.96,
+                        7.6,
+                        8.23,
+                        8.87,
+                        9.5,
+                        10.13
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "R+G+B",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        14.96,
+                        17.12,
+                        19.27,
+                        21.43,
+                        23.58,
+                        25.74,
+                        27.89,
+                        30.04,
+                        32.2,
+                        34.35
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

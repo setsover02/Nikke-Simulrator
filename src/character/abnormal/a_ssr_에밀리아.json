@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_821",
+    "characterName": "에밀리아",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Abnormal",
+        "squad": "에밀리아 진영",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "미정령의 축복",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        8.92,
+                        9.37,
+                        9.83,
+                        10.28,
+                        10.74,
+                        11.19,
+                        11.65,
+                        12.1,
+                        12.55,
+                        13.01
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1.39,
+                        1.46,
+                        1.53,
+                        1.6,
+                        1.67,
+                        1.74,
+                        1.81,
+                        1.88,
+                        1.95,
+                        2.01
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "대정령의 철퇴",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        41.32,
+                        43.28,
+                        45.25,
+                        47.21,
+                        49.18,
+                        51.14,
+                        53.1,
+                        55.07,
+                        57.03,
+                        58.99
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        2,
+                        2,
+                        2,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "빙결의 마녀",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        59.82,
+                        64.42,
+                        69.03,
+                        73.63,
+                        78.23,
+                        82.83,
+                        87.43,
+                        92.04,
+                        96.64,
+                        101.24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300,
+                        300
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        842.4,
+                        893.3,
+                        944.2,
+                        995.11,
+                        1046.01,
+                        1096.92,
+                        1147.82,
+                        1198.72,
+                        1249.63,
+                        1300.53
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

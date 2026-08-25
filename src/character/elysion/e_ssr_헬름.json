@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_352",
+    "characterName": "헬름",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SR",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "이지스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "진두지휘",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        8.65,
+                        9.31,
+                        9.98,
+                        10.64,
+                        11.31,
+                        11.98,
+                        12.64,
+                        13.31,
+                        13.97,
+                        14.64
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "포문 개방",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1.82,
+                        1.96,
+                        2.1,
+                        2.24,
+                        2.38,
+                        2.52,
+                        2.66,
+                        2.8,
+                        2.94,
+                        3.08
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        7,
+                        7.54,
+                        8.08,
+                        8.62,
+                        9.15,
+                        9.69,
+                        10.23,
+                        10.77,
+                        11.31,
+                        11.85
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "이지스 캐논",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        731.25,
+                        787.5,
+                        843.75,
+                        900,
+                        956.25,
+                        1012.5,
+                        1068.75,
+                        1125,
+                        1181.25,
+                        1237.5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        32.17,
+                        34.65,
+                        37.12,
+                        39.6,
+                        42.07,
+                        44.55,
+                        47.02,
+                        49.5,
+                        51.97,
+                        54.45
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

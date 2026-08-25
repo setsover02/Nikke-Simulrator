@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_310",
+    "characterName": "에이드",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "AR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "메이드 포 유",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1.5,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "청소를 시작하겠습니다, 주인님.",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        3.29,
+                        3.5,
+                        3.71,
+                        3.92,
+                        4.13,
+                        4.35,
+                        4.56,
+                        4.77,
+                        4.98,
+                        5.19
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "잠시 쉬어갈 시간입니다, 주인님.",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        8.78,
+                        9.54,
+                        10.3,
+                        11.06,
+                        11.82,
+                        12.58,
+                        13.34,
+                        14.1,
+                        14.86,
+                        15.62
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "식사 시간입니다, 주인님.",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        16.88,
+                        17.8,
+                        18.72,
+                        19.64,
+                        20.56,
+                        21.47,
+                        22.39,
+                        23.31,
+                        24.23,
+                        25.15
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        6.58,
+                        6.98,
+                        7.38,
+                        7.77,
+                        8.17,
+                        8.56,
+                        8.96,
+                        9.36,
+                        9.75,
+                        10.15
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

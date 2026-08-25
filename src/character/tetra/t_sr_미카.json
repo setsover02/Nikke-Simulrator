@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_61",
+    "characterName": "미카",
+    "stats": {
+        "rarity": "SR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "리틀 캐논",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "맛있는 별님",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        17.14,
+                        19.59,
+                        22.04,
+                        24.48,
+                        26.93,
+                        29.38,
+                        31.83,
+                        34.28,
+                        36.73,
+                        39.18
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "용감한 별님",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        5.57,
+                        7.16,
+                        8.75,
+                        10.34,
+                        11.93,
+                        13.53,
+                        15.12,
+                        16.71,
+                        18.3,
+                        19.89
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "반짝반짝 별님",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        66.6,
+                        76.11,
+                        85.62,
+                        95.14,
+                        104.65,
+                        114.17,
+                        123.68,
+                        133.2,
+                        142.71,
+                        152.22
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        5.82,
+                        6.66,
+                        7.49,
+                        8.32,
+                        9.15,
+                        9.99,
+                        10.82,
+                        11.65,
+                        12.48,
+                        13.32
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

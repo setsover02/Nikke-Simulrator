@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_192",
+    "characterName": "토브",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "AR",
+        "class": "지원형",
+        "company": "Missilis",
+        "squad": "언리미티드",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "급조 탄환",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        3.13,
+                        3.37,
+                        3.62,
+                        3.86,
+                        4.1,
+                        4.34,
+                        4.58,
+                        4.82,
+                        5.06,
+                        5.31
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.96,
+                        3.21,
+                        3.47,
+                        3.72,
+                        3.97,
+                        4.23,
+                        4.48,
+                        4.73,
+                        4.99,
+                        5.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "개조 성공",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        1.96,
+                        2.11,
+                        2.26,
+                        2.41,
+                        2.57,
+                        2.72,
+                        2.87,
+                        3.02,
+                        3.17,
+                        3.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        24.96,
+                        26.88,
+                        28.8,
+                        30.72,
+                        32.64,
+                        34.56,
+                        36.48,
+                        38.4,
+                        40.32,
+                        42.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "급조품의 기적",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1.37,
+                        1.47,
+                        1.58,
+                        1.68,
+                        1.79,
+                        1.9,
+                        2,
+                        2.11,
+                        2.21,
+                        2.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        14.31,
+                        15.41,
+                        16.51,
+                        17.61,
+                        18.71,
+                        19.81,
+                        20.91,
+                        22.01,
+                        23.11,
+                        24.21
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

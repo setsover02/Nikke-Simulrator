@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_43",
+    "characterName": "D : 킬러 와이프",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "시지 패러리스",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "캄 스나이핑",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        8,
+                        8.62,
+                        9.24,
+                        9.85,
+                        10.47,
+                        11.08,
+                        11.7,
+                        12.32,
+                        12.93,
+                        13.55
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "어썰트 포메이션",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4.13,
+                        4.45,
+                        4.77,
+                        5.09,
+                        5.4,
+                        5.72,
+                        6.04,
+                        6.36,
+                        6.68,
+                        7
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.99,
+                        3.22,
+                        3.45,
+                        3.68,
+                        3.91,
+                        4.14,
+                        4.37,
+                        4.6,
+                        4.83,
+                        5.06
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "킬 더 타겟",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        159.12,
+                        171.36,
+                        183.6,
+                        195.84,
+                        208.08,
+                        220.32,
+                        232.56,
+                        244.8,
+                        257.04,
+                        269.28
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        9.6,
+                        10.34,
+                        11.08,
+                        11.82,
+                        12.56,
+                        13.3,
+                        14.04,
+                        14.78,
+                        15.52,
+                        16.26
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        7.2,
+                        7.76,
+                        8.31,
+                        8.87,
+                        9.42,
+                        9.97,
+                        10.53,
+                        11.08,
+                        11.64,
+                        12.19
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

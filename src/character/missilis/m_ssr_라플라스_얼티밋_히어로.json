@@ -1,0 +1,296 @@
+{
+    "characterID": "Char_103",
+    "characterName": "라플라스 : 얼티밋 히어로",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "메티스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 2.5,
+        "chargeTime": 1,
+        "fireRate": 5,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "일렉트릭 파워 풀 풀 차지",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1.69,
+                        1.95,
+                        2.21,
+                        2.48,
+                        2.74,
+                        3,
+                        3.26,
+                        3.52,
+                        3.78,
+                        4.05
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5.56,
+                        6.12,
+                        6.68,
+                        7.24,
+                        7.8,
+                        8.36,
+                        8.92,
+                        9.48,
+                        10
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.64,
+                        3.4,
+                        4.16,
+                        4.91,
+                        5.67,
+                        6.42,
+                        7.18,
+                        7.94,
+                        8.69,
+                        9.45
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "오버 에너지",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.18,
+                        1.27,
+                        1.36,
+                        1.45,
+                        1.54,
+                        1.63,
+                        1.73,
+                        1.82,
+                        1.91,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.77,
+                        1.91,
+                        2.04,
+                        2.18,
+                        2.32,
+                        2.45,
+                        2.59,
+                        2.73,
+                        2.86,
+                        3
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        4.13,
+                        4.45,
+                        4.77,
+                        5.09,
+                        5.41,
+                        5.73,
+                        6.04,
+                        6.36,
+                        6.68,
+                        7
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        6.2,
+                        6.68,
+                        7.16,
+                        7.64,
+                        8.11,
+                        8.59,
+                        9.07,
+                        9.55,
+                        10.02,
+                        10.5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        30.81,
+                        33.18,
+                        35.55,
+                        37.92,
+                        40.29,
+                        42.66,
+                        45.03,
+                        47.4,
+                        49.77,
+                        52.14
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "회생전력활용무장 : 묠니르",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        37.44,
+                        40.32,
+                        43.2,
+                        46.08,
+                        48.96,
+                        51.84,
+                        54.72,
+                        57.6,
+                        60.48,
+                        63.36
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1745.45,
+                        1879.71,
+                        2013.98,
+                        2148.24,
+                        2282.51,
+                        2416.78,
+                        2551.04,
+                        2685.31,
+                        2819.57,
+                        2953.84
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        552.36,
+                        594.85,
+                        637.34,
+                        679.83,
+                        722.32,
+                        764.81,
+                        807.29,
+                        849.78,
+                        892.27,
+                        934.76
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

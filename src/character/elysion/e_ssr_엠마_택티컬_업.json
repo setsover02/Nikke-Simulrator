@@ -1,0 +1,224 @@
+{
+    "characterID": "Char_93",
+    "characterName": "엠마 : 택티컬 업",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "MG",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "앱솔루트",
+        "burstLevel": 1,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "환경 조성",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.3,
+                        2.48,
+                        2.66,
+                        2.84,
+                        3.01,
+                        3.19,
+                        3.37,
+                        3.55,
+                        3.72,
+                        3.9
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.37,
+                        1.47,
+                        1.58,
+                        1.68,
+                        1.79,
+                        1.9,
+                        2,
+                        2.11,
+                        2.21,
+                        2.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "포메이션 LT",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        13.89,
+                        14.96,
+                        16.03,
+                        17.1,
+                        18.16,
+                        19.23,
+                        20.3,
+                        21.37,
+                        22.44,
+                        23.51
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1.37,
+                        1.47,
+                        1.58,
+                        1.68,
+                        1.79,
+                        1.9,
+                        2,
+                        2.11,
+                        2.21,
+                        2.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.3,
+                        19.71,
+                        21.12,
+                        22.52,
+                        23.93,
+                        25.34,
+                        26.75,
+                        28.16,
+                        29.56,
+                        30.97
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "all_allies",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        1.83,
+                        1.97,
+                        2.11,
+                        2.25,
+                        2.39,
+                        2.53,
+                        2.67,
+                        2.81,
+                        2.95,
+                        3.09
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "전장 조성",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        23.68,
+                        25.5,
+                        27.32,
+                        29.14,
+                        30.96,
+                        32.78,
+                        34.61,
+                        36.43,
+                        38.25,
+                        40.07
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        17.16,
+                        18.48,
+                        19.8,
+                        21.12,
+                        22.44,
+                        23.76,
+                        25.08,
+                        26.4,
+                        27.72,
+                        29.04
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

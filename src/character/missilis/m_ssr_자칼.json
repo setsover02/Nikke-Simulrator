@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_111",
+    "characterName": "자칼",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Missilis",
+        "squad": "이그조틱",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 0.67,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "해피 자칼",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        5,
+                        5.45,
+                        5.9,
+                        6.36,
+                        6.81,
+                        7.27,
+                        7.72,
+                        8.18,
+                        8.63,
+                        9.09
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        5,
+                        5.45,
+                        5.9,
+                        6.36,
+                        6.81,
+                        7.27,
+                        7.72,
+                        8.18,
+                        8.63,
+                        9.09
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "치얼업 자칼",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120,
+                        120
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        4.55,
+                        4.96,
+                        5.37,
+                        5.79,
+                        6.2,
+                        6.61,
+                        7.03,
+                        7.44,
+                        7.85,
+                        8.27
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "크레이지 자칼",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        21.4,
+                        23.35,
+                        25.29,
+                        27.24,
+                        29.18,
+                        31.13,
+                        33.08,
+                        35.02,
+                        36.97,
+                        38.91
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        8.08,
+                        8.81,
+                        9.55,
+                        10.28,
+                        11.02,
+                        11.75,
+                        12.48,
+                        13.22,
+                        13.95,
+                        14.69
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

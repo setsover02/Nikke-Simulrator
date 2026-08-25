@@ -1,0 +1,224 @@
+{
+    "characterID": "Char_113",
+    "characterName": "E.H.",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "SMG",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "이그조틱",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 24,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "홈메이드 매거진",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        4.43,
+                        4.77,
+                        5.11,
+                        5.45,
+                        5.8,
+                        6.14,
+                        6.48,
+                        6.82,
+                        7.16,
+                        7.5
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "정크 헌팅",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        9.67,
+                        10.41,
+                        11.16,
+                        11.9,
+                        12.64,
+                        13.39,
+                        14.13,
+                        14.88,
+                        15.62,
+                        16.36
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "인 투 더 헤븐",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        36.02,
+                        38.8,
+                        41.57,
+                        44.35,
+                        47.12,
+                        49.9,
+                        52.67,
+                        55.45,
+                        58.22,
+                        61
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        254.12,
+                        273.67,
+                        293.22,
+                        312.76,
+                        332.31,
+                        351.86,
+                        371.41,
+                        390.96,
+                        410.5,
+                        430.05
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

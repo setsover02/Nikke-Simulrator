@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_800",
+    "characterName": "마키마",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SMG",
+        "class": "방어형",
+        "company": "Abnormal",
+        "squad": "데블 헌터",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 1.5,
+        "chargeTime": 0,
+        "fireRate": 24,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "나에게 활약을 보여줄 수 있겠니?",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        20.32,
+                        22.17,
+                        24.02,
+                        25.87,
+                        27.72,
+                        29.56,
+                        31.41,
+                        33.26,
+                        35.11,
+                        36.96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        8.13,
+                        8.87,
+                        9.6,
+                        10.34,
+                        11.08,
+                        11.82,
+                        12.56,
+                        13.3,
+                        14.04,
+                        14.78
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "발각된 모양이네",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "all_enemies",
+                    "effect": "buff",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        7,
+                        7,
+                        7,
+                        7,
+                        7,
+                        7,
+                        7,
+                        7,
+                        7,
+                        7
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        8.51,
+                        8.85,
+                        9.19,
+                        9.53,
+                        9.87,
+                        10.21,
+                        10.55,
+                        10.89,
+                        11.23,
+                        11.58
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "조용히 해주겠니?",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        17.82,
+                        19.62,
+                        21.42,
+                        23.22,
+                        25.02,
+                        26.82,
+                        28.62,
+                        30.42,
+                        32.22,
+                        34.02
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        13.46,
+                        16.53,
+                        19.59,
+                        22.65,
+                        25.71,
+                        28.77,
+                        31.83,
+                        34.89,
+                        37.95,
+                        41.02
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

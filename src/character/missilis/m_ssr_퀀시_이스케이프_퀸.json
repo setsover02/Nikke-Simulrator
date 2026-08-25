@@ -1,0 +1,260 @@
+{
+    "characterID": "Char_403",
+    "characterName": "퀀시 : 이스케이프 퀸",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SMG",
+        "class": "화력형",
+        "company": "Missilis",
+        "squad": "리얼 카인드니스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 120,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 24,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "루트 확정",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        29.3,
+                        31.55,
+                        33.81,
+                        36.05,
+                        38.31,
+                        40.57,
+                        42.82,
+                        45.08,
+                        47.32,
+                        49.58
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        14.92,
+                        16.07,
+                        17.21,
+                        18.36,
+                        19.51,
+                        20.65,
+                        21.8,
+                        22.95,
+                        24.1,
+                        25.25
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        9.89,
+                        10.65,
+                        11.41,
+                        12.17,
+                        12.93,
+                        13.69,
+                        14.45,
+                        15.21,
+                        15.97,
+                        16.73
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "루트 탐색",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        0.79,
+                        0.87,
+                        0.93,
+                        0.99,
+                        1.05,
+                        1.12,
+                        1.16,
+                        1.22,
+                        1.3,
+                        1.36
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1.43,
+                        1.55,
+                        1.67,
+                        1.78,
+                        1.89,
+                        2.02,
+                        2.1,
+                        2.21,
+                        2.34,
+                        2.45
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1.6,
+                        1.74,
+                        1.86,
+                        1.97,
+                        2.11,
+                        2.23,
+                        2.34,
+                        2.46,
+                        2.6,
+                        2.71
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.88,
+                        3.12,
+                        3.35,
+                        3.56,
+                        3.79,
+                        4.02,
+                        4.23,
+                        4.45,
+                        4.69,
+                        4.9
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        2.4,
+                        2.6,
+                        2.77,
+                        2.98,
+                        3.15,
+                        3.35,
+                        3.52,
+                        3.72,
+                        3.89,
+                        4.08
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        4.34,
+                        4.69,
+                        5.01,
+                        5.36,
+                        5.68,
+                        6.03,
+                        6.36,
+                        6.71,
+                        7.03,
+                        7.36
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "위대한 도둑",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        33.72,
+                        36.32,
+                        38.92,
+                        41.5,
+                        44.1,
+                        46.7,
+                        49.3,
+                        51.89,
+                        54.47,
+                        57.08
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        15.28,
+                        16.46,
+                        17.64,
+                        18.81,
+                        19.99,
+                        21.16,
+                        22.34,
+                        23.52,
+                        24.69,
+                        25.87
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1026,
+                        1104.93,
+                        1183.85,
+                        1262.77,
+                        1341.69,
+                        1420.62,
+                        1499.54,
+                        1578.47,
+                        1657.39,
+                        1736.31
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

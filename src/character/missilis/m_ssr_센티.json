@@ -1,0 +1,116 @@
+{
+    "characterID": "Char_80",
+    "characterName": "센티",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Missilis",
+        "squad": "마이티 툴즈",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 0.5,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "보수공사",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4.58,
+                        5.09,
+                        5.6,
+                        6.11,
+                        6.62,
+                        7.12,
+                        7.63,
+                        8.14,
+                        8.65,
+                        9.16
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "현장검토",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.19,
+                        3.54,
+                        3.89,
+                        4.25,
+                        4.6,
+                        4.96,
+                        5.31,
+                        5.67,
+                        6.02,
+                        6.38
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "착공시작",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        72.73,
+                        80.81,
+                        88.89,
+                        96.97,
+                        105.06,
+                        113.14,
+                        121.22,
+                        129.3,
+                        137.38,
+                        145.46
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        7.27,
+                        8.08,
+                        8.88,
+                        9.69,
+                        10.5,
+                        11.31,
+                        12.12,
+                        12.93,
+                        13.73,
+                        14.54
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,314 @@
+{
+    "characterID": "Char_515",
+    "characterName": "신데렐라 : 크리스탈 웨이브",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "올드 테일즈",
+        "burstLevel": 3,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "뷰티-풀",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13,
+                        62.13
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        13.2,
+                        14.4,
+                        15.6,
+                        16.8,
+                        18,
+                        19.2,
+                        20.4,
+                        21.6,
+                        22.8,
+                        24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        7.09,
+                        7.64,
+                        8.19,
+                        8.74,
+                        9.29,
+                        9.84,
+                        10.39,
+                        10.94,
+                        11.49,
+                        12
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "모드 스왑",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        41.56,
+                        44.76,
+                        47.95,
+                        51.15,
+                        54.35,
+                        57.55,
+                        60.74,
+                        63.94,
+                        67.14,
+                        70.34
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        15.95,
+                        17.4,
+                        18.85,
+                        20.3,
+                        21.75,
+                        23.2,
+                        24.65,
+                        26.1,
+                        27.55,
+                        29
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        13.11,
+                        14.57,
+                        16.03,
+                        17.49,
+                        18.95,
+                        20.41,
+                        21.87,
+                        23.33,
+                        24.79,
+                        26.21
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        13,
+                        14.44,
+                        15.88,
+                        17.32,
+                        18.76,
+                        20.2,
+                        21.64,
+                        23.08,
+                        24.52,
+                        26
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        654.31,
+                        713.79,
+                        773.27,
+                        832.75,
+                        892.23,
+                        951.71,
+                        1011.19,
+                        1070.67,
+                        1130.15,
+                        1189.66
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        458.58,
+                        500.27,
+                        541.96,
+                        583.65,
+                        625.34,
+                        667.03,
+                        708.72,
+                        750.41,
+                        792.1,
+                        833.79
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "유리 구두 풀 컨텍트 W",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        46,
+                        51.11,
+                        56.22,
+                        61.33,
+                        66.44,
+                        71.55,
+                        76.66,
+                        81.77,
+                        86.88,
+                        92
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        35.75,
+                        39,
+                        42.25,
+                        45.5,
+                        48.75,
+                        52,
+                        55.25,
+                        58.5,
+                        61.75,
+                        65
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        3299.97,
+                        3599.97,
+                        3899.97,
+                        4199.97,
+                        4499.97,
+                        4799.97,
+                        5099.97,
+                        5399.97,
+                        5699.97,
+                        6000
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

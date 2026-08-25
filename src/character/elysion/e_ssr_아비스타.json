@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_441",
+    "characterName": "아비스타",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "MG",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "오버시어",
+        "burstLevel": 1,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "애프터쇼",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.08,
+                        2.24,
+                        2.4,
+                        2.56,
+                        2.72,
+                        2.88,
+                        3.04,
+                        3.2,
+                        3.36,
+                        3.52
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "애프터 글러우",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        23.71,
+                        25.54,
+                        27.36,
+                        29.18,
+                        31.01,
+                        32.83,
+                        34.66,
+                        36.48,
+                        38.3,
+                        40.13
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        23.71,
+                        25.54,
+                        27.36,
+                        29.18,
+                        31.01,
+                        32.83,
+                        34.66,
+                        36.48,
+                        38.3,
+                        40.13
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "스타게이저",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        15.6,
+                        16.8,
+                        18,
+                        19.2,
+                        20.4,
+                        21.6,
+                        22.8,
+                        24,
+                        25.2,
+                        26.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

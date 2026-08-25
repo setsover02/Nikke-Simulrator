@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_811",
+    "characterName": "A2",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Abnormal",
+        "squad": "요르하",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 1.5,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "출력 상승",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        66.81,
+                        71.66,
+                        76.5,
+                        81.35,
+                        86.2,
+                        91.05,
+                        95.9,
+                        100.75,
+                        105.6,
+                        110.44
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        60.08,
+                        64.6,
+                        69.12,
+                        73.64,
+                        78.15,
+                        82.67,
+                        87.19,
+                        91.7,
+                        96.22,
+                        100.74
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "완충전 공격",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        17.78,
+                        19.15,
+                        20.52,
+                        21.89,
+                        23.26,
+                        24.62,
+                        25.99,
+                        27.36,
+                        28.73,
+                        30.1
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.16,
+                        26.02,
+                        27.87,
+                        29.73,
+                        31.59,
+                        33.45,
+                        35.31,
+                        37.17,
+                        39.03,
+                        40.88
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "B 모드",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        5.61,
+                        5.43,
+                        5.25,
+                        5.07,
+                        4.89,
+                        4.71,
+                        4.53,
+                        4.35,
+                        4.17,
+                        3.99
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        9.36,
+                        10,
+                        10.65,
+                        11.3,
+                        11.95,
+                        12.6,
+                        13.24,
+                        13.89,
+                        14.54,
+                        15.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        23.02,
+                        24.45,
+                        25.88,
+                        27.31,
+                        28.74,
+                        30.17,
+                        31.6,
+                        33.02,
+                        34.45,
+                        35.88
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

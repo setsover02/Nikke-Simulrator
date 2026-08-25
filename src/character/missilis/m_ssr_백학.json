@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_620",
+    "characterName": "백학",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SR",
+        "class": "방어형",
+        "company": "Missilis",
+        "squad": "베일드 오더",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "독점 서약",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        5.9,
+                        6.36,
+                        6.81,
+                        7.27,
+                        7.72,
+                        8.18,
+                        8.63,
+                        9.09,
+                        9.54,
+                        10
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        16.93,
+                        16.16,
+                        15.39,
+                        14.62,
+                        13.85,
+                        13.08,
+                        12.31,
+                        11.54,
+                        10.77,
+                        10
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "서약 효력",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        0.78,
+                        0.84,
+                        0.9,
+                        0.96,
+                        1.02,
+                        1.08,
+                        1.14,
+                        1.2,
+                        1.26,
+                        1.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        5.61,
+                        6.04,
+                        6.47,
+                        6.91,
+                        7.34,
+                        7.77,
+                        8.2,
+                        8.63,
+                        9.07,
+                        9.5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        0.14,
+                        0.15,
+                        0.16,
+                        0.17,
+                        0.18,
+                        0.19,
+                        0.2,
+                        0.21,
+                        0.23,
+                        0.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "특약 효력",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        26.4,
+                        28.43,
+                        30.47,
+                        32.5,
+                        34.53,
+                        36.56,
+                        38.59,
+                        40.62,
+                        42.65,
+                        44.68
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

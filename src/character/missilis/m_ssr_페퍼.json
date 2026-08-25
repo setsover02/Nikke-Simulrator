@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_131",
+    "characterName": "페퍼",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "SG",
+        "class": "지원형",
+        "company": "Missilis",
+        "squad": "세라핌",
+        "burstLevel": 1,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 0.67,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "리프레쉬 하트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2.63,
+                        2.83,
+                        3.03,
+                        3.24,
+                        3.44,
+                        3.64,
+                        3.84,
+                        4.05,
+                        4.25,
+                        4.45
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.86,
+                        4.15,
+                        4.45,
+                        4.75,
+                        5.04,
+                        5.34,
+                        5.64,
+                        5.94,
+                        6.23,
+                        6.53
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "비타민파워",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        94.54,
+                        101.81,
+                        109.09,
+                        116.36,
+                        123.63,
+                        130.9,
+                        138.18,
+                        145.45,
+                        152.72,
+                        160
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2.1,
+                        2.26,
+                        2.42,
+                        2.58,
+                        2.74,
+                        2.9,
+                        3.07,
+                        3.23,
+                        3.39,
+                        3.55
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "페퍼 테라피",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        731.25,
+                        787.5,
+                        843.75,
+                        900,
+                        956.25,
+                        1012.5,
+                        1068.75,
+                        1125,
+                        1181.25,
+                        1237.5
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        16.08,
+                        17.32,
+                        18.56,
+                        19.8,
+                        21.03,
+                        22.27,
+                        23.51,
+                        24.75,
+                        25.98,
+                        27.22
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

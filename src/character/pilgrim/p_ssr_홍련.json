@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_222",
+    "characterName": "홍련",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "파이오니아",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 20,
+        "reloadTime": 2.3,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "육참골단",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        17.48,
+                        18.11,
+                        18.74,
+                        19.37,
+                        20,
+                        20.63,
+                        21.26,
+                        21.89,
+                        22.52,
+                        23.15
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01,
+                        4.01
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "검신합일",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        86.39,
+                        92.15,
+                        97.91,
+                        103.68,
+                        109.44,
+                        115.2,
+                        120.96,
+                        126.72,
+                        132.48,
+                        138.24
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        4.13,
+                        4.4,
+                        4.68,
+                        4.95,
+                        5.23,
+                        5.51,
+                        5.78,
+                        6.06,
+                        6.33,
+                        6.61
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "홍련일섬",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        12.23,
+                        13.05,
+                        13.86,
+                        14.68,
+                        15.49,
+                        16.31,
+                        17.12,
+                        17.94,
+                        18.75,
+                        19.57
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        530.71,
+                        566.1,
+                        601.48,
+                        636.86,
+                        672.24,
+                        707.62,
+                        743,
+                        778.38,
+                        813.76,
+                        849.15
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

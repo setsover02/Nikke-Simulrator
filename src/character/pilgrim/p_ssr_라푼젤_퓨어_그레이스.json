@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_226",
+    "characterName": "라푼젤 : 퓨어 그레이스",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "SR",
+        "class": "방어형",
+        "company": "Pilgrim",
+        "squad": "갓데스",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "생츄어리",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        12.16,
+                        13.1,
+                        14.04,
+                        14.97,
+                        15.91,
+                        16.84,
+                        17.78,
+                        18.72,
+                        19.65,
+                        20.59
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        12.16,
+                        13.1,
+                        14.04,
+                        14.97,
+                        15.91,
+                        16.84,
+                        17.78,
+                        18.72,
+                        19.65,
+                        20.59
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        6.15,
+                        6.62,
+                        7.09,
+                        7.57,
+                        8.04,
+                        8.51,
+                        8.99,
+                        9.46,
+                        9.93,
+                        10.41
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "프레이",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.18,
+                        1.27,
+                        1.36,
+                        1.45,
+                        1.55,
+                        1.64,
+                        1.73,
+                        1.82,
+                        1.91,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.87,
+                        2.01,
+                        2.16,
+                        2.3,
+                        2.44,
+                        2.59,
+                        2.73,
+                        2.88,
+                        3.02,
+                        3.16
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "가든 오브 유토피아",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        5.99,
+                        6.45,
+                        6.91,
+                        7.37,
+                        7.83,
+                        8.29,
+                        8.75,
+                        9.21,
+                        9.67,
+                        10.13
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        9,
+                        9.69,
+                        10.39,
+                        11.08,
+                        11.77,
+                        12.46,
+                        13.16,
+                        13.85,
+                        14.54,
+                        15.24
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

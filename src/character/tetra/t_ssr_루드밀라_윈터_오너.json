@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_194",
+    "characterName": "루드밀라 : 윈터 오너",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "언리미티드",
+        "burstLevel": 3,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 3,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "여왕의 시선",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        7.42,
+                        7.99,
+                        8.56,
+                        9.13,
+                        9.7,
+                        10.27,
+                        10.84,
+                        11.42,
+                        11.99,
+                        12.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        93.62,
+                        100.82,
+                        108.02,
+                        115.22,
+                        122.42,
+                        129.62,
+                        136.83,
+                        144.03,
+                        151.23,
+                        158.43
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        11,
+                        12,
+                        13,
+                        14,
+                        15,
+                        16,
+                        17,
+                        18,
+                        19,
+                        20
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "눈보라",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        64.79,
+                        69.77,
+                        74.75,
+                        79.74,
+                        84.72,
+                        89.71,
+                        94.69,
+                        99.67,
+                        104.66,
+                        109.64
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        8.03,
+                        8.76,
+                        9.49,
+                        10.22,
+                        10.95,
+                        11.68,
+                        12.41,
+                        13.14,
+                        13.87,
+                        14.6
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "이끄는 등불",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        36.96,
+                        39.8,
+                        42.64,
+                        45.49,
+                        48.33,
+                        51.17,
+                        54.01,
+                        56.86,
+                        59.7,
+                        62.54
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        36.96,
+                        40.32,
+                        43.68,
+                        47.04,
+                        50.4,
+                        53.76,
+                        57.12,
+                        60.48,
+                        63.84,
+                        67.2
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

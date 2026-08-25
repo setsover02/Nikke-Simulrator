@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_132",
+    "characterName": "메어리 : 베이 갓데스",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "세라핌",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 1.5,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "해변의 햇살",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        0.62,
+                        0.67,
+                        0.72,
+                        0.76,
+                        0.81,
+                        0.86,
+                        0.91,
+                        0.96,
+                        1,
+                        1.05
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2.18,
+                        2.35,
+                        2.52,
+                        2.68,
+                        2.85,
+                        3.02,
+                        3.19,
+                        3.36,
+                        3.52,
+                        3.69
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        4.05,
+                        4.36,
+                        4.68,
+                        4.99,
+                        5.3,
+                        5.61,
+                        5.92,
+                        6.24,
+                        6.55,
+                        6.86
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "발을 적시는 파도",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.43,
+                        5.36,
+                        7.3,
+                        9.24,
+                        11.17,
+                        13.11,
+                        15.04,
+                        16.98,
+                        18.92,
+                        20.85
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.43,
+                        4.59,
+                        5.75,
+                        6.91,
+                        8.07,
+                        9.24,
+                        10.4,
+                        11.56,
+                        12.72,
+                        13.88
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        2.97,
+                        3.57,
+                        4.17,
+                        4.76,
+                        5.36,
+                        5.96,
+                        6.56,
+                        7.16,
+                        7.76,
+                        8.36
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "고요한 수면",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        13.72,
+                        14.78,
+                        15.84,
+                        16.89,
+                        17.95,
+                        19,
+                        20.06,
+                        21.12,
+                        22.17,
+                        23.23
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        16.47,
+                        17.74,
+                        19,
+                        20.27,
+                        21.54,
+                        22.8,
+                        24.07,
+                        25.34,
+                        26.61,
+                        27.87
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

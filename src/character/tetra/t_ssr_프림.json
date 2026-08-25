@@ -1,0 +1,134 @@
+{
+    "characterID": "Char_142",
+    "characterName": "프림",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "카페 스위티",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 1.5,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "…자고 싶다",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        9.35,
+                        10.08,
+                        10.8,
+                        11.52,
+                        12.24,
+                        12.96,
+                        13.68,
+                        14.4,
+                        15.12,
+                        15.84
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "…아",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        3.6,
+                        3.88,
+                        4.15,
+                        4.43,
+                        4.71,
+                        4.98,
+                        5.26,
+                        5.54,
+                        5.82,
+                        6.09
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "…귀찮아",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        60.07,
+                        64.69,
+                        69.31,
+                        73.93,
+                        78.56,
+                        83.18,
+                        87.8,
+                        92.42,
+                        97.04,
+                        101.66
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        5.83,
+                        6.27,
+                        6.72,
+                        7.17,
+                        7.62,
+                        8.07,
+                        8.52,
+                        8.97,
+                        9.41,
+                        9.86
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        17.88,
+                        19.25,
+                        20.63,
+                        22,
+                        23.38,
+                        24.76,
+                        26.13,
+                        27.51,
+                        28.88,
+                        30.26
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

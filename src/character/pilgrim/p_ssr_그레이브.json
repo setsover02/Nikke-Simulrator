@@ -1,0 +1,332 @@
+{
+    "characterID": "Char_514",
+    "characterName": "그레이브",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "AR",
+        "class": "지원형",
+        "company": "Pilgrim",
+        "squad": "올드 테일즈",
+        "burstLevel": 2,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "방열",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "reload_speed_up",
+                    "value": [
+                        50,
+                        50,
+                        50,
+                        50,
+                        50,
+                        50,
+                        50,
+                        50,
+                        50,
+                        50
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        23.02,
+                        24.79,
+                        26.56,
+                        28.33,
+                        30.1,
+                        31.87,
+                        33.64,
+                        35.42,
+                        37.19,
+                        38.96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        28.6,
+                        30.8,
+                        33,
+                        35.2,
+                        37.4,
+                        39.6,
+                        41.8,
+                        44,
+                        46.2,
+                        48.4
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "과열",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        9.15,
+                        9.85,
+                        10.56,
+                        11.26,
+                        11.96,
+                        12.67,
+                        13.37,
+                        14.07,
+                        14.78,
+                        15.48
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30,
+                        30
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        12.21,
+                        13.14,
+                        14.09,
+                        15.03,
+                        15.97,
+                        16.9,
+                        17.84,
+                        18.79,
+                        19.72,
+                        20.66
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60,
+                        60
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.2,
+                        19.6,
+                        21,
+                        22.4,
+                        23.8,
+                        25.2,
+                        26.6,
+                        28,
+                        29.4,
+                        30.8
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "라이터즈 스포일러",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        31.2,
+                        33.6,
+                        36,
+                        38.4,
+                        40.8,
+                        43.2,
+                        45.6,
+                        48,
+                        50.4,
+                        52.8
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        53.24,
+                        56.79,
+                        60.34,
+                        63.89,
+                        67.44,
+                        70.99,
+                        74.54,
+                        78.09,
+                        81.64,
+                        85.19
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        28.48,
+                        30.67,
+                        32.86,
+                        35.05,
+                        37.25,
+                        39.44,
+                        41.63,
+                        43.82,
+                        46.01,
+                        48.2
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        23.63,
+                        25.44,
+                        27.26,
+                        29.08,
+                        30.9,
+                        32.72,
+                        34.53,
+                        36.35,
+                        38.17,
+                        39.98
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

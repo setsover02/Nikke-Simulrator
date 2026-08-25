@@ -1,0 +1,314 @@
+{
+    "characterID": "Char_322",
+    "characterName": "마르차나 : 마린 스터디",
+    "stats": {
+        "rarity": "SSR",
+        "element": "철갑",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "아카데미아",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 12,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "이머전시 휘슬",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2239.1,
+                        2411.34,
+                        2583.57,
+                        2755.81,
+                        2928.05,
+                        3100.29,
+                        3272.53,
+                        3444.77,
+                        3617.01,
+                        3789.25
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        6.24,
+                        6.72,
+                        7.2,
+                        7.68,
+                        8.16,
+                        8.64,
+                        9.12,
+                        9.59,
+                        10.08,
+                        10.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        2239.1,
+                        2411.34,
+                        2583.57,
+                        2755.81,
+                        2928.05,
+                        3100.29,
+                        3272.53,
+                        3444.77,
+                        3617.01,
+                        3789.25
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        6.24,
+                        6.72,
+                        7.2,
+                        7.68,
+                        8.16,
+                        8.64,
+                        9.12,
+                        9.59,
+                        10.08,
+                        10.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "펭군 긴급 출동",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        19.34,
+                        20.83,
+                        22.32,
+                        23.8,
+                        25.29,
+                        26.78,
+                        28.27,
+                        29.76,
+                        31.24,
+                        32.73
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        19.34,
+                        20.83,
+                        22.32,
+                        23.8,
+                        25.29,
+                        26.78,
+                        28.27,
+                        29.76,
+                        31.24,
+                        32.73
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "all_enemies",
+                    "effect": "atk_up",
+                    "value": [
+                        126.67,
+                        136.41,
+                        146.16,
+                        155.9,
+                        165.64,
+                        175.39,
+                        185.13,
+                        194.88,
+                        204.62,
+                        214.36
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        12.06,
+                        12.99,
+                        13.92,
+                        14.84,
+                        15.77,
+                        16.7,
+                        17.63,
+                        18.56,
+                        19.48,
+                        20.41
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "펭군 스파이럴",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        18.3,
+                        19.71,
+                        21.12,
+                        22.52,
+                        23.93,
+                        25.34,
+                        26.75,
+                        28.16,
+                        29.56,
+                        30.97
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        16.22,
+                        17.47,
+                        18.72,
+                        19.96,
+                        21.21,
+                        22.46,
+                        23.71,
+                        24.96,
+                        26.2,
+                        27.45
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        6.24,
+                        6.72,
+                        7.2,
+                        7.68,
+                        8.16,
+                        8.64,
+                        9.12,
+                        9.59,
+                        10.08,
+                        10.56
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

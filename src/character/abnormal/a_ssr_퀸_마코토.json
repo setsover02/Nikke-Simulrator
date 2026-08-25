@@ -1,0 +1,260 @@
+{
+    "characterID": "Char_870",
+    "characterName": "퀸(마코토)",
+    "stats": {
+        "rarity": "SSR",
+        "element": "작열",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Abnormal",
+        "squad": "마음의 괴도단",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 1.5,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "페르소나 : 요한나",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        8.03,
+                        8.65,
+                        9.27,
+                        9.88,
+                        10.5,
+                        11.12,
+                        11.74,
+                        12.36,
+                        12.97,
+                        13.59
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        8.73,
+                        9.4,
+                        10.08,
+                        10.75,
+                        11.42,
+                        12.09,
+                        12.76,
+                        13.44,
+                        14.11,
+                        14.78
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        29.7,
+                        32,
+                        34.28,
+                        36.56,
+                        38.84,
+                        41.14,
+                        43.42,
+                        45.7,
+                        48,
+                        50.28
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        324.39,
+                        349.34,
+                        374.3,
+                        399.25,
+                        424.21,
+                        449.16,
+                        474.11,
+                        499.07,
+                        524.02,
+                        548.99
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        324.39,
+                        349.34,
+                        374.3,
+                        399.25,
+                        424.21,
+                        449.16,
+                        474.11,
+                        499.07,
+                        524.02,
+                        548.99
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "철・권・제・재!",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        17.72,
+                        19.09,
+                        20.45,
+                        21.82,
+                        23.18,
+                        24.54,
+                        25.91,
+                        27.27,
+                        28.64,
+                        30
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        15.09,
+                        16.25,
+                        17.41,
+                        18.57,
+                        19.73,
+                        20.89,
+                        22.05,
+                        23.21,
+                        24.38,
+                        25.56
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        10.6,
+                        11.42,
+                        12.24,
+                        13.05,
+                        13.87,
+                        14.68,
+                        15.5,
+                        16.32,
+                        17.13,
+                        17.95
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        53.18,
+                        57.28,
+                        61.37,
+                        65.46,
+                        69.55,
+                        73.64,
+                        77.73,
+                        81.82,
+                        85.92,
+                        90.01
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        20.8,
+                        22.4,
+                        24,
+                        25.6,
+                        27.2,
+                        28.8,
+                        30.4,
+                        32,
+                        33.6,
+                        35.2
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "마하프레이다인",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        840.08,
+                        904.7,
+                        969.33,
+                        1033.95,
+                        1098.57,
+                        1163.19,
+                        1227.82,
+                        1292.43,
+                        1357.06,
+                        1421.69
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        17.88,
+                        19.26,
+                        20.64,
+                        22.01,
+                        23.39,
+                        24.76,
+                        26.14,
+                        27.52,
+                        28.89,
+                        30.27
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

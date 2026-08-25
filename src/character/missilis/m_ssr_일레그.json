@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_500",
+    "characterName": "일레그",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "MG",
+        "class": "지원형",
+        "company": "Missilis",
+        "squad": "일렉트릭 쇼크",
+        "burstLevel": 2,
+        "atkCoef": 5.57,
+        "maxAmmo": 300,
+        "reloadTime": 2.5,
+        "chargeTime": 0,
+        "fireRate": 1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "쇼트",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        35.25,
+                        37.96,
+                        40.67,
+                        43.38,
+                        46.1,
+                        48.81,
+                        51.52,
+                        54.23,
+                        56.94,
+                        59.66
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        93.75,
+                        100.97,
+                        108.18,
+                        115.39,
+                        122.6,
+                        129.81,
+                        137.03,
+                        144.24,
+                        151.45,
+                        158.65
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "패스트 차지",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        5.49,
+                        6.33,
+                        7.18,
+                        8.02,
+                        8.87,
+                        9.71,
+                        10.56,
+                        11.4,
+                        12.24,
+                        13.09
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "normal_attack",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "붐 인스톨",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        22.46,
+                        24.38,
+                        26.3,
+                        28.22,
+                        30.14,
+                        32.06,
+                        33.98,
+                        35.9,
+                        37.82,
+                        39.74
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        187.09,
+                        201.48,
+                        215.87,
+                        230.26,
+                        244.66,
+                        259.05,
+                        273.44,
+                        287.83,
+                        302.22,
+                        316.66
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        21.06,
+                        22.68,
+                        24.3,
+                        25.92,
+                        27.54,
+                        29.16,
+                        30.78,
+                        32.4,
+                        34.02,
+                        35.64
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

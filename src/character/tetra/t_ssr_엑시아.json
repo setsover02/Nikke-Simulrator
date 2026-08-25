@@ -1,0 +1,152 @@
+{
+    "characterID": "Char_210",
+    "characterName": "엑시아",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "프로토콜",
+        "burstLevel": 1,
+        "atkCoef": 13.65,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "인베이젼",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        7.57,
+                        8.26,
+                        8.95,
+                        9.63,
+                        10.32,
+                        11.01,
+                        11.7,
+                        12.39,
+                        13.08,
+                        13.77
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        7.57,
+                        8.26,
+                        8.95,
+                        9.63,
+                        10.32,
+                        11.01,
+                        11.7,
+                        12.39,
+                        13.08,
+                        13.77
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "시크릿 코드",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        9.24,
+                        10.08,
+                        10.92,
+                        11.76,
+                        12.6,
+                        13.44,
+                        14.28,
+                        15.12,
+                        15.96,
+                        16.8
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "원사이드 프로토콜",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        67.27,
+                        73.39,
+                        79.51,
+                        85.62,
+                        91.74,
+                        97.86,
+                        103.97,
+                        110.09,
+                        116.21,
+                        122.32
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        1.49,
+                        1.63,
+                        1.76,
+                        1.9,
+                        2.03,
+                        2.17,
+                        2.31,
+                        2.44,
+                        2.58,
+                        2.71
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        67.27,
+                        73.39,
+                        79.51,
+                        85.62,
+                        91.74,
+                        97.86,
+                        103.97,
+                        110.09,
+                        116.21,
+                        122.32
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

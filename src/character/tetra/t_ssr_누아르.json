@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_271",
+    "characterName": "누아르",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 0.23,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "럭키챰",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        8.32,
+                        8.96,
+                        9.6,
+                        10.24,
+                        10.88,
+                        11.52,
+                        12.16,
+                        12.8,
+                        13.44,
+                        14.08
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "래빗 트윈즈 B",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        3,
+                        3,
+                        3,
+                        3,
+                        4,
+                        4,
+                        4,
+                        4,
+                        5,
+                        5
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        26.02,
+                        27.56,
+                        29.1,
+                        30.64,
+                        32.18,
+                        33.72,
+                        35.26,
+                        36.8,
+                        38.34,
+                        39.88
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "피날레",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        207.79,
+                        223.77,
+                        239.76,
+                        255.74,
+                        271.72,
+                        287.71,
+                        303.69,
+                        319.68,
+                        335.66,
+                        351.64
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        8.23,
+                        8.87,
+                        9.5,
+                        10.13,
+                        10.77,
+                        11.4,
+                        12.03,
+                        12.67,
+                        13.3,
+                        13.93
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        13.72,
+                        14.78,
+                        15.84,
+                        16.89,
+                        17.95,
+                        19,
+                        20.06,
+                        21.12,
+                        22.17,
+                        23.23
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        6.86,
+                        7.39,
+                        7.92,
+                        8.44,
+                        8.97,
+                        9.5,
+                        10.03,
+                        10.56,
+                        11.08,
+                        11.61
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        11.44,
+                        12.32,
+                        13.2,
+                        14.08,
+                        14.96,
+                        15.84,
+                        16.72,
+                        17.6,
+                        18.48,
+                        19.36
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

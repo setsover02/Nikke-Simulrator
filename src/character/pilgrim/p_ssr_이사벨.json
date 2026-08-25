@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_231",
+    "characterName": "이사벨",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Pilgrim",
+        "squad": "인헤르트",
+        "burstLevel": 3,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 1.86,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "타겟 마킹",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        3.91,
+                        4.17,
+                        4.43,
+                        4.69,
+                        4.95,
+                        5.22,
+                        5.48,
+                        5.74,
+                        6,
+                        6.26
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        11.27,
+                        12.02,
+                        12.77,
+                        13.52,
+                        14.27,
+                        15.03,
+                        15.78,
+                        16.53,
+                        17.28,
+                        18.03
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        10.8,
+                        11.52,
+                        12.24,
+                        12.96,
+                        13.68,
+                        14.4,
+                        15.12,
+                        15.84,
+                        16.56,
+                        17.28
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "페더 이젝션",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        106.61,
+                        113.72,
+                        120.83,
+                        127.93,
+                        135.04,
+                        142.15,
+                        149.26,
+                        156.36,
+                        163.47,
+                        170.58
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "소닉 체이서",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        93.65,
+                        99.9,
+                        106.14,
+                        112.38,
+                        118.63,
+                        124.87,
+                        131.11,
+                        137.36,
+                        143.6,
+                        149.85
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        24.97,
+                        26.64,
+                        28.3,
+                        29.97,
+                        31.63,
+                        33.3,
+                        34.96,
+                        36.63,
+                        38.29,
+                        39.96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        187.31,
+                        199.8,
+                        212.28,
+                        224.77,
+                        237.26,
+                        249.75,
+                        262.23,
+                        274.72,
+                        287.21,
+                        299.7
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        218.53,
+                        233.1,
+                        247.66,
+                        262.23,
+                        276.8,
+                        291.37,
+                        305.94,
+                        320.51,
+                        335.08,
+                        349.65
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

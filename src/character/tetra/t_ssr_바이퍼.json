@@ -1,0 +1,170 @@
+{
+    "characterID": "Char_112",
+    "characterName": "바이퍼",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "SG",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "이그조틱",
+        "burstLevel": 2,
+        "atkCoef": 222.8,
+        "maxAmmo": 9,
+        "reloadTime": 0.56,
+        "chargeTime": 0,
+        "fireRate": 1.5,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "스네이크 센스",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        12.99,
+                        14.43,
+                        15.88,
+                        17.32,
+                        18.76,
+                        20.21,
+                        21.65,
+                        23.1,
+                        24.54,
+                        25.98
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        5.56,
+                        6.18,
+                        6.8,
+                        7.42,
+                        8.04,
+                        8.66,
+                        9.28,
+                        9.9,
+                        10.51,
+                        11.13
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "스네이크 스케일",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1.71,
+                        1.9,
+                        2.1,
+                        2.29,
+                        2.48,
+                        2.67,
+                        2.86,
+                        3.05,
+                        3.24,
+                        3.43
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "seconds"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "self",
+                    "effect": "buff",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "seconds"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "스네이크 바이트",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        231.42,
+                        257.14,
+                        282.85,
+                        308.57,
+                        334.28,
+                        360,
+                        385.71,
+                        411.42,
+                        437.14,
+                        462.85
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        9.91,
+                        11.02,
+                        12.12,
+                        13.22,
+                        14.32,
+                        15.42,
+                        16.53,
+                        17.63,
+                        18.73,
+                        19.83
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,188 @@
+{
+    "characterID": "Char_511",
+    "characterName": "신데렐라",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Pilgrim",
+        "squad": "올드 테일즈",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 24,
+        "reloadTime": 2,
+        "chargeTime": 1,
+        "fireRate": 3,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "무결한 유리",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        1.7,
+                        1.8,
+                        1.92,
+                        2.02,
+                        2.13,
+                        2.26,
+                        2.36,
+                        2.49,
+                        2.58,
+                        2.71
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "max_ammo_up",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        80.72,
+                        86.94,
+                        93.13,
+                        99.35,
+                        105.55,
+                        111.76,
+                        117.98,
+                        124.19,
+                        130.39,
+                        136.6
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "더러워지지 않는 거울",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        52.8,
+                        57.6,
+                        62.4,
+                        67.2,
+                        72,
+                        76.8,
+                        81.6,
+                        86.4,
+                        91.2,
+                        96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        52.8,
+                        57.6,
+                        62.4,
+                        67.2,
+                        72,
+                        76.8,
+                        81.6,
+                        86.4,
+                        91.2,
+                        96
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        0.98,
+                        1.07,
+                        1.13,
+                        1.2,
+                        1.28,
+                        1.33,
+                        1.38,
+                        1.46,
+                        1.54,
+                        1.6
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "유리 구두 풀 컨텍트",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        853.7,
+                        910.62,
+                        967.5,
+                        1024.46,
+                        1081.38,
+                        1138.26,
+                        1195.16,
+                        1252.08,
+                        1309,
+                        1365.92
+                    ],
+                    "unit": "percent"
+                },
+                {
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        18.07,
+                        19.28,
+                        20.49,
+                        21.68,
+                        22.88,
+                        24.09,
+                        25.3,
+                        26.5,
+                        27.69,
+                        28.9
+                    ],
+                    "unit": "percent"
+                }
+            ]
+        }
+    ]
+}
