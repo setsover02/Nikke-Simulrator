@@ -1,6 +1,6 @@
 {
-    "characterID": "Char_306",
-    "characterName": "솔져 O.W.",
+    "characterID": "SoldierOW",
+    "characterName": "솔져 O. W.",
     "stats": {
         "rarity": "R",
         "element": "작열",
@@ -9,11 +9,11 @@
         "company": "Elysion",
         "squad": "리플레이스",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 9.36,
         "maxAmmo": 120,
         "reloadTime": 2,
         "chargeTime": 0,
-        "fireRate": 24,
+        "fireRate": 10,
         "fullChargeDamage": 0,
         "coreDamage": 200
     },
@@ -24,9 +24,13 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "trigger": "normal_attack_hit",
+                    "condition": {
+                        "chance": 10,
+                        "unit": "percent"
+                    },
+                    "target": "enemy",
+                    "effect": "extra_damage",
                     "value": [
                         18.9,
                         25.2,
@@ -39,19 +43,20 @@
                         69.3,
                         75.6
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
         {
             "id": "skill_2",
             "name": "오울 윈드",
-            "type": "passive",
+            "type": "active",
+            "cooldown": 10,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "target": "highest_atk_allies_3",
+                    "effect": "cover_defense_up",
                     "value": [
                         32.14,
                         42.85,
@@ -64,7 +69,8 @@
                         117.85,
                         128.57
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         },
@@ -75,8 +81,7 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "target": "fire_element_allies",
                     "effect": "max_ammo_up",
                     "value": [
                         70,
@@ -90,7 +95,8 @@
                         256.66,
                         280
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": 5
                 }
             ]
         }

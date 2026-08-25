@@ -1,0 +1,101 @@
+{
+    "characterID": "Product_23",
+    "characterName": "프로덕트 23",
+    "stats": {
+        "rarity": "R",
+        "element": "풍압",
+        "weapon": "SG",
+        "class": "지원형",
+        "company": "Missilis",
+        "squad": "리플레이스",
+        "burstLevel": 2,
+        "atkCoef": 231.6,
+        "maxAmmo": 9,
+        "reloadTime": 2.03,
+        "chargeTime": 0,
+        "fireRate": 1.51515,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "명령 : 출력 보강",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "last_bullet_hit",
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        0.81,
+                        1.62,
+                        2.43,
+                        3.24,
+                        4.05,
+                        4.86,
+                        5.67,
+                        6.48,
+                        7.29,
+                        8.1
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "명령 : 응급 조치",
+            "type": "active",
+            "cooldown": 15,
+            "effects": [
+                {
+                    "target": "self",
+                    "effect": "heal",
+                    "value": [
+                        1.61,
+                        3.23,
+                        4.84,
+                        6.46,
+                        8.07,
+                        9.69,
+                        11.3,
+                        12.92,
+                        14.53,
+                        16.15
+                    ],
+                    "unit": "percent",
+                    "based_on": "attack_damage",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "명령 : 특수 탄환",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "target": "highest_atk_enemy_2",
+                    "effect": "def_down",
+                    "value": [
+                        4.87,
+                        9.75,
+                        14.62,
+                        19.5,
+                        24.37,
+                        29.25,
+                        34.12,
+                        39,
+                        43.87,
+                        48.75
+                    ],
+                    "unit": "percent",
+                    "duration": 5
+                }
+            ]
+        }
+    ]
+}

@@ -148,5 +148,202 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "게임 키드 에볼루션",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "시크릿 코드",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                9.24,
+                                11.32,
+                                13.41,
+                                15.49,
+                                17.58,
+                                19.66,
+                                21.74,
+                                23.83,
+                                25.91,
+                                28
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "last_bullet_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                1.05,
+                                1.58,
+                                2.11,
+                                2.64,
+                                3.16,
+                                3.69,
+                                4.22,
+                                4.75,
+                                5.28,
+                                5.8
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "원사이드 프로토콜",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                67.27,
+                                73.39,
+                                79.51,
+                                85.62,
+                                91.74,
+                                97.86,
+                                103.97,
+                                110.09,
+                                116.21,
+                                122.32
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "def_up",
+                            "value": [
+                                1.49,
+                                1.63,
+                                1.76,
+                                1.9,
+                                2.03,
+                                2.17,
+                                2.31,
+                                2.44,
+                                2.58,
+                                2.71
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                67.27,
+                                73.39,
+                                79.51,
+                                85.62,
+                                91.74,
+                                97.86,
+                                103.97,
+                                110.09,
+                                116.21,
+                                122.32
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                9.36,
+                                10.32,
+                                11.28,
+                                12.25,
+                                13.21,
+                                14.18,
+                                15.14,
+                                16.11,
+                                17.07,
+                                18.04
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "인베이젼",
+                    "effects": [
+                        {
+                            "trigger": "last_bullet_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                7.57,
+                                8.26,
+                                8.95,
+                                9.63,
+                                10.32,
+                                11.01,
+                                11.7,
+                                12.39,
+                                13.08,
+                                13.77
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "last_bullet_attack",
+                            "target": "self",
+                            "effect": "def_up",
+                            "value": [
+                                7.57,
+                                8.26,
+                                8.95,
+                                9.63,
+                                10.32,
+                                11.01,
+                                11.7,
+                                12.39,
+                                13.08,
+                                13.77
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "last_bullet_attack",
+                            "target": "self",
+                            "effect": "reload_speed_up",
+                            "value": [
+                                95,
+                                95,
+                                95,
+                                95,
+                                95,
+                                95,
+                                95,
+                                95,
+                                95,
+                                95
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

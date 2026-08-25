@@ -166,5 +166,220 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "함께 만든 화분",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "피튜니아",
+                    "effects": [
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                2.36,
+                                2.55,
+                                2.73,
+                                2.91,
+                                3.09,
+                                3.27,
+                                3.46,
+                                3.64,
+                                3.82,
+                                4
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1,
+                                1
+                            ],
+                            "unit": "seconds"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                8.87,
+                                9.55,
+                                10.24,
+                                10.92,
+                                11.6,
+                                12.28,
+                                12.97,
+                                13.65,
+                                14.33,
+                                15.01
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "아이리스",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                6.04,
+                                6.5,
+                                6.96,
+                                7.43,
+                                7.89,
+                                8.36,
+                                8.82,
+                                9.29,
+                                9.75,
+                                10.22
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                18.3,
+                                19.71,
+                                21.12,
+                                22.52,
+                                23.93,
+                                25.34,
+                                26.75,
+                                28.16,
+                                29.56,
+                                30.97
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                26.66,
+                                28.71,
+                                30.76,
+                                32.81,
+                                34.86,
+                                36.91,
+                                38.96,
+                                41.02,
+                                43.07,
+                                45.12
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "시크릿 가든",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                6.17,
+                                6.65,
+                                7.12,
+                                7.6,
+                                8.07,
+                                8.55,
+                                9.02,
+                                9.5,
+                                9.97,
+                                10.45
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                25.05,
+                                26.98,
+                                28.9,
+                                30.83,
+                                32.76,
+                                34.68,
+                                36.61,
+                                38.54,
+                                40.47,
+                                42.39
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                50.73,
+                                54.64,
+                                58.54,
+                                62.44,
+                                66.35,
+                                70.25,
+                                74.15,
+                                78.05,
+                                81.96,
+                                85.86
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

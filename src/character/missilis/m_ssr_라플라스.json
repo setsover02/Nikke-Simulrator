@@ -166,5 +166,166 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "히어로 트릴로지 BD",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "히어로 봄버",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                78.26,
+                                84.28,
+                                90.3,
+                                96.32,
+                                102.34,
+                                108.36,
+                                114.38,
+                                120.41,
+                                126.43,
+                                132.45
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                8.73,
+                                9.4,
+                                10.08,
+                                10.75,
+                                11.42,
+                                12.09,
+                                12.76,
+                                13.44,
+                                14.11,
+                                14.78
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "라플라스 버스터",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                860.2,
+                                926.37,
+                                992.54,
+                                1058.71,
+                                1124.88,
+                                1191.04,
+                                1257.21,
+                                1323.38,
+                                1389.55,
+                                1455.72
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                13.11,
+                                14.12,
+                                15.13,
+                                16.14,
+                                17.15,
+                                18.16,
+                                19.17,
+                                20.18,
+                                21.19,
+                                22.2
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10
+                            ],
+                            "unit": "seconds"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                7.03,
+                                7.57,
+                                8.11,
+                                8.65,
+                                9.19,
+                                9.73,
+                                10.27,
+                                10.81,
+                                11.36,
+                                11.9
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "히어로 비전",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                2.11,
+                                2.27,
+                                2.43,
+                                2.6,
+                                2.76,
+                                2.92,
+                                3.08,
+                                3.25,
+                                3.41,
+                                3.57
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

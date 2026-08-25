@@ -9,9 +9,6 @@
         "company": "Abnormal",
         "squad": "요르하",
         "burstLevel": 3,
-        "atk": 264978,
-        "defense": 73764,
-        "hp": 11031656,
         "atkCoef": 5.99,
         "maxAmmo": 90,
         "reloadTime": 1,
@@ -141,7 +138,7 @@
             "id": "burst",
             "name": "연속 공격",
             "type": "burst",
-            "cooldown": 40.0,
+            "cooldown": 40,
             "effects": [
                 {
                     "target": "all_enemies",

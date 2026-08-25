@@ -1,0 +1,127 @@
+{
+    "characterID": "Sora",
+    "characterName": "소라",
+    "stats": {
+        "rarity": "SSR",
+        "element": "풍압",
+        "weapon": "RL",
+        "class": "지원형",
+        "company": "Elysion",
+        "squad": "오버 더 호라이즌",
+        "burstLevel": 1,
+        "atkCoef": 61.3,
+        "maxAmmo": 6,
+        "reloadTime": 2,
+        "fireRate": 0,
+        "chargeTime": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "탑승 수속",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "heal_efficacy_up",
+                    "value": [
+                        20.8,
+                        22.4,
+                        24,
+                        25.6,
+                        27.2,
+                        28.8,
+                        30.4,
+                        32,
+                        33.6,
+                        35.2
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "비밀 수화물",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "part_destroy",
+                    "target": "all_allies",
+                    "effect": "overheal_storage",
+                    "value": [
+                        3.17,
+                        3.41,
+                        3.66,
+                        3.9,
+                        4.14,
+                        4.39,
+                        4.63,
+                        4.88,
+                        5.12,
+                        5.36
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_hp",
+                    "duration": 15,
+                    "stack": 5
+                },
+                {
+                    "trigger": "part_destroy",
+                    "target": "all_allies",
+                    "effect": "atk_up",
+                    "value": [
+                        14.03,
+                        15.11,
+                        16.19,
+                        17.27,
+                        18.35,
+                        19.43,
+                        20.51,
+                        21.58,
+                        22.66,
+                        23.74
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_atk",
+                    "duration": 15
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "품 안의 비밀",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "target": "all_allies",
+                    "effect": "heal",
+                    "value": [
+                        30.88,
+                        33.26,
+                        35.64,
+                        38.01,
+                        40.39,
+                        42.76,
+                        45.14,
+                        47.52,
+                        49.89,
+                        52.27
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_max_hp"
+                },
+                {
+                    "target": "all_allies",
+                    "effect": "dispel",
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

@@ -112,5 +112,166 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "커플 머그잔",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "승부욕",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                17.51,
+                                19.1,
+                                20.69,
+                                22.28,
+                                23.87,
+                                25.46,
+                                27.06,
+                                28.65,
+                                30.24,
+                                31.83
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                20,
+                                20,
+                                20,
+                                20,
+                                20,
+                                20,
+                                20,
+                                20,
+                                20,
+                                20
+                            ],
+                            "unit": "seconds"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "밀크 도핑",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                6.12,
+                                6.68,
+                                7.23,
+                                7.79,
+                                8.35,
+                                8.9,
+                                9.46,
+                                10.02,
+                                10.57,
+                                11.13
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                1.67,
+                                1.8,
+                                1.93,
+                                2.06,
+                                2.19,
+                                2.32,
+                                2.44,
+                                2.58,
+                                2.7,
+                                2.83
+                            ],
+                            "unit": "seconds"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "투 더 빅토리",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                202.04,
+                                220.4,
+                                238.77,
+                                257.14,
+                                275.51,
+                                293.87,
+                                312.24,
+                                330.61,
+                                348.97,
+                                367.34
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                8.88,
+                                9.69,
+                                10.5,
+                                11.31,
+                                12.12,
+                                12.93,
+                                13.73,
+                                14.54,
+                                15.35,
+                                16.16
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                44.61,
+                                48.04,
+                                51.48,
+                                54.91,
+                                58.34,
+                                61.77,
+                                65.2,
+                                68.64,
+                                72.07,
+                                75.5
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

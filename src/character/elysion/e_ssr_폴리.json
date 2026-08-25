@@ -130,5 +130,184 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "형사 수첩",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "브레이브 콜",
+                    "effects": [
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                2.73,
+                                3.03,
+                                3.33,
+                                3.64,
+                                3.94,
+                                4.25,
+                                4.55,
+                                4.85,
+                                5.16,
+                                5.46
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                59.09,
+                                63.64,
+                                68.18,
+                                72.73,
+                                77.27,
+                                81.82,
+                                86.36,
+                                90.91,
+                                95.46,
+                                100
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "폴리스 라인",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5,
+                                5
+                            ],
+                            "unit": "seconds"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                23.63,
+                                25.45,
+                                27.27,
+                                29.09,
+                                30.91,
+                                32.73,
+                                34.55,
+                                36.36,
+                                38.18,
+                                40
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                22.27,
+                                24.75,
+                                27.22,
+                                29.7,
+                                32.17,
+                                34.65,
+                                37.12,
+                                39.6,
+                                42.07,
+                                44.55
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "도그 테라피",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "def_up",
+                            "value": [
+                                11.75,
+                                13.06,
+                                14.36,
+                                15.67,
+                                16.97,
+                                18.28,
+                                19.59,
+                                20.89,
+                                22.2,
+                                23.51
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10,
+                                10
+                            ],
+                            "unit": "seconds"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "heal",
+                            "value": [
+                                2.95,
+                                3.18,
+                                3.41,
+                                3.64,
+                                3.86,
+                                4.09,
+                                4.32,
+                                4.55,
+                                4.77,
+                                5
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

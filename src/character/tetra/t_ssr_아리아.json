@@ -1,0 +1,119 @@
+{
+    "characterID": "Aria",
+    "characterName": "아리아",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "MG",
+        "class": "화력형",
+        "company": "Tetra",
+        "squad": "프리마돈나",
+        "burstLevel": 2,
+        "atkCoef": 5.47,
+        "maxAmmo": 300,
+        "reloadTime": 2.33,
+        "chargeTime": 0,
+        "fireRate": 60,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "알레그로",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_burst_start",
+                    "target": "all_allies",
+                    "effect": "critical_damage_up",
+                    "value": [
+                        13.49,
+                        14.99,
+                        16.47,
+                        17.99,
+                        19.49,
+                        20.99,
+                        22.49,
+                        23.99,
+                        25.49,
+                        26.99
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "라크리모소",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "last_bullet_hit",
+                    "target": "all_allies",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        3.51,
+                        3.9,
+                        4.29,
+                        4.68,
+                        5.07,
+                        5.46,
+                        5.85,
+                        6.24,
+                        6.64,
+                        7.03
+                    ],
+                    "unit": "percent",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "아리아 디 캄포",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "target": "all_allies",
+                    "effect": "shield",
+                    "value": [
+                        18.93,
+                        21.03,
+                        23.14,
+                        25.24,
+                        27.34,
+                        29.45,
+                        31.55,
+                        33.66,
+                        35.76,
+                        37.86
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "based_on": "caster_final_max_hp"
+                },
+                {
+                    "target": "self",
+                    "effect": "accuracy_up",
+                    "value": [
+                        15.18,
+                        16.87,
+                        18.56,
+                        20.25,
+                        21.93,
+                        23.62,
+                        25.31,
+                        27,
+                        28.68,
+                        30.37
+                    ],
+                    "unit": "percent",
+                    "duration": 15
+                }
+            ]
+        }
+    ]
+}

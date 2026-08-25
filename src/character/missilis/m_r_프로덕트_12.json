@@ -1,47 +1,46 @@
 {
-    "characterID": "SoldierEG",
-    "characterName": "솔져 E. G.",
+    "characterID": "Product_12",
+    "characterName": "프로덕트 12",
     "stats": {
         "rarity": "R",
-        "element": "전격",
-        "weapon": "AR",
+        "element": "작열",
+        "weapon": "MG",
         "class": "화력형",
-        "company": "Elysion",
+        "company": "Missilis",
         "squad": "리플레이스",
         "burstLevel": 3,
-        "atkCoef": 14.01,
-        "maxAmmo": 60,
-        "reloadTime": 1.17,
+        "atkCoef": 5.67,
+        "maxAmmo": 300,
+        "reloadTime": 2.67,
         "chargeTime": 0,
-        "fireRate": 12,
+        "fireRate": 60,
         "fullChargeDamage": 0,
         "coreDamage": 200
     },
     "skills": [
         {
             "id": "skill_1",
-            "name": "이글 아이",
+            "name": "행동 : 공격 상승",
             "type": "passive",
             "effects": [
                 {
                     "trigger": "normal_attack_hit",
                     "condition": {
-                        "chance": 5,
-                        "unit": "percent"
+                        "count": 200
                     },
                     "target": "self",
                     "effect": "atk_up",
                     "value": [
-                        1.98,
-                        2.64,
-                        3.3,
-                        3.96,
-                        4.62,
-                        5.28,
-                        5.94,
-                        6.59,
-                        7.26,
-                        7.92
+                        2.07,
+                        4.14,
+                        6.21,
+                        8.28,
+                        10.35,
+                        12.42,
+                        14.49,
+                        16.56,
+                        18.63,
+                        20.7
                     ],
                     "unit": "percent",
                     "duration": 5
@@ -50,33 +49,33 @@
         },
         {
             "id": "skill_2",
-            "name": "이글 택틱",
+            "name": "행동 : 화력 집중",
             "type": "active",
-            "cooldown": 9,
+            "cooldown": 10,
             "effects": [
                 {
-                    "target": "self",
-                    "effect": "max_ammo_up",
+                    "target": "lowest_hp_enemy",
+                    "effect": "damage",
                     "value": [
-                        28.19,
-                        37.59,
-                        46.99,
-                        56.39,
-                        65.78,
-                        75.18,
-                        84.58,
-                        93.98,
-                        103.37,
-                        112.77
+                        27.27,
+                        36.36,
+                        45.45,
+                        54.54,
+                        63.63,
+                        72.72,
+                        81.81,
+                        90.9,
+                        100,
+                        109.09
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "based_on": "caster_final_atk"
                 }
             ]
         },
         {
             "id": "burst",
-            "name": "이글 샷",
+            "name": "행동 : 정밀 타격",
             "type": "burst",
             "cooldown": 40,
             "effects": [

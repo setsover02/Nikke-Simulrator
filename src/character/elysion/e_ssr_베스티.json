@@ -1,0 +1,206 @@
+{
+    "characterID": "Vesti",
+    "characterName": "베스티",
+    "stats": {
+        "rarity": "SSR",
+        "element": "수냉",
+        "weapon": "RL",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "앱솔루트",
+        "burstLevel": 3,
+        "atkCoef": 61.3,
+        "maxAmmo": 8,
+        "reloadTime": 2,
+        "fireRate": 0,
+        "chargeTime": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "상상실현",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "target": "self",
+                    "effect": "explosion_range_up",
+                    "value": [
+                        8.87,
+                        9.55,
+                        10.23,
+                        10.92,
+                        11.6,
+                        12.28,
+                        12.96,
+                        13.65,
+                        14.33,
+                        15.01
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "생존본능",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "attack_power_up",
+                    "value": [
+                        3.16,
+                        3.4,
+                        3.64,
+                        3.89,
+                        4.13,
+                        4.37,
+                        4.62,
+                        4.86,
+                        5.1,
+                        5.35
+                    ],
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 1
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_damage_up",
+                    "value": [
+                        13.2,
+                        14.21,
+                        15.23,
+                        16.24,
+                        17.26,
+                        18.27,
+                        19.29,
+                        20.31,
+                        21.32,
+                        22.34
+                    ],
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 2
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "critical_rate_up",
+                    "value": [
+                        9.17,
+                        9.87,
+                        10.58,
+                        11.28,
+                        11.99,
+                        12.69,
+                        13.4,
+                        14.1,
+                        14.81,
+                        15.51
+                    ],
+                    "unit": "percent",
+                    "duration": 45,
+                    "stack_level": 3
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "정당방위",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "target": "lowest_hp_enemy",
+                    "effect": "interval_damage",
+                    "value": [
+                        9.19,
+                        9.9,
+                        10.61,
+                        11.32,
+                        12.02,
+                        12.73,
+                        13.44,
+                        14.15,
+                        14.86,
+                        15.56
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "interval": 1,
+                    "duration": 18
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": [
+                        124.45,
+                        134.03,
+                        143.6,
+                        153.18,
+                        162.75,
+                        172.32,
+                        181.9,
+                        191.47,
+                        201.04,
+                        210.62
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "stack_level": 1
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": [
+                        146.1,
+                        157.34,
+                        168.58,
+                        179.82,
+                        191.05,
+                        202.29,
+                        213.53,
+                        224.77,
+                        236.01,
+                        247.25
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "stack_level": 2
+                },
+                {
+                    "target": "all_enemies",
+                    "effect": "extra_damage",
+                    "value": [
+                        178.57,
+                        192.3,
+                        206.04,
+                        219.78,
+                        233.51,
+                        247.25,
+                        260.98,
+                        274.72,
+                        288.46,
+                        302.19
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk",
+                    "stack_level": 3
+                },
+                {
+                    "target": "all_allies",
+                    "effect": "full_burst_time_down",
+                    "value": 5,
+                    "unit": "seconds"
+                }
+            ]
+        }
+    ]
+}

@@ -1,0 +1,126 @@
+{
+    "characterID": "Rapi",
+    "characterName": "라피",
+    "stats": {
+        "rarity": "SR",
+        "element": "작열",
+        "weapon": "AR",
+        "class": "화력형",
+        "company": "Elysion",
+        "squad": "카운터스",
+        "burstLevel": 3,
+        "atkCoef": 13.65,
+        "maxAmmo": 60,
+        "reloadTime": 1,
+        "chargeTime": 0,
+        "fireRate": 11.1,
+        "fullChargeDamage": 0,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "포메이션 F. F",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "on_hit",
+                    "condition": {
+                        "count": 40
+                    },
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        10.9,
+                        12.12,
+                        13.33,
+                        14.54,
+                        15.75,
+                        16.96,
+                        18.18,
+                        19.39,
+                        20.6,
+                        21.81
+                    ],
+                    "unit": "percent",
+                    "duration": 20
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "미사일",
+            "type": "active",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "target": "highest_atk_enemy_1",
+                    "effect": "damage",
+                    "value": [
+                        308.57,
+                        333.06,
+                        357.55,
+                        382.04,
+                        406.53,
+                        431.02,
+                        455.51,
+                        480,
+                        504.48,
+                        528.97
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "target": "highest_atk_enemy_1",
+                    "effect": "taunt",
+                    "duration": 5
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "다탄두 미사일",
+            "type": "burst",
+            "cooldown": 40,
+            "effects": [
+                {
+                    "target": "highest_atk_enemy_1",
+                    "effect": "damage",
+                    "value": [
+                        328.86,
+                        365.4,
+                        401.94,
+                        438.48,
+                        475.02,
+                        511.56,
+                        548.1,
+                        584.64,
+                        621.18,
+                        657.72
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "target": "self",
+                    "effect": "atk_up",
+                    "value": [
+                        30.37,
+                        33.75,
+                        37.12,
+                        40.5,
+                        43.87,
+                        47.25,
+                        50.62,
+                        54,
+                        57.37,
+                        60.75
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        }
+    ]
+}

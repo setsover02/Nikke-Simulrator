@@ -1,0 +1,126 @@
+{
+    "characterID": "Anis",
+    "characterName": "아니스",
+    "stats": {
+        "rarity": "SR",
+        "element": "철갑",
+        "weapon": "RL",
+        "class": "방어형",
+        "company": "Tetra",
+        "squad": "카운터스",
+        "burstLevel": 2,
+        "atkCoef": 65.02,
+        "maxAmmo": 6,
+        "reloadTime": 0.67,
+        "fireRate": 0,
+        "chargeTime": 1,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "포메이션 D.H",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "on_hit",
+                    "condition": {
+                        "count": 40
+                    },
+                    "target": "self",
+                    "effect": "def_up",
+                    "value": [
+                        52.5,
+                        60,
+                        67.5,
+                        75,
+                        82.5,
+                        90,
+                        97.5,
+                        105,
+                        112.5,
+                        120
+                    ],
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "포메이션 C.H",
+            "type": "passive",
+            "cooldown": 30,
+            "effects": [
+                {
+                    "target": "self_and_highest_atk_allies_2",
+                    "effect": "def_up",
+                    "value": [
+                        35,
+                        40,
+                        45,
+                        50,
+                        55,
+                        60,
+                        65,
+                        70,
+                        75,
+                        80
+                    ],
+                    "unit": "percent",
+                    "duration": 5
+                },
+                {
+                    "target": "self_and_highest_atk_allies_2",
+                    "effect": "damage_share",
+                    "duration": 10
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "핀 포인트 미사일",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "target": "enemies_in_range",
+                    "effect": "damage",
+                    "value": [
+                        68.57,
+                        78.36,
+                        88.16,
+                        97.95,
+                        107.75,
+                        117.55,
+                        127.34,
+                        137.14,
+                        146.93,
+                        156.73
+                    ],
+                    "unit": "percent",
+                    "based_on": "caster_final_atk"
+                },
+                {
+                    "target": "enemies_in_range",
+                    "effect": "def_down",
+                    "value": [
+                        14,
+                        16,
+                        18,
+                        20,
+                        22,
+                        24,
+                        26,
+                        28,
+                        30,
+                        32
+                    ],
+                    "unit": "percent",
+                    "duration": 5
+                }
+            ]
+        }
+    ]
+}

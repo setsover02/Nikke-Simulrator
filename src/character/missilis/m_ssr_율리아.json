@@ -112,5 +112,184 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "음악 노트",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "크레센도",
+                    "effects": [
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                14.65,
+                                15.78,
+                                16.9,
+                                18.03,
+                                19.16,
+                                20.29,
+                                21.41,
+                                22.54,
+                                23.67,
+                                24.79
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                52,
+                                56,
+                                60,
+                                64,
+                                68,
+                                72,
+                                76,
+                                80,
+                                84,
+                                88
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                59.09,
+                                63.63,
+                                68.18,
+                                72.72,
+                                77.27,
+                                81.81,
+                                86.36,
+                                90.91,
+                                95.45,
+                                100
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "데크레센도",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                15.38,
+                                16.57,
+                                17.75,
+                                18.93,
+                                20.12,
+                                21.3,
+                                22.48,
+                                23.67,
+                                24.85,
+                                26.04
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                11.81,
+                                12.72,
+                                13.63,
+                                14.54,
+                                15.45,
+                                16.36,
+                                17.27,
+                                18.18,
+                                19.09,
+                                20
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                21.36,
+                                23.01,
+                                24.65,
+                                26.29,
+                                27.94,
+                                29.58,
+                                31.23,
+                                32.87,
+                                34.51,
+                                36.16
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "클라이맥스",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                321.75,
+                                346.5,
+                                371.25,
+                                396,
+                                420.75,
+                                445.5,
+                                470.25,
+                                495,
+                                519.75,
+                                544.5
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                321.75,
+                                346.5,
+                                371.25,
+                                396,
+                                420.75,
+                                445.5,
+                                470.25,
+                                495,
+                                519.75,
+                                544.5
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

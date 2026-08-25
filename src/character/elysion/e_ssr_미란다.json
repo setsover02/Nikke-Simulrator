@@ -130,5 +130,202 @@
                 }
             ]
         }
-    ]
+    ],
+    "favoriteItem": {
+        "itemName": "롤링 페이퍼",
+        "stages": [
+            {
+                "stage": 1,
+                "replaceSlot": 3,
+                "skill": {
+                    "id": "burst",
+                    "name": "파워 업!",
+                    "effects": [
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                23.87,
+                                25.71,
+                                27.55,
+                                29.38,
+                                31.22,
+                                33.06,
+                                34.89,
+                                36.73,
+                                38.57,
+                                40.4
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "passive",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                33.22,
+                                35.78,
+                                38.34,
+                                40.89,
+                                43.45,
+                                46.01,
+                                48.56,
+                                51.12,
+                                53.67,
+                                56.23
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 2,
+                "replaceSlot": 2,
+                "skill": {
+                    "id": "skill_2",
+                    "name": "웨이크업!",
+                    "effects": [
+                        {
+                            "trigger": "full_burst_start",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                19.49,
+                                20.99,
+                                22.49,
+                                23.99,
+                                25.49,
+                                26.99,
+                                28.49,
+                                29.99,
+                                31.49,
+                                32.99
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "full_burst_start",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                17.79,
+                                19.15,
+                                20.52,
+                                21.89,
+                                23.26,
+                                24.63,
+                                26,
+                                27.37,
+                                28.73,
+                                30.1
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "full_burst_start",
+                            "target": "self",
+                            "effect": "atk_damage_up",
+                            "value": [
+                                14,
+                                15.08,
+                                16.16,
+                                17.23,
+                                18.31,
+                                19.39,
+                                20.47,
+                                21.54,
+                                22.62,
+                                23.7
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "full_burst_start",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                50.48,
+                                54.36,
+                                58.24,
+                                62.12,
+                                66.01,
+                                69.89,
+                                73.77,
+                                77.66,
+                                81.54,
+                                85.42
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            },
+            {
+                "stage": 3,
+                "replaceSlot": 1,
+                "skill": {
+                    "id": "skill_1",
+                    "name": "헬스업!",
+                    "effects": [
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                3.31,
+                                3.55,
+                                3.78,
+                                4.02,
+                                4.26,
+                                4.49,
+                                4.73,
+                                4.97,
+                                5.2,
+                                5.44
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "buff",
+                            "value": [
+                                2.09,
+                                2.28,
+                                2.47,
+                                2.66,
+                                2.85,
+                                3.03,
+                                3.22,
+                                3.41,
+                                3.6,
+                                3.79
+                            ],
+                            "unit": "percent"
+                        },
+                        {
+                            "trigger": "normal_attack",
+                            "target": "self",
+                            "effect": "atk_up",
+                            "value": [
+                                29.58,
+                                31.86,
+                                34.13,
+                                36.41,
+                                38.68,
+                                40.96,
+                                43.24,
+                                45.51,
+                                47.79,
+                                50.06
+                            ],
+                            "unit": "percent"
+                        }
+                    ]
+                }
+            }
+        ]
+    }
 }

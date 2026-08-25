@@ -1,0 +1,245 @@
+{
+    "characterID": "Rogue",
+    "characterName": "루주",
+    "stats": {
+        "rarity": "SSR",
+        "element": "전격",
+        "weapon": "SR",
+        "class": "지원형",
+        "company": "Tetra",
+        "squad": "777",
+        "burstLevel": 1,
+        "atkCoef": 71.07,
+        "maxAmmo": 6,
+        "reloadTime": 2.33,
+        "chargeTime": 1,
+        "fireRate": 0,
+        "fullChargeDamage": 250,
+        "coreDamage": 200
+    },
+    "skills": [
+        {
+            "id": "skill_1",
+            "name": "카드 스로우",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 8
+                    },
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "value": [
+                        2.95,
+                        3.18,
+                        3.41,
+                        3.63,
+                        3.86,
+                        4.09,
+                        4.32,
+                        4.54,
+                        4.77,
+                        5
+                    ],
+                    "based_on": "caster_hp",
+                    "unit": "percent",
+                    "duration": 5
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 8
+                    },
+                    "target": "all_allies",
+                    "effect": "burst_cooldown_reduction",
+                    "value": [
+                        4.13,
+                        4.45,
+                        4.77,
+                        5.09,
+                        5.4,
+                        5.72,
+                        6.04,
+                        6.36,
+                        6.68,
+                        7
+                    ],
+                    "unit": "second"
+                }
+            ]
+        },
+        {
+            "id": "skill_2",
+            "name": "코인 플리핑",
+            "type": "passive",
+            "effects": [
+                {
+                    "trigger": "battle_start",
+                    "condition": {
+                        "position": "back"
+                    },
+                    "target": "self_and_adjacent_allies_2",
+                    "effect": "atk_damage_up",
+                    "value": [
+                        3.93,
+                        4.23,
+                        4.54,
+                        4.84,
+                        5.14,
+                        5.44,
+                        5.75,
+                        6.05,
+                        6.35,
+                        6.65
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "status": "sword_coin"
+                },
+                {
+                    "trigger": "full_charge_attack",
+                    "condition": {
+                        "count": 30,
+                        "status": "sword_coin"
+                    },
+                    "target": "self_and_adjacent_allies_2",
+                    "effect": "damage_taken_down",
+                    "value": [
+                        8.98,
+                        9.67,
+                        10.36,
+                        11.05,
+                        11.75,
+                        12.44,
+                        13.13,
+                        13.82,
+                        14.51,
+                        15.2
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "status": "shield_coin"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "condition": {
+                        "count": 5,
+                        "status": "shield_coin"
+                    },
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "value": [
+                        8.91,
+                        9.59,
+                        10.28,
+                        10.96,
+                        11.65,
+                        12.34,
+                        13.02,
+                        13.71,
+                        14.39,
+                        15.08
+                    ],
+                    "based_on": "caster_hp",
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "status": "double_sword_coin"
+                }
+            ]
+        },
+        {
+            "id": "burst",
+            "name": "더 게임 마스터",
+            "type": "burst",
+            "cooldown": 20,
+            "effects": [
+                {
+                    "target": "all_allies",
+                    "effect": "atk_up",
+                    "value": [
+                        7.54,
+                        8.37,
+                        9.21,
+                        10.05,
+                        10.88,
+                        11.72,
+                        12.56,
+                        13.4,
+                        14.23,
+                        15.07
+                    ],
+                    "based_on": "caster_atk",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "condition": {
+                        "status": "sword_coin"
+                    },
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "value": [
+                        5.08,
+                        5.64,
+                        6.2,
+                        6.77,
+                        7.33,
+                        7.89,
+                        8.46,
+                        9.02,
+                        9.59,
+                        10.15
+                    ],
+                    "based_on": "caster_hp",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "condition": {
+                        "status": "shield_coin"
+                    },
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "value": [
+                        10.05,
+                        11.17,
+                        12.28,
+                        13.4,
+                        14.52,
+                        15.63,
+                        16.75,
+                        17.87,
+                        18.98,
+                        20.1
+                    ],
+                    "based_on": "caster_hp",
+                    "unit": "percent",
+                    "duration": 10
+                },
+                {
+                    "condition": {
+                        "status": "double_sword_coin"
+                    },
+                    "target": "all_allies",
+                    "effect": "max_hp_up",
+                    "value": [
+                        15.01,
+                        16.68,
+                        18.35,
+                        20.01,
+                        21.68,
+                        23.35,
+                        25.02,
+                        26.68,
+                        28.35,
+                        30.02
+                    ],
+                    "based_on": "caster_max_hp",
+                    "unit": "percent",
+                    "duration": 10
+                }
+            ]
+        }
+    ]
+}
