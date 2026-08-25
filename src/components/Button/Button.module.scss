@@ -177,7 +177,7 @@
     @extend .font-button;
     @include apply-sizes(true);
 
-    &.blockType {
+    &.block-type {
         &.primary {
             background-color: var(--Primary-100);
             color: var(--Static-White);
@@ -203,7 +203,7 @@
         }
     }
 
-    &.textType {
+    &.text-type {
         @include text-variant-styles;
     }
 }

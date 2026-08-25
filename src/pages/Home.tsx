@@ -14,6 +14,7 @@ import CanvasTimelineChart from './home/CanvasTimelineChart';
 import SimToolbar from './home/SimToolbar';
 import GlobalLevelPanel from './home/GlobalLevelPanel';
 import { Card } from '../components/Card/Card';
+import { OutpostCard } from '../components/OutpostCard/OutpostCard';
 
 const Home: React.FC = () => {
     // Keep internal slots mapping up to 5 elements. We enforce exactly 5 UI rows.
@@ -133,11 +134,13 @@ const Home: React.FC = () => {
         <div className="home-container">
             <div className="home-content">
 
-                {/* 글로벌 레벨 설정 패널 */}
-                <GlobalLevelPanel
-                    outpostState={outpostState}
-                    onChange={handleOutpostChange}
-                />
+                {/* 글로벌 레벨 설정 패널 (사이드바) */}
+                <OutpostCard>
+                    <GlobalLevelPanel
+                        outpostState={outpostState}
+                        onChange={handleOutpostChange}
+                    />
+                </OutpostCard>
 
                 {/* 2-Column Main Layout */}
                 <div style={{ display: 'flex', gap: '24px' }}>

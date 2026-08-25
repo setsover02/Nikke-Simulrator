@@ -13,6 +13,8 @@ import {
     SavedCharState
 } from '../../utils/storageUtils';
 import { characterOptions } from '../../constants/characters';
+import GlobalLevelPanel from '../home/GlobalLevelPanel';
+import { OutpostCard } from '../../components/OutpostCard/OutpostCard';
 
 const cubeList = [
     { value: 'None', label: '장착 해제' },
@@ -59,8 +61,8 @@ const Nikke: React.FC = () => {
         saveOutpostState(outpostState);
     }, [outpostState]);
 
-    const handleOutpostChange = (field: keyof SavedOutpostState, value: string) => {
-        setOutpostState(prev => ({ ...prev, [field]: value }));
+    const handleOutpostChange = (patch: Partial<SavedOutpostState>) => {
+        setOutpostState(prev => ({ ...prev, ...patch }));
     };
 
     const handleNikkeChange = (charId: string, field: keyof SavedCharState, value: any) => {
@@ -134,43 +136,12 @@ const Nikke: React.FC = () => {
                 </div>
             </div>
 
-            <section>
-                <Font variant="heading-2" weight="bold">전초기지 (Outpost)</Font>
-                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px', marginTop: '16px' }}>
-                    <Textfield
-                        label="싱크로 레벨"
-                        value={outpostState.synchroLevel}
-                        onChange={(e) => handleOutpostChange('synchroLevel', e.target.value)}
-                        placeholder="0"
-                    />
-                    <Textfield
-                        label="공통 연구 레벨"
-                        value={outpostState.commonResearchLevel}
-                        onChange={(e) => handleOutpostChange('commonResearchLevel', e.target.value)}
-                        placeholder="0"
-                    />
-                </div>
-
-                <div style={{ marginTop: '24px' }}>
-                    <Font variant="heading-3" weight="semibold">기업별 콘솔 레벨</Font>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px', marginTop: '16px' }}>
-                        <Textfield label="엘리시온 (Elysion)" value={outpostState.elysionConsole} onChange={(e) => handleOutpostChange('elysionConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="미실리스 (Missilis)" value={outpostState.missilisConsole} onChange={(e) => handleOutpostChange('missilisConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="테트라 (Tetra)" value={outpostState.tetraConsole} onChange={(e) => handleOutpostChange('tetraConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="필그림 (Pilgrim)" value={outpostState.pilgrimConsole} onChange={(e) => handleOutpostChange('pilgrimConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="어브노말 (Abnormal)" value={outpostState.abnormalConsole} onChange={(e) => handleOutpostChange('abnormalConsole', e.target.value)} placeholder="0" />
-                    </div>
-                </div>
-
-                <div style={{ marginTop: '24px' }}>
-                    <Font variant="heading-3" weight="semibold">Class별 콘솔 레벨</Font>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(180px, 1fr))', gap: '16px', marginTop: '16px' }}>
-                        <Textfield label="화력형 (Attacker)" value={outpostState.attackerConsole} onChange={(e) => handleOutpostChange('attackerConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="방어형 (Defender)" value={outpostState.defenderConsole} onChange={(e) => handleOutpostChange('defenderConsole', e.target.value)} placeholder="0" />
-                        <Textfield label="지원형 (Supporter)" value={outpostState.supporterConsole} onChange={(e) => handleOutpostChange('supporterConsole', e.target.value)} placeholder="0" />
-                    </div>
-                </div>
-            </section>
+            <OutpostCard>
+                <GlobalLevelPanel
+                    outpostState={outpostState}
+                    onChange={handleOutpostChange}
+                />
+            </OutpostCard>
 
             <section style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '500px' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

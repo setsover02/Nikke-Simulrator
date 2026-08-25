@@ -29,7 +29,7 @@ export const Button: React.FC<ButtonProps> = ({
     const classNames = [
         styles.button,
         styles[variant],
-        isTextType ? styles.textType : styles.blockType,
+        isTextType ? styles['text-type'] : styles['block-type'],
         size !== 'default' ? styles[size] : '',
         className || ''
     ].filter(Boolean).join(' ');

@@ -46,7 +46,7 @@ export const Ripple: React.FC = () => {
     };
 
     return (
-        <div ref={containerRef} className={styles.rippleContainer}>
+        <div ref={containerRef} className={styles['ripple-container']}>
             {ripples.map((ripple) => (
                 <span
                     key={ripple.id}
