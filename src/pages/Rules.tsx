@@ -7,13 +7,13 @@ const Rules: React.FC = () => {
     return (
         <Grid columns={1}>
             {/* 1. 헤더 */}
-            <Font variant="display-2" weight="bold" as="h1" style={{ display: 'block' }}>
+            <Font variant="heading-3" weight="bold" as="h1" style={{ display: 'block' }}>
                 Rules & Logs
             </Font>
 
             {/* 2. Error & Check */}
             <Card as="section" className="pa-4">
-                <Font variant="heading-1" weight="bold" as="h2" className="pb-2 mb-3" style={{ borderBottom: '1px solid var(--Divider-Normal)', display: 'block' }}>
+                <Font variant="subtitle" weight="bold" as="h2" className="pb-2 mb-3" style={{ borderBottom: '1px solid var(--Divider-Normal)', display: 'block' }}>
                     Error & Check
                 </Font>
 
@@ -32,21 +32,21 @@ const Rules: React.FC = () => {
                 </div>
 
                 <div className="mb-3">
-                    <Font variant="heading-3" weight="semibold" as="h3" className="mb-2" style={{ display: 'block' }}>무기 대미지</Font>
+                    <Font variant="subtitle" weight="semibold" as="h3" className="mb-2" style={{ display: 'block' }}>무기 대미지</Font>
                     <ul style={{ paddingLeft: '24px', margin: 0 }}>
                         <li><Font variant="body">RL, SR 소장품 차지 대미지 배율 적용시 대미지 수치 틀림</Font></li>
                     </ul>
                 </div>
 
                 <div>
-                    <Font variant="heading-3" weight="semibold" as="h3" className="mb-2" style={{ display: 'block' }}>사거리 보너스</Font>
+                    <Font variant="subtitle" weight="semibold" as="h3" className="mb-2" style={{ display: 'block' }}>사거리 보너스</Font>
                     <Font variant="body" color="muted">-</Font>
                 </div>
             </Card>
 
             {/* 3. Log */}
             <Card as="section" className="pa-4">
-                <Font variant="heading-1" weight="bold" as="h2" className="pb-2 mb-3" style={{ borderBottom: '1px solid var(--Divider-Normal)', display: 'block' }}>
+                <Font variant="subtitle" weight="bold" as="h2" className="pb-2 mb-3" style={{ borderBottom: '1px solid var(--Divider-Normal)', display: 'block' }}>
                     Log
                 </Font>
                 <ul style={{ paddingLeft: '24px', display: 'flex', flexDirection: 'column', gap: '12px', margin: 0 }}>
