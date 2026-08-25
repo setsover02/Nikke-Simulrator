@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { BurstWindow, ScatterPoint } from '../../utils/simUtils';
+import { Font } from '../../components/Font';
 
 function formatTime(timeVal: number): string {
     const remaining = Math.max(0, 180 - timeVal);
@@ -396,10 +397,10 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                     {hoverInfo.points.map((pt, i) => (
                         <div key={i} style={{ marginBottom: '6px' }}>
                             <div style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '2px' }}>
-                                <span style={{ color: pt.color }}>● {pt.label}</span>
-                                <span style={{ color: '#4fc3f7', fontVariantNumeric: 'tabular-nums', fontWeight: 'bold' }}>
+                                <Font as="span" variant="caption-2" style={{ color: pt.color }}>● {pt.label}</Font>
+                                <Font as="span" variant="caption-2" weight="bold" style={{ color: '#4fc3f7', fontVariantNumeric: 'tabular-nums' }}>
                                     {Math.floor(pt.value).toLocaleString()}
-                                </span>
+                                </Font>
                             </div>
                             <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
                                 ⚡ {pt.description}

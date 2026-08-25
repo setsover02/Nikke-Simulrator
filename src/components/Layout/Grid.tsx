@@ -1,3 +1,6 @@
+// Grid 컴포넌트에는 최대한 padding, margin 헬퍼 클래스를 추가하지 않는다
+
+
 import React, { HTMLAttributes } from 'react';
 import styles from './Layout.module.scss';
 
@@ -25,6 +28,39 @@ export interface GridProps extends HTMLAttributes<HTMLElement> {
     justifyContent?: GridJustify;
 }
 
+const BP_ORDER: Breakpoint[] = ['lg', 'md', 'sm', 'xs'];
+const BP_MIN_WIDTHS: Record<Breakpoint, number> = {
+    xs: 0,
+    sm: 600,
+    md: 960,
+    lg: 1280,
+};
+
+function useCurrentBreakpoint(): Breakpoint {
+    const [bp, setBp] = React.useState<Breakpoint>(() => {
+        if (typeof window === 'undefined') return 'lg';
+        const w = window.innerWidth;
+        if (w >= 1280) return 'lg';
+        if (w >= 960) return 'md';
+        if (w >= 600) return 'sm';
+        return 'xs';
+    });
+
+    React.useEffect(() => {
+        const handleResize = () => {
+            const w = window.innerWidth;
+            if (w >= 1280) setBp('lg');
+            else if (w >= 960) setBp('md');
+            else if (w >= 600) setBp('sm');
+            else setBp('xs');
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    return bp;
+}
+
 /**
  * columns / templateColumns 값을 클래스 또는 인라인 스타일로 파싱합니다.
  */
@@ -44,10 +80,6 @@ function parseColumns(columns?: ResponsiveColumns, templateColumns?: string): { 
             if (val === undefined) continue;
             if (typeof val === 'number' && val >= 1 && val <= 12 && Number.isInteger(val)) {
                 classNames.push(styles[`cols-${bp}-${val}`] || styles[`cols-${val}`]);
-            } else if (typeof val === 'string') {
-                if (bp === 'xs') {
-                    style.gridTemplateColumns = val;
-                }
             }
         }
         return { classNames, style };
@@ -57,7 +89,7 @@ function parseColumns(columns?: ResponsiveColumns, templateColumns?: string): { 
         return { classNames: [styles[`cols-${columns}`]], style: {} };
     }
 
-    // 문자열 커스텀 템플릿 (예: '1fr 1fr', '220px 1fr', '200px 1fr 240px')
+    // 문자열 커스텀 템플릿 (예: '1fr 1fr', '320px 1fr', '200px 1fr 240px')
     return { classNames: [], style: { gridTemplateColumns: String(columns) } };
 }
 
@@ -80,10 +112,6 @@ function parseRows(rows?: ResponsiveRows, templateRows?: string): { classNames: 
             if (val === undefined) continue;
             if (typeof val === 'number' && val >= 1 && val <= 12 && Number.isInteger(val)) {
                 classNames.push(styles[`rows-${bp}-${val}`] || styles[`rows-${val}`]);
-            } else if (typeof val === 'string') {
-                if (bp === 'xs') {
-                    style.gridTemplateRows = val;
-                }
             }
         }
         return { classNames, style };
@@ -113,7 +141,22 @@ export const Grid: React.FC<GridProps> = ({
     children,
     ...props
 }) => {
-    const columnsInfo = parseColumns(columns, templateColumns);
+    const currentBp = useCurrentBreakpoint();
+
+    // Resolve string values in responsive columns object
+    let resolvedColumns = columns;
+    if (typeof columns === 'object' && columns !== null && !Array.isArray(columns)) {
+        const currentBpIdx = BP_ORDER.indexOf(currentBp);
+        for (let i = currentBpIdx; i < BP_ORDER.length; i++) {
+            const val = columns[BP_ORDER[i]];
+            if (val !== undefined) {
+                resolvedColumns = typeof val === 'string' ? val : columns;
+                break;
+            }
+        }
+    }
+
+    const columnsInfo = parseColumns(resolvedColumns, templateColumns);
     const rowsInfo = parseRows(rows, templateRows);
 
     const classList = [

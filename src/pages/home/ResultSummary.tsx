@@ -1,5 +1,6 @@
 import React from 'react';
 import { ScenarioSummary } from '../../types/simulator';
+import { Font } from '../../components/Font';
 
 interface Props {
     summary: ScenarioSummary;
@@ -9,16 +10,16 @@ interface Props {
 
 const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
     return (
-        <div className="result-summary-container">
+        <div className="result-summary-container pa-4">
             {summary.chars.map((r, idx) => (
                 <div key={r.charId + idx} className="result-card">
                     <div className="result-card-header">
-                        <span className="result-char-name">
+                        <Font as="span" variant="caption-1" weight="semibold" className="result-char-name">
                             {r.charName}
-                        </span>
-                        <span className="result-total-label">
+                        </Font>
+                        <Font as="span" variant="caption-1" color="muted" className="result-total-label">
                             Total DMG: <strong className="result-total-value">{Math.floor(r.totalDmg).toLocaleString()}</strong>
-                        </span>
+                        </Font>
                     </div>
 
                     {r.hitDamages && (
@@ -33,9 +34,9 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
                                 { label: 'FB 코어', value: r.hitDamages.fbCore, color: '#fb923c' },
                                 { label: 'FB 코어+크리', value: r.hitDamages.fbCoreCrit, color: '#f472b6' },
                             ].map(({ label, value, color }) => (
-                                <span key={label} className="hit-tag" style={{ border: `1px solid ${color}50`, color }}>
+                                <Font as="span" key={label} variant="footnote" className="hit-tag" style={{ border: `1px solid ${color}50`, color }}>
                                     {label}: {value.toLocaleString()}
-                                </span>
+                                </Font>
                             ))}
                         </div>
                     )}
@@ -43,10 +44,10 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
             ))}
             {showTeamTotal && (
                 <div className="team-total-card">
-                    <span className="team-total-title">★ Team Total</span>
-                    <span className="result-total-label" style={{ marginLeft: '12px' }}>
+                    <Font as="span" variant="caption-1" weight="bold" className="team-total-title">★ Team Total</Font>
+                    <Font as="span" variant="caption-1" color="muted" className="result-total-label" style={{ marginLeft: '12px' }}>
                         Total DMG: <strong className="team-total-value">{Math.floor(summary.teamTotal).toLocaleString()}</strong>
-                    </span>
+                    </Font>
                 </div>
             )}
         </div>

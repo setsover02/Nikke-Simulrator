@@ -180,3 +180,44 @@ export function saveTeamLayout(teamIds: (string | null)[]) {
         console.error('Failed to save team layout', e);
     }
 }
+
+// -------------------------
+// Target Settings (SimToolbar)
+// -------------------------
+const TARGET_SETTINGS_KEY = 'nikke_sim_target';
+
+export interface SavedTargetSettings {
+    fullBurstInterval: string;
+    showCore: boolean;
+    rangeMode: number;
+    weaknessElement: string;
+    enemyDef: string;
+}
+
+const DEFAULT_TARGET_SETTINGS: SavedTargetSettings = {
+    fullBurstInterval: '3',
+    showCore: true,
+    rangeMode: 35,
+    weaknessElement: '풍압',
+    enemyDef: '100',
+};
+
+export function loadTargetSettings(): SavedTargetSettings {
+    try {
+        const stored = localStorage.getItem(TARGET_SETTINGS_KEY);
+        if (stored) {
+            return { ...DEFAULT_TARGET_SETTINGS, ...JSON.parse(stored) };
+        }
+    } catch (e) {
+        console.error('Failed to load target settings from localStorage', e);
+    }
+    return { ...DEFAULT_TARGET_SETTINGS };
+}
+
+export function saveTargetSettings(settings: SavedTargetSettings) {
+    try {
+        localStorage.setItem(TARGET_SETTINGS_KEY, JSON.stringify(settings));
+    } catch (e) {
+        console.error('Failed to save target settings to localStorage', e);
+    }
+}

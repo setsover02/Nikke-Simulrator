@@ -1,3 +1,7 @@
+// 카드 자체 패딩은 0으로 한다.
+// 카드 내부의 컨텐츠, div 에 padding 옵션을 사용하여 패딩을 조절한다.
+
+
 import React, { HTMLAttributes } from 'react';
 import styles from './Card.module.scss';
 

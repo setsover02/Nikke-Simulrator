@@ -7,6 +7,7 @@ import iconZeus from '../assets/icon/code-zeus.svg';
 import iconBurst1 from '../assets/icon/burst-1.svg';
 import iconBurst2 from '../assets/icon/burst-2.svg';
 import iconBurst3 from '../assets/icon/burst-3.svg';
+import iconBurstA from '../assets/icon/burst-A.svg';
 
 import iconClassAtk from '../assets/icon/class-atk.svg';
 import iconClassDef from '../assets/icon/class-def.svg';
@@ -37,6 +38,10 @@ export const BURST_ICONS: Record<string | number, string> = {
     1: iconBurst1,
     2: iconBurst2,
     3: iconBurst3,
+    0: iconBurstA,
+    'A': iconBurstA,
+    'All': iconBurstA,
+    'all': iconBurstA,
 };
 
 export const CLASS_ICONS: Record<string, string> = {

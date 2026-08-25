@@ -11,6 +11,7 @@ import { Switch } from '../components/Switch/Switch';
 import { Card } from '../components/Card/Card';
 import { Container } from '../components/Layout/Container';
 import { Grid } from '../components/Layout/Grid';
+import { Modal } from '../components/Modal';
 import { avatarMap } from '../constants/characters';
 
 const sizes: ('large' | 'default' | 'small' | 'xsmall')[] = ['large', 'default', 'small', 'xsmall'];
@@ -62,12 +63,18 @@ const SECTIONS = [
     { id: 'button-icon-toggle', name: 'Button Toggle (Icon)' },
     { id: 'container', name: 'Container' },
     { id: 'grid', name: 'Grid' },
+    { id: 'modal', name: 'Modal' },
     { id: 'ripple', name: 'Ripple' },
     { id: 'switch', name: 'Switch' },
     { id: 'textfield', name: 'Textfield' },
 ];
 
 const Playground: React.FC = () => {
+    const [isBasicModalOpen, setIsBasicModalOpen] = useState(false);
+    const [isAvatarModalOpen, setIsAvatarModalOpen] = useState(false);
+    const [selectedAvatarName, setSelectedAvatarName] = useState<string>('');
+    const [selectedAvatarUrl, setSelectedAvatarUrl] = useState<string>('');
+
     return (
         <Grid columns="220px 1fr" alignItems="start">
                 {/* 좌측: 컴포넌트 리스트 사이드 Sticky 메뉴 Grid */}
@@ -482,7 +489,91 @@ const Playground: React.FC = () => {
                         </div>
                     </Card>
 
-                    {/* 9. Ripple */}
+                    {/* 9. Modal */}
+                    <Card as="section" id="modal" className="pa-3">
+                        <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Modal (Responsive Pop-up & Bottom Sheet)</Font>
+                        <Font variant="caption-1" color="muted" className="mb-3" style={{ display: 'block' }}>
+                            데스크톱 및 태블릿 화면에서는 중앙 정렬 팝업 모달로, 모바일 화면(&lt;600px)에서는 하단 팝업(Bottom Sheet)으로 자동 전환되는 반응형 모달 컴포넌트입니다.
+                        </Font>
+
+                        <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap', borderTop: '1px solid var(--Divider-Normal)', paddingTop: '16px' }}>
+                            <DemoBox label="Basic Trigger">
+                                <Button onClick={() => setIsBasicModalOpen(true)}>
+                                    모달 열기 (기본)
+                                </Button>
+                            </DemoBox>
+
+                            <DemoBox label="Avatar Trigger (Select Nikke)">
+                                <div style={{ display: 'flex', gap: '8px' }}>
+                                    {Object.entries(avatarMap).slice(0, 4).map(([id, url]) => (
+                                        <div
+                                            key={id}
+                                            onClick={() => {
+                                                setSelectedAvatarName(id);
+                                                setSelectedAvatarUrl(url);
+                                                setIsAvatarModalOpen(true);
+                                            }}
+                                            style={{ cursor: 'pointer', transition: 'transform 0.15s ease' }}
+                                            onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.08)'}
+                                            onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+                                        >
+                                            <Avatar src={url} alt={id} size="large" />
+                                        </div>
+                                    ))}
+                                </div>
+                            </DemoBox>
+                        </div>
+
+                        {/* Basic Modal */}
+                        <Modal
+                            isOpen={isBasicModalOpen}
+                            onClose={() => setIsBasicModalOpen(false)}
+                            title="기본 모달 제목"
+                            footer={
+                                <>
+                                    <Button variant="assistive" size="small" onClick={() => setIsBasicModalOpen(false)}>
+                                        취소
+                                    </Button>
+                                    <Button size="small" onClick={() => setIsBasicModalOpen(false)}>
+                                        확인
+                                    </Button>
+                                </>
+                            }
+                        >
+                            <Font variant="body" className="mb-2" style={{ display: 'block' }}>
+                                모달 본문 내용입니다. Card 컴포넌트를 기반으로 구성되어 있으며, 오버레이 배경색은 var(--Background-Overlay) 토큰이 적용됩니다.
+                            </Font>
+                            <Font variant="caption-1" color="muted">
+                                모바일 화면에서는 하단 슬라이드 업 Bottom Sheet로 변환됩니다. 브라우저 창 크기를 줄여 테스트해보세요!
+                            </Font>
+                        </Modal>
+
+                        {/* Avatar Modal */}
+                        <Modal
+                            isOpen={isAvatarModalOpen}
+                            onClose={() => setIsAvatarModalOpen(false)}
+                            title={`${selectedAvatarName} 캐릭터 정보`}
+                            footer={
+                                <Button size="small" onClick={() => setIsAvatarModalOpen(false)}>
+                                    닫기
+                                </Button>
+                            }
+                        >
+                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '16px', textAlign: 'center' }}>
+                                {selectedAvatarUrl && (
+                                    <Avatar src={selectedAvatarUrl} alt={selectedAvatarName} size="large" style={{ width: '96px', height: '96px' }} />
+                                )}
+                                <Font variant="subtitle" weight="bold">
+                                    {selectedAvatarName}
+                                </Font>
+                                <Font variant="caption-1" color="muted">
+                                    아바타를 클릭하여 선택한 캐릭터의 상세 정보를 모달 팝업으로 확인할 수 있습니다.
+                                </Font>
+                            </div>
+                        </Modal>
+                    </Card>
+
+                    {/* 10. Ripple */}
                     <Card as="section" id="ripple" className="pa-3">
                         <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Ripple Effect on any Element</Font>
                         <div style={{ display: 'flex', gap: '24px', flexWrap: 'wrap' }}>

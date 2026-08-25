@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { Button } from '../../components/Button/Button';
 import { Switch } from '../../components/Switch/Switch';
 import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
+import { Font } from '../../components/Font';
 import { RangeMode } from '../../constants/weaponStats';
 
 const ELEMENT_OPTIONS = [
@@ -86,12 +87,14 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <h3 className="toolbar-title">타겟 설정</h3>
+        <div className="pa-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            <Font as="h3" variant="subtitle" weight="bold" className="toolbar-title">
+                타겟 설정
+            </Font>
 
             {/* 약점 속성 선택 */}
             <div className="flex-col-gap-8">
-                <span className="color-aaa-12">약점 속성</span>
+                <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
                 <div style={{ display: 'flex', gap: '8px', justifyContent: 'space-between' }}>
                     {ELEMENT_OPTIONS.map(opt => (
                         <ButtonIconToggle
@@ -108,26 +111,26 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
 
             {/* 코어 여부 */}
             <div className="flex-between-center" style={{ marginBottom: '16px' }}>
-                <span className="color-aaa-12">코어 여부</span>
+                <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
                 <Switch checked={showCore} onChange={onToggleCore} />
             </div>
 
             {/* 교전 거리 */}
             <div className="flex-col-gap-8">
                 <div className="flex-between-center">
-                    <span className="color-aaa-12">교전 거리</span>
+                    <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
                     <div className="weapon-badge-container">
                         {RANGE_OPTIONS.find(opt => opt.value === rangeMode)?.weapons.split(' · ').map(w => (
-                            <span key={w} className="weapon-badge">{w}</span>
+                            <Font as="span" key={w} variant="footnote" className="weapon-badge">{w}</Font>
                         ))}
                     </div>
                 </div>
 
                 <div className="flex-col-gap-8" style={{ marginTop: '10px' }}>
                     <div className="range-labels">
-                        <span>Near</span>
-                        <span>Mid</span>
-                        <span>Far</span>
+                        <Font as="span" variant="footnote" color="muted">Near</Font>
+                        <Font as="span" variant="footnote" color="muted">Mid</Font>
+                        <Font as="span" variant="footnote" color="muted">Far</Font>
                     </div>
                     <div
                         className="range-slider-bg"
@@ -156,9 +159,15 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                     </div>
                     <div className="range-values">
                         {RANGE_OPTIONS.map(opt => (
-                            <span key={opt.value} onClick={() => onRangeModeChange(opt.value)} className={`range-value ${rangeMode === opt.value ? 'active' : 'inactive'}`}>
+                            <Font
+                                as="span"
+                                key={opt.value}
+                                variant="caption-2"
+                                onClick={() => onRangeModeChange(opt.value)}
+                                className={`range-value ${rangeMode === opt.value ? 'active' : 'inactive'}`}
+                            >
                                 {opt.label}
-                            </span>
+                            </Font>
                         ))}
                     </div>
                 </div>
@@ -167,32 +176,32 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
             {/* 버스트 충전 시간 */}
             <div className="toolbar-section">
                 <div className="flex-between-center">
-                    <span className="color-aaa-12">버스트 충전 시간</span>
+                    <Font as="span" variant="caption-1" color="muted">버스트 충전 시간</Font>
                     <div>
                         <input
                             type="number" value={fullBurstInterval} onChange={e => onFullBurstIntervalChange(e.target.value)}
                             className="toolbar-input"
                             step="0.01" min="2.52"
                         />
-                        <span className="toolbar-unit"> 초</span>
+                        <Font as="span" variant="caption-1" className="toolbar-unit"> 초</Font>
                     </div>
                 </div>
-                <span className="toolbar-hint">버스트 충전 시간</span>
+                <Font as="span" variant="footnote" color="inactive" className="toolbar-hint">버스트 충전 시간</Font>
             </div>
 
             {/* 적 방어력 */}
             <div className="toolbar-section padded-bot">
                 <div className="flex-between-center">
-                    <span className="color-aaa-12">적 방어력</span>
+                    <Font as="span" variant="caption-1" color="muted">적 방어력</Font>
                     <input
                         type="number" value={enemyDef} onChange={e => onEnemyDefChange(e.target.value)}
                         className="toolbar-input"
                     />
                 </div>
-                <span className="toolbar-hint">유니온 사격장 기준 100</span>
+                <Font as="span" variant="footnote" color="inactive" className="toolbar-hint">유니온 사격장 기준 100</Font>
             </div>
 
-            {/* Simulate 부튼 */}
+            {/* Simulate 버튼 */}
             <Button onClick={onSimulate} variant="primary" size="large">
                 시뮬레이션
             </Button>

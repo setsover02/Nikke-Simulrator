@@ -20,3 +20,21 @@
     width: auto;
     display: block;
 }
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+    user-select: none;
+}
+
+.theme-icon {
+    font-size: 18px;
+    color: var(--Font-Inactive);
+    transition: color 0.2s ease;
+
+    &.active {
+        color: var(--Primary-100);
+    }
+}

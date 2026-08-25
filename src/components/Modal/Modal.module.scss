@@ -1,0 +1,227 @@
+@use '../../assets/style/layout/layout' as layout;
+@use '../../assets/style/abstracts/variables' as var;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background-color: var(--Background-Overlay);
+  backdrop-filter: blur(4px);
+  display: flex;
+  box-sizing: border-box;
+  animation: fadeIn 0.25s var.$cubic-bezier forwards;
+  transition: opacity 0.25s var.$cubic-bezier;
+
+  &.closing {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* Desktop & Tablet: Center Aligned */
+  @media (min-width: 601px) {
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  /* Mobile: Bottom Sheet */
+  @media (max-width: 600px) {
+    align-items: flex-end;
+    justify-content: center;
+    padding: 0;
+  }
+}
+
+.modal-card {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--Background-Card);
+  color: var(--Font-Default);
+  border: 1px solid var(--Interact-Stroke-Default);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+  will-change: transform;
+
+  /* Desktop & Tablet: Center modal style */
+  @media (min-width: 601px) {
+    width: 100%;
+    max-width: 520px;
+    max-height: calc(100vh - 80px);
+    border-radius: 16px;
+    animation: scaleUp 0.25s var.$cubic-bezier forwards;
+
+    &.closing {
+      animation: scaleDown 0.2s var.$cubic-bezier forwards;
+    }
+  }
+
+  /* Mobile: Bottom sheet style */
+  @media (max-width: 600px) {
+    width: 100%;
+    max-height: calc(100vh - 48px);
+    border-radius: 20px 20px 0 0;
+    border-bottom: none;
+    animation: slideUp 0.25s var.$cubic-bezier forwards;
+
+    &.closing {
+      animation: slideDown 0.25s var.$cubic-bezier forwards;
+    }
+  }
+}
+
+/* Handle indicator bar for Mobile Bottom Sheet */
+.sheet-handle-container {
+  display: none;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 4px;
+  justify-content: center;
+  align-items: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  flex-shrink: 0;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  @media (max-width: 600px) {
+    display: flex;
+  }
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 4px;
+  border-radius: 2px;
+  background-color: var(--Font-Inactive);
+  opacity: 0.5;
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--Divider-Normal);
+  touch-action: none;
+  flex-shrink: 0;
+
+  @media (max-width: 600px) {
+    cursor: grab;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+}
+
+.modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--Font-Default);
+  line-height: 1.3;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: var(--Font-Muted);
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease, background-color 0.15s ease;
+
+  &:hover {
+    color: var(--Font-Default);
+    background-color: var(--Interact-Hover);
+  }
+}
+
+.modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: var(--Interact-Stroke-Hover);
+    border-radius: 4px;
+
+    &:hover {
+      background: var(--Font-Inactive);
+    }
+  }
+}
+
+.modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--Divider-Normal);
+  flex-shrink: 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleUp {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes scaleDown {
+  from {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(100%);
+  }
+}

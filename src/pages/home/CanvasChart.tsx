@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { BurstWindow } from '../../utils/simUtils';
+import { Font } from '../../components/Font';
 
 function formatTime(timeVal: number): string {
     const remaining = Math.max(0, 180 - timeVal);
@@ -391,15 +392,15 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                     </div>
                     {hoverInfo.values.map((v, i) => (
                         <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '3px' }}>
-                            <span style={{ color: v.color }}>● {v.label}</span>
-                            <span style={{ color: '#ddd', fontVariantNumeric: 'tabular-nums' }}>{Math.floor(v.value).toLocaleString()}</span>
+                            <Font as="span" variant="caption-2" style={{ color: v.color }}>● {v.label}</Font>
+                            <Font as="span" variant="caption-2" style={{ color: '#ddd', fontVariantNumeric: 'tabular-nums' }}>{Math.floor(v.value).toLocaleString()}</Font>
                         </div>
                     ))}
                     <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-                        <span style={{ color: '#888' }}>Total</span>
-                        <span style={{ color: '#fff', fontVariantNumeric: 'tabular-nums' }}>
+                        <Font as="span" variant="caption-2" color="muted">Total</Font>
+                        <Font as="span" variant="caption-2" weight="bold" style={{ color: '#fff', fontVariantNumeric: 'tabular-nums' }}>
                             {Math.floor(hoverInfo.values[hoverInfo.values.length - 1]?.stackedTop ?? 0).toLocaleString()}
-                        </span>
+                        </Font>
                     </div>
                     {(() => {
                         const bw = burstWindows.find(w => hoverInfo.time >= w.start && hoverInfo.time <= w.end);

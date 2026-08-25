@@ -1,0 +1,150 @@
+@use '../../assets/style/layout/layout' as layout;
+
+.filter-divider {
+  width: 1px;
+  height: 24px;
+  background-color: var(--Divider-Normal);
+  margin: 0 2px;
+  justify-self: center;
+  align-self: center;
+}
+
+.avatar-grid-wrapper {
+  height: 100%;
+  min-height: 0;
+  max-height: 420px;
+  overflow-y: auto;
+  padding: layout.$base-spacing * 2;
+  box-sizing: border-box;
+
+  /* Custom scrollbar */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--Interact-Stroke-Hover);
+    border-radius: 4px;
+  }
+}
+
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+}
+
+.avatar-card {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  min-height: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-color: var(--Interact-Default);
+  transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--Interact-Stroke-Active);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  &.selected {
+    border-color: var(--Primary-100);
+    box-shadow: 0 0 0 2px var(--Primary-24);
+  }
+
+  &.in-squad {
+    opacity: 0.55;
+    filter: grayscale(0.2);
+
+    &:hover {
+      opacity: 0.9;
+      filter: grayscale(0);
+    }
+  }
+}
+
+.avatar-image {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 10px !important;
+  border: none !important;
+}
+
+/* Overlay Badges */
+.badge-container {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.badge-item {
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: var(--Background-Overlay);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.empty-results {
+  text-align: center;
+  padding: 32px 16px;
+  color: var(--Font-Inactive);
+  font-size: 14px;
+}
+
+.rarity-section {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.rarity-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  margin-bottom: 8px;
+  padding-left: 2px;
+}
+
+.rarity-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--Font-isMuted);
+  letter-spacing: 0.5px;
+}
+
+.rarity-count {
+  font-size: 11px;
+  color: var(--Font-Inactive);
+}

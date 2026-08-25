@@ -1,0 +1,167 @@
+.squad-title-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--Divider-Normal);
+}
+
+.squad-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 120px;
+}
+
+.squad-card {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  aspect-ratio: 1 / 1;
+  border-radius: 16px;
+  background-color: var(--Background-Card);
+  border: 2px dashed var(--Interact-Stroke-Default);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  &.filled {
+    border-style: solid;
+    border-color: var(--Interact-Stroke-Default);
+
+    &:hover {
+      border-color: var(--Primary-100);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+  }
+
+  &.empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      border-color: var(--Primary-100);
+      background-color: var(--Interact-Hover);
+    }
+  }
+
+  &.drag-over {
+    border-color: var(--Primary-100);
+    background-color: var(--Primary-12);
+    transform: scale(1.04);
+    box-shadow: 0 0 0 4px var(--Primary-24);
+  }
+}
+
+.avatar-image {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 14px !important;
+  border: none !important;
+}
+
+.slot-badge {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  width: 22px;
+  height: 22px;
+  border-radius: 6px;
+  color: var(--Static-Black, #000000);
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+}
+
+.char-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--Font-Default);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 120px;
+  width: 120px;
+}
+
+.empty-icon {
+  font-size: 28px;
+  color: var(--Font-Inactive);
+}
+
+.remove-button {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0;
+  z-index: 3;
+  transition: opacity 0.15s ease, background 0.15s ease;
+
+  .squad-card:hover & {
+    opacity: 1;
+  }
+
+  &:hover {
+    background: var(--Static-Error);
+  }
+}
+
+/* Overlay Badges */
+.badge-group {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  bottom: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.badge-item {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  box-sizing: border-box;
+}
+
+.badge-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.badge-text {
+  font-size: 9px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+}

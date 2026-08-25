@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import CharacterSlot from './home/CharacterSlot';
 import SimToolbar from './home/SimToolbar';
+import { CharacterSelectionPanel } from './home/CharacterSelectionPanel';
+import { SquadAvatarList } from './home/SquadAvatarList';
 import ResultSummary from './home/ResultSummary';
 import GlobalLevelPanel from './home/GlobalLevelPanel';
 import CanvasChart from './home/CanvasChart';
@@ -16,28 +18,50 @@ import {
     loadGlobalCubeLevels,
     saveGlobalCubeLevel,
     getGlobalCubeLevel,
-    getCharDefaultState
+    getCharDefaultState,
+    loadTeamLayout,
+    saveTeamLayout,
+    loadTargetSettings,
+    saveTargetSettings
 } from '../utils/storageUtils';
+import { characterOptions } from '../constants/characters';
 import { RangeMode } from '../constants/weaponStats';
 import { SlotState } from '../types/simulator';
 import { Card } from '../components/Card/Card';
+import { Button } from '../components/Button/Button';
+import { ButtonToggle } from '../components/Button/ButtonToggle';
 import { OutpostCard } from '../components/OutpostCard/OutpostCard';
-import { Container } from '../components/Layout/Container';
 import { Grid } from '../components/Layout/Grid';
+import { Modal } from '../components/Modal';
 
 const Home: React.FC = () => {
     // 5 Character slots: null means empty
     const [slots, setSlots] = useState<(SlotState | null)[]>([null, null, null, null, null]);
 
+    // Active detail editing modal slot index (null = closed)
+    const [activeDetailModalIdx, setActiveDetailModalIdx] = useState<number | null>(null);
+    // Character selection modal slot index (for empty slots)
+    const [charSelectionModalSlotIdx, setCharSelectionModalSlotIdx] = useState<number | null>(null);
+
+    // Responsive desktop screen check
+    const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1280 : true));
+
+    useEffect(() => {
+        const handleResize = () => setIsDesktop(window.innerWidth >= 1280);
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     // Outpost level settings
     const [outpostState, setOutpostState] = useState<SavedOutpostState>(loadOutpostState);
 
-    // Toolbar settings
-    const [fullBurstInterval, setFullBurstInterval] = useState<string>('0');
-    const [showCore, setShowCore] = useState<boolean>(true);
-    const [rangeMode, setRangeMode] = useState<RangeMode>(25);
-    const [weaknessElement, setWeaknessElement] = useState<string>('none');
-    const [enemyDef, setEnemyDef] = useState<string>('4000');
+    // Toolbar settings (loaded from localStorage)
+    const savedTarget = loadTargetSettings();
+    const [fullBurstInterval, setFullBurstInterval] = useState<string>(savedTarget.fullBurstInterval);
+    const [showCore, setShowCore] = useState<boolean>(savedTarget.showCore);
+    const [rangeMode, setRangeMode] = useState<RangeMode>(savedTarget.rangeMode as RangeMode);
+    const [weaknessElement, setWeaknessElement] = useState<string>(savedTarget.weaknessElement);
+    const [enemyDef, setEnemyDef] = useState<string>(savedTarget.enemyDef);
 
     // Simulation Results
     const [simResult, setSimResult] = useState<any | null>(null);
@@ -48,12 +72,65 @@ const Home: React.FC = () => {
     const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
     const [chartTab, setChartTab] = useState<'total' | 'skill'>('total');
 
-    // Load saved settings on mount
+    // Load saved team layout on mount
     useEffect(() => {
-        const savedMap = loadAllCharSettings();
-        // Pre-populate if saved characters exist in slots
-        // Slots initial empty
+        const savedTeamIds = loadTeamLayout();
+        const restoredSlots: (SlotState | null)[] = savedTeamIds.map(id => {
+            if (!id) return null;
+            const charOption = characterOptions.find(c => c.data.characterID === id);
+            if (!charOption) return null;
+            return getCharDefaultState(charOption);
+        });
+        // Ensure exactly 5 slots
+        while (restoredSlots.length < 5) restoredSlots.push(null);
+        setSlots(restoredSlots.slice(0, 5));
     }, []);
+
+    // Helper: persist current target settings to localStorage
+    const persistTargetSettings = (overrides: Partial<{
+        fullBurstInterval: string;
+        showCore: boolean;
+        rangeMode: number;
+        weaknessElement: string;
+        enemyDef: string;
+    }> = {}) => {
+        saveTargetSettings({
+            fullBurstInterval,
+            showCore,
+            rangeMode,
+            weaknessElement,
+            enemyDef,
+            ...overrides
+        });
+    };
+
+    const handleFullBurstIntervalChange = (val: string) => {
+        setFullBurstInterval(val);
+        persistTargetSettings({ fullBurstInterval: val });
+    };
+
+    const handleToggleCore = () => {
+        setShowCore(v => {
+            const next = !v;
+            persistTargetSettings({ showCore: next });
+            return next;
+        });
+    };
+
+    const handleRangeModeChange = (val: RangeMode) => {
+        setRangeMode(val);
+        persistTargetSettings({ rangeMode: val });
+    };
+
+    const handleWeaknessChange = (val: string) => {
+        setWeaknessElement(val);
+        persistTargetSettings({ weaknessElement: val });
+    };
+
+    const handleEnemyDefChange = (val: string) => {
+        setEnemyDef(val);
+        persistTargetSettings({ enemyDef: val });
+    };
 
     // Save outpost changes
     const handleOutpostChange = (patch: Partial<SavedOutpostState>) => {
@@ -71,7 +148,6 @@ const Home: React.FC = () => {
         if (actualPatch && slots[idx]) {
             // Did the user select a different cube?
             if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== slots[idx]!.cubeName) {
-                // Drop the old level passed by CharacterSlot, load dynamically from global
                 actualPatch.cubeLevel = actualPatch.cubeName === 'None' ? '0' : (getGlobalCubeLevel(actualPatch.cubeName) || '1');
             }
             // Did the user manually change the level of the CURRENT cube?
@@ -85,7 +161,7 @@ const Home: React.FC = () => {
             }
         }
 
-        setSlots(slots.map((s, i) => {
+        const nextSlots = slots.map((s, i) => {
             if (i === idx) {
                 if (actualPatch === null) return null;
                 if (s === null) {
@@ -113,40 +189,32 @@ const Home: React.FC = () => {
             }
 
             return s;
-        }));
+        });
+        setSlots(nextSlots);
+        saveTeamLayout(nextSlots.map(s => s?.char?.data?.characterID ?? null));
     };
 
-    // Auto-run simulation whenever slots or settings change
-    useEffect(() => {
-        const activeChars = slots.filter((s): s is SlotState => s !== null && s.char !== null);
-        if (activeChars.length === 0) {
-            setSimResult(null);
-            setChartDatasets([]);
-            setSkillChartDatasets([]);
-            setBurstWindows([]);
-            setSkillInfoMap({});
-            setCharIdToName({});
+    // Handler when user clicks an avatar in the right CharacterSelectionPanel
+    const handleSelectCharacterFromPanel = (charOption: typeof characterOptions[0]) => {
+        const charID = charOption.data.characterID;
+        // Check if character is already in squad
+        const existingIdx = slots.findIndex(s => s?.char?.data?.characterID === charID);
+
+        if (existingIdx !== -1) {
+            // If already in squad, toggle off (remove)
+            updateSlot(existingIdx, null);
             return;
         }
 
-        const output = runSimulation({
-            slots,
-            enemyDef,
-            fullBurstInterval,
-            rangeMode,
-            weaknessElement,
-            outpostState,
-            showCore,
-        });
-        if (!output) return;
-
-        setSimResult(output.summary);
-        setChartDatasets(output.chartDatasets);
-        setSkillChartDatasets(output.skillChartDatasets);
-        setBurstWindows(output.burstWindows);
-        setSkillInfoMap(output.skillInfoMap);
-        setCharIdToName(output.charIdToName);
-    }, [slots, outpostState, fullBurstInterval, showCore, rangeMode, weaknessElement, enemyDef]);
+        // Find first empty slot
+        const emptyIdx = slots.findIndex(s => s === null);
+        if (emptyIdx !== -1) {
+            updateSlot(emptyIdx, { char: charOption });
+        } else {
+            // If all 5 slots are full, replace slot 0 (or first slot)
+            updateSlot(0, { char: charOption });
+        }
+    };
 
     // Manual Re-calculate Trigger
     const handleSimulate = () => {
@@ -172,9 +240,8 @@ const Home: React.FC = () => {
         setCharIdToName(output.charIdToName);
     };
 
-    // Pad slots array to always be length 5 for UI consistency
-    const displaySlots = [...slots];
-    while (displaySlots.length < 5) displaySlots.push(null as any);
+    // List of character IDs currently in the squad
+    const currentSquadCharIds = slots.map(s => s?.char?.data?.characterID).filter((id): id is string => Boolean(id));
 
     return (
         <Grid columns={1}>
@@ -186,44 +253,55 @@ const Home: React.FC = () => {
                 />
             </OutpostCard>
 
-            {/* 2. 스쿼드(최대 넓이 1fr) + 타겟 설정(320px 고정) (2열 중첩 Grid) */}
-            <Grid columns="1fr 320px">
-                {/* Left Column: 스쿼드 (Squad - 최대 넓이) */}
-                <Card className="pa-4">
-                    <div className="home-squad-list">
-                        {displaySlots.map((slot, idx) => (
-                            <CharacterSlot
-                                key={idx}
-                                slot={slot}
-                                index={idx}
-                                onUpdate={(patch) => updateSlot(idx, patch)}
-                                outpostState={outpostState}
-                            />
-                        ))}
-                    </div>
-                </Card>
+            {/* 2. 스쿼드 + 캐릭터 선택 패널 (데스크톱: 320px 1fr, 그 외: 1fr) */}
+            <Grid columns={{ xs: '1fr', lg: '320px 1fr' }}>
+                {/* 데스크톱 전용 캐릭터 선택 패널 */}
+                {isDesktop && (
+                    <Card>
+                        <CharacterSelectionPanel
+                            onSelectCharacter={handleSelectCharacterFromPanel}
+                            currentSquadCharIds={currentSquadCharIds}
+                        />
+                    </Card>
+                )}
 
-                {/* Right Column: 타겟 설정 (Target Settings - 320px 고정) */}
-                <Card className="pa-4">
-                    <SimToolbar
-                        fullBurstInterval={fullBurstInterval}
-                        onFullBurstIntervalChange={setFullBurstInterval}
-                        showCore={showCore}
-                        onToggleCore={() => setShowCore(v => !v)}
-                        rangeMode={rangeMode}
-                        onRangeModeChange={setRangeMode}
-                        weaknessElement={weaknessElement}
-                        onWeaknessChange={setWeaknessElement}
-                        enemyDef={enemyDef}
-                        onEnemyDefChange={setEnemyDef}
-                        onSimulate={handleSimulate}
+                {/* 스쿼드 아바타 목록 */}
+                <Card>
+                    <SquadAvatarList
+                        slots={slots}
+                        onUpdateSlot={updateSlot}
+                        onOpenDetailModal={(idx) => {
+                            const isFilled = Boolean(slots[idx]?.char);
+                            if (isFilled) {
+                                setActiveDetailModalIdx(idx);
+                            } else {
+                                setCharSelectionModalSlotIdx(idx);
+                            }
+                        }}
                     />
                 </Card>
             </Grid>
 
-            {/* 3. 결과 요약 (전체 넓이) */}
+            {/* 3. 타겟 설정 (SimToolbar - 전체 넓이) */}
+            <Card>
+                <SimToolbar
+                    fullBurstInterval={fullBurstInterval}
+                    onFullBurstIntervalChange={handleFullBurstIntervalChange}
+                    showCore={showCore}
+                    onToggleCore={handleToggleCore}
+                    rangeMode={rangeMode}
+                    onRangeModeChange={handleRangeModeChange}
+                    weaknessElement={weaknessElement}
+                    onWeaknessChange={handleWeaknessChange}
+                    enemyDef={enemyDef}
+                    onEnemyDefChange={handleEnemyDefChange}
+                    onSimulate={handleSimulate}
+                />
+            </Card>
+
+            {/* 4. 결과 요약 (전체 넓이) */}
             {simResult && (
-                <Card className="pa-4">
+                <Card>
                     <ResultSummary
                         summary={simResult}
                         showTeamTotal={slots.filter(s => s !== null).length > 1}
@@ -232,54 +310,96 @@ const Home: React.FC = () => {
                 </Card>
             )}
 
-            {/* 4. 하단 1열 전체넓이 통합 차트 */}
-            <Card className="pa-4" style={{ minHeight: '300px' }}>
-                {chartDatasets.length > 0 ? (
-                    <div>
-                        {/* Tab Bar */}
-                        <div className="mb-2" style={{ display: 'flex', gap: '0' }}>
-                            <button
-                                onClick={() => setChartTab('total')}
-                                style={{
-                                    padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'total' ? 'bold' : 'normal',
-                                    background: chartTab === 'total' ? '#333' : '#1e1e1e',
-                                    color: chartTab === 'total' ? '#fff' : '#888',
-                                    border: '1px solid #444', borderBottom: chartTab === 'total' ? '2px solid #4fc3f7' : '1px solid #444',
-                                    borderRadius: '6px 6px 0 0', cursor: 'pointer',
-                                }}
-                            >전체 대미지</button>
-                            <button
-                                onClick={() => setChartTab('skill')}
-                                style={{
-                                    padding: '6px 16px', fontSize: '12px', fontWeight: chartTab === 'skill' ? 'bold' : 'normal',
-                                    background: chartTab === 'skill' ? '#333' : '#1e1e1e',
-                                    color: chartTab === 'skill' ? '#fff' : '#888',
-                                    border: '1px solid #444', borderBottom: chartTab === 'skill' ? '2px solid #ff9800' : '1px solid #444',
-                                    borderRadius: '6px 6px 0 0', cursor: 'pointer',
-                                }}
-                            >스킬 대미지</button>
+            {/* 5. 하단 1열 전체넓이 통합 차트 */}
+            <Card style={{ minHeight: '300px' }}>
+                <div className="pa-4">
+                    {chartDatasets.length > 0 ? (
+                        <div>
+                            {/* Tab Bar */}
+                            <div className="mb-3" style={{ display: 'flex', gap: '8px' }}>
+                                <ButtonToggle
+                                    selected={chartTab === 'total'}
+                                    onClick={() => setChartTab('total')}
+                                    size="small"
+                                >
+                                    전체 대미지
+                                </ButtonToggle>
+                                <ButtonToggle
+                                    selected={chartTab === 'skill'}
+                                    onClick={() => setChartTab('skill')}
+                                    size="small"
+                                >
+                                    스킬 대미지
+                                </ButtonToggle>
+                            </div>
+                            {chartTab === 'total' ? (
+                                <CanvasChart
+                                    datasets={chartDatasets}
+                                    burstWindows={burstWindows}
+                                    title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                    charIdToName={charIdToName}
+                                />
+                            ) : (
+                                <CanvasScatterChart
+                                    datasets={skillChartDatasets}
+                                    burstWindows={burstWindows}
+                                    title="Skill Damage Instances"
+                                    charIdToName={charIdToName}
+                                />
+                            )}
+                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
                         </div>
-                        {chartTab === 'total' ? (
-                            <CanvasChart
-                                datasets={chartDatasets}
-                                burstWindows={burstWindows}
-                                title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
-                                charIdToName={charIdToName}
-                            />
-                        ) : (
-                            <CanvasScatterChart
-                                datasets={skillChartDatasets}
-                                burstWindows={burstWindows}
-                                title="Skill Damage Instances"
-                                charIdToName={charIdToName}
-                            />
-                        )}
-                        {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
-                    </div>
-                ) : (
-                    <h2 className="chart-title-empty">차트</h2>
-                )}
+                    ) : (
+                        <h2 className="chart-title-empty">차트</h2>
+                    )}
+                </div>
             </Card>
+
+            {/* 6. 캐릭터 상세 정보 설정 모달 팝업 (비어있지 않은 슬롯) */}
+            <Modal
+                isOpen={activeDetailModalIdx !== null}
+                onClose={() => setActiveDetailModalIdx(null)}
+                title={
+                    activeDetailModalIdx !== null && slots[activeDetailModalIdx]?.char
+                        ? slots[activeDetailModalIdx]!.char.label
+                        : `슬롯 ${activeDetailModalIdx !== null ? activeDetailModalIdx + 1 : 1} 설정`
+                }
+                maxWidth={560}
+                footer={
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+                        <Button size="small" onClick={() => setActiveDetailModalIdx(null)}>
+                            완료
+                        </Button>
+                    </div>
+                }
+            >
+                {activeDetailModalIdx !== null && (
+                    <CharacterSlot
+                        slot={slots[activeDetailModalIdx]}
+                        index={activeDetailModalIdx}
+                        onUpdate={(patch) => updateSlot(activeDetailModalIdx, patch)}
+                        outpostState={outpostState}
+                    />
+                )}
+            </Modal>
+
+            {/* 7. 캐릭터 선택 모달 팝업 (비어있는 슬롯 선택 시) */}
+            <Modal
+                isOpen={charSelectionModalSlotIdx !== null}
+                onClose={() => setCharSelectionModalSlotIdx(null)}
+                title={`슬롯 ${charSelectionModalSlotIdx !== null ? charSelectionModalSlotIdx + 1 : 1} 캐릭터 배치`}
+                maxWidth={480}
+            >
+                {charSelectionModalSlotIdx !== null && (
+                    <CharacterSelectionPanel
+                        onSelectCharacter={(charOption) => {
+                            updateSlot(charSelectionModalSlotIdx, { char: charOption });
+                            setCharSelectionModalSlotIdx(null);
+                        }}
+                        currentSquadCharIds={currentSquadCharIds}
+                    />
+                )}
+            </Modal>
         </Grid>
     );
 };

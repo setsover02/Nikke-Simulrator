@@ -5,6 +5,8 @@ import { characterOptions, avatarMap, fullbodyMap, SLOT_COLORS } from '../../con
 import { ELEMENT_ICONS, BURST_ICONS, CLASS_ICONS, COMPANY_ICONS, WEAPON_ICONS } from '../../constants/icons';
 import { getCharDefaultState, SavedOutpostState } from '../../utils/storageUtils';
 import { Icon } from '../../components/Icon/Icon';
+import { Font } from '../../components/Font';
+import { Avatar } from '../../components/Avatar/Avatar';
 import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
 
 // Cube Data Source
@@ -132,8 +134,8 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
 
     return (
         <div className="slot-empty-container">
-            <div className="slot-header-identity">
-                <div className="slot-empty-avatar" />
+            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
+                <div className="slot-empty-avatar" style={{ width: '80px', height: '80px', borderRadius: '8px', flexShrink: 0 }} />
                 <div className="slot-empty-text">
                     <div className="slot-select-wrapper">
                         <Select
@@ -164,33 +166,33 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
             </div>
 
             <div className="slot-section">
-                <span className="color-555">소장품</span> <span className="text-right">-</span>
-                <span className="color-555">레벨</span> <span className="text-right">-</span>
-                <span className="color-555">큐브</span> <span className="text-right">-</span>
+                <Font as="span" variant="caption-1" color="muted">소장품</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">레벨</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">큐브</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
             </div>
 
             <div className="slot-section">
-                <span className="color-555">체력</span> <span className="text-right">-</span>
-                <span className="color-555">공격력</span> <span className="text-right">-</span>
-                <span className="color-555">방어력</span> <span className="text-right">-</span>
+                <Font as="span" variant="caption-1" color="muted">체력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
             </div>
 
             <div className="slot-section">
-                <span className="color-555">우코</span> <span className="text-right">-</span>
-                <span className="color-555">공격력</span> <span className="text-right">-</span>
-                <span className="color-555">장탄</span> <span className="text-right">-</span>
-                <span className="color-555">명중률</span> <span className="text-right">-</span>
-                <span className="color-555">차댐</span> <span className="text-right">-</span>
-                <span className="color-555">차속</span> <span className="text-right">-</span>
-                <span className="color-555">크확</span> <span className="text-right">-</span>
-                <span className="color-555">크댐</span> <span className="text-right">-</span>
-                <span className="color-555">방어력</span> <span className="text-right">-</span>
+                <Font as="span" variant="caption-1" color="muted">우코</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">장탄</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">명중률</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">차댐</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">차속</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">크확</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">크댐</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
             </div>
 
             <div className="slot-section">
-                <span className="color-555">스킬1</span> <span className="text-right">-</span>
-                <span className="color-555">스킬2</span> <span className="text-right">-</span>
-                <span className="color-555">버스트</span> <span className="text-right">-</span>
+                <Font as="span" variant="caption-1" color="muted">스킬1</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">스킬2</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+                <Font as="span" variant="caption-1" color="muted">버스트</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
             </div>
         </div>
     );
@@ -335,38 +337,13 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
 
     return (
         <div className="slot-container" style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}>
-            {/* Slot color indicator left border (now on top) */}
-            <div className="slot-border-left" style={{ background: SLOT_COLORS[index % SLOT_COLORS.length], zIndex: 1 }} />
-            {/* Header Identity (Avatar + Select) */}
-            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1 }}>
-                {/* <div className="slot-avatar">
-                    {avatar ? (
-                        <img src={avatar} alt={data.characterName} />
-                    ) : (
-                        <div className="slot-avatar-placeholder">IMG</div>
-                    )}
-                </div> */}
-
+            {/* Header Identity (Avatar + Name) */}
+            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
+                <Avatar charId={data.characterID} alt={slot.char.label} size={80} ratio="1:1" />
                 <div className="slot-identity">
-                    <div className="slot-select-wrapper">
-                        <Select
-                            options={characterOptions}
-                            value={slot.char}
-                            onChange={(sel: any) => {
-                                if (sel) {
-                                    onUpdate(getCharDefaultState(sel));
-                                } else {
-                                    onUpdate(null);
-                                }
-                            }}
-                            isClearable={true}
-                            isSearchable={true}
-                            menuPortalTarget={document.body}
-                            components={{ DropdownIndicator, ClearIndicator, IndicatorSeparator: () => null, Option: CustomOption }}
-                            className="char-select-container"
-                            classNamePrefix="char-select"
-                        />
-                    </div>
+                    <Font as="h3" variant="subtitle" weight="bold">
+                        {slot.char.label || data.characterName}
+                    </Font>
                 </div>
             </div>
 
