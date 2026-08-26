@@ -22,7 +22,8 @@ interface ActiveSlot {
  * 활성 슬롯이 없으면 null을 반환합니다.
  */
 export function runSimulation(input: SimulationInput): SimulationOutput | null {
-    const { slots, enemyDef, fullBurstInterval, rangeMode, weaknessElement, showCore } = input;
+    const { slots, enemyDef, fullBurstInterval, rangeMode, weaknessElement, showCore, coreSize } = input;
+    const effCorePx = showCore ? (coreSize !== undefined ? coreSize : 52) : 0;
 
     const parsedBurstInterval = parseFloat(fullBurstInterval);
     const burstGaugeDelay = Number.isFinite(parsedBurstInterval) && parsedBurstInterval >= 0
@@ -42,6 +43,7 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
         hp: 1_000_000_000,
         defense: Math.max(0, parseInt(enemyDef || '0', 10)),
         element: weaknessElement,
+        corePx: effCorePx,
     };
 
     // 활성 슬롯 필터링 (빈 슬롯 제외, 원본 인덱스 보존)

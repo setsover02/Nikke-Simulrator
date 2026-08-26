@@ -189,6 +189,7 @@ const TARGET_SETTINGS_KEY = 'nikke_sim_target';
 export interface SavedTargetSettings {
     fullBurstInterval: string;
     showCore: boolean;
+    coreSize?: number;
     rangeMode: number;
     weaknessElement: string;
     enemyDef: string;
@@ -197,6 +198,7 @@ export interface SavedTargetSettings {
 const DEFAULT_TARGET_SETTINGS: SavedTargetSettings = {
     fullBurstInterval: '3',
     showCore: true,
+    coreSize: 52,
     rangeMode: 35,
     weaknessElement: '풍압',
     enemyDef: '100',

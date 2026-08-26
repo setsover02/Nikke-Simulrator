@@ -1,6 +1,7 @@
 import { Character } from '../types/battle';
 import { CollectionGrade, getCollectionEffect } from '../constants/collectionItems';
 import { getCubeEffect } from '../constants/cubeData';
+import { CLIP_CHARACTERS } from '../engine/ammoSystem';
 
 export interface EquipmentOptions {
     atkPercent: number;        // 추가 공격력% (0.1 = +10%)
@@ -56,9 +57,58 @@ export const applyBaseStats = (
     // 큐브 + 장비 체력
     const finalHp = Math.floor(s.hp * (1 + cube.hpPercent));
 
+    // 1. 기본 스킬 목록 복제
+    let rawSkills: any[] = (charData.skills || []).map((sk: any) => ({ ...sk }));
+
+    // 2. 애장품(SSR) 장착 시 favoriteItem 단계(1~3)에 따라 스킬 슬롯 교체
+    if (collectionGrade === 'SSR' && charData.favoriteItem?.stages) {
+        const stage = Math.max(1, Math.min(3, collectionLevel || 3));
+        for (let st = 1; st <= stage; st++) {
+            const stageDef = charData.favoriteItem.stages.find((item: any) => item.stage === st);
+            if (stageDef && stageDef.skill) {
+                const targetId = stageDef.replaceSlot === 1 ? 'skill_1' : stageDef.replaceSlot === 2 ? 'skill_2' : 'burst';
+                const targetIdx = rawSkills.findIndex((sk: any) => sk.id === targetId || (targetId === 'burst' && sk.type === 'burst'));
+                if (targetIdx !== -1) {
+                    rawSkills[targetIdx] = {
+                        ...stageDef.skill,
+                        id: targetId,
+                        type: targetId === 'burst' ? 'burst' : (rawSkills[targetIdx].type || 'passive'),
+                    };
+                }
+            }
+        }
+    }
+
+    // 3. 스킬 레벨 적용 및 effect value 추출
+    const processedSkills = rawSkills.map((skillDef: any) => {
+        let level = 10;
+        if (skillLevels) {
+            if (skillDef.id === 'skill_1') level = skillLevels.skill1Level || 10;
+            if (skillDef.id === 'skill_2') level = skillLevels.skill2Level || 10;
+            if (skillDef.id === 'burst' || skillDef.type === 'burst') level = skillLevels.burstLevelSkill || 10;
+        }
+        const resolveEffects = (effects: any[]): any[] | undefined => {
+            if (!effects) return effects;
+            return effects.map(eff => ({
+                ...eff,
+                value: Array.isArray(eff.value) ? eff.value[Math.max(0, Math.min(9, level - 1))] : eff.value,
+                effects: eff.effects ? resolveEffects(eff.effects) : undefined
+            }));
+        };
+        return {
+            ...skillDef,
+            effects: resolveEffects(skillDef.effects)
+        };
+    });
+
+    const charName = charData.characterName || charData.name || '';
+    const isClip = (s.weapon === 'SG' || s.weapon === 'RL') && CLIP_CHARACTERS.has(charName);
+
     return {
         id: `${charData.characterID || 'unknown'}_${slotIndex}`,
         slotIndex,
+        name: charName,
+        isClipWeapon: isClip,
         atk: s.atk,
         defense: Math.floor(finalDefense),
         hp: finalHp,
@@ -76,26 +126,7 @@ export const applyBaseStats = (
         fullChargeDamage: s.fullChargeDamage ? (s.fullChargeDamage / 100) - 1 + eq.chargeDmgPercent + cube.chargeDmgPercent : 0,
         currentCharge: 0,
         fireRate: s.fireRate,
-        skills: (charData.skills || []).map((skillDef: any) => {
-            let level = 10;
-            if (skillLevels) {
-                if (skillDef.id === 'skill_1') level = skillLevels.skill1Level || 10;
-                if (skillDef.id === 'skill_2') level = skillLevels.skill2Level || 10;
-                if (skillDef.id === 'burst') level = skillLevels.burstLevelSkill || 10;
-            }
-            const resolveEffects = (effects: any[]): any[] | undefined => {
-                if (!effects) return effects;
-                return effects.map(eff => ({
-                    ...eff,
-                    value: Array.isArray(eff.value) ? eff.value[Math.max(0, Math.min(9, level - 1))] : eff.value,
-                    effects: eff.effects ? resolveEffects(eff.effects) : undefined
-                }));
-            };
-            return {
-                ...skillDef,
-                effects: resolveEffects(skillDef.effects)
-            };
-        }),
+        skills: processedSkills,
         atkCoef: (s.atkCoef || 0) / 100,
         critMult: s.critMult || 1.5,
         coreDamage: includeCoreDamage ? (s.coreDamage || 0) : 0,

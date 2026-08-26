@@ -104,8 +104,10 @@ export interface Character {
     chargeDmgMultiplier?: number;    // RL, SR 소장품 배율 (%)
     coreHitMultiplier?: number;      // AR 소장품 배율 (%)
 
-    /* SG 펠릿 */
+    /* SG 펠릿 및 특수 메카닉 */
     pelletCount?: number;            // SG 펠릿 수 (기본 10)
+    isClipWeapon?: boolean;          // 클립 재장전 무기 여부 (1/3씩 3회 장전)
+    name?: string;                   // 캐릭터 이름 (한글 또는 고유명)
 
     /* change_weapon 효과 */
     weaponOverride?: {
@@ -133,6 +135,7 @@ export interface Enemy {
     hp: number;
     defense: number;
     element?: string;
+    corePx?: number; // 코어 직경(px). 0이면 코어 없음, >0이면 코어히트율 계산
     debuff?: any;
 }
 
@@ -172,6 +175,7 @@ export interface BattleContext {
     log: LogEntry[];
 
     rng: any; // Random instance
+    buffManager?: any; // BuffManager instance
     state?: Record<string, any>;
     burstSystem?: any;
     burstCooldowns: Record<string, number>; // charId -> cooldown remain

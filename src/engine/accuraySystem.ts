@@ -1,19 +1,17 @@
 /* =================================================
-   NIKKE Accuracy System v2 — Circle-Based Hit Model
+   NIKKE Accuracy System — Power-Law Core Hit Model
    
-   탄착점을 명중률 원(accuracyRadius) 내 랜덤 좌표로 뽑고,
-   적 히트박스/코어 히트박스와 비교하여 명중 여부를 판정합니다.
+   calc-master (accuracy_analysis.py / DATA_VERIFY.md) 기반
+   명중률 → 탄착군 직경(D) → 거듭제곱(n=2.55) 코어히트율 모델
    
-   - accuracyRadius가 작을수록 코어 히트 확률 ↑
-   - 거리(Near/Mid/Far)에 따라 accuracyRadius 변화
-   - MG는 warmupLevel에 따라 accuracyRadius가 동적으로 변화
-   - SG는 펠릿별로 resolveHit()을 독립 호출
-   - SR / RL은 항상 정밀 (hitRadius 내 100% 명중)
+   D(px) = max(1.0, base_diameter - acc_slope * accuracy_pct)
+   R   = D / 2
+   r_c = core_px / 2
+   P_core = min(1.0, (r_c / R) ** 2.55)
 ================================================= */
 
 import { Random } from "./rng";
 import { RangeMode } from "../constants/weaponStats";
-
 
 /* =========================
    무기 타입
@@ -28,206 +26,135 @@ export enum WeaponType {
     RL = "RL"
 }
 
-
 /* =========================
    명중 결과 타입
 ========================= */
 
 export interface HitResult {
-    /** 적 히트박스에 명중했는가 (SG는 빗나감 포함) */
+    /** 적 히트박스에 명중했는가 (SG는 빗나감 판정 포함) */
     hit: boolean;
     /** 코어 히트박스에 명중했는가 */
     isCore: boolean;
+    /** 계산된 코어히트 확률 (0.0 ~ 1.0) */
+    coreProb?: number;
 }
 
-
 /* =========================
-   무기별 AccuracyCircle 설정
-   (리서치 후 조정 필요한 임의 초기값)
-
-   accuracyRadius : 탄착 분산 원의 반지름 [Near, Mid, Far]
-   hitRadius      : 적 히트박스 반지름 (SG만 빗나감 판정에 사용)
-   coreRadius     : 코어 히트박스 반지름
+   탄착군 직경 공식 상수 (calc-master 정본)
+   D = base - slope * accuracy_pct
 ========================= */
 
-export interface AccuracyCircle {
-    /** [Near, Mid, Far] 거리별 기본 분산 반지름 */
-    accuracyRadius: [number, number, number];
-    /** 적 본체 히트박스 반지름 */
-    hitRadius: number;
-    /** 코어 히트박스 반지름 */
-    coreRadius: number;
+export interface AccuracyFormula {
+    base: number;
+    slope: number;
 }
 
-export const WEAPON_ACCURACY_CIRCLES: Record<WeaponType, AccuracyCircle> = {
-    //                       Near    Mid    Far
-    AR: { accuracyRadius: [0.50, 0.80, 1.20], hitRadius: 1.0, coreRadius: 0.20 },
-    SMG: { accuracyRadius: [0.70, 1.10, 1.60], hitRadius: 1.0, coreRadius: 0.15 },
-    SR: { accuracyRadius: [0.10, 0.10, 0.10], hitRadius: 1.0, coreRadius: 0.30 }, // 항상 정밀
-    SG: { accuracyRadius: [0.80, 1.40, 2.20], hitRadius: 1.0, coreRadius: 0.25 }, // 펠릿 분산
-    MG: { accuracyRadius: [0.80, 0.80, 1.00], hitRadius: 1.0, coreRadius: 0.20 }, // warmup으로 동적 변화
-    RL: { accuracyRadius: [0.10, 0.10, 0.10], hitRadius: 1.0, coreRadius: 0.30 }, // 항상 정밀
+export const ACCURACY_PX_FORMULA: Record<WeaponType | string, AccuracyFormula> = {
+    SG:  { base: 240.0, slope: 2.18 },
+    AR:  { base: 76.0,  slope: 0.69 },
+    SMG: { base: 110.0, slope: 1.00 },
+    MG:  { base: 10.0,  slope: 0.00 }, // 기본 정밀 (10px 고정)
+    SR:  { base: 10.0,  slope: 0.00 }, // 항상 정밀 (10px 고정)
+    RL:  { base: 10.0,  slope: 0.00 }, // 항상 정밀 (10px 고정)
 };
 
-/** RangeMode → 배열 인덱스 (임시 매핑: 0~15=Near, 25~35=Mid, 45+=Far) */
-const RANGE_IDX: Record<RangeMode, 0 | 1 | 2> = {
-    0: 0,
-    15: 0,
-    25: 1,
-    35: 1,
-    45: 1,
-    55: 2,
-    100: 2,
-};
+/** 거듭제곱 코어히트 모델 지수 (calc-master 정본 n = 2.55) */
+export const MODEL_N = 2.55;
 
+/** 기본 코어 직경(px) — 블스/중거리 기준 r_c = 26px -> core_px = 52px */
+export const DEFAULT_CORE_PX = 52.0;
+
+/** 적 기본 바디 히트박스 직경(px) — SG 빗나감 판정용 */
+export const DEFAULT_BODY_PX = 240.0;
 
 /* =========================
-   원 내부 랜덤 좌표 샘플링
-   균등 분포를 위해 r = R * sqrt(u) 사용
+   탄착군 직경 계산 D(px)
 ========================= */
 
-function randomInCircle(rng: Random, radius: number): { x: number; y: number } {
-    const r = radius * Math.sqrt(rng.next());
-    const theta = rng.next() * 2 * Math.PI;
-    return { x: r * Math.cos(theta), y: r * Math.sin(theta) };
+export function calcSpreadDiameter(weapon: WeaponType | string, accuracyPct: number): number {
+    const spec = ACCURACY_PX_FORMULA[weapon] || ACCURACY_PX_FORMULA.AR;
+    return Math.max(1.0, spec.base - spec.slope * accuracyPct);
 }
 
+/* =========================
+   코어히트 확률 P_core 계산
+========================= */
+
+export function calcCoreHitProb(
+    weapon: WeaponType | string,
+    accuracyPct: number,
+    hasCore: boolean,
+    corePx: number = DEFAULT_CORE_PX
+): number {
+    if (!hasCore || corePx <= 0) return 0;
+
+    const D = calcSpreadDiameter(weapon, accuracyPct);
+    const R = D / 2.0;
+    const r_c = corePx / 2.0;
+
+    if (r_c >= R) return 1.0;
+    return Math.min(1.0, Math.pow(r_c / R, MODEL_N));
+}
 
 /* =========================
-   명중 판정 — Circle 기반 (v2 메인 함수)
+   명중 판정 파라미터 및 메인 함수
 ========================= */
 
 export interface ResolveHitParams {
-    weapon: WeaponType;
-    rangeMode: RangeMode;
-    /** 명중률 버프 (positive = 원 축소, negative = 원 확대) */
+    weapon: WeaponType | string;
+    rangeMode?: RangeMode;
+    /** 명중률 버프 합산 (백분율, 예: 20 = +20%) */
     accuracyBuff: number;
-    /** MG warmup override: 0~1, 0이면 최대 분산원, 1이면 최소 분산원 */
     warmupLevel?: number;
     rng: Random;
-    /** 코어 히트 판정 포함 여부 (coreDamage > 0인 경우 true) */
+    /** 코어 히트 판정 활성 여부 */
     hasCore: boolean;
+    /** 코어 직경 (px, 기본 52px) */
+    corePx?: number;
 }
 
 export function resolveHit(params: ResolveHitParams): HitResult {
-    const { weapon, rangeMode, accuracyBuff, warmupLevel, rng, hasCore } = params;
-    const circle = WEAPON_ACCURACY_CIRCLES[weapon];
-    const rIdx = RANGE_IDX[rangeMode];
+    const { weapon, accuracyBuff, hasCore, corePx = DEFAULT_CORE_PX, rng } = params;
 
-    // 기본 분산 반지름
-    let accRadius = circle.accuracyRadius[rIdx];
+    // 코어히트 확률 산출
+    const coreProb = calcCoreHitProb(weapon, accuracyBuff, hasCore, corePx);
+    const isCore = coreProb > 0 && rng.next() < coreProb;
 
-    // MG: warmupLevel로 분산 원 크기 동적 조정 (0 → maxRadius, 1 → minRadius)
-    if (weapon === WeaponType.MG && warmupLevel !== undefined) {
-        // warmup=0 일 때 Far 거리만큼 크게, warmup=1 일 때 Near 기본값
-        const maxR = circle.accuracyRadius[2]; // Far = 가장 큰 분산
-        const minR = circle.accuracyRadius[0]; // Near = 가장 작은 분산
-        accRadius = lerp(maxR, minR, warmupLevel);
+    // SG의 경우 탄착군 분산이 적 본체(body_px)보다 크면 빗나감 가능
+    let hit = true;
+    if (weapon === WeaponType.SG) {
+        const D = calcSpreadDiameter(weapon, accuracyBuff);
+        const hitProb = Math.min(1.0, Math.pow(DEFAULT_BODY_PX / D, 2.0));
+        hit = rng.next() < hitProb;
     }
 
-    // 명중률 버프 적용: buff > 0이면 원 축소 (정밀도 향상), buff < 0이면 원 확대
-    // accuracyBuff = 0.2 (+20% 정밀) → 반지름을 20% 감소
-    accRadius = accRadius * Math.max(0.1, 1 - accuracyBuff);
-
-    // SR/RL은 항상 정밀 → 히트박스 내 확정 명중 (분산 원이 이미 매우 작음)
-    // SG는 빗나감 판정 포함
-    const isSG = weapon === WeaponType.SG;
-
-    // 탄착점 샘플링
-    const p = randomInCircle(rng, accRadius);
-    const dist2 = p.x * p.x + p.y * p.y;
-
-    // 코어 히트 판정
-    if (hasCore) {
-        const core2 = circle.coreRadius * circle.coreRadius;
-        if (dist2 <= core2) {
-            return { hit: true, isCore: true };
-        }
+    // 코어에 맞았으면 당연히 명중
+    if (isCore) {
+        return { hit: true, isCore: true, coreProb };
     }
 
-    // 일반 히트 판정 (SG는 hitRadius 판정, 나머지는 항상 hit)
-    if (isSG) {
-        const hit2 = circle.hitRadius * circle.hitRadius;
-        const hit = dist2 <= hit2;
-        return { hit, isCore: false };
-    }
-
-    // AR / SMG / MG / SR / RL: 빗나감 없음 (battle_accuray.md 구현 계획)
-    return { hit: true, isCore: false };
+    return { hit, isCore: false, coreProb };
 }
-
 
 /* =========================
-   선형 보간 유틸
+   디버그 / 통계 조회 유틸
 ========================= */
 
-function lerp(a: number, b: number, t: number): number {
-    return a + (b - a) * Math.min(1, Math.max(0, t));
-}
-
-
-/* =========================
-   하위 호환 유지 (deprecated)
-   기존 checkHit 방식 — SG 외에는 사용하지 않는 것을 권장
-========================= */
-
-/** @deprecated resolveHit() 사용을 권장합니다 */
-export const BASE_ACCURACY: Record<WeaponType, number> = {
-    AR: 0.65,
-    SMG: 0.50,
-    SR: 1.00,
-    SG: 0.30,
-    MG: 1.00,
-    RL: 1.00,
-};
-
-export interface AccuracyContext {
-    weapon: WeaponType;
-    distance: number;
-    comboShots: number;
-    accuracyBuff: number;
-    rng: Random;
-}
-
-/** @deprecated resolveHit() 사용을 권장합니다 */
-export function calcHitChance(ctx: Omit<AccuracyContext, "rng">): number {
-    const base = BASE_ACCURACY[ctx.weapon];
-    return Math.min(1, Math.max(0, base * (1 + ctx.accuracyBuff)));
-}
-
-/** @deprecated resolveHit() 사용을 권장합니다 */
-export function checkHit(ctx: AccuracyContext): boolean {
-    return ctx.rng.next() < calcHitChance(ctx);
-}
-
-/** 디버그용 */
-export function debugAccuracy(
-    weapon: WeaponType,
-    rangeMode: RangeMode,
-    accuracyBuff = 0,
-    warmupLevel?: number
+export function getAccuracyStats(
+    weapon: WeaponType | string,
+    accuracyPct: number,
+    hasCore: boolean = true,
+    corePx: number = DEFAULT_CORE_PX
 ) {
-    const circle = WEAPON_ACCURACY_CIRCLES[weapon];
-    const rIdx = RANGE_IDX[rangeMode];
-    let accRadius = circle.accuracyRadius[rIdx];
-
-    if (weapon === WeaponType.MG && warmupLevel !== undefined) {
-        const maxR = circle.accuracyRadius[2];
-        const minR = circle.accuracyRadius[0];
-        accRadius = maxR + (minR - maxR) * Math.min(1, Math.max(0, warmupLevel));
-    }
-    accRadius = accRadius * Math.max(0.1, 1 - accuracyBuff);
-
-    const coreChance = (circle.coreRadius * circle.coreRadius) / (accRadius * accRadius);
-    const hitChance = weapon === WeaponType.SG
-        ? (circle.hitRadius * circle.hitRadius) / (accRadius * accRadius)
-        : 1.0;
+    const diameter = calcSpreadDiameter(weapon, accuracyPct);
+    const coreProb = calcCoreHitProb(weapon, accuracyPct, hasCore, corePx);
+    const hitProb = weapon === WeaponType.SG ? Math.min(1.0, Math.pow(DEFAULT_BODY_PX / diameter, 2.0)) : 1.0;
 
     return {
-        weapon, rangeMode, accRadius,
-        hitRadius: circle.hitRadius,
-        coreRadius: circle.coreRadius,
-        estimatedCoreChance: Math.min(1, coreChance),
-        estimatedHitChance: Math.min(1, hitChance),
+        weapon,
+        accuracyPct,
+        diameterPx: diameter,
+        coreHitRate: coreProb,
+        hitRate: hitProb,
     };
 }

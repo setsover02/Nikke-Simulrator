@@ -59,6 +59,12 @@ function fireBurst(ctx: BattleContext, char: Character): void {
     const burstLevel = char.burstLevel ?? 0;
     ctx.state[`__enterBurstLevel_${burstLevel}`] = true;
 
+    // BuffManager 이벤트 통지
+    if (ctx.buffManager) {
+        ctx.buffManager.notify('burst_cast', ctx.time, char.id, ctx);
+        ctx.buffManager.notify(`burst_enter:${burstLevel}`, ctx.time, char.id, ctx);
+    }
+
     // 버스트 스킬 효과 적용
     const effects: any[] = (burstSkill as any).effects ?? [];
     for (const effectDef of effects) {
@@ -155,6 +161,9 @@ export function updateBurst(ctx: BattleContext): void {
             ctx.burstActive = true;
             ctx.burstZones.push({ start: ctx.time, end: ctx.time + ctx.fullBurstTimer });
             ctx.log.push({ time: ctx.time, type: 'burst', description: 'full_burst_start' });
+            if (ctx.buffManager) {
+                ctx.buffManager.notify('full_burst_start', ctx.time, l3Char.id, ctx);
+            }
         } else {
             ctx.burstChainTimer -= ctx.delta;
             if (ctx.burstChainTimer <= 0) {
@@ -179,6 +188,9 @@ export function updateBurst(ctx: BattleContext): void {
                 ctx.burstZones[ctx.burstZones.length - 1].end = ctx.time;
             }
             ctx.log.push({ time: ctx.time, type: 'burst', description: 'full_burst_end' });
+            if (ctx.buffManager) {
+                ctx.buffManager.notify('full_burst_end', ctx.time, undefined, ctx);
+            }
         }
         return;
     }

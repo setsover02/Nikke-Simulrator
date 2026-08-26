@@ -1,6 +1,6 @@
 {
-    "characterID": "SoldierOW",
-    "characterName": "솔져 O. W.",
+    "characterID": "Char_306",
+    "characterName": "솔져 O.W.",
     "stats": {
         "rarity": "R",
         "element": "작열",
@@ -9,11 +9,11 @@
         "company": "Elysion",
         "squad": "리플레이스",
         "burstLevel": 1,
-        "atkCoef": 9.36,
+        "atkCoef": 13.65,
         "maxAmmo": 120,
         "reloadTime": 2,
         "chargeTime": 0,
-        "fireRate": 10,
+        "fireRate": 24,
         "fullChargeDamage": 0,
         "coreDamage": 200
     },
@@ -25,22 +25,8 @@
             "effects": [
                 {
                     "trigger": "normal_attack",
-                    "target": "target",
-                    "effect": "extra_damage",
-                    "condition": {
-                        "chance": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "target": "self",
+                    "effect": "atk_up",
                     "value": [
                         18.9,
                         25.2,
@@ -53,8 +39,7 @@
                         69.3,
                         75.6
                     ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "unit": "percent"
                 }
             ]
         },
@@ -79,8 +64,7 @@
                         117.85,
                         128.57
                     ],
-                    "unit": "percent",
-                    "duration": 5
+                    "unit": "percent"
                 }
             ]
         },
@@ -91,8 +75,8 @@
             "cooldown": 20,
             "effects": [
                 {
-                    "trigger": "burst_cast",
-                    "target": "fire_element_allies",
+                    "trigger": "passive",
+                    "target": "self",
                     "effect": "max_ammo_up",
                     "value": [
                         70,
@@ -106,19 +90,7 @@
                         256.66,
                         280
                     ],
-                    "unit": "percent",
-                    "duration": [
-                        5,
-                        6,
-                        6,
-                        7,
-                        7,
-                        8,
-                        8,
-                        9,
-                        9,
-                        10
-                    ]
+                    "unit": "percent"
                 }
             ]
         }

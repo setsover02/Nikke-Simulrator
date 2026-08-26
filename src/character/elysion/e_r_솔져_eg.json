@@ -1,6 +1,6 @@
 {
-    "characterID": "SoldierEG",
-    "characterName": "솔져 E. G.",
+    "characterID": "Char_300",
+    "characterName": "솔져 E.G.",
     "stats": {
         "rarity": "R",
         "element": "전격",
@@ -9,7 +9,7 @@
         "company": "Elysion",
         "squad": "리플레이스",
         "burstLevel": 3,
-        "atkCoef": 14.01,
+        "atkCoef": 13.65,
         "maxAmmo": 60,
         "reloadTime": 1.17,
         "chargeTime": 0,
@@ -24,23 +24,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "normal_attack",
                     "target": "self",
                     "effect": "atk_up",
-                    "condition": {
-                        "chance": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
                     "value": [
                         1.98,
                         2.64,
@@ -53,8 +39,7 @@
                         7.26,
                         7.92
                     ],
-                    "unit": "percent",
-                    "duration": 5
+                    "unit": "percent"
                 }
             ]
         },
@@ -79,8 +64,7 @@
                         103.37,
                         112.77
                     ],
-                    "unit": "percent",
-                    "duration": 5
+                    "unit": "percent"
                 }
             ]
         },
@@ -91,9 +75,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "damage",
+                    "trigger": "passive",
+                    "target": "self",
+                    "effect": "atk_up",
                     "value": [
                         180,
                         240,
@@ -106,8 +90,7 @@
                         660,
                         720
                     ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "unit": "percent"
                 }
             ]
         }

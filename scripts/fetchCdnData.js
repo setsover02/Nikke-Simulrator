@@ -99,7 +99,19 @@ async function main() {
                     squad: role.squad || '',
                     burst_stage: role.use_burst_skill || '',
                     weapon_detail: role.shot_detail || {},
-                    raw: role,
+                    raw: {
+                        resource_id: role.resource_id,
+                        corporation: role.corporation,
+                        original_rare: role.original_rare,
+                        shot_detail: role.shot_detail,
+                        use_burst_skill: role.use_burst_skill,
+                        skill1_detail: role.skill1_detail,
+                        skill2_detail: role.skill2_detail,
+                        ulti_skill_detail: role.ulti_skill_detail,
+                        element_details: role.element_details,
+                        class: role.class,
+                        squad_detail: role.squad_detail
+                    }
                 };
                 successCount++;
             } catch (err) {

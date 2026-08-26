@@ -59,6 +59,7 @@ const Home: React.FC = () => {
     const savedTarget = loadTargetSettings();
     const [fullBurstInterval, setFullBurstInterval] = useState<string>(savedTarget.fullBurstInterval);
     const [showCore, setShowCore] = useState<boolean>(savedTarget.showCore);
+    const [coreSize, setCoreSize] = useState<number>(savedTarget.coreSize ?? 52);
     const [rangeMode, setRangeMode] = useState<RangeMode>(savedTarget.rangeMode as RangeMode);
     const [weaknessElement, setWeaknessElement] = useState<string>(savedTarget.weaknessElement);
     const [enemyDef, setEnemyDef] = useState<string>(savedTarget.enemyDef);
@@ -90,6 +91,7 @@ const Home: React.FC = () => {
     const persistTargetSettings = (overrides: Partial<{
         fullBurstInterval: string;
         showCore: boolean;
+        coreSize: number;
         rangeMode: number;
         weaknessElement: string;
         enemyDef: string;
@@ -97,6 +99,7 @@ const Home: React.FC = () => {
         saveTargetSettings({
             fullBurstInterval,
             showCore,
+            coreSize,
             rangeMode,
             weaknessElement,
             enemyDef,
@@ -115,6 +118,11 @@ const Home: React.FC = () => {
             persistTargetSettings({ showCore: next });
             return next;
         });
+    };
+
+    const handleCoreSizeChange = (val: number) => {
+        setCoreSize(val);
+        persistTargetSettings({ coreSize: val });
     };
 
     const handleRangeModeChange = (val: RangeMode) => {
@@ -229,6 +237,7 @@ const Home: React.FC = () => {
             weaknessElement,
             outpostState,
             showCore,
+            coreSize,
         });
         if (!output) return;
 
@@ -289,6 +298,8 @@ const Home: React.FC = () => {
                     onFullBurstIntervalChange={handleFullBurstIntervalChange}
                     showCore={showCore}
                     onToggleCore={handleToggleCore}
+                    coreSize={coreSize}
+                    onCoreSizeChange={handleCoreSizeChange}
                     rangeMode={rangeMode}
                     onRangeModeChange={handleRangeModeChange}
                     weaknessElement={weaknessElement}

@@ -5,6 +5,8 @@ import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { Font } from '../../components/Font';
 import { RangeMode } from '../../constants/weaponStats';
 
+import { CoreVisualizer } from './CoreVisualizer';
+
 const ELEMENT_OPTIONS = [
     { value: '풍압', label: '풍압', iconName: 'code-anmi', element: 'wind' as const },
     { value: '철갑', label: '철갑', iconName: 'code-dmtr', element: 'iron' as const },
@@ -28,6 +30,8 @@ interface SimToolbarProps {
     onFullBurstIntervalChange: (v: string) => void;
     showCore: boolean;
     onToggleCore: () => void;
+    coreSize: number;
+    onCoreSizeChange: (v: number) => void;
     rangeMode: RangeMode;
     onRangeModeChange: (v: RangeMode) => void;
     weaknessElement: string;
@@ -40,6 +44,7 @@ interface SimToolbarProps {
 const SimToolbar: React.FC<SimToolbarProps> = ({
     fullBurstInterval, onFullBurstIntervalChange,
     showCore, onToggleCore,
+    coreSize, onCoreSizeChange,
     rangeMode, onRangeModeChange,
     weaknessElement, onWeaknessChange,
     enemyDef, onEnemyDefChange,
@@ -109,10 +114,39 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                 </div>
             </div>
 
-            {/* 코어 여부 */}
-            <div className="flex-between-center" style={{ marginBottom: '16px' }}>
-                <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
-                <Switch checked={showCore} onChange={onToggleCore} />
+            {/* 코어 여부 및 크기 설정 */}
+            <div className="flex-col-gap-8">
+                <div className="flex-between-center">
+                    <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
+                    <Switch checked={showCore} onChange={onToggleCore} />
+                </div>
+
+                {showCore && (
+                    <div className="flex-col-gap-8" style={{ marginTop: '4px' }}>
+                        <div className="flex-between-center">
+                            <Font as="span" variant="caption-2" color="muted">코어 직경</Font>
+                            <Font as="span" variant="caption-2" color="accent" weight="bold">
+                                {coreSize}px
+                            </Font>
+                        </div>
+                        <input
+                            type="range"
+                            min="10"
+                            max="150"
+                            step="2"
+                            value={coreSize}
+                            onChange={e => onCoreSizeChange(Number(e.target.value))}
+                            style={{ width: '100%', cursor: 'pointer', accentColor: '#ef4444' }}
+                        />
+                    </div>
+                )}
+
+                {/* 코어 & 탄착군 실시간 시각화 프리뷰 */}
+                <CoreVisualizer
+                    coreSize={coreSize}
+                    showCore={showCore}
+                    onCoreSizeChange={onCoreSizeChange}
+                />
             </div>
 
             {/* 교전 거리 */}

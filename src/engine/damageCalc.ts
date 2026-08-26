@@ -30,6 +30,7 @@ export function processAttack(ctx: BattleContext) {
         const isSG = weapon === WeaponType.SG;
         const isCharge = weapon === WeaponType.SR || weapon === WeaponType.RL;
         const isFiring = canAttack(char);
+        const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
 
         // MG: 사격 중이 아닐 때 냉각 (시간 기반)
         if (isMG && !isFiring) {
@@ -48,7 +49,7 @@ export function processAttack(ctx: BattleContext) {
 
         if (isCharge) {
             // 차징 무기 처리 (SR / RL) — weapon.md 기준
-            const chargeSpeedBuff = char.buff?.chargeSpeed ?? 0;
+            const chargeSpeedBuff = (buffs ? buffs.charge_speed_pct / 100 : (char.buff?.chargeSpeed ?? 0));
             const chargeSeconds = Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
             char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
@@ -59,9 +60,9 @@ export function processAttack(ctx: BattleContext) {
             }
         } else {
             // 일반 연사 (AR / SMG / SG / MG)
-            let effectiveFireRate = char.fireRate;
+            let effectiveFireRate = char.fireRate * (1 + (buffs ? buffs.attack_speed_pct / 100 : 0));
             if (isMG) {
-                effectiveFireRate = getMgFireRate(char.fireRate, char.warmupLevel ?? 0);
+                effectiveFireRate = getMgFireRate(effectiveFireRate, char.warmupLevel ?? 0);
             }
 
             char.fireAccumulator = (char.fireAccumulator || 0) + effectiveFireRate * dt;
@@ -73,6 +74,10 @@ export function processAttack(ctx: BattleContext) {
         }
 
         for (let i = 0; i < shotsToFire; i++) {
+            if (char.ammo === 1 && ctx.buffManager) {
+                ctx.buffManager.notify('last_bullet_fire', ctx.time, char.id, ctx);
+            }
+
             if (isSG) {
                 // SG: 펠릿 시스템 — 탄 1발 = 펠릿 N개, 각각 독립 명중 판정
                 const pelletDmg = calcShotgunDamage(char, ctx, rangeMode);
@@ -90,12 +95,25 @@ export function processAttack(ctx: BattleContext) {
             ctx.totalAmmoUsed++;
             ctx.totalTeamAmmoUsed++;
 
+            if (ctx.buffManager) {
+                ctx.buffManager.notify('normal_atk', ctx.time, char.id, ctx);
+                ctx.buffManager.notify('hit_count', ctx.time, char.id, ctx);
+                if (char.ammo === 0) {
+                    ctx.buffManager.notify('last_bullet', ctx.time, char.id, ctx);
+                }
+                if (isChargeAttack) {
+                    ctx.buffManager.notify('full_charge_hit', ctx.time, char.id, ctx);
+                    ctx.buffManager.notify('full_charge', ctx.time, char.id, ctx);
+                }
+                ctx.buffManager.consumeBulletBuff(char.id);
+            }
+
             // 택티컬 베어 큐브: 10발 사격 시 탄환 충전
             if (char.cubeBastionRefund && char.cubeBastionRefund > 0 && char.comboShots % 10 === 0) {
                 char.ammo = Math.min(char.ammo + char.cubeBastionRefund, char.maxAmmo);
             }
 
-            // bullet 기반 버프 카운터 감소
+            // bullet 기반 버프 카운터 감소 (legacy fallback)
             decrementBulletBuffs(ctx, char);
 
             // full_charge_attack 트리거 플래그 설정
@@ -131,25 +149,27 @@ function calcShotgunDamage(
     ctx: BattleContext,
     rangeMode: RangeMode
 ): number {
-    const pelletCount = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
-    const pelletAtkCoefScale = 1 / pelletCount; // 각 펠릿에 적용할 atkCoef 비율
-
-    let totalDmg = 0;
+    const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
+    const basePellets = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
+    const pelletCount = buffs?.pellet_count_fixed ?? (basePellets + (buffs?.pellet_count || 0));
+    const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
+    const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
 
     for (let p = 0; p < pelletCount; p++) {
         const hitParams: ResolveHitParams = {
             weapon: WeaponType.SG,
             rangeMode,
-            accuracyBuff: char.accuracyBuff ?? 0,
+            accuracyBuff: (buffs ? buffs.accuracy_pct : 0) + ((char.accuracyBuff ?? 0) * 100),
             rng: ctx.rng,
-            hasCore: !!(char.coreDamage),
+            hasCore,
+            corePx,
         };
 
         const hitResult = resolveHit(hitParams);
         if (!hitResult.hit) continue; // 빗나감
 
         // 크리티컬 판정 (각 펠릿 독립)
-        const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
+        const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
         const isCrit = ctx.rng.next() < critChance;
 
         const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale);
@@ -170,23 +190,25 @@ function calcCharacterDamage(
     rangeMode: RangeMode
 ): number {
     const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
+    const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
+    const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
+    const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
 
     // resolveHit으로 명중 + 코어 판정
     const hitParams: ResolveHitParams = {
         weapon,
         rangeMode,
-        accuracyBuff: char.accuracyBuff ?? 0,
+        accuracyBuff: (buffs ? buffs.accuracy_pct : 0) + ((char.accuracyBuff ?? 0) * 100),
         warmupLevel: weapon === WeaponType.MG ? (char.warmupLevel ?? 0) : undefined,
         rng: ctx.rng,
-        hasCore: !!(char.coreDamage),
+        hasCore,
+        corePx,
     };
 
     const hitResult = resolveHit(hitParams);
-    // AR/SMG/MG/SR/RL은 빗나감 없음 → hit은 항상 true
-    // (SG는 calcShotgunDamage에서 호출하므로 여기선 오지 않음)
 
     // 크리티컬 판정
-    const critChance = (char.crit + (char.buff?.critRate || 0)) / 100;
+    const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
     const isCrit = ctx.rng.next() < critChance;
 
     const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0);
@@ -206,53 +228,59 @@ function buildDamageParams(
     atkCoefScale: number // 펠릿 분할 배율 (일반: 1.0, SG 1/N)
 ) {
     const wm = getWeaponMultipliers(char.weapon);
+    const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
+    const enemyBuffs = ctx.buffManager ? ctx.buffManager.getBuffs('__enemy__', char.id, ctx, ctx.time) : null;
+
+    const atkPct = (char.equipATKPercent ?? 0) + (buffs ? buffs.atk_pct / 100 : (char.buff?.atk ?? 0));
+    const atkFlat = (buffs ? buffs.atk_flat : 0) + (char.buff?.extraATK ?? 0);
+    const defDownPct = buffs?.enemy_def_down_pct ?? 0;
 
     return {
         /* ① 기본 데미지 */
         baseATK: char.atk,
-        extraATKPercent: char.equipATKPercent ?? 0,
-        extraATKFlat: char.buff?.extraATK ?? 0,
+        extraATKPercent: atkPct,
+        extraATKFlat: atkFlat,
         enemyBaseDEF: ctx.enemy.defense,
-        enemyDEFPercent: 0,
+        enemyDEFPercent: defDownPct ? -(defDownPct / 100) : 0,
         enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
 
         /* ② Final ATK Modifier & Normal ATK Multiplier */
         atkCoef: (char.atkCoef ?? 1) * atkCoefScale,
-        finalATKModifier: char.buff?.atkDmgUp ?? 0,
-        normalAtkMultiplier: char.normalAtkMultiplier ?? 0,
+        finalATKModifier: (buffs ? buffs.final_atk_pct / 100 : 0) + (char.buff?.atkDmgUp ?? 0),
+        normalAtkMultiplier: (char.normalAtkMultiplier ?? 0) + (buffs?.normal_atk_dmg_pct ?? 0),
         isNormalAttack: true,
 
         /* ③ Major Modifiers */
         isCrit,
         critBonusBase: (char.critMult ? (char.critMult - 1) : wm.critBonus) + (char.equipCritDmgPercent ?? 0),
-        extraCritDmg: char.buff?.critDmg ?? 0,
+        extraCritDmg: (buffs ? buffs.crit_dmg_pct / 100 : 0) + (char.buff?.critDmg ?? 0),
         isCore,
-        coreHitBonus: char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus,
+        coreHitBonus: (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus) + (buffs ? buffs.core_dmg_pct / 100 : 0),
         coreHitMultiplier: char.coreHitMultiplier ?? 0,
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-        rangeBonus: char.buff?.range ?? 0,
+        rangeBonus: char.buff?.range ?? (buffs?.range_bonus ?? 0),
 
         /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
-        weakPointExtra: (char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
+        weakPointExtra: (buffs ? buffs.element_bonus_pct / 100 : 0) + (char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
-        chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (char.buff?.chargeDmg ?? 0)) - 1) : 0,
+        chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (buffs ? buffs.charge_dmg_pct / 100 : (char.buff?.chargeDmg ?? 0))) - 1) : 0,
         chargeDmgMultiplier: char.chargeDmgMultiplier ?? 0,
 
         /* ⑥ Damage Up */
-        atkDmgUp: char.buff?.atkDmgUpFinal ?? 0,
-        dotDmgUp: char.buff?.dot ?? 0,
-        pierceDmgUp: (char.buff?.pierce ?? 0) + (char.cubePierceDmgUp ?? 0),
-        partDmgUp: (char.buff?.partDmgUp ?? 0) + (char.cubePartDmgUp ?? 0),
-        ignoreDefDmgUp: (char.buff?.ignoreDef ?? 0) + (char.cubeIgnoreDefDmgUp ?? 0),
+        atkDmgUp: (buffs ? buffs.atk_dmg_pct / 100 : 0) + (char.buff?.atkDmgUpFinal ?? 0),
+        dotDmgUp: (buffs ? buffs.dot_dmg_pct / 100 : 0) + (char.buff?.dot ?? 0),
+        pierceDmgUp: (char.buff?.pierce ?? 0) + (char.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : 0),
+        partDmgUp: (char.buff?.partDmgUp ?? 0) + (char.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : 0),
+        ignoreDefDmgUp: (char.buff?.ignoreDef ?? 0) + (char.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : 0),
         projectileDmgUp: char.buff?.projectile ?? 0,
         interruptionPartDmgUp: char.buff?.weakPart ?? 0,
         extraDmgUp: 0,
 
         /* ⑦ Damage Taken */
-        enemyTakenUp: ctx.enemy.debuff?.takenUp ?? 0,
-        shareDmgUp: 0,
+        enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (buffs ? buffs.received_dmg / 100 : 0) + (ctx.enemy.debuff?.takenUp ?? 0),
+        shareDmgUp: buffs ? buffs.split_dmg_pct / 100 : 0,
         enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };
 }

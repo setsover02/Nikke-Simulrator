@@ -77,6 +77,7 @@ export interface SimulationInput {
     rangeMode: RangeMode;
     weaknessElement: string;
     showCore: boolean;
+    coreSize?: number;
 }
 
 export interface SkillInfoEntry {

@@ -5,6 +5,7 @@ import { resolveSkills } from "./skillResolver";
 import { updateBurst } from "./burstSystem";
 import { Random } from "./rng";
 import { updateAmmo } from "./ammoSystem";
+import { BuffManager } from "./buffManager";
 
 import {
     BattleContext,
@@ -25,6 +26,11 @@ export function simulateBattle(
 ): BattleResult {
     const ctx = createContext(team, enemy, config);
 
+    // 전투 시작 버프 발동
+    if (ctx.buffManager) {
+        ctx.buffManager.battleStart(ctx);
+    }
+
     // 메인 루프
     while (!isFinished(ctx)) {
         step(ctx);
@@ -42,6 +48,9 @@ function createContext(
     enemy: Enemy,
     config: SimConfig
 ): BattleContext {
+    const bm = new BuffManager();
+    bm.registerTeamSkills(team);
+
     return {
         time: 0,
         delta: config.tick || (1 / 60),
@@ -60,6 +69,7 @@ function createContext(
         log: [],
 
         rng: new Random(config.seed),
+        buffManager: bm,
         burstCooldowns: {},
         burstZones: [],
 
@@ -75,19 +85,24 @@ function createContext(
 ================================ */
 
 function step(ctx: BattleContext) {
-    // 0️⃣ 탄환 및 장전 처리 (추가)
+    // 0️⃣ 버프 틱 (DoT 및 만료 정리)
+    if (ctx.buffManager) {
+        ctx.buffManager.tick(ctx.time, ctx.delta, ctx);
+    }
+
+    // 1️⃣ 탄환 및 장전 처리
     updateAmmo(ctx);
 
-    // 1️⃣ 버스트 상태 처리
+    // 2️⃣ 버스트 상태 처리
     updateBurst(ctx);
 
-    // 2️⃣ 공격 처리
+    // 3️⃣ 공격 처리
     processAttack(ctx);
 
-    // 3️⃣ 스킬 발동
+    // 4️⃣ 스킬 발동
     resolveSkills(ctx);
 
-    // 4️⃣ 시간 진행
+    // 5️⃣ 시간 진행
     ctx.time += ctx.delta;
 }
 
