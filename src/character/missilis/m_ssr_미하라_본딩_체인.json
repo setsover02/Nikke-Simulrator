@@ -13,9 +13,10 @@
         "maxAmmo": 300,
         "reloadTime": 2.5,
         "chargeTime": 0,
-        "fireRate": 60,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 1,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         10,
                         10,
@@ -39,43 +40,36 @@
                         10,
                         10
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "바디 컨텍",
+                    "type": "instant"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "gauge_charge",
+                    "value": [
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10,
+                        10
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "바디 컨텍 2",
+                    "type": "instant",
+                    "condition": "burst_casted"
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": 10,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_end_after_self_burst",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_end_after_self_burst",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": 10,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "designated_timing",
-                    "target": "random_enemies",
+                    "target": "enemies_random",
                     "effect": "damage",
                     "value": [
                         29.58,
@@ -90,26 +84,17 @@
                         50.06
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "바디 컨텍 3",
+                    "type": "damage",
+                    "condition": "gauge_above:포획 사슬:1",
+                    "scaling": "stack_count",
+                    "scaling_ref": "포획 사슬"
                 },
                 {
-                    "trigger": "designated_timing",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "designated_timing",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "value": 1,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "same_target",
+                    "trigger": "battle_start",
+                    "target": "target",
                     "effect": "dot_damage",
-                    "status": "chain_binding",
                     "value": [
                         14.82,
                         15.96,
@@ -123,16 +108,35 @@
                         25.08
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": "permanent",
+                    "name": "사슬 감기",
+                    "type": "damage",
+                    "condition": "gauge_above:포획 사슬:1",
                     "stack": 20,
-                    "interval": 1
+                    "scaling": "stack_count",
+                    "scaling_ref": "포획 사슬"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "same_target",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "trigger": "battle_start",
+                    "target": "self",
+                    "effect": "gauge_consume",
+                    "value": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "바디 컨텍 5",
+                    "type": "instant",
+                    "condition": "gauge_above:포획 사슬:1"
                 }
             ]
         },
@@ -142,9 +146,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enemy_death",
-                    "target": "self",
-                    "effect": "buff",
+                    "trigger": "hit_count:40",
+                    "target": "target",
+                    "effect": "debuff_stack_add",
                     "value": [
                         1,
                         1,
@@ -157,19 +161,62 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "타이트",
+                    "type": "instant",
+                    "condition": "during_full_burst",
+                    "target_effect": "사슬 감기"
+                },
+                {
+                    "trigger": "event:self_down",
+                    "target": "target",
+                    "effect": "debuff_stack_add",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "타이트 2",
+                    "type": "instant",
+                    "condition": "target_state:사슬 감기",
+                    "target_effect": "사슬 감기"
                 },
                 {
                     "trigger": "enemy_death",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 10,
-                    "unit": "percent"
+                    "effect": "gauge_charge",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "타이트 3",
+                    "type": "instant",
+                    "condition": "target_state:사슬 감기"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         35.44,
                         38.16,
@@ -183,7 +230,9 @@
                         59.98
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "타이트 4",
+                    "type": "buff"
                 }
             ]
         },
@@ -197,7 +246,6 @@
                     "trigger": "burst_cast",
                     "target": "target",
                     "effect": "dot_damage",
-                    "status": "chain_pull",
                     "value": [
                         29.57,
                         31.85,
@@ -211,21 +259,35 @@
                         50.05
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 10,
-                    "interval": 1
+                    "name": "사슬 당기기",
+                    "type": "damage",
+                    "condition": "target_state:사슬 감기",
+                    "scaling": "stack_count",
+                    "scaling_ref": "사슬 감기"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "사슬 당기기 2",
+                    "type": "instant",
+                    "condition": "target_state:사슬 감기",
+                    "target_effect": "사슬 감기"
                 }
             ]
         }

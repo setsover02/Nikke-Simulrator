@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "리콜&릴리즈",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
-        "chargeTime": 1,
+        "chargeTime": 1.5,
         "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200
+        "fullChargeDamage": 350,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         3,
                         3,
@@ -45,7 +46,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         2.45,
                         3.33,
@@ -71,7 +72,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         11.3,
                         12.92,
@@ -98,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.31,
                         12.93,

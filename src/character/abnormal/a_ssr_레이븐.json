@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "2차 강하 부대",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,8 +25,8 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "closest_enemy",
+                    "trigger": "full_charge_hit",
+                    "target": "target",
                     "effect": "dot_damage",
                     "value": [
                         40.45,
@@ -40,15 +41,16 @@
                         68.46
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 5,
+                    "name": "쇼크웨이브",
+                    "type": "damage",
                     "stack": 10,
-                    "interval": 1
+                    "scaling": "stack_count"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         28.08,
                         30.24,
@@ -62,8 +64,9 @@
                         47.52
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "쇼크웨이브",
+                    "type": "buff"
                 }
             ]
         },
@@ -75,8 +78,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "parts_damage_up",
-                    "status": "급소 공략",
+                    "effect": "part_dmg_pct",
                     "value": [
                         12.48,
                         13.44,
@@ -90,13 +92,14 @@
                         21.12
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "급소 공략",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "parts_damage_up",
-                    "status": "급소 공략",
+                    "effect": "part_dmg_pct",
                     "value": [
                         12.48,
                         13.44,
@@ -110,13 +113,14 @@
                         21.12
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "급소 공략",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "dot_damage_up",
-                    "status": "일점 공격",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         27.96,
                         30.11,
@@ -130,13 +134,33 @@
                         47.32
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "일점 공격",
+                    "type": "buff",
+                    "condition": "not_self_state:A.N. 모드"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "푸른 칼날",
+                    "type": "instant",
+                    "condition": "not_self_state:A.N. 모드",
+                    "target_effect": "급소 공략"
                 }
             ]
         },
@@ -149,7 +173,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "burst_damage",
                     "value": [
                         290.9,
                         313.28,
@@ -163,25 +187,36 @@
                         492.3
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "템페스트",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 0,
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "템페스트",
+                    "type": "instant",
+                    "target_effect": "일점 공격"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         52.85,
                         56.91,
@@ -195,7 +230,9 @@
                         89.44
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "A.N. 모드",
+                    "type": "buff"
                 }
             ]
         }

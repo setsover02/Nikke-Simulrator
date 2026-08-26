@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "워드리스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 15.07,
         "maxAmmo": 60,
         "reloadTime": 1.67,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         8.18,
                         9.35,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "페인 로드 1",
                     "value": [
                         6.81,
@@ -73,7 +74,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "status": "페인 로드 2",
                     "value": [
                         4.93,
@@ -103,13 +104,24 @@
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "full_burst_time_down",
-                    "value": 5,
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
                     "unit": "seconds"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         174.82,
                         199.8,

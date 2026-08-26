@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "스카우팅",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 8.1,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:60",
                     "target": "target",
-                    "effect": "def_down",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         2.97,
                         3.3,
@@ -57,23 +44,9 @@
                     "duration": 5
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:60",
                     "target": "target",
-                    "effect": "atk_down",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         2.97,
                         3.3,
@@ -99,7 +72,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         22.04,
                         24.48,
@@ -127,7 +100,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         114.61,
                         127.34,
@@ -146,7 +119,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         6.17,
                         6.85,

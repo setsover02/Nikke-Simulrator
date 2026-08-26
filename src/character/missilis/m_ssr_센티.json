@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "마이티 툴즈",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 0.5,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "skill_cooldown_reduction",
+                    "effect": "skill_cooldown_reduce_pct",
                     "value": [
                         4.58,
                         5.09,
@@ -40,7 +41,9 @@
                         9.16
                     ],
                     "unit": "percent",
-                    "target_skill": "skill_2"
+                    "duration": null,
+                    "name": "보수공사",
+                    "type": "instant"
                 }
             ]
         },
@@ -50,9 +53,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:9s",
                     "target": "self",
-                    "effect": "shield",
+                    "effect": "shared_shield_from_max_hp_pct",
                     "value": [
                         3.19,
                         3.54,
@@ -66,8 +69,9 @@
                         6.38
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "현장검토",
+                    "type": "buff"
                 }
             ]
         },
@@ -79,7 +83,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "enemies_lowest_hp:5",
                     "effect": "damage",
                     "value": [
                         72.73,
@@ -94,26 +98,30 @@
                         145.46
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "착공시작",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "def_down",
+                    "target": "enemies_lowest_hp:5",
+                    "effect": "def_pct",
                     "value": [
-                        7.27,
-                        8.08,
-                        8.88,
-                        9.69,
-                        10.5,
-                        11.31,
-                        12.12,
-                        12.93,
-                        13.73,
-                        14.54
+                        -7.27,
+                        -8.08,
+                        -8.88,
+                        -9.69,
+                        -10.5,
+                        -11.31,
+                        -12.12,
+                        -12.93,
+                        -13.73,
+                        -14.54
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "착공시작 2",
+                    "type": "buff"
                 }
             ]
         }
@@ -129,9 +137,9 @@
                     "name": "현장검토",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "every:9s",
                             "target": "self",
-                            "effect": "heal",
+                            "effect": "shared_shield_from_max_hp_pct",
                             "value": [
                                 3.5,
                                 3.88,
@@ -144,12 +152,15 @@
                                 6.6,
                                 7
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "현장검토",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "every:9s",
+                            "target": "all_allies",
+                            "effect": "atk_caster_based_pct",
                             "value": [
                                 2.53,
                                 2.76,
@@ -162,7 +173,11 @@
                                 4.37,
                                 4.6
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 8,
+                            "name": "현장검토 2",
+                            "type": "buff",
+                            "stack": 10
                         }
                     ]
                 }
@@ -175,9 +190,9 @@
                     "name": "보수공사",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "full_charge_hit",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "skill_cooldown_reduce_pct",
                             "value": [
                                 4.58,
                                 5.09,
@@ -190,12 +205,15 @@
                                 8.65,
                                 9.16
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "보수공사",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "event:현장검토",
+                            "target": "allies_code:철갑",
+                            "effect": "element_bonus_pct",
                             "value": [
                                 3.13,
                                 3.41,
@@ -208,12 +226,16 @@
                                 5.41,
                                 5.69
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "보수공사 2",
+                            "type": "buff",
+                            "stack": 10
                         },
                         {
                             "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "heal",
+                            "target": "all_allies",
+                            "effect": "heal_overcharge_store",
                             "value": [
                                 3.5,
                                 3.88,
@@ -226,12 +248,15 @@
                                 6.6,
                                 7
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "자재 비축",
+                            "type": "buff"
                         },
                         {
                             "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "heal",
+                            "target": "all_allies",
+                            "effect": "heal_hp_pct",
                             "value": [
                                 3.5,
                                 3.88,
@@ -244,12 +269,15 @@
                                 6.6,
                                 7
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "보수공사 3",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "heal",
+                            "trigger": "event:ally_hp_below:100",
+                            "target": "all_allies",
+                            "effect": "heal_hp_pct",
                             "value": [
                                 3.5,
                                 3.88,
@@ -262,7 +290,11 @@
                                 6.6,
                                 7
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "보수공사 4",
+                            "type": "instant",
+                            "condition": "self_state:자재 비축"
                         }
                     ]
                 }
@@ -275,9 +307,9 @@
                     "name": "착공시작",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "enemies_lowest_hp:5",
+                            "effect": "damage",
                             "value": [
                                 72.73,
                                 80.81,
@@ -290,30 +322,36 @@
                                 137.38,
                                 145.46
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "착공시작",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "def_up",
+                            "trigger": "burst_cast",
+                            "target": "enemies_lowest_hp:5",
+                            "effect": "def_pct",
                             "value": [
-                                7.27,
-                                8.08,
-                                8.88,
-                                9.69,
-                                10.5,
-                                11.31,
-                                12.12,
-                                12.93,
-                                13.73,
-                                14.54
+                                -7.27,
+                                -8.08,
+                                -8.88,
+                                -9.69,
+                                -10.5,
+                                -11.31,
+                                -12.12,
+                                -12.93,
+                                -13.73,
+                                -14.54
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "착공시작 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "heal",
+                            "trigger": "burst_cast",
+                            "target": "all_allies",
+                            "effect": "heal_hp_pct",
                             "value": [
                                 17.84,
                                 19.21,
@@ -326,7 +364,10 @@
                                 28.82,
                                 30.2
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "착공시작 3",
+                            "type": "instant"
                         }
                     ]
                 }

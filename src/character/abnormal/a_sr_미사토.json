@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "NERV",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 8.1,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:60",
                     "target": "self",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "accuracy_pct",
                     "status": "사격 매뉴얼",
                     "value": [
                         2.52,
@@ -59,23 +46,9 @@
                     "stack": 3
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:120",
                     "target": "self",
-                    "effect": "heal",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
+                    "effect": "heal_hp_pct",
                     "value": [
                         4.02,
                         4.47,
@@ -121,7 +94,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         15.02,
                         16.69,
@@ -148,7 +121,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.42,
                         2.71,

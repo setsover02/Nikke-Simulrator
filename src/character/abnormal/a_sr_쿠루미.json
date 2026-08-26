@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:36",
                     "target": "target",
                     "effect": "dot_damage",
-                    "condition": {
-                        "count": [
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36
-                        ]
-                    },
                     "status": "해킹",
                     "value": [
                         30.87,
@@ -89,23 +76,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_normal_attack",
+                    "trigger": "hit_count:36",
                     "target": "target",
                     "effect": "extra_damage",
-                    "condition": {
-                        "count": [
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36,
-                            36
-                        ]
-                    },
                     "value": [
                         50.92,
                         54.83,
@@ -132,7 +105,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg",
                     "value": [
                         10.67,
                         11.49,

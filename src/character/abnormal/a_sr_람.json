@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "에밀리아 진영",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:5",
                     "target": "target",
-                    "effect": "atk_down",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         3.77,
                         4.23,
@@ -59,7 +46,7 @@
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         20.16,
                         20.16,
@@ -84,7 +71,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         20.36,
                         22.62,
@@ -103,7 +90,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         5.67,
                         6.3,

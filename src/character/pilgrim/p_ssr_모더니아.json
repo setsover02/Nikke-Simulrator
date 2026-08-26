@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "헬레틱",
         "burstLevel": 3,
-        "atkCoef": 5.57,
+        "atkCoef": 7.71,
         "maxAmmo": 300,
         "reloadTime": 2.3,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:1",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         1.9,
                         2.03,
@@ -40,26 +41,14 @@
                         3.05
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "고속진화",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:200",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "count": [
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200
-                        ]
-                    },
+                    "effect": "crit_dmg",
                     "value": [
                         9.93,
                         10.41,
@@ -74,40 +63,30 @@
                     ],
                     "unit": "percent",
                     "duration": 10,
+                    "name": "고속진화 2",
+                    "type": "buff",
                     "stack": 5
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:200",
                     "target": "self",
-                    "effect": "max_ammo_down",
-                    "condition": {
-                        "count": [
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200
-                        ]
-                    },
+                    "effect": "max_ammo_pct",
                     "value": [
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04,
-                        5.04
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04,
+                        -5.04
                     ],
                     "unit": "percent",
                     "duration": 10,
+                    "name": "고속진화 3",
+                    "type": "buff",
                     "stack": 5
                 }
             ]
@@ -120,7 +99,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         5.35,
                         5.7,
@@ -134,26 +113,14 @@
                         8.56
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "대도약",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:200",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         18.36,
                         19.59,
@@ -167,7 +134,10 @@
                         29.38
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "대도약 2",
+                    "type": "buff",
+                    "condition": "self_stat_above:accuracy_pct:0"
                 }
             ]
         },
@@ -180,22 +150,44 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "full_burst_time_up",
-                    "value": 5,
-                    "unit": "seconds"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "infinite_ammo",
+                    "effect": "fullburst_duration",
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": null,
+                    "name": "신세계",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "extermination_mode",
-                    "unit": "percent"
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 15,
+                    "name": "섬멸 모드",
+                    "type": "weapon_change"
                 }
             ]
         }

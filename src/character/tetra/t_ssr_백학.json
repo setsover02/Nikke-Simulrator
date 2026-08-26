@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "베일드 오더",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "status": "회복 독점 서약",
                     "value": [
                         5.9,
@@ -47,7 +48,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "status": "서약 위반 증거",
                     "value": [
                         16.93,
@@ -92,7 +93,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         0.78,
                         0.84,
@@ -134,12 +135,24 @@
                     "effect": "buff",
                     "status": "서약 해지",
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         0.14,
                         0.15,
@@ -168,7 +181,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         26.4,
                         28.43,
@@ -187,9 +200,21 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

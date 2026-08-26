@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:120",
                     "target": "self",
-                    "effect": "shield",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
+                    "effect": "shared_shield_from_max_hp_pct",
                     "value": [
                         6.97,
                         7.51,
@@ -54,8 +41,9 @@
                         11.8
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "럭키 가드",
+                    "type": "buff"
                 }
             ]
         },
@@ -67,7 +55,7 @@
                 {
                     "trigger": "full_burst_end",
                     "target": "all_allies",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.78,
                         1.99,
@@ -81,14 +69,15 @@
                         3.68
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": 5,
-                    "interval": 1
+                    "name": "래빗 트윈즈 W",
+                    "type": "instant",
+                    "scaling": "max_hp"
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         40.76,
                         40.76,
@@ -101,7 +90,11 @@
                         40.76,
                         40.76
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "래빗 트윈즈 W 2",
+                    "type": "instant",
+                    "condition": "squad_ally_exists"
                 }
             ]
         },
@@ -114,7 +107,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.05,
                         2.25,
@@ -128,21 +121,36 @@
                         3.84
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": 8,
-                    "interval": 1
+                    "name": "쇼타임",
+                    "type": "instant",
+                    "scaling": "max_hp"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "immortality",
+                    "target": "allies_lowest_hp_excl:1",
+                    "effect": "undying",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "쇼타임 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_up",
+                    "target": "allies_lowest_hp_excl:1",
+                    "effect": "max_hp_pct",
                     "value": [
                         18.72,
                         20.16,
@@ -156,12 +164,14 @@
                         31.68
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "쇼타임 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg_pct",
                     "value": [
                         20.08,
                         22.21,
@@ -175,7 +185,9 @@
                         39.26
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "쇼타임 4",
+                    "type": "buff"
                 }
             ]
         }

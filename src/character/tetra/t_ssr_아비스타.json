@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "애프터 쇼",
                     "value": [
                         47.42,
@@ -47,12 +48,24 @@
                     "trigger": "full_burst_end",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.08,
                         2.24,
@@ -74,7 +87,19 @@
                     "trigger": "full_burst_end",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -87,20 +112,7 @@
                     "trigger": "full_burst_start",
                     "target": "self",
                     "effect": "current_hp_down",
-                    "condition": {
-                        "hp_above": [
-                            25,
-                            25,
-                            25,
-                            25,
-                            25,
-                            25,
-                            25,
-                            25,
-                            25,
-                            25
-                        ]
-                    },
+                    "condition": "self_hp_above:25",
                     "value": [
                         20,
                         20,
@@ -137,7 +149,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         23.71,
                         25.54,
@@ -165,13 +177,24 @@
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "burst_reenter",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "count"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "status": "스타게이저",
                     "value": [
                         15.6,

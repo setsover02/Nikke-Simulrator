@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "에밀리아 진영",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         8.92,
                         9.37,
@@ -45,7 +46,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         1.39,
                         1.46,
@@ -90,7 +91,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         1,
                         1,
@@ -137,12 +138,24 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_speed_down",
+                    "effect": "charge_speed_pct",
                     "value": [
                         300,
                         300,
@@ -160,7 +173,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         842.4,
                         893.3,

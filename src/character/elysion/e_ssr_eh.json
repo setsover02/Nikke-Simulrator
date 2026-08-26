@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "이그조틱",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 10.12,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -27,13 +28,36 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "percent"
                 },
                 {
@@ -58,7 +82,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         4.43,
                         4.77,
@@ -232,7 +256,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         9.67,
                         10.41,
@@ -277,12 +301,24 @@
                         "fullChargeDamage": 250,
                         "maxAmmo": 1
                     },
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         254.12,
                         273.67,

@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "데블 헌터",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 8.73,
         "maxAmmo": 120,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "all_allies",
-                    "effect": "reload_speed_up",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "reload_speed_pct",
                     "value": [
                         20.32,
                         22.17,
@@ -57,23 +44,9 @@
                     "duration": 10
                 },
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "all_allies",
-                    "effect": "def_up",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "def_pct",
                     "value": [
                         8.13,
                         8.87,
@@ -97,25 +70,23 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:120",
                     "target": "self",
                     "effect": "taunt",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "on_hit",
@@ -123,12 +94,24 @@
                     "effect": "immortality",
                     "unit": "percent",
                     "duration": 7,
-                    "count_limit": 1
+                    "count_limit": 1,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "on_hit",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         8.51,
                         8.85,
@@ -154,14 +137,26 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         17.82,
                         19.62,
@@ -181,7 +176,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         13.46,
                         16.53,

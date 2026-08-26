@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "리플레이스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 14.01,
         "maxAmmo": 60,
         "reloadTime": 1.17,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "normal_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         1.98,
                         2.64,
@@ -51,7 +52,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         28.19,
                         37.59,
@@ -77,7 +78,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         180,
                         240,

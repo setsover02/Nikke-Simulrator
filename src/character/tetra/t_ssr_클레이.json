@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "리와인드",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 10.12,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_normal_attack",
+                    "trigger": "hit_count:60",
                     "target": "all_allies",
-                    "effect": "def_up",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "def_pct",
                     "status": "cry_of_victory",
                     "value": [
                         3.81,
@@ -59,23 +46,9 @@
                     "stack": 3
                 },
                 {
-                    "trigger": "full_burst_normal_attack",
+                    "trigger": "hit_count:60",
                     "target": "all_allies",
                     "effect": "projectile_damage_up",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
                     "value": [
                         28.81,
                         30.61,
@@ -101,7 +74,7 @@
                 {
                     "trigger": "enter_burst_1",
                     "target": "all_allies",
-                    "effect": "debuff_immunity",
+                    "effect": "debuff_immune",
                     "value": [
                         1,
                         1,
@@ -120,7 +93,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.8,
                         12.72,
@@ -148,7 +121,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         6.86,
                         7.49,
@@ -167,10 +140,22 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "unit": "percent",
                     "based_on": "caster_final_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

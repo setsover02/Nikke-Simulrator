@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "이지스",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -28,12 +29,24 @@
                     "target": "target",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         10.42,
                         11.91,
@@ -86,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         133.2,
                         152.22,

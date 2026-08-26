@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "헬레틱",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 3.3333,
+        "chargeTime": 1.5,
+        "fireRate": 3.33,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         94.54,
                         101.82,
@@ -40,12 +41,14 @@
                         160
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "차분한 수심",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         12.31,
                         13.26,
@@ -59,12 +62,15 @@
                         20.83
                     ],
                     "unit": "percent",
-                    "duration": 60
+                    "duration": 60,
+                    "name": "차분한 수심 2",
+                    "type": "buff",
+                    "condition": "core_hit"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage:5",
                     "value": [
                         23.93,
                         25.77,
@@ -78,21 +84,14 @@
                         40.5
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": null,
+                    "name": "차분한 수심 3",
+                    "type": "damage"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "charge_speed_up",
-                    "condition": {
-                        "step": 3
-                    },
+                    "target": "allies_lowest_atk_burst3:1",
+                    "effect": "charge_speed_caster_based_pct",
                     "value": [
                         7.52,
                         8.1,
@@ -106,8 +105,9 @@
                         12.74
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "차분한 수심 4",
+                    "type": "buff"
                 }
             ]
         },
@@ -117,10 +117,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "status": "격류",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         136.5,
                         147,
@@ -134,65 +133,51 @@
                         231
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "격류",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "charge_speed_up",
-                    "status": "완만류",
+                    "effect": "charge_speed_buff_immune",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": "permanent",
+                    "name": "차지 속도 증가 효과 면역",
+                    "type": "buff"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_debuff_immune",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "charge_speed_up",
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": "permanent",
+                    "name": "차지 속도 감소 효과 면역",
+                    "type": "buff"
                 }
             ]
         },
@@ -205,7 +190,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         29.54,
                         31.82,
@@ -219,12 +204,14 @@
                         50
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "잠기는 세계",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         546.59,
                         588.63,
@@ -238,7 +225,9 @@
                         925
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "잠기는 세계 2",
+                    "type": "damage"
                 }
             ]
         }

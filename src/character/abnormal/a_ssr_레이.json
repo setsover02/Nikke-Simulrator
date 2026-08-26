@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:100",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "condition": {
-                        "count": [
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100
-                        ]
-                    },
+                    "effect": "element_bonus_pct",
                     "value": [
                         22.91,
                         23.72,
@@ -54,26 +41,14 @@
                         30.23
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "선두 제압",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
-                    "target": "enemies_in_range",
+                    "trigger": "hit_count:100",
+                    "target": "enemies_nearest_in_range",
                     "effect": "damage",
-                    "condition": {
-                        "count": [
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100
-                        ]
-                    },
                     "value": [
                         73.32,
                         77.66,
@@ -87,7 +62,9 @@
                         112.37
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "선두 제압 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -99,7 +76,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "shield",
+                    "effect": "shield_dmg_pct",
                     "value": [
                         472.72,
                         498.03,
@@ -113,13 +90,14 @@
                         700.5
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "공격 지원",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "fire_element_allies",
-                    "effect": "atk_up",
+                    "trigger": "burst_enter:3",
+                    "target": "allies_code:작열",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         16.97,
                         17.86,
@@ -133,8 +111,9 @@
                         25.03
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "공격 지원 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -146,8 +125,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "fire_element_allies",
-                    "effect": "shield",
+                    "target": "allies_code:작열",
+                    "effect": "shield_from_max_hp_pct",
                     "value": [
                         9.98,
                         10.36,
@@ -161,13 +140,14 @@
                         13.44
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "섬멸용 고폭탄",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "fire_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_code:작열",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         29.81,
                         31.84,
@@ -181,7 +161,9 @@
                         48.02
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "섬멸용 고폭탄 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
@@ -200,7 +182,9 @@
                         990.2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "섬멸용 고폭탄 3",
+                    "type": "damage"
                 }
             ]
         }

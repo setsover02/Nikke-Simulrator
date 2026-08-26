@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -47,7 +48,19 @@
                     "target": "self",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -78,7 +91,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         7.65,
                         8.5,
@@ -99,7 +112,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         25.5,
                         28.33,
@@ -119,7 +132,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         21.6,
                         24,
@@ -147,7 +160,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg",
                     "value": [
                         6.11,
                         6.79,
@@ -166,7 +179,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         88.16,
                         97.95,

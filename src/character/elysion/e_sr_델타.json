@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "스카우팅",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 65.95,
         "maxAmmo": 6,
         "reloadTime": 1.5,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         3.15,
                         3.78,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         18.36,
                         22.04,
@@ -102,7 +103,19 @@
                     "target": "self",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

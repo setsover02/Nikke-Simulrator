@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "익스터너",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 231.6,
         "maxAmmo": 9,
         "reloadTime": 0.67,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "status": "복수",
                     "value": [
                         15.75,
@@ -69,12 +56,24 @@
                     "target": "all_enemies",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         94.13,
                         100.65,
@@ -101,7 +100,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         270.56,
                         291.37,

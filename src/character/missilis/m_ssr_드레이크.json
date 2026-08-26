@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "메티스",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 214.3,
         "maxAmmo": 9,
         "reloadTime": 0.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         7,
                         7.54,
@@ -40,12 +41,14 @@
                         11.85
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "오버 차지",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         7,
                         7.54,
@@ -59,7 +62,9 @@
                         11.85
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "오버 차지 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -69,8 +74,8 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "self",
+                    "trigger": "hit_count:10",
+                    "target": "enemies_lowest_hp:3",
                     "effect": "damage",
                     "value": [
                         58.24,
@@ -85,7 +90,9 @@
                         98.55
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "썬더볼트",
+                    "type": "damage"
                 }
             ]
         },
@@ -112,12 +119,14 @@
                         1254
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "드레이크 스페셜",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         42.65,
                         45.93,
@@ -131,7 +140,9 @@
                         72.18
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "드레이크 스페셜 2",
+                    "type": "buff"
                 }
             ]
         }
@@ -148,8 +159,8 @@
                     "effects": [
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "buff",
+                            "target": "all_allies",
+                            "effect": "accuracy_pct",
                             "value": [
                                 11.87,
                                 12.78,
@@ -162,12 +173,15 @@
                                 19.18,
                                 20.09
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "오버 차지",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "target": "all_allies",
+                            "effect": "atk_pct",
                             "value": [
                                 7,
                                 7.54,
@@ -180,12 +194,15 @@
                                 11.31,
                                 11.85
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "오버 차지 2",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "target": "allies_weapon:SG",
+                            "effect": "atk_pct",
                             "value": [
                                 37.75,
                                 40.65,
@@ -198,12 +215,15 @@
                                 60.98,
                                 63.88
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "오버 차지 3",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "max_ammo_up",
+                            "target": "allies_weapon:SG",
+                            "effect": "max_ammo_pct",
                             "value": [
                                 29.62,
                                 31.9,
@@ -216,7 +236,10 @@
                                 47.86,
                                 50.14
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "오버 차지 4",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -229,9 +252,9 @@
                     "name": "썬더볼트",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "hit_count:10",
+                            "target": "enemies_lowest_hp:3",
+                            "effect": "damage",
                             "value": [
                                 58.24,
                                 62.72,
@@ -244,12 +267,15 @@
                                 94.07,
                                 98.55
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "썬더볼트",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "hit_count:5",
+                            "target": "enemies_lowest_hp:1",
+                            "effect": "damage",
                             "value": [
                                 119.12,
                                 128.29,
@@ -262,7 +288,10 @@
                                 192.43,
                                 201.6
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "썬더볼트 2",
+                            "type": "damage"
                         }
                     ]
                 }
@@ -275,9 +304,9 @@
                     "name": "드레이크 스페셜",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "enemies_in_range",
+                            "effect": "damage",
                             "value": [
                                 1778.4,
                                 1915.2,
@@ -290,12 +319,15 @@
                                 2872.8,
                                 3009.6
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "드레이크 스페셜",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "max_ammo_up",
+                            "effect": "max_ammo_pct",
                             "value": [
                                 42.65,
                                 45.93,
@@ -308,12 +340,15 @@
                                 68.9,
                                 72.18
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "드레이크 스페셜 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "atk_dmg_pct",
                             "value": [
                                 18.72,
                                 20.16,
@@ -326,7 +361,10 @@
                                 30.24,
                                 31.68
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "드레이크 스페셜 3",
+                            "type": "buff"
                         }
                     ]
                 }

@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 1,
-        "atkCoef": 222.8,
+        "atkCoef": 201.5,
         "maxAmmo": 9,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,16 +27,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "buff",
-                    "status": "티켓 1장 발권",
-                    "value": 1,
+                    "effect": "gauge_charge",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "티켓",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_only_pct",
                     "value": [
                         5.91,
                         6.36,
@@ -49,12 +62,17 @@
                         10
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp"
+                    "duration": "permanent",
+                    "name": "티켓 효과",
+                    "type": "buff",
+                    "condition": "gauge_above:티켓:1",
+                    "scaling": "stack_count",
+                    "scaling_ref": "티켓"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown",
                     "value": [
                         5.34,
                         5.58,
@@ -67,13 +85,32 @@
                         7.24,
                         7.48
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "버스트 스킬 재사용 시간 감소",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "첫차 할인 해제",
+                    "type": "instant",
+                    "target_effect": "첫차 할인"
                 }
             ]
         },
@@ -83,23 +120,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "heal",
-                    "condition": {
-                        "hp_below": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
+                    "trigger": "event:ally_hp_below:15",
+                    "target": "all_allies",
+                    "effect": "heal_hp_pct",
                     "value": [
                         7.25,
                         7.8,
@@ -113,26 +136,16 @@
                         12.27
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "열차 탑승 도와줄게!",
+                    "type": "instant",
+                    "condition": "target_state:티켓",
+                    "scaling": "max_hp"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "buff",
-                    "condition": {
-                        "hp_below": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
+                    "trigger": "event:ally_hp_below:15",
+                    "target": "all_allies",
+                    "effect": "gauge_consume",
                     "value": [
                         1,
                         1,
@@ -145,14 +158,11 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "all_allies",
-                    "effect": "buff",
                     "unit": "percent",
-                    "duration": 6
+                    "duration": null,
+                    "name": "열차 탑승 도와줄게! 2",
+                    "type": "instant",
+                    "condition": "target_state:티켓"
                 }
             ]
         },
@@ -165,7 +175,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         19.06,
                         20.53,
@@ -179,7 +189,10 @@
                         32.26
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "안전하게 모실게!",
+                    "type": "instant",
+                    "scaling": "max_hp"
                 }
             ]
         }

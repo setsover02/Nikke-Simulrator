@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -68,7 +69,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         2.99,
                         3.22,
@@ -93,30 +94,28 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:60",
                     "target": "target",
                     "effect": "taunt",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
                     "unit": "percent",
-                    "duration": 4
+                    "duration": 4,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "part_destroy",
                     "target": "all_allies",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         1.2,
                         1.29,
@@ -165,7 +164,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         8.89,
                         9.57,
@@ -184,7 +183,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         5.96,
                         6.42,
@@ -203,7 +202,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         6,
                         6.46,

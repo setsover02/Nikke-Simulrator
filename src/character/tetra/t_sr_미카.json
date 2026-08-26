@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "리틀 캐논",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "self",
-                    "effect": "def_up",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "def_pct",
                     "value": [
                         17.14,
                         19.59,
@@ -65,8 +52,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "highest_atk_allies_2",
-                    "effect": "max_ammo_up",
+                    "target": "allies_top_atk:2",
+                    "effect": "max_ammo_pct",
                     "value": [
                         2,
                         2,
@@ -84,8 +71,8 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "highest_atk_allies_2",
-                    "effect": "def_up",
+                    "target": "allies_top_atk:2",
+                    "effect": "def_pct",
                     "value": [
                         5.57,
                         7.16,
@@ -112,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         66.6,
                         76.11,
@@ -131,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         5.82,
                         6.66,

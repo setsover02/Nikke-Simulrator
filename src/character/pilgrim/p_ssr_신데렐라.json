@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "올드 테일즈",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 32.11,
         "maxAmmo": 24,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 3,
-        "fullChargeDamage": 250,
-        "coreDamage": 200
+        "fullChargeDamage": 200,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_from_hp_pct",
                     "value": [
                         1.7,
                         1.8,
@@ -40,13 +41,14 @@
                         2.71
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "무결한 유리",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         100,
                         100,
@@ -59,18 +61,37 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "무결한 유리 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "event:full_reload",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "무결한 유리 3",
+                    "type": "instant",
+                    "target_effect": "무결한 유리"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         80.72,
                         86.94,
@@ -84,7 +105,9 @@
                         136.6
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "무결한 유리 4",
+                    "type": "damage"
                 }
             ]
         },
@@ -97,7 +120,6 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "decoy",
-                    "status": "디코이",
                     "value": [
                         52.8,
                         57.6,
@@ -111,35 +133,14 @@
                         96
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "디코이",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "every:3s",
                     "target": "self",
-                    "effect": "decoy",
-                    "status": "디코이",
-                    "value": [
-                        52.8,
-                        57.6,
-                        62.4,
-                        67.2,
-                        72,
-                        76.8,
-                        81.6,
-                        86.4,
-                        91.2,
-                        96
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "max_hp_up",
-                    "status": "아름다움",
+                    "effect": "max_hp_pct",
                     "value": [
                         0.98,
                         1.07,
@@ -154,6 +155,9 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "아름다움",
+                    "type": "buff",
+                    "condition": "self_state:디코이",
                     "stack": 12
                 }
             ]
@@ -166,8 +170,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "damage",
+                    "target": "enemies_random",
+                    "effect": "sequential_damage:10",
                     "value": [
                         853.7,
                         910.62,
@@ -181,30 +185,14 @@
                         1365.92
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "유리 구두 풀 컨텍트",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target",
-                    "effect": "extra_damage",
+                    "target": "same_target:유리 구두 풀 컨텍트",
+                    "effect": "bonus_damage",
                     "value": [
                         18.07,
                         19.28,
@@ -218,7 +206,12 @@
                         28.9
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "유리 구두 풀 컨텍트 2",
+                    "type": "damage",
+                    "condition": "self_state:아름다움",
+                    "scaling": "stack_count",
+                    "scaling_ref": "아름다움"
                 }
             ]
         }

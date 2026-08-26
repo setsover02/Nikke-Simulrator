@@ -10,12 +10,13 @@
         "squad": "앱솔루트",
         "burstLevel": 3,
         "atkCoef": 61.3,
-        "maxAmmo": 8,
+        "maxAmmo": 6,
         "reloadTime": 2,
-        "fireRate": 0,
+        "fireRate": 1,
         "chargeTime": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -52,7 +53,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "생존본능 1",
                     "value": [
                         3.16,
@@ -73,7 +74,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "status": "생존본능 2",
                     "value": [
                         13.2,
@@ -94,7 +95,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "status": "생존본능 3",
                     "value": [
                         9.17,
@@ -124,7 +125,18 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
-                    "value": 2,
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "unit": "percent"
                 },
                 {
@@ -188,7 +200,18 @@
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "full_burst_time_down",
-                    "value": 5,
+                    "value": [
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5,
+                        5
+                    ],
                     "unit": "seconds"
                 }
             ]

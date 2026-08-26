@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "다즐링 펄",
         "burstLevel": 2,
-        "atkCoef": 222.8,
+        "atkCoef": 204.8,
         "maxAmmo": 9,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:12",
                     "target": "all_allies",
-                    "effect": "heal",
-                    "condition": {
-                        "count": [
-                            12,
-                            12,
-                            12,
-                            12,
-                            12,
-                            12,
-                            12,
-                            12,
-                            12,
-                            12
-                        ]
-                    },
+                    "effect": "cover_heal_pct",
                     "value": [
                         8.61,
                         9.27,
@@ -53,12 +40,15 @@
                         13.91,
                         14.57
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "우정의 가드",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:shield_applied",
                     "target": "all_allies",
-                    "effect": "core_damage_up",
+                    "effect": "core_dmg_pct",
                     "value": [
                         50.33,
                         54.2,
@@ -72,7 +62,9 @@
                         85.17
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "우정의 가드 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -82,23 +74,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "core_damage_up",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
+                    "trigger": "hit_count:5",
+                    "target": "allies_top_atk:2",
+                    "effect": "core_dmg_pct",
                     "value": [
                         26.37,
                         27.89,
@@ -112,26 +90,14 @@
                         40.07
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "우정의 서포트",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "heal",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
+                    "trigger": "hit_count:5",
+                    "target": "allies_lowest_hp:2",
+                    "effect": "heal_hp_pct",
                     "value": [
                         5.58,
                         6.03,
@@ -145,7 +111,9 @@
                         9.58
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "우정의 서포트 2",
+                    "type": "instant"
                 }
             ]
         },
@@ -158,14 +126,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "친구들과 함께라면!",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         9.56,
                         10.29,
@@ -179,13 +161,14 @@
                         16.18
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "친구들과 함께라면! 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         17.16,
                         18.7,
@@ -199,8 +182,10 @@
                         31.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "친구들과 함께라면! 3",
+                    "type": "buff",
+                    "condition": "during_shield"
                 }
             ]
         }

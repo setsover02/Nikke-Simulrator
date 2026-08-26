@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "T.T. STAR",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         25.01,
                         27.23,
@@ -40,13 +41,15 @@
                         45.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "보컬 효과",
+                    "type": "buff",
+                    "condition": "self_state:무대 파트 : 보컬"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.06,
                         1.14,
@@ -60,9 +63,11 @@
                         1.8
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": 3,
-                    "interval": 1
+                    "name": "댄스 효과",
+                    "type": "instant",
+                    "condition": "self_state:무대 파트 : 댄스",
+                    "scaling": "max_hp"
                 }
             ]
         },
@@ -72,23 +77,55 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "buff",
-                    "status": "무대 파트",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "멋진 무대였어요!",
+                    "type": "instant",
+                    "condition": "not_self_state:떼창",
+                    "target_effect": "무대 파트 : 보컬"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "buff",
-                    "status": "무대 파트",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "멋진 무대였어요! 2",
+                    "type": "instant",
+                    "condition": "not_self_state:떼창",
+                    "target_effect": "무대 파트 : 댄스"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         11.39,
                         12.34,
@@ -102,12 +139,15 @@
                         19.94
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "멋진 무대였어요! 3",
+                    "type": "buff",
+                    "condition": "self_state:무대 파트 : 보컬"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "all_allies",
-                    "effect": "buff",
+                    "effect": "projectile_explosion_dmg_pct",
                     "value": [
                         29.55,
                         31.82,
@@ -121,12 +161,15 @@
                         50
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "멋진 무대였어요! 4",
+                    "type": "buff",
+                    "condition": "self_state:무대 파트 : 보컬"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         19.34,
                         20.82,
@@ -140,7 +183,10 @@
                         32.72
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "멋진 무대였어요! 5",
+                    "type": "buff",
+                    "condition": "self_state:무대 파트 : 보컬"
                 }
             ]
         },
@@ -153,42 +199,116 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "status": "무대 파트",
+                    "effect": "gauge_charge",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": null,
+                    "name": "무대 카운트",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "status": "무대 파트",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": null,
+                    "name": "다 함께 불러주세요! (보컬 해제)",
+                    "type": "instant",
+                    "target_effect": "무대 파트 : 보컬"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "다 함께 불러주세요! (댄스 해제)",
+                    "type": "instant",
+                    "target_effect": "무대 파트 : 댄스"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "무대 파트 : 댄스",
+                    "type": "buff",
+                    "condition": "gauge_mod:무대_단계:2:1"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "무대 파트 : 보컬",
+                    "type": "buff",
+                    "condition": "gauge_mod:무대_단계:2:0"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
-                    "status": "떼창",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         16.67,
                         18.16,
@@ -202,12 +322,14 @@
                         30.02
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "떼창",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         23.64,
                         25.45,
@@ -221,12 +343,14 @@
                         40
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "다 함께 불러주세요! 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         25.02,
                         27.25,
@@ -240,7 +364,9 @@
                         45.05
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "다 함께 불러주세요! 3",
+                    "type": "buff"
                 }
             ]
         }

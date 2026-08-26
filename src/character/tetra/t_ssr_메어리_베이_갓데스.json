@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "세라핌",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 65.95,
         "maxAmmo": 6,
         "reloadTime": 1.5,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         0.62,
                         0.67,
@@ -48,7 +49,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.18,
                         2.35,
@@ -70,7 +71,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         4.05,
                         4.36,
@@ -98,8 +99,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         3.43,
                         5.36,
@@ -118,8 +119,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         3.43,
                         4.59,
@@ -138,8 +139,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         2.97,
                         3.57,
@@ -166,8 +167,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_pct",
                     "value": [
                         13.72,
                         14.78,
@@ -186,7 +187,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         16.47,
                         17.74,

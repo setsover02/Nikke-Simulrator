@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,14 +27,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 2,
-                    "unit": "percent"
+                    "effect": "force_skill_use",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "피어나다 4",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         3.01,
                         3.24,
@@ -47,12 +62,14 @@
                         5.1
                     ],
                     "unit": "percent",
-                    "duration": 30
+                    "duration": 30,
+                    "name": "피어나다",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "named_buff_duration_extend",
                     "value": [
                         5.92,
                         6.38,
@@ -65,12 +82,17 @@
                         9.56,
                         10.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "피어나다 2",
+                    "type": "instant",
+                    "condition": "self_state:춤추는 꽃",
+                    "target_effect": "춤추는 꽃"
                 },
                 {
-                    "trigger": "part_destroy",
-                    "target": "all_enemies",
-                    "effect": "buff",
+                    "trigger": "event:part_destroy",
+                    "target": "enemies_with_buff:벚꽃잎",
+                    "effect": "named_buff_duration_extend",
                     "value": [
                         5.92,
                         6.38,
@@ -83,7 +105,11 @@
                         9.56,
                         10.02
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "피어나다 3",
+                    "type": "instant",
+                    "target_effect": "벚꽃잎"
                 }
             ]
         },
@@ -93,10 +119,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:30.0s",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "status": "춤추는 꽃",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         9.24,
                         9.95,
@@ -110,13 +135,14 @@
                         15.64
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "춤추는 꽃",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "highest_atk_enemy_1",
+                    "trigger": "every:30.0s",
+                    "target": "enemies_top_atk:1",
                     "effect": "dot_damage",
-                    "status": "벚꽃잎",
                     "value": [
                         151.27,
                         162.9,
@@ -130,9 +156,9 @@
                         256
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 15,
-                    "interval": 1
+                    "name": "벚꽃잎",
+                    "type": "damage"
                 }
             ]
         },
@@ -144,8 +170,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "damage",
+                    "target": "enemies_random",
+                    "effect": "sequential_damage:10",
                     "value": [
                         270.13,
                         290.91,
@@ -159,29 +185,13 @@
                         457.14
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "화양연화",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target",
+                    "target": "same_target:화양연화",
                     "effect": "dot_damage",
                     "value": [
                         20.77,
@@ -196,10 +206,11 @@
                         35.16
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 10,
+                    "name": "화양연화 2",
+                    "type": "damage",
                     "stack": 10,
-                    "interval": 1
+                    "scaling": "stack_count"
                 }
             ]
         }

@@ -13,9 +13,10 @@
         "maxAmmo": 9,
         "reloadTime": 2.33,
         "chargeTime": 0,
-        "fireRate": 1.51515,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 1.5,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,10 +25,163 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_end",
+                    "target": "allies_weapon:SG",
+                    "effect": "atk_caster_based_pct",
+                    "value": [
+                        6.86,
+                        7.54,
+                        8.22,
+                        8.91,
+                        9.59,
+                        10.27,
+                        10.96,
+                        11.64,
+                        12.32,
+                        13
+                    ],
+                    "unit": "percent",
+                    "duration": 15,
+                    "name": "쌓여가는 사진첩",
+                    "type": "buff",
+                    "scaling": "stack_count",
+                    "scaling_ref": "소중한 추억"
+                },
+                {
+                    "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "status": "youth_record",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 2",
+                    "type": "instant",
+                    "target_effect": "추억 남기기"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 3",
+                    "type": "instant",
+                    "target_effect": "추억 남기기 3"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 4",
+                    "type": "instant",
+                    "target_effect": "행복한 기억"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 5",
+                    "type": "instant",
+                    "target_effect": "청춘의 기록"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 6",
+                    "type": "instant",
+                    "target_effect": "소중한 추억"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "gauge_consume",
+                    "value": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "쌓여가는 사진첩 7",
+                    "type": "instant"
+                },
+                {
+                    "trigger": "on_attack",
+                    "target": "self",
+                    "effect": "normal_atk_dmg_pct",
                     "value": [
                         10,
                         10,
@@ -42,19 +196,10 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "청춘의 기록",
+                    "type": "buff",
+                    "condition": "self_state:추억 남기기",
                     "stack": 3
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
                 }
             ]
         },
@@ -64,34 +209,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "ammo_charge",
-                    "condition": {
-                        "count": 2
-                    },
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "pellet_count_up",
-                    "condition": {
-                        "count": 4
-                    },
-                    "status": "happy_memories",
+                    "effect": "gauge_charge",
                     "value": [
                         1,
                         1,
@@ -104,18 +224,61 @@
                         1,
                         1
                     ],
-                    "unit": "count",
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "기억과 추억",
+                    "type": "instant",
+                    "condition": "self_state:추억 남기기"
+                },
+                {
+                    "trigger": "on_attack",
+                    "target": "self",
+                    "effect": "ammo_charge_flat",
+                    "value": [
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6,
+                        6
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "기억과 추억 2",
+                    "type": "instant",
+                    "condition": "self_state:추억 남기기"
+                },
+                {
+                    "trigger": "on_attack",
+                    "target": "self",
+                    "effect": "pellet_count",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
                     "duration": "permanent",
+                    "name": "행복한 기억",
+                    "type": "buff",
+                    "condition": "self_state:추억 남기기",
                     "stack": 3
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": 6
-                    },
-                    "status": "precious_memories",
+                    "effect": "atk_pct",
                     "value": [
                         1.47,
                         1.59,
@@ -130,12 +293,15 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "소중한 추억",
+                    "type": "buff",
+                    "condition": "self_state:추억 남기기",
                     "stack": 3
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "sg_allies_excluding_self",
-                    "effect": "atk_damage_up",
+                    "target": "allies_weapon_excl_self:SG",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         31.12,
                         33.77,
@@ -149,7 +315,9 @@
                         55
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "기억과 추억 5",
+                    "type": "buff"
                 }
             ]
         },
@@ -162,13 +330,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         11.87,
                         12.78,
@@ -182,12 +344,14 @@
                         20.09
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "추억 남기기",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_flat",
                     "value": [
                         2,
                         2,
@@ -200,12 +364,15 @@
                         2,
                         2
                     ],
-                    "unit": "count"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "추억 남기기 2",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         17.72,
                         19.08,
@@ -219,12 +386,14 @@
                         29.99
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "추억 남기기 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "burst_damage",
                     "value": [
                         327.6,
                         352.8,
@@ -238,7 +407,9 @@
                         554.4
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "빛나는 청춘",
+                    "type": "damage"
                 }
             ]
         }

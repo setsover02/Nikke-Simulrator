@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "찻집 리코리코",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 10.12,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,25 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         100,
                         100,
@@ -58,26 +41,36 @@
                         100
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": null,
+                    "name": "초감각",
+                    "type": "instant"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
                     "effect": "invincible",
-                    "status": "사격 간파",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 2
+                    "duration": 2,
+                    "name": "사격 간파",
+                    "type": "buff",
+                    "condition": "gauge_above:초감각:100"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         31.72,
                         34.16,
@@ -91,18 +84,15 @@
                         53.69
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "초감각 2",
+                    "type": "buff",
+                    "condition": "gauge_above:초감각:70"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         28.73,
                         30.94,
@@ -116,18 +106,15 @@
                         48.62
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "초감각 3",
+                    "type": "buff",
+                    "condition": "gauge_above:초감각:55"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         13.22,
                         14.23,
@@ -141,18 +128,15 @@
                         22.37
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "초감각 4",
+                    "type": "buff",
+                    "condition": "gauge_above:초감각:25"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:2s",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume",
                     "value": [
                         1,
                         1,
@@ -165,7 +149,10 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "초감각 5",
+                    "type": "instant"
                 }
             ]
         },
@@ -177,29 +164,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "armor_break_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "방어 관통 사격",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:48",
                     "target": "target",
-                    "effect": "damage",
-                    "condition": {
-                        "count": [
-                            48,
-                            48,
-                            48,
-                            48,
-                            48,
-                            48,
-                            48,
-                            48,
-                            48,
-                            48
-                        ]
-                    },
+                    "effect": "armor_break_damage",
                     "value": [
                         279.01,
                         300.48,
@@ -213,7 +199,9 @@
                         472.18
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "방어 관통 사격 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -226,7 +214,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         100,
                         100,
@@ -239,12 +227,15 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "긴급 충전",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         43.23,
                         46.56,
@@ -258,7 +249,9 @@
                         73.16
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "긴급 충전 2",
+                    "type": "buff"
                 }
             ]
         }

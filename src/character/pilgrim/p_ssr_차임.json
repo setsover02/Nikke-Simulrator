@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "바이스리터",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 8.1,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "소원",
                     "value": [
                         27.45,
@@ -54,7 +55,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "status": "일과 보고",
                     "value": [
                         27.31,
@@ -83,13 +84,24 @@
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "burst_reenter",
-                    "value": 2,
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
                     "unit": "count"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         11.82,
                         12.72,
@@ -108,7 +120,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "status": "충심",
                     "value": [
                         54.62,

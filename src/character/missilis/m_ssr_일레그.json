@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -43,23 +44,9 @@
                     "duration": "permanent"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:100",
                     "target": "self",
-                    "effect": "distribute_damage",
-                    "condition": {
-                        "count": [
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100
-                        ]
-                    },
+                    "effect": "split_dmg_pct",
                     "value": [
                         93.75,
                         100.97,
@@ -83,23 +70,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:60",
                     "target": "all_allies",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         5.49,
                         6.33,
@@ -146,7 +119,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "value": [
                         22.46,
                         24.38,
@@ -165,8 +138,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "damage",
+                    "target": "target",
+                    "effect": "skill_damage",
                     "value": [
                         187.09,
                         201.48,
@@ -184,8 +157,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "def_down",
+                    "target": "target",
+                    "effect": "enemy_def_down_pct",
                     "status": "boom_install",
                     "value": [
                         21.06,

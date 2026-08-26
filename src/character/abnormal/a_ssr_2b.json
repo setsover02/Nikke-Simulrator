@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         5.92,
                         6.38,
@@ -46,7 +47,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         11.85,
                         12.76,
@@ -66,7 +67,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         34.13,
                         36.75,
@@ -93,7 +94,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         98.94,
                         106.56,
@@ -112,7 +113,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         3.64,
                         3.92,
@@ -140,7 +141,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "value": [
                         1441.44,
                         1552.32,

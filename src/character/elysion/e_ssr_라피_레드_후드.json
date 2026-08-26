@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,66 +27,52 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "step": 1
-                    },
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "step": 1
-                    },
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "step": 1
-                    },
-                    "status": "전투 보조",
+                    "effect": "burst_stage_override:1",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "전투 보조",
+                    "type": "buff",
+                    "condition": "no_burst1_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "step": 1
-                    },
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "step": 1
-                    },
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "전투 보조 해제",
+                    "type": "instant",
+                    "condition": "has_burst1_ally",
+                    "target_effect": "전투 보조"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         5.34,
                         5.58,
@@ -98,12 +85,16 @@
                         7.24,
                         7.48
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "전황 파악",
+                    "type": "instant",
+                    "condition": "self_state:전투 보조"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         5.01,
                         5.35,
@@ -117,12 +108,15 @@
                         8.02
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전황 파악 2",
+                    "type": "buff",
+                    "condition": "self_state:전투 보조"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         59.4,
                         63.36,
@@ -136,12 +130,15 @@
                         95.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전황 파악 3",
+                    "type": "buff",
+                    "condition": "not_self_state:전투 보조"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "intercept_dmg_pct",
                     "value": [
                         30,
                         32,
@@ -155,7 +152,10 @@
                         48
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전황 파악 4",
+                    "type": "buff",
+                    "condition": "not_self_state:전투 보조"
                 }
             ]
         },
@@ -167,20 +167,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "element_damage_up",
+                    "effect": "element_code_override",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "부착형 유탄",
+                    "type": "buff"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "projectile_attachment_dmg_pct",
                     "value": [
                         94.2,
                         100.48,
@@ -194,12 +202,14 @@
                         150.72
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "부착형 유탄 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "projectile_explosion_dmg_pct",
                     "value": [
                         59.44,
                         64.02,
@@ -213,27 +223,120 @@
                         100.6
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "부착형 유탄 3",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
-                    "unit": "percent"
+                    "trigger": "hit_count:120",
+                    "target": "target",
+                    "effect": "projectile_attachment_damage",
+                    "value": [
+                        49.71,
+                        53.98,
+                        58.25,
+                        62.51,
+                        66.78,
+                        71.05,
+                        75.31,
+                        79.58,
+                        83.85,
+                        88.11
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "부착형 유탄 4",
+                    "type": "damage"
+                },
+                {
+                    "trigger": "weapon_hit:부착형 유탄 4",
+                    "target": "target",
+                    "effect": "buff_stack_add",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "유탄",
+                    "type": "buff",
+                    "condition": "not_during_full_burst"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "target",
+                    "effect": "projectile_explosion_damage",
+                    "value": [
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "유탄 폭발",
+                    "type": "damage",
+                    "condition": "self_stack_above:유탄:1",
+                    "scaling": "stack_count",
+                    "scaling_ref": "유탄"
+                },
+                {
+                    "trigger": "full_burst_start",
+                    "target": "target",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "유탄 제거",
+                    "type": "instant",
+                    "target_effect": "유탄"
+                },
+                {
+                    "trigger": "weapon_hit:부착형 유탄 4",
+                    "target": "target",
+                    "effect": "projectile_explosion_damage",
+                    "value": [
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71,
+                        49.71
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "유탄 즉발 폭발",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 }
             ]
         },
@@ -246,14 +349,29 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
-                    "value": 20,
-                    "unit": "seconds"
+                    "effect": "burst_cooldown_reduce",
+                    "value": [
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20,
+                        20
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "계승되는 힘",
+                    "type": "instant",
+                    "condition": "self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "explosion_range_up",
+                    "effect": "explosion_range",
                     "value": [
                         62.88,
                         67.08,
@@ -267,12 +385,15 @@
                         100.62
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "계승되는 힘 2",
+                    "type": "buff",
+                    "condition": "self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         11.16,
                         11.92,
@@ -286,13 +407,15 @@
                         18.01
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "계승되는 힘 3",
+                    "type": "buff",
+                    "condition": "self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "extra_damage",
+                    "target": "enemies_nearest:1",
+                    "effect": "bonus_damage",
                     "value": [
                         1512,
                         1656,
@@ -306,12 +429,15 @@
                         2808
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "계승되는 힘 4",
+                    "type": "damage",
+                    "condition": "not_self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "explosion_range_up",
+                    "effect": "explosion_range",
                     "value": [
                         62.88,
                         67.08,
@@ -325,12 +451,15 @@
                         100.62
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "계승되는 힘 5",
+                    "type": "buff",
+                    "condition": "not_self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "projectile_attachment_dmg_pct",
                     "value": [
                         216,
                         238.8,
@@ -344,12 +473,15 @@
                         421.2
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "계승되는 힘 6",
+                    "type": "buff",
+                    "condition": "not_self_state:전투 보조"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "trigger_count_reduce",
                     "value": [
                         60,
                         60,
@@ -363,7 +495,11 @@
                         60
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "계승되는 힘 7",
+                    "type": "buff",
+                    "condition": "not_self_state:전투 보조",
+                    "target_effect": "부착형 유탄 4"
                 }
             ]
         }

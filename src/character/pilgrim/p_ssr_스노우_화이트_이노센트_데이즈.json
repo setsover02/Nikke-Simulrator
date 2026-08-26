@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "self",
-                    "effect": "max_ammo_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "max_ammo_pct",
                     "value": [
                         15.16,
                         16.33,
@@ -58,23 +45,9 @@
                     "stack": 5
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "enemies_in_range",
-                    "effect": "damage",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "skill_damage",
                     "value": [
                         129.1,
                         135.72,
@@ -98,23 +71,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:50",
                     "target": "all_enemies",
-                    "effect": "damage",
-                    "condition": {
-                        "count": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
+                    "effect": "skill_damage",
                     "value": [
                         36.45,
                         39.25,
@@ -133,7 +92,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         12.48,
                         13.44,
@@ -180,7 +139,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         32.4,
                         39.6,
@@ -201,7 +160,19 @@
                     "target": "self",
                     "effect": "infinite_ammo",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

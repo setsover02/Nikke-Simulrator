@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 250
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,16 +25,31 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "focus",
+                    "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "buff",
+                    "effect": "focus_fire",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "버블 오더",
+                    "type": "buff",
+                    "condition": "focusing"
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         5.34,
                         5.58,
@@ -46,12 +62,15 @@
                         7.24,
                         7.48
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "버블 오더 2",
+                    "type": "instant"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         2.5,
                         2.66,
@@ -65,26 +84,14 @@
                         4
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "버블 오더 3",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "all_allies_ammo_consumed",
+                    "trigger": "squad_ammo_consume:400",
                     "target": "all_allies",
-                    "effect": "burst_gauge_charge",
-                    "condition": {
-                        "count": [
-                            400,
-                            400,
-                            400,
-                            400,
-                            400,
-                            400,
-                            400,
-                            400,
-                            400,
-                            400
-                        ]
-                    },
+                    "effect": "burst_charge_pct",
                     "value": [
                         23.12,
                         24.66,
@@ -97,7 +104,10 @@
                         35.46,
                         37
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "버블 오더 4",
+                    "type": "instant"
                 }
             ]
         },
@@ -107,10 +117,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enemy_spawn",
+                    "trigger": "event:enemy_spawn",
                     "target": "target",
-                    "effect": "damage_taken_up",
-                    "status": "거품",
+                    "effect": "received_dmg_pct",
                     "value": [
                         3.16,
                         3.37,
@@ -124,27 +133,14 @@
                         5.05
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "거품",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:50",
                     "target": "target",
-                    "effect": "damage_taken_up",
-                    "condition": {
-                        "count": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
-                    "status": "터진 거품",
+                    "effect": "received_dmg_pct",
                     "value": [
                         3.16,
                         3.37,
@@ -158,53 +154,60 @@
                         5.05
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "터진 거품",
+                    "type": "buff",
+                    "condition": "target_state:거품"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:50",
                     "target": "target",
                     "effect": "stun",
-                    "condition": {
-                        "count": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "터진 거품 2",
+                    "type": "buff",
+                    "condition": "target_state:거품"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:50",
                     "target": "target",
-                    "effect": "buff",
-                    "condition": {
-                        "count": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "터진 거품 3",
+                    "type": "instant",
+                    "condition": "target_state:거품",
+                    "target_effect": "거품"
                 },
                 {
-                    "trigger": "full_burst_time",
-                    "target": "random_enemies",
-                    "effect": "damage",
+                    "trigger": "every:1s",
+                    "target": "enemies_random",
+                    "effect": "sequential_damage:4",
                     "value": [
                         39.6,
                         42.24,
@@ -218,45 +221,15 @@
                         63.36
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "버블 웨이브",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "value": [
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4,
-                        4
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "all_allies_ammo_consumed",
-                    "target": "random_enemies",
-                    "effect": "damage",
-                    "condition": {
-                        "count": [
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500
-                        ]
-                    },
-                    "status": "거품 난사",
+                    "trigger": "squad_ammo_consume:500",
+                    "target": "enemies_random",
+                    "effect": "sequential_damage:10",
                     "value": [
                         53.12,
                         56.66,
@@ -270,39 +243,9 @@
                         85
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "all_allies_ammo_consumed",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "condition": {
-                        "count": [
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500,
-                            500
-                        ]
-                    },
-                    "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
-                    ],
-                    "unit": "percent"
+                    "duration": null,
+                    "name": "거품 난사",
+                    "type": "damage"
                 }
             ]
         },
@@ -315,7 +258,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         6.33,
                         6.75,
@@ -329,12 +272,14 @@
                         10.13
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "세이렌 송",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         20.79,
                         22.17,
@@ -347,12 +292,15 @@
                         31.87,
                         33.26
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "세이렌 송 2",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         10.8,
                         11.52,
@@ -366,8 +314,9 @@
                         17.28
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "세이렌 송 3",
+                    "type": "buff"
                 }
             ]
         }

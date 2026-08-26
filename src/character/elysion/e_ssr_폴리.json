@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "A.C.P.U.",
         "burstLevel": 2,
-        "atkCoef": 222.8,
+        "atkCoef": 201.5,
         "maxAmmo": 9,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:5",
                     "target": "all_allies",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         2.73,
                         3.03,
@@ -66,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         11.75,
                         13.06,
@@ -85,9 +72,21 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "damage_share",
+                    "effect": "split_dmg_pct",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -120,7 +119,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         22.27,
                         24.75,

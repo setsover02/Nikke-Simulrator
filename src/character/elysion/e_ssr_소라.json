@@ -12,10 +12,11 @@
         "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
-        "fireRate": 0,
+        "fireRate": 1,
         "chargeTime": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         20.8,
                         22.4,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "part_destroy",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "status": "저장",
                     "value": [
                         3.17,
@@ -74,7 +75,7 @@
                 {
                     "trigger": "part_destroy",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         14.03,
                         15.11,
@@ -102,7 +103,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         30.88,
                         33.26,

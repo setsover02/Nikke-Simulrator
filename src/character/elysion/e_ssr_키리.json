@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "A.C.P.U.",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "target",
-                    "effect": "atk_down",
+                    "effect": "atk_pct",
                     "value": [
                         5.28,
                         5.69,
@@ -46,7 +47,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         3.43,
                         3.7,
@@ -73,7 +74,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         6.87,
                         7.4,
@@ -100,7 +101,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         4.11,
                         4.43,
@@ -120,8 +121,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "defender_allies",
-                    "effect": "critical_rate_up",
+                    "target": "allies_class:방어형",
+                    "effect": "crit_rate",
                     "value": [
                         11.76,
                         12.66,

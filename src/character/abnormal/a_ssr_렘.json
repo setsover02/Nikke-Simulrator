@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:15",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         2.49,
                         2.68,
@@ -60,9 +47,21 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -74,7 +73,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         24.96,
                         26.88,
@@ -93,10 +92,22 @@
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "rl_allies",
-                    "effect": "heal",
+                    "target": "allies_weapon:RL",
+                    "effect": "heal_hp_pct",
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -109,7 +120,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "status": "도깨비 기운",
                     "value": [
                         7.4,
@@ -128,8 +139,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "rl_allies",
-                    "effect": "atk_up",
+                    "target": "allies_weapon:RL",
+                    "effect": "atk_pct",
                     "value": [
                         30.01,
                         32.31,
@@ -148,8 +159,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "rl_allies",
-                    "effect": "max_ammo_up",
+                    "target": "allies_weapon:RL",
+                    "effect": "max_ammo_pct",
                     "value": [
                         3,
                         3,

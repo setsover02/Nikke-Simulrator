@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "리와인드",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,14 +27,26 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "differential_damage_share",
+                    "effect": "split_dmg_pct",
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         5.57,
                         6.08,
@@ -60,14 +73,26 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "differential_damage_share",
+                    "effect": "split_dmg_pct",
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.58,
                         1.72,
@@ -96,7 +121,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         9.9,
                         10.8,
@@ -115,7 +140,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "damage_taken_down",
+                    "effect": "received_dmg",
                     "value": [
                         4.87,
                         5.32,

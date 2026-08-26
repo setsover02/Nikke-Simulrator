@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:180",
                     "target": "self",
-                    "effect": "max_hp_up",
-                    "condition": {
-                        "count": [
-                            180,
-                            180,
-                            180,
-                            180,
-                            180,
-                            180,
-                            180,
-                            180,
-                            180,
-                            180
-                        ]
-                    },
+                    "effect": "max_hp_pct",
                     "status": "메이드정신",
                     "value": [
                         7.15,
@@ -68,7 +55,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.04,
                         2.17,
@@ -87,7 +74,7 @@
                 {
                     "trigger": "max_stack_applied",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         5.37,
                         6.19,
@@ -114,7 +101,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "random_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         110.68,
                         134.08,
@@ -135,7 +122,19 @@
                     "target": "random_enemies",
                     "effect": "stun",
                     "unit": "percent",
-                    "duration": 1
+                    "duration": 1,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

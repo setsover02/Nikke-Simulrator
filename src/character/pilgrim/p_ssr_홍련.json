@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "파이오니아",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 27.08,
         "maxAmmo": 20,
         "reloadTime": 2.3,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:10",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         17.48,
                         18.11,
@@ -55,26 +42,14 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
+                    "name": "육참골단",
+                    "type": "buff",
                     "stack": 5
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:10",
                     "target": "self",
-                    "effect": "current_hp_down",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "current_hp_reduce",
                     "value": [
                         4.01,
                         4.01,
@@ -87,7 +62,10 @@
                         4.01,
                         4.01
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "육참골단 2",
+                    "type": "instant"
                 }
             ]
         },
@@ -97,23 +75,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "received_hit_count:1",
                     "target": "target",
-                    "effect": "extra_damage",
-                    "condition": {
-                        "chance": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "bonus_damage",
                     "value": [
                         86.39,
                         92.15,
@@ -127,26 +91,15 @@
                         138.24
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "검신합일",
+                    "type": "damage",
+                    "condition": "prob:30"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "hp_below": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
+                    "effect": "crit_dmg",
                     "value": [
                         4.13,
                         4.4,
@@ -160,7 +113,10 @@
                         6.61
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "검신합일 2",
+                    "type": "buff",
+                    "condition": "self_hp_below:60"
                 }
             ]
         },
@@ -173,21 +129,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
-                    "condition": {
-                        "hp_below": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
+                    "effect": "crit_rate",
                     "value": [
                         12.23,
                         13.05,
@@ -201,12 +143,15 @@
                         19.57
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "홍련일섬",
+                    "type": "buff",
+                    "condition": "self_hp_below:50"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "burst_damage",
                     "value": [
                         530.71,
                         566.1,
@@ -220,7 +165,9 @@
                         849.15
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "홍련일섬 2",
+                    "type": "damage"
                 }
             ]
         }

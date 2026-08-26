@@ -13,9 +13,10 @@
         "maxAmmo": 60,
         "reloadTime": 1.5,
         "chargeTime": 0,
-        "fireRate": 10,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 12,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:10",
                     "target": "self",
-                    "effect": "def_up",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "def_pct",
                     "value": [
                         1.89,
                         2.52,
@@ -66,21 +53,8 @@
                 {
                     "trigger": "on_hit",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "chance": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "atk_pct",
+                    "condition": "prob:20",
                     "value": [
                         2.27,
                         3.03,
@@ -107,7 +81,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         196.87,
                         262.5,

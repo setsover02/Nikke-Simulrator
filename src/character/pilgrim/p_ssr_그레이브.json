@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "올드 테일즈",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 17.91,
         "maxAmmo": 60,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,52 +25,73 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "event:state_end:미래 예지",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "ammo_charge_pct",
                     "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "방열",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:state_end:미래 예지",
                     "target": "self",
-                    "effect": "buff",
-                    "status": "방열",
+                    "effect": "reload_speed_pct",
                     "value": [
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50,
+                        -50
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "방열 2",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "방열 3",
+                    "type": "instant",
+                    "target_effect": "방열"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2,
                         2,
@@ -83,14 +105,15 @@
                         2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": "permanent",
-                    "interval": 1
+                    "name": "방열 4",
+                    "type": "instant",
+                    "condition": "self_state:방열"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "burst_gauge_charge_speed_up",
+                    "effect": "burst_charge_speed_pct",
                     "value": [
                         23.02,
                         24.79,
@@ -104,12 +127,15 @@
                         38.96
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "방열 5",
+                    "type": "buff",
+                    "condition": "self_state:방열"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         28.6,
                         30.8,
@@ -123,7 +149,10 @@
                         48.4
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "방열 6",
+                    "type": "buff",
+                    "condition": "self_state:방열"
                 }
             ]
         },
@@ -133,24 +162,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:15",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
-                    "status": "과열 I",
+                    "effect": "atk_pct",
                     "value": [
                         9.15,
                         9.85,
@@ -163,33 +177,37 @@
                         14.78,
                         15.48
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "과열 I",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "event:full_reload",
                     "target": "self",
-                    "effect": "buff",
-                    "condition": {
-                        "count": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "과열 I 제거",
+                    "type": "instant",
+                    "target_effect": "과열 I"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "event:미래 예지",
                     "target": "self",
-                    "effect": "atk_up",
-                    "status": "과열 II",
+                    "effect": "atk_pct",
                     "value": [
                         12.21,
                         13.14,
@@ -203,13 +221,15 @@
                         20.66
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "과열 II",
+                    "type": "buff",
+                    "condition": "self_state:미래 예지"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "event:미래 예지",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "status": "과열 III",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         18.2,
                         19.6,
@@ -223,7 +243,10 @@
                         30.8
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "과열 III",
+                    "type": "buff",
+                    "condition": "self_state:미래 예지"
                 }
             ]
         },
@@ -236,13 +259,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "current_hp_down",
+                    "effect": "current_hp_reduce",
                     "value": [
                         1,
                         1,
@@ -257,26 +274,55 @@
                     ],
                     "unit": "percent",
                     "duration": 10,
-                    "interval": 1
+                    "name": "미래 예지",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "infinite_ammo",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         31.2,
                         33.6,
@@ -290,12 +336,14 @@
                         52.8
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         53.24,
                         56.79,
@@ -309,12 +357,14 @@
                         85.19
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 4",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         28.48,
                         30.67,
@@ -328,12 +378,14 @@
                         48.2
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 5",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         23.63,
                         25.44,
@@ -347,12 +399,14 @@
                         39.98
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 6",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_flat",
                     "value": [
                         3,
                         3,
@@ -365,8 +419,10 @@
                         3,
                         3
                     ],
-                    "unit": "count",
-                    "duration": 10
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "라이터즈 스포일러 7",
+                    "type": "buff"
                 }
             ]
         }

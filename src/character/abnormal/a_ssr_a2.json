@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "요르하",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 67.65,
         "maxAmmo": 6,
         "reloadTime": 1.5,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         66.81,
                         71.66,
@@ -90,7 +91,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         24.16,
                         26.02,
@@ -118,7 +119,19 @@
                     "trigger": "burst_cast",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
@@ -142,7 +155,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         9.36,
                         10,
@@ -160,7 +173,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         23.02,
                         24.45,

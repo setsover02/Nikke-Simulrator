@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "언리미티드",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 14.2,
         "maxAmmo": 60,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,24 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "ammo_charge",
-                    "condition": {
-                        "chance": [
-                            2,
-                            2,
-                            3,
-                            3,
-                            3,
-                            4,
-                            4,
-                            4,
-                            5,
-                            5
-                        ]
-                    },
-                    "status": "급조 탄환",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         3.13,
                         3.37,
@@ -54,13 +40,16 @@
                         5.06,
                         5.31
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "급조 탄환",
+                    "type": "instant",
+                    "condition": "prob:{0}"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:급조 탄환",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
-                    "status": "임시 개조",
+                    "effect": "max_ammo_flat",
                     "value": [
                         1,
                         1,
@@ -73,14 +62,16 @@
                         2,
                         2
                     ],
-                    "unit": "count",
+                    "unit": "percent",
                     "duration": 5,
+                    "name": "임시 개조",
+                    "type": "buff",
                     "stack": 3
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:급조 탄환",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         2.96,
                         3.21,
@@ -94,7 +85,9 @@
                         5.24
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "임시 개조 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -106,7 +99,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         1.96,
                         2.11,
@@ -120,12 +113,15 @@
                         3.32
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "개조 성공",
+                    "type": "buff",
+                    "condition": "self_stack_above:임시 개조:3"
                 },
                 {
                     "trigger": "passive",
-                    "target": "sg_allies",
-                    "effect": "atk_speed_up",
+                    "target": "allies_weapon:SG",
+                    "effect": "attack_speed_pct",
                     "value": [
                         24.96,
                         26.88,
@@ -139,7 +135,10 @@
                         42.24
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "개조 성공 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:임시 개조:3"
                 }
             ]
         },
@@ -152,8 +151,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
-                    "status": "급조품의 기적",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         1.37,
                         1.47,
@@ -167,14 +165,16 @@
                         2.32
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "급조품의 기적",
+                    "type": "buff",
+                    "scaling": "stack_count",
+                    "scaling_ref": "임시 개조"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "sg_allies",
-                    "effect": "atk_up",
-                    "status": "급조품의 기적",
+                    "target": "allies_weapon:SG",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         14.31,
                         15.41,
@@ -188,8 +188,11 @@
                         24.21
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "급조품의 기적 2",
+                    "type": "buff",
+                    "scaling": "stack_count",
+                    "scaling_ref": "임시 개조"
                 }
             ]
         }
@@ -205,9 +208,9 @@
                     "name": "급조 탄환",
                     "effects": [
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "hit_count:{0}",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "ammo_charge_pct",
                             "value": [
                                 3.13,
                                 3.37,
@@ -220,12 +223,15 @@
                                 5.06,
                                 5.31
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "급조 탄환",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "max_ammo_up",
+                            "trigger": "event:급조 탄환",
+                            "target": "all_allies",
+                            "effect": "max_ammo_flat",
                             "value": [
                                 1,
                                 1,
@@ -238,12 +244,16 @@
                                 2,
                                 2
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "임시 개조",
+                            "type": "buff",
+                            "stack": 3
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "event:급조 탄환",
+                            "target": "all_allies",
+                            "effect": "crit_dmg",
                             "value": [
                                 2.96,
                                 3.21,
@@ -256,7 +266,10 @@
                                 4.99,
                                 5.24
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "임시 개조 2",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -269,9 +282,9 @@
                     "name": "급조품의 기적",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "all_allies",
+                            "effect": "atk_caster_based_pct",
                             "value": [
                                 1.37,
                                 1.47,
@@ -284,12 +297,17 @@
                                 2.21,
                                 2.32
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "급조품의 기적",
+                            "type": "buff",
+                            "scaling": "stack_count",
+                            "scaling_ref": "임시 개조"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "allies_weapon:SG",
+                            "effect": "atk_caster_based_pct",
                             "value": [
                                 14.31,
                                 15.41,
@@ -302,7 +320,12 @@
                                 23.11,
                                 24.21
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "급조품의 기적 2",
+                            "type": "buff",
+                            "scaling": "stack_count",
+                            "scaling_ref": "임시 개조"
                         }
                     ]
                 }
@@ -316,8 +339,8 @@
                     "effects": [
                         {
                             "trigger": "passive",
-                            "target": "self",
-                            "effect": "buff",
+                            "target": "all_allies",
+                            "effect": "crit_rate",
                             "value": [
                                 5.27,
                                 5.81,
@@ -330,12 +353,16 @@
                                 9.54,
                                 10.08
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "개조 성공",
+                            "type": "buff",
+                            "condition": "self_stack_above:임시 개조:3"
                         },
                         {
                             "trigger": "passive",
-                            "target": "self",
-                            "effect": "buff",
+                            "target": "allies_weapon:SG",
+                            "effect": "attack_speed_pct",
                             "value": [
                                 24.96,
                                 26.88,
@@ -348,7 +375,11 @@
                                 40.32,
                                 42.24
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "개조 성공 2",
+                            "type": "buff",
+                            "condition": "self_stack_above:임시 개조:3"
                         }
                     ]
                 }

@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "카페 스위티",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,22 +25,30 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 6
+                    "duration": 6,
+                    "name": "부끄러움 참기",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
+                    "trigger": "charge_hold:0.5",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         171.36,
                         184.55,
@@ -53,72 +62,81 @@
                         290
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "부끄러움 2",
+                    "type": "damage",
+                    "condition": "not_self_state:부끄러움"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "charge_hold:0.5",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "ammo_charge_pct",
                     "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "부끄러움 3",
+                    "type": "instant",
+                    "condition": "not_self_state:부끄러움"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "charge_hold:0.5",
                     "target": "self",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_time_fixed",
                     "value": [
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3,
+                        3
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "부끄러움 4",
+                    "type": "buff",
+                    "condition": "not_self_state:부끄러움"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "charge_hold:0.5",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "force_reload",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "부끄러움 5",
+                    "type": "instant",
+                    "condition": "not_self_state:부끄러움"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "charge_hold:0.5",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         70.14,
                         75.53,
@@ -132,7 +150,54 @@
                         118.7
                     ],
                     "unit": "percent",
-                    "duration": 40
+                    "duration": 40,
+                    "name": "부끄러움 6",
+                    "type": "buff",
+                    "condition": "not_self_state:부끄러움"
+                },
+                {
+                    "trigger": "charge_hold:0.5",
+                    "target": "self",
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "부끄러움",
+                    "type": "buff",
+                    "condition": "not_self_state:부끄러움"
+                },
+                {
+                    "trigger": "event:full_reload",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "부끄러움 재장전고정 해제",
+                    "type": "instant",
+                    "target_effect": "부끄러움 4"
                 }
             ]
         },
@@ -144,7 +209,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         38.23,
                         41.17,
@@ -158,12 +223,15 @@
                         64.7
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "성질 내기",
+                    "type": "buff",
+                    "condition": "self_state:부끄러움"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         264.55,
                         284.9,
@@ -177,7 +245,9 @@
                         447.7
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": 10,
+                    "name": "성질 내기 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -190,20 +260,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "debuff_immune:부끄러움",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "구경났냐 짜식들아!!",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         69.51,
                         74.86,
@@ -217,12 +295,14 @@
                         117.64
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "구경났냐 짜식들아!! 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         130,
                         140,
@@ -236,7 +316,53 @@
                         220
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "구경났냐 짜식들아!! 3",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "구경났냐 짜식들아!! 4",
+                    "type": "instant",
+                    "target_effect": "부끄러움"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "구경났냐 짜식들아!! 5",
+                    "type": "instant",
+                    "target_effect": "부끄러움 6"
                 }
             ]
         }

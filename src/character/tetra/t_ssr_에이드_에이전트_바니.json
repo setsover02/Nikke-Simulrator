@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "메이드 포 유",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         8.98,
                         9.67,
@@ -40,14 +41,14 @@
                         15.2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "요원의 시선",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "status": "스파이 렌즈",
+                    "effect": "optimal_range_min",
                     "value": [
                         4.44,
                         4.44,
@@ -62,6 +63,8 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
+                    "name": "스파이 렌즈",
+                    "type": "buff",
                     "stack": 10
                 }
             ]
@@ -72,9 +75,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         9.15,
                         10.17,
@@ -88,19 +91,36 @@
                         18.36
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "요원의 움직임",
+                    "type": "buff"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "요원의 움직임 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:스파이 렌즈:10"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         9.36,
                         10.09,
@@ -114,7 +134,10 @@
                         16
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "요원의 움직임 3",
+                    "type": "buff",
+                    "condition": "self_stack_above:스파이 렌즈:10"
                 }
             ]
         },
@@ -127,7 +150,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "optimal_range_min",
                     "value": [
                         55.56,
                         55.56,
@@ -141,12 +164,14 @@
                         55.56
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "최첨단 요원 장비",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         29.85,
                         32.65,
@@ -160,12 +185,14 @@
                         55.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "최첨단 요원 장비 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         5.14,
                         5.7,
@@ -179,7 +206,9 @@
                         10.13
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "최첨단 요원 장비 3",
+                    "type": "buff"
                 }
             ]
         }

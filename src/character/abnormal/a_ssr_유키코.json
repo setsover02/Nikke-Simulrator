@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,21 +27,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "persona_state",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": "permanent",
+                    "name": "페르소나 - 코노하나사쿠야",
+                    "type": "buff"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "heal",
-                    "status": "메디아",
+                    "effect": "heal_hp_pct",
                     "value": [
                         3.37,
                         3.63,
@@ -54,12 +62,15 @@
                         5.7
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": "permanent",
+                    "name": "메디아",
+                    "type": "instant",
+                    "condition": "self_state:페르소나 - 코노하나사쿠야"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         38.62,
                         41.6,
@@ -73,12 +84,14 @@
                         65.37
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "페르소나 : 코노하나사쿠야",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:1more",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         236.54,
                         254.74,
@@ -92,7 +105,9 @@
                         400.31
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "페르소나 : 코노하나사쿠야 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -104,7 +119,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         32.68,
                         35.2,
@@ -118,46 +133,14 @@
                         55.31
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "진홍의 꽃",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal",
-                    "status": "메디라마",
-                    "value": [
-                        3.37,
-                        3.63,
-                        3.88,
-                        4.14,
-                        4.4,
-                        4.67,
-                        4.93,
-                        5.18,
-                        5.44,
-                        5.7
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "distribute_damage",
-                    "status": "화염 부스터",
+                    "effect": "split_dmg_pct",
                     "value": [
                         53.18,
                         57.28,
@@ -171,45 +154,102 @@
                         90.01
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "화염 부스터",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "damage_taken_down",
-                    "status": "진홍의 수호",
+                    "effect": "received_dmg_pct",
                     "value": [
-                        10.6,
-                        11.42,
-                        12.24,
-                        13.05,
-                        13.87,
-                        14.68,
-                        15.5,
-                        16.32,
-                        17.13,
-                        17.95
+                        -10.6,
+                        -11.42,
+                        -12.24,
+                        -13.05,
+                        -13.87,
+                        -14.68,
+                        -15.5,
+                        -16.32,
+                        -17.13,
+                        -17.95
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "진홍의 수호",
+                    "type": "buff",
+                    "condition": "target_code:수냉"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "target": "all_allies",
+                    "effect": "heal_hp_pct",
+                    "value": [
+                        3.37,
+                        3.63,
+                        3.88,
+                        4.14,
+                        4.4,
+                        4.67,
+                        4.93,
+                        5.18,
+                        5.44,
+                        5.7
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "메디라마",
+                    "type": "instant",
+                    "condition": "self_state:화염 부스터"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "진홍의 꽃 해제",
+                    "type": "instant",
+                    "target_effect": "화염 부스터"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "진홍의 꽃 해제 2",
+                    "type": "instant",
+                    "target_effect": "진홍의 수호"
+                },
+                {
+                    "trigger": "burst_enter:3",
+                    "target": "self",
+                    "effect": "element_bonus_pct",
                     "value": [
                         28.45,
                         30.64,
@@ -223,13 +263,14 @@
                         48.15
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "진홍의 꽃 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "allies_excluding_self",
-                    "effect": "atk_up",
-                    "status": "추격",
+                    "trigger": "event:1more",
+                    "target": "allies_burst3_persona_excl_self",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         47.42,
                         51.07,
@@ -243,8 +284,9 @@
                         80.25
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 25
+                    "duration": 25,
+                    "name": "추격",
+                    "type": "buff"
                 }
             ]
         },
@@ -257,7 +299,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         743.83,
                         801.05,
@@ -271,13 +313,14 @@
                         1258.79
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "마하라기다인",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
-                    "status": "1more",
+                    "effect": "atk_pct",
                     "value": [
                         26.79,
                         28.85,
@@ -291,7 +334,10 @@
                         45.33
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "1more",
+                    "type": "buff",
+                    "condition": "target_code:풍압"
                 }
             ]
         }

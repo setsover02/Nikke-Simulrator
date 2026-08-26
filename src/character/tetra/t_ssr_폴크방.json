@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "라이프 토닉",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 14.29,
         "maxAmmo": 60,
         "reloadTime": 1.3,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,7 +26,7 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "highest_atk_allies_2",
+                    "target": "allies_top_atk:2",
                     "effect": "shield",
                     "value": [
                         6.85,
@@ -45,8 +46,8 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "highest_atk_allies_2",
-                    "effect": "heal",
+                    "target": "allies_top_atk:2",
+                    "effect": "heal_hp_pct",
                     "value": [
                         22.85,
                         25.39,
@@ -74,12 +75,24 @@
                     "target": "highest_atk_enemy_1",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         22.92,
                         25.37,
@@ -105,7 +118,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "highest_atk_allies_2",
+                    "target": "allies_top_atk:2",
                     "effect": "shield",
                     "value": [
                         16.45,
@@ -125,8 +138,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "highest_atk_allies_2",
-                    "effect": "heal",
+                    "target": "allies_top_atk:2",
+                    "effect": "heal_hp_pct",
                     "value": [
                         32.9,
                         36.56,

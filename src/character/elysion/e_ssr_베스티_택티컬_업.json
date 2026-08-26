@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "앱솔루트",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 22.44,
         "maxAmmo": 8,
         "reloadTime": 2,
-        "chargeTime": 1,
+        "chargeTime": 2,
         "fireRate": 3,
-        "fullChargeDamage": 250,
-        "coreDamage": 200
+        "fullChargeDamage": 200,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "status": "미사일 가이드",
                     "value": [
                         100,
@@ -46,7 +47,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         34.56,
                         37.22,
@@ -66,7 +67,19 @@
                     "trigger": "full_reload",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -78,7 +91,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "target",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         157.53,
                         169.65,
@@ -97,7 +110,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.82,
                         12.73,
@@ -162,7 +175,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         35.45,
                         38.18,
@@ -181,7 +194,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         290.9,
                         313.28,

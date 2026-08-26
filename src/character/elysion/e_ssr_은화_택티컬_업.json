@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "앱솔루트",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -28,7 +29,18 @@
                     "target": "self",
                     "effect": "remove_status",
                     "status": "카모플라쥬",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "percent",
                     "duration": 5
                 },
@@ -37,22 +49,45 @@
                     "target": "self",
                     "effect": "remove_status",
                     "status": "카모플라쥬",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "percent",
                     "duration": 5
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "unit": "percent",
                     "based_on": "caster_final_atk",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         24.96,
                         26.88,
@@ -79,12 +114,24 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         4.82,
                         5.19,
@@ -103,7 +150,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         24.71,
                         26.61,
@@ -122,7 +169,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         24.96,
                         26.88,
@@ -142,7 +189,19 @@
                     "trigger": "passive",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
@@ -166,7 +225,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         18.3,
                         19.71,
@@ -222,12 +281,24 @@
                             1
                         ]
                     },
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg",
                     "status": "내부 폭발탄",
                     "value": [
                         16.47,

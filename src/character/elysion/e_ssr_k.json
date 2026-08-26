@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "시지 패러리스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 4.55,
         "maxAmmo": 120,
         "reloadTime": 1.8,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "status": "기울어지는 천칭",
                     "value": [
                         0.44,
@@ -67,7 +68,19 @@
                     "trigger": "full_burst_end",
                     "target": "self",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -80,12 +93,24 @@
                     "trigger": "passive",
                     "target": "all_allies",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "max_ammo_down",
+                    "effect": "max_ammo_pct",
                     "value": [
                         30.21,
                         32.54,
@@ -104,7 +129,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         6.27,
                         6.76,
@@ -124,7 +149,19 @@
                     "trigger": "full_burst_end",
                     "target": "all_allies",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -152,12 +189,24 @@
                             92.5
                         ]
                     },
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         37.44,
                         40.32,
@@ -177,7 +226,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         12.48,
                         13.44,

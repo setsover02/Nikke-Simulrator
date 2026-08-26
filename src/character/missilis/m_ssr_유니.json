@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "워드리스",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
-        "chargeTime": 1,
+        "chargeTime": 1.5,
         "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200
+        "fullChargeDamage": 350,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         4.93,
                         5.38,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         1.52,
                         1.66,
@@ -71,7 +72,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.52,
                         1.66,
@@ -91,7 +92,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_pct",
                     "value": [
                         1,
                         1,
@@ -118,7 +119,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         172.4,
                         192,
@@ -137,9 +138,21 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "immobile",
+                    "effect": "stun",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

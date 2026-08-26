@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "5차 강하 부대",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 8.1,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.82,
                         12.73,
@@ -53,7 +54,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         5.91,
                         6.36,
@@ -97,7 +98,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.82,
                         12.73,
@@ -117,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         23.63,
                         25.45,

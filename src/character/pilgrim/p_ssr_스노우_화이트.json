@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "파이오니아",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 14.71,
         "maxAmmo": 60,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "target",
-                    "effect": "extra_damage",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "bonus_damage",
                     "value": [
                         51.75,
                         55.2,
@@ -54,26 +41,14 @@
                         82.8
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "순백의 의지",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         5.17,
                         5.52,
@@ -87,7 +62,9 @@
                         8.28
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "순백의 의지 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -97,7 +74,7 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:15.0s",
                     "target": "enemies_in_range",
                     "effect": "damage",
                     "value": [
@@ -113,12 +90,14 @@
                         144.73
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "세븐스 드워프 : V&VI",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "every:15.0s",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         16.31,
                         17.4,
@@ -132,7 +111,10 @@
                         26.1
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "세븐스 드워프 : V&VI 2",
+                    "type": "buff",
+                    "condition": "during_full_burst"
                 }
             ]
         },
@@ -145,36 +127,46 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "chargeTime": 5,
-                        "atkCoef": [
-                            124.87,
-                            166.5,
-                            208.12,
-                            249.75,
-                            291.37,
-                            333,
-                            374.62,
-                            416.25,
-                            457.87,
-                            499.5
-                        ],
-                        "fullChargeDamage": 1000,
-                        "maxAmmo": [
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1
-                        ]
-                    },
-                    "duration": 10
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "세븐스 드워프 : I",
+                    "type": "weapon_change",
+                    "bullet": 1
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "세븐스 드워프 : I 2",
+                    "type": "buff",
+                    "bullet": 1
                 }
             ]
         }

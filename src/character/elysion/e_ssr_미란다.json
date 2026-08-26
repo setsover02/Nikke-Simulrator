@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "A.C.P.U.",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 10.8,
         "maxAmmo": 120,
         "reloadTime": 1.43,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "all_allies",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "accuracy_pct",
                     "value": [
                         3.31,
                         3.55,
@@ -54,26 +41,14 @@
                         5.44
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "헬스업!",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
-                    "target": "all_allies",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "trigger": "hit_count:30",
+                    "target": "allies_weapon:SMG",
+                    "effect": "accuracy_pct",
                     "value": [
                         2.09,
                         2.28,
@@ -87,7 +62,9 @@
                         3.79
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "헬스업! 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -99,7 +76,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         19.49,
                         20.99,
@@ -113,7 +90,9 @@
                         32.99
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "웨이크업!",
+                    "type": "buff"
                 }
             ]
         },
@@ -125,8 +104,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "target": "allies_top_atk_excl:1",
+                    "effect": "atk_pct",
                     "value": [
                         23.87,
                         25.71,
@@ -140,12 +119,14 @@
                         40.4
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "파워 업!",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "critical_damage_up",
+                    "target": "allies_top_atk_excl:1",
+                    "effect": "crit_dmg",
                     "value": [
                         33.22,
                         35.78,
@@ -159,7 +140,9 @@
                         56.23
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "파워 업! 2",
+                    "type": "buff"
                 }
             ]
         }
@@ -175,9 +158,9 @@
                     "name": "파워 업!",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "allies_top_atk_excl:2",
+                            "effect": "atk_pct",
                             "value": [
                                 23.87,
                                 25.71,
@@ -190,12 +173,15 @@
                                 38.57,
                                 40.4
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "파워 업!",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "burst_cast",
+                            "target": "allies_top_atk_excl:2",
+                            "effect": "crit_dmg",
                             "value": [
                                 33.22,
                                 35.78,
@@ -208,7 +194,10 @@
                                 53.67,
                                 56.23
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "파워 업! 2",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -222,8 +211,8 @@
                     "effects": [
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "target": "all_allies",
+                            "effect": "crit_dmg",
                             "value": [
                                 19.49,
                                 20.99,
@@ -236,12 +225,15 @@
                                 31.49,
                                 32.99
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "웨이크업!",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "crit_rate",
                             "value": [
                                 17.79,
                                 19.15,
@@ -254,12 +246,15 @@
                                 28.73,
                                 30.1
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "웨이크업! 2",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "atk_dmg_pct",
                             "value": [
                                 14,
                                 15.08,
@@ -272,12 +267,15 @@
                                 22.62,
                                 23.7
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "웨이크업! 3",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "buff",
+                            "target": "allies_top_atk_excl:1",
+                            "effect": "crit_rate",
                             "value": [
                                 50.48,
                                 54.36,
@@ -290,7 +288,11 @@
                                 81.54,
                                 85.42
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "웨이크업! 4",
+                            "type": "buff",
+                            "bullet": 1
                         }
                     ]
                 }
@@ -303,9 +305,9 @@
                     "name": "헬스업!",
                     "effects": [
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "buff",
+                            "trigger": "hit_count:30",
+                            "target": "all_allies",
+                            "effect": "accuracy_pct",
                             "value": [
                                 3.31,
                                 3.55,
@@ -318,12 +320,15 @@
                                 5.2,
                                 5.44
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "헬스업!",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "buff",
+                            "trigger": "hit_count:30",
+                            "target": "allies_weapon:SMG",
+                            "effect": "accuracy_pct",
                             "value": [
                                 2.09,
                                 2.28,
@@ -336,12 +341,15 @@
                                 3.6,
                                 3.79
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "헬스업! 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "hit_count:30",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 29.58,
                                 31.86,
@@ -354,7 +362,10 @@
                                 47.79,
                                 50.06
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "헬스업! 3",
+                            "type": "buff"
                         }
                     ]
                 }

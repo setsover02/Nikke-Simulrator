@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "데블 헌터",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "blood_fiend",
                     "value": [
                         3.78,
@@ -73,7 +74,7 @@
                 {
                     "trigger": "max_stack_applied",
                     "target": "self",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         100,
                         100,
@@ -100,7 +101,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         936,
                         1008,

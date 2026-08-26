@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         14.33,
                         15.44,
@@ -40,12 +41,14 @@
                         24.26
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "페리타",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         1.77,
                         1.91,
@@ -59,8 +62,9 @@
                         3
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
                     "duration": 30,
+                    "name": "페리타 2",
+                    "type": "buff",
                     "stack": 5
                 }
             ]
@@ -71,9 +75,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:30s",
                     "target": "all_allies",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         14.33,
                         15.44,
@@ -87,11 +91,13 @@
                         24.26
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "스피나 디 로사",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "closest_enemy",
+                    "trigger": "every:30s",
+                    "target": "enemies_nearest:1",
                     "effect": "dot_damage",
                     "value": [
                         41.6,
@@ -106,9 +112,9 @@
                         70.4
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 15,
-                    "interval": 1
+                    "name": "스피나 디 로사 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -121,7 +127,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         12.01,
                         12.93,
@@ -135,12 +141,14 @@
                         20.32
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "온다 그란데",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg_pct",
                     "value": [
                         19.04,
                         20.51,
@@ -154,7 +162,9 @@
                         32.23
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "온다 그란데 2",
+                    "type": "buff"
                 }
             ]
         }

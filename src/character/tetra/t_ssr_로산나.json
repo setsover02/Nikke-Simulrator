@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "언더월드 퀸",
         "burstLevel": 1,
-        "atkCoef": 5.57,
+        "atkCoef": 5.1,
         "maxAmmo": 300,
         "reloadTime": 1.67,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,46 +25,30 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:120",
                     "target": "self",
                     "effect": "stealth",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
-                    "status": "stealth",
-                    "value": 1,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "은신",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:120",
                     "target": "self",
-                    "effect": "critical_rate_up",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
+                    "effect": "crit_rate",
                     "value": [
                         8.98,
                         10.13,
@@ -77,40 +62,30 @@
                         19.34
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "온 더 렘",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "dispel_buff",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "trigger": "hit_count:10",
+                    "target": "enemies_top_atk:2",
+                    "effect": "enemy_buff_cleanse",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        3,
-                        3,
-                        3,
-                        5,
-                        5,
-                        5,
-                        5
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
-                    "unit": "count",
-                    "count_limit": 1
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "온 더 렘 2",
+                    "type": "instant"
                 }
             ]
         },
@@ -123,16 +98,27 @@
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "stealth",
-                    "status": "stealth",
-                    "value": 1,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "은신",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:ally_down",
                     "target": "self",
-                    "effect": "atk_up",
-                    "status": "광기",
+                    "effect": "atk_pct",
                     "value": [
                         12.83,
                         13.92,
@@ -147,12 +133,14 @@
                     ],
                     "unit": "percent",
                     "duration": 30,
+                    "name": "광기",
+                    "type": "buff",
                     "stack": 10
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:ally_down",
                     "target": "self",
-                    "effect": "burst_gauge_charge",
+                    "effect": "burst_charge_pct",
                     "value": [
                         20.54,
                         22.32,
@@ -165,7 +153,10 @@
                         34.76,
                         36.54
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "카포 디 카피",
+                    "type": "instant"
                 }
             ]
         },
@@ -177,7 +168,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "target",
                     "effect": "damage",
                     "value": [
                         720.72,
@@ -192,12 +183,14 @@
                         1310.4
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "벤데타",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "same_target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         308.88,
                         336.96,
@@ -211,7 +204,10 @@
                         561.6
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "벤데타 2",
+                    "type": "damage",
+                    "condition": "self_state:은신"
                 }
             ]
         }
@@ -229,25 +225,28 @@
                         {
                             "trigger": "battle_start",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "stealth",
                             "value": [
-                                5,
-                                5,
-                                5,
-                                5,
-                                5,
-                                5,
-                                5,
-                                5,
-                                5,
-                                5
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": 5,
+                            "name": "은신",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "battle_start",
+                            "trigger": "event:ally_down",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 12.83,
                                 13.92,
@@ -260,12 +259,16 @@
                                 21.53,
                                 22.61
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 30,
+                            "name": "광기",
+                            "type": "buff",
+                            "stack": 10
                         },
                         {
-                            "trigger": "battle_start",
+                            "trigger": "event:ally_down",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "burst_charge_pct",
                             "value": [
                                 20.54,
                                 22.32,
@@ -278,12 +281,15 @@
                                 34.76,
                                 36.54
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "카포 디 카피",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "event:ally_down",
+                            "target": "target",
+                            "effect": "damage",
                             "value": [
                                 200,
                                 222.22,
@@ -296,12 +302,15 @@
                                 377.78,
                                 400
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "카포 디 카피 2",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "hit_count:500",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 12.83,
                                 13.92,
@@ -314,7 +323,11 @@
                                 21.53,
                                 22.61
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 30,
+                            "name": "광기",
+                            "type": "buff",
+                            "stack": 10
                         }
                     ]
                 }
@@ -327,9 +340,9 @@
                     "name": "벤데타",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "target",
+                            "effect": "damage",
                             "value": [
                                 720.72,
                                 786.24,
@@ -342,12 +355,15 @@
                                 1244.88,
                                 1310.4
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "아살토",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "same_target",
+                            "effect": "bonus_damage",
                             "value": [
                                 308.88,
                                 336.96,
@@ -360,25 +376,33 @@
                                 533.52,
                                 561.6
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "벤데타",
+                            "type": "damage",
+                            "condition": "self_state:은신"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "burst_cast",
+                            "target": "same_target",
+                            "effect": "received_dmg_pct",
                             "value": [
-                                30,
-                                30,
-                                30,
-                                30,
-                                30,
-                                30,
-                                30,
-                                30,
-                                30,
-                                30
+                                14.5,
+                                16.11,
+                                17.72,
+                                19.33,
+                                20.94,
+                                22.56,
+                                24.17,
+                                25.78,
+                                27.39,
+                                29
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 30,
+                            "name": "벤데타 2",
+                            "type": "buff",
+                            "condition": "target_code:수냉"
                         }
                     ]
                 }
@@ -391,27 +415,30 @@
                     "name": "온 더 렘",
                     "effects": [
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "hit_count:120",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "stealth",
                             "value": [
-                                10,
-                                10,
-                                10,
-                                10,
-                                10,
-                                10,
-                                10,
-                                10,
-                                10,
-                                10
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "은신",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "hit_count:120",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "crit_rate",
                             "value": [
                                 8.98,
                                 10.13,
@@ -424,30 +451,36 @@
                                 18.19,
                                 19.34
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 3,
+                            "name": "온 더 렘",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "buff",
+                            "trigger": "hit_count:10",
+                            "target": "enemies_top_atk:2",
+                            "effect": "enemy_buff_cleanse",
                             "value": [
-                                1,
-                                1,
-                                1,
-                                3,
-                                3,
-                                3,
-                                5,
-                                5,
-                                5,
-                                5
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "온 더 렘 2",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "battle_start",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "element_bonus_pct",
                             "value": [
                                 11,
                                 12,
@@ -460,7 +493,10 @@
                                 19,
                                 20
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "온 더 렘 3",
+                            "type": "buff"
                         }
                     ]
                 }

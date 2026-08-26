@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 204.6,
         "maxAmmo": 9,
         "reloadTime": 0.23,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,21 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
-                    "condition": {
-                        "hp_above": [
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70
-                        ]
-                    },
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         8.32,
                         8.96,
@@ -54,8 +41,10 @@
                         14.08
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "럭키챰",
+                    "type": "buff",
+                    "condition": "self_hp_above:70"
                 }
             ]
         },
@@ -67,7 +56,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "max_ammo_up",
+                    "effect": "max_ammo_flat",
                     "value": [
                         3,
                         3,
@@ -80,13 +69,15 @@
                         5,
                         5
                     ],
-                    "unit": "count",
-                    "duration": 10
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "래빗 트윈즈 B",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         26.02,
                         27.56,
@@ -99,7 +90,10 @@
                         38.34,
                         39.88
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "래빗 트윈즈 B 2",
+                    "type": "instant"
                 }
             ]
         },
@@ -112,7 +106,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "burst_damage",
                     "value": [
                         207.79,
                         223.77,
@@ -126,12 +120,14 @@
                         351.64
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "피날레",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "sg_allies",
-                    "effect": "accuracy_up",
+                    "target": "allies_weapon:SG",
+                    "effect": "accuracy_pct",
                     "value": [
                         8.23,
                         8.87,
@@ -145,12 +141,14 @@
                         13.93
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "피날레 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "sg_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_weapon:SG",
+                    "effect": "intercept_dmg_pct",
                     "value": [
                         13.72,
                         14.78,
@@ -164,12 +162,14 @@
                         23.23
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "피날레 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         6.86,
                         7.39,
@@ -183,12 +183,15 @@
                         11.61
                     ],
                     "unit": "percent",
-                    "duration": 30
+                    "duration": 30,
+                    "name": "피날레 4",
+                    "type": "buff",
+                    "condition": "squad_ally_exists"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "intercept_dmg_pct",
                     "value": [
                         11.44,
                         12.32,
@@ -202,7 +205,10 @@
                         19.36
                     ],
                     "unit": "percent",
-                    "duration": 30
+                    "duration": 30,
+                    "name": "피날레 5",
+                    "type": "buff",
+                    "condition": "squad_ally_exists"
                 }
             ]
         }

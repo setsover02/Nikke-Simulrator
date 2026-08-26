@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "찻집 리코리코",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         47.29,
                         50.93,
@@ -40,12 +41,14 @@
                         80.04
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "전투 보정",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         20.71,
                         22.3,
@@ -59,7 +62,9 @@
                         35.05
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "전투 보정 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -69,9 +74,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:15s",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg_pct",
                     "value": [
                         5.96,
                         6.42,
@@ -85,19 +90,35 @@
                         10.09
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "전장 통제",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:15s",
                     "target": "all_enemies",
                     "effect": "stun",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 2
+                    "duration": 2,
+                    "name": "전장 통제 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:15s",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         83.01,
                         89.4,
@@ -111,7 +132,9 @@
                         140.49
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전장 통제 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -124,35 +147,49 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "atkCoef": [
-                            118.56,
-                            127.68,
-                            136.8,
-                            145.92,
-                            155.04,
-                            164.16,
-                            173.28,
-                            182.4,
-                            191.52,
-                            200.64
-                        ]
-                    },
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "damage",
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "제압 개시",
+                    "type": "weapon_change"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage_taken_up",
+                    "effect": "armor_break_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "제압 개시 2",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "hit_count:1",
+                    "target": "target",
+                    "effect": "received_dmg_pct",
                     "value": [
                         3.56,
                         3.84,
@@ -166,7 +203,10 @@
                         6.04
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "제압 개시 3",
+                    "type": "buff",
+                    "condition": "self_state:제압 개시"
                 }
             ]
         }

@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "갓데스",
         "burstLevel": "all",
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         2.28,
                         2.45,
@@ -41,19 +42,14 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
+                    "name": "글레링 아이즈",
+                    "type": "buff",
                     "stack": 10
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "charge_speed_up",
-                    "value": 100,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_speed_overflow_conversion_pct",
                     "value": [
                         240,
                         240,
@@ -67,7 +63,9 @@
                         240
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "글레링 아이즈 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -79,14 +77,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "와일드 투스",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:비스트 케이지",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_caster_based_pct",
                     "value": [
                         31.68,
                         33.79,
@@ -100,13 +112,14 @@
                         50.68
                     ],
                     "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "와일드 투스 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:엔드 하울링",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "lifesteal_pct",
                     "value": [
                         14.4,
                         15.36,
@@ -120,13 +133,14 @@
                         23.04
                     ],
                     "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "와일드 투스 3",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:레드 울프",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         44.64,
                         47.61,
@@ -140,7 +154,9 @@
                         71.42
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "와일드 투스 4",
+                    "type": "buff"
                 }
             ]
         },
@@ -151,9 +167,9 @@
             "cooldown": 40,
             "effects": [
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:1",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         48.47,
                         51.7,
@@ -167,28 +183,56 @@
                         77.55
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "비스트 케이지",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:1",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
-                    "value": 40,
-                    "unit": "seconds",
-                    "count_limit": 1
+                    "effect": "burst_cooldown_reduce",
+                    "value": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "비스트 케이지 2",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:2",
                     "target": "self",
                     "effect": "taunt",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "주목",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:2",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_received_pct",
                     "value": [
                         46.8,
                         49.92,
@@ -202,41 +246,56 @@
                         74.88
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "엔드 하울링",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:2",
                     "target": "self",
-                    "effect": "burst_cooldown_reduction",
-                    "value": 40,
-                    "unit": "seconds",
-                    "count_limit": 1
+                    "effect": "burst_cooldown_reduce",
+                    "value": [
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40,
+                        40
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "엔드 하울링 2",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:3",
                     "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "atkCoef": [
-                            37.02,
-                            38.63,
-                            40.23,
-                            41.84,
-                            43.44,
-                            45.05,
-                            46.65,
-                            48.26,
-                            49.86,
-                            51.46
-                        ],
-                        "fullChargeDamage": 250
-                    },
-                    "duration": 10
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "레드 울프 무기변경",
+                    "type": "weapon_change"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:3",
                     "target": "self",
-                    "effect": "pierce_range_up",
+                    "effect": "pierce_range",
                     "value": [
                         100,
                         100,
@@ -250,12 +309,14 @@
                         100
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "레드 울프",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "squad_burst_cast:3",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_speed_pct",
                     "value": [
                         100.8,
                         100.8,
@@ -269,7 +330,9 @@
                         100.8
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "레드 울프 2",
+                    "type": "buff"
                 }
             ]
         }

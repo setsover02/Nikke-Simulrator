@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,8 +26,8 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "allies_adjacent:2",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1,
                         1,
@@ -40,14 +41,14 @@
                         1
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": "permanent",
-                    "interval": 1
+                    "name": "피튜니아",
+                    "type": "instant"
                 },
                 {
                     "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "heal",
+                    "target": "allies_adjacent:2",
+                    "effect": "heal_received_pct",
                     "value": [
                         2.36,
                         2.55,
@@ -62,7 +63,30 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "피튜니아 2",
+                    "type": "buff",
                     "stack": 5
+                },
+                {
+                    "trigger": "hit_count:100",
+                    "target": "allies_code:전격",
+                    "effect": "buff_max_stack_add",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "피튜니아 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -72,9 +96,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "event:adjacent_hp_below:90",
                     "target": "all_allies",
-                    "effect": "shield",
+                    "effect": "shield_from_max_hp_pct",
                     "value": [
                         6.04,
                         6.5,
@@ -88,13 +112,14 @@
                         10.22
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "아이리스",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:adjacent_hp_max",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         18.3,
                         19.71,
@@ -108,7 +133,9 @@
                         30.97
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "아이리스 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -121,7 +148,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         6.17,
                         6.65,
@@ -135,12 +162,14 @@
                         10.45
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "시크릿 가든",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         25.05,
                         26.98,
@@ -154,7 +183,9 @@
                         42.39
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "시크릿 가든 2",
+                    "type": "buff"
                 }
             ]
         }
@@ -171,8 +202,8 @@
                     "effects": [
                         {
                             "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "heal",
+                            "target": "allies_adjacent:2",
+                            "effect": "heal_hp_pct",
                             "value": [
                                 1,
                                 1,
@@ -185,12 +216,15 @@
                                 1,
                                 1
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "마음의 평화",
+                            "type": "instant"
                         },
                         {
                             "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "heal",
+                            "target": "allies_adjacent:2",
+                            "effect": "heal_received_pct",
                             "value": [
                                 2.36,
                                 2.55,
@@ -203,12 +237,16 @@
                                 3.82,
                                 4
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "피튜니아",
+                            "type": "buff",
+                            "stack": 5
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "buff",
+                            "trigger": "hit_count:100",
+                            "target": "allies_code:전격",
+                            "effect": "buff_max_stack_add",
                             "value": [
                                 1,
                                 1,
@@ -221,12 +259,15 @@
                                 1,
                                 1
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "피튜니아 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "heal",
+                            "trigger": "burst_enter:2",
+                            "target": "allies_adjacent:2",
+                            "effect": "hp_only_caster_based_pct",
                             "value": [
                                 8.87,
                                 9.55,
@@ -239,7 +280,10 @@
                                 14.33,
                                 15.01
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 2,
+                            "name": "피튜니아 3",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -252,9 +296,9 @@
                     "name": "아이리스",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "heal",
+                            "trigger": "event:adjacent_hp_below:90",
+                            "target": "all_allies",
+                            "effect": "shield_from_max_hp_pct",
                             "value": [
                                 6.04,
                                 6.5,
@@ -267,12 +311,15 @@
                                 9.75,
                                 10.22
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "아이리스",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "event:adjacent_hp_max",
+                            "target": "all_allies",
+                            "effect": "armor_break_dmg_pct",
                             "value": [
                                 18.3,
                                 19.71,
@@ -285,12 +332,15 @@
                                 29.56,
                                 30.97
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "아이리스 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "event:shield_applied",
+                            "target": "allies_adjacent:2",
+                            "effect": "atk_caster_based_pct",
                             "value": [
                                 26.66,
                                 28.71,
@@ -303,7 +353,10 @@
                                 43.07,
                                 45.12
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "아이리스 3",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -316,9 +369,9 @@
                     "name": "시크릿 가든",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "heal",
+                            "trigger": "burst_cast",
+                            "target": "all_allies",
+                            "effect": "heal_hp_pct",
                             "value": [
                                 6.17,
                                 6.65,
@@ -331,12 +384,15 @@
                                 9.97,
                                 10.45
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "시크릿 가든",
+                            "type": "instant"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "burst_cast",
+                            "target": "all_allies",
+                            "effect": "armor_break_dmg_pct",
                             "value": [
                                 25.05,
                                 26.98,
@@ -349,12 +405,15 @@
                                 40.47,
                                 42.39
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "시크릿 가든 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "all_allies",
+                            "effect": "atk_caster_based_pct",
                             "value": [
                                 50.73,
                                 54.64,
@@ -367,7 +426,10 @@
                                 81.96,
                                 85.86
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "시크릿 가든 3",
+                            "type": "buff"
                         }
                     ]
                 }

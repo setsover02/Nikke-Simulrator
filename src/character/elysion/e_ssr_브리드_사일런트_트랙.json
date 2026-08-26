@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 2,
-        "atkCoef": 222.8,
+        "atkCoef": 201.5,
         "maxAmmo": 9,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -25,8 +26,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "target": "enemies_code:풍압",
+                    "effect": "received_dmg_pct",
                     "value": [
                         8.93,
                         9.62,
@@ -40,7 +41,9 @@
                         15.12
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "기동",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
@@ -59,7 +62,9 @@
                         636
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "기동 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -69,23 +74,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "damage_taken_up",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "trigger": "hit_count:10",
+                    "target": "enemies_lowest_hp_code:풍압:1",
+                    "effect": "received_dmg_pct",
                     "value": [
                         7.16,
                         7.71,
@@ -99,26 +90,14 @@
                         12.12
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전도",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "self",
+                    "trigger": "hit_count:5",
+                    "target": "enemies_lowest_hp:1",
                     "effect": "damage",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
                     "value": [
                         398.86,
                         429.55,
@@ -132,7 +111,9 @@
                         675
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "전도 2",
+                    "type": "damage"
                 }
             ]
         },
@@ -144,8 +125,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "allies_excluding_self",
-                    "effect": "atk_up",
+                    "target": "all_allies_excl_self",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         39.3,
                         42.33,
@@ -159,8 +140,9 @@
                         66.52
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "풀 마스콘",
+                    "type": "buff"
                 }
             ]
         }

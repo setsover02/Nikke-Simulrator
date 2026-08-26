@@ -14,8 +14,9 @@
         "reloadTime": 1.67,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 250
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_enemies",
-                    "effect": "atk_down",
+                    "effect": "atk_pct",
                     "value": [
                         11.77,
                         12.68,
@@ -71,7 +72,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         7.52,
                         8.1,
@@ -98,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "highest_atk_enemy_1",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         541.12,
                         582.75,

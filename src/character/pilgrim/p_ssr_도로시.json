@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         0.97,
                         1.04,
@@ -44,7 +45,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "all_allies",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         31.68,
                         33.79,
@@ -70,7 +71,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "status": "초토화",
                     "value": [
                         135,
@@ -119,14 +120,26 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "status": "낙인",
                     "value": [
                         5563.01,

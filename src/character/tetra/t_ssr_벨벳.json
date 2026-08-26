@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "메이드 포 유",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,49 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "value": [
-                        2.95,
-                        3.18,
-                        3.41,
-                        3.63,
-                        3.86,
-                        4.09,
-                        4.31,
-                        4.54,
-                        4.77,
-                        5
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "ammo_charge",
-                    "value": [
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000,
-                        6000
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         6000,
                         6000,
@@ -82,18 +41,14 @@
                         6000
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": null,
+                    "name": "탄환 가져오기",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "battle_start",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume_as_ammo",
                     "value": [
                         100,
                         100,
@@ -106,12 +61,16 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "나쁜 손버릇",
+                    "type": "instant",
+                    "condition": "not_during_full_burst"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         18.02,
                         19.41,
@@ -125,12 +84,15 @@
                         30.5
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "나쁜 손버릇 2",
+                    "type": "buff",
+                    "condition": "not_during_full_burst"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         18.02,
                         19.41,
@@ -144,7 +106,10 @@
                         30.5
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "나쁜 손버릇 3",
+                    "type": "buff",
+                    "condition": "not_during_full_burst"
                 }
             ]
         },
@@ -154,9 +119,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume_as_ammo",
                     "value": [
                         300,
                         300,
@@ -169,12 +134,16 @@
                         300,
                         300
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "사랑의 탄환",
+                    "type": "instant",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         14.89,
                         16.03,
@@ -188,13 +157,15 @@
                         25.2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "사랑의 탄환 2",
+                    "type": "buff",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         59.56,
                         64.14,
@@ -208,12 +179,15 @@
                         100.8
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "사랑의 탄환 3",
+                    "type": "buff",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "hit_count:50",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume_as_ammo",
                     "value": [
                         300,
                         300,
@@ -226,12 +200,16 @@
                         300,
                         300
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "사랑의 탄환 4",
+                    "type": "instant",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
+                    "trigger": "hit_count:50",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         8.88,
                         9.56,
@@ -245,12 +223,15 @@
                         15.03
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "사랑의 탄환 5",
+                    "type": "buff",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_time",
-                    "target": "self",
-                    "effect": "extra_damage",
+                    "trigger": "hit_count:50",
+                    "target": "target",
+                    "effect": "bonus_damage",
                     "value": [
                         236.9,
                         255.13,
@@ -264,7 +245,10 @@
                         400.92
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "사랑의 탄환 6",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 }
             ]
         },
@@ -277,27 +261,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "atkCoef": [
-                            4.14,
-                            4.45,
-                            4.77,
-                            5.09,
-                            5.41,
-                            5.73,
-                            6.05,
-                            6.37,
-                            6.68,
-                            7
-                        ]
-                    },
-                    "duration": 10
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "깔끔한 마무리",
+                    "type": "weapon_change"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         20.4,
                         21.97,
@@ -311,7 +296,9 @@
                         34.52
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "깔끔한 마무리 2",
+                    "type": "buff"
                 }
             ]
         }

@@ -46,24 +46,39 @@ export function getGlobalCubeLevel(cubeName: string): string | null {
 }
 
 export function loadOutpostState(): SavedOutpostState {
+    const defaultState: SavedOutpostState = {
+        synchroLevel: '1',
+        commonResearchLevel: '0',
+        elysionConsole: '0',
+        missilisConsole: '0',
+        tetraConsole: '0',
+        pilgrimConsole: '0',
+        abnormalConsole: '0',
+        attackerConsole: '0',
+        defenderConsole: '0',
+        supporterConsole: '0'
+    };
     try {
         const stored = localStorage.getItem(OUTPOST_KEY);
-        if (stored) return JSON.parse(stored);
+        if (stored) {
+            const parsed = JSON.parse(stored);
+            return {
+                synchroLevel: parsed.synchroLevel || '1',
+                commonResearchLevel: parsed.commonResearchLevel || '0',
+                elysionConsole: parsed.elysionConsole || '0',
+                missilisConsole: parsed.missilisConsole || '0',
+                tetraConsole: parsed.tetraConsole || '0',
+                pilgrimConsole: parsed.pilgrimConsole || '0',
+                abnormalConsole: parsed.abnormalConsole || '0',
+                attackerConsole: parsed.attackerConsole || '0',
+                defenderConsole: parsed.defenderConsole || '0',
+                supporterConsole: parsed.supporterConsole || '0'
+            };
+        }
     } catch (e) {
         console.error('Failed to load outpost settings from localStorage', e);
     }
-    return {
-        synchroLevel: '',
-        commonResearchLevel: '',
-        elysionConsole: '',
-        missilisConsole: '',
-        tetraConsole: '',
-        pilgrimConsole: '',
-        abnormalConsole: '',
-        attackerConsole: '',
-        defenderConsole: '',
-        supporterConsole: ''
-    };
+    return defaultState;
 }
 
 export function saveOutpostState(state: SavedOutpostState) {

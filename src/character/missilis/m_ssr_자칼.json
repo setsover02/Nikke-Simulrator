@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "이그조틱",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 65.02,
         "maxAmmo": 6,
         "reloadTime": 0.67,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:10",
                     "target": "self",
-                    "effect": "damage_taken_up",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "received_dmg",
                     "value": [
                         5,
                         5.45,
@@ -57,23 +44,9 @@
                     "duration": 10
                 },
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:10",
                     "target": "self",
-                    "effect": "atk_down",
-                    "condition": {
-                        "count": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         5,
                         5.45,
@@ -99,14 +72,26 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "damage_share",
+                    "effect": "split_dmg_pct",
                     "unit": "percent",
-                    "duration": 120
+                    "duration": 120,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         4.55,
                         4.96,
@@ -133,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "single_target_burst_damage_up",
+                    "effect": "burst_dmg_pct",
                     "value": [
                         21.4,
                         23.35,
@@ -152,7 +137,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         8.08,
                         8.81,

@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "메티스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,8 +26,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "highest_atk_allies_2",
-                    "effect": "charge_speed_up",
+                    "target": "allies_top_atk:2",
+                    "effect": "charge_speed_pct",
                     "value": [
                         2.65,
                         2.85,
@@ -40,12 +41,14 @@
                         4.48
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스트레이트 샷",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "highest_atk_allies_2",
-                    "effect": "atk_up",
+                    "target": "allies_top_atk:2",
+                    "effect": "atk_pct",
                     "value": [
                         25.46,
                         27.42,
@@ -59,7 +62,9 @@
                         43.1
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스트레이트 샷 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -71,7 +76,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         2.85,
                         3.07,
@@ -85,12 +90,15 @@
                         4.83
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "일렉트릭 샷",
+                    "type": "buff",
+                    "condition": "enemy_count_above:5"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         8.22,
                         8.85,
@@ -104,7 +112,10 @@
                         13.91
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "일렉트릭 샷 2",
+                    "type": "buff",
+                    "condition": "enemy_count_above:5"
                 }
             ]
         },
@@ -117,36 +128,46 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "chargeTime": 2,
-                        "atkCoef": [
-                            144.85,
-                            219.14,
-                            293.42,
-                            367.71,
-                            442,
-                            516.28,
-                            590.57,
-                            664.85,
-                            739.14,
-                            813.42
-                        ],
-                        "fullChargeDamage": 300,
-                        "maxAmmo": [
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1
-                        ]
-                    },
-                    "duration": 10
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "피어스 샷",
+                    "type": "weapon_change",
+                    "bullet": 1
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "피어스 샷 2",
+                    "type": "buff",
+                    "bullet": 1
                 }
             ]
         }

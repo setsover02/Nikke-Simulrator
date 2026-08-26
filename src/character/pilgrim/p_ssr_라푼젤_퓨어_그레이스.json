@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "갓데스",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -66,7 +67,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         6.15,
                         6.62,
@@ -92,7 +93,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.18,
                         1.27,
@@ -131,7 +132,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.87,
                         2.01,
@@ -160,7 +161,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         5.99,
                         6.45,
@@ -179,7 +180,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         9,
                         9.69,

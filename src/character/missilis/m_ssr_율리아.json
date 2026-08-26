@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "마스터 핸드",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 14.07,
         "maxAmmo": 60,
         "reloadTime": 1.2,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
+                    "trigger": "every:20.0s",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         15.38,
                         16.57,
@@ -40,7 +41,9 @@
                         26.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "데크레센도",
+                    "type": "buff"
                 }
             ]
         },
@@ -50,10 +53,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "last_bullet_hit",
+                    "trigger": "last_bullet",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "status": "크레센도",
+                    "effect": "crit_dmg",
                     "value": [
                         14.65,
                         15.78,
@@ -68,6 +70,8 @@
                     ],
                     "unit": "percent",
                     "duration": 15,
+                    "name": "크레센도",
+                    "type": "buff",
                     "stack": 5
                 }
             ]
@@ -80,7 +84,7 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "enemies_top_def:5",
                     "effect": "damage",
                     "value": [
                         321.75,
@@ -95,12 +99,14 @@
                         544.5
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "클라이맥스",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "max_stack_applied",
+                    "trigger": "burst_cast",
                     "target": "same_target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         321.75,
                         346.5,
@@ -114,7 +120,10 @@
                         544.5
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "클라이맥스 2",
+                    "type": "damage",
+                    "condition": "self_stack_above:크레센도:5"
                 }
             ]
         }
@@ -130,9 +139,9 @@
                     "name": "크레센도",
                     "effects": [
                         {
-                            "trigger": "normal_attack",
+                            "trigger": "crit_hit_count:6",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "crit_dmg",
                             "value": [
                                 14.65,
                                 15.78,
@@ -145,12 +154,16 @@
                                 23.67,
                                 24.79
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "크레센도",
+                            "type": "buff",
+                            "stack": 5
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "crit_hit_count:8",
+                            "target": "target",
+                            "effect": "bonus_damage",
                             "value": [
                                 52,
                                 56,
@@ -163,12 +176,15 @@
                                 84,
                                 88
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "마르카토",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "normal_attack",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "hit_count:마르카토:1",
+                            "target": "same_target",
+                            "effect": "bonus_damage",
                             "value": [
                                 59.09,
                                 63.63,
@@ -181,7 +197,32 @@
                                 95.45,
                                 100
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "마르카토 2",
+                            "type": "damage",
+                            "condition": "trigger_hit_crit"
+                        },
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "force_skill_use",
+                            "value": [
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ],
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "크레센도 2",
+                            "type": "instant"
                         }
                     ]
                 }
@@ -194,9 +235,9 @@
                     "name": "데크레센도",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "every:20.0s",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "crit_rate",
                             "value": [
                                 15.38,
                                 16.57,
@@ -209,12 +250,15 @@
                                 24.85,
                                 26.04
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "데크레센도",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "every:20.0s",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 11.81,
                                 12.72,
@@ -227,12 +271,15 @@
                                 19.09,
                                 20
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "데크레센도 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "every:20.0s",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "normal_atk_crit_rate",
                             "value": [
                                 21.36,
                                 23.01,
@@ -245,7 +292,10 @@
                                 34.51,
                                 36.16
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "데크레센도 3",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -258,9 +308,9 @@
                     "name": "클라이맥스",
                     "effects": [
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "enemies_random",
+                            "effect": "sequential_damage:5",
                             "value": [
                                 321.75,
                                 346.5,
@@ -273,12 +323,15 @@
                                 519.75,
                                 544.5
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "클라이맥스",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "same_target",
+                            "effect": "bonus_damage",
                             "value": [
                                 321.75,
                                 346.5,
@@ -291,7 +344,11 @@
                                 519.75,
                                 544.5
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "클라이맥스 2",
+                            "type": "damage",
+                            "condition": "self_stack_above:크레센도:5"
                         }
                     ]
                 }

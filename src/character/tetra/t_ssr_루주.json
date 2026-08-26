@@ -13,9 +13,10 @@
         "maxAmmo": 6,
         "reloadTime": 2.33,
         "chargeTime": 1,
-        "fireRate": 0,
+        "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_count:8",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
-                    "condition": {
-                        "count": [
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8
-                        ]
-                    },
+                    "effect": "hp_only_caster_based_pct",
                     "value": [
                         2.95,
                         3.18,
@@ -54,27 +41,14 @@
                         5
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "카드 스로우",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_count:8",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
-                    "condition": {
-                        "count": [
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8
-                        ]
-                    },
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         4.13,
                         4.45,
@@ -87,7 +61,10 @@
                         6.68,
                         7
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "카드 스로우",
+                    "type": "instant"
                 }
             ]
         },
@@ -98,9 +75,8 @@
             "effects": [
                 {
                     "trigger": "battle_start",
-                    "target": "self_and_adjacent_allies_2",
-                    "effect": "atk_damage_up",
-                    "status": "sword_coin",
+                    "target": "allies_adjacent:2",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         3.93,
                         4.23,
@@ -114,47 +90,37 @@
                         6.65
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "소드 코인",
+                    "type": "buff",
+                    "condition": "back_row"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self_and_adjacent_allies_2",
-                    "effect": "damage_taken_down",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
-                    "status": "shield_coin",
+                    "trigger": "full_charge_count:30",
+                    "target": "allies_adjacent:2",
+                    "effect": "received_dmg_pct",
                     "value": [
-                        8.98,
-                        9.67,
-                        10.36,
-                        11.05,
-                        11.75,
-                        12.44,
-                        13.13,
-                        13.82,
-                        14.51,
-                        15.2
+                        -8.98,
+                        -9.67,
+                        -10.36,
+                        -11.05,
+                        -11.75,
+                        -12.44,
+                        -13.13,
+                        -13.82,
+                        -14.51,
+                        -15.2
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "실드 코인",
+                    "type": "buff",
+                    "condition": "self_state:소드 코인"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "burst_cast_count:5",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
-                    "status": "double_sword_coin",
+                    "effect": "hp_caster_based_pct",
                     "value": [
                         8.91,
                         9.59,
@@ -168,8 +134,10 @@
                         15.08
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "더블 소드 코인",
+                    "type": "buff",
+                    "condition": "self_state:실드 코인"
                 }
             ]
         },
@@ -182,7 +150,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         7.12,
                         8.01,
@@ -196,13 +164,14 @@
                         15.07
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "더 게임 마스터",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "hp_only_caster_based_pct",
                     "value": [
                         6,
                         6.46,
@@ -216,13 +185,15 @@
                         10.15
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "더 게임 마스터 2",
+                    "type": "buff",
+                    "condition": "self_state:소드 코인"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "hp_caster_based_pct",
                     "value": [
                         11.88,
                         12.79,
@@ -236,13 +207,15 @@
                         20.1
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "더 게임 마스터 3",
+                    "type": "buff",
+                    "condition": "self_state:실드 코인"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "hp_only_caster_based_pct",
                     "value": [
                         17.74,
                         19.1,
@@ -256,8 +229,10 @@
                         30.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "더 게임 마스터 4",
+                    "type": "buff",
+                    "condition": "self_state:더블 소드 코인"
                 }
             ]
         }

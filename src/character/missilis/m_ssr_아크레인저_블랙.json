@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         11.81,
                         12.72,
@@ -40,12 +41,14 @@
                         20
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "변신! 아크레인저 블랙!",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         50,
                         50,
@@ -58,32 +61,58 @@
                         50,
                         50
                     ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "part_destroy",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": 100,
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": null,
+                    "name": "배터리 충전",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "hit_count:30",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "dot_dmg_pct",
+                    "value": [
+                        35.21,
+                        37.92,
+                        40.63,
+                        43.34,
+                        46.05,
+                        48.76,
+                        51.47,
+                        54.18,
+                        56.89,
+                        59.6
+                    ],
+                    "unit": "percent",
+                    "duration": 5,
+                    "name": "변신! 아크레인저 블랙! 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "atk_pct",
+                    "value": [
+                        92.29,
+                        99.39,
+                        106.49,
+                        113.59,
+                        120.69,
+                        127.79,
+                        134.89,
+                        141.99,
+                        149.09,
+                        156.19
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "변신",
+                    "type": "buff",
+                    "condition": "gauge_eq:배터리:100"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume",
                     "value": [
                         1,
                         1,
@@ -98,71 +127,32 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
-                    "interval": 0.2
+                    "name": "변신 2",
+                    "type": "instant",
+                    "condition": "gauge_eq:배터리:100"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "effect": "remove_named_buff",
                     "value": [
-                        92.29,
-                        99.39,
-                        106.49,
-                        113.59,
-                        120.69,
-                        127.79,
-                        134.89,
-                        141.99,
-                        149.09,
-                        156.19
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "dot_damage_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
-                    "value": [
-                        35.21,
-                        37.92,
-                        40.63,
-                        43.34,
-                        46.05,
-                        48.76,
-                        51.47,
-                        54.18,
-                        56.89,
-                        59.6
-                    ],
-                    "unit": "percent",
-                    "duration": 5
+                    "duration": "permanent",
+                    "name": "변신 해제",
+                    "type": "instant",
+                    "condition": "gauge_below:배터리:1",
+                    "target_effect": "변신"
                 }
             ]
         },
@@ -172,10 +162,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enemy_spawn",
+                    "trigger": "event:변신",
                     "target": "all_enemies",
                     "effect": "dot_damage",
-                    "status": "아크 블랙 코레더",
                     "value": [
                         27.1,
                         29.19,
@@ -189,19 +178,37 @@
                         45.87
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "interval": 1
+                    "duration": "permanent",
+                    "name": "아크 블랙 코레더",
+                    "type": "damage",
+                    "condition": "self_state:변신"
                 },
                 {
-                    "trigger": "enemy_spawn",
-                    "target": "all_enemies",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "trigger": "event:state_end:변신",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "아크 블랙 코레더 해제",
+                    "type": "instant",
+                    "target_effect": "아크 블랙 코레더"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "dot_damage_up",
+                    "target": "allies_code_weapon:풍압:AR",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         45.79,
                         49.32,
@@ -215,7 +222,9 @@
                         77.5
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "전율! 아크 블랙 코레더!",
+                    "type": "buff"
                 }
             ]
         },
@@ -228,7 +237,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         50,
                         50,
@@ -241,25 +250,38 @@
                         50,
                         50
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "아크 블랙 메테오 배터리",
+                    "type": "instant",
+                    "condition": "self_state:변신"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "gauge_charge",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "배터리 긴급 충전",
+                    "type": "instant",
+                    "condition": "not_self_state:변신"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 100,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_consume",
                     "value": [
                         50,
                         50,
@@ -272,11 +294,15 @@
                         50,
                         50
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "배터리 긴급 충전 2",
+                    "type": "instant",
+                    "condition": "gauge_eq:배터리:100"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
+                    "target": "enemies_top_hp:1",
                     "effect": "dot_damage",
                     "value": [
                         157.59,
@@ -291,14 +317,14 @@
                         266.69
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 10,
-                    "interval": 1
+                    "name": "궁극! 아크 블랙 메테오! 2",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         80.26,
                         86.43,
@@ -312,7 +338,9 @@
                         135.83
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "궁극! 아크 블랙 메테오!",
+                    "type": "buff"
                 }
             ]
         }

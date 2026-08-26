@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "메이드 포 유",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 231.6,
         "maxAmmo": 9,
         "reloadTime": 0.67,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,24 +25,31 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_normal_attack",
+                    "trigger": "battle_start",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "count": [
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3
-                        ]
-                    },
-                    "status": "golden_chip",
+                    "effect": "buff_stack_init",
+                    "value": [
+                        40,
+                        40,
+                        40,
+                        45,
+                        45,
+                        45,
+                        50,
+                        50,
+                        50,
+                        50
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "럭키 골든 칩",
+                    "type": "instant",
+                    "target_effect": "골든 칩"
+                },
+                {
+                    "trigger": "hit_count:3",
+                    "target": "self",
+                    "effect": "crit_dmg",
                     "value": [
                         1.24,
                         1.25,
@@ -55,27 +63,16 @@
                         1.32
                     ],
                     "unit": "percent",
-                    "duration": "permanent",
+                    "duration": null,
+                    "name": "골든 칩",
+                    "type": "buff",
+                    "condition": "during_full_burst",
                     "stack": 50
                 },
                 {
-                    "trigger": "full_burst_normal_attack",
+                    "trigger": "hit_count:3",
                     "target": "self",
-                    "effect": "atk_damage_up",
-                    "condition": {
-                        "count": [
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3
-                        ]
-                    },
+                    "effect": "atk_dmg_pct",
                     "value": [
                         7.42,
                         7.77,
@@ -89,7 +86,32 @@
                         10.51
                     ],
                     "unit": "percent",
-                    "duration": 2
+                    "duration": 2,
+                    "name": "럭키 골든 칩 2",
+                    "type": "buff",
+                    "condition": "during_full_burst"
+                },
+                {
+                    "trigger": "hit_count:3",
+                    "target": "allies_top_atk_excl:1",
+                    "effect": "atk_dmg_pct",
+                    "value": [
+                        7.42,
+                        7.77,
+                        8.11,
+                        8.45,
+                        8.8,
+                        9.14,
+                        9.48,
+                        9.82,
+                        10.17,
+                        10.51
+                    ],
+                    "unit": "percent",
+                    "duration": 2,
+                    "name": "럭키 골든 칩 2",
+                    "type": "buff",
+                    "condition": "during_full_burst"
                 }
             ]
         },
@@ -99,10 +121,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "all_allies",
-                    "effect": "full_burst_time_up",
-                    "status": "time_extension_1",
+                    "effect": "fullburst_duration",
                     "value": [
                         2,
                         2,
@@ -115,21 +136,16 @@
                         2,
                         2
                     ],
-                    "unit": "seconds",
-                    "stack_level": 1
-                },
-                {
-                    "trigger": "enter_burst_3",
-                    "target": "all_allies",
-                    "effect": "buff",
                     "unit": "percent",
-                    "stack_level": 1
+                    "duration": null,
+                    "name": "시간 연장 I",
+                    "type": "buff",
+                    "condition": "self_stack_above:골든 칩:9"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "all_allies",
-                    "effect": "full_burst_time_up",
-                    "status": "time_extension_2",
+                    "effect": "fullburst_duration",
                     "value": [
                         3,
                         3,
@@ -142,19 +158,15 @@
                         3,
                         3
                     ],
-                    "unit": "seconds",
-                    "stack_level": 2
-                },
-                {
-                    "trigger": "enter_burst_3",
-                    "target": "all_allies",
-                    "effect": "buff",
                     "unit": "percent",
-                    "stack_level": 2
+                    "duration": null,
+                    "name": "시간 연장 II",
+                    "type": "buff",
+                    "condition": "self_stack_above:골든 칩:19"
                 },
                 {
-                    "trigger": "full_burst_normal_attack",
-                    "target": "closest_enemy",
+                    "trigger": "on_attack",
+                    "target": "enemies_nearest:1",
                     "effect": "damage",
                     "value": [
                         27.63,
@@ -169,12 +181,14 @@
                         52.04
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 1
+                    "duration": null,
+                    "name": "비기너즈 베네핏 I",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 },
                 {
-                    "trigger": "full_burst_normal_attack",
-                    "target": "closest_enemy",
+                    "trigger": "on_attack",
+                    "target": "enemies_nearest:1",
                     "effect": "damage",
                     "value": [
                         45.97,
@@ -189,8 +203,10 @@
                         85.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 2
+                    "duration": null,
+                    "name": "비기너즈 베네핏 II",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 }
             ]
         },
@@ -202,8 +218,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "damage",
+                    "target": "all_enemies",
+                    "effect": "burst_damage",
                     "value": [
                         484.84,
                         500.83,
@@ -217,13 +233,14 @@
                         628.7
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "stack_level": 1
+                    "duration": null,
+                    "name": "고 어헤드, 소다!",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         12.64,
                         15.56,
@@ -238,12 +255,14 @@
                     ],
                     "unit": "percent",
                     "duration": 15,
-                    "stack_level": 2
+                    "name": "고 어헤드, 소다! 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:골든 칩:19"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         30.23,
                         34.12,
@@ -258,7 +277,31 @@
                     ],
                     "unit": "percent",
                     "duration": 15,
-                    "stack_level": 3
+                    "name": "고 어헤드, 소다! 3",
+                    "type": "buff",
+                    "condition": "self_stack_above:골든 칩:29"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "buff_stack_remove",
+                    "value": [
+                        17,
+                        17,
+                        17,
+                        17,
+                        17,
+                        17,
+                        17,
+                        17,
+                        17,
+                        17
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "고 어헤드, 소다! 4",
+                    "type": "instant",
+                    "target_effect": "골든 칩"
                 }
             ]
         }

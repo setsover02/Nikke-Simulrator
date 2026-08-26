@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "카운터스",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 2,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "burst_gauge_charge_speed_up",
+                    "effect": "burst_charge_speed_pct",
                     "value": [
                         3.54,
                         3.81,
@@ -40,31 +41,37 @@
                         6
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "스타 폴",
+                    "type": "buff"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "스타 폴 2",
+                    "type": "instant",
+                    "condition": "no_burst1_ally",
+                    "target_effect": "모두의 별"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_up",
-                    "status": "나만의 별",
+                    "effect": "atk_pct",
                     "value": [
                         23.64,
                         25.46,
@@ -78,18 +85,15 @@
                         40.01
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": "permanent",
+                    "name": "나만의 별",
+                    "type": "buff",
+                    "condition": "no_burst1_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         5.34,
                         5.58,
@@ -102,44 +106,61 @@
                         7.24,
                         7.48
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "스타 폴 3",
+                    "type": "instant",
+                    "condition": "no_burst1_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "burst_reenter",
-                    "status": "모두의 별",
+                    "effect": "remove_named_buff",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ],
-                    "unit": "count",
-                    "duration": "permanent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "스타 폴 4",
+                    "type": "instant",
+                    "condition": "has_burst1_ally",
+                    "target_effect": "나만의 별"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "burst_stage_override:reenter1",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "모두의 별",
+                    "type": "buff",
+                    "condition": "has_burst1_ally"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         71,
                         76.46,
@@ -153,7 +174,9 @@
                         120.13
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "스타 폴 5",
+                    "type": "damage"
                 }
             ]
         },
@@ -165,7 +188,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         20.68,
                         22.28,
@@ -179,13 +202,15 @@
                         35.01
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스타더스트",
+                    "type": "buff",
+                    "condition": "self_state:나만의 별"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         0.74,
                         0.8,
@@ -199,12 +224,18 @@
                         1.26
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "스타더스트 2",
+                    "type": "instant",
+                    "condition": "self_state:모두의 별"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "buff",
+                    "target": [
+                        "self",
+                        "allies_below_def"
+                    ],
+                    "effect": "projectile_explosion_dmg_pct",
                     "value": [
                         54.38,
                         58.56,
@@ -218,12 +249,14 @@
                         92.03
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스타더스트 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         20.09,
                         21.63,
@@ -237,7 +270,9 @@
                         34
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스타더스트 4",
+                    "type": "buff"
                 }
             ]
         },
@@ -249,33 +284,50 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_speed_up",
+                    "target": "enemies_random",
+                    "effect": "auto_damage",
                     "value": [
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7,
-                        0.7
+                        23.64,
+                        25.46,
+                        27.28,
+                        29.1,
+                        30.91,
+                        32.73,
+                        34.55,
+                        36.37,
+                        38.19,
+                        40.01
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "슈팅 스타1",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "explosion_range_up",
+                    "effect": "charge_time_fixed",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "슈팅 스타2",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "explosion_range",
                     "value": [
                         59.09,
                         63.63,
@@ -289,12 +341,14 @@
                         100
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "슈팅 스타3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_caster_based_pct",
                     "value": [
                         32.44,
                         34.95,
@@ -308,12 +362,14 @@
                         55.01
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "슈팅 스타4",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         20.8,
                         22.4,
@@ -327,12 +383,15 @@
                         35.2
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스타 아니스",
+                    "type": "buff",
+                    "condition": "self_state:나만의 별"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "hp_caster_based_pct",
                     "value": [
                         8.87,
                         9.56,
@@ -346,8 +405,10 @@
                         15.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "스타 아니스 2",
+                    "type": "buff",
+                    "condition": "self_state:모두의 별"
                 }
             ]
         }

@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "카운터스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 5,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,26 +25,53 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "received_hit_count:1",
                     "target": "self",
                     "effect": "invincible",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
                     "duration": 3,
-                    "count_limit": 1
+                    "name": "건강한 몸",
+                    "type": "buff",
+                    "condition": "not_self_state:건강한 몸"
                 },
                 {
-                    "trigger": "on_hit",
+                    "trigger": "received_hit_count:1",
                     "target": "self",
-                    "effect": "debuff_immunity",
-                    "unit": "count",
+                    "effect": "debuff_immune",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
                     "duration": 3,
-                    "count_limit": 1
+                    "name": "건강한 몸 2",
+                    "type": "buff",
+                    "condition": "not_self_state:건강한 몸"
                 },
                 {
-                    "trigger": "on_hit",
+                    "trigger": "received_hit_count:1",
                     "target": "self",
-                    "effect": "heal",
-                    "status": "건강한 몸",
+                    "effect": "heal_received_pct",
                     "value": [
                         6.06,
                         6.53,
@@ -57,18 +85,15 @@
                         10.26
                     ],
                     "unit": "percent",
-                    "duration": 20
+                    "duration": 20,
+                    "name": "건강한 몸 3",
+                    "type": "buff",
+                    "condition": "not_self_state:건강한 몸"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         258.81,
                         278.71,
@@ -82,12 +107,14 @@
                         437.98
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "화력 폭발 1",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         155.28,
                         167.23,
@@ -101,7 +128,10 @@
                         262.79
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "화력 폭발 2",
+                    "type": "damage",
+                    "condition": "self_state:초화력"
                 }
             ]
         },
@@ -113,7 +143,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         100,
                         100,
@@ -126,19 +156,37 @@
                         100,
                         100
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "화력 게이지 초기화",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 2,
-                    "unit": "percent"
+                    "effect": "gauge_charge",
+                    "value": [
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2,
+                        2
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "화력 게이지 충전",
+                    "type": "instant",
+                    "condition": "self_state:화력 충전"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:state_end:화력 충전",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         45,
                         45,
@@ -151,12 +199,15 @@
                         45,
                         45
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "화력 게이지 회복",
+                    "type": "instant"
                 },
                 {
                     "trigger": "full_burst_end",
                     "target": "self",
-                    "effect": "burst_gauge_charge_speed_up",
+                    "effect": "burst_charge_speed_pct",
                     "value": [
                         2.96,
                         3.19,
@@ -170,18 +221,17 @@
                         5
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "버스트 속도 증폭",
+                    "type": "buff",
+                    "condition": "gauge_above:화력 게이지:1",
+                    "scaling": "stack_count",
+                    "scaling_ref": "화력 게이지"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         47.29,
                         50.93,
@@ -195,12 +245,14 @@
                         80.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "화력 전개 1",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         20.71,
                         22.31,
@@ -214,7 +266,10 @@
                         35.05
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "화력 전개 2",
+                    "type": "buff",
+                    "condition": "self_state:초화력"
                 }
             ]
         },
@@ -227,29 +282,51 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_status",
-                    "status": "화력 충전",
-                    "unit": "count",
-                    "duration": 10
+                    "effect": "gauge_charge_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "화력 충전",
+                    "type": "buff",
+                    "condition": "gauge_below:화력 게이지:100"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "gauge_charge",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "화력 충전 2",
+                    "type": "instant",
+                    "condition": "gauge_below:화력 게이지:100"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 1,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_damage_up",
-                    "status": "초화력",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         34.56,
                         35.72,
@@ -263,19 +340,37 @@
                         45.03
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "초화력",
+                    "type": "buff",
+                    "condition": "gauge_eq:화력 게이지:100"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 100,
-                    "unit": "percent"
+                    "effect": "gauge_consume",
+                    "value": [
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100,
+                        100
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "초화력 2",
+                    "type": "instant",
+                    "condition": "gauge_eq:화력 게이지:100"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "explosion_range_up",
+                    "effect": "explosion_range",
                     "value": [
                         200,
                         200,
@@ -289,12 +384,14 @@
                         200
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "화력 강화 1",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         22.94,
                         32.64,
@@ -308,7 +405,9 @@
                         110.21
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "화력 강화 2",
+                    "type": "buff"
                 }
             ]
         }

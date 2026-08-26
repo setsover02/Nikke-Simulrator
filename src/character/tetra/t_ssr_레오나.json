@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "해피 주",
         "burstLevel": 2,
-        "atkCoef": 222.8,
+        "atkCoef": 201.5,
         "maxAmmo": 9,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,24 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:5",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
-                    "status": "roar",
+                    "effect": "crit_rate",
                     "value": [
                         1.38,
                         1.52,
@@ -56,26 +42,14 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
+                    "name": "포효",
+                    "type": "buff",
                     "stack": 5
                 },
                 {
-                    "trigger": "normal_attack",
-                    "target": "sg_allies",
-                    "effect": "max_range_up",
-                    "condition": {
-                        "count": [
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15,
-                            15
-                        ]
-                    },
+                    "trigger": "hit_count:15",
+                    "target": "allies_weapon:SG",
+                    "effect": "optimal_range_max_pct",
                     "value": [
                         20,
                         20,
@@ -89,7 +63,9 @@
                         20
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "우렁찬 포효",
+                    "type": "buff"
                 }
             ]
         },
@@ -101,7 +77,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         10.77,
                         11.83,
@@ -115,12 +91,14 @@
                         20.28
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "용기있는 시선",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "pellet_count_up",
+                    "target": "allies_weapon_top_atk:SG:2",
+                    "effect": "pellet_count",
                     "value": [
                         3,
                         3,
@@ -133,8 +111,10 @@
                         5,
                         5
                     ],
-                    "unit": "count",
-                    "duration": 10
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "용기있는 시선 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -147,7 +127,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         20.46,
                         22.04,
@@ -161,12 +141,14 @@
                         34.64
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "사자의 심장",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "max_stack_applied",
-                    "target": "sg_allies",
-                    "effect": "critical_rate_up",
+                    "trigger": "burst_cast",
+                    "target": "allies_weapon:SG",
+                    "effect": "crit_rate",
                     "value": [
                         12.6,
                         13.57,
@@ -180,7 +162,10 @@
                         21.32
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "사자의 심장 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:포효:5"
                 }
             ]
         }

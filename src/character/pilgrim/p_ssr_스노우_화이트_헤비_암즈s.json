@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "갓데스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
-        "chargeTime": 1,
+        "chargeTime": 1.2,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,27 +25,76 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "trigger": "every:0.2s",
+                    "target": "enemies_nearest:1",
+                    "effect": "lock_on",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "록 온",
+                    "type": "buff",
+                    "condition": "during_charge",
+                    "stack": 5
                 },
                 {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "trigger": "on_attack",
+                    "target": "enemies_with_buff:록 온",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "록 온 해제 (공격)",
+                    "type": "instant",
+                    "target_effect": "록 온"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:cover",
+                    "target": "enemies_with_buff:록 온",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "록 온 해제 (엄폐)",
+                    "type": "instant",
+                    "target_effect": "록 온"
+                },
+                {
+                    "trigger": "every:0.2s",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         24.96,
                         26.88,
@@ -58,18 +108,59 @@
                         42.24
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "오토 파이어 레디1",
+                    "type": "buff",
+                    "condition": "during_charge"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:0.2s",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "gauge_charge",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "오토 파이어 레디 충전",
+                    "type": "instant",
+                    "condition": "during_charge"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "trigger": "on_attack",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "오토 파이어 레디1 제거",
+                    "type": "instant",
+                    "target_effect": "오토 파이어 레디1"
+                },
+                {
+                    "trigger": "every:0.2s",
+                    "target": "enemies_with_buff:록 온",
+                    "effect": "received_dmg_pct",
                     "value": [
                         2.48,
                         2.67,
@@ -83,16 +174,13 @@
                         4.2
                     ],
                     "unit": "percent",
-                    "duration": 4
+                    "duration": 4,
+                    "name": "세븐스 드워프 V+VI",
+                    "type": "buff",
+                    "condition": "during_charge"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_enemies",
                     "effect": "damage",
                     "value": [
@@ -108,12 +196,14 @@
                         41.9
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "오토 파이어 1",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "damage",
+                    "trigger": "full_charge_hit",
+                    "target": "enemies_with_buff:록 온",
+                    "effect": "sequential_damage:오토 파이어 레디",
                     "value": [
                         62.39,
                         67.19,
@@ -127,26 +217,55 @@
                         105.59
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "오토 파이어 2",
+                    "type": "damage",
+                    "scaling": "stack_count",
+                    "scaling_ref": "오토 파이어 레디"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "gauge_consume",
+                    "value": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "오토 파이어 레디 소모",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "on_attack",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 1,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "세븐스 드워프 V+VI 제거",
+                    "type": "instant",
+                    "condition": "not_during_full_burst",
+                    "target_effect": "세븐스 드워프 풀 액티브"
                 }
             ]
         },
@@ -158,7 +277,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "charge_speed_up",
+                    "effect": "charge_time_fixed",
                     "value": [
                         1.2,
                         1.2,
@@ -172,19 +291,35 @@
                         1.2
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "어나더 화이트 차지시간고정",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_charge",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "어나더 화이트 관통특화",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_charge",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         27.68,
                         29.81,
@@ -198,12 +333,14 @@
                         46.84
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "어나더 화이트 공격력증가",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_charge",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         37.01,
                         39.86,
@@ -217,12 +354,14 @@
                         62.64
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "어나더 화이트 파츠대미지",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         43.68,
                         47.04,
@@ -236,12 +375,14 @@
                         73.92
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "어나더 화이트 공격력증가 (버스트3)",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_charge",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         312,
                         336,
@@ -255,12 +396,16 @@
                         528
                     ],
                     "unit": "percent",
+                    "duration": null,
+                    "name": "어나더 화이트 차지대미지",
+                    "type": "buff",
+                    "condition": "self_state:세븐스 드워프 풀 액티브 3",
                     "bullet": 1
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_charge",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "sequential_dmg_pct",
                     "value": [
                         93.6,
                         100.8,
@@ -274,6 +419,10 @@
                         158.4
                     ],
                     "unit": "percent",
+                    "duration": null,
+                    "name": "어나더 화이트 순차공격대미지",
+                    "type": "buff",
+                    "condition": "self_state:세븐스 드워프 풀 액티브 3",
                     "bullet": 1
                 }
             ]
@@ -287,7 +436,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         49.92,
                         53.76,
@@ -301,62 +450,14 @@
                         84.48
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "세븐스 드워프 풀 액티브",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_speed_up",
-                    "value": [
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2,
-                        3.2
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_max_add",
                     "value": [
                         10,
                         10,
@@ -370,11 +471,79 @@
                         10
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": null,
+                    "name": "세븐스 드워프 풀 액티브 2",
+                    "type": "buff",
+                    "bullet": 2
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "어나더 화이트 차지시간고정 제거",
+                    "type": "instant",
+                    "target_effect": "어나더 화이트 차지시간고정"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "self",
+                    "effect": "charge_time_fixed",
+                    "value": [
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2,
+                        3.2
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "세븐스 드워프 풀 액티브 3",
+                    "type": "buff",
+                    "bullet": 2
+                },
+                {
+                    "trigger": "event:state_end:세븐스 드워프 풀 액티브 3",
+                    "target": "self",
+                    "effect": "charge_time_fixed",
+                    "value": [
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2,
+                        1.2
+                    ],
+                    "unit": "percent",
+                    "duration": "permanent",
+                    "name": "어나더 화이트 차지시간고정",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_projectiles",
                     "effect": "damage",
                     "value": [
                         24.76,
@@ -389,7 +558,9 @@
                         41.9
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "세븐스 드워프 풀 액티브 4",
+                    "type": "damage"
                 }
             ]
         }

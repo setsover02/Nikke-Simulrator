@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,30 +25,31 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enter_burst_1",
+                    "trigger": "burst_enter:1",
                     "target": "self",
-                    "effect": "buff",
-                    "status": "취기",
+                    "effect": "accuracy_pct",
                     "value": [
-                        35.92,
-                        34.15,
-                        32.38,
-                        30.62,
-                        28.85,
-                        27.08,
-                        25.31,
-                        23.54,
-                        21.77,
-                        20
+                        -35.92,
+                        -34.15,
+                        -32.38,
+                        -30.62,
+                        -28.85,
+                        -27.08,
+                        -25.31,
+                        -23.54,
+                        -21.77,
+                        -20
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "취기",
+                    "type": "buff",
                     "stack": 3
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         11.85,
                         12.76,
@@ -61,12 +63,15 @@
                         20.05
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "파이레츠 하트",
+                    "type": "buff",
+                    "condition": "self_state:취기"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         20.69,
                         22.28,
@@ -80,8 +85,10 @@
                         35.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "파이레츠 하트 2",
+                    "type": "buff",
+                    "condition": "self_state:취기"
                 }
             ]
         },
@@ -91,12 +98,97 @@
             "type": "passive",
             "effects": [
                 {
+                    "trigger": "burst_enter:3",
+                    "target": "all_allies",
+                    "effect": "split_dmg_pct",
+                    "value": [
+                        8.88,
+                        9.56,
+                        10.24,
+                        10.93,
+                        11.61,
+                        12.29,
+                        12.98,
+                        13.66,
+                        14.34,
+                        15.03
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "파이레츠 스피릿",
+                    "type": "buff",
+                    "condition": "self_state:취기",
+                    "scaling": "stack_count",
+                    "scaling_ref": "취기"
+                },
+                {
+                    "trigger": "burst_enter:3",
+                    "target": "all_allies",
+                    "effect": "reload_speed_pct",
+                    "value": [
+                        8.73,
+                        9.43,
+                        10.13,
+                        10.83,
+                        11.53,
+                        12.24,
+                        12.94,
+                        13.64,
+                        14.34,
+                        15.04
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "파이레츠 스피릿 2",
+                    "type": "buff",
+                    "condition": "self_state:취기",
+                    "scaling": "stack_count",
+                    "scaling_ref": "취기"
+                },
+                {
                     "trigger": "full_burst_end",
                     "target": "self",
                     "effect": "stun",
-                    "status": "숙취",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "숙취",
+                    "type": "buff",
+                    "condition": "self_stack_above:취기:3"
+                },
+                {
+                    "trigger": "full_burst_end",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "파이레츠 스피릿 3",
+                    "type": "instant",
+                    "condition": "self_stack_above:취기:3",
+                    "target_effect": "취기"
                 }
             ]
         },
@@ -109,7 +201,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         23.51,
                         25.34,
@@ -123,12 +215,14 @@
                         40.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "파이레츠 로망",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         8.89,
                         9.57,
@@ -142,7 +236,33 @@
                         15.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "파이레츠 로망 2",
+                    "type": "buff"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "atk_caster_based_pct",
+                    "value": [
+                        11.85,
+                        12.76,
+                        13.68,
+                        14.59,
+                        15.5,
+                        16.41,
+                        17.32,
+                        18.24,
+                        19.15,
+                        20.06
+                    ],
+                    "unit": "percent",
+                    "duration": 10,
+                    "name": "파이레츠 로망 3",
+                    "type": "buff",
+                    "condition": "self_state:취기",
+                    "scaling": "stack_count",
+                    "scaling_ref": "취기"
                 }
             ]
         }

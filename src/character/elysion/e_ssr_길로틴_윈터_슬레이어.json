@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -28,13 +29,24 @@
                     "target": "self",
                     "effect": "buff",
                     "status": "용사 레벨 업",
-                    "value": 11,
+                    "value": [
+                        11,
+                        11,
+                        11,
+                        11,
+                        11,
+                        11,
+                        11,
+                        11,
+                        11,
+                        11
+                    ],
                     "unit": "percent"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "status": "용사 레벨 업 보상",
                     "value": [
                         6.06,
@@ -53,7 +65,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "status": "용사 레벨 업 보상",
                     "value": [
                         1.44,
@@ -72,8 +84,8 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         0.68,
                         0.74,
@@ -91,8 +103,8 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "water_element_allies",
-                    "effect": "atk_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_pct",
                     "value": [
                         0.55,
                         0.58,
@@ -117,23 +129,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:6",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            6,
-                            6,
-                            6,
-                            6,
-                            6,
-                            6,
-                            6,
-                            6,
-                            6,
-                            6
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "status": "경험치",
                     "value": [
                         1.07,
@@ -154,7 +152,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "경험치",
                     "value": [
                         1.07,
@@ -175,7 +173,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         4.37,
                         4.76,
@@ -201,8 +199,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         5.99,
                         6.45,
@@ -220,8 +218,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "water_element_allies",
-                    "effect": "atk_damage_up",
+                    "target": "allies_element:수냉",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         11.08,
                         11.93,

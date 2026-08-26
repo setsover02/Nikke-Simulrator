@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,14 +26,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "extra_damage",
+                    "target": "enemies_top_hp:1",
+                    "effect": "bonus_damage",
                     "value": [
                         2239.1,
                         2411.34,
@@ -46,91 +41,37 @@
                         3789.25
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "경계 대상 지정",
+                    "type": "damage",
+                    "condition": "burst_casted"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_down",
-                    "status": "경계 대상",
+                    "target": "enemies_top_hp:1",
+                    "effect": "atk_pct",
                     "value": [
-                        6.24,
-                        6.72,
-                        7.2,
-                        7.68,
-                        8.16,
-                        8.64,
-                        9.12,
-                        9.59,
-                        10.08,
-                        10.56
+                        -6.24,
+                        -6.72,
+                        -7.2,
+                        -7.68,
+                        -8.16,
+                        -8.64,
+                        -9.12,
+                        -9.59,
+                        -10.08,
+                        -10.56
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "경계 대상",
+                    "type": "buff",
+                    "condition": "burst_casted"
                 },
                 {
-                    "trigger": "enemy_death",
-                    "target": "random_enemies",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "enemy_death",
-                    "target": "random_enemies",
-                    "effect": "extra_damage",
-                    "value": [
-                        2239.1,
-                        2411.34,
-                        2583.57,
-                        2755.81,
-                        2928.05,
-                        3100.29,
-                        3272.53,
-                        3444.77,
-                        3617.01,
-                        3789.25
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "enemy_death",
-                    "target": "random_enemies",
-                    "effect": "atk_down",
-                    "status": "경계 대상",
-                    "value": [
-                        6.24,
-                        6.72,
-                        7.2,
-                        7.68,
-                        8.16,
-                        8.64,
-                        9.12,
-                        9.59,
-                        10.08,
-                        10.56
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:20",
                     "target": "target",
-                    "effect": "extra_damage",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "bonus_damage",
                     "value": [
                         96.82,
                         103.03,
@@ -144,7 +85,10 @@
                         152.68
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "이머전시 휘슬",
+                    "type": "damage",
+                    "condition": "target_state:고위험 대상"
                 }
             ]
         },
@@ -156,8 +100,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
-                    "status": "휘슬",
+                    "effect": "atk_pct",
                     "value": [
                         19.34,
                         20.83,
@@ -172,39 +115,59 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
-                    "stack": 5
+                    "name": "휘슬",
+                    "type": "buff",
+                    "stack": 9
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "battle_start",
                     "target": "self",
-                    "effect": "atk_up",
-                    "status": "휘슬",
+                    "effect": "buff_stack_add",
                     "value": [
-                        19.34,
-                        20.83,
-                        22.32,
-                        23.8,
-                        25.29,
-                        26.78,
-                        28.27,
-                        29.76,
-                        31.24,
-                        32.73
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4,
+                        4
                     ],
                     "unit": "percent",
-                    "duration": "permanent",
-                    "stack": 5
+                    "duration": null,
+                    "name": "휘슬 초기 중첩",
+                    "type": "instant",
+                    "target_effect": "휘슬"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:5s",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "buff_stack_add",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "휘슬 충전",
+                    "type": "instant",
+                    "condition": "enemy_count_below:3",
+                    "target_effect": "휘슬"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:1s",
                     "target": "all_enemies",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         126.67,
                         136.41,
@@ -218,12 +181,38 @@
                         214.36
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "펭군 긴급 출동",
+                    "type": "damage",
+                    "condition": "enemy_count_above:6"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:1s",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "buff_stack_remove",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "휘슬 소모",
+                    "type": "instant",
+                    "condition": "enemy_count_above:6",
+                    "target_effect": "휘슬"
+                },
+                {
+                    "trigger": "event:enemy_spawn",
+                    "target": "self",
+                    "effect": "element_bonus_pct",
                     "value": [
                         12.06,
                         12.99,
@@ -237,7 +226,10 @@
                         20.41
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "펭군 긴급 출동 2",
+                    "type": "buff",
+                    "condition": "enemy_count_below:5"
                 }
             ]
         },
@@ -250,7 +242,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "element_bonus_pct",
                     "value": [
                         18.3,
                         19.71,
@@ -264,12 +256,14 @@
                         30.97
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "펭군 스파이럴",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         16.22,
                         17.47,
@@ -283,27 +277,31 @@
                         27.45
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "펭군 스파이럴 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "def_down",
-                    "status": "고위험 대상",
+                    "target": "enemies_code:전격",
+                    "effect": "def_pct",
                     "value": [
-                        6.24,
-                        6.72,
-                        7.2,
-                        7.68,
-                        8.16,
-                        8.64,
-                        9.12,
-                        9.59,
-                        10.08,
-                        10.56
+                        -6.24,
+                        -6.72,
+                        -7.2,
+                        -7.68,
+                        -8.16,
+                        -8.64,
+                        -9.12,
+                        -9.59,
+                        -10.08,
+                        -10.56
                     ],
                     "unit": "percent",
-                    "duration": 20
+                    "duration": 20,
+                    "name": "고위험 대상",
+                    "type": "buff",
+                    "condition": "target_code:전격"
                 }
             ]
         }

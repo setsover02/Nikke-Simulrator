@@ -13,9 +13,10 @@
         "maxAmmo": 300,
         "reloadTime": 2.5,
         "chargeTime": 0,
-        "fireRate": 60,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 1,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         5.2,
                         6,
@@ -46,7 +47,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         5.2,
                         6,
@@ -66,7 +67,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "parts_damage_up",
+                    "effect": "part_dmg_pct",
                     "value": [
                         5.2,
                         6,
@@ -93,7 +94,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         8.32,
                         9.68,
@@ -113,7 +114,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         8.32,
                         9.64,
@@ -133,7 +134,7 @@
                 {
                     "trigger": "enter_burst_3",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         8.32,
                         9.64,
@@ -176,7 +177,19 @@
                             33
                         ]
                     },
-                    "duration": 7
+                    "duration": 7,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",

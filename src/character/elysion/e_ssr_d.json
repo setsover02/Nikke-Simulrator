@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "시지 패러리스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 8.73,
         "maxAmmo": 120,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         27.73,
                         29.86,
@@ -45,7 +46,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.08,
                         2.24,
@@ -65,7 +66,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         9.75,
                         10.5,
@@ -124,12 +125,24 @@
                         33.06,
                         35,
                         36.95
+                    ],
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         44.68,
                         49.84,
@@ -156,7 +169,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         138.52,
                         170.49,
@@ -174,8 +187,8 @@
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "attacker_allies",
-                    "effect": "parts_damage_up",
+                    "target": "allies_class:화력형",
+                    "effect": "part_dmg_pct",
                     "value": [
                         16.69,
                         19.55,

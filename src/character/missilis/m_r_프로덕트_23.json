@@ -11,11 +11,12 @@
         "burstLevel": 2,
         "atkCoef": 231.6,
         "maxAmmo": 9,
-        "reloadTime": 2.03,
+        "reloadTime": 0.67,
         "chargeTime": 0,
-        "fireRate": 1.51515,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 1.5,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         0.81,
                         1.62,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.61,
                         3.23,
@@ -80,7 +81,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         4.87,
                         9.75,

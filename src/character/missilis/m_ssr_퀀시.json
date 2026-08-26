@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "리얼 카인드니스",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 4.47,
         "maxAmmo": 120,
         "reloadTime": 1.67,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:60",
                     "target": "self",
                     "effect": "copy_max_hp",
-                    "condition": {
-                        "count": [
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60,
-                            60
-                        ]
-                    },
                     "value": [
                         6.21,
                         6.9,
@@ -66,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         8.05,
                         8.95,
@@ -93,7 +80,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         21.93,
                         24.37,
@@ -112,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         14.95,
                         16.61,

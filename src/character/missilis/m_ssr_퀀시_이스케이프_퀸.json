@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "리얼 카인드니스",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 5.06,
         "maxAmmo": 120,
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "value": [
                         29.3,
                         31.55,
@@ -40,13 +41,15 @@
                         49.58
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "루트 확정",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 1단계:10"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "core_damage_up",
+                    "effect": "core_dmg_pct",
                     "value": [
                         14.92,
                         16.07,
@@ -60,12 +63,15 @@
                         25.25
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "루트 확정 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 2단계:10"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         9.89,
                         10.65,
@@ -79,7 +85,10 @@
                         16.73
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "루트 확정 3",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 3단계:5"
                 }
             ]
         },
@@ -89,12 +98,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": 1
-                    },
+                    "effect": "accuracy_pct",
                     "value": [
                         0.79,
                         0.87,
@@ -109,15 +115,14 @@
                     ],
                     "unit": "percent",
                     "duration": 2,
+                    "name": "루트 탐색 1단계",
+                    "type": "buff",
                     "stack": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": 1
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         1.43,
                         1.55,
@@ -132,15 +137,14 @@
                     ],
                     "unit": "percent",
                     "duration": 2,
+                    "name": "루트 탐색 1단계 2",
+                    "type": "buff",
                     "stack": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": 2
-                    },
+                    "effect": "accuracy_pct",
                     "value": [
                         1.6,
                         1.74,
@@ -155,15 +159,15 @@
                     ],
                     "unit": "percent",
                     "duration": 1,
+                    "name": "루트 탐색 2단계",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 1단계:10",
                     "stack": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": 2
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         2.88,
                         3.12,
@@ -178,15 +182,15 @@
                     ],
                     "unit": "percent",
                     "duration": 1,
+                    "name": "루트 탐색 2단계 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 1단계:10",
                     "stack": 10
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "accuracy_up",
-                    "condition": {
-                        "count": 3
-                    },
+                    "effect": "accuracy_pct",
                     "value": [
                         2.4,
                         2.6,
@@ -201,15 +205,15 @@
                     ],
                     "unit": "percent",
                     "duration": 0.5,
+                    "name": "루트 탐색 3단계",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 2단계:10",
                     "stack": 5
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:2",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": 3
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         4.34,
                         4.69,
@@ -224,6 +228,9 @@
                     ],
                     "unit": "percent",
                     "duration": 0.5,
+                    "name": "루트 탐색 3단계 2",
+                    "type": "buff",
+                    "condition": "self_stack_above:루트 탐색 2단계:10",
                     "stack": 5
                 }
             ]
@@ -237,7 +244,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         33.72,
                         36.32,
@@ -251,12 +258,14 @@
                         57.08
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "위대한 도둑",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_speed_pct",
                     "value": [
                         15.28,
                         16.46,
@@ -270,12 +279,14 @@
                         25.87
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "위대한 도둑 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         1026,
                         1104.93,
@@ -289,7 +300,9 @@
                         1736.31
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "위대한 도둑 3",
+                    "type": "damage"
                 }
             ]
         }

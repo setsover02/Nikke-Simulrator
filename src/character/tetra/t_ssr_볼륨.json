@@ -14,8 +14,9 @@
         "reloadTime": 1.5,
         "fireRate": 24,
         "chargeTime": 0,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "kill_enemy",
+                    "trigger": "enemy_death",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         6.93,
                         7.56,
@@ -40,7 +41,9 @@
                         12.6
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "프리스타일",
+                    "type": "buff"
                 }
             ]
         },
@@ -50,9 +53,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_burst_start_count:1",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         2.34,
                         2.34,
@@ -65,13 +68,15 @@
                         2.34,
                         2.34
                     ],
-                    "unit": "seconds",
-                    "stack_level": 1
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "드랍 더 비트",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_burst_start_count:2",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         2.7,
                         2.7,
@@ -84,13 +89,15 @@
                         2.7,
                         2.7
                     ],
-                    "unit": "seconds",
-                    "stack_level": 2
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "드랍 더 비트 2",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_burst_start_count:3",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         3.17,
                         3.17,
@@ -103,13 +110,15 @@
                         3.17,
                         3.17
                     ],
-                    "unit": "seconds",
-                    "stack_level": 3
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "드랍 더 비트 3",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "burst_cast_count:1",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         1.68,
                         2.69,
@@ -124,12 +133,13 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
-                    "stack_level": 1
+                    "name": "드랍 더 비트 4",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "burst_cast_count:2",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         3.36,
                         4.37,
@@ -144,12 +154,13 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
-                    "stack_level": 2
+                    "name": "드랍 더 비트 5",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "burst_cast",
+                    "trigger": "burst_cast_count:3",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg",
                     "value": [
                         5.05,
                         6.09,
@@ -164,7 +175,8 @@
                     ],
                     "unit": "percent",
                     "duration": 5,
-                    "stack_level": 3
+                    "name": "드랍 더 비트 6",
+                    "type": "buff"
                 }
             ]
         },
@@ -177,7 +189,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         17.54,
                         19.14,
@@ -191,7 +203,9 @@
                         31.9
                     ],
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "name": "볼륨 업, 가이즈!",
+                    "type": "buff"
                 }
             ]
         }

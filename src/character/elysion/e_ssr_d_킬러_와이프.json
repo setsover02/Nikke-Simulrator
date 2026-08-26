@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "시지 패러리스",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,30 +25,31 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_count:3",
                     "target": "self",
-                    "effect": "pierce",
-                    "condition": {
-                        "count": [
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3,
-                            3
-                        ]
-                    },
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
+                    "duration": null,
+                    "name": "캄 스나이핑",
+                    "type": "buff",
                     "bullet": 1
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "sr_allies",
-                    "effect": "pierce_damage_up",
+                    "target": "allies_weapon:SR",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         8,
                         8.62,
@@ -61,7 +63,9 @@
                         13.55
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "캄 스나이핑 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -71,23 +75,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_count:8",
                     "target": "all_allies",
-                    "effect": "burst_cooldown_reduction",
-                    "condition": {
-                        "count": [
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8,
-                            8
-                        ]
-                    },
+                    "effect": "burst_cooldown_reduce",
                     "value": [
                         4.13,
                         4.45,
@@ -100,26 +90,15 @@
                         6.68,
                         7
                     ],
-                    "unit": "seconds"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "어썰트 포메이션",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_count:5",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
-                    "condition": {
-                        "count": [
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5,
-                            5
-                        ]
-                    },
+                    "effect": "atk_dmg_pct",
                     "value": [
                         2.99,
                         3.22,
@@ -133,7 +112,9 @@
                         5.06
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "어썰트 포메이션 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -145,8 +126,8 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "extra_damage",
+                    "target": "enemies_nearest:1",
+                    "effect": "bonus_damage",
                     "value": [
                         159.12,
                         171.36,
@@ -160,26 +141,35 @@
                         269.28
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "킬 더 타겟",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "target_extermination",
-                    "status": "target_extermination",
+                    "target": "enemies_nearest:1",
+                    "effect": "received_dmg_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "타겟 섬멸",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "normal_attack_hit",
-                    "target": "target",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "normal_attack_hit",
-                    "target": "all_allies",
-                    "effect": "core_damage_up",
+                    "trigger": "part_hit_count:1",
+                    "target": "self",
+                    "effect": "core_dmg_pct",
                     "value": [
                         9.6,
                         10.34,
@@ -193,12 +183,15 @@
                         16.26
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "타겟 섬멸 코어",
+                    "type": "buff",
+                    "condition": "target_state:타겟 섬멸"
                 },
                 {
-                    "trigger": "normal_attack_hit",
-                    "target": "all_allies",
-                    "effect": "atk_up",
+                    "trigger": "body_hit_count:1",
+                    "target": "self",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         7.2,
                         7.76,
@@ -212,8 +205,10 @@
                         12.19
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "타겟 섬멸 ATK",
+                    "type": "buff",
+                    "condition": "target_state:타겟 섬멸"
                 }
             ]
         }

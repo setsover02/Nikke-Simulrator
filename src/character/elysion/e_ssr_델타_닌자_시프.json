@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,8 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
-                    "status": "인법 애시드 봄",
+                    "effect": "received_dmg_pct",
                     "value": [
                         7.09,
                         7.64,
@@ -41,12 +41,14 @@
                         12
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "인법 애시드 봄",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         8.88,
                         9.57,
@@ -60,13 +62,14 @@
                         15.04
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "인법 애시드 봄 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "damage_taken_up",
-                    "status": "인법 하이퍼 애시드 봄",
+                    "target": "enemies_nearest_in_range",
+                    "effect": "received_dmg_pct",
                     "value": [
                         4.74,
                         5.1,
@@ -80,7 +83,9 @@
                         8
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "인법 하이퍼 애시드 봄",
+                    "type": "buff"
                 }
             ]
         },
@@ -92,19 +97,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "shield",
+                    "effect": "shield_from_max_hp_pct",
                     "value": [
                         7.24,
                         7.8,
@@ -118,30 +111,59 @@
                         12.25
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "인법 카모플라쥬",
+                    "type": "buff",
+                    "condition": "no_defender_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
                     "effect": "taunt",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "주목",
+                    "type": "buff",
+                    "condition": "no_defender_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "remove_status",
-                    "status": "인법 카모플라쥬",
-                    "value": 1,
+                    "effect": "targeting_exclude",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": null,
+                    "name": "인법 카모플라쥬 2",
+                    "type": "instant",
+                    "condition": "has_defender_ally"
                 },
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "heal",
-                    "status": "인법 인젝션",
+                    "effect": "lifesteal_pct",
                     "value": [
                         6.17,
                         6.73,
@@ -155,27 +177,15 @@
                         11.22
                     ],
                     "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "인법 인젝션",
+                    "type": "buff",
+                    "condition": "has_defender_ally"
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:200",
                     "target": "self",
-                    "effect": "shield",
-                    "condition": {
-                        "count": [
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200,
-                            200
-                        ]
-                    },
+                    "effect": "shield_from_max_hp_pct",
                     "value": [
                         7.24,
                         7.8,
@@ -189,20 +199,15 @@
                         12.25
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "인법 카모플라쥬 3",
+                    "type": "buff",
+                    "condition": "self_state:주목"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "every:4s",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "duration": 4
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
+                    "effect": "heal_overcharge_store_atk_pct",
                     "value": [
                         90.9,
                         99.17,
@@ -216,13 +221,32 @@
                         165.28
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": 4,
+                    "name": "인법 IFAK",
+                    "type": "buff",
+                    "condition": "self_state:인법 인젝션"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:state_end:인법 IFAK",
                     "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "heal_overcharge_discharge",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "인법 IFAK 방출",
+                    "type": "instant",
+                    "target_effect": "인법 IFAK"
                 }
             ]
         },
@@ -235,7 +259,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "value": [
                         11.82,
                         12.73,
@@ -249,13 +273,14 @@
                         20
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "비기 : 닌자 오버드라이브",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         8.86,
                         9.54,
@@ -269,13 +294,14 @@
                         15
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "비기 : 닌자 오버드라이브 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "distribute_damage",
+                    "effect": "split_damage",
                     "value": [
                         102.6,
                         110.49,
@@ -289,12 +315,14 @@
                         170
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "비기 : 닌자 오버드라이브 3",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "next_shield_hp_up",
+                    "effect": "next_shield_hp_pct",
                     "value": [
                         11.9,
                         12.81,
@@ -308,12 +336,15 @@
                         20.13
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "비기 : 닌자 오버드라이브 4",
+                    "type": "buff",
+                    "condition": "self_state:주목"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "accumulate_max_scale_pct",
                     "value": [
                         11.9,
                         12.81,
@@ -327,7 +358,11 @@
                         20.13
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "비기 : 닌자 오버드라이브 5",
+                    "type": "buff",
+                    "condition": "self_state:인법 인젝션",
+                    "target_effect": "인법 IFAK"
                 }
             ]
         }

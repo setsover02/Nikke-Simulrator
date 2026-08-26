@@ -18,7 +18,18 @@ print(json.dumps(data['캐릭터명'], ensure_ascii=False, indent=2))
 
 > **속도 원칙**: 정의된 규칙 그대로 적용. 해석 확장·대안 고민 금지. 패턴 매핑되면 즉시 적용, 불명확하면 고민 없이 즉시 질문.
 
-> **파싱 범위**: `"스킬"` 딕셔너리(스킬1~3)만 파싱. `"무기상세"`는 Python에서 별도 관리 → 파싱 안 함.
+> **파싱 범위**: `"스킬"` 딕셔너리(스킬1~3)만 파싱. `"weapon_detail"`(또는 `"무기상세"`)는 시뮬레이터/계산기 엔진에서 직접 관리.
+>
+> **무기 기본 계수 (`atkCoef`) 및 메타데이터 정의**:
+> `scraper/nikke_scraped.json`의 `"weapon_detail"` 객체 필드는 아래와 같이 `atkCoef` 및 무기 스펙으로 매핑된다:
+> - **`weapon_detail.damage`**: 무기 일반 공격 기본 계수 `atkCoef` (`damage / 100` %, 예: `6311` → `63.11%`, `2708` → `27.08%`, `21430` → `214.30%`)
+> - **`weapon_detail.max_ammo`**: 무기 기본 최대 장탄수 (`maxAmmo`)
+> - **`weapon_detail.reload_time`**: 재장전 시간 (`reloadTime = reload_time / 100` 초)
+> - **`weapon_detail.charge_time`**: 차지 시간 (`chargeTime = charge_time / 100` 초)
+> - **`weapon_detail.rate_of_fire`**: 연사 속도 (`fireRate = rate_of_fire / 60` 발/초)
+> - **`weapon_detail.full_charge_damage`**: 풀 차지 대미지 (`fullChargeDamage = full_charge_damage / 100` %)
+> - **`weapon_detail.core_damage_rate`**: 코어 대미지 배율 (`coreDamage = core_damage_rate / 100` %)
+> - **`weapon_detail.shot_count`**: 펠릿 수 (`pelletCount`, SG 10발 등)
 >
 > **애장품 보유 캐릭터**: 슬롯마다 판본이 둘이라 실질 **스킬 6개**를 파싱한다 — `"스킬"`의 기본 템플릿 3개(애장품 미보유 판본)와 `"애장품"."단계별"`의 단계별 템플릿 3개다. 단계별 항목은 `교체슬롯`이 가리키는 슬롯(`스킬1`/`스킬2`/`스킬3`)을 통째로 대체하며, 거기서 나온 효과에는 **`"favorite": <단계>`**를 적는다(기본 판본에는 적지 않는다). 애장품 N단계는 1~N단계가 교체한 슬롯만 애장품 판본을 쓰고 나머지는 기본 판본을 쓴다 — 조합은 `calculator/buff_manager.char_effects()`가 `parsed_nikke.json`의 `favorite_slots`(단계→교체슬롯, 캐릭터마다 순서가 다르다)로 결정한다. 필요한 판본이 없으면 시뮬이 끊는다.
 >
@@ -33,28 +44,23 @@ print(json.dumps(data['캐릭터명'], ensure_ascii=False, indent=2))
 ```json
 "캐릭터명": {
   "id": 10,
-  "레어도": "SR",
-  "클래스": "화력형",
-  "기업": "엘리시온",
-  "버스트 단계": "3",
-  "무기상세": {
-    "무기유형": "AR",
-    "최대 장탄 수": "60",
-    "재장전 시간": "1.00s",
-    "무기스킬": "■ 대상에게\n[공격력 13.65% 대미지]\n[코어 대미지 200%]"
+  "rarity": "SR",
+  "class": "Attacker",
+  "company": "ELYSIOIN",
+  "burst_stage": "Step3",
+  "weapon_detail": {
+    "weapon_type": "AR",
+    "damage": 1365,
+    "max_ammo": 60,
+    "reload_time": 100,
+    "charge_time": 0,
+    "rate_of_fire": 720,
+    "full_charge_damage": 10000,
+    "core_damage_rate": 20000,
+    "shot_count": 1
   },
-  "스킬": {
-    "스킬이름": {
-      "쿨타임": "20.0 s",
-      "template": "■ 전투 시작 시 아군 전체에게[공격력 {0}% ▲] [10초 유지]■ ...",
-      "values": {
-        "1": ["23.5"],
-        "2": ["26.1"],
-        "3": ["28.7"], // 레벨 3~9도 동일하게 포함
-        ...
-        "10": ["47.0"]
-      }
-    }
+  "raw": {
+    "skills": { ... }
   }
 }
 ```

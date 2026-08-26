@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "T.T. STAR",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "buff",
+                    "effect": "projectile_explosion_dmg_pct",
                     "value": [
                         11.82,
                         12.72,
@@ -40,12 +41,14 @@
                         20
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "무대, 시작할게.",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         7.73,
                         8.33,
@@ -59,12 +62,14 @@
                         13.09
                     ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "무대, 시작할게. 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         11.11,
                         12.09,
@@ -78,13 +83,14 @@
                         20
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "무대, 시작할게. 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "outgoing_heal_pct",
                     "value": [
                         29.5,
                         31.77,
@@ -98,14 +104,32 @@
                         49.92
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "무대, 시작할게. 4",
+                    "type": "buff",
+                    "condition": "self_state:퍼포먼스"
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "무대, 시작할게. 5",
+                    "type": "buff",
+                    "condition": "self_state:퍼포먼스"
                 }
             ]
         },
@@ -117,7 +141,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         11.8,
                         12.71,
@@ -131,32 +155,36 @@
                         19.98
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "한 곡 더!",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "status": "무대 파트",
+                    "trigger": "event:떼창",
+                    "target": "민트",
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "무대 파트 : 보컬",
+                    "type": "buff",
+                    "condition": "self_state:퍼포먼스"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
+                    "trigger": "event:떼창",
                     "target": "all_allies",
-                    "effect": "buff",
+                    "effect": "named_buff_duration_extend",
                     "value": [
                         21,
                         21,
@@ -169,12 +197,17 @@
                         21,
                         21
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "앵콜",
+                    "type": "instant",
+                    "condition": "self_state:퍼포먼스",
+                    "target_effect": "퍼포먼스"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:떼창",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         14.29,
                         15.48,
@@ -188,25 +221,32 @@
                         25.01
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "앵콜 2",
+                    "type": "buff",
+                    "condition": "self_state:퍼포먼스"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:떼창",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "burst_cooldown_reduce",
                     "value": [
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21,
+                        -21
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "앵콜 3",
+                    "type": "instant",
+                    "condition": "self_state:퍼포먼스"
                 }
             ]
         },
@@ -219,13 +259,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "atk_pct",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": 25,
+                    "name": "퍼포먼스",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.79,
                         1.93,
@@ -239,20 +294,15 @@
                         3.04
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
                     "duration": 25,
-                    "interval": 1
+                    "name": "퍼포먼스 2",
+                    "type": "instant",
+                    "scaling": "max_hp"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         13.88,
                         15.12,
@@ -266,13 +316,9 @@
                         25
                     ],
                     "unit": "percent",
-                    "duration": 25
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": 25,
+                    "name": "퍼포먼스 3",
+                    "type": "buff"
                 }
             ]
         }

@@ -14,8 +14,9 @@
         "reloadTime": 2.5,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "self",
-                    "effect": "critical_rate_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "crit_rate",
                     "value": [
                         6.28,
                         6.61,
@@ -57,23 +44,9 @@
                     "duration": 10
                 },
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:30",
                     "target": "self",
                     "effect": "current_hp_down",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
                     "value": [
                         2.01,
                         2.01,
@@ -96,23 +69,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:150",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "count": [
-                            150,
-                            150,
-                            150,
-                            150,
-                            150,
-                            150,
-                            150,
-                            150,
-                            150,
-                            150
-                        ]
-                    },
+                    "effect": "crit_dmg_pct",
                     "value": [
                         8.68,
                         9.35,
@@ -131,21 +90,8 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "hp_below": [
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70
-                        ]
-                    },
+                    "effect": "atk_pct",
+                    "condition": "self_hp_below:70",
                     "value": [
                         0.56,
                         0.61,
@@ -172,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "highest_atk_enemy_1",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         731.25,
                         787.5,
@@ -192,20 +138,7 @@
                     "trigger": "burst_cast",
                     "target": "same_target",
                     "effect": "extra_damage",
-                    "condition": {
-                        "hp_below": [
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50,
-                            50
-                        ]
-                    },
+                    "condition": "self_hp_below:50",
                     "value": [
                         731.25,
                         787.5,

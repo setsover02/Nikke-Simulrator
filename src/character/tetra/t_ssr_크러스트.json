@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "쿠킹오일",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -62,7 +63,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "마이야르",
                     "value": [
                         5.9,
@@ -84,12 +85,24 @@
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "status": "블렌칭",
                     "value": [
                         5.9,
@@ -111,7 +124,19 @@
                     "trigger": "passive",
                     "target": "all_allies",
                     "effect": "buff",
-                    "unit": "percent"
+                    "unit": "percent",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -123,7 +148,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "status": "든든한 요리",
                     "value": [
                         5.91,
@@ -145,13 +170,24 @@
                     "trigger": "full_charge_attack",
                     "target": "all_allies",
                     "effect": "dispel",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "count"
                 },
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "status": "든든한 요리",
                     "value": [
                         5.91,
@@ -173,13 +209,24 @@
                     "trigger": "passive",
                     "target": "all_allies",
                     "effect": "dispel",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "count"
                 },
                 {
                     "trigger": "passive",
                     "target": "target",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         11.81,
                         12.72,
@@ -207,7 +254,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         11.81,
                         12.72,
@@ -226,7 +273,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "distribute_damage",
+                    "effect": "split_dmg_pct",
                     "value": [
                         35.45,
                         38.18,
@@ -246,7 +293,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         5.91,
                         6.36,

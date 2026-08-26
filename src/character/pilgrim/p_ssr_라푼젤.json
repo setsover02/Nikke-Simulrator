@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "파이오니아",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 62.95,
         "maxAmmo": 6,
         "reloadTime": 2.3,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         2.52,
                         2.68,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         5.11,
                         5.46,
@@ -71,7 +72,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         8.53,
                         9.09,
@@ -98,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         18.56,
                         21.03,
@@ -136,22 +137,21 @@
                     "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "stun",
-                    "condition": {
-                        "hp_below": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "condition": "self_hp_below:30",
                     "unit": "percent",
-                    "duration": 1
+                    "duration": 1,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         }

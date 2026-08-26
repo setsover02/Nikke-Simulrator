@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "M.M.R.",
         "burstLevel": 1,
-        "atkCoef": 222.8,
+        "atkCoef": 214.3,
         "maxAmmo": 9,
         "reloadTime": 2,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "damage_taken_down",
+                    "effect": "received_dmg",
                     "value": [
                         22.96,
                         26.25,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         24.64,
                         28.16,
@@ -71,7 +72,7 @@
                 {
                     "trigger": "full_burst_time",
                     "target": "same_target",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         4.1,
                         4.69,

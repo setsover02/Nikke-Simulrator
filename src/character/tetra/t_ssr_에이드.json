@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "메이드 포 유",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 14.71,
         "maxAmmo": 60,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "all_allies",
-                    "effect": "debuff_immunity",
+                    "effect": "debuff_immune",
                     "status": "perfect_maid",
                     "value": [
                         1,
@@ -47,21 +48,8 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
-                    "condition": {
-                        "hp_below": [
-                            90,
-                            90,
-                            90,
-                            90,
-                            90,
-                            90,
-                            90,
-                            90,
-                            90,
-                            90
-                        ]
-                    },
+                    "effect": "atk_pct",
+                    "condition": "self_hp_below:90",
                     "value": [
                         3.29,
                         3.5,
@@ -86,23 +74,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:420",
                     "target": "all_allies",
-                    "effect": "debuff_immunity",
-                    "condition": {
-                        "count": [
-                            420,
-                            420,
-                            420,
-                            420,
-                            420,
-                            420,
-                            420,
-                            420,
-                            420,
-                            420
-                        ]
-                    },
+                    "effect": "debuff_immune",
                     "status": "perfect_maid",
                     "value": [
                         1,
@@ -121,23 +95,9 @@
                     "stack": 1
                 },
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:120",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
-                    "condition": {
-                        "count": [
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120,
-                            120
-                        ]
-                    },
+                    "effect": "max_hp_pct",
                     "value": [
                         8.78,
                         9.54,
@@ -165,7 +125,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         16.88,
                         17.8,
@@ -185,7 +145,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         6.58,
                         6.98,

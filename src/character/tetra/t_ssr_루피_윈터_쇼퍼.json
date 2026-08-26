@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "last_bullet_hit",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         10.46,
                         11.41,
@@ -52,7 +53,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "status": "쇼핑",
                     "value": [
                         0.73,
@@ -102,12 +103,24 @@
                     "target": "self",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         33.94,
                         35.77,
@@ -127,7 +140,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_speed_pct",
                     "value": [
                         20.74,
                         25.45,
@@ -147,7 +160,18 @@
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "burst_reenter",
-                    "value": 1,
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
                     "unit": "count"
                 }
             ]

@@ -11,6 +11,7 @@ import { generateChartData, calcHitDamages, generateBurstWindows, generateScatte
 import { SlotState, SimulationInput, SimulationOutput, SkillInfoEntry } from '../types/simulator';
 import { SLOT_COLORS } from '../constants/characters';
 import { getWeaponRangeBonus } from '../constants/weaponStats';
+import { calculateBaseStat, getClassConsoleLevel, getCorpConsoleLevel, resolveGrowthStage } from './baseStat';
 
 interface ActiveSlot {
     slot: SlotState;
@@ -22,7 +23,7 @@ interface ActiveSlot {
  * 활성 슬롯이 없으면 null을 반환합니다.
  */
 export function runSimulation(input: SimulationInput): SimulationOutput | null {
-    const { slots, enemyDef, fullBurstInterval, rangeMode, weaknessElement, showCore, coreSize } = input;
+    const { slots, enemyDef, fullBurstInterval, rangeMode, weaknessElement, showCore, coreSize, outpostState } = input;
     const effCorePx = showCore ? (coreSize !== undefined ? coreSize : 52) : 0;
 
     const parsedBurstInterval = parseFloat(fullBurstInterval);
@@ -54,13 +55,13 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
     if (activeSlots.length === 0) return null;
 
     // --- 팀 빌드 ---
-    const team = buildTeam(activeSlots, showCore, rangeMode);
+    const team = buildTeam(activeSlots, showCore, rangeMode, outpostState);
 
     // --- 시뮬레이션 실행 ---
     const result = simulateBattle(team, { ...ENEMY }, config);
 
     // --- 캐릭터별 결과 추출 ---
-    const chars = extractChars(result, activeSlots, ENEMY, showCore, rangeMode);
+    const chars = extractChars(result, activeSlots, ENEMY, showCore, rangeMode, outpostState);
 
     // --- 총 대미지 ---
     const teamTotal = sumDamage(result);
@@ -92,7 +93,7 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
 
 // ─── 내부 헬퍼 함수 ───────────────────────────────────────
 
-function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: number): Team {
+function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: number, outpostState?: any): Team {
     return {
         members: activeSlots.map(({ slot, originalIndex }) => {
             const eq: EquipmentOptions = {
@@ -106,24 +107,62 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
                 critDmgPercent: parseFloat(slot.equipCritDmg || '0') / 100,
                 defPercent: parseFloat(slot.equipDef || '0') / 100,
             };
-            const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
+            const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10) || 0;
             const skillLevels = {
                 skill1Level: slot.skill1Level || 10,
                 skill2Level: slot.skill2Level || 10,
                 burstLevelSkill: slot.burstLevel || 10,
             };
-            const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) };
+            const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) || 0 };
             const char = applyBaseStats(
                 slot.char.data, showCore, eq, slot.collectionGrade,
                 collectionLevelNum, originalIndex, skillLevels, cubeOpts
             );
 
+            const charData = slot.char.data;
+            const s = charData.stats || {};
+            const charName = charData.characterName || charData.name || '';
+            const charRarity = s.rarity || 'SSR';
+            const charCompany = s.company || 'Elysion';
+            const currentGrowthStage = parseInt(slot.growthStage || '0', 10) || 0;
+            const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
+
+            const synchroLevel = parseInt(outpostState?.synchroLevel || '1', 10) || 1;
+            const commonConsoleLevel = parseInt(outpostState?.commonResearchLevel || '0', 10) || 0;
+            const classConsoleLevel = getClassConsoleLevel(s.class, outpostState || {} as any);
+            const corpConsoleLevel = getCorpConsoleLevel(s.company, outpostState || {} as any);
+
+            const calculated = calculateBaseStat({
+                classType: s.class,
+                weaponType: s.weapon,
+                level: synchroLevel,
+                affinityLevel: Math.min(parseInt(slot.affinityLevel || '10', 10) || 1, maxAffinity),
+                growthStage: currentGrowthStage,
+                rarity: charRarity,
+                company: charCompany,
+                charName: charName,
+                commonConsoleLevel,
+                classConsoleLevel,
+                corpConsoleLevel,
+                cubeLevel: parseInt(slot.cubeLevel || '0', 10) || 0,
+                equipTierHead: slot.equipTierHead || 'none',
+                equipUpgradeHead: parseInt(slot.equipUpgradeHead || '0', 10) || 0,
+                equipTierTorso: slot.equipTierTorso || 'none',
+                equipUpgradeTorso: parseInt(slot.equipUpgradeTorso || '0', 10) || 0,
+                equipTierArms: slot.equipTierArms || 'none',
+                equipUpgradeArms: parseInt(slot.equipUpgradeArms || '0', 10) || 0,
+                equipTierLegs: slot.equipTierLegs || 'none',
+                equipUpgradeLegs: parseInt(slot.equipUpgradeLegs || '0', 10) || 0,
+                collectionGrade: slot.collectionGrade || 'None',
+                collectionLevel: collectionLevelNum,
+            });
+
             const customHP = parseInt(slot.customHP || '0', 10);
-            if (customHP > 0) char.hp = customHP;
+            char.hp = customHP > 0 ? customHP : calculated.hp;
             const customATK = parseInt(slot.customATK || '0', 10);
-            if (customATK > 0) char.atk = customATK;
+            char.atk = customATK > 0 ? customATK : calculated.atk;
             const customDEF = parseInt(slot.customDEF || '0', 10);
-            if (customDEF > 0) char.defense = customDEF;
+            char.defense = customDEF > 0 ? customDEF : calculated.def;
 
             const rb = getWeaponRangeBonus(char.weapon, rangeMode);
             if (rb > 0) char.buff = { ...(char.buff || {}), range: rb };
@@ -138,6 +177,7 @@ function extractChars(
     enemy: { defense: number; element: string },
     showCore: boolean,
     rangeMode: number,
+    outpostState?: any
 ) {
     // 적 디버프(damage_taken_up)는 파티 전체에서 합산 (모든 니케에게 적용)
     let teamEnemyTakenUp = 0;
@@ -164,13 +204,51 @@ function extractChars(
             .filter((l: any) => DAMAGE_TYPES.has(l.type) && l.source === charId)
             .reduce((s: number, l: any) => s + (l.value || 0), 0);
 
-        const charStats = slot.char.data.stats || {};
+        const charData = slot.char.data;
+        const charStats = charData.stats || {};
+        const charName = charData.characterName || charData.name || '';
+        const charRarity = charStats.rarity || 'SSR';
+        const charCompany = charStats.company || 'Elysion';
+        const currentGrowthStage = parseInt(slot.growthStage || '0', 10) || 0;
+        const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
+
+        const synchroLevel = parseInt(outpostState?.synchroLevel || '1', 10) || 1;
+        const commonConsoleLevel = parseInt(outpostState?.commonResearchLevel || '0', 10) || 0;
+        const classConsoleLevel = getClassConsoleLevel(charStats.class, outpostState || {} as any);
+        const corpConsoleLevel = getCorpConsoleLevel(charStats.company, outpostState || {} as any);
+
+        const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10) || 0;
+        const calculated = calculateBaseStat({
+            classType: charStats.class,
+            weaponType: charStats.weapon,
+            level: synchroLevel,
+            affinityLevel: Math.min(parseInt(slot.affinityLevel || '10', 10) || 1, maxAffinity),
+            growthStage: currentGrowthStage,
+            rarity: charRarity,
+            company: charCompany,
+            charName: charName,
+            commonConsoleLevel,
+            classConsoleLevel,
+            corpConsoleLevel,
+            cubeLevel: parseInt(slot.cubeLevel || '0', 10) || 0,
+            equipTierHead: slot.equipTierHead || 'none',
+            equipUpgradeHead: parseInt(slot.equipUpgradeHead || '0', 10) || 0,
+            equipTierTorso: slot.equipTierTorso || 'none',
+            equipUpgradeTorso: parseInt(slot.equipUpgradeTorso || '0', 10) || 0,
+            equipTierArms: slot.equipTierArms || 'none',
+            equipUpgradeArms: parseInt(slot.equipUpgradeArms || '0', 10) || 0,
+            equipTierLegs: slot.equipTierLegs || 'none',
+            equipUpgradeLegs: parseInt(slot.equipUpgradeLegs || '0', 10) || 0,
+            collectionGrade: slot.collectionGrade || 'None',
+            collectionLevel: collectionLevelNum,
+        });
+
         const customATK = parseInt(slot.customATK || '0', 10);
+        const effectiveBaseATK = customATK > 0 ? customATK : calculated.atk;
         const atkPercent = parseFloat(slot.equipATK || '0') / 100;
         const weakPercent = parseFloat(slot.equipWeakPoint || '0') / 100;
         const isWeak = checkAdvantage(enemy.element, charStats.element);
 
-        const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10);
         const eq: EquipmentOptions = {
             atkPercent,
             weakPointPercent: weakPercent,
@@ -187,11 +265,11 @@ function extractChars(
             skill2Level: slot.skill2Level || 10,
             burstLevelSkill: slot.burstLevel || 10,
         };
-        const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) };
+        const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) || 0 };
         const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels, cubeOpts);
         const hitDamages = calcHitDamages(
             {
-                atk: customATK > 0 ? customATK : char.atk,
+                atk: effectiveBaseATK,
                 atkCoef: char.atkCoef,
                 weapon: char.weapon,
                 equipATKPercent: atkPercent,

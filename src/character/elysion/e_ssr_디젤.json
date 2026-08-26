@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 2,
-        "atkCoef": 5.57,
+        "atkCoef": 5.38,
         "maxAmmo": 300,
         "reloadTime": 2.16,
         "chargeTime": 0,
         "fireRate": 1,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         15.12,
                         16.32,
@@ -45,7 +46,7 @@
                 {
                     "trigger": "full_burst_time",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         7.56,
                         8.16,
@@ -69,23 +70,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:100",
                     "target": "self",
-                    "effect": "max_ammo_up",
-                    "condition": {
-                        "count": [
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100,
-                            100
-                        ]
-                    },
+                    "effect": "max_ammo_pct",
                     "status": "strawberry_candy",
                     "value": [
                         28.35,
@@ -106,7 +93,7 @@
                 {
                     "trigger": "max_stack_applied",
                     "target": "all_allies",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         43.31,
                         48.12,
@@ -132,7 +119,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         154.19,
                         170.36,
@@ -164,6 +151,18 @@
                         4.5,
                         4.78,
                         5.06
+                    ],
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
                     ]
                 }
             ]

@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "프리마돈나",
         "burstLevel": 1,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "all_allies",
-                    "effect": "damage_taken_down",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "received_dmg",
                     "value": [
                         5.86,
                         6.4,
@@ -68,12 +55,24 @@
                     "target": "target",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 2
+                    "duration": 2,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         17.54,
                         18.35,
@@ -100,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "dot_heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         1.36,
                         1.48,
@@ -121,7 +120,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         27.22,
                         29.7,

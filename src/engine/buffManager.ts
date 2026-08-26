@@ -337,7 +337,7 @@ export class BuffManager {
     ctx: BattleContext
   ): string[] {
     const members = ctx.team.members;
-    const caster = members.find((m) => m.id === casterId);
+    const casterIdx = members.findIndex((m) => m.id === casterId);
 
     if (targetPattern === 'self') {
       return [casterId];
@@ -345,22 +345,90 @@ export class BuffManager {
     if (targetPattern === 'all_allies' || targetPattern === 'allies') {
       return members.map((m) => m.id);
     }
-    if (targetPattern === 'all_allies_excluding_self') {
+    if (targetPattern === 'all_allies_excluding_self' || targetPattern === 'allies_excluding_self') {
       return members.filter((m) => m.id !== casterId).map((m) => m.id);
     }
-    if (targetPattern === 'enemy' || targetPattern === 'all_enemies' || targetPattern === 'target') {
+    if (
+      targetPattern === 'enemy' ||
+      targetPattern === 'all_enemies' ||
+      targetPattern === 'target' ||
+      targetPattern === 'closest_enemy' ||
+      targetPattern === 'lowest_hp_enemy' ||
+      targetPattern === 'highest_atk_enemy_1' ||
+      targetPattern === 'highest_def_enemy_1' ||
+      targetPattern === 'same_target'
+    ) {
       return ['__enemy__'];
     }
 
-    // top_atk_allies:N
-    if (targetPattern.startsWith('top_atk_allies:') || targetPattern.startsWith('allies_top_atk:')) {
-      const n = parseInt(targetPattern.split(':')[1], 10) || 1;
+    // allies_top_atk:N / top_atk_allies:N / highest_atk_allies_N
+    if (
+      targetPattern.startsWith('top_atk_allies:') ||
+      targetPattern.startsWith('allies_top_atk:') ||
+      targetPattern.startsWith('highest_atk_allies_')
+    ) {
+      const parts = targetPattern.split(/[:_]/);
+      const n = parseInt(parts[parts.length - 1], 10) || 1;
       const sorted = [...members].sort((a, b) => {
         const atkA = this._getEffectiveAtk(a, ctx);
         const atkB = this._getEffectiveAtk(b, ctx);
         return atkB - atkA;
       });
       return sorted.slice(0, n).map((m) => m.id);
+    }
+
+    // 클래스별 대상 (화력형 / 지원형 / 방어형)
+    if (targetPattern.startsWith('allies_class:')) {
+      const cls = targetPattern.split(':')[1];
+      return members.filter((m) => m.charClass === cls).map((m) => m.id);
+    }
+    if (targetPattern === 'attacker_allies') {
+      return members.filter((m) => m.charClass === '화력형').map((m) => m.id);
+    }
+    if (targetPattern === 'supporter_allies') {
+      return members.filter((m) => m.charClass === '지원형').map((m) => m.id);
+    }
+    if (targetPattern === 'defender_allies') {
+      return members.filter((m) => m.charClass === '방어형').map((m) => m.id);
+    }
+
+    // 속성별 대상 (작열 / 수냉 / 풍압 / 전격 / 철갑)
+    if (targetPattern.startsWith('allies_element:')) {
+      const elem = targetPattern.split(':')[1];
+      return members.filter((m) => m.element === elem).map((m) => m.id);
+    }
+    if (targetPattern === 'fire_element_allies') return members.filter((m) => m.element === '작열').map((m) => m.id);
+    if (targetPattern === 'water_element_allies') return members.filter((m) => m.element === '수냉').map((m) => m.id);
+    if (targetPattern === 'wind_element_allies') return members.filter((m) => m.element === '풍압').map((m) => m.id);
+    if (targetPattern === 'electric_element_allies') return members.filter((m) => m.element === '전격').map((m) => m.id);
+    if (targetPattern === 'iron_element_allies') return members.filter((m) => m.element === '철갑').map((m) => m.id);
+
+    // 무기별 대상 (SG / SMG / AR / MG / SR / RL)
+    if (targetPattern.startsWith('allies_weapon:')) {
+      const wpn = targetPattern.split(':')[1].toUpperCase();
+      return members.filter((m) => m.weapon === wpn).map((m) => m.id);
+    }
+    if (targetPattern === 'sg_allies') return members.filter((m) => m.weapon === 'SG').map((m) => m.id);
+    if (targetPattern === 'smg_allies') return members.filter((m) => m.weapon === 'SMG').map((m) => m.id);
+    if (targetPattern === 'ar_allies') return members.filter((m) => m.weapon === 'AR').map((m) => m.id);
+    if (targetPattern === 'mg_allies') return members.filter((m) => m.weapon === 'MG').map((m) => m.id);
+    if (targetPattern === 'sr_allies') return members.filter((m) => m.weapon === 'SR').map((m) => m.id);
+    if (targetPattern === 'rl_allies') return members.filter((m) => m.weapon === 'RL').map((m) => m.id);
+
+    // 무기별 대상 (자신 제외)
+    if (targetPattern === 'sg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SG').map((m) => m.id);
+    if (targetPattern === 'smg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SMG').map((m) => m.id);
+    if (targetPattern === 'ar_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'AR').map((m) => m.id);
+    if (targetPattern === 'mg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'MG').map((m) => m.id);
+    if (targetPattern === 'sr_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SR').map((m) => m.id);
+    if (targetPattern === 'rl_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'RL').map((m) => m.id);
+
+    // 자신 및 인접 2기
+    if (targetPattern === 'self_and_adjacent_allies_2' && casterIdx !== -1) {
+      const targets = [casterId];
+      if (casterIdx > 0) targets.push(members[casterIdx - 1].id);
+      if (casterIdx < members.length - 1) targets.push(members[casterIdx + 1].id);
+      return targets;
     }
 
     // 기본값: 자신

@@ -13,9 +13,10 @@
         "maxAmmo": 300,
         "reloadTime": 2.5,
         "chargeTime": 0,
-        "fireRate": 60,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fireRate": 1,
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,8 +26,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "atk_up",
+                    "target": "all_allies_burst_casted",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         40.32,
                         43,
@@ -40,13 +41,14 @@
                         64.51
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "원 포 올",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_speed_pct",
                     "value": [
                         27.72,
                         29.56,
@@ -60,12 +62,14 @@
                         44.35
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "원 포 올 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "def_up",
+                    "trigger": "full_burst_start",
+                    "target": "all_allies_burst_not_casted",
+                    "effect": "def_caster_based_pct",
                     "value": [
                         23.4,
                         24.96,
@@ -79,27 +83,9 @@
                         37.44
                     ],
                     "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": 15
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "reload_speed_up",
-                    "value": [
-                        27.72,
-                        29.56,
-                        31.41,
-                        33.26,
-                        35.11,
-                        36.96,
-                        38.8,
-                        40.65,
-                        42.5,
-                        44.35
-                    ],
-                    "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "원 포 올 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -109,24 +95,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:{0}",
                     "target": "self",
-                    "effect": "heal",
-                    "condition": {
-                        "count": [
-                            65,
-                            62,
-                            59,
-                            56,
-                            53,
-                            51,
-                            49,
-                            47,
-                            45,
-                            43
-                        ]
-                    },
-                    "status": "relax",
+                    "effect": "heal_received_pct",
                     "value": [
                         2.54,
                         2.71,
@@ -141,48 +112,78 @@
                     ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "릴렉스",
+                    "type": "buff",
                     "stack": 20
                 },
                 {
-                    "trigger": "max_stack_applied",
+                    "trigger": "stack_reach:릴렉스:20",
+                    "target": "self",
+                    "effect": "remove_named_buff",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "로얄 에타이어",
+                    "type": "instant",
+                    "target_effect": "릴렉스"
+                },
+                {
+                    "trigger": "stack_reach:릴렉스:20",
                     "target": "self",
                     "effect": "invincible",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": [
-                        2.57,
-                        2.84,
-                        3.11,
-                        3.38,
-                        3.65,
-                        3.92,
-                        4.19,
-                        4.46,
-                        4.73,
-                        5
-                    ]
+                    "duration": null,
+                    "name": "로얄 에타이어 2",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "max_stack_applied",
-                    "target": "self",
+                    "trigger": "stack_reach:릴렉스:20",
+                    "target": "all_enemies",
                     "effect": "taunt",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": [
-                        2.57,
-                        2.84,
-                        3.11,
-                        3.38,
-                        3.65,
-                        3.92,
-                        4.19,
-                        4.46,
-                        4.73,
-                        5
-                    ]
+                    "duration": null,
+                    "name": "주목",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "max_stack_applied",
+                    "trigger": "stack_reach:릴렉스:20",
                     "target": "self",
-                    "effect": "heal",
+                    "effect": "heal_hp_pct",
                     "value": [
                         3.27,
                         3.49,
@@ -196,12 +197,14 @@
                         5.23
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
+                    "duration": null,
+                    "name": "로얄 에타이어 3",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "event:heal_received",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         13.12,
                         13.99,
@@ -215,7 +218,9 @@
                         20.99
                     ],
                     "unit": "percent",
-                    "duration": 7
+                    "duration": 7,
+                    "name": "로얄 에타이어 4",
+                    "type": "buff"
                 }
             ]
         },
@@ -228,7 +233,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         22.65,
                         24.16,
@@ -242,12 +247,14 @@
                         36.24
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "라스트 킹덤",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "shield",
+                    "effect": "shield_from_max_hp_pct",
                     "value": [
                         6.53,
                         6.96,
@@ -261,8 +268,9 @@
                         10.45
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "라스트 킹덤 2",
+                    "type": "buff"
                 }
             ]
         }

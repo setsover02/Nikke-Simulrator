@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "B.S.T.",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -25,8 +26,8 @@
             "effects": [
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "atk_up",
+                    "target": "allies_burst_casted_burst3",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         35.46,
                         38.19,
@@ -40,13 +41,14 @@
                         60
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "은밀한 지원",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "def_up",
+                    "target": "allies_burst_casted_burst3",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         29.54,
                         31.82,
@@ -60,12 +62,14 @@
                         50
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "은밀한 지원 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "heal",
+                    "target": "allies_burst_casted_burst3",
+                    "effect": "lifesteal_pct",
                     "value": [
                         5.91,
                         6.36,
@@ -79,8 +83,9 @@
                         10
                     ],
                     "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "은밀한 지원 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -90,10 +95,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_time",
-                    "target": "enemies_in_range",
-                    "effect": "damage",
-                    "status": "섬광 수류탄 투척",
+                    "trigger": "every:2s",
+                    "target": "enemies_nearest_in_range",
+                    "effect": "armor_break_damage",
                     "value": [
                         248.18,
                         267.27,
@@ -107,26 +111,32 @@
                         420
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "섬광 수류탄 투척",
+                    "type": "damage",
+                    "condition": "during_full_burst"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "effect_interval",
                     "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "섬광 수류탄 투척 발동 시간 조건",
+                    "type": "buff",
+                    "target_effect": "섬광 수류탄 투척"
                 }
             ]
         },
@@ -139,7 +149,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         23.63,
                         25.45,
@@ -153,12 +163,14 @@
                         40
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "시크릿 에이전트",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         24.82,
                         26.73,
@@ -172,36 +184,36 @@
                         42
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "시크릿 에이전트 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_speed_down",
+                    "effect": "charge_speed_pct",
                     "value": [
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300,
+                        -300
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "특수 개조",
+                    "type": "buff",
+                    "bullet": 1
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         886.37,
                         954.55,
@@ -214,7 +226,11 @@
                         1431.83,
                         1500
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "특수 개조 2",
+                    "type": "buff",
+                    "bullet": 1
                 }
             ]
         }

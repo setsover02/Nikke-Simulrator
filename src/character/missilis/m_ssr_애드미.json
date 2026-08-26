@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "트라이앵글",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 67.37,
         "maxAmmo": 6,
         "reloadTime": 1.73,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:20",
                     "target": "all_allies",
-                    "effect": "charge_damage_up",
-                    "condition": {
-                        "count": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "charge_dmg_pct",
                     "value": [
                         4.8,
                         5.33,
@@ -65,8 +52,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "highest_atk_allies_2",
-                    "effect": "damage_taken_down",
+                    "target": "allies_top_atk:2",
+                    "effect": "received_dmg",
                     "value": [
                         14.32,
                         15.91,
@@ -93,7 +80,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_speed_pct",
                     "value": [
                         25.45,
                         28.28,
@@ -112,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         14.17,
                         15.74,

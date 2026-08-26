@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "이지스",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 8.73,
         "maxAmmo": 120,
         "reloadTime": 1.5,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "normal_attack_hit",
                     "target": "target",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "status": "해풍",
                     "value": [
                         1.12,
@@ -48,21 +49,8 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "hp_below": [
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70,
-                            70
-                        ]
-                    },
+                    "effect": "crit_dmg_pct",
+                    "condition": "self_hp_below:70",
                     "value": [
                         30.1,
                         32.42,
@@ -88,7 +76,7 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         13.92,
                         14.99,
@@ -115,7 +103,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_pct",
                     "value": [
                         50.93,
                         54.85,
@@ -135,7 +123,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         14.88,
                         16.03,
@@ -154,7 +142,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "target",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "status": "폭풍",
                     "value": [
                         2.67,

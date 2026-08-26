@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,10 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_burst_start_exact:1",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "status": "인트로",
+                    "effect": "crit_dmg",
                     "value": [
                         11.98,
                         12.9,
@@ -41,25 +41,15 @@
                         20.28
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "인트로",
+                    "type": "buff",
+                    "condition": "burst_casted"
                 },
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_burst_start_exact:1",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "revive",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "critical_damage_up",
-                    "status": "클라이막스",
+                    "effect": "crit_dmg",
                     "value": [
                         11.98,
                         12.9,
@@ -73,24 +63,15 @@
                         20.28
                     ],
                     "unit": "percent",
-                    "duration": "permanent"
+                    "duration": "permanent",
+                    "name": "클라이막스",
+                    "type": "buff",
+                    "condition": "burst_not_casted"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "revive",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         35.56,
                         38.3,
@@ -104,12 +85,15 @@
                         60.19
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "아아, 마이크 테스트",
+                    "type": "buff",
+                    "condition": "self_state:인트로"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         138.88,
                         149.56,
@@ -123,7 +107,10 @@
                         235.03
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "아아, 마이크 테스트 2",
+                    "type": "buff",
+                    "condition": "self_state:클라이막스"
                 }
             ]
         },
@@ -133,18 +120,31 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "part_destroy",
-                    "target": "allies_excluding_self",
-                    "effect": "buff",
-                    "status": "음소거",
+                    "trigger": "event:part_destroy",
+                    "target": "all_allies_excl_self",
+                    "effect": "debuff_immune:소음 공해",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
                     "duration": "permanent",
+                    "name": "음소거",
+                    "type": "buff",
                     "stack": 3
                 },
                 {
-                    "trigger": "part_destroy",
+                    "trigger": "event:part_destroy",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         40.2,
                         43.29,
@@ -158,12 +158,14 @@
                         68.04
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "노래할게요!",
+                    "type": "buff"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "dot_damage_up",
+                    "effect": "dot_dmg_pct",
                     "value": [
                         187.99,
                         202.45,
@@ -178,11 +180,13 @@
                     ],
                     "unit": "percent",
                     "duration": 3,
+                    "name": "노래할게요! 2",
+                    "type": "buff",
                     "stack": 2
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "self",
+                    "target": "target",
                     "effect": "dot_damage",
                     "value": [
                         37.42,
@@ -197,9 +201,9 @@
                         63.33
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 9,
-                    "interval": 1
+                    "name": "노래할게요! 3",
+                    "type": "damage"
                 }
             ]
         },
@@ -212,7 +216,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage_taken_up",
+                    "effect": "received_dmg_pct",
                     "value": [
                         14.82,
                         15.96,
@@ -226,7 +230,9 @@
                         25.09
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "라라라♬",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
@@ -245,13 +251,13 @@
                         18.43
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 9,
-                    "interval": 1
+                    "name": "라라라♬ 2",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "same_target",
+                    "target": "target",
                     "effect": "dot_damage",
                     "value": [
                         107.07,
@@ -266,29 +272,54 @@
                         181.2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk",
                     "duration": 9,
-                    "interval": 1
+                    "name": "라라라♬ 3",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "allies_excluding_self",
-                    "effect": "buff",
-                    "status": "소음 공해",
+                    "target": "all_allies_excl_self",
+                    "effect": "accuracy_pct",
                     "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100,
+                        -100
                     ],
                     "unit": "percent",
-                    "duration": 1
+                    "duration": 1,
+                    "name": "소음 공해",
+                    "type": "buff",
+                    "condition": "self_state:클라이막스"
+                },
+                {
+                    "trigger": "burst_cast",
+                    "target": "all_allies",
+                    "effect": "buff_stack_remove",
+                    "value": [
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1,
+                        1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "라라라♬ 4",
+                    "type": "instant",
+                    "condition": "self_state:클라이막스",
+                    "target_effect": "음소거"
                 }
             ]
         }

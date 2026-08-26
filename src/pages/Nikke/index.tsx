@@ -3,7 +3,7 @@ import { Textfield } from '../../components/Textfield/Textfield';
 import Font from '../../components/Font';
 import { Icon } from '../../components/Icon/Icon';
 import { Avatar } from '../../components/Avatar/Avatar';
-import { DataTable, ColumnDef } from '../../components/DataTable/DataTable';
+import { DataTable } from '../../components/DataTable/DataTable';
 import {
     loadOutpostState,
     saveOutpostState,
@@ -16,8 +16,16 @@ import { characterOptions } from '../../constants/characters';
 import GlobalLevelPanel from '../home/GlobalLevelPanel';
 import { OutpostCard } from '../../components/OutpostCard/OutpostCard';
 import { Card } from '../../components/Card/Card';
-import { Container } from '../../components/Layout/Container';
 import { Grid } from '../../components/Layout/Grid';
+import { Chip } from '../../components/Chip/Chip';
+import {
+    calculateBaseStat,
+    getClassConsoleLevel,
+    getCorpConsoleLevel,
+    resolveGrowthStage,
+    growthStageLabel,
+    MAX_STAGE_BY_RARITY
+} from '../../engine/baseStat';
 
 const cubeList = [
     { value: 'None', label: '장착 해제' },
@@ -71,7 +79,7 @@ const Nikke: React.FC = () => {
     const handleNikkeChange = (charId: string, field: keyof SavedCharState, value: any) => {
         let processedValue = value;
         if (typeof value === 'string') {
-            if (field !== 'cubeName') {
+            if (field !== 'cubeName' && field !== 'growthStage') {
                 // 숫자와 소수점만 허용
                 processedValue = processedValue.replace(/[^0-9.]/g, '');
                 
@@ -104,30 +112,45 @@ const Nikke: React.FC = () => {
         });
     };
 
-    const renderCubeOption = (charId: string, currentState: SavedCharState) => {
-        const selectedCube = currentState.cubeName || '03-cube-resilience';
-        const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
-        const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
+    const getRowCalculatedStats = (row: any, state: SavedCharState) => {
+        const charData = row.data;
+        const charStats = charData.stats || {};
+        const charName = charData.characterName || charData.name || row.label || '';
+        const charRarity = charStats.rarity || 'SSR';
+        const charCompany = charStats.company || 'Elysion';
+        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
+        const currentGrowthStage = Math.min(parseInt(state.growthStage || '0', 10) || 0, maxStage);
+        const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
 
-        return (
-            <div style={{ position: 'relative', width: '64px' }}>
-                <Textfield
-                    size="small"
-                    value=""
-                    readOnly
-                    leftElement={imgSrc && <img src={imgSrc} alt="cube" style={{ width: '20px', height: '20px', objectFit: 'contain' }} />}
-                    rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
-                    style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0 4px', width: '0px' }} // Hide text entirely, just padding for icons
-                />
-                <select
-                    value={selectedCube}
-                    onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
-                >
-                    {cubeList.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                </select>
-            </div>
-        );
+        const synchroLevel = parseInt(outpostState.synchroLevel) || 1;
+        const commonConsoleLevel = parseInt(outpostState.commonResearchLevel) || 0;
+        const classConsoleLevel = getClassConsoleLevel(charStats.class, outpostState);
+        const corpConsoleLevel = getCorpConsoleLevel(charStats.company, outpostState);
+
+        return calculateBaseStat({
+            classType: charStats.class,
+            weaponType: charStats.weapon,
+            level: synchroLevel,
+            affinityLevel: Math.min(parseInt(state.affinityLevel || '10', 10) || 1, maxAffinity),
+            growthStage: currentGrowthStage,
+            rarity: charRarity,
+            company: charCompany,
+            charName,
+            commonConsoleLevel,
+            classConsoleLevel,
+            corpConsoleLevel,
+            cubeLevel: parseInt(state.cubeLevel || '0', 10) || 0,
+            equipTierHead: state.equipTierHead || 'none',
+            equipUpgradeHead: parseInt(state.equipUpgradeHead || '0', 10) || 0,
+            equipTierTorso: state.equipTierTorso || 'none',
+            equipUpgradeTorso: parseInt(state.equipUpgradeTorso || '0', 10) || 0,
+            equipTierArms: state.equipTierArms || 'none',
+            equipUpgradeArms: parseInt(state.equipUpgradeArms || '0', 10) || 0,
+            equipTierLegs: state.equipTierLegs || 'none',
+            equipUpgradeLegs: parseInt(state.equipUpgradeLegs || '0', 10) || 0,
+            collectionGrade: state.collectionGrade || 'None',
+            collectionLevel: parseInt(state.collectionLevel || '0', 10) || 0,
+        });
     };
 
     return (
@@ -177,6 +200,44 @@ const Nikke: React.FC = () => {
                                     }
                                 },
                                 {
+                                    id: 'growthStage',
+                                    header: <Font variant="caption-1" weight="semibold">돌파 / 코강</Font>,
+                                    width: '90px',
+                                    narrow: true,
+                                    cell: (row: any) => {
+                                        const charId = row.data.characterID;
+                                        const state = nikkeStates[charId] || {};
+                                        const charRarity = row.data.stats?.rarity || 'SSR';
+                                        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
+                                        const currentStage = Math.min(parseInt(state.growthStage || '0', 10) || 0, maxStage);
+                                        const label = growthStageLabel(currentStage);
+                                        const variant = currentStage === 0 ? 'default' : currentStage <= 3 ? 'limit-break' : 'core';
+
+                                        const handleClick = (e: React.MouseEvent) => {
+                                            e.preventDefault();
+                                            const nextStage = currentStage >= maxStage ? 0 : currentStage + 1;
+                                            handleNikkeChange(charId, 'growthStage', String(nextStage));
+                                        };
+
+                                        const handleContextMenu = (e: React.MouseEvent) => {
+                                            e.preventDefault();
+                                            const prevStage = currentStage <= 0 ? maxStage : currentStage - 1;
+                                            handleNikkeChange(charId, 'growthStage', String(prevStage));
+                                        };
+
+                                        return (
+                                            <Chip
+                                                variant={variant}
+                                                onClick={handleClick}
+                                                onContextMenu={handleContextMenu}
+                                                title="좌클릭: 증가 / 우클릭: 감소"
+                                            >
+                                                {label}
+                                            </Chip>
+                                        );
+                                    }
+                                },
+                                {
                                     id: 'cube',
                                     header: <Font variant="caption-1" weight="semibold">큐브</Font>,
                                     width: '90px',
@@ -215,7 +276,16 @@ const Nikke: React.FC = () => {
                                     cell: (row: any) => {
                                         const charId = row.data.characterID;
                                         const state = nikkeStates[charId] || {};
-                                        return <Textfield size="small" value={state.customHP || ''} onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)} placeholder={row.data.stats?.hp?.toString() || '0'} />;
+                                        const calc = getRowCalculatedStats(row, state);
+                                        const displayVal = state.customHP !== undefined && state.customHP !== '' ? state.customHP : String(calc.hp);
+                                        return (
+                                            <Textfield
+                                                size="small"
+                                                value={displayVal}
+                                                onChange={(e) => handleNikkeChange(charId, 'customHP', e.target.value)}
+                                                placeholder={String(calc.hp)}
+                                            />
+                                        );
                                     }
                                 },
                                 {
@@ -225,7 +295,16 @@ const Nikke: React.FC = () => {
                                     cell: (row: any) => {
                                         const charId = row.data.characterID;
                                         const state = nikkeStates[charId] || {};
-                                        return <Textfield size="small" value={state.customATK || ''} onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)} placeholder={row.data.stats?.atk?.toString() || '0'} />;
+                                        const calc = getRowCalculatedStats(row, state);
+                                        const displayVal = state.customATK !== undefined && state.customATK !== '' ? state.customATK : String(calc.atk);
+                                        return (
+                                            <Textfield
+                                                size="small"
+                                                value={displayVal}
+                                                onChange={(e) => handleNikkeChange(charId, 'customATK', e.target.value)}
+                                                placeholder={String(calc.atk)}
+                                            />
+                                        );
                                     }
                                 },
                                 {
@@ -235,7 +314,16 @@ const Nikke: React.FC = () => {
                                     cell: (row: any) => {
                                         const charId = row.data.characterID;
                                         const state = nikkeStates[charId] || {};
-                                        return <Textfield size="small" value={state.customDEF || ''} onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)} placeholder={row.data.stats?.defense?.toString() || '0'} />;
+                                        const calc = getRowCalculatedStats(row, state);
+                                        const displayVal = state.customDEF !== undefined && state.customDEF !== '' ? state.customDEF : String(calc.def);
+                                        return (
+                                            <Textfield
+                                                size="small"
+                                                value={displayVal}
+                                                onChange={(e) => handleNikkeChange(charId, 'customDEF', e.target.value)}
+                                                placeholder={String(calc.def)}
+                                            />
+                                        );
                                     }
                                 },
                                 ...[
@@ -268,3 +356,4 @@ const Nikke: React.FC = () => {
 };
 
 export default Nikke;
+

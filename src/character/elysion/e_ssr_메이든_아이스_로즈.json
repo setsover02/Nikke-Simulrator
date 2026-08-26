@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "익스터너",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 61.3,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,9 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "enter_burst_1",
+                    "trigger": "burst_enter:1",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         1,
                         1,
@@ -39,25 +40,37 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "메디테이션",
+                    "type": "instant",
+                    "condition": "gauge_eq:MP:0"
                 },
                 {
-                    "trigger": "enter_burst_1",
+                    "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 12,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "enter_burst_1",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "effect": "gauge_consume",
+                    "value": [
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1,
+                        -1
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "메디테이션 1 초기화",
+                    "type": "instant"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "buff",
+                    "effect": "gauge_charge",
                     "value": [
                         1,
                         1,
@@ -70,25 +83,16 @@
                         1,
                         1
                     ],
-                    "unit": "percent"
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "메디테이션 2",
+                    "type": "instant",
+                    "condition": "gauge_above:MP:1"
                 },
                 {
-                    "trigger": "full_burst_start",
+                    "trigger": "full_charge_count:6",
                     "target": "self",
-                    "effect": "buff",
-                    "value": 12,
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_hp_up",
+                    "effect": "max_hp_only_pct",
                     "value": [
                         3.74,
                         4.03,
@@ -103,6 +107,8 @@
                     ],
                     "unit": "percent",
                     "duration": 15,
+                    "name": "메디테이션 3",
+                    "type": "buff",
                     "stack": 10
                 }
             ]
@@ -113,9 +119,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "electric_element_allies",
-                    "effect": "atk_damage_up",
+                    "trigger": "full_burst_start",
+                    "target": "allies_code:전격",
+                    "effect": "element_bonus_pct",
                     "value": [
                         24.2,
                         26.06,
@@ -129,12 +135,15 @@
                         40.9
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블레스 유",
+                    "type": "buff",
+                    "condition": "gauge_above:MP:1"
                 },
                 {
-                    "trigger": "passive",
-                    "target": "electric_element_allies",
-                    "effect": "atk_up",
+                    "trigger": "full_burst_start",
+                    "target": "allies_code:전격",
+                    "effect": "atk_caster_based_pct",
                     "value": [
                         12.35,
                         13.3,
@@ -148,13 +157,15 @@
                         20.9
                     ],
                     "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블레스 유 2",
+                    "type": "buff",
+                    "condition": "gauge_above:MP:1"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "element_bonus_pct",
                     "value": [
                         18.72,
                         20.16,
@@ -168,12 +179,15 @@
                         31.68
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블레스 유 3",
+                    "type": "buff",
+                    "condition": "gauge_eq:MP:0"
                 },
                 {
-                    "trigger": "passive",
+                    "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_from_hp_pct",
                     "value": [
                         1.89,
                         2.03,
@@ -187,12 +201,14 @@
                         3.2
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블레스 유 4",
+                    "type": "buff",
+                    "condition": "gauge_eq:MP:0"
                 },
                 {
-                    "trigger": "full_charge_attack",
-                    "target": "closest_enemy",
+                    "trigger": "full_charge_count:1",
+                    "target": "enemies_nearest:1",
                     "effect": "damage",
                     "value": [
                         323.58,
@@ -207,7 +223,9 @@
                         547.62
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "블레스 유 5",
+                    "type": "damage"
                 }
             ]
         },
@@ -219,28 +237,25 @@
             "effects": [
                 {
                     "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "damage",
+                    "target": "enemies_nearest:1",
+                    "effect": "sequential_damage:MP",
                     "value": [
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10,
-                        10
+                        811.2,
+                        873.6,
+                        936,
+                        998.4,
+                        1060.8,
+                        1123.2,
+                        1185.6,
+                        1248,
+                        1310.4,
+                        1372.8
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "closest_enemy",
-                    "effect": "buff",
-                    "unit": "percent"
+                    "duration": null,
+                    "name": "다이아몬드 더스트",
+                    "type": "damage",
+                    "scaling": "max_hp_additive"
                 }
             ]
         }

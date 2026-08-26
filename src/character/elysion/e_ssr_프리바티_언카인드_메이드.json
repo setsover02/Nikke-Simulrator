@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "메이드 포 유",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 182.1,
         "maxAmmo": 9,
         "reloadTime": 2,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
-                    "target": "closest_enemy",
-                    "effect": "damage",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "trigger": "hit_count:30",
+                    "target": "target",
+                    "effect": "skill_damage",
                     "value": [
                         119.86,
                         129.08,
@@ -64,12 +51,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack_hit",
+                    "trigger": "hit_count:1",
                     "target": "self",
-                    "effect": "reload_speed_up",
-                    "condition": {
-                        "count": 1
-                    },
+                    "effect": "reload_speed_pct",
                     "value": [
                         12.33,
                         13.28,
@@ -88,7 +72,7 @@
                 {
                     "trigger": "full_burst_normal_attack",
                     "target": "self",
-                    "effect": "ammo_charge",
+                    "effect": "ammo_charge_pct",
                     "value": [
                         1,
                         1,
@@ -106,7 +90,7 @@
                 {
                     "trigger": "full_burst_normal_attack",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         6.63,
                         7.14,
@@ -134,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         6.24,
                         6.72,
@@ -153,7 +137,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         52.1,
                         56.11,
@@ -172,7 +156,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         630.3,
                         678.78,

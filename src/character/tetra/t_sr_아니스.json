@@ -12,10 +12,11 @@
         "atkCoef": 65.02,
         "maxAmmo": 6,
         "reloadTime": 0.67,
-        "fireRate": 0,
+        "fireRate": 1,
         "chargeTime": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "hit_count:40",
                     "target": "self",
-                    "effect": "def_up",
-                    "condition": {
-                        "count": [
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40
-                        ]
-                    },
+                    "effect": "def_pct",
                     "value": [
                         52.5,
                         60,
@@ -66,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self_and_highest_atk_allies_2",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         35,
                         40,
@@ -85,9 +72,21 @@
                 {
                     "trigger": "passive",
                     "target": "self_and_highest_atk_allies_2",
-                    "effect": "damage_share",
+                    "effect": "split_dmg_pct",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 }
             ]
         },
@@ -100,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         68.57,
                         78.36,
@@ -119,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         14,
                         16,

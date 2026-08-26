@@ -14,8 +14,9 @@
         "reloadTime": 1,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         18.77,
                         19.3,
@@ -40,12 +41,14 @@
                         23.61
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "EX 매거진",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "reload_speed_up",
+                    "effect": "reload_speed_pct",
                     "value": [
                         22.88,
                         26.02,
@@ -59,26 +62,30 @@
                         51.16
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "EX 매거진 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "all_allies",
-                    "effect": "max_ammo_down",
+                    "effect": "max_ammo_pct",
                     "value": [
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66,
-                        50.66
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66,
+                        -50.66
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "EX 매거진 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -88,9 +95,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "last_bullet_hit",
+                    "trigger": "last_bullet",
                     "target": "target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         50.7,
                         54.6,
@@ -104,12 +111,14 @@
                         85.79
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "LD 어설트 2",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "last_bullet_hit",
+                    "trigger": "last_bullet",
                     "target": "same_target",
-                    "effect": "extra_damage",
+                    "effect": "bonus_damage",
                     "value": [
                         643.5,
                         693,
@@ -123,7 +132,10 @@
                         1089
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "LD 어설트 3",
+                    "type": "damage",
+                    "condition": "target_stunned"
                 }
             ]
         },
@@ -136,7 +148,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "burst_damage",
                     "value": [
                         270.56,
                         291.37,
@@ -150,14 +162,30 @@
                         457.87
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "AK 미사일 2",
+                    "type": "damage"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
                     "effect": "stun",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "name": "AK 미사일 3",
+                    "type": "buff"
                 }
             ]
         }
@@ -173,9 +201,9 @@
                     "name": "AK 미사일",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "element_bonus_pct",
                             "value": [
                                 76.82,
                                 82.73,
@@ -188,12 +216,15 @@
                                 124.1,
                                 130
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "AK 미사일",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "all_enemies",
+                            "effect": "burst_damage",
                             "value": [
                                 831.79,
                                 895.77,
@@ -206,43 +237,52 @@
                                 1343.66,
                                 1407.64
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "AK 미사일 2",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "buff",
+                            "trigger": "burst_cast",
+                            "target": "all_enemies",
+                            "effect": "stun",
                             "value": [
-                                3,
-                                3,
-                                3,
-                                3,
-                                3,
-                                3,
-                                3,
-                                3,
-                                3,
-                                3
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
                             ],
-                            "unit": "seconds"
+                            "unit": "percent",
+                            "duration": 3,
+                            "name": "AK 미사일 3",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "burst_cast",
+                            "target": "all_enemies",
+                            "effect": "atk_pct",
                             "value": [
-                                2.96,
-                                3.19,
-                                3.42,
-                                3.65,
-                                3.88,
-                                4.11,
-                                4.33,
-                                4.56,
-                                4.79,
-                                5.02
+                                -2.96,
+                                -3.19,
+                                -3.42,
+                                -3.65,
+                                -3.88,
+                                -4.11,
+                                -4.33,
+                                -4.56,
+                                -4.79,
+                                -5.02
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "타겟 지정",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -255,9 +295,9 @@
                     "name": "LD 어설트",
                     "effects": [
                         {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "last_bullet",
+                            "target": "target",
+                            "effect": "received_dmg_pct",
                             "value": [
                                 5.92,
                                 6.37,
@@ -270,12 +310,15 @@
                                 9.56,
                                 10.01
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "LD 어설트",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "last_bullet",
+                            "target": "target",
+                            "effect": "bonus_damage",
                             "value": [
                                 151.37,
                                 163.02,
@@ -288,12 +331,15 @@
                                 244.53,
                                 256.17
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "LD 어설트 2",
+                            "type": "damage"
                         },
                         {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "trigger": "last_bullet",
+                            "target": "same_target",
+                            "effect": "bonus_damage",
                             "value": [
                                 996.86,
                                 1073.55,
@@ -306,7 +352,11 @@
                                 1610.32,
                                 1687
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "LD 어설트 3",
+                            "type": "damage",
+                            "condition": "target_state:타겟 지정"
                         }
                     ]
                 }
@@ -320,8 +370,8 @@
                     "effects": [
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_up",
+                            "target": "all_allies",
+                            "effect": "atk_pct",
                             "value": [
                                 18.77,
                                 19.3,
@@ -334,12 +384,15 @@
                                 23.08,
                                 23.61
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "EX 매거진",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "reload_speed_up",
+                            "target": "all_allies",
+                            "effect": "reload_speed_pct",
                             "value": [
                                 22.88,
                                 26.02,
@@ -352,30 +405,36 @@
                                 48.02,
                                 51.16
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "EX 매거진 2",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "max_ammo_up",
+                            "target": "all_allies",
+                            "effect": "max_ammo_pct",
                             "value": [
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66,
-                                50.66
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66,
+                                -50.66
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "EX 매거진 3",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "target": "all_allies",
+                            "effect": "atk_dmg_pct",
                             "value": [
                                 11.91,
                                 12.82,
@@ -388,7 +447,10 @@
                                 19.24,
                                 20.16
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "EX 매거진 4",
+                            "type": "buff"
                         }
                     ]
                 }

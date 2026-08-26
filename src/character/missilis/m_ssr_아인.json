@@ -9,13 +9,14 @@
         "company": "Missilis",
         "squad": "스쿨 서클",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 69.04,
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,14 +27,28 @@
                 {
                     "trigger": "battle_start",
                     "target": "self",
-                    "effect": "charge_status",
-                    "value": 4,
-                    "unit": "count"
+                    "effect": "feather_refresh",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "페더 스탠바이",
+                    "type": "instant"
                 },
                 {
-                    "trigger": "enter_burst_3",
+                    "trigger": "burst_enter:3",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         41.18,
                         44.4,
@@ -47,7 +62,9 @@
                         70.12
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "페더 스탠바이 2",
+                    "type": "buff"
                 }
             ]
         },
@@ -57,10 +74,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "passive",
-                    "target": "random_enemies",
-                    "effect": "damage",
-                    "status": "니어 페더 공격",
+                    "trigger": "feather_tick",
+                    "target": "enemies_random:1",
+                    "effect": "armor_break_damage:니어 페더",
                     "value": [
                         59.01,
                         62.54,
@@ -74,12 +90,14 @@
                         90.81
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "니어 페더 공격",
+                    "type": "damage"
                 },
                 {
-                    "trigger": "full_charge_attack",
+                    "trigger": "full_charge_hit",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         47.27,
                         50.91,
@@ -93,6 +111,9 @@
                         80
                     ],
                     "unit": "percent",
+                    "duration": null,
+                    "name": "페더 샷",
+                    "type": "buff",
                     "bullet": 1
                 }
             ]
@@ -106,14 +127,28 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_status",
-                    "value": 6,
-                    "unit": "count"
+                    "effect": "feather_refresh",
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ],
+                    "unit": "percent",
+                    "duration": null,
+                    "name": "페더 올레인지",
+                    "type": "instant"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "def_up",
+                    "effect": "armor_break_dmg_pct",
                     "value": [
                         31.2,
                         33.87,
@@ -127,12 +162,14 @@
                         55.3
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "페더 올레인지 2",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         82.36,
                         88.84,
@@ -146,12 +183,14 @@
                         140.68
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "페더 올레인지 3",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "damage",
+                    "target": "enemies_top_def:10",
+                    "effect": "armor_break_damage",
                     "value": [
                         170.32,
                         184.73,
@@ -165,7 +204,9 @@
                         300.02
                     ],
                     "unit": "percent",
-                    "based_on": "caster_final_atk"
+                    "duration": null,
+                    "name": "페더 올레인지 4",
+                    "type": "damage"
                 }
             ]
         }

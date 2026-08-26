@@ -9,13 +9,14 @@
         "company": "Abnormal",
         "squad": "데블 헌터",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 70.89,
         "maxAmmo": 6,
         "reloadTime": 2.3,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "full_charge_attack",
                     "target": "target",
-                    "effect": "def_down",
+                    "effect": "enemy_def_down_pct",
                     "value": [
                         3.03,
                         3.47,
@@ -51,8 +52,8 @@
             "effects": [
                 {
                     "trigger": "passive",
-                    "target": "sr_allies",
-                    "effect": "atk_up",
+                    "target": "allies_weapon:SR",
+                    "effect": "atk_pct",
                     "value": [
                         1.47,
                         2.53,
@@ -70,8 +71,8 @@
                 },
                 {
                     "trigger": "passive",
-                    "target": "sr_allies",
-                    "effect": "max_ammo_up",
+                    "target": "allies_weapon:SR",
+                    "effect": "max_ammo_pct",
                     "value": [
                         2,
                         2,
@@ -98,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "charge_damage_up",
+                    "effect": "charge_dmg_pct",
                     "value": [
                         7.56,
                         9.36,
@@ -117,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         8.52,
                         9.39,

@@ -9,13 +9,14 @@
         "company": "Pilgrim",
         "squad": "인헤르트",
         "burstLevel": 2,
-        "atkCoef": 13.65,
+        "atkCoef": 32.02,
         "maxAmmo": 6,
         "reloadTime": 2.5,
         "chargeTime": 1,
         "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -26,21 +27,8 @@
                 {
                     "trigger": "on_hit",
                     "target": "all_allies",
-                    "effect": "damage_taken_down",
-                    "condition": {
-                        "chance": [
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10,
-                            10
-                        ]
-                    },
+                    "effect": "received_dmg",
+                    "condition": "prob:10",
                     "value": [
                         4.4,
                         4.8,
@@ -68,12 +56,24 @@
                     "target": "target",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 2
+                    "duration": 2,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "full_charge_attack",
                     "target": "target",
-                    "effect": "atk_down",
+                    "effect": "atk_pct",
                     "value": [
                         9.35,
                         9.78,
@@ -102,19 +102,43 @@
                     "target": "self",
                     "effect": "taunt",
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
                     "effect": "invincible",
                     "unit": "percent",
-                    "duration": 3
+                    "duration": 3,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "def_up",
+                    "effect": "def_pct",
                     "value": [
                         88.93,
                         93.88,

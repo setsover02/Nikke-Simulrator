@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 14.29,
         "maxAmmo": 60,
         "reloadTime": 1.3,
         "chargeTime": 0,
         "fireRate": 12,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:30",
                     "target": "self",
-                    "effect": "atk_up",
-                    "condition": {
-                        "count": [
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30,
-                            30
-                        ]
-                    },
+                    "effect": "atk_pct",
                     "value": [
                         10.94,
                         11.78,
@@ -66,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "highest_def_enemy_1",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         124.8,
                         134.4,
@@ -93,7 +80,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "highest_def_enemy_1",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         792,
                         864,

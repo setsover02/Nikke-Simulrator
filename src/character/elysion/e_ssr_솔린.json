@@ -9,13 +9,14 @@
         "company": "Elysion",
         "squad": "인피니티 레일",
         "burstLevel": 3,
-        "atkCoef": 13.65,
+        "atkCoef": 5.85,
         "maxAmmo": 120,
         "reloadTime": 2,
         "chargeTime": 0,
         "fireRate": 24,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 250,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "normal_attack",
+                    "trigger": "hit_count:40",
                     "target": "self",
                     "effect": "atk_speed_up",
-                    "condition": {
-                        "count": [
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40,
-                            40
-                        ]
-                    },
                     "value": [
                         4.29,
                         4.62,
@@ -66,7 +53,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         12.77,
                         13.76,
@@ -85,7 +72,7 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "critical_damage_up",
+                    "effect": "crit_dmg_pct",
                     "value": [
                         36.79,
                         39.62,
@@ -112,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "enemies_in_range",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         234,
                         252,

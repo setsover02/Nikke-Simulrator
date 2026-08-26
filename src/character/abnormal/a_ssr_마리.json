@@ -13,9 +13,10 @@
         "maxAmmo": 6,
         "reloadTime": 2,
         "chargeTime": 1,
-        "fireRate": 0,
+        "fireRate": 1,
         "fullChargeDamage": 250,
-        "coreDamage": 200
+        "coreDamage": 200,
+        "pelletCount": 1
     },
     "skills": [
         {
@@ -46,7 +47,7 @@
                 {
                     "trigger": "core_hit",
                     "target": "all_allies",
-                    "effect": "pierce_damage_up",
+                    "effect": "pierce_dmg_pct",
                     "value": [
                         24.25,
                         26.11,
@@ -72,14 +73,26 @@
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
                     "unit": "percent",
-                    "duration": 5
+                    "duration": 5,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "passive",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         17.98,
                         19.4,
@@ -98,7 +111,7 @@
                 {
                     "trigger": "passive",
                     "target": "all_allies",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         18.17,
                         19.57,
@@ -126,7 +139,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_enemies",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         363.63,
                         394.27,
@@ -145,7 +158,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "all_allies",
-                    "effect": "atk_damage_up",
+                    "effect": "atk_dmg_pct",
                     "value": [
                         24.25,
                         26.11,

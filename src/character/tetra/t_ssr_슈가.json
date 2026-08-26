@@ -9,13 +9,14 @@
         "company": "Tetra",
         "squad": "카페 스위티",
         "burstLevel": 3,
-        "atkCoef": 222.8,
+        "atkCoef": 231.6,
         "maxAmmo": 9,
         "reloadTime": 0.67,
         "chargeTime": 0,
         "fireRate": 1.5,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -24,23 +25,9 @@
             "type": "passive",
             "effects": [
                 {
-                    "trigger": "on_hit",
+                    "trigger": "event:cover_hit",
                     "target": "self",
-                    "effect": "critical_damage_up",
-                    "condition": {
-                        "chance": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "crit_dmg",
                     "value": [
                         9.68,
                         10.43,
@@ -54,26 +41,15 @@
                         16.39
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블랙 타이푼",
+                    "type": "buff",
+                    "condition": "prob:20"
                 },
                 {
-                    "trigger": "on_hit",
+                    "trigger": "event:cover_hit",
                     "target": "self",
-                    "effect": "reload_speed_up",
-                    "condition": {
-                        "chance": [
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20,
-                            20
-                        ]
-                    },
+                    "effect": "reload_speed_pct",
                     "value": [
                         7.16,
                         7.71,
@@ -87,7 +63,10 @@
                         12.12
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "블랙 타이푼 2",
+                    "type": "buff",
+                    "condition": "prob:20"
                 }
             ]
         },
@@ -99,7 +78,7 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         7.69,
                         8.28,
@@ -113,12 +92,14 @@
                         13.02
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "느와르 센서",
+                    "type": "buff"
                 },
                 {
                     "trigger": "full_burst_start",
-                    "target": "sg_allies",
-                    "effect": "max_ammo_up",
+                    "target": "allies_weapon:SG",
+                    "effect": "max_ammo_pct",
                     "value": [
                         49.52,
                         53.33,
@@ -132,7 +113,9 @@
                         83.8
                     ],
                     "unit": "percent",
-                    "duration": 10
+                    "duration": 10,
+                    "name": "느와르 센서 3",
+                    "type": "buff"
                 }
             ]
         },
@@ -145,7 +128,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "atk_speed_up",
+                    "effect": "attack_speed_pct",
                     "value": [
                         39,
                         42,
@@ -159,12 +142,14 @@
                         66
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "트러블 슈터",
+                    "type": "buff"
                 },
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         19.5,
                         21,
@@ -178,7 +163,9 @@
                         33
                     ],
                     "unit": "percent",
-                    "duration": 15
+                    "duration": 15,
+                    "name": "트러블 슈터 2",
+                    "type": "buff"
                 }
             ]
         }
@@ -194,9 +181,9 @@
                     "name": "블랙 타이푼",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "event:cover_hit",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "crit_dmg",
                             "value": [
                                 9.68,
                                 10.43,
@@ -209,12 +196,15 @@
                                 15.64,
                                 16.39
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "블랙 타이푼",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "event:cover_hit",
                             "target": "self",
-                            "effect": "reload_speed_up",
+                            "effect": "reload_speed_pct",
                             "value": [
                                 7.16,
                                 7.71,
@@ -227,12 +217,15 @@
                                 11.57,
                                 12.12
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "블랙 타이푼 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "event:cover_hit",
                             "target": "self",
-                            "effect": "heal",
+                            "effect": "cover_heal_pct",
                             "value": [
                                 0.89,
                                 0.96,
@@ -245,12 +238,36 @@
                                 1.43,
                                 1.5
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": null,
+                            "name": "블랙 타이푼 3",
+                            "type": "instant"
                         },
                         {
                             "trigger": "passive",
                             "target": "self",
-                            "effect": "atk_damage_up",
+                            "effect": "atk_dmg_pct",
+                            "value": [
+                                10.99,
+                                11.99,
+                                12.99,
+                                13.99,
+                                14.99,
+                                15.98,
+                                16.98,
+                                17.98,
+                                18.98,
+                                19.98
+                            ],
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "블랙 타이푼 4",
+                            "type": "buff"
+                        },
+                        {
+                            "trigger": "battle_start",
+                            "target": "self",
+                            "effect": "element_code_override",
                             "value": [
                                 0,
                                 0,
@@ -263,7 +280,10 @@
                                 0,
                                 0
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": "permanent",
+                            "name": "블랙 타이푼 5",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -278,7 +298,7 @@
                         {
                             "trigger": "full_burst_start",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "crit_rate",
                             "value": [
                                 7.69,
                                 8.28,
@@ -291,12 +311,15 @@
                                 12.42,
                                 13.02
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "느와르 센서",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 13.76,
                                 15.01,
@@ -309,12 +332,15 @@
                                 23.76,
                                 25.01
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 10,
+                            "name": "느와르 센서 2",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "max_ammo_up",
+                            "target": "allies_weapon:SG",
+                            "effect": "max_ammo_pct",
                             "value": [
                                 49.52,
                                 53.33,
@@ -327,12 +353,18 @@
                                 80,
                                 83.8
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "느와르 센서 3",
+                            "type": "buff"
                         },
                         {
                             "trigger": "full_burst_start",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "target": [
+                                "allies_code_weapon:수냉:SG",
+                                "allies_code_weapon:철갑:SG"
+                            ],
+                            "effect": "element_bonus_pct",
                             "value": [
                                 20.01,
                                 22.23,
@@ -345,7 +377,10 @@
                                 37.8,
                                 40.02
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "느와르 센서 4",
+                            "type": "buff"
                         }
                     ]
                 }
@@ -358,9 +393,9 @@
                     "name": "트러블 슈터",
                     "effects": [
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "attack_speed_pct",
                             "value": [
                                 39,
                                 42,
@@ -373,12 +408,15 @@
                                 63,
                                 66
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "트러블 슈터",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "buff",
+                            "effect": "accuracy_pct",
                             "value": [
                                 19.5,
                                 21,
@@ -391,12 +429,15 @@
                                 31.5,
                                 33
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "트러블 슈터 2",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
+                            "trigger": "burst_cast",
                             "target": "self",
-                            "effect": "atk_up",
+                            "effect": "atk_pct",
                             "value": [
                                 11,
                                 12,
@@ -409,12 +450,18 @@
                                 19,
                                 20
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "트러블 슈터 3",
+                            "type": "buff"
                         },
                         {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
+                            "trigger": "burst_cast",
+                            "target": [
+                                "allies_code_weapon:수냉:SG",
+                                "allies_code_weapon:철갑:SG"
+                            ],
+                            "effect": "element_bonus_pct",
                             "value": [
                                 30.01,
                                 33.34,
@@ -427,7 +474,10 @@
                                 56.68,
                                 60.01
                             ],
-                            "unit": "percent"
+                            "unit": "percent",
+                            "duration": 15,
+                            "name": "트러블 슈터 4",
+                            "type": "buff"
                         }
                     ]
                 }

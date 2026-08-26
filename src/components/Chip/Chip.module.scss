@@ -1,0 +1,62 @@
+.chip-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    cursor: pointer;
+    user-select: none;
+    outline: none;
+    border: 1px solid var(--Interact-Stroke-Default);
+    background: var(--Interact-Default);
+    color: var(--Font-Default);
+    transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+    white-space: nowrap;
+
+    &:hover {
+        background: var(--Interact-Hover);
+        border-color: var(--Interact-Stroke-Hover);
+    }
+
+    &:active {
+        transform: scale(0.96);
+    }
+}
+
+.variant-default {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+    color: var(--Font-Default);
+
+    &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+    }
+}
+
+.variant-limit-break {
+    background: var(--Primary-24);
+    border-color: var(--Primary-100);
+    color: var(--Primary-F100);
+
+    &:hover {
+        background: var(--Primary-24);
+        filter: brightness(1.15);
+    }
+}
+
+.variant-core {
+    background: var(--Status-Warning-24);
+    border-color: var(--Status-Warning-100);
+    color: var(--Status-Warning-F100);
+
+    &:hover {
+        background: var(--Status-Warning-24);
+        filter: brightness(1.15);
+    }
+}

@@ -12,10 +12,11 @@
         "atkCoef": 201.5,
         "maxAmmo": 9,
         "reloadTime": 1.5,
-        "fireRate": 1.51515,
+        "fireRate": 1.5,
         "chargeTime": 0,
-        "fullChargeDamage": 0,
-        "coreDamage": 200
+        "fullChargeDamage": 100,
+        "coreDamage": 200,
+        "pelletCount": 10
     },
     "skills": [
         {
@@ -26,7 +27,7 @@
                 {
                     "trigger": "passive",
                     "target": "lowest_hp_enemy",
-                    "effect": "damage",
+                    "effect": "skill_damage",
                     "value": [
                         63.63,
                         72.72,
@@ -52,14 +53,26 @@
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "pierce",
+                    "effect": "pierce_enabled",
                     "unit": "percent",
-                    "bullet": 2
+                    "bullet": 2,
+                    "value": [
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
                 },
                 {
                     "trigger": "full_burst_start",
                     "target": "self",
-                    "effect": "atk_up",
+                    "effect": "atk_pct",
                     "value": [
                         16.8,
                         28.8,
@@ -86,7 +99,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "critical_rate_up",
+                    "effect": "crit_rate",
                     "value": [
                         13.98,
                         15.97,
@@ -105,7 +118,7 @@
                 {
                     "trigger": "burst_cast",
                     "target": "self",
-                    "effect": "accuracy_up",
+                    "effect": "accuracy_pct",
                     "value": [
                         9.64,
                         11.02,
