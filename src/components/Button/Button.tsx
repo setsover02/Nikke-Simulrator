@@ -1,10 +1,10 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 import { Icon } from '../Icon/Icon';
 import { Ripple } from '../Ripple/Ripple';
 import { getCustomIconUrl } from '../../utils/iconRegistry';
 import styles from './Button.module.scss';
 
-interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'type'> {
     variant?: 'primary' | 'assistive';
     size?: 'large' | 'small' | 'xsmall' | 'default';
     type?: 'block' | 'text' | 'button' | 'submit' | 'reset';
@@ -13,7 +13,7 @@ interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'typ
     children: React.ReactNode;
 }
 
-export const Button: React.FC<ButtonProps> = ({
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
     variant = 'primary',
     size = 'default',
     type = 'block',
@@ -22,7 +22,7 @@ export const Button: React.FC<ButtonProps> = ({
     children,
     className,
     ...props
-}) => {
+}, ref) => {
     const isTextType = type === 'text';
     const htmlType = (type === 'button' || type === 'submit' || type === 'reset') ? type : 'button';
 
@@ -47,6 +47,7 @@ export const Button: React.FC<ButtonProps> = ({
 
     return (
         <button
+            ref={ref}
             className={classNames}
             type={htmlType}
             {...props}
@@ -57,4 +58,6 @@ export const Button: React.FC<ButtonProps> = ({
             {!props.disabled && <Ripple />}
         </button>
     );
-};
+});
+
+Button.displayName = 'Button';

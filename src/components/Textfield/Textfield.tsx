@@ -1,23 +1,17 @@
-import React, { InputHTMLAttributes, useRef } from 'react';
-import styles from './Textfield.module.scss';
-import { ButtonIcon } from '../Button/ButtonIcon';
+import React, { InputHTMLAttributes, useRef, useState } from 'react';
+import { Field, FieldProps } from '../Field/Field';
+import styles from '../Field/Field.module.scss';
 import Font from '../Font';
 
-export interface TextfieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'size'> {
-    label?: React.ReactNode;
-    leftIcon?: string | React.ReactNode;
-    leftElement?: React.ReactNode;
-    rightElement?: React.ReactNode;
-    suffix?: React.ReactNode;
-    hintText?: React.ReactNode;
-    showCount?: boolean;
-    onClear?: () => void;
+export interface TextFieldProps
+    extends Omit<InputHTMLAttributes<HTMLInputElement>, 'prefix' | 'size'>,
+    Omit<FieldProps, 'children' | 'currentLength'> {
     align?: 'left' | 'right';
-    error?: boolean;
-    size?: 'default' | 'small';
+    suffix?: React.ReactNode;
+    inputRef?: React.Ref<HTMLInputElement>;
 }
 
-export const Textfield: React.FC<TextfieldProps> = ({
+export const TextField: React.FC<TextFieldProps> = ({
     label,
     leftIcon,
     leftElement,
@@ -29,26 +23,40 @@ export const Textfield: React.FC<TextfieldProps> = ({
     onClear,
     align = 'right',
     error,
+    readOnly,
+    disabled,
     value,
+    defaultValue,
     className,
+    style,
     size = 'default',
+    inputRef: externalInputRef,
+    onFocus,
+    onBlur,
+    onChange,
     ...props
 }) => {
-    const renderIcon = (icon: React.ReactNode) => {
-        if (typeof icon === 'string') {
-            return <ButtonIcon icon={icon} size={size === 'small' ? 'xsmall' : 'small'} variant="assistive" className={styles['textfield-icon']} />;
-        }
-        return icon;
+    const internalInputRef = useRef<HTMLInputElement>(null);
+    const inputRef = (externalInputRef as React.RefObject<HTMLInputElement>) || internalInputRef;
+    const [isFocused, setIsFocused] = useState(false);
+
+    const isReadOnly = Boolean(readOnly || props.readOnly);
+    const isDisabled = Boolean(disabled || props.disabled);
+
+    const currentVal = value !== undefined ? value : defaultValue;
+    const currentLength = currentVal !== undefined ? String(currentVal).length : 0;
+    const hasValue = currentVal !== undefined && String(currentVal).length > 0;
+    const showClear = Boolean(onClear && hasValue && !isDisabled && !isReadOnly);
+
+    const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(true);
+        onFocus?.(e);
     };
 
-    const inputClassNames = [
-        styles['textfield-input'],
-        align === 'left' ? styles['align-left'] : styles['align-right']
-    ].filter(Boolean).join(' ');
-
-    const inputRef = useRef<HTMLInputElement>(null);
-    const isReadOnly = Boolean(props.readOnly);
-    const isDisabled = Boolean(props.disabled);
+    const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+        setIsFocused(false);
+        onBlur?.(e);
+    };
 
     const handleContainerClick = () => {
         if (!isReadOnly && !isDisabled) {
@@ -56,75 +64,65 @@ export const Textfield: React.FC<TextfieldProps> = ({
         }
     };
 
+    const handleClear = () => {
+        if (onClear) {
+            onClear();
+            inputRef.current?.focus();
+        }
+    };
+
+    const inputClassNames = [
+        styles['field-input'],
+        align === 'left' ? styles['align-left'] : styles['align-right'],
+    ].filter(Boolean).join(' ');
+
     return (
-        <div
-            className={[
-                styles['textfield-wrapper'],
-                size === 'small' ? styles.small : '',
-                error ? styles.error : '',
-                isReadOnly ? styles.readonly : '',
-                isDisabled ? styles.disabled : '',
-                className || ''
-            ].filter(Boolean).join(' ')}
+        <Field
+            label={label}
+            leftIcon={leftIcon}
+            leftElement={leftElement}
+            rightElement={rightElement}
+            hintText={hintText}
+            showCount={showCount}
+            currentLength={currentLength}
+            maxLength={maxLength}
+            onClear={handleClear}
+            showClear={showClear}
+            error={error}
+            readOnly={isReadOnly}
+            disabled={isDisabled}
+            size={size}
+            isFocused={isFocused}
+            className={className}
+            style={style}
+            onClick={handleContainerClick}
         >
-            <div className={styles['textfield-container']} onClick={handleContainerClick}>
-                {(leftIcon || label || leftElement) && (
-                    <div className={styles['textfield-left-section']}>
-                        {leftIcon && renderIcon(leftIcon)}
-                        {label && (
-                            <span className={styles['textfield-label']}>
-                                {typeof label === 'string' ? <Font variant="caption-2" weight='medium' color="muted">{label}</Font> : label}
-                            </span>
-                        )}
-                        {leftElement && <div className={styles['textfield-left-element']}>{leftElement}</div>}
-                    </div>
-                )}
-
-                <div className={styles['textfield-input-wrapper']}>
-                    <input
-                        ref={inputRef}
-                        className={inputClassNames}
-                        value={value}
-                        maxLength={maxLength}
-                        {...props}
-                    />
-                    {suffix && (
-                        <span className={styles['textfield-suffix']}>
-                            {typeof suffix === 'string' ? <Font variant="caption-2" color="muted">{suffix}</Font> : suffix}
-                        </span>
+            <input
+                ref={inputRef}
+                className={inputClassNames}
+                value={value}
+                defaultValue={defaultValue}
+                maxLength={maxLength}
+                readOnly={isReadOnly}
+                disabled={isDisabled}
+                onFocus={handleFocus}
+                onBlur={handleBlur}
+                onChange={onChange}
+                {...props}
+            />
+            {suffix && (
+                <span className={styles['field-suffix']}>
+                    {typeof suffix === 'string' ? (
+                        <Font variant="caption-2" color="muted">
+                            {suffix}
+                        </Font>
+                    ) : (
+                        suffix
                     )}
-                </div>
-
-                {(onClear || rightElement) && (
-                    <div className={styles['textfield-right-section']}>
-                        {onClear && value !== undefined && String(value).length > 0 && (
-                            <ButtonIcon
-                                icon="close"
-                                size={size === 'small' ? 'xsmall' : 'small'}
-                                variant="assistive"
-                                onClick={onClear}
-                                className={styles['textfield-clear-button']}
-                            />
-                        )}
-                        {rightElement && <div className={styles['textfield-right-element']}>{rightElement}</div>}
-                    </div>
-                )}
-            </div>
-
-            {(hintText || showCount) && (
-                <div className={styles['textfield-bottom-section']}>
-                    <div className={styles['textfield-hint-text']}>
-                        {hintText && (typeof hintText === 'string' ? <Font variant="caption-2" color="muted">{hintText}</Font> : hintText)}
-                    </div>
-                    <div className={styles['textfield-count']}>
-                        {showCount && maxLength && (
-                            <Font variant="caption-2" color="muted">
-                                {String(value || '').length}/{maxLength}
-                            </Font>
-                        )}
-                    </div>
-                </div>
+                </span>
             )}
-        </div>
+        </Field>
     );
 };
+
+export default TextField;

@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { SavedOutpostState } from '../../utils/storageUtils';
-import { Textfield } from '../../components/Textfield/Textfield';
+import { TextField } from '../../components/TextField';
 import Font from '../../components/Font';
 
 interface GlobalLevelPanelProps {
@@ -75,7 +75,7 @@ const LevelInput: React.FC<LevelInputProps> = ({ id, label, value, onChange, max
 
     return (
         <div style={{ flex: fullWidth ? '1 1 100%' : '1 1 calc(50% - 4px)', minWidth: fullWidth ? '100%' : '120px' }}>
-            <Textfield
+            <TextField
                 id={id}
                 type="number"
                 min={min}

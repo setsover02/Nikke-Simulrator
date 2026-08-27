@@ -180,63 +180,63 @@
     --Static-White-12: var(--Shade90-12);
     --Static-Black: var(--Shade00);
     --Static-Error: var(--Red40);
-    --Background-Body: var(--Shade00);
-    --Background-Card: var(--Shade10);
-    --Background-Header: var(--Shade00-02);
-    --Background-Overlay: var(--Shade00-78);
-    --Disabled-Background: var(--Shade90-05);
-    --Disabled-Font: var(--Shade30);
-    --Interact-Default: var(--Shade90-03);
-    --Interact-Hover: var(--Shade90-05);
-    --Interact-Active: var(--Shade90-12);
-    --Interact-Stroke-Default: var(--Shade90-05);
-    --Interact-Stroke-Hover: var(--Shade90-12);
-    --Interact-Stroke-Active: var(--Shade90-54);
-    --Font-Default: var(--Shade80);
-    --Font-isMuted: var(--Shade70);
-    --Font-Inactive: var(--Shade50);
-    --Divider-Normal: var(--Shade90-05);
-    --Divider-Strong: var(--Shade90-12);
-    --Primary-5: var(--Violet50-5);
-    --Primary-12: var(--Violet50-12);
-    --Primary-24: var(--Violet50-24);
-    --Primary-100: var(--Violet50);
-    --Primary-F100: var(--Violet70);
+    --Background-Body: var(--Shade00); // 사이트의 기본 배경 색상
+    --Background-Card: var(--Shade10); // 일반적인 상황의 각 컴포넌트를 감싸는 카드의 기본 색상
+    --Background-Header: var(--Shade00-02); // 헤더의 기본 배경 색상
+    --Background-Overlay: var(--Shade00-78); // 모달 팝업 및 이미지등에 올라가는 오버레이의 기본 배경 색상
+    --Disabled-Background: var(--Shade90-05); // 비활성화된 요소의 기본 배경 색상
+    --Disabled-Font: var(--Shade30); // 비활성화된 요소의 기본 글자 색상
+    --Interact-Default: var(--Shade90-03); // 상호작용 가능한 요소의 기본 배경 색상
+    --Interact-Hover: var(--Shade90-05); // 상호작용 가능한 요소의 호버 배경 색상
+    --Interact-Active: var(--Shade90-12); // 상호작용 가능한 요소의 클릭시 배경 색상
+    --Interact-Stroke-Default: var(--Shade90-05); // 상호작용 가능한 요소의 기본 테두리 색상
+    --Interact-Stroke-Hover: var(--Shade90-12); // 상호작용 가능한 요소의 호버 테두리 색상
+    --Interact-Stroke-Active: var(--Shade90-54); // 상호작용 가능한 요소의 클릭시 테두리 색상
+    --Font-Default: var(--Shade80); // 일반 텍스트
+    --Font-isMuted: var(--Shade70); // 중요도가 중간 정도인 텍스트 색상
+    --Font-Inactive: var(--Shade50); // 읽어야하지만 가장 중요도가 낮은 텍스트 색상, 읽지 않아도 괜찮다
+    --Divider-Normal: var(--Shade90-05); // 일반적인 구분선 색상
+    --Divider-Strong: var(--Shade90-12); // 컨텐츠를 더 확실하게 구분해야할 경우 사용하는 구분선 색상
+    --Primary-5: var(--Violet50-5); // 주 색상의 5% 투명도
+    --Primary-12: var(--Violet50-12); // 주 색상의 12% 투명도
+    --Primary-24: var(--Violet50-24); // 주 색상의 24% 투명도
+    --Primary-100: var(--Violet50); // 주 색상
+    --Primary-F100: var(--Violet70); // 주 색상으로 사용 시 텍스트 및 아이콘에 사용하는 색상
     --Secondary-100: var(--Shade20);
-    --Accent-Lime: var(--Lime60);
-    --Accent-Cyan: var(--Cyan60);
-    --Accent-Blue: var(--Blue65);
-    --Accent-Purple: var(--Purple60);
-    --Accent-Pink: var(--Pink60);
+    --Accent-Lime: var(--Lime60); // 스쿼드 멤버 1번에 해당하는 색상
+    --Accent-Cyan: var(--Cyan60); // 스쿼드 멤버 2번에 해당하는 색상
+    --Accent-Blue: var(--Blue65); // 스쿼드 멤버 3번에 해당하는 색상
+    --Accent-Purple: var(--Purple60); // 스쿼드 멤버 4번에 해당하는 색상
+    --Accent-Pink: var(--Pink60); // 스쿼드 멤버 5번에 해당하는 색상
     --Accent-Orange: var(--Orange60);
     --Accent-RedOrange: var(--RedOrange60);
-    --Status-Success-24: var(--Green60-24);
-    --Status-Success-100: var(--Green60);
-    --Status-Success-F100: var(--Green60);
-    --Status-Warning-24: var(--Yellow60-24);
-    --Status-Warning-100: var(--Yellow60);
-    --Status-Warning-F100: var(--Yellow60);
-    --Status-Error-24: var(--Red60-24);
-    --Status-Error-100: var(--Red60);
-    --Status-Error-F100: var(--Red60);
-    --Status-Info-24: var(--Blue65-24);
-    --Status-Info-100: var(--Blue65);
-    --Status-Info-F100: var(--Blue65);
-    --Element-Electric-100: #FF00FF;
-    --Element-Electric-24: rgba(255, 0, 255, 0.24);
-    --Element-Electric-12: rgba(255, 0, 255, 0.12);
-    --Element-Water-100: #0095FF;
-    --Element-Water-24: rgba(0, 149, 255, 0.24);
-    --Element-Water-12: rgba(0, 149, 255, 0.12);
-    --Element-Iron-100: #FFAE00;
-    --Element-Iron-24: rgba(255, 174, 0, 0.24);
-    --Element-Iron-12: rgba(255, 174, 0, 0.12);
-    --Element-Wind-100: #00FF5D;
-    --Element-Wind-24: rgba(0, 255, 93, 0.24);
-    --Element-Wind-12: rgba(0, 255, 93, 0.12);
-    --Element-Fire-100: #FF0000;
-    --Element-Fire-24: rgba(255, 0, 0, 0.24);
-    --Element-Fire-12: rgba(255, 0, 0, 0.12);
+    --Status-Success-24: var(--Green60-24); // 성공 상태의 텍스트 뒤에 깔리는 배경 색상
+    --Status-Success-100: var(--Green60); // 성공 상태의 기본 색상
+    --Status-Success-F100: var(--Green60); // 성공 상태의 텍스트 및 아이콘에 사용하는 색상
+    --Status-Warning-24: var(--Yellow60-24); // 경고 상태의 텍스트 뒤에 깔리는 배경 색상
+    --Status-Warning-100: var(--Yellow60); // 경고 상태의 기본 색상
+    --Status-Warning-F100: var(--Yellow60); // 경고 상태의 텍스트 및 아이콘에 사용하는 색상
+    --Status-Error-24: var(--Red60-24); // 에러 상태의 텍스트 뒤에 깔리는 배경 색상
+    --Status-Error-100: var(--Red60); // 에러 상태의 기본 색상
+    --Status-Error-F100: var(--Red60); // 에러 상태의 텍스트 및 아이콘에 사용하는 색상
+    --Status-Info-24: var(--Blue65-24); // 정보 상태의 텍스트 뒤에 깔리는 배경 색상
+    --Status-Info-100: var(--Blue65); // 정보 상태의 기본 색상
+    --Status-Info-F100: var(--Blue65); // 정보 상태의 텍스트 및 아이콘에 사용하는 색상
+    --Element-Electric-100: #FF00FF; // 우월코드 전격 색상
+    --Element-Electric-24: rgba(255, 0, 255, 0.24); // 우월코드 전격 배경색
+    --Element-Electric-12: rgba(255, 0, 255, 0.12); // 우월코드 전격 더 연한 배경색상
+    --Element-Water-100: #0095FF; // 우월코드 수냉 색상
+    --Element-Water-24: rgba(0, 149, 255, 0.24); // 우월코드 수냉 배경색
+    --Element-Water-12: rgba(0, 149, 255, 0.12); // 우월코드 수냉 더 연한 배경색상
+    --Element-Iron-100: #FFAE00; // 우월코드 철갑 색상
+    --Element-Iron-24: rgba(255, 174, 0, 0.24); // 우월코드 철갑 배경색
+    --Element-Iron-12: rgba(255, 174, 0, 0.12); // 우월코드 철갑 더 연한 배경색상
+    --Element-Wind-100: #00FF5D; // 우월코드 풍압 색상
+    --Element-Wind-24: rgba(0, 255, 93, 0.24); // 우월코드 풍압 배경색
+    --Element-Wind-12: rgba(0, 255, 93, 0.12); // 우월코드 풍압 더 연한 배경색상
+    --Element-Fire-100: #FF0000; // 우월코드 불 색상
+    --Element-Fire-24: rgba(255, 0, 0, 0.24); // 우월코드 작열 배경색
+    --Element-Fire-12: rgba(255, 0, 0, 0.12); // 우월코드 작열 더 연한 배경색상
 }
 
 [data-theme='light'] {

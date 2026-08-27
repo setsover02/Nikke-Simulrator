@@ -1,44 +1,4 @@
-/* 사이트 전체 스크롤바 숨김 (기능은 유지) */
-html,
-body,
-* {
-    -ms-overflow-style: none !important;
-    /* IE and Edge */
-    scrollbar-width: none !important;
-    /* Firefox */
-}
-
-*::-webkit-scrollbar {
-    display: none !important;
-    width: 0 !important;
-    height: 0 !important;
-    background: transparent !important;
-}
-
 /* Squad & Chart Layout */
-.home-section-title {
-    color: #fff;
-    font-size: 15px;
-    margin-bottom: 16px;
-    font-weight: bold;
-}
-
-.home-squad-list {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    overflow: hidden;
-}
-
-.squad-title {
-    margin: 0;
-    font-size: 14px;
-    font-weight: bold;
-    color: #fff;
-    padding: 16px 16px 20px 16px;
-}
-
-
-
 .chart-title-empty {
     color: #fff;
     font-size: 24px;
@@ -97,19 +57,13 @@ body,
     z-index: 1;
 }
 
-
 .slot-section-fr>.slot-select-sm {
     grid-column: 1 / -1;
     grid-row: 2;
 }
 
-
 .text-right {
     text-align: right;
-}
-
-.color-555 {
-    color: #555;
 }
 
 .slot-container {
@@ -143,15 +97,6 @@ body,
     border-right: none;
 }
 
-.slot-border-left {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    height: 3px;
-    width: 100%;
-}
-
 .slot-header-identity {
     display: flex;
     align-items: center;
@@ -160,29 +105,12 @@ body,
     padding-top: 180px;
 }
 
-.slot-avatar,
 .slot-empty-avatar {
     width: 100%;
     height: 144px;
     border-radius: 4px;
     overflow: hidden;
     flex-shrink: 0;
-}
-
-.slot-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.slot-avatar-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 10px;
-    color: #555;
 }
 
 .slot-identity {
@@ -200,11 +128,6 @@ body,
     text-align: left;
     padding: 0 16px;
     box-sizing: border-box;
-}
-
-.dropdown-indicator {
-    color: #888;
-    font-size: 10px;
 }
 
 .slot-icons {
@@ -226,20 +149,6 @@ body,
     cursor: not-allowed;
 }
 
-.slot-cube-wrapper {
-    display: flex;
-    gap: 4px;
-    width: 100%;
-    align-items: center;
-    justify-content: flex-end;
-}
-
-.slot-cube-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 4px;
-}
-
 .slot-select-sm {
     background: transparent;
     color: var(--shade-000);
@@ -252,96 +161,9 @@ body,
     width: 100%;
 }
 
-
 .color-777 {
     color: #777;
 }
-
-.collection-chip {
-    padding: 2px 8px;
-    border-radius: 24px;
-    font-size: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    user-select: none;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 18px;
-    border: 1px solid transparent;
-}
-
-.chip-none {
-    background-color: #374151;
-    color: #9ca3af;
-    border-color: #4b5563;
-}
-
-.chip-r {
-    background-color: #1e3a8a;
-    color: #60a5fa;
-    border-color: #2563eb;
-}
-
-.chip-sr {
-    background-color: #4c1d95;
-    color: #c084fc;
-    border-color: #9333ea;
-}
-
-.chip-ssr {
-    background-color: #713f12;
-    color: #facc15;
-    border-color: #ca8a04;
-}
-
-.cursor-pointer {
-    cursor: pointer;
-}
-
-.badge-none {
-    background: #333;
-    color: #999;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 10px;
-}
-
-.badge-active {
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 10px;
-    display: flex;
-    gap: 4px;
-    align-items: center;
-}
-
-.badge-bold {
-    font-weight: bold;
-}
-
-.cube-badge {
-    display: flex;
-    gap: 4px;
-    align-items: center;
-    background: #2a2f3a;
-    padding: 2px 6px;
-    border-radius: 12px;
-    border: 1px solid #3c4c6a;
-}
-
-.cube-badge-title {
-    color: #88aadd;
-    font-size: 10px;
-}
-
-.cube-badge-value {
-    color: #fff;
-    font-size: 10px;
-}
-
-
 
 .slot-input {
     background: transparent;
@@ -354,22 +176,7 @@ body,
     outline: none;
 }
 
-.percent-wrapper {
-    color: #ccc;
-    text-align: right;
-    display: flex;
-    justify-content: flex-end;
-}
-
 /* SimToolbar styles */
-.toolbar-container {
-    border-radius: 8px;
-    padding: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 .toolbar-title {
     margin: 0;
     font-size: 15px;
@@ -386,51 +193,10 @@ body,
     gap: 8px;
 }
 
-.color-aaa-12 {
-    color: #aaa;
-    font-size: 12px;
-}
-
-
 .flex-between-center {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.toggle-bg {
-    width: 40px;
-    height: 20px;
-    border-radius: 10px;
-    cursor: pointer;
-    position: relative;
-    transition: background 0.2s;
-}
-
-.toggle-bg.on {
-    background: #60a5fa;
-}
-
-.toggle-bg.off {
-    background: #333;
-}
-
-.toggle-knob {
-    position: absolute;
-    top: 2px;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    background: #fff;
-    transition: left 0.2s;
-}
-
-.toggle-knob.on {
-    left: 22px;
-}
-
-.toggle-knob.off {
-    left: 2px;
 }
 
 .weapon-badge-container {
@@ -580,21 +346,7 @@ body,
     font-size: 10px;
 }
 
-.simulate-btn {
-    background: #6366f1;
-    color: #fff;
-    padding: 14px;
-    border-radius: 8px;
-    border: none;
-    cursor: pointer;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background 0.2s;
-}
-
 /* ResultSummary styles */
-
-
 .result-card {
     padding: 12px 16px;
     background: #191924;
@@ -655,92 +407,14 @@ body,
     color: #ffd700;
 }
 
-/* Chrome, Safari, Edge, Opera */
+/* Spin Button Reset for Number Inputs */
 .slot-input::-webkit-outer-spin-button,
 .slot-input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* Firefox */
 .slot-input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
-}
-
-/* Character Select styles (react-select override) */
-.char-select__control {
-    background: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    min-height: unset !important;
-    cursor: pointer !important;
-    text-align: left;
-}
-
-.char-select__value-container {
-    padding: 0 !important;
-}
-
-.char-select__single-value {
-    color: #fff !important;
-    font-size: 14px !important;
-    font-weight: bold !important;
-    margin: 0 !important;
-}
-
-.char-select__input-container,
-.char-select__input {
-    color: #fff !important;
-    margin: 0 !important;
-    padding: 0 !important;
-}
-
-.char-select__menu {
-    background: #252525 !important;
-    z-index: 10 !important;
-    width: 320px !important;
-}
-
-.char-select__menu-portal {
-    z-index: 9999 !important;
-}
-
-.char-select__option {
-    background: #252525 !important;
-    color: #eee !important;
-    font-size: 13px !important;
-}
-
-.char-select__option--is-focused {
-    background: #353535 !important;
-}
-
-.char-select__indicators {
-    padding: 0px;
-    align-items: center;
-}
-
-.char-select__indicator {
-    padding: 2px !important;
-    cursor: pointer !important;
-}
-
-.char-select__clear-indicator {
-    padding: 2px !important;
-    color: var(--shade-000-78);
-}
-
-.char-select__clear-indicator:hover {
-    color: var(--shade-000);
-    ;
-}
-
-.char-select__dropdown-indicator {
-    padding: 2px !important;
-    color: var(--shade-000-78);
-}
-
-.char-select__dropdown-indicator:hover {
-    color: var(--shade-000);
 }

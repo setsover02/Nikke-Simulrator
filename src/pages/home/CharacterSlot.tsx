@@ -7,7 +7,7 @@ import { getCharDefaultState, SavedOutpostState } from '../../utils/storageUtils
 import { Icon } from '../../components/Icon/Icon';
 import { Font } from '../../components/Font';
 import { Avatar } from '../../components/Avatar/Avatar';
-import { Textfield } from '../../components/Textfield/Textfield';
+import { TextField } from '../../components/TextField';
 import { Chip } from '../../components/Chip/Chip';
 import { Grid } from '../../components/Layout/Grid';
 import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
@@ -383,7 +383,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
 
                 <span className="color-777">소장품 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
-                    <Textfield
+                    <TextField
                         size="small"
                         type="number"
                         min={0}
@@ -422,7 +422,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">큐브 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
-                    <Textfield
+                    <TextField
                         size="small"
                         type="number"
                         min={1}
@@ -491,7 +491,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
 
                 <span className="color-777">호감도</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100px' }}>
-                    <Textfield
+                    <TextField
                         size="small"
                         type="number"
                         min={1}
@@ -521,7 +521,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 </select>
                 {(slot.equipTierHead === 'Overload' || slot.equipTierHead === '기업') && (
                     <div style={{ width: '80px' }}>
-                        <Textfield
+                        <TextField
                             size="small"
                             type="number"
                             min={0}
@@ -546,7 +546,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 </select>
                 {(slot.equipTierTorso === 'Overload' || slot.equipTierTorso === '기업') && (
                     <div style={{ width: '80px' }}>
-                        <Textfield
+                        <TextField
                             size="small"
                             type="number"
                             min={0}
@@ -571,7 +571,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 </select>
                 {(slot.equipTierArms === 'Overload' || slot.equipTierArms === '기업') && (
                     <div style={{ width: '80px' }}>
-                        <Textfield
+                        <TextField
                             size="small"
                             type="number"
                             min={0}
@@ -596,7 +596,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 </select>
                 {(slot.equipTierLegs === 'Overload' || slot.equipTierLegs === '기업') && (
                     <div style={{ width: '80px' }}>
-                        <Textfield
+                        <TextField
                             size="small"
                             type="number"
                             min={0}
@@ -623,7 +623,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     { id: 'equipCritDmg', label: '크댐', max: 81.44 },
                     { id: 'equipDef', label: '방어력', max: 58.52 },
                 ].map(opt => (
-                    <Textfield
+                    <TextField
                         key={opt.id}
                         size="small"
                         label={<Font variant="caption-2" color="muted">{opt.label}</Font>}
@@ -637,7 +637,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             {/* Skills */}
             <div className="slot-subtitle">스킬 레벨</div>
             <Grid columns={3} gap={1} ref={skillsRef}>
-                <Textfield
+                <TextField
                     size="small"
                     type="number"
                     min={1}
@@ -651,7 +651,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         onUpdate({ skill1Level: Math.max(1, Math.min(10, current + delta)) });
                     }}
                 />
-                <Textfield
+                <TextField
                     size="small"
                     type="number"
                     min={1}
@@ -665,7 +665,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         onUpdate({ skill2Level: Math.max(1, Math.min(10, current + delta)) });
                     }}
                 />
-                <Textfield
+                <TextField
                     size="small"
                     type="number"
                     min={1}

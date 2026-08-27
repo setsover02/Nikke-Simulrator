@@ -149,11 +149,13 @@ function calcShotgunDamage(
     ctx: BattleContext,
     rangeMode: RangeMode
 ): number {
+    let totalDmg = 0;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
     const basePellets = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
     const pelletCount = buffs?.pellet_count_fixed ?? (basePellets + (buffs?.pellet_count || 0));
     const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
     const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
+    const pelletAtkCoefScale = pelletCount > 0 ? (1.0 / pelletCount) : 1.0;
 
     for (let p = 0; p < pelletCount; p++) {
         const hitParams: ResolveHitParams = {
@@ -174,6 +176,13 @@ function calcShotgunDamage(
 
         const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale);
         totalDmg += calcNikkeDamage(params);
+
+        if (ctx.buffManager) {
+            ctx.buffManager.notify('pellet_hit', ctx.time, char.id, ctx);
+            if (hitResult.isCore) {
+                ctx.buffManager.notify('core_hit', ctx.time, char.id, ctx);
+            }
+        }
     }
 
     return totalDmg;

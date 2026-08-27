@@ -112,6 +112,7 @@
 
   @media (max-width: 600px) {
     cursor: grab;
+
     &:active {
       cursor: grabbing;
     }
@@ -154,9 +155,11 @@
   &::-webkit-scrollbar {
     width: 6px;
   }
+
   &::-webkit-scrollbar-track {
     background: transparent;
   }
+
   &::-webkit-scrollbar-thumb {
     background: var(--Interact-Stroke-Hover);
     border-radius: 4px;
@@ -181,6 +184,7 @@
   from {
     opacity: 0;
   }
+
   to {
     opacity: 1;
   }
@@ -191,6 +195,7 @@
     opacity: 0;
     transform: scale(0.95) translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: scale(1) translateY(0);
@@ -202,6 +207,7 @@
     opacity: 1;
     transform: scale(1) translateY(0);
   }
+
   to {
     opacity: 0;
     transform: scale(0.95) translateY(8px);
@@ -212,6 +218,7 @@
   from {
     transform: translateY(100%);
   }
+
   to {
     transform: translateY(0);
   }
@@ -221,6 +228,7 @@
   from {
     transform: translateY(0);
   }
+
   to {
     transform: translateY(100%);
   }

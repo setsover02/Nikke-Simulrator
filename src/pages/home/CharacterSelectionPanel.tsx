@@ -1,6 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { characterOptions } from '../../constants/characters';
-import { Textfield } from '../../components/Textfield/Textfield';
+import { TextField } from '../../components/TextField';
 import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { Avatar } from '../../components/Avatar/Avatar';
 import { Font } from '../../components/Font';
@@ -140,7 +140,7 @@ export const CharacterSelectionPanel: React.FC<CharacterSelectionPanelProps> = (
         <Grid columns={1} gap={0}>
             {/* 1. Search Bar */}
             <Grid columns={1} className="px-2 pt-2 pb-1" >
-                <Textfield
+                <TextField
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="니케 검색"

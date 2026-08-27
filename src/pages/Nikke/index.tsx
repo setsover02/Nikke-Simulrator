@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import { Textfield } from '../../components/Textfield/Textfield';
+import React, { useState, useEffect, useMemo } from 'react';
+import { TextField } from '../../components/TextField';
+import { Dropdown } from '../../components/Dropdown';
 import Font from '../../components/Font';
 import { Icon } from '../../components/Icon/Icon';
 import { Avatar } from '../../components/Avatar/Avatar';
@@ -68,6 +69,20 @@ const cubeImageModules = import.meta.glob('../../assets/cube/*.webp', {
 const Nikke: React.FC = () => {
     const [outpostState, setOutpostState] = useState<SavedOutpostState>(loadOutpostState());
     const [nikkeStates, setNikkeStates] = useState<Record<string, SavedCharState>>(loadAllCharSettings());
+
+    const cubeOptions = useMemo(() => {
+        return cubeList.map(c => {
+            const imgKey = Object.keys(cubeImageModules).find(k => k.includes(c.value));
+            const imgSrc = imgKey ? cubeImageModules[imgKey] : undefined;
+            return {
+                value: c.value,
+                label: c.label,
+                icon: imgSrc ? (
+                    <img src={imgSrc} alt={c.label} style={{ width: '20px', height: '20px', objectFit: 'contain' }} />
+                ) : undefined,
+            };
+        });
+    }, []);
 
     useEffect(() => {
         saveOutpostState(outpostState);
@@ -235,32 +250,20 @@ const Nikke: React.FC = () => {
                         {
                             id: 'cube',
                             header: <Font variant="caption-1" weight="semibold">큐브</Font>,
-                            width: '90px',
-                            narrow: true,
+                            width: '140px',
                             cell: (row: any) => {
                                 const charId = row.data.characterID;
                                 const state = nikkeStates[charId] || {};
                                 const selectedCube = state.cubeName || '03-cube-resilience';
-                                const imgKey = Object.keys(cubeImageModules).find(k => k.includes(selectedCube));
-                                const imgSrc = imgKey ? cubeImageModules[imgKey] : '';
+
                                 return (
-                                    <div style={{ position: 'relative', width: '100%', height: '36px' }}>
-                                        <Textfield
-                                            size="small"
-                                            value=""
-                                            onChange={() => { }}
-                                            leftElement={imgSrc && <img src={imgSrc} alt="cube" style={{ width: '28px', height: '28px', objectFit: 'contain' }} />}
-                                            rightElement={<Icon name="keyboard_arrow_down" size={16} color="var(--Font-Default)" />}
-                                            style={{ cursor: 'pointer', caretColor: 'transparent', padding: '0', width: '0px' }} // Hide text entirely
-                                        />
-                                        <select
-                                            value={selectedCube}
-                                            onChange={(e) => handleNikkeChange(charId, 'cubeName', e.target.value)}
-                                            style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', opacity: 0, cursor: 'pointer' }}
-                                        >
-                                            {cubeList.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                                        </select>
-                                    </div>
+                                    <Dropdown
+                                        size="small"
+                                        options={cubeOptions}
+                                        value={selectedCube}
+                                        onChange={(val) => handleNikkeChange(charId, 'cubeName', val)}
+                                        menuMaxHeight={260}
+                                    />
                                 );
                             }
                         },
@@ -273,7 +276,7 @@ const Nikke: React.FC = () => {
                                 const state = nikkeStates[charId] || {};
                                 const calc = getRowCalculatedStats(row, state);
                                 return (
-                                    <Textfield
+                                    <TextField
                                         size="small"
                                         value={String(calc.hp)}
                                         readOnly
@@ -290,7 +293,7 @@ const Nikke: React.FC = () => {
                                 const state = nikkeStates[charId] || {};
                                 const calc = getRowCalculatedStats(row, state);
                                 return (
-                                    <Textfield
+                                    <TextField
                                         size="small"
                                         value={String(calc.atk)}
                                         readOnly
@@ -307,7 +310,7 @@ const Nikke: React.FC = () => {
                                 const state = nikkeStates[charId] || {};
                                 const calc = getRowCalculatedStats(row, state);
                                 return (
-                                    <Textfield
+                                    <TextField
                                         size="small"
                                         value={String(calc.def)}
                                         readOnly
@@ -333,7 +336,7 @@ const Nikke: React.FC = () => {
                             cell: (row: any) => {
                                 const charId = row.data.characterID;
                                 const state = nikkeStates[charId] || {};
-                                return <Textfield size="small" value={state[opt.id as keyof SavedCharState] || ''} onChange={(e) => handleNikkeChange(charId, opt.id as keyof SavedCharState, e.target.value)} placeholder="0" suffix="%" />;
+                                return <TextField size="small" value={state[opt.id as keyof SavedCharState] || ''} onChange={(e) => handleNikkeChange(charId, opt.id as keyof SavedCharState, e.target.value)} placeholder="0" suffix="%" />;
                             }
                         }))
                     ]}
@@ -345,4 +348,3 @@ const Nikke: React.FC = () => {
 };
 
 export default Nikke;
-

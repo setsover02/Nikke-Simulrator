@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from 'react';
+import React, { ButtonHTMLAttributes, forwardRef } from 'react';
 import { Icon } from '../Icon/Icon';
 import { Ripple } from '../Ripple/Ripple';
 import { getCustomIconUrl } from '../../utils/iconRegistry';
@@ -12,7 +12,7 @@ export interface ButtonIconProps extends Omit<ButtonHTMLAttributes<HTMLButtonEle
     svgIcon?: string;
 }
 
-export const ButtonIcon: React.FC<ButtonIconProps> = ({
+export const ButtonIcon = forwardRef<HTMLButtonElement, ButtonIconProps>(({
     variant = 'primary',
     size = 'default',
     type = 'button',
@@ -20,7 +20,7 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
     svgIcon,
     className,
     ...props
-}) => {
+}, ref) => {
     const isReadonly = !props.onClick && type !== 'submit' && type !== 'reset';
 
     const classNames = [
@@ -35,9 +35,10 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
     const isMaterialIcon = icon && !customUrl && !svgIcon;
 
     return (
-        <button 
-            className={classNames} 
-            type={type} 
+        <button
+            ref={ref}
+            className={classNames}
+            type={type}
             tabIndex={isReadonly ? -1 : undefined}
             {...props}
         >
@@ -46,4 +47,6 @@ export const ButtonIcon: React.FC<ButtonIconProps> = ({
             {!props.disabled && !isReadonly && <Ripple />}
         </button>
     );
-};
+});
+
+ButtonIcon.displayName = 'ButtonIcon';
