@@ -80,7 +80,19 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         ctx.fillStyle = '#141414';
         ctx.fillRect(0, 0, W, H);
 
-        if (datasets.length === 0 || datasets.every(ds => ds.data.length === 0)) return;
+        if (datasets.length === 0 || datasets.every(ds => ds.data.length === 0)) {
+            // 빈 데이터셋: 안내 메시지 표시
+            ctx.fillStyle = '#e8e8e8';
+            ctx.textAlign = 'left';
+            ctx.font = 'bold 13px monospace';
+            ctx.fillText(title, PL, PT - 28);
+            ctx.fillStyle = '#666';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.font = '13px monospace';
+            ctx.fillText('스킬 대미지가 없습니다', W / 2, H / 2);
+            return;
+        }
 
         const absMaxTime = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
@@ -403,9 +415,9 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                                 </Font>
                             </div>
                             <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
-                                ⚡ {pt.description}
+                                ⚡ {pt.skillName || pt.description || '일반 스킬'}
                             </div>
-                            {pt.skillName && (
+                            {pt.skillName && pt.description && (
                                 <div style={{ color: '#81c784', fontSize: '11px', paddingLeft: '12px' }}>
                                     🎯 {pt.skillName}
                                 </div>

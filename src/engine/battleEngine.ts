@@ -90,6 +90,26 @@ function step(ctx: BattleContext) {
         ctx.buffManager.tick(ctx.time, ctx.delta, ctx);
     }
 
+    // 0.5: BuffManager DoT 대미지 큐 소비
+    if (ctx.state?.__pending_dot_dmg) {
+        for (const dot of (ctx.state.__pending_dot_dmg as any[])) {
+            const caster = ctx.team.members.find(m => m.id === dot.casterId);
+            if (caster) {
+                const dmg = Math.round(caster.atk * dot.valuePerTick);
+                ctx.enemy.hp -= dmg;
+                ctx.totalDamage += dmg;
+                ctx.log.push({
+                    time: ctx.time,
+                    type: 'dot_damage',
+                    source: dot.casterId,
+                    value: dmg,
+                    skillName: dot.skillName || '',
+                });
+            }
+        }
+        ctx.state.__pending_dot_dmg = [];
+    }
+
     // 1️⃣ 탄환 및 장전 처리
     updateAmmo(ctx);
 

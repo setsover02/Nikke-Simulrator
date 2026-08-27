@@ -84,9 +84,14 @@ export function processAttack(ctx: BattleContext) {
                 applyDamage(ctx, pelletDmg, char.id);
             } else {
                 // 일반 단발 처리 (RL는 추후 폭발 반경 데미지를 추가 구현 예정이므로 임시로 1타격으로 고정)
-                const dmg = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
+                const result = calcCharacterDamage(char, ctx, isChargeAttack, rangeMode);
                 const simulatedHits = 1;
-                applyDamage(ctx, dmg * simulatedHits, char.id);
+                applyDamage(ctx, result.damage * simulatedHits, char.id);
+
+                // 코어 히트 통지 (AR/SMG/MG/SR/RL)
+                if (ctx.buffManager && result.isCore) {
+                    ctx.buffManager.notify('core_hit', ctx.time, char.id, ctx);
+                }
             }
 
             char.ammo -= 1;
@@ -197,13 +202,13 @@ function calcCharacterDamage(
     ctx: BattleContext,
     isChargeAttack: boolean,
     rangeMode: RangeMode
-): number {
+): { damage: number; isCore: boolean } {
     const weapon = (char.weapon as WeaponType) ?? WeaponType.AR;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
     const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
     const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
 
-    // resolveHit으로 명중 + 코어 판정
+    // resolveHit으로 코어 판정 (SG 외 무기는 빗나감 없음 — 명중률.md 참조)
     const hitParams: ResolveHitParams = {
         weapon,
         rangeMode,
@@ -221,7 +226,7 @@ function calcCharacterDamage(
     const isCrit = ctx.rng.next() < critChance;
 
     const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0);
-    return calcNikkeDamage(params);
+    return { damage: calcNikkeDamage(params), isCore: hitResult.isCore };
 }
 
 /* =========================
@@ -241,7 +246,8 @@ function buildDamageParams(
     const enemyBuffs = ctx.buffManager ? ctx.buffManager.getBuffs('__enemy__', char.id, ctx, ctx.time) : null;
 
     const atkPct = (char.equipATKPercent ?? 0) + (buffs ? buffs.atk_pct / 100 : (char.buff?.atk ?? 0));
-    const atkFlat = (buffs ? buffs.atk_flat : 0) + (char.buff?.extraATK ?? 0);
+    // BuffManager가 정본 — char.buff는 BuffManager가 없을 때만 fallback (calc-master _fire()와 동일)
+    const atkFlat = buffs ? buffs.atk_flat : (char.buff?.extraATK ?? 0);
     const defDownPct = buffs?.enemy_def_down_pct ?? 0;
 
     return {
@@ -255,14 +261,14 @@ function buildDamageParams(
 
         /* ② Final ATK Modifier & Normal ATK Multiplier */
         atkCoef: (char.atkCoef ?? 1) * atkCoefScale,
-        finalATKModifier: (buffs ? buffs.final_atk_pct / 100 : 0) + (char.buff?.atkDmgUp ?? 0),
+        finalATKModifier: buffs ? buffs.final_atk_pct / 100 : (char.buff?.atkDmgUp ?? 0),
         normalAtkMultiplier: (char.normalAtkMultiplier ?? 0) + (buffs?.normal_atk_dmg_pct ?? 0),
         isNormalAttack: true,
 
         /* ③ Major Modifiers */
         isCrit,
         critBonusBase: (char.critMult ? (char.critMult - 1) : wm.critBonus) + (char.equipCritDmgPercent ?? 0),
-        extraCritDmg: (buffs ? buffs.crit_dmg_pct / 100 : 0) + (char.buff?.critDmg ?? 0),
+        extraCritDmg: buffs ? buffs.crit_dmg_pct / 100 : (char.buff?.critDmg ?? 0),
         isCore,
         coreHitBonus: (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus) + (buffs ? buffs.core_dmg_pct / 100 : 0),
         coreHitMultiplier: char.coreHitMultiplier ?? 0,
@@ -271,18 +277,18 @@ function buildDamageParams(
 
         /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
-        weakPointExtra: (buffs ? buffs.element_bonus_pct / 100 : 0) + (char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
+        weakPointExtra: (buffs ? buffs.element_bonus_pct / 100 : ((char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0))) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
-        chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (buffs ? buffs.charge_dmg_pct / 100 : (char.buff?.chargeDmg ?? 0))) - 1) : 0,
+        chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (buffs ? buffs.charge_dmg_pct / 100 : (char.buff?.chargeDmg ?? 0))) - 1) : 0, // charge는 이미 OR 패턴
         chargeDmgMultiplier: char.chargeDmgMultiplier ?? 0,
 
         /* ⑥ Damage Up */
-        atkDmgUp: (buffs ? buffs.atk_dmg_pct / 100 : 0) + (char.buff?.atkDmgUpFinal ?? 0),
-        dotDmgUp: (buffs ? buffs.dot_dmg_pct / 100 : 0) + (char.buff?.dot ?? 0),
-        pierceDmgUp: (char.buff?.pierce ?? 0) + (char.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : 0),
-        partDmgUp: (char.buff?.partDmgUp ?? 0) + (char.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : 0),
-        ignoreDefDmgUp: (char.buff?.ignoreDef ?? 0) + (char.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : 0),
+        atkDmgUp: buffs ? buffs.atk_dmg_pct / 100 : (char.buff?.atkDmgUpFinal ?? 0),
+        dotDmgUp: buffs ? buffs.dot_dmg_pct / 100 : (char.buff?.dot ?? 0),
+        pierceDmgUp: (char.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : (char.buff?.pierce ?? 0)),
+        partDmgUp: (char.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : (char.buff?.partDmgUp ?? 0)),
+        ignoreDefDmgUp: (char.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : (char.buff?.ignoreDef ?? 0)),
         projectileDmgUp: char.buff?.projectile ?? 0,
         interruptionPartDmgUp: char.buff?.weakPart ?? 0,
         extraDmgUp: 0,
@@ -343,10 +349,10 @@ function processWeaponOverrideAttack(
         char.currentCharge -= 1.0;
 
         // 대미지 계산
-        const dmg = calcCharacterDamage(char, ctx, true, rangeMode);
+        const result = calcCharacterDamage(char, ctx, true, rangeMode);
         // weaponOverride 중 변경된 스킬 이름 추적
         const overrideSkillName = (char as any).weaponOverrideSkillName || '';
-        applyDamage(ctx, dmg, char.id, 'skill_damage', overrideSkillName); // 스킬 대미지로 기록
+        applyDamage(ctx, result.damage, char.id, 'skill_damage', overrideSkillName); // 스킬 대미지로 기록
 
         // full_charge_attack 트리거 플래그
         ctx.state = ctx.state || {};

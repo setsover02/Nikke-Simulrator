@@ -254,20 +254,29 @@ function buildSkillDamageParams(
 ): DamageParams {
   const wm = getWeaponMultipliers(caster.weapon)
   const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element)
+
+  // calc-master _damage_handler와 동일하게 BuffManager를 단일 정본으로 사용
+  const buffs = ctx.buffManager
+    ? ctx.buffManager.getBuffs(caster.id, caster.id, ctx, ctx.time)
+    : null
+  const enemyBuffs = ctx.buffManager
+    ? ctx.buffManager.getBuffs('__enemy__', caster.id, ctx, ctx.time)
+    : null
+
   return {
     baseATK: caster.atk,
-    extraATKPercent: caster.equipATKPercent ?? 0,
-    extraATKFlat: caster.buff?.extraATK ?? 0,
+    extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs ? buffs.atk_pct / 100 : 0),
+    extraATKFlat: buffs ? buffs.atk_flat : (caster.buff?.extraATK ?? 0),
     enemyBaseDEF: ctx.enemy.defense,
-    enemyDEFPercent: 0,
+    enemyDEFPercent: buffs ? -(buffs.enemy_def_down_pct / 100) : 0,
     enemyDEFFlat: target.debuff?.defFlat ?? 0,
     atkCoef,
-    finalATKModifier: caster.buff?.atkDmgUp ?? 0,
+    finalATKModifier: buffs ? buffs.final_atk_pct / 100 : (caster.buff?.atkDmgUp ?? 0),
     normalAtkMultiplier: 0,
     isNormalAttack: false,
     isCrit,
     critBonusBase: (caster.critMult ? (caster.critMult - 1) : wm.critBonus) + (caster.equipCritDmgPercent ?? 0),
-    extraCritDmg: caster.buff?.critDmg ?? 0,
+    extraCritDmg: buffs ? buffs.crit_dmg_pct / 100 : (caster.buff?.critDmg ?? 0),
     isCore: false,
     coreHitBonus: 0,
     coreHitMultiplier: 0,
@@ -275,19 +284,21 @@ function buildSkillDamageParams(
     rangeBonus: 0,
     weakPointBase: hasAdvantage ? 1.1 : 1.0,
     weakPointExtra:
-      (caster.buff?.weak ?? 0) +
+      (buffs
+        ? buffs.element_bonus_pct / 100
+        : (caster.buff?.weak ?? 0) + (caster.buff?.elementDmgUp ?? 0)) +
       (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
     chargeDmgBonus: 0,
     chargeDmgMultiplier: 0,
-    atkDmgUp: caster.buff?.atkDmgUpFinal ?? 0,
-    dotDmgUp: overrides?.dotDmgUp ?? 0,
-    pierceDmgUp: caster.cubePierceDmgUp ?? 0,
-    partDmgUp: caster.cubePartDmgUp ?? 0,
-    ignoreDefDmgUp: caster.cubeIgnoreDefDmgUp ?? 0,
+    atkDmgUp: buffs ? buffs.atk_dmg_pct / 100 : (caster.buff?.atkDmgUpFinal ?? 0),
+    dotDmgUp: overrides?.dotDmgUp ?? (buffs ? buffs.dot_dmg_pct / 100 : 0),
+    pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : 0),
+    partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : 0),
+    ignoreDefDmgUp: (caster.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : 0),
     projectileDmgUp: 0,
     interruptionPartDmgUp: 0,
     extraDmgUp: 0,
-    enemyTakenUp: target.debuff?.takenUp ?? 0,
+    enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (target.debuff?.takenUp ?? 0),
     shareDmgUp: 0,
     enemyTakenDown: target.debuff?.takenDown ?? 0,
   }
@@ -1296,7 +1307,7 @@ function applySpecificEffectToTarget(
         atkUpValue = value * statusStacks
       }
       appliedFlatValue = base * (atkUpValue / 100)
-      char.buff.extraATK = (char.buff.extraATK || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff는 제거 (buildSkillDamageParams가 BuffManager.getBuffs()로 읽음)
       applied = true
       break
     }
@@ -1315,21 +1326,21 @@ function applySpecificEffectToTarget(
     }
     case 'critical_rate_up':
       appliedFlatValue = value
-      char.buff.critRate = (char.buff.critRate || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.critRate 제거
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Crit Rate Up' })
       applied = true
       break
     case 'critical_damage_up':
     case 'crit_damage_up':
       appliedFlatValue = value / 100
-      char.buff.critDmg = (char.buff.critDmg || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.critDmg 제거
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Crit Damage Up' })
       applied = true
       break
     case 'attack_damage_up':
     case 'atk_damage_up':
       appliedFlatValue = value / 100
-      char.buff.atkDmgUp = (char.buff.atkDmgUp || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.atkDmgUp 제거
       applied = true
       break
     case 'burst_cooldown_reduction':
@@ -1411,7 +1422,7 @@ function applySpecificEffectToTarget(
     }
     case 'pierce':
       appliedFlatValue = 0.1
-      char.buff.pierceDmgUp = (char.buff.pierceDmgUp || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.pierceDmgUp 제거
       applied = true
       break
     case 'damage_share':
@@ -1422,13 +1433,13 @@ function applySpecificEffectToTarget(
       break
     case 'parts_damage_up':
       appliedFlatValue = value / 100
-      char.buff.partDmgUp = (char.buff.partDmgUp || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.partDmgUp 제거
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Parts Damage Up' })
       applied = true
       break
     case 'element_damage_up':
       appliedFlatValue = value / 100
-      char.buff.elementDmgUp = (char.buff.elementDmgUp || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.elementDmgUp 제거
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Element Damage Up' })
       applied = true
       break
@@ -1517,7 +1528,7 @@ function applySpecificEffectToTarget(
       break
     case 'dot_damage_up':
       appliedFlatValue = value / 100
-      char.buff.dotDmgUp = (char.buff.dotDmgUp || 0) + appliedFlatValue
+      // BuffManager가 정본 — char.buff.dotDmgUp 제거
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'DoT Damage Up' })
       applied = true
       break
