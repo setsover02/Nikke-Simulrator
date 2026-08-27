@@ -1,5 +1,5 @@
 // src/engine/buffManager.ts
-// calc-master (buff_manager.py / IMPL-STATUS.md) 기반 중앙 집중식 버프 생명주기 관리자
+// PARSING.md + IMPL-STATUS.md 기반 중앙 집중식 버프 생명주기 관리자
 
 import {
   ActiveBuff,
@@ -12,6 +12,8 @@ import {
   _STAT_TO_BUFF,
   _CRIT_RATE_STATS,
   _BOOLEAN_FLAG_STATS,
+  _FIXED_VALUE_STATS,
+  _UNIMPLEMENTED_STATS,
 } from './buffConstants';
 import { BattleContext, Character } from '../types/battle';
 import { checkAdvantage } from '../utils/charUtils';
@@ -20,9 +22,8 @@ export class BuffManager {
   private _nextUid = 1;
   private _effects: NormalizedSkillEffect[] = [];
   private _active: ActiveBuff[] = [];
-  private _triggerCounts: Record<string, number> = {}; // effect_id -> count
-  private _eventCounts: Record<string, Record<string, number>> = {}; // event -> (casterId -> count)
-  private _everyIntervalTimers: Record<string, number> = {}; // effectUid -> nextTriggerTime
+  private _triggerCounts: Record<string, number> = {};
+  private _eventCounts: Record<string, Record<string, number>> = {};
   private _dotTimers: Array<{
     uid: number;
     casterId: string;
@@ -34,18 +35,23 @@ export class BuffManager {
     expiresAt: number;
   }> = [];
 
-  // 타임라인 이벤트 기록 (calc-master SimLog와 동일 목적)
+  // 스쿼드 탄 소비 누적 집계 (squad_ammo_consume:N trigger용)
+  private _squadAmmoConsumed = 0;
+  // 무한 탄 활성 캐릭터 set
+  private _infiniteAmmoChars = new Set<string>();
+
+  // 타임라인 이벤트 기록
   private _timelineEvents: Array<{
-    uid: number;          // ActiveBuff uid 참조
+    uid: number;
     targetId: string;
     casterId: string;
-    buffName: string;     // NormalizedSkillEffect.name
-    stat: string;         // stat key (atk_pct, crit_dmg_pct, ...)
-    sourceSkill: string;  // 'skill_1' | 'skill_2' | 'burst'
+    buffName: string;
+    stat: string;
+    sourceSkill: string;
     polarity: string;
-    value: number;        // 1스택당 값
+    value: number;
     startTime: number;
-    endTime: number;      // Infinity → 시뮬 종료 시 duration으로 채움
+    endTime: number;
     isPermanent: boolean;
   }> = [];
 
@@ -59,9 +65,10 @@ export class BuffManager {
     this._active = [];
     this._triggerCounts = {};
     this._eventCounts = {};
-    this._everyIntervalTimers = {};
     this._dotTimers = [];
     this._timelineEvents = [];
+    this._squadAmmoConsumed = 0;
+    this._infiniteAmmoChars.clear();
   }
 
   /** 팀의 모든 캐릭터 스킬을 등록하고 정규화 */
@@ -81,7 +88,7 @@ export class BuffManager {
                   : 10;
           const sLvIdx = Math.max(0, Math.min(9, sLvl - 1));
 
-          // 수치 추출 (배열인 경우 해당 레벨, 단일값인 경우 그대로)
+          // 수치 추출
           let extractedValue = eff.fixed_value ?? eff.value;
           if (Array.isArray(eff.value)) {
             extractedValue = eff.value[sLvIdx] ?? eff.value[0];
@@ -92,10 +99,22 @@ export class BuffManager {
             extractedValue = parseFloat(extractedValue) || 0;
           }
 
+          // _unparseable 마킹 경고
+          if (eff._unparseable) {
+            console.warn(`[BuffManager] _unparseable stat in ${char.id} / ${eff.name || eff.stat}: raw="${eff._raw}". 미구현 — 무시됨.`);
+            return;
+          }
+
+          // 구현 제외 stat 경고
+          const statKey = eff.stat || eff.effect;
+          if (statKey && _UNIMPLEMENTED_STATS.has(statKey)) {
+            console.debug(`[BuffManager] 미구현 stat "${statKey}" (${char.id} / ${eff.name}) — 무시됨.`);
+          }
+
           const normalized: NormalizedSkillEffect = {
             id: eff.id || `${char.id}__${skill.id || skill.name}__eff${idx}`,
             source: skill.id || skill.type || 'skill',
-            type: eff.type || (eff.effect?.includes('damage') ? 'damage' : 'buff'),
+            type: eff.type || 'buff',
             name: eff.name || skill.name || 'Skill Effect',
             trigger: {
               timing: Array.isArray(eff.trigger)
@@ -110,7 +129,7 @@ export class BuffManager {
                   : [],
             },
             target: eff.target || 'self',
-            stat: eff.stat || eff.effect || 'atk_pct',
+            stat: statKey || 'atk_pct',
             polarity: eff.polarity || 'beneficial',
             max_stack: eff.stack || eff.max_stack || 1,
             stack_level: eff.stack_level,
@@ -129,6 +148,8 @@ export class BuffManager {
             scaling_ref: eff.scaling_ref,
             target_effect: eff.target_effect,
             target_skill: eff.target_skill,
+            gauge_id: eff.gauge_id,
+            feather_id: eff.feather_id,
             weapon_override: eff.weapon_override,
             casterId: char.id,
           };
@@ -143,6 +164,7 @@ export class BuffManager {
   public battleStart(ctx: BattleContext): void {
     this.notify('battle_start', 0, undefined, ctx);
     this.notify('passive', 0, undefined, ctx);
+    this.notify('event:enemy_spawn', 0, undefined, ctx);
   }
 
   /** 이벤트 통지 및 조건 부합 효과 발동 */
@@ -152,7 +174,11 @@ export class BuffManager {
     casterId: string | undefined,
     ctx: BattleContext
   ): void {
-    // 이벤트 발생 횟수 기록
+    // squad_ammo_consume 누적
+    if (event === 'squad_ammo_consume') {
+      this._squadAmmoConsumed += 1;
+    }
+
     const eventKey = event.split(':')[0];
     if (!this._eventCounts[eventKey]) {
       this._eventCounts[eventKey] = {};
@@ -162,12 +188,19 @@ export class BuffManager {
     const currentCount = this._eventCounts[eventKey][cId];
 
     for (const eff of this._effects) {
-      // 시전자 필터링 (특정 캐스터 이벤트인 경우)
-      if (casterId && eff.casterId && eff.casterId !== casterId && !eff.trigger.timing.some(tm => tm.startsWith('all_allies') || tm.startsWith('squad_'))) {
+      // 시전자 필터링
+      if (
+        casterId &&
+        eff.casterId &&
+        eff.casterId !== casterId &&
+        !eff.trigger.timing.some(
+          (tm) => tm.startsWith('all_allies') || tm.startsWith('squad_')
+        )
+      ) {
         continue;
       }
 
-      if (!this._timingMatch(eff.trigger.timing, event, currentCount)) {
+      if (!this._timingMatch(eff.trigger.timing, event, currentCount, casterId, ctx)) {
         continue;
       }
 
@@ -179,36 +212,104 @@ export class BuffManager {
     }
   }
 
-  /** 타이밍 일치 여부 확인 */
-  private _timingMatch(timings: string[], event: string, count: number): boolean {
+  /** 타이밍 일치 여부 확인 — IMPL-STATUS.md trigger 마스터 테이블 기준 */
+  private _timingMatch(
+    timings: string[],
+    event: string,
+    count: number,
+    casterId: string | undefined,
+    ctx: BattleContext
+  ): boolean {
     for (const tm of timings) {
+      // 완전 일치
       if (tm === event) return true;
 
-      // timing_count:N (예: full_burst_start_count:2)
+      // timing_count:N (full_burst_start_count:2, full_burst_end_count:1 등)
       if (tm.startsWith(`${event}_count:`)) {
         const req = parseInt(tm.split(':')[1], 10);
         if (!isNaN(req) && count >= req) return true;
       }
 
-      // hit_count:N
-      if (event === 'hit_count' && tm.startsWith('hit_count:')) {
+      // timing_exact:N (full_burst_start_exact:2 — 정확히 N번째만)
+      if (tm.startsWith(`${event}_exact:`)) {
         const req = parseInt(tm.split(':')[1], 10);
-        if (!isNaN(req) && count % req === 0) return true;
+        if (!isNaN(req) && count === req) return true;
       }
 
-      // full_charge_hit:N
+      // hit_count:N (N발마다)
+      if (event === 'hit_count' && tm.startsWith('hit_count:')) {
+        const parts = tm.split(':');
+        if (parts.length === 2) {
+          const req = parseInt(parts[1], 10);
+          if (!isNaN(req) && count % req === 0) return true;
+        }
+      }
+
+      // hit_count:[스킬명]:N (named damage effect N회마다)
+      if (event.startsWith('hit_count:') && !event.startsWith('hit_count:__')) {
+        // event = "hit_count:효과명", tm = "hit_count:효과명:N"
+        const evParts = event.split(':');
+        const effName = evParts.slice(1).join(':');
+        if (tm.startsWith(`hit_count:${effName}:`)) {
+          const req = parseInt(tm.split(':').pop() || '0', 10);
+          if (!isNaN(req) && count % req === 0) return true;
+        }
+      }
+
+      // full_charge_count:N
       if (event === 'full_charge_hit' && tm.startsWith('full_charge_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
         if (!isNaN(req) && count % req === 0) return true;
       }
 
+      // crit_hit_count:N
+      if (event === 'crit_hit' && tm.startsWith('crit_hit_count:')) {
+        const req = parseInt(tm.split(':')[1], 10);
+        if (!isNaN(req) && count % req === 0) return true;
+      }
+
+      // core_hit_count:N
+      if (event === 'core_hit' && tm.startsWith('core_hit_count:')) {
+        const req = parseInt(tm.split(':')[1], 10);
+        if (!isNaN(req) && count % req === 0) return true;
+      }
+
+      // pellet_hit_count:N
+      if (event === 'pellet_hit' && tm.startsWith('pellet_hit_count:')) {
+        const req = parseInt(tm.split(':')[1], 10);
+        if (!isNaN(req) && count % req === 0) return true;
+      }
+
+      // squad_ammo_consume:N (N발 소비마다)
+      if (event === 'squad_ammo_consume' && tm.startsWith('squad_ammo_consume:')) {
+        const req = parseInt(tm.split(':')[1], 10);
+        if (!isNaN(req) && this._squadAmmoConsumed % req === 0) return true;
+      }
+
       // burst_enter:N
       if (event.startsWith('burst_enter:') && tm === event) return true;
+
+      // burst_cast_count:N
+      if (event === 'burst_cast' && tm.startsWith('burst_cast_count:')) {
+        const req = parseInt(tm.split(':')[1], 10);
+        if (!isNaN(req) && count >= req) return true;
+      }
+
+      // stack_reach:버프명:N
+      if (event.startsWith('stack_reach:') && tm === event) return true;
+
+      // event:xxx (범용 이벤트)
+      if (tm.startsWith('event:') && tm === event) return true;
+
+      // hp_below:N
+      if (event.startsWith('hp_below:') && tm === event) return true;
+
+      // every:Ns — _everyIntervalTimers에서 처리 (여기선 false)
     }
     return false;
   }
 
-  /** 발동 조건 평가 */
+  /** 발동 조건 평가 — _condition_ok() */
   private _conditionOk(
     eff: NormalizedSkillEffect,
     t: number,
@@ -223,14 +324,18 @@ export class BuffManager {
         if (!ctx.burstActive) return false;
       }
 
+      if (cond === 'not_during_full_burst' || cond === 'not_during_burst') {
+        if (ctx.burstActive) return false;
+      }
+
       if (cond.startsWith('prob:')) {
         const prob = parseFloat(cond.split(':')[1]) / 100;
         if (ctx.rng && ctx.rng.next() > prob) return false;
       }
 
-      if (cond.startsWith('target_element:')) {
-        const elem = cond.split(':')[1];
-        if (ctx.enemy.element !== elem) return false;
+      if (cond.startsWith('target_code:')) {
+        const code = cond.split(':')[1];
+        if (code && ctx.enemy.element !== code) return false;
       }
 
       if (cond.startsWith('self_hp_above:') && caster) {
@@ -245,6 +350,11 @@ export class BuffManager {
         if (curHpPct > thresh) return false;
       }
 
+      if (cond === 'self_hp_max' && caster) {
+        const curHpPct = (caster.hp / (caster.maxHp || caster.hp || 1)) * 100;
+        if (curHpPct < 100) return false;
+      }
+
       if (cond.startsWith('self_stat_above:') && caster) {
         const parts = cond.split(':');
         const statKey = parts[1];
@@ -254,17 +364,130 @@ export class BuffManager {
         if (statVal <= thresh) return false;
       }
 
-      if (cond.startsWith('self_stat_below:') && caster) {
+      if (cond.startsWith('self_state:')) {
+        const stateName = cond.split(':').slice(1).join(':');
+        if (!this._hasSelfState(eff.casterId || casterId || '', stateName, ctx)) return false;
+      }
+
+      if (cond.startsWith('not_self_state:')) {
+        const stateName = cond.split(':').slice(1).join(':');
+        if (this._hasSelfState(eff.casterId || casterId || '', stateName, ctx)) return false;
+      }
+
+      if (cond.startsWith('target_state:')) {
+        const stateName = cond.split(':').slice(1).join(':');
+        const hasState = this._active.some(
+          (ab) => ab.targetId === '__enemy__' && ab.name === stateName
+        );
+        if (!hasState) return false;
+      }
+
+      if (cond.startsWith('not_target_state:')) {
+        const stateName = cond.split(':').slice(1).join(':');
+        const hasState = this._active.some(
+          (ab) => ab.targetId === '__enemy__' && ab.name === stateName
+        );
+        if (hasState) return false;
+      }
+
+      if (cond === 'burst_casted' && caster) {
+        const hasCasted = (ctx.state as any)?.burst_casted?.[caster.id];
+        if (!hasCasted) return false;
+      }
+
+      if (cond === 'burst_not_casted' && caster) {
+        const hasCasted = (ctx.state as any)?.burst_casted?.[caster.id];
+        if (hasCasted) return false;
+      }
+
+      if (cond === 'back_row' && caster) {
+        const idx = ctx.team.members.indexOf(caster);
+        if (idx !== 1 && idx !== 3) return false;
+      }
+
+      if (cond === 'during_shield' && caster) {
+        const hasShield = this._active.some(
+          (ab) => ab.targetId === caster.id && ab.stat === 'shield_from_max_hp_pct' && ab.expiresAt > t
+        );
+        if (!hasShield) return false;
+      }
+
+      if (cond.startsWith('self_stack_above:')) {
         const parts = cond.split(':');
-        const statKey = parts[1];
+        const buffName = parts[1];
+        const thresh = parseInt(parts[2] || '0', 10);
+        const ab = this._active.find(
+          (b) => b.targetId === (eff.casterId || casterId) && b.name === buffName
+        );
+        if (!ab || ab.stack <= thresh) return false;
+      }
+
+      if (cond.startsWith('gauge_above:')) {
+        const parts = cond.split(':');
+        const gaugeId = parts[1];
         const thresh = parseFloat(parts[2] || '0');
-        const buffs = this.getBuffs(caster.id, caster.id, ctx, t);
-        const statVal = (buffs as any)[statKey] ?? 0;
-        if (statVal >= thresh) return false;
+        const gaugeVal = (ctx.state as any)?.gauges?.[eff.casterId || casterId || '']?.[gaugeId] ?? 0;
+        if (gaugeVal <= thresh) return false;
+      }
+
+      if (cond.startsWith('gauge_below:')) {
+        const parts = cond.split(':');
+        const gaugeId = parts[1];
+        const thresh = parseFloat(parts[2] || '0');
+        const gaugeVal = (ctx.state as any)?.gauges?.[eff.casterId || casterId || '']?.[gaugeId] ?? 0;
+        if (gaugeVal >= thresh) return false;
+      }
+
+      if (cond.startsWith('enemy_count_below:')) {
+        const n = parseInt(cond.split(':')[1], 10);
+        const count = (ctx.state as any)?.enemyCount ?? 1;
+        if (count > n) return false;
+      }
+
+      if (cond.startsWith('enemy_count_above:')) {
+        const n = parseInt(cond.split(':')[1], 10);
+        const count = (ctx.state as any)?.enemyCount ?? 1;
+        if (count < n) return false;
+      }
+
+      if (cond === 'has_burst1_ally') {
+        const has = ctx.team.members.some(
+          (m) => (m as any).burstStage === 1
+        );
+        if (!has) return false;
+      }
+
+      if (cond === 'no_burst1_ally') {
+        const has = ctx.team.members.some(
+          (m) => (m as any).burstStage === 1
+        );
+        if (has) return false;
+      }
+
+      if (cond === 'target_stunned') {
+        const stunned = this._active.some(
+          (ab) => ab.targetId === '__enemy__' && ab.stat === 'stun'
+        );
+        if (!stunned) return false;
+      }
+
+      if (cond === 'core_hit') {
+        const hasCore = (ctx.enemy as any).corePx > 0;
+        if (!hasCore) return false;
       }
     }
 
     return true;
+  }
+
+  /** 자신 상태(버프명 또는 weapon_change 모드) 판정 */
+  private _hasSelfState(charId: string, stateName: string, ctx: BattleContext): boolean {
+    const inActive = this._active.some(
+      (ab) => ab.targetId === charId && ab.name === stateName
+    );
+    if (inActive) return true;
+    const weaponChangeMode = (ctx.state as any)?.weapon_change?.[charId];
+    return weaponChangeMode === stateName;
   }
 
   /** 버프/효과 활성화 처리 */
@@ -288,17 +511,17 @@ export class BuffManager {
 
     // buff 또는 weapon_change
     for (const targetId of targets) {
-      // 면역 체크
-      const targetBuffs = this.getBuffs(targetId, casterId, ctx, t);
-      if (eff.polarity === 'harmful' && targetBuffs.debuff_immune) {
-        continue;
+      // 디버프 면역 체크
+      if (eff.polarity === 'harmful') {
+        const targetBuffs = this.getBuffs(targetId, casterId, ctx, t);
+        if (targetBuffs.debuff_immune) continue;
       }
 
       const duration =
         eff.duration === 'permanent' || eff.duration === -1 || eff.duration === undefined
           ? Infinity
           : eff.duration;
-      const expiresAt = duration === Infinity ? Infinity : t + duration;
+      const expiresAt = duration === Infinity ? Infinity : t + (duration as number);
 
       const existingIdx = this._active.findIndex(
         (ab) =>
@@ -309,16 +532,15 @@ export class BuffManager {
       );
 
       if (existingIdx >= 0) {
-        // 기존 버프 중첩 갱신
         const existing = this._active[existingIdx];
         existing.stack = Math.min(existing.maxStack, existing.stack + 1);
         existing.activatedAt = t;
         existing.expiresAt = expiresAt;
-        if (eff.duration_bullets) {
-          existing.bulletsLeft = eff.duration_bullets;
-        }
-        // 타임라인: 스택 갱신 시 이전 이벤트 endTime 업데이트 후 새 이벤트 추가
-        const prevEvent = this._timelineEvents.find(e => e.uid === existing.uid && e.endTime === Infinity);
+        if (eff.duration_bullets) existing.bulletsLeft = eff.duration_bullets;
+
+        const prevEvent = this._timelineEvents.find(
+          (e) => e.uid === existing.uid && e.endTime === Infinity
+        );
         if (prevEvent) prevEvent.endTime = t;
         this._timelineEvents.push({
           uid: existing.uid,
@@ -333,8 +555,12 @@ export class BuffManager {
           endTime: Infinity,
           isPermanent: duration === Infinity,
         });
+
+        // infinite_ammo 상태 동기화
+        if (eff.stat === 'infinite_ammo') {
+          this._infiniteAmmoChars.add(targetId);
+        }
       } else {
-        // 새 버프 등록
         const newBuff: ActiveBuff = {
           uid: this._nextUid++,
           id: `${casterId}__${eff.name}__${eff.stat}__${this._nextUid}`,
@@ -358,7 +584,6 @@ export class BuffManager {
           scalingRef: eff.scaling_ref,
         };
         this._active.push(newBuff);
-        // 타임라인 이벤트 기록
         this._timelineEvents.push({
           uid: newBuff.uid,
           targetId,
@@ -372,11 +597,16 @@ export class BuffManager {
           endTime: Infinity,
           isPermanent: duration === Infinity,
         });
+
+        // infinite_ammo 상태 동기화
+        if (eff.stat === 'infinite_ammo') {
+          this._infiniteAmmoChars.add(targetId);
+        }
       }
     }
   }
 
-  /** 타겟 목록 해석 */
+  /** 타겟 목록 해석 — IMPL-STATUS.md target 마스터 테이블 기준 */
   private _resolveTargets(
     targetPattern: string,
     casterId: string,
@@ -385,99 +615,299 @@ export class BuffManager {
     const members = ctx.team.members;
     const casterIdx = members.findIndex((m) => m.id === casterId);
 
-    if (targetPattern === 'self') {
-      return [casterId];
-    }
+    // ── 자신 ────────────────────────────────────────────────────
+    if (targetPattern === 'self') return [casterId];
+
+    // ── 전체 아군 ─────────────────────────────────────────────
     if (targetPattern === 'all_allies' || targetPattern === 'allies') {
       return members.map((m) => m.id);
     }
-    if (targetPattern === 'all_allies_excluding_self' || targetPattern === 'allies_excluding_self') {
+
+    // ── 자신 제외 아군 ────────────────────────────────────────
+    if (
+      targetPattern === 'all_allies_excl_self' ||
+      targetPattern === 'all_allies_excluding_self' ||
+      targetPattern === 'allies_excluding_self'
+    ) {
       return members.filter((m) => m.id !== casterId).map((m) => m.id);
     }
+
+    // ── 적 계열 (단일 보스 시뮬 → __enemy__ 센티널) ──────────
     if (
       targetPattern === 'enemy' ||
-      targetPattern === 'all_enemies' ||
       targetPattern === 'target' ||
-      targetPattern === 'closest_enemy' ||
-      targetPattern === 'lowest_hp_enemy' ||
-      targetPattern === 'highest_atk_enemy_1' ||
-      targetPattern === 'highest_def_enemy_1' ||
-      targetPattern === 'same_target'
+      targetPattern === 'target_body' ||
+      targetPattern === 'same_target' ||
+      targetPattern === 'all_enemies' ||
+      targetPattern === 'enemies_in_range' ||
+      targetPattern === 'enemies_nearest_in_range' ||
+      targetPattern.startsWith('enemies_random:') ||
+      targetPattern.startsWith('enemies_nearest:') ||
+      targetPattern.startsWith('enemies_top_atk:') ||
+      targetPattern.startsWith('enemies_top_def:') ||
+      targetPattern.startsWith('enemies_lowest_def:') ||
+      targetPattern.startsWith('enemies_lowest_hp:') ||
+      targetPattern.startsWith('enemies_top_hp:') ||
+      targetPattern.startsWith('target_and_nearby:') ||
+      targetPattern.startsWith('enemies_with_buff:') ||
+      targetPattern.startsWith('enemies_code:') ||
+      targetPattern.startsWith('enemies_lowest_hp_code:')
     ) {
       return ['__enemy__'];
     }
 
-    // allies_top_atk:N / top_atk_allies:N / highest_atk_allies_N
+    // ── 구현 없는 타겟 ────────────────────────────────────────
     if (
-      targetPattern.startsWith('top_atk_allies:') ||
-      targetPattern.startsWith('allies_top_atk:') ||
-      targetPattern.startsWith('highest_atk_allies_')
+      targetPattern === 'self_cover' ||
+      targetPattern === 'all_projectiles' ||
+      targetPattern.startsWith('allies_lowest_cover_hp:')
     ) {
-      const parts = targetPattern.split(/[:_]/);
-      const n = parseInt(parts[parts.length - 1], 10) || 1;
-      const sorted = [...members].sort((a, b) => {
-        const atkA = this._getEffectiveAtk(a, ctx);
-        const atkB = this._getEffectiveAtk(b, ctx);
-        return atkB - atkA;
-      });
-      return sorted.slice(0, n).map((m) => m.id);
+      return [];
     }
 
-    // 클래스별 대상 (화력형 / 지원형 / 방어형)
-    if (targetPattern.startsWith('allies_class:')) {
-      const cls = targetPattern.split(':')[1];
-      return members.filter((m) => m.charClass === cls).map((m) => m.id);
-    }
-    if (targetPattern === 'attacker_allies') {
-      return members.filter((m) => m.charClass === '화력형').map((m) => m.id);
-    }
-    if (targetPattern === 'supporter_allies') {
-      return members.filter((m) => m.charClass === '지원형').map((m) => m.id);
-    }
-    if (targetPattern === 'defender_allies') {
-      return members.filter((m) => m.charClass === '방어형').map((m) => m.id);
+    // ── 앞 N명 ────────────────────────────────────────────────
+    const alliesNMatch = targetPattern.match(/^allies:(\d+)$/);
+    if (alliesNMatch) {
+      return members.slice(0, parseInt(alliesNMatch[1])).map((m) => m.id);
     }
 
-    // 속성별 대상 (작열 / 수냉 / 풍압 / 전격 / 철갑)
-    if (targetPattern.startsWith('allies_element:')) {
-      const elem = targetPattern.split(':')[1];
-      return members.filter((m) => m.element === elem).map((m) => m.id);
+    // ── 인접 아군 ─────────────────────────────────────────────
+    const adjacentMatch = targetPattern.match(/^allies_adjacent:(\d+)$/);
+    if (adjacentMatch && casterIdx !== -1) {
+      const range = parseInt(adjacentMatch[1]);
+      const result = [casterId];
+      for (let d = 1; d <= range; d++) {
+        if (casterIdx - d >= 0) result.push(members[casterIdx - d].id);
+        if (casterIdx + d < members.length) result.push(members[casterIdx + d].id);
+      }
+      return [...new Set(result)];
     }
-    if (targetPattern === 'fire_element_allies') return members.filter((m) => m.element === '작열').map((m) => m.id);
-    if (targetPattern === 'water_element_allies') return members.filter((m) => m.element === '수냉').map((m) => m.id);
-    if (targetPattern === 'wind_element_allies') return members.filter((m) => m.element === '풍압').map((m) => m.id);
-    if (targetPattern === 'electric_element_allies') return members.filter((m) => m.element === '전격').map((m) => m.id);
-    if (targetPattern === 'iron_element_allies') return members.filter((m) => m.element === '철갑').map((m) => m.id);
 
-    // 무기별 대상 (SG / SMG / AR / MG / SR / RL)
-    if (targetPattern.startsWith('allies_weapon:')) {
-      const wpn = targetPattern.split(':')[1].toUpperCase();
+    // ── 자신 + 인접 N기 ───────────────────────────────────────
+    const selfAdjacentMatch = targetPattern.match(/^self_and_adjacent_allies_(\d+)$/);
+    if (selfAdjacentMatch && casterIdx !== -1) {
+      const range = parseInt(selfAdjacentMatch[1]);
+      const result = [casterId];
+      for (let d = 1; d <= range; d++) {
+        if (casterIdx - d >= 0) result.push(members[casterIdx - d].id);
+        if (casterIdx + d < members.length) result.push(members[casterIdx + d].id);
+      }
+      return [...new Set(result)];
+    }
+
+    // ── 공격력 상위 N명 ───────────────────────────────────────
+    const topAtkMatch = targetPattern.match(/^allies_top_atk:(\d+)$/);
+    if (topAtkMatch) {
+      const n = parseInt(topAtkMatch[1]);
+      return [...members]
+        .sort((a, b) => this._getEffectiveAtk(b, ctx) - this._getEffectiveAtk(a, ctx))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 공격력 상위 N명 (자신 제외) ───────────────────────────
+    const topAtkExclMatch = targetPattern.match(/^allies_top_atk_excl:(\d+)$/);
+    if (topAtkExclMatch) {
+      const n = parseInt(topAtkExclMatch[1]);
+      return [...members]
+        .filter((m) => m.id !== casterId)
+        .sort((a, b) => this._getEffectiveAtk(b, ctx) - this._getEffectiveAtk(a, ctx))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 방어력 상위 N명 ───────────────────────────────────────
+    const topDefMatch = targetPattern.match(/^allies_top_def:(\d+)$/);
+    if (topDefMatch) {
+      const n = parseInt(topDefMatch[1]);
+      return [...members]
+        .sort((a, b) => (b.defense || 0) - (a.defense || 0))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 체력 하위 N명 ─────────────────────────────────────────
+    const lowestHpMatch = targetPattern.match(/^allies_lowest_hp:(\d+)$/);
+    if (lowestHpMatch) {
+      const n = parseInt(lowestHpMatch[1]);
+      return [...members]
+        .sort((a, b) => (a.hp / (a.maxHp || a.hp || 1)) - (b.hp / (b.maxHp || b.hp || 1)))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 체력 하위 N명 (자신 제외) ─────────────────────────────
+    const lowestHpExclMatch = targetPattern.match(/^allies_lowest_hp_excl:(\d+)$/);
+    if (lowestHpExclMatch) {
+      const n = parseInt(lowestHpExclMatch[1]);
+      return [...members]
+        .filter((m) => m.id !== casterId)
+        .sort((a, b) => (a.hp / (a.maxHp || a.hp || 1)) - (b.hp / (b.maxHp || b.hp || 1)))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 무작위 N명 ─────────────────────────────────────────────
+    const randomMatch = targetPattern.match(/^allies_random:(\d+)$/);
+    if (randomMatch) {
+      const n = parseInt(randomMatch[1]);
+      const pool = members.filter((m) => m.id !== casterId);
+      const shuffled = [...pool].sort(() => Math.random() - 0.5);
+      return shuffled.slice(0, n).map((m) => m.id);
+    }
+
+    // ── 시전자보다 방어력 낮은 아군 ──────────────────────────
+    if (targetPattern === 'allies_below_def') {
+      const caster = members.find((m) => m.id === casterId);
+      if (!caster) return [];
+      return members
+        .filter((m) => (m.defense || 0) < (caster.defense || 0))
+        .map((m) => m.id);
+    }
+
+    // ── 무기별 ────────────────────────────────────────────────
+    const weaponMatch = targetPattern.match(/^allies_weapon:(.+)$/);
+    if (weaponMatch) {
+      const wpn = weaponMatch[1].toUpperCase();
       return members.filter((m) => m.weapon === wpn).map((m) => m.id);
     }
-    if (targetPattern === 'sg_allies') return members.filter((m) => m.weapon === 'SG').map((m) => m.id);
-    if (targetPattern === 'smg_allies') return members.filter((m) => m.weapon === 'SMG').map((m) => m.id);
-    if (targetPattern === 'ar_allies') return members.filter((m) => m.weapon === 'AR').map((m) => m.id);
-    if (targetPattern === 'mg_allies') return members.filter((m) => m.weapon === 'MG').map((m) => m.id);
-    if (targetPattern === 'sr_allies') return members.filter((m) => m.weapon === 'SR').map((m) => m.id);
-    if (targetPattern === 'rl_allies') return members.filter((m) => m.weapon === 'RL').map((m) => m.id);
 
-    // 무기별 대상 (자신 제외)
-    if (targetPattern === 'sg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SG').map((m) => m.id);
-    if (targetPattern === 'smg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SMG').map((m) => m.id);
-    if (targetPattern === 'ar_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'AR').map((m) => m.id);
-    if (targetPattern === 'mg_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'MG').map((m) => m.id);
-    if (targetPattern === 'sr_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'SR').map((m) => m.id);
-    if (targetPattern === 'rl_allies_excluding_self') return members.filter((m) => m.id !== casterId && m.weapon === 'RL').map((m) => m.id);
-
-    // 자신 및 인접 2기
-    if (targetPattern === 'self_and_adjacent_allies_2' && casterIdx !== -1) {
-      const targets = [casterId];
-      if (casterIdx > 0) targets.push(members[casterIdx - 1].id);
-      if (casterIdx < members.length - 1) targets.push(members[casterIdx + 1].id);
-      return targets;
+    const weaponExclMatch = targetPattern.match(/^allies_weapon_excl_self:(.+)$/);
+    if (weaponExclMatch) {
+      const wpn = weaponExclMatch[1].toUpperCase();
+      return members.filter((m) => m.id !== casterId && m.weapon === wpn).map((m) => m.id);
     }
 
-    // 기본값: 자신
+    // ── 무기+공격력 상위 N명 ──────────────────────────────────
+    const wpnTopAtkMatch = targetPattern.match(/^allies_weapon_top_atk:(.+):(\d+)$/);
+    if (wpnTopAtkMatch) {
+      const wpn = wpnTopAtkMatch[1].toUpperCase();
+      const n = parseInt(wpnTopAtkMatch[2]);
+      return [...members]
+        .filter((m) => m.weapon === wpn)
+        .sort((a, b) => this._getEffectiveAtk(b, ctx) - this._getEffectiveAtk(a, ctx))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 클래스별 ──────────────────────────────────────────────
+    const classMatch = targetPattern.match(/^allies_class:(.+)$/);
+    if (classMatch) {
+      return members.filter((m) => (m as any).charClass === classMatch[1]).map((m) => m.id);
+    }
+
+    // ── 원소 코드별 ───────────────────────────────────────────
+    const codeMatch = targetPattern.match(/^allies_code:(.+)$/);
+    if (codeMatch) {
+      return members.filter((m) => m.element === codeMatch[1]).map((m) => m.id);
+    }
+
+    // ── 원소+무기 복합 ────────────────────────────────────────
+    const codeWpnMatch = targetPattern.match(/^allies_code_weapon:(.+):(.+)$/);
+    if (codeWpnMatch) {
+      const code = codeWpnMatch[1];
+      const wpn = codeWpnMatch[2].toUpperCase();
+      return members.filter((m) => m.element === code && m.weapon === wpn).map((m) => m.id);
+    }
+
+    // ── 원소+무기+순서 N명 ────────────────────────────────────
+    const codeWpnLeftMatch = targetPattern.match(/^allies_code_weapon_leftmost:(.+):(.+):(\d+)$/);
+    if (codeWpnLeftMatch) {
+      const code = codeWpnLeftMatch[1];
+      const wpn = codeWpnLeftMatch[2].toUpperCase();
+      const n = parseInt(codeWpnLeftMatch[3]);
+      return members
+        .filter((m) => m.element === code && m.weapon === wpn)
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 버스트3 아군 ──────────────────────────────────────────
+    if (targetPattern === 'allies_burst3') {
+      return members.filter((m) => (m as any).burstStage === 3).map((m) => m.id);
+    }
+
+    // ── 버스트3 중 공격력 하위 N명 ────────────────────────────
+    const lowestAtkB3Match = targetPattern.match(/^allies_lowest_atk_burst3:(\d+)$/);
+    if (lowestAtkB3Match) {
+      const n = parseInt(lowestAtkB3Match[1]);
+      return [...members]
+        .filter((m) => (m as any).burstStage === 3)
+        .sort((a, b) => this._getEffectiveAtk(a, ctx) - this._getEffectiveAtk(b, ctx))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 기본 차지 시간 상위 N명 ───────────────────────────────
+    const topChargeTimeMatch = targetPattern.match(/^allies_top_base_charge_time:(\d+)$/);
+    if (topChargeTimeMatch) {
+      const n = parseInt(topChargeTimeMatch[1]);
+      return [...members]
+        .filter((m) => (m as any).chargeTime != null)
+        .sort((a, b) => ((b as any).chargeTime || 0) - ((a as any).chargeTime || 0))
+        .slice(0, n)
+        .map((m) => m.id);
+    }
+
+    // ── 버스트 사용 아군 ──────────────────────────────────────
+    if (targetPattern === 'all_allies_burst_casted') {
+      return members
+        .filter((m) => (ctx.state as any)?.burst_casted?.[m.id])
+        .map((m) => m.id);
+    }
+    if (targetPattern === 'all_allies_burst_not_casted') {
+      return members
+        .filter((m) => !(ctx.state as any)?.burst_casted?.[m.id])
+        .map((m) => m.id);
+    }
+
+    // ── 버스트 사용 + 버스트3 아군 ────────────────────────────
+    if (targetPattern === 'allies_burst_casted_burst3') {
+      return members
+        .filter(
+          (m) =>
+            (ctx.state as any)?.burst_casted?.[m.id] &&
+            (m as any).burstStage === 3
+        )
+        .map((m) => m.id);
+    }
+
+    // ── 버스트 사용 + 무기별 ──────────────────────────────────
+    const burstCastedWpnMatch = targetPattern.match(/^allies_burst_casted_weapon:(.+)$/);
+    if (burstCastedWpnMatch) {
+      const wpn = burstCastedWpnMatch[1].toUpperCase();
+      return members
+        .filter(
+          (m) =>
+            (ctx.state as any)?.burst_casted?.[m.id] &&
+            m.weapon === wpn
+        )
+        .map((m) => m.id);
+    }
+
+    // ── 특정 버프가 활성인 아군 ───────────────────────────────
+    const withBuffMatch = targetPattern.match(/^allies_with_buff:(.+)$/);
+    if (withBuffMatch) {
+      const buffName = withBuffMatch[1];
+      return members
+        .filter((m) => this._hasSelfState(m.id, buffName, ctx))
+        .map((m) => m.id);
+    }
+
+    // ── 버스트3 + persona_state 보유 (자신 제외) ──────────────
+    if (targetPattern === 'allies_burst3_persona_excl_self') {
+      return members
+        .filter(
+          (m) =>
+            m.id !== casterId &&
+            (m as any).burstStage === 3 &&
+            this._active.some((ab) => ab.targetId === m.id && ab.stat === 'persona_state')
+        )
+        .map((m) => m.id);
+    }
+
+    // ── 기본값: 자신 ─────────────────────────────────────────
+    console.debug(`[BuffManager] 미처리 target 패턴: "${targetPattern}" — 자신으로 폴백`);
     return [casterId];
   }
 
@@ -486,7 +916,7 @@ export class BuffManager {
     return Math.round(char.atk * (1 + (char.equipATKPercent || 0) + buffs.atk_pct / 100)) + buffs.atk_flat;
   }
 
-  /** 인스턴트 효과 처리 (힐, 쿨감, 탄환 충전 등) */
+  /** 인스턴트 효과 처리 — _dispatch_instant() */
   private _dispatchInstant(
     eff: NormalizedSkillEffect,
     t: number,
@@ -496,23 +926,144 @@ export class BuffManager {
   ): void {
     const stat = eff.stat;
     const value = eff.value || 0;
+    const fixedValue = eff.fixed_value ?? value;
 
     for (const targetId of targets) {
       const char = ctx.team.members.find((m) => m.id === targetId);
-      if (!char) continue;
 
+      // ── 버스트 쿨 감소 ──────────────────────────────────────
       if (stat === 'burst_cooldown_reduce') {
-        if (ctx.burstCooldowns[targetId] !== undefined) {
+        if (ctx.burstCooldowns && ctx.burstCooldowns[targetId] !== undefined) {
           ctx.burstCooldowns[targetId] = Math.max(0, ctx.burstCooldowns[targetId] - value);
         }
-      } else if (stat === 'ammo_charge_pct') {
-        const addAmmo = Math.floor(char.maxAmmo * (value / 100));
-        char.ammo = Math.min(char.maxAmmo, char.ammo + addAmmo);
-      } else if (stat === 'ammo_charge_flat') {
-        char.ammo = Math.min(char.maxAmmo, char.ammo + Math.floor(value));
-      } else if (stat === 'heal_hp_pct') {
-        const healAmt = (char.maxHp || char.hp) * (value / 100);
-        char.hp = Math.min(char.maxHp || char.hp, char.hp + healAmt);
+      }
+
+      // ── 장탄 충전 (%) ─────────────────────────────────────
+      else if (stat === 'ammo_charge_pct') {
+        if (char) {
+          const addAmmo = Math.floor((char.maxAmmo || 0) * (value / 100));
+          char.ammo = Math.min(char.maxAmmo || 0, char.ammo + addAmmo);
+        }
+      }
+
+      // ── 장탄 충전 (flat) ──────────────────────────────────
+      else if (stat === 'ammo_charge_flat') {
+        if (char) {
+          char.ammo = Math.min(char.maxAmmo || 0, char.ammo + Math.floor(value));
+        }
+      }
+
+      // ── HP 회복 ───────────────────────────────────────────
+      else if (stat === 'heal_hp_pct') {
+        if (char) {
+          const healAmt = (char.maxHp || char.hp) * (value / 100);
+          char.hp = Math.min(char.maxHp || char.hp, char.hp + healAmt);
+        }
+      }
+
+      // ── 현재 체력 감소 (UnParsing.md 캐릭터 예외) ─────────
+      else if (stat === 'current_hp_reduce') {
+        if (char) {
+          const reduceAmt = (char.maxHp || char.hp) * (value / 100);
+          char.hp = Math.max(1, char.hp - reduceAmt);
+        }
+      }
+
+      // ── 강제 재장전 ───────────────────────────────────────
+      else if (stat === 'force_reload') {
+        if (char && (ctx.state as any)) {
+          (ctx.state as any)[`${char.id}_force_reload`] = true;
+        }
+      }
+
+      // ── 버프 스택 추가 ────────────────────────────────────
+      else if (stat === 'buff_stack_add' || stat === 'debuff_stack_add') {
+        const buffName = eff.target_effect;
+        if (buffName) {
+          const existing = this._active.find(
+            (ab) => ab.name === buffName && (ab.targetId === targetId || ab.casterId === targetId)
+          );
+          if (existing) {
+            existing.stack = Math.min(existing.maxStack, existing.stack + Math.round(value));
+            existing.activatedAt = t;
+          }
+        }
+      }
+
+      // ── 버프 스택 제거 ────────────────────────────────────
+      else if (stat === 'buff_stack_remove' || stat === 'debuff_stack_remove') {
+        const buffName = eff.target_effect;
+        if (buffName) {
+          const existing = this._active.find(
+            (ab) => ab.name === buffName && ab.targetId === targetId
+          );
+          if (existing) {
+            existing.stack = Math.max(0, existing.stack - Math.round(value));
+            if (existing.stack <= 0 && !existing.isPermanent) {
+              const idx = this._active.indexOf(existing);
+              if (idx >= 0) this._active.splice(idx, 1);
+            }
+          }
+        }
+      }
+
+      // ── 버프 스택 초기화 ──────────────────────────────────
+      else if (stat === 'buff_stack_init') {
+        const buffName = eff.target_effect;
+        if (buffName) {
+          const existing = this._active.find(
+            (ab) => ab.name === buffName && ab.targetId === targetId
+          );
+          if (!existing) {
+            // 새 버프 생성
+            const srcEff = this._effects.find((e) => e.name === buffName);
+            if (srcEff) {
+              const newBuff: ActiveBuff = {
+                uid: this._nextUid++,
+                id: `${casterId}__${buffName}__init`,
+                casterId,
+                targetId,
+                name: buffName,
+                sourceSkill: 'instant',
+                type: 'buff',
+                stat: srcEff.stat || 'atk_pct',
+                polarity: srcEff.polarity || 'beneficial',
+                value: srcEff.value || 0,
+                stack: Math.round(value),
+                maxStack: srcEff.max_stack || Math.round(value),
+                activatedAt: t,
+                expiresAt: Infinity,
+                isPermanent: true,
+                effectDef: srcEff,
+              };
+              this._active.push(newBuff);
+            }
+          }
+        }
+      }
+
+      // ── 버프 지속시간 연장 ────────────────────────────────
+      else if (stat === 'named_buff_duration_extend') {
+        const buffName = eff.target_effect;
+        if (buffName) {
+          for (const ab of this._active) {
+            if (
+              (ab.name === buffName || ab.name.startsWith(`${buffName} `)) &&
+              !ab.isPermanent
+            ) {
+              ab.expiresAt += fixedValue;
+            }
+          }
+        }
+      }
+
+      // ── 스킬 쿨 감소 (%) ──────────────────────────────────
+      else if (stat === 'skill_cooldown_reduce_pct') {
+        // target 캐릭터의 every:Ns 스킬 잔여 시간 단축
+        if (ctx.state) {
+          const stateKey = `__skill_cd_reduce_pct_${targetId}`;
+          (ctx.state as any)[stateKey] = ((ctx.state as any)[stateKey] || 0) + value;
+        }
       }
     }
   }
@@ -526,7 +1077,6 @@ export class BuffManager {
     ctx: BattleContext
   ): void {
     if (eff.stat === 'dot_damage') {
-      // DoT 스케줄 등록
       const duration = eff.duration === 'permanent' || eff.duration === -1 ? 10 : (eff.duration ?? 5);
       const interval = eff.tick_interval || eff.interval || 1.0;
       this._dotTimers.push({
@@ -537,23 +1087,35 @@ export class BuffManager {
         valuePerTick: (eff.value || 0) / 100,
         interval,
         nextTick: t + interval,
-        expiresAt: t + duration,
+        expiresAt: t + (duration as number),
       });
-      return;
     }
-
-    // 단발 스킬 대미지는 추후 damageCalc의 executeSkillDamage로 연계
+    // 단발 스킬 대미지는 damageCalc에서 처리
   }
 
   /** 매 프레임(dt) 갱신 */
   public tick(t: number, dt: number, ctx: BattleContext): void {
-    // 1. 만료된 버프 정리 + 타임라인 endTime 기록
+    // 1. 만료된 버프 정리
     this._active = this._active.filter((ab) => {
       if (ab.isPermanent) return true;
       if (t >= ab.expiresAt) {
-        // 타임라인 이벤트 종료 시각 기록
-        const ev = this._timelineEvents.find(e => e.uid === ab.uid && e.endTime === Infinity);
+        const ev = this._timelineEvents.find(
+          (e) => e.uid === ab.uid && e.endTime === Infinity
+        );
         if (ev) ev.endTime = t;
+
+        // infinite_ammo 만료 시 상태 제거
+        if (ab.stat === 'infinite_ammo') {
+          const stillHas = this._active.some(
+            (other) =>
+              other !== ab &&
+              other.targetId === ab.targetId &&
+              other.stat === 'infinite_ammo' &&
+              other.expiresAt > t
+          );
+          if (!stillHas) this._infiniteAmmoChars.delete(ab.targetId);
+        }
+
         return false;
       }
       return true;
@@ -568,10 +1130,9 @@ export class BuffManager {
       }
       if (t >= dot.nextTick) {
         dot.nextTick += dot.interval;
-        // DoT 대미지 발생 알림
         if (ctx.state) {
-          ctx.state.__pending_dot_dmg = ctx.state.__pending_dot_dmg || [];
-          ctx.state.__pending_dot_dmg.push({
+          (ctx.state as any).__pending_dot_dmg = (ctx.state as any).__pending_dot_dmg || [];
+          (ctx.state as any).__pending_dot_dmg.push({
             casterId: dot.casterId,
             valuePerTick: dot.valuePerTick,
             skillName: dot.effectDef.name,
@@ -606,30 +1167,29 @@ export class BuffManager {
     const targetChar = members.find((m) => m.id === targetId);
 
     for (const ab of this._active) {
-      if (ab.targetId !== targetId && ab.targetId !== '__all__') {
-        continue;
-      }
+      if (ab.targetId !== targetId && ab.targetId !== '__all__') continue;
 
-      // 스택 수 고려
-      let val = ab.value * ab.stack;
+      const stat = ab.stat;
+
+      // _FIXED_VALUE_STATS: getBuffs() 합산 안 함 (직접 _active 읽는 경로)
+      if (_FIXED_VALUE_STATS.has(stat)) continue;
 
       // boolean 플래그 처리
-      if (_BOOLEAN_FLAG_STATS.has(ab.stat)) {
-        (buffs as any)[ab.stat] = true;
+      if (_BOOLEAN_FLAG_STATS.has(stat)) {
+        (buffs as any)[stat] = true;
         continue;
       }
 
-      // 시전자 기준 스탯 환산 (atk_caster_based_pct)
-      if (ab.stat === 'atk_caster_based_pct') {
+      let val = ab.value * ab.stack;
+
+      // ── caster_based 환산 ──────────────────────────────────
+      if (stat === 'atk_caster_based_pct') {
         const caster = members.find((m) => m.id === ab.casterId);
-        if (caster) {
-          buffs.atk_flat += caster.atk * (val / 100);
-        }
+        if (caster) buffs.atk_flat += caster.atk * (val / 100);
         continue;
       }
 
-      // 시전자 최대 체력 기준 공격력 환산 (atk_from_hp_pct)
-      if (ab.stat === 'atk_from_hp_pct') {
+      if (stat === 'atk_from_hp_pct') {
         const caster = members.find((m) => m.id === ab.casterId);
         if (caster) {
           const casterMaxHp = caster.maxHp || caster.hp;
@@ -638,43 +1198,77 @@ export class BuffManager {
         continue;
       }
 
-      // 일반 stat 매핑
-      const mappedKey = _STAT_TO_BUFF[ab.stat];
-      if (mappedKey) {
-        if (typeof (buffs as any)[mappedKey] === 'number') {
-          (buffs as any)[mappedKey] += val;
+      if (stat === 'charge_speed_caster_based_pct') {
+        const caster = members.find((m) => m.id === ab.casterId);
+        if (caster && (caster as any).chargeTime) {
+          // 시전자 차지 시간 기준으로 % 환산
+          buffs.charge_speed_pct += val;
         }
+        continue;
+      }
+
+      // ── 적 방어력 방향 분기 ───────────────────────────────
+      if (stat === 'def_pct') {
+        if (targetId === '__enemy__') {
+          buffs.enemy_def_down_pct += val;
+        } else {
+          buffs.def_pct += val;
+        }
+        continue;
+      }
+
+      // ── 일반 stat 매핑 ────────────────────────────────────
+      const mappedKey = _STAT_TO_BUFF[stat];
+      if (mappedKey && typeof (buffs as any)[mappedKey] === 'number') {
+        (buffs as any)[mappedKey] += val;
       }
     }
 
-    // 크리티컬 확률 상한 처리 (기본 15% + 버프, 최대 100%)
+    // ── 후처리 ────────────────────────────────────────────────
+
+    // 크리 확률: 기본 15% + 버프, 최대 100%
     if (targetChar) {
-      buffs.crit_rate = Math.min(100, targetChar.crit + buffs.crit_rate);
+      buffs.crit_rate = Math.min(100, (targetChar.crit || 15) + buffs.crit_rate);
     } else {
       buffs.crit_rate = Math.min(100, 15 + buffs.crit_rate);
     }
 
-    // 차지 속도 버프 면역 처리
+    // 차지 속도 버프 면역
     if (buffs.charge_speed_buff_immune && buffs.charge_speed_pct > 0) {
       buffs.charge_speed_pct = 0;
+    }
+    if (buffs.charge_speed_debuff_immune && buffs.charge_speed_pct < 0) {
+      buffs.charge_speed_pct = 0;
+    }
+
+    // charge_speed_overflow_conversion_pct → charge_dmg_pct 합산
+    if (buffs.charge_speed_overflow_conversion_pct > 0 && buffs.charge_speed_pct > 100) {
+      const overflow = buffs.charge_speed_pct - 100;
+      buffs.charge_dmg_pct += overflow * buffs.charge_speed_overflow_conversion_pct / 100;
+      buffs.charge_speed_pct = 100;
     }
 
     return buffs;
   }
 
-  /** 특정 캐릭터의 스택 또는 게이지 값 조회 */
+  /** infinite_ammo 상태 조회 */
+  public hasInfiniteAmmo(charId: string): boolean {
+    return this._infiniteAmmoChars.has(charId);
+  }
+
+  /** 특정 캐릭터의 버프 스택 수 조회 */
   public refCount(charId: string, refName: string): number | null {
     const ab = this._active.find((b) => b.targetId === charId && b.name === refName);
     if (ab) return ab.stack;
     return null;
   }
 
-  /** 모든 활성 버프 반환 (디버그/시각화용) */
+  /** 모든 활성 버프 반환 */
   public getActiveBuffs(): readonly ActiveBuff[] {
     return this._active;
   }
 
-  /** 타임라인 이벤트 반환 — 영구 버프는 endTime을 duration으로 채운 뒤 반환 */
+  /** 타임라인 이벤트 반환 */
   public getTimeline(duration: number): Array<{
     uid: number;
     targetId: string;
@@ -688,16 +1282,12 @@ export class BuffManager {
     endTime: number;
     isPermanent: boolean;
   }> {
-    return this._timelineEvents.map(e => ({
+    return this._timelineEvents.map((e) => ({
       ...e,
       endTime: e.endTime === Infinity ? duration : e.endTime,
     }));
   }
 
-  /**
-   * skillResolver 등 외부 경로에서 등록된 버프의 타임라인 이벤트를 기록.
-   * BuffManager가 직접 처리하지 않는 버프(char.buff 경로)도 타임라인에 통합.
-   */
   public recordTimelineEvent(event: {
     uid: number;
     targetId: string;
@@ -710,16 +1300,18 @@ export class BuffManager {
     startTime: number;
     isPermanent: boolean;
   }): void {
-    // 중복 uid + 아직 열려있는 이벤트가 있으면 덮어쓰기 방지
-    const existing = this._timelineEvents.find(e => e.uid === event.uid && e.endTime === Infinity);
+    const existing = this._timelineEvents.find(
+      (e) => e.uid === event.uid && e.endTime === Infinity
+    );
     if (!existing) {
       this._timelineEvents.push({ ...event, endTime: Infinity });
     }
   }
 
-  /** 특정 uid 이벤트의 endTime을 기록 (버프 만료 시 호출) */
   public closeTimelineEvent(uid: number, endTime: number): void {
-    const ev = this._timelineEvents.find(e => e.uid === uid && e.endTime === Infinity);
+    const ev = this._timelineEvents.find(
+      (e) => e.uid === uid && e.endTime === Infinity
+    );
     if (ev) ev.endTime = endTime;
   }
 }

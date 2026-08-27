@@ -50,96 +50,9 @@ export interface SkillDef {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
-// Target Resolution Helpers
+// Target Resolution — PARSING.md target 마스터 테이블 기준
+// 레거시 딕셔너리(sg_allies, fire_element_allies 등) 제거 완료
 // ─────────────────────────────────────────────────────────────────────────────
-
-function getFinalAtk(c: Character): number {
-  return (
-    Math.round(c.atk * (1 + (c.equipATKPercent ?? 0) + (c.buff?.atk ?? 0))) +
-    (c.buff?.extraATK ?? 0)
-  )
-}
-
-function getFinalDef(c: Character): number {
-  return Math.round(c.defense * (1 + (c.buff?.def ?? 0)))
-}
-
-function getFinalHp(c: Character): number {
-  return Math.round(c.hp * (1 + (c.buff?.maxHp ?? 0)))
-}
-
-function topNByAtk(members: Character[], n: number): Character[] {
-  return [...members]
-    .sort((a, b) => getFinalAtk(b) - getFinalAtk(a))
-    .slice(0, n)
-}
-
-function topNByDef(members: Character[], n: number): Character[] {
-  return [...members]
-    .sort((a, b) => getFinalDef(b) - getFinalDef(a))
-    .slice(0, n)
-}
-
-function topNByMaxHp(members: Character[], n: number): Character[] {
-  return [...members].sort((a, b) => getFinalHp(b) - getFinalHp(a)).slice(0, n)
-}
-
-// ─────────────────────────────────────────────────────────────────────────────
-// Target Resolution
-// ─────────────────────────────────────────────────────────────────────────────
-
-/** 무기 타입 → 무기 코드 (자신 제외) */
-const WEAPON_EXCLUDE_SELF_TARGETS: Record<string, string> = {
-  sg_allies_excluding_self: 'SG',
-  smg_allies_excluding_self: 'SMG',
-  mg_allies_excluding_self: 'MG',
-  sr_allies_excluding_self: 'SR',
-  rl_allies_excluding_self: 'RL',
-  ar_allies_excluding_self: 'AR',
-}
-
-/** 무기 타입 → 무기 코드 */
-const WEAPON_TARGETS: Record<string, string> = {
-  sg_allies: 'SG',
-  smg_allies: 'SMG',
-  mg_allies: 'MG',
-  sr_allies: 'SR',
-  rl_allies: 'RL',
-  ar_allies: 'AR',
-}
-
-/** 원소 코드 → 원소명 (아군) */
-const ELEMENT_TARGETS: Record<string, string> = {
-  fire_element_allies: '작열',
-  water_element_allies: '수냉',
-  electric_element_allies: '전격',
-  iron_element_allies: '철갑',
-  wind_element_allies: '풍압',
-}
-
-/** 원소 코드 → 원소명 (적) */
-const ELEMENT_ENEMY_TARGETS: Record<string, string> = {
-  fire_element_enemy: '작열',
-  water_element_enemy: '수냉',
-  electric_element_enemy: '전격',
-  iron_element_enemy: '철갑',
-  wind_element_enemy: '풍압',
-}
-
-/** 단일 적 시뮬에서 모두 ctx.enemy로 매핑되는 적 타겟 */
-const ENEMY_TARGETS = new Set([
-  'enemy',
-  'all_enemies',
-  'random_enemies',
-  'enemies_in_range',
-  'lowest_hp_enemy',
-  'highest_hp_enemy_1',
-  'highest_atk_enemy_1',
-  'highest_atk_enemy_2',
-  'highest_def_enemy_1',
-  'same_target',
-  'target',
-])
 
 function resolveTargets(
   ctx: BattleContext,
@@ -147,82 +60,260 @@ function resolveTargets(
   target: string
 ): any[] {
   const members = ctx.team.members
+  const sourceIdx = members.indexOf(sourceChar)
 
-  // ── Self ──
+  // ── 자신 ──────────────────────────────────────────────────────
   if (target === 'self') return [sourceChar]
 
-  // ── All Allies ──
-  if (target === 'all_allies' || target === 'allies') return members
+  // ── 전체 아군 ─────────────────────────────────────────────────
+  if (target === 'all_allies' || target === 'allies') return [...members]
 
-  // ── N Highest ATK Allies (highest_atk_ally, highest_atk_allies_N) ──
-  const highestAtkMatch = target.match(/^highest_atk_all(?:ies_(\d+)|y)$/)
-  if (highestAtkMatch) {
-    return topNByAtk(members, highestAtkMatch[1] ? parseInt(highestAtkMatch[1]) : 1)
+  // ── 자신 제외 아군 ────────────────────────────────────────────
+  if (
+    target === 'all_allies_excl_self' ||
+    target === 'all_allies_excluding_self' ||
+    target === 'allies_excluding_self'
+  ) {
+    return members.filter((m) => m.id !== sourceChar.id)
   }
 
-  // ── Self + N Highest ATK Allies (excluding self) ──
-  const selfAtkMatch = target.match(/^self_and_highest_atk_allies_(\d+)$/)
-  if (selfAtkMatch) {
-    return [sourceChar, ...topNByAtk(members.filter((m) => m.id !== sourceChar.id), parseInt(selfAtkMatch[1]))]
+  // ── 적 계열 (단일 보스 시뮬 → ctx.enemy) ────────────────────
+  if (
+    target === 'enemy' ||
+    target === 'target' ||
+    target === 'target_body' ||
+    target === 'same_target' ||
+    target === 'all_enemies' ||
+    target === 'enemies_in_range' ||
+    target === 'enemies_nearest_in_range' ||
+    target.startsWith('enemies_random:') ||
+    target.startsWith('enemies_nearest:') ||
+    target.startsWith('enemies_top_atk:') ||
+    target.startsWith('enemies_top_def:') ||
+    target.startsWith('enemies_lowest_def:') ||
+    target.startsWith('enemies_lowest_hp:') ||
+    target.startsWith('enemies_top_hp:') ||
+    target.startsWith('target_and_nearby:') ||
+    target.startsWith('enemies_with_buff:') ||
+    target.startsWith('enemies_code:') ||
+    target.startsWith('enemies_lowest_hp_code:')
+  ) {
+    return [ctx.enemy]
   }
 
-  // ── N Highest DEF Allies ──
-  const highestDefMatch = target.match(/^highest_def_allies_(\d+)$/)
-  if (highestDefMatch) {
-    return topNByDef(members, parseInt(highestDefMatch[1]))
+  // ── 구현 없는 타겟 ────────────────────────────────────────────
+  if (
+    target === 'self_cover' ||
+    target === 'all_projectiles' ||
+    target.startsWith('allies_lowest_cover_hp:') ||
+    target.startsWith('allies_down_top_atk_excl:')
+  ) {
+    return []
   }
 
-  // ── N Highest HP Allies ──
-  const highestHpMatch = target.match(/^highest_hp_allies_(\d+)$/)
-  if (highestHpMatch) {
-    return topNByMaxHp(members, parseInt(highestHpMatch[1]))
+  // ── 앞 N명 ────────────────────────────────────────────────────
+  const alliesNMatch = target.match(/^allies:(\d+)$/)
+  if (alliesNMatch) return members.slice(0, parseInt(alliesNMatch[1]))
+
+  // ── 인접 아군 ─────────────────────────────────────────────────
+  const adjacentMatch = target.match(/^allies_adjacent:(\d+)$/)
+  if (adjacentMatch && sourceIdx !== -1) {
+    const range = parseInt(adjacentMatch[1])
+    const result = [sourceChar]
+    for (let d = 1; d <= range; d++) {
+      if (sourceIdx - d >= 0) result.push(members[sourceIdx - d])
+      if (sourceIdx + d < members.length) result.push(members[sourceIdx + d])
+    }
+    return [...new Set(result)]
   }
 
-  // ── N Lowest HP Allies ──
-  const lowestHpMatch = target.match(/^lowest_hp_allies_(\d+)$/)
-  if (lowestHpMatch) {
+  // ── 자신 + 인접 N기 ───────────────────────────────────────────
+  const selfAdjacentMatch = target.match(/^self_and_adjacent_allies_(\d+)$/)
+  if (selfAdjacentMatch && sourceIdx !== -1) {
+    const range = parseInt(selfAdjacentMatch[1])
+    const result = [sourceChar]
+    for (let d = 1; d <= range; d++) {
+      if (sourceIdx - d >= 0) result.push(members[sourceIdx - d])
+      if (sourceIdx + d < members.length) result.push(members[sourceIdx + d])
+    }
+    return [...new Set(result)]
+  }
+
+  // ── 공격력 상위 N명 ───────────────────────────────────────────
+  const topAtkMatch = target.match(/^allies_top_atk:(\d+)$/)
+  if (topAtkMatch) {
+    const n = parseInt(topAtkMatch[1])
     return [...members]
-      .sort((a, b) => getFinalHp(a) - getFinalHp(b))
-      .slice(0, parseInt(lowestHpMatch[1]))
+      .sort((a, b) => (b.atk * (1 + (b.equipATKPercent ?? 0))) - (a.atk * (1 + (a.equipATKPercent ?? 0))))
+      .slice(0, n)
   }
 
-  // ── Self & Adjacent Allies ──
-  if (target === 'self_and_adjacent_allies_2') {
-    const idx = sourceChar.slotIndex
-    if (idx !== 1 && idx !== 3) return [] // 2번과 4번 자리인 경우에만
-    return members.filter(m => m.slotIndex === idx - 1 || m.slotIndex === idx || m.slotIndex === idx + 1)
+  // ── 공격력 상위 N명 (자신 제외) ───────────────────────────────
+  const topAtkExclMatch = target.match(/^allies_top_atk_excl:(\d+)$/)
+  if (topAtkExclMatch) {
+    const n = parseInt(topAtkExclMatch[1])
+    return [...members]
+      .filter((m) => m.id !== sourceChar.id)
+      .sort((a, b) => (b.atk * (1 + (b.equipATKPercent ?? 0))) - (a.atk * (1 + (a.equipATKPercent ?? 0))))
+      .slice(0, n)
   }
 
-  // ── Weapon-type Allies (excluding self) ──
-  if (WEAPON_EXCLUDE_SELF_TARGETS[target]) {
-    return members.filter((c) => c.weapon === WEAPON_EXCLUDE_SELF_TARGETS[target] && c.id !== sourceChar.id)
+  // ── 방어력 상위 N명 ───────────────────────────────────────────
+  const topDefMatch = target.match(/^allies_top_def:(\d+)$/)
+  if (topDefMatch) {
+    const n = parseInt(topDefMatch[1])
+    return [...members].sort((a, b) => (b.defense || 0) - (a.defense || 0)).slice(0, n)
   }
 
-  // ── Weapon-type Allies ──
-  if (WEAPON_TARGETS[target]) {
-    return members.filter((c) => c.weapon === WEAPON_TARGETS[target])
+  // ── 체력 하위 N명 ─────────────────────────────────────────────
+  const lowestHpMatch = target.match(/^allies_lowest_hp:(\d+)$/)
+  if (lowestHpMatch) {
+    const n = parseInt(lowestHpMatch[1])
+    return [...members]
+      .sort((a, b) => (a.hp / (a.maxHp || a.hp || 1)) - (b.hp / (b.maxHp || b.hp || 1)))
+      .slice(0, n)
   }
 
-  // ── Element Allies ──
-  if (ELEMENT_TARGETS[target]) {
-    return members.filter((c) => c.element === ELEMENT_TARGETS[target])
+  // ── 체력 하위 N명 (자신 제외) ─────────────────────────────────
+  const lowestHpExclMatch = target.match(/^allies_lowest_hp_excl:(\d+)$/)
+  if (lowestHpExclMatch) {
+    const n = parseInt(lowestHpExclMatch[1])
+    return [...members]
+      .filter((m) => m.id !== sourceChar.id)
+      .sort((a, b) => (a.hp / (a.maxHp || a.hp || 1)) - (b.hp / (b.maxHp || b.hp || 1)))
+      .slice(0, n)
   }
 
-  // ── Element Enemy Targets (우월 코드 적 타겟) ──
-  if (ELEMENT_ENEMY_TARGETS[target]) {
-    return ctx.enemy.element === ELEMENT_ENEMY_TARGETS[target] ? [ctx.enemy] : []
+  // ── 무작위 N명 ────────────────────────────────────────────────
+  const randomMatch = target.match(/^allies_random:(\d+)$/)
+  if (randomMatch) {
+    const n = parseInt(randomMatch[1])
+    const pool = members.filter((m) => m.id !== sourceChar.id)
+    return [...pool].sort(() => Math.random() - 0.5).slice(0, n)
   }
 
-  // ── Enemies with chain_binding (미하라 전용) ──
-  if (target === 'enemies_with_chain_binding') {
-    const hasChainBinding = ctx.enemy.debuff?.activeDots?.some(
-      (d: any) => d.status === 'chain_binding' && d.stacks > 0
+  // ── 시전자보다 방어력 낮은 아군 ──────────────────────────────
+  if (target === 'allies_below_def') {
+    return members.filter((m) => (m.defense || 0) < (sourceChar.defense || 0))
+  }
+
+  // ── 무기별 ────────────────────────────────────────────────────
+  const weaponMatch = target.match(/^allies_weapon:(.+)$/)
+  if (weaponMatch) {
+    const wpn = weaponMatch[1].toUpperCase()
+    return members.filter((c) => c.weapon === wpn)
+  }
+
+  const weaponExclMatch = target.match(/^allies_weapon_excl_self:(.+)$/)
+  if (weaponExclMatch) {
+    const wpn = weaponExclMatch[1].toUpperCase()
+    return members.filter((c) => c.weapon === wpn && c.id !== sourceChar.id)
+  }
+
+  // ── 무기+공격력 상위 N명 ──────────────────────────────────────
+  const wpnTopAtkMatch = target.match(/^allies_weapon_top_atk:(.+):(\d+)$/)
+  if (wpnTopAtkMatch) {
+    const wpn = wpnTopAtkMatch[1].toUpperCase()
+    const n = parseInt(wpnTopAtkMatch[2])
+    return [...members]
+      .filter((c) => c.weapon === wpn)
+      .sort((a, b) => (b.atk * (1 + (b.equipATKPercent ?? 0))) - (a.atk * (1 + (a.equipATKPercent ?? 0))))
+      .slice(0, n)
+  }
+
+  // ── 클래스별 ──────────────────────────────────────────────────
+  const classMatch = target.match(/^allies_class:(.+)$/)
+  if (classMatch) return members.filter((c) => (c as any).charClass === classMatch[1])
+
+  // ── 원소 코드별 (아군) ─────────────────────────────────────────
+  const codeMatch = target.match(/^allies_code:(.+)$/)
+  if (codeMatch) return members.filter((c) => c.element === codeMatch[1])
+
+  // ── 원소+무기 복합 ─────────────────────────────────────────────
+  const codeWpnMatch = target.match(/^allies_code_weapon:(.+):(.+)$/)
+  if (codeWpnMatch) {
+    const code = codeWpnMatch[1]; const wpn = codeWpnMatch[2].toUpperCase()
+    return members.filter((c) => c.element === code && c.weapon === wpn)
+  }
+
+  const codeWpnLeftMatch = target.match(/^allies_code_weapon_leftmost:(.+):(.+):(\d+)$/)
+  if (codeWpnLeftMatch) {
+    const code = codeWpnLeftMatch[1]; const wpn = codeWpnLeftMatch[2].toUpperCase()
+    const n = parseInt(codeWpnLeftMatch[3])
+    return members.filter((c) => c.element === code && c.weapon === wpn).slice(0, n)
+  }
+
+  // ── 버스트3 아군 ──────────────────────────────────────────────
+  if (target === 'allies_burst3') return members.filter((m) => (m as any).burstStage === 3)
+
+  // ── 버스트3 + 공격력 하위 N명 ─────────────────────────────────
+  const lowestAtkB3Match = target.match(/^allies_lowest_atk_burst3:(\d+)$/)
+  if (lowestAtkB3Match) {
+    const n = parseInt(lowestAtkB3Match[1])
+    return [...members]
+      .filter((m) => (m as any).burstStage === 3)
+      .sort((a, b) => (a.atk * (1 + (a.equipATKPercent ?? 0))) - (b.atk * (1 + (b.equipATKPercent ?? 0))))
+      .slice(0, n)
+  }
+
+  // ── 기본 차지 시간 상위 N명 ───────────────────────────────────
+  const topChargeMatch = target.match(/^allies_top_base_charge_time:(\d+)$/)
+  if (topChargeMatch) {
+    const n = parseInt(topChargeMatch[1])
+    return [...members]
+      .filter((m) => (m as any).chargeTime != null)
+      .sort((a, b) => ((b as any).chargeTime || 0) - ((a as any).chargeTime || 0))
+      .slice(0, n)
+  }
+
+  // ── 버스트 사용 아군 ──────────────────────────────────────────
+  if (target === 'all_allies_burst_casted') {
+    return members.filter((m) => (ctx.state as any)?.burst_casted?.[m.id])
+  }
+  if (target === 'all_allies_burst_not_casted') {
+    return members.filter((m) => !(ctx.state as any)?.burst_casted?.[m.id])
+  }
+  if (target === 'allies_burst_casted_burst3') {
+    return members.filter(
+      (m) => (ctx.state as any)?.burst_casted?.[m.id] && (m as any).burstStage === 3
     )
-    return hasChainBinding ? [ctx.enemy] : []
+  }
+  const burstCastedWpnMatch = target.match(/^allies_burst_casted_weapon:(.+)$/)
+  if (burstCastedWpnMatch) {
+    const wpn = burstCastedWpnMatch[1].toUpperCase()
+    return members.filter(
+      (m) => (ctx.state as any)?.burst_casted?.[m.id] && m.weapon === wpn
+    )
   }
 
-  // ── Enemy Targets (all map to ctx.enemy since single-enemy sim) ──
-  if (ENEMY_TARGETS.has(target)) return [ctx.enemy]
+  // ── 특정 버프 보유 아군 ───────────────────────────────────────
+  const withBuffMatch = target.match(/^allies_with_buff:(.+)$/)
+  if (withBuffMatch) {
+    const buffName = withBuffMatch[1]
+    return members.filter((m) => {
+      if (ctx.buffManager) {
+        const active = ctx.buffManager.getActiveBuffs()
+        return active.some((ab: any) => ab.targetId === m.id && ab.name === buffName)
+      }
+      return false
+    })
+  }
+
+  // ── 버스트3 + persona_state + 자신 제외 ──────────────────────
+  if (target === 'allies_burst3_persona_excl_self') {
+    return members.filter((m) => {
+      if (m.id === sourceChar.id) return false
+      if ((m as any).burstStage !== 3) return false
+      if (ctx.buffManager) {
+        const active = ctx.buffManager.getActiveBuffs()
+        return active.some((ab: any) => ab.targetId === m.id && ab.stat === 'persona_state')
+      }
+      return false
+    })
+  }
+
+  // ── 전투불능 아군 (모델 없음) ─────────────────────────────────
+  if (target.startsWith('allies_down_top_atk_excl:')) return []
 
   return []
 }

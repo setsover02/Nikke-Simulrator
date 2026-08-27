@@ -93,9 +93,6 @@ export function calcNikkeDamage(p: DamageParams): number {
       p.dotDmgUp +
       p.pierceDmgUp +
       p.partDmgUp +
-      p.ignoreDefDmgUp +
-      p.projectileDmgUp +
-      p.interruptionPartDmgUp +
       p.extraDmgUp;
 
 

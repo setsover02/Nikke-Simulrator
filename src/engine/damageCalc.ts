@@ -139,7 +139,9 @@ export function processAttack(ctx: BattleContext) {
    공격 가능 여부
 ========================= */
 
-function canAttack(char: Character): boolean {
+function canAttack(char: Character, ctx?: BattleContext): boolean {
+    // infinite_ammo 활성 시 탄환 소모 없이 공격 가능
+    if (ctx?.buffManager?.hasInfiniteAmmo(char.id)) return char.reloadRemain <= 0;
     return char.reloadRemain <= 0 && char.ammo > 0;
 }
 
@@ -261,19 +263,19 @@ function buildDamageParams(
 
         /* ② Final ATK Modifier & Normal ATK Multiplier */
         atkCoef: (char.atkCoef ?? 1) * atkCoefScale,
-        finalATKModifier: buffs ? buffs.final_atk_pct / 100 : (char.buff?.atkDmgUp ?? 0),
+        finalATKModifier: 0,  // PARSING.md에 final_atk_pct 없음, 0으로 고정
         normalAtkMultiplier: (char.normalAtkMultiplier ?? 0) + (buffs?.normal_atk_dmg_pct ?? 0),
         isNormalAttack: true,
 
         /* ③ Major Modifiers */
         isCrit,
         critBonusBase: (char.critMult ? (char.critMult - 1) : wm.critBonus) + (char.equipCritDmgPercent ?? 0),
-        extraCritDmg: buffs ? buffs.crit_dmg_pct / 100 : (char.buff?.critDmg ?? 0),
+        extraCritDmg: buffs ? buffs.crit_dmg / 100 : (char.buff?.critDmg ?? 0),
         isCore,
         coreHitBonus: (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus) + (buffs ? buffs.core_dmg_pct / 100 : 0),
         coreHitMultiplier: char.coreHitMultiplier ?? 0,
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-        rangeBonus: char.buff?.range ?? (buffs?.range_bonus ?? 0),
+        rangeBonus: 0,  // PARSING.md에 range_bonus 없음, 0으로 고정
 
         /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
@@ -288,9 +290,6 @@ function buildDamageParams(
         dotDmgUp: buffs ? buffs.dot_dmg_pct / 100 : (char.buff?.dot ?? 0),
         pierceDmgUp: (char.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : (char.buff?.pierce ?? 0)),
         partDmgUp: (char.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : (char.buff?.partDmgUp ?? 0)),
-        ignoreDefDmgUp: (char.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : (char.buff?.ignoreDef ?? 0)),
-        projectileDmgUp: char.buff?.projectile ?? 0,
-        interruptionPartDmgUp: char.buff?.weakPart ?? 0,
         extraDmgUp: 0,
 
         /* ⑦ Damage Taken */
