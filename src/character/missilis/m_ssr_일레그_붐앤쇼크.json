@@ -1,286 +1,288 @@
 {
-    "characterID": "Char_502",
-    "characterName": "일레그 : 붐 앤 쇼크",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Missilis",
-        "squad": "일렉트릭 쇼크",
-        "burstLevel": 3,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_502",
+  "characterName": "일레그 : 붐 앤 쇼크",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Missilis",
+    "squad": "일렉트릭 쇼크",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "헬로 고스트",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "헬로 고스트",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "enemies_random:1",
-                    "effect": "possessed",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 6,
-                    "name": "빙의",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "squad_ammo_consume:100",
-                    "target": "self",
-                    "effect": "gauge_charge",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "유령 포획",
-                    "type": "instant",
-                    "condition": "target_state:빙의"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_code:수냉",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        9.57,
-                        10.3,
-                        11.04,
-                        11.78,
-                        12.51,
-                        13.25,
-                        13.99,
-                        14.72,
-                        15.46,
-                        16.2
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "헬로 고스트",
-                    "type": "buff",
-                    "condition": "gauge_above:유령:1"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_code:수냉",
-                    "effect": "element_bonus_pct",
-                    "value": [
-                        20.68,
-                        22.27,
-                        23.86,
-                        25.45,
-                        27.04,
-                        28.64,
-                        30.23,
-                        31.82,
-                        33.41,
-                        35
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "헬로 고스트 2",
-                    "type": "buff",
-                    "condition": "gauge_above:유령:4"
-                },
-                {
-                    "trigger": "squad_ammo_consume:100",
-                    "target": "enemies_with_buff:빙의",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "빙의 해제",
-                    "type": "instant",
-                    "condition": "target_state:빙의",
-                    "target_effect": "빙의"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "enemies_random:1",
+          "effect": "possessed",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 6,
+          "name": "빙의",
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "고스트 버스터",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        23.63,
-                        25.45,
-                        27.27,
-                        29.09,
-                        30.91,
-                        32.72,
-                        34.54,
-                        36.36,
-                        38.18,
-                        40
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "고스트 버스터",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "squad_ammo_consume:100",
-                    "target": "all_enemies",
-                    "effect": "damage",
-                    "value": [
-                        650,
-                        700,
-                        750,
-                        800,
-                        850,
-                        900,
-                        950,
-                        1000,
-                        1050,
-                        1100
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "고스트 버스터 2",
-                    "type": "damage",
-                    "condition": "target_state:빙의"
-                }
-            ]
+          "trigger": "squad_ammo_consume:100",
+          "target": "self",
+          "effect": "gauge_charge",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "유령 포획",
+          "type": "instant",
+          "condition": "target_state:빙의"
         },
         {
-            "id": "burst",
-            "name": "13 고스트",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_random",
-                    "effect": "sequential_damage:6",
-                    "value": [
-                        472.72,
-                        509.09,
-                        545.45,
-                        581.81,
-                        618.18,
-                        654.54,
-                        690.9,
-                        727.27,
-                        763.63,
-                        800
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "13 고스트",
-                    "type": "damage",
-                    "condition": "gauge_below:유령:13"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "gauge_consume",
-                    "value": [
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6,
-                        6
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "13 고스트 2",
-                    "type": "instant",
-                    "condition": "gauge_below:유령:13"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_random",
-                    "effect": "sequential_damage:13",
-                    "value": [
-                        472.72,
-                        509.09,
-                        545.45,
-                        581.81,
-                        618.18,
-                        654.54,
-                        690.9,
-                        727.27,
-                        763.63,
-                        800
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "13 고스트 3",
-                    "type": "damage",
-                    "condition": "gauge_eq:유령:13"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "gauge_consume",
-                    "value": [
-                        9,
-                        9,
-                        9,
-                        9,
-                        9,
-                        9,
-                        9,
-                        9,
-                        9,
-                        9
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "13 고스트 4",
-                    "type": "instant",
-                    "condition": "gauge_eq:유령:13"
-                }
-            ]
+          "trigger": "passive",
+          "target": "allies_code:수냉",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            9.57,
+            10.3,
+            11.04,
+            11.78,
+            12.51,
+            13.25,
+            13.99,
+            14.72,
+            15.46,
+            16.2
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "헬로 고스트",
+          "type": "buff",
+          "condition": "gauge_above:유령:1"
+        },
+        {
+          "trigger": "passive",
+          "target": "allies_code:수냉",
+          "effect": "element_bonus_pct",
+          "value": [
+            20.68,
+            22.27,
+            23.86,
+            25.45,
+            27.04,
+            28.64,
+            30.23,
+            31.82,
+            33.41,
+            35
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "헬로 고스트 2",
+          "type": "buff",
+          "condition": "gauge_above:유령:4"
+        },
+        {
+          "trigger": "squad_ammo_consume:100",
+          "target": "enemies_with_buff:빙의",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "빙의 해제",
+          "type": "instant",
+          "condition": "target_state:빙의",
+          "target_effect": "빙의"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "고스트 버스터",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            23.63,
+            25.45,
+            27.27,
+            29.09,
+            30.91,
+            32.72,
+            34.54,
+            36.36,
+            38.18,
+            40
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "고스트 버스터",
+          "type": "buff"
+        },
+        {
+          "trigger": "squad_ammo_consume:100",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            650,
+            700,
+            750,
+            800,
+            850,
+            900,
+            950,
+            1000,
+            1050,
+            1100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "고스트 버스터 2",
+          "type": "damage",
+          "condition": "target_state:빙의"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "13 고스트",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_random",
+          "effect": "sequential_damage",
+          "value": [
+            472.72,
+            509.09,
+            545.45,
+            581.81,
+            618.18,
+            654.54,
+            690.9,
+            727.27,
+            763.63,
+            800
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "13 고스트",
+          "type": "damage",
+          "condition": "gauge_below:유령:13",
+          "hits": 6
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "gauge_consume",
+          "value": [
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6,
+            6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "13 고스트 2",
+          "type": "instant",
+          "condition": "gauge_below:유령:13"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_random",
+          "effect": "sequential_damage",
+          "value": [
+            472.72,
+            509.09,
+            545.45,
+            581.81,
+            618.18,
+            654.54,
+            690.9,
+            727.27,
+            763.63,
+            800
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "13 고스트 3",
+          "type": "damage",
+          "condition": "gauge_eq:유령:13",
+          "hits": 13
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "gauge_consume",
+          "value": [
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9,
+            9
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "13 고스트 4",
+          "type": "instant",
+          "condition": "gauge_eq:유령:13"
+        }
+      ]
+    }
+  ]
 }

@@ -1,121 +1,121 @@
 {
-    "characterID": "Char_351",
-    "characterName": "앵커",
-    "stats": {
-        "rarity": "SR",
-        "element": "풍압",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Elysion",
-        "squad": "이지스",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_351",
+  "characterName": "앵커",
+  "stats": {
+    "rarity": "SR",
+    "element": "풍압",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Elysion",
+    "squad": "이지스",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "GS",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "GS",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "target",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        10.42,
-                        11.91,
-                        13.39,
-                        14.88,
-                        16.37,
-                        17.86,
-                        19.35,
-                        20.84,
-                        22.33,
-                        23.82
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "target",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "skill_2",
-            "name": "MDS",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "projectile_damage_up",
-                    "value": [
-                        11.2,
-                        12.8,
-                        14.4,
-                        16,
-                        17.6,
-                        19.2,
-                        20.8,
-                        22.4,
-                        24,
-                        25.6
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "CIWS",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        133.2,
-                        152.22,
-                        171.25,
-                        190.28,
-                        209.31,
-                        228.34,
-                        247.37,
-                        266.4,
-                        285.42,
-                        304.45
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            10.42,
+            11.91,
+            13.39,
+            14.88,
+            16.37,
+            17.86,
+            19.35,
+            20.84,
+            22.33,
+            23.82
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "MDS",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "projectile_dmg_pct",
+          "value": [
+            11.2,
+            12.8,
+            14.4,
+            16,
+            17.6,
+            19.2,
+            20.8,
+            22.4,
+            24,
+            25.6
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "CIWS",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            133.2,
+            152.22,
+            171.25,
+            190.28,
+            209.31,
+            228.34,
+            247.37,
+            266.4,
+            285.42,
+            304.45
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

@@ -1,141 +1,141 @@
 {
-    "characterID": "Char_181",
-    "characterName": "메이든",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "익스터너",
-        "burstLevel": 3,
-        "atkCoef": 231.6,
-        "maxAmmo": 9,
-        "reloadTime": 0.67,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_181",
+  "characterName": "메이든",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "익스터너",
+    "burstLevel": 3,
+    "atkCoef": 231.6,
+    "maxAmmo": 9,
+    "reloadTime": 0.67,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "언령 : 기교의 언",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "언령 : 기교의 언",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:20",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "복수",
-                    "value": [
-                        15.75,
-                        16.96,
-                        18.18,
-                        19.39,
-                        20.6,
-                        21.81,
-                        23.03,
-                        24.24,
-                        25.45,
-                        26.66
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "언령 : 필중의 언",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        94.13,
-                        100.65,
-                        107.18,
-                        113.7,
-                        120.22,
-                        126.75,
-                        133.27,
-                        139.79,
-                        146.32,
-                        152.84
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "언령 : 힘있는 말",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        270.56,
-                        291.37,
-                        312.18,
-                        333,
-                        353.81,
-                        374.62,
-                        395.43,
-                        416.25,
-                        437.06,
-                        457.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target",
-                    "effect": "extra_damage",
-                    "value": [
-                        270.56,
-                        291.37,
-                        312.18,
-                        333,
-                        353.81,
-                        374.62,
-                        395.43,
-                        416.25,
-                        437.06,
-                        457.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "hit_count:20",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "복수",
+          "value": [
+            15.75,
+            16.96,
+            18.18,
+            19.39,
+            20.6,
+            21.81,
+            23.03,
+            24.24,
+            25.45,
+            26.66
+          ],
+          "unit": "percent",
+          "duration": 20
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "언령 : 필중의 언",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_enemies",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            94.13,
+            100.65,
+            107.18,
+            113.7,
+            120.22,
+            126.75,
+            133.27,
+            139.79,
+            146.32,
+            152.84
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "언령 : 힘있는 말",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            270.56,
+            291.37,
+            312.18,
+            333,
+            353.81,
+            374.62,
+            395.43,
+            416.25,
+            437.06,
+            457.87
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "same_target",
+          "effect": "extra_damage",
+          "value": [
+            270.56,
+            291.37,
+            312.18,
+            333,
+            353.81,
+            374.62,
+            395.43,
+            416.25,
+            437.06,
+            457.87
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

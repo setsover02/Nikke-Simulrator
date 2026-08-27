@@ -1,142 +1,142 @@
 {
-    "characterID": "Char_241",
-    "characterName": "에피넬",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SMG",
-        "class": "화력형",
-        "company": "Missilis",
-        "squad": "라이프 토닉",
-        "burstLevel": 3,
-        "atkCoef": 10.12,
-        "maxAmmo": 120,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 250,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_241",
+  "characterName": "에피넬",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SMG",
+    "class": "화력형",
+    "company": "Missilis",
+    "squad": "라이프 토닉",
+    "burstLevel": 3,
+    "atkCoef": 10.12,
+    "maxAmmo": 120,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 250,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "슈퍼 루키",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "슈퍼 루키",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "kill_enemy",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "슈퍼 루키",
-                    "value": [
-                        8.18,
-                        8.82,
-                        9.44,
-                        10.08,
-                        10.71,
-                        11.34,
-                        11.97,
-                        12.6,
-                        13.23,
-                        13.86
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "stack": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "스파이더",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        2.98,
-                        3.21,
-                        3.44,
-                        3.67,
-                        3.9,
-                        4.13,
-                        4.36,
-                        4.59,
-                        4.82,
-                        5.05
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        3.78,
-                        4.07,
-                        4.36,
-                        4.65,
-                        4.95,
-                        5.24,
-                        5.53,
-                        5.82,
-                        6.11,
-                        6.4
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "SAFE 50-50",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        270.56,
-                        291.37,
-                        312.18,
-                        333,
-                        353.81,
-                        374.62,
-                        395.43,
-                        416.25,
-                        437.06,
-                        457.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "same_target",
-                    "effect": "extra_damage",
-                    "value": [
-                        270.56,
-                        291.37,
-                        312.18,
-                        333,
-                        353.81,
-                        374.62,
-                        395.43,
-                        416.25,
-                        437.06,
-                        457.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "kill_enemy",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "슈퍼 루키",
+          "value": [
+            8.18,
+            8.82,
+            9.44,
+            10.08,
+            10.71,
+            11.34,
+            11.97,
+            12.6,
+            13.23,
+            13.86
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "stack": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "스파이더",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            2.98,
+            3.21,
+            3.44,
+            3.67,
+            3.9,
+            4.13,
+            4.36,
+            4.59,
+            4.82,
+            5.05
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            3.78,
+            4.07,
+            4.36,
+            4.65,
+            4.95,
+            5.24,
+            5.53,
+            5.82,
+            6.11,
+            6.4
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "SAFE 50-50",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            270.56,
+            291.37,
+            312.18,
+            333,
+            353.81,
+            374.62,
+            395.43,
+            416.25,
+            437.06,
+            457.87
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "max_stack_applied",
+          "target": "same_target",
+          "effect": "extra_damage",
+          "value": [
+            270.56,
+            291.37,
+            312.18,
+            333,
+            353.81,
+            374.62,
+            395.43,
+            416.25,
+            437.06,
+            457.87
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

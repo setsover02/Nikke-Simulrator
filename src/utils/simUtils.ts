@@ -43,29 +43,39 @@ export interface ScatterPoint {
     source: string;
     description: string;
     skillName: string;
+    dmgType: string; // 'skill_damage' | 'dot_damage' | 'burst_damage'
 }
 
+/** 집계 대상 비-attack 대미지 타입 전체 */
+export const SKILL_DAMAGE_TYPES = new Set([
+    'skill_damage',
+    'dot_damage',
+]);
+
 /**
- * 개별 데미지 인스턴스를 점으로 찍기 위한 스캐터 데이터 생성
+ * 개별 대미지 인스턴스를 점으로 찍기 위한 스캐터 데이터 생성.
+ * sourceFilter를 지정하면 해당 캐릭터 ID만, typeFilter를 지정하면 해당 타입만 집계.
  */
 export const generateScatterData = (
     result: any,
     sourceFilter?: string,
     typeFilter?: Set<string>
 ): ScatterPoint[] => {
-    const DAMAGE_TYPES = typeFilter ?? new Set(['skill_damage']);
+    const DAMAGE_TYPES = typeFilter ?? SKILL_DAMAGE_TYPES;
     const data: ScatterPoint[] = [];
 
     for (const log of result.log) {
         if (!DAMAGE_TYPES.has(log.type)) continue;
         if (sourceFilter && log.source !== sourceFilter) continue;
+        if (!log.value || log.value <= 0) continue; // 0 이하 값 제외
 
         data.push({
             time: log.time,
-            value: log.value || 0,
+            value: log.value,
             source: log.source,
             description: log.description || '',
-            skillName: log.skillName || '',
+            skillName: log.skillName || log.description || '',
+            dmgType: log.type,
         });
     }
 

@@ -34,6 +34,21 @@ export class BuffManager {
     expiresAt: number;
   }> = [];
 
+  // 타임라인 이벤트 기록 (calc-master SimLog와 동일 목적)
+  private _timelineEvents: Array<{
+    uid: number;          // ActiveBuff uid 참조
+    targetId: string;
+    casterId: string;
+    buffName: string;     // NormalizedSkillEffect.name
+    stat: string;         // stat key (atk_pct, crit_dmg_pct, ...)
+    sourceSkill: string;  // 'skill_1' | 'skill_2' | 'burst'
+    polarity: string;
+    value: number;        // 1스택당 값
+    startTime: number;
+    endTime: number;      // Infinity → 시뮬 종료 시 duration으로 채움
+    isPermanent: boolean;
+  }> = [];
+
   constructor() {
     this.reset();
   }
@@ -46,6 +61,7 @@ export class BuffManager {
     this._eventCounts = {};
     this._everyIntervalTimers = {};
     this._dotTimers = [];
+    this._timelineEvents = [];
   }
 
   /** 팀의 모든 캐릭터 스킬을 등록하고 정규화 */
@@ -301,6 +317,22 @@ export class BuffManager {
         if (eff.duration_bullets) {
           existing.bulletsLeft = eff.duration_bullets;
         }
+        // 타임라인: 스택 갱신 시 이전 이벤트 endTime 업데이트 후 새 이벤트 추가
+        const prevEvent = this._timelineEvents.find(e => e.uid === existing.uid && e.endTime === Infinity);
+        if (prevEvent) prevEvent.endTime = t;
+        this._timelineEvents.push({
+          uid: existing.uid,
+          targetId,
+          casterId,
+          buffName: eff.name,
+          stat: eff.stat || 'unknown',
+          sourceSkill: eff.source || 'skill',
+          polarity: eff.polarity || 'beneficial',
+          value: (eff.value || 0) * existing.stack,
+          startTime: t,
+          endTime: Infinity,
+          isPermanent: duration === Infinity,
+        });
       } else {
         // 새 버프 등록
         const newBuff: ActiveBuff = {
@@ -326,6 +358,20 @@ export class BuffManager {
           scalingRef: eff.scaling_ref,
         };
         this._active.push(newBuff);
+        // 타임라인 이벤트 기록
+        this._timelineEvents.push({
+          uid: newBuff.uid,
+          targetId,
+          casterId,
+          buffName: eff.name,
+          stat: eff.stat || 'unknown',
+          sourceSkill: eff.source || 'skill',
+          polarity: eff.polarity || 'beneficial',
+          value: eff.value || 0,
+          startTime: t,
+          endTime: Infinity,
+          isPermanent: duration === Infinity,
+        });
       }
     }
   }
@@ -501,10 +547,16 @@ export class BuffManager {
 
   /** 매 프레임(dt) 갱신 */
   public tick(t: number, dt: number, ctx: BattleContext): void {
-    // 1. 만료된 버프 정리
+    // 1. 만료된 버프 정리 + 타임라인 endTime 기록
     this._active = this._active.filter((ab) => {
       if (ab.isPermanent) return true;
-      return t < ab.expiresAt;
+      if (t >= ab.expiresAt) {
+        // 타임라인 이벤트 종료 시각 기록
+        const ev = this._timelineEvents.find(e => e.uid === ab.uid && e.endTime === Infinity);
+        if (ev) ev.endTime = t;
+        return false;
+      }
+      return true;
     });
 
     // 2. DoT 타이머 처리
@@ -620,5 +672,54 @@ export class BuffManager {
   /** 모든 활성 버프 반환 (디버그/시각화용) */
   public getActiveBuffs(): readonly ActiveBuff[] {
     return this._active;
+  }
+
+  /** 타임라인 이벤트 반환 — 영구 버프는 endTime을 duration으로 채운 뒤 반환 */
+  public getTimeline(duration: number): Array<{
+    uid: number;
+    targetId: string;
+    casterId: string;
+    buffName: string;
+    stat: string;
+    sourceSkill: string;
+    polarity: string;
+    value: number;
+    startTime: number;
+    endTime: number;
+    isPermanent: boolean;
+  }> {
+    return this._timelineEvents.map(e => ({
+      ...e,
+      endTime: e.endTime === Infinity ? duration : e.endTime,
+    }));
+  }
+
+  /**
+   * skillResolver 등 외부 경로에서 등록된 버프의 타임라인 이벤트를 기록.
+   * BuffManager가 직접 처리하지 않는 버프(char.buff 경로)도 타임라인에 통합.
+   */
+  public recordTimelineEvent(event: {
+    uid: number;
+    targetId: string;
+    casterId: string;
+    buffName: string;
+    stat: string;
+    sourceSkill: string;
+    polarity: string;
+    value: number;
+    startTime: number;
+    isPermanent: boolean;
+  }): void {
+    // 중복 uid + 아직 열려있는 이벤트가 있으면 덮어쓰기 방지
+    const existing = this._timelineEvents.find(e => e.uid === event.uid && e.endTime === Infinity);
+    if (!existing) {
+      this._timelineEvents.push({ ...event, endTime: Infinity });
+    }
+  }
+
+  /** 특정 uid 이벤트의 endTime을 기록 (버프 만료 시 호출) */
+  public closeTimelineEvent(uid: number, endTime: number): void {
+    const ev = this._timelineEvents.find(e => e.uid === uid && e.endTime === Infinity);
+    if (ev) ev.endTime = endTime;
   }
 }

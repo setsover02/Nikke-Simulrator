@@ -149,5 +149,6 @@ function buildResult(ctx: BattleContext): BattleResult {
         burstZones: ctx.burstZones,
         log: ctx.log,
         team: ctx.team,
+        buffTimeline: ctx.buffManager ? ctx.buffManager.getTimeline(ctx.time) : [],
     };
 }

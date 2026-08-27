@@ -1,358 +1,358 @@
 {
-    "characterID": "Char_210",
-    "characterName": "엑시아",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "프로토콜",
-        "burstLevel": 1,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_210",
+  "characterName": "엑시아",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "프로토콜",
+    "burstLevel": 1,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "인베이젼",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "인베이젼",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "target",
-                    "effect": "atk_pct",
-                    "value": [
-                        7.57,
-                        8.26,
-                        8.95,
-                        9.63,
-                        10.32,
-                        11.01,
-                        11.7,
-                        12.39,
-                        13.08,
-                        13.77
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "target",
-                    "effect": "enemy_def_down_pct",
-                    "value": [
-                        7.57,
-                        8.26,
-                        8.95,
-                        9.63,
-                        10.32,
-                        11.01,
-                        11.7,
-                        12.39,
-                        13.08,
-                        13.77
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "target",
+          "effect": "atk_pct",
+          "value": [
+            7.57,
+            8.26,
+            8.95,
+            9.63,
+            10.32,
+            11.01,
+            11.7,
+            12.39,
+            13.08,
+            13.77
+          ],
+          "unit": "percent",
+          "duration": 5
         },
         {
-            "id": "skill_2",
-            "name": "시크릿 코드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "hacking_code_collection",
-                    "value": [
-                        9.24,
-                        10.08,
-                        10.92,
-                        11.76,
-                        12.6,
-                        13.44,
-                        14.28,
-                        15.12,
-                        15.96,
-                        16.8
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "stack": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "원사이드 프로토콜",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "skill_damage",
-                    "value": [
-                        67.27,
-                        73.39,
-                        79.51,
-                        85.62,
-                        91.74,
-                        97.86,
-                        103.97,
-                        110.09,
-                        116.21,
-                        122.32
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "enemy_def_down_pct",
-                    "value": [
-                        1.49,
-                        1.63,
-                        1.76,
-                        1.9,
-                        2.03,
-                        2.17,
-                        2.31,
-                        2.44,
-                        2.58,
-                        2.71
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "same_target",
-                    "effect": "extra_damage",
-                    "value": [
-                        67.27,
-                        73.39,
-                        79.51,
-                        85.62,
-                        91.74,
-                        97.86,
-                        103.97,
-                        110.09,
-                        116.21,
-                        122.32
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "target",
+          "effect": "enemy_def_down_pct",
+          "value": [
+            7.57,
+            8.26,
+            8.95,
+            9.63,
+            10.32,
+            11.01,
+            11.7,
+            12.39,
+            13.08,
+            13.77
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ],
-    "favoriteItem": {
-        "itemName": "게임 키드 에볼루션",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "시크릿 코드",
-                    "effects": [
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
-                            "value": [
-                                9.24,
-                                11.32,
-                                13.41,
-                                15.49,
-                                17.58,
-                                19.66,
-                                21.74,
-                                23.83,
-                                25.91,
-                                28
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "atk_up",
-                            "value": [
-                                1.05,
-                                1.58,
-                                2.11,
-                                2.64,
-                                3.16,
-                                3.69,
-                                4.22,
-                                4.75,
-                                5.28,
-                                5.8
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "원사이드 프로토콜",
-                    "effects": [
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
-                            "value": [
-                                67.27,
-                                73.39,
-                                79.51,
-                                85.62,
-                                91.74,
-                                97.86,
-                                103.97,
-                                110.09,
-                                116.21,
-                                122.32
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "def_up",
-                            "value": [
-                                1.49,
-                                1.63,
-                                1.76,
-                                1.9,
-                                2.03,
-                                2.17,
-                                2.31,
-                                2.44,
-                                2.58,
-                                2.71
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_up",
-                            "value": [
-                                67.27,
-                                73.39,
-                                79.51,
-                                85.62,
-                                91.74,
-                                97.86,
-                                103.97,
-                                110.09,
-                                116.21,
-                                122.32
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
-                            "value": [
-                                9.36,
-                                10.32,
-                                11.28,
-                                12.25,
-                                13.21,
-                                14.18,
-                                15.14,
-                                16.11,
-                                17.07,
-                                18.04
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "인베이젼",
-                    "effects": [
-                        {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "atk_up",
-                            "value": [
-                                7.57,
-                                8.26,
-                                8.95,
-                                9.63,
-                                10.32,
-                                11.01,
-                                11.7,
-                                12.39,
-                                13.08,
-                                13.77
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "def_up",
-                            "value": [
-                                7.57,
-                                8.26,
-                                8.95,
-                                9.63,
-                                10.32,
-                                11.01,
-                                11.7,
-                                12.39,
-                                13.08,
-                                13.77
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "last_bullet_attack",
-                            "target": "self",
-                            "effect": "reload_speed_up",
-                            "value": [
-                                95,
-                                95,
-                                95,
-                                95,
-                                95,
-                                95,
-                                95,
-                                95,
-                                95,
-                                95
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "시크릿 코드",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "hacking_code_collection",
+          "value": [
+            9.24,
+            10.08,
+            10.92,
+            11.76,
+            12.6,
+            13.44,
+            14.28,
+            15.12,
+            15.96,
+            16.8
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "stack": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "원사이드 프로토콜",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "damage",
+          "value": [
+            67.27,
+            73.39,
+            79.51,
+            85.62,
+            91.74,
+            97.86,
+            103.97,
+            110.09,
+            116.21,
+            122.32
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "enemy_def_down_pct",
+          "value": [
+            1.49,
+            1.63,
+            1.76,
+            1.9,
+            2.03,
+            2.17,
+            2.31,
+            2.44,
+            2.58,
+            2.71
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "max_stack_applied",
+          "target": "same_target",
+          "effect": "extra_damage",
+          "value": [
+            67.27,
+            73.39,
+            79.51,
+            85.62,
+            91.74,
+            97.86,
+            103.97,
+            110.09,
+            116.21,
+            122.32
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "게임 키드 에볼루션",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "시크릿 코드",
+          "effects": [
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "atk_up",
+              "value": [
+                9.24,
+                11.32,
+                13.41,
+                15.49,
+                17.58,
+                19.66,
+                21.74,
+                23.83,
+                25.91,
+                28
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "last_bullet_attack",
+              "target": "self",
+              "effect": "atk_up",
+              "value": [
+                1.05,
+                1.58,
+                2.11,
+                2.64,
+                3.16,
+                3.69,
+                4.22,
+                4.75,
+                5.28,
+                5.8
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "원사이드 프로토콜",
+          "effects": [
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "atk_up",
+              "value": [
+                67.27,
+                73.39,
+                79.51,
+                85.62,
+                91.74,
+                97.86,
+                103.97,
+                110.09,
+                116.21,
+                122.32
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "def_up",
+              "value": [
+                1.49,
+                1.63,
+                1.76,
+                1.9,
+                2.03,
+                2.17,
+                2.31,
+                2.44,
+                2.58,
+                2.71
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "atk_up",
+              "value": [
+                67.27,
+                73.39,
+                79.51,
+                85.62,
+                91.74,
+                97.86,
+                103.97,
+                110.09,
+                116.21,
+                122.32
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "atk_damage_up",
+              "value": [
+                9.36,
+                10.32,
+                11.28,
+                12.25,
+                13.21,
+                14.18,
+                15.14,
+                16.11,
+                17.07,
+                18.04
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "인베이젼",
+          "effects": [
+            {
+              "trigger": "last_bullet_attack",
+              "target": "self",
+              "effect": "atk_up",
+              "value": [
+                7.57,
+                8.26,
+                8.95,
+                9.63,
+                10.32,
+                11.01,
+                11.7,
+                12.39,
+                13.08,
+                13.77
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "last_bullet_attack",
+              "target": "self",
+              "effect": "def_up",
+              "value": [
+                7.57,
+                8.26,
+                8.95,
+                9.63,
+                10.32,
+                11.01,
+                11.7,
+                12.39,
+                13.08,
+                13.77
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "last_bullet_attack",
+              "target": "self",
+              "effect": "reload_speed_up",
+              "value": [
+                95,
+                95,
+                95,
+                95,
+                95,
+                95,
+                95,
+                95,
+                95,
+                95
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

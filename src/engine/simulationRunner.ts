@@ -82,7 +82,7 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
     const charIdToName = buildCharIdToName(activeSlots);
 
     return {
-        summary: { chars, teamTotal },
+        summary: { chars, teamTotal, buffTimeline: result.buffTimeline, idToName: charIdToName },
         chartDatasets,
         skillChartDatasets,
         burstWindows,
@@ -314,26 +314,61 @@ function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSl
 }
 
 function buildSkillChartDatasets(result: any, activeSlots: ActiveSlot[]) {
-    const SKILL_TYPES = new Set(['skill_damage']);
-    const DOT_TYPES = new Set(['dot_damage']);
-    const datasets: { label: string; color: string; data: any[] }[] = [];
-
+    // 1) source → { charName, color } 역방향 맵 구성
+    const sourceMap = new Map<string, { label: string; color: string }>();
     activeSlots.forEach(({ slot, originalIndex }, idx) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
         const charName = slot.char.data.characterName;
         const color = SLOT_COLORS[idx % SLOT_COLORS.length];
-
-        // 일반 스킬 데미지 dataset
-        datasets.push({ label: charName, color, data: generateScatterData(result, charId, SKILL_TYPES) });
-
-        // DoT 데미지 dataset (캐릭터별, 별도 라벨)
-        const dotData = generateScatterData(result, charId, DOT_TYPES);
-        if (dotData.length > 0) {
-            datasets.push({ label: `${charName} (DoT)`, color, data: dotData });
-        }
+        sourceMap.set(charId, { label: charName, color });
+        // characterID만으로도 매핑 (source 포맷이 다를 경우 fallback)
+        sourceMap.set(slot.char.data.characterID, { label: charName, color });
     });
 
-    return datasets;
+    // 2) 전체 로그에서 스킬 대미지 타입만 수집 (sourceFilter 없이)
+    const allPoints = generateScatterData(result);  // sourceFilter = undefined → 전체
+
+    // 3) source별로 bucket
+    const buckets = new Map<string, { label: string; color: string; data: any[] }>();
+
+    for (const pt of allPoints) {
+        let meta = sourceMap.get(pt.source);
+        if (!meta) {
+            // charId 형식이 아닌 경우: prefix 매칭 시도
+            for (const [key, val] of sourceMap.entries()) {
+                if (pt.source.startsWith(key) || key.startsWith(pt.source)) {
+                    meta = val;
+                    break;
+                }
+            }
+        }
+        const bucketKey = pt.source;
+        if (!buckets.has(bucketKey)) {
+            buckets.set(bucketKey, {
+                label: meta?.label ?? pt.source,
+                color: meta?.color ?? '#888888',
+                data: [],
+            });
+        }
+        buckets.get(bucketKey)!.data.push(pt);
+    }
+
+    // 4) activeSlots 순서로 정렬 (범례 일관성)
+    const orderedKeys: string[] = [];
+    activeSlots.forEach(({ slot, originalIndex }) => {
+        const charId = `${slot.char.data.characterID}_${originalIndex}`;
+        for (const key of buckets.keys()) {
+            if (key === charId || key.startsWith(slot.char.data.characterID)) {
+                if (!orderedKeys.includes(key)) orderedKeys.push(key);
+            }
+        }
+    });
+    // 매핑 안 된 source는 뒤에 추가
+    for (const key of buckets.keys()) {
+        if (!orderedKeys.includes(key)) orderedKeys.push(key);
+    }
+
+    return orderedKeys.map(key => buckets.get(key)!);
 }
 
 function buildSkillInfoMap(activeSlots: ActiveSlot[]): Record<string, Record<string, SkillInfoEntry>> {

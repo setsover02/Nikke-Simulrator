@@ -1,121 +1,121 @@
 {
-    "characterID": "N102",
-    "characterName": "N102",
-    "stats": {
-        "rarity": "SR",
-        "element": "수냉",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "리콜&릴리즈",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1.5,
-        "fireRate": 1,
-        "fullChargeDamage": 350,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "N102",
+  "characterName": "N102",
+  "stats": {
+    "rarity": "SR",
+    "element": "수냉",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "리콜&릴리즈",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1.5,
+    "fireRate": 1,
+    "fullChargeDamage": 350,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "노트 위의 기억",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "노트 위의 기억",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "count",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        2.45,
-                        3.33,
-                        4.2,
-                        5.08,
-                        5.96,
-                        6.83,
-                        7.71,
-                        8.59,
-                        9.46,
-                        10.34
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "count",
+          "duration": 10
         },
         {
-            "id": "skill_2",
-            "name": "부상하는 기억",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        11.3,
-                        12.92,
-                        14.53,
-                        16.15,
-                        17.76,
-                        19.38,
-                        21,
-                        22.61,
-                        24.23,
-                        25.84
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "파란 나비의 기억",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        11.31,
-                        12.93,
-                        14.54,
-                        16.16,
-                        17.77,
-                        19.39,
-                        21.01,
-                        22.62,
-                        24.24,
-                        25.86
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            2.45,
+            3.33,
+            4.2,
+            5.08,
+            5.96,
+            6.83,
+            7.71,
+            8.59,
+            9.46,
+            10.34
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "부상하는 기억",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            11.3,
+            12.92,
+            14.53,
+            16.15,
+            17.76,
+            19.38,
+            21,
+            22.61,
+            24.23,
+            25.84
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "파란 나비의 기억",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            11.31,
+            12.93,
+            14.54,
+            16.16,
+            17.77,
+            19.39,
+            21.01,
+            22.62,
+            24.24,
+            25.86
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

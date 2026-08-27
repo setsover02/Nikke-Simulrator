@@ -1,121 +1,121 @@
 {
-    "characterID": "Neon",
-    "characterName": "네온",
-    "stats": {
-        "rarity": "SR",
-        "element": "작열",
-        "weapon": "SG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "카운터스",
-        "burstLevel": 1,
-        "atkCoef": 224.5,
-        "maxAmmo": 9,
-        "reloadTime": 0.6,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Neon",
+  "characterName": "네온",
+  "stats": {
+    "rarity": "SR",
+    "element": "작열",
+    "weapon": "SG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "카운터스",
+    "burstLevel": 1,
+    "atkCoef": 224.5,
+    "maxAmmo": 9,
+    "reloadTime": 0.6,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "네온 특제탄",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "네온 특제탄",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "kill_enemy",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        1.78,
-                        1.97,
-                        2.17,
-                        2.37,
-                        2.57,
-                        2.77,
-                        2.96,
-                        3.16,
-                        3.36,
-                        3.56
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "화력 만세!",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        22.96,
-                        25.52,
-                        28.07,
-                        30.62,
-                        33.17,
-                        35.72,
-                        38.28,
-                        40.83,
-                        43.38,
-                        45.93
-                    ],
-                    "unit": "percent",
-                    "bullet": 2
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "오직 화력!",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "skill_damage",
-                    "value": [
-                        198.36,
-                        235.1,
-                        271.83,
-                        308.57,
-                        345.3,
-                        382.04,
-                        418.77,
-                        455.51,
-                        492.24,
-                        528.97
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_weapon:SG",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "count",
-                    "duration": 10
-                }
-            ]
+          "trigger": "kill_enemy",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            1.78,
+            1.97,
+            2.17,
+            2.37,
+            2.57,
+            2.77,
+            2.96,
+            3.16,
+            3.36,
+            3.56
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "화력 만세!",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            22.96,
+            25.52,
+            28.07,
+            30.62,
+            33.17,
+            35.72,
+            38.28,
+            40.83,
+            43.38,
+            45.93
+          ],
+          "unit": "percent",
+          "bullet": 2
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "오직 화력!",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "damage",
+          "value": [
+            198.36,
+            235.1,
+            271.83,
+            308.57,
+            345.3,
+            382.04,
+            418.77,
+            455.51,
+            492.24,
+            528.97
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_weapon:SG",
+          "effect": "max_ammo_pct",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "count",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

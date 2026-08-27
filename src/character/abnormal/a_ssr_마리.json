@@ -1,180 +1,180 @@
 {
-    "characterID": "Mari",
-    "characterName": "마리",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Abnormal",
-        "squad": "NERV",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Mari",
+  "characterName": "마리",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Abnormal",
+    "squad": "NERV",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "일점 저격",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "일점 저격",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "shield",
-                    "value": [
-                        59.17,
-                        63.72,
-                        68.27,
-                        72.81,
-                        77.36,
-                        81.9,
-                        86.45,
-                        91,
-                        95.54,
-                        100.09
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 3
-                },
-                {
-                    "trigger": "core_hit",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        24.25,
-                        26.11,
-                        27.97,
-                        29.83,
-                        31.69,
-                        33.55,
-                        35.41,
-                        37.27,
-                        39.13,
-                        40.99
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "shield",
+          "value": [
+            59.17,
+            63.72,
+            68.27,
+            72.81,
+            77.36,
+            81.9,
+            86.45,
+            91,
+            95.54,
+            100.09
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 3
         },
         {
-            "id": "skill_2",
-            "name": "정신 집중",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        17.98,
-                        19.4,
-                        20.82,
-                        22.25,
-                        23.67,
-                        25.09,
-                        26.52,
-                        27.94,
-                        29.36,
-                        30.78
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        18.17,
-                        19.57,
-                        20.97,
-                        22.37,
-                        23.77,
-                        25.17,
-                        26.57,
-                        27.98,
-                        29.38,
-                        30.78
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "좌표 유도식 미사일",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        363.63,
-                        394.27,
-                        424.9,
-                        455.54,
-                        486.18,
-                        516.81,
-                        547.45,
-                        578.08,
-                        608.72,
-                        639.36
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        24.25,
-                        26.11,
-                        27.97,
-                        29.83,
-                        31.69,
-                        33.55,
-                        35.41,
-                        37.27,
-                        39.13,
-                        40.99
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "core_hit",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            24.25,
+            26.11,
+            27.97,
+            29.83,
+            31.69,
+            33.55,
+            35.41,
+            37.27,
+            39.13,
+            40.99
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "정신 집중",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            17.98,
+            19.4,
+            20.82,
+            22.25,
+            23.67,
+            25.09,
+            26.52,
+            27.94,
+            29.36,
+            30.78
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            18.17,
+            19.57,
+            20.97,
+            22.37,
+            23.77,
+            25.17,
+            26.57,
+            27.98,
+            29.38,
+            30.78
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "좌표 유도식 미사일",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            363.63,
+            394.27,
+            424.9,
+            455.54,
+            486.18,
+            516.81,
+            547.45,
+            578.08,
+            608.72,
+            639.36
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            24.25,
+            26.11,
+            27.97,
+            29.83,
+            31.69,
+            33.55,
+            35.41,
+            37.27,
+            39.13,
+            40.99
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

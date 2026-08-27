@@ -1,160 +1,160 @@
 {
-    "characterID": "Char_160",
-    "characterName": "유니",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Missilis",
-        "squad": "워드리스",
-        "burstLevel": 2,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1.5,
-        "fireRate": 1,
-        "fullChargeDamage": 350,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_160",
+  "characterName": "유니",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Missilis",
+    "squad": "워드리스",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1.5,
+    "fireRate": 1,
+    "fullChargeDamage": 350,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "DMNS",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "DMNS",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        4.93,
-                        5.38,
-                        5.83,
-                        6.28,
-                        6.73,
-                        7.18,
-                        7.63,
-                        8.08,
-                        8.53,
-                        8.97
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "SDS",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        1.52,
-                        1.66,
-                        1.8,
-                        1.94,
-                        2.07,
-                        2.21,
-                        2.35,
-                        2.49,
-                        2.63,
-                        2.77
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.52,
-                        1.66,
-                        1.8,
-                        1.94,
-                        2.07,
-                        2.21,
-                        2.35,
-                        2.49,
-                        2.63,
-                        2.77
-                    ],
-                    "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "BDG",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        172.4,
-                        192,
-                        211.59,
-                        231.18,
-                        250.77,
-                        270.36,
-                        289.95,
-                        309.55,
-                        329.14,
-                        348.73
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "stun",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "charge_speed_pct",
+          "value": [
+            4.93,
+            5.38,
+            5.83,
+            6.28,
+            6.73,
+            7.18,
+            7.63,
+            8.08,
+            8.53,
+            8.97
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "SDS",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            1.52,
+            1.66,
+            1.8,
+            1.94,
+            2.07,
+            2.21,
+            2.35,
+            2.49,
+            2.63,
+            2.77
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.52,
+            1.66,
+            1.8,
+            1.94,
+            2.07,
+            2.21,
+            2.35,
+            2.49,
+            2.63,
+            2.77
+          ],
+          "unit": "percent",
+          "based_on": "attack_damage",
+          "duration": 10
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "max_ammo_pct",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "BDG",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            172.4,
+            192,
+            211.59,
+            231.18,
+            250.77,
+            270.36,
+            289.95,
+            309.55,
+            329.14,
+            348.73
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "stun",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

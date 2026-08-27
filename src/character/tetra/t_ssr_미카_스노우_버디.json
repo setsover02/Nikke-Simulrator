@@ -1,142 +1,142 @@
 {
-    "characterID": "Char_62",
-    "characterName": "미카 : 스노우 버디",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SMG",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "리틀 캐논",
-        "burstLevel": 1,
-        "atkCoef": 11.7,
-        "maxAmmo": 120,
-        "reloadTime": 2,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 250,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_62",
+  "characterName": "미카 : 스노우 버디",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SMG",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "리틀 캐논",
+    "burstLevel": 1,
+    "atkCoef": 11.7,
+    "maxAmmo": 120,
+    "reloadTime": 2,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 250,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "정리정돈",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "정리정돈",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:120",
-                    "target": "all_allies",
-                    "effect": "received_dmg",
-                    "status": "정리정돈",
-                    "value": [
-                        1.1,
-                        1.2,
-                        1.3,
-                        1.4,
-                        1.5,
-                        1.6,
-                        1.7,
-                        1.8,
-                        1.9,
-                        2
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "stack": 10
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "all_allies",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        22,
-                        24,
-                        26,
-                        28,
-                        30,
-                        32,
-                        34,
-                        36,
-                        38,
-                        40
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "hit_count:120",
+          "target": "all_allies",
+          "effect": "received_dmg",
+          "status": "정리정돈",
+          "value": [
+            1.1,
+            1.2,
+            1.3,
+            1.4,
+            1.5,
+            1.6,
+            1.7,
+            1.8,
+            1.9,
+            2
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "stack": 10
         },
         {
-            "id": "skill_2",
-            "name": "응원의 축포",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "burst_gauge_charge_speed_up",
-                    "value": [
-                        120,
-                        140,
-                        160,
-                        180,
-                        200,
-                        220,
-                        240,
-                        260,
-                        280,
-                        300
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "설온제",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        23.59,
-                        25.41,
-                        27.22,
-                        29.04,
-                        30.85,
-                        32.67,
-                        34.49,
-                        36.3,
-                        38.12,
-                        39.93
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 5
-                }
-            ]
+          "trigger": "max_stack_applied",
+          "target": "all_allies",
+          "effect": "max_ammo_pct",
+          "value": [
+            22,
+            24,
+            26,
+            28,
+            30,
+            32,
+            34,
+            36,
+            38,
+            40
+          ],
+          "unit": "percent",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "응원의 축포",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "burst_charge_speed_pct",
+          "value": [
+            120,
+            140,
+            160,
+            180,
+            200,
+            220,
+            240,
+            260,
+            280,
+            300
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "설온제",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            23.59,
+            25.41,
+            27.22,
+            29.04,
+            30.85,
+            32.67,
+            34.49,
+            36.3,
+            38.12,
+            39.93
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 5
+        }
+      ]
+    }
+  ]
 }

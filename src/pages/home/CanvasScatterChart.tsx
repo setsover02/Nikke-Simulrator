@@ -176,23 +176,38 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
             ctx.strokeRect(toX(s), PT, toX(e) - toX(s), graphH);
         });
 
-        // Draw scatter points
+        // Draw scatter points — dmgType별 시각적 구분
         datasets.forEach(ds => {
-            ctx.fillStyle = ds.color;
-            ctx.strokeStyle = ds.color;
-            ctx.lineWidth = 1;
-            ds.data.forEach(pt => {
+            ds.data.forEach((pt: any) => {
                 const x = toX(pt.time);
                 const y = toY(pt.value);
-                // Only draw if within visible range (with some padding)
-                if (x >= PL - 5 && x <= W - PR + 5) {
+                if (x < PL - 5 || x > W - PR + 5) return;
+
+                const isDot = pt.dmgType === 'dot_damage';
+                const radius = isDot ? 2.5 : 3.5;
+                const alpha = isDot ? 0.55 : 0.85;
+
+                ctx.globalAlpha = alpha;
+                ctx.fillStyle = ds.color;
+
+                if (isDot) {
+                    // DoT: 다이아몬드 형태
                     ctx.beginPath();
-                    ctx.arc(x, y, 3, 0, 2 * Math.PI);
+                    ctx.moveTo(x, y - radius);
+                    ctx.lineTo(x + radius, y);
+                    ctx.lineTo(x, y + radius);
+                    ctx.lineTo(x - radius, y);
+                    ctx.closePath();
                     ctx.fill();
-                    ctx.stroke();
+                } else {
+                    // 스킬 대미지: 원형
+                    ctx.beginPath();
+                    ctx.arc(x, y, radius, 0, 2 * Math.PI);
+                    ctx.fill();
                 }
             });
         });
+        ctx.globalAlpha = 1;
 
         // Draw hover effects
         if (hoverInfo && hoverInfo.points.length > 0) {
@@ -241,6 +256,17 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         ctx.textAlign = 'left';
         ctx.font = 'bold 13px monospace';
         ctx.fillText(title, PL, PT - 28);
+
+        // 우측 상단: 총 데미지 인스턴스 수
+        const totalPoints = datasets.reduce((s, ds) => s + ds.data.length, 0);
+        if (totalPoints > 0) {
+            const dotCount = datasets.reduce((s, ds) => s + ds.data.filter((p: any) => p.dmgType === 'dot_damage').length, 0);
+            const skillCount = totalPoints - dotCount;
+            ctx.font = '10px monospace';
+            ctx.fillStyle = '#555';
+            ctx.textAlign = 'right';
+            ctx.fillText(`Skill: ${skillCount}  DoT: ${dotCount}`, W - PR, PT - 28);
+        }
 
         const isZoomed = vMin > 0 || vMax < absMaxTime - 0.1;
         if (isZoomed) {
@@ -335,10 +361,10 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         const toY = (v: number) => canvas.height - PB - (v / maxY) * graphH;
 
         const hitRadius = 10;
-        let matchedPoints: { label: string; color: string; time: number; value: number; description: string; skillName: string }[] = [];
+        let matchedPoints: { label: string; color: string; time: number; value: number; description: string; skillName: string; dmgType?: string }[] = [];
 
         datasets.forEach(ds => {
-            ds.data.forEach(pt => {
+            ds.data.forEach((pt: any) => {
                 const px = toX(pt.time);
                 const py = toY(pt.value);
                 if (Math.hypot(px - canvasX, py - canvasY) <= hitRadius) {
@@ -349,6 +375,7 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                         value: pt.value,
                         description: pt.description,
                         skillName: pt.skillName || '',
+                        dmgType: pt.dmgType,
                     });
                 }
             });
@@ -414,14 +441,21 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                                     {Math.floor(pt.value).toLocaleString()}
                                 </Font>
                             </div>
-                            <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
-                                ⚡ {pt.skillName || pt.description || '일반 스킬'}
+                            {/* dmgType 배지 */}
+                            <div style={{ paddingLeft: '12px', marginBottom: '2px' }}>
+                                <span style={{
+                                    fontSize: '10px',
+                                    padding: '1px 5px',
+                                    borderRadius: '3px',
+                                    background: (pt as any).dmgType === 'dot_damage' ? 'rgba(255,100,100,0.2)' : 'rgba(79,195,247,0.15)',
+                                    color: (pt as any).dmgType === 'dot_damage' ? '#ff8080' : '#4fc3f7',
+                                }}>
+                                    {(pt as any).dmgType === 'dot_damage' ? '◆ DoT' : '● Skill'}
+                                </span>
                             </div>
-                            {pt.skillName && pt.description && (
-                                <div style={{ color: '#81c784', fontSize: '11px', paddingLeft: '12px' }}>
-                                    🎯 {pt.skillName}
-                                </div>
-                            )}
+                            <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
+                                {pt.skillName || pt.description || '스킬 대미지'}
+                            </div>
                         </div>
                     ))}
                     {(() => {

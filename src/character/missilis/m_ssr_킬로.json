@@ -1,204 +1,204 @@
 {
-    "characterID": "Char_361",
-    "characterName": "킬로",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "MG",
-        "class": "방어형",
-        "company": "Missilis",
-        "squad": "헤비그램",
-        "burstLevel": 3,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_361",
+  "characterName": "킬로",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "방어형",
+    "company": "Missilis",
+    "squad": "헤비그램",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "나노 코팅",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "나노 코팅",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "nano_coating",
-                    "value": [
-                        11.61,
-                        12.67,
-                        13.72,
-                        14.78,
-                        15.84,
-                        16.89,
-                        17.95,
-                        19,
-                        20.06,
-                        21.12
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "nano_coating",
-                    "value": [
-                        11.61,
-                        12.67,
-                        13.72,
-                        14.78,
-                        15.84,
-                        16.89,
-                        17.95,
-                        19,
-                        20.06,
-                        21.12
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "shield",
+          "status": "nano_coating",
+          "value": [
+            11.61,
+            12.67,
+            13.72,
+            14.78,
+            15.84,
+            16.89,
+            17.95,
+            19,
+            20.06,
+            21.12
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
         },
         {
-            "id": "skill_2",
-            "name": "자가 수복",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:200",
-                    "target": "self",
-                    "effect": "shield_hp_heal",
-                    "value": [
-                        1.57,
-                        1.71,
-                        1.85,
-                        2,
-                        2.14,
-                        2.28,
-                        2.42,
-                        2.57,
-                        2.71,
-                        2.85
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "next_shield_hp_up",
-                    "value": [
-                        9.76,
-                        10.65,
-                        11.54,
-                        12.42,
-                        13.32,
-                        14.2,
-                        15.09,
-                        15.98,
-                        16.86,
-                        17.75
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "next_shield_hp_up",
-                    "value": [
-                        14.66,
-                        16,
-                        17.33,
-                        18.66,
-                        20,
-                        21.33,
-                        22.66,
-                        24,
-                        25.33,
-                        26.66
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 2
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "next_shield_hp_up",
-                    "value": [
-                        19.54,
-                        21.32,
-                        23.1,
-                        24.87,
-                        26.66,
-                        28.43,
-                        30.2,
-                        31.99,
-                        33.76,
-                        35.53
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 3
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "우선 순위 지정",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "percent",
-                    "based_on": "final_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        26.4,
-                        28.8,
-                        31.2,
-                        33.6,
-                        36,
-                        38.4,
-                        40.8,
-                        43.2,
-                        45.6,
-                        48
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "shield",
+          "status": "nano_coating",
+          "value": [
+            11.61,
+            12.67,
+            13.72,
+            14.78,
+            15.84,
+            16.89,
+            17.95,
+            19,
+            20.06,
+            21.12
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "자가 수복",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:200",
+          "target": "self",
+          "effect": "shield_hp_heal",
+          "value": [
+            1.57,
+            1.71,
+            1.85,
+            2,
+            2.14,
+            2.28,
+            2.42,
+            2.57,
+            2.71,
+            2.85
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "next_shield_hp_pct",
+          "value": [
+            9.76,
+            10.65,
+            11.54,
+            12.42,
+            13.32,
+            14.2,
+            15.09,
+            15.98,
+            16.86,
+            17.75
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "next_shield_hp_pct",
+          "value": [
+            14.66,
+            16,
+            17.33,
+            18.66,
+            20,
+            21.33,
+            22.66,
+            24,
+            25.33,
+            26.66
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 2
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "next_shield_hp_pct",
+          "value": [
+            19.54,
+            21.32,
+            23.1,
+            24.87,
+            26.66,
+            28.43,
+            30.2,
+            31.99,
+            33.76,
+            35.53
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 3
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "우선 순위 지정",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "unit": "percent",
+          "based_on": "final_hp"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            26.4,
+            28.8,
+            31.2,
+            33.6,
+            36,
+            38.4,
+            40.8,
+            43.2,
+            45.6,
+            48
+          ],
+          "unit": "percent",
+          "duration": 20
+        }
+      ]
+    }
+  ]
 }

@@ -1,218 +1,218 @@
 {
-    "characterID": "Char_441",
-    "characterName": "아비스타",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "MG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "오버시어",
-        "burstLevel": 1,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_441",
+  "characterName": "아비스타",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "MG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "오버시어",
+    "burstLevel": 1,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "애프터쇼",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "애프터쇼",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "애프터 쇼",
-                    "value": [
-                        47.42,
-                        51.07,
-                        54.72,
-                        58.37,
-                        62.02,
-                        65.66,
-                        69.31,
-                        72.96,
-                        76.61,
-                        80.26
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        2.08,
-                        2.24,
-                        2.4,
-                        2.56,
-                        2.72,
-                        2.88,
-                        3.04,
-                        3.2,
-                        3.36,
-                        3.52
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10,
-                    "interval": 1
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "애프터 쇼",
+          "value": [
+            47.42,
+            51.07,
+            54.72,
+            58.37,
+            62.02,
+            65.66,
+            69.31,
+            72.96,
+            76.61,
+            80.26
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk"
         },
         {
-            "id": "skill_2",
-            "name": "애프터 글러우",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "current_hp_down",
-                    "condition": "self_hp_above:25",
-                    "value": [
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        23.71,
-                        25.54,
-                        27.36,
-                        29.18,
-                        31.01,
-                        32.83,
-                        34.66,
-                        36.48,
-                        38.3,
-                        40.13
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        23.71,
-                        25.54,
-                        27.36,
-                        29.18,
-                        31.01,
-                        32.83,
-                        34.66,
-                        36.48,
-                        38.3,
-                        40.13
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "burst",
-            "name": "스타게이저",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "burst_reenter",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "status": "스타게이저",
-                    "value": [
-                        15.6,
-                        16.8,
-                        18,
-                        19.2,
-                        20.4,
-                        21.6,
-                        22.8,
-                        24,
-                        25.2,
-                        26.4
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            2.08,
+            2.24,
+            2.4,
+            2.56,
+            2.72,
+            2.88,
+            3.04,
+            3.2,
+            3.36,
+            3.52
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 10,
+          "interval": 1
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "애프터 글러우",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "current_hp_reduce",
+          "condition": "self_hp_above:25",
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            23.71,
+            25.54,
+            27.36,
+            29.18,
+            31.01,
+            32.83,
+            34.66,
+            36.48,
+            38.3,
+            40.13
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            23.71,
+            25.54,
+            27.36,
+            29.18,
+            31.01,
+            32.83,
+            34.66,
+            36.48,
+            38.3,
+            40.13
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "스타게이저",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "burst_reenter",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "status": "스타게이저",
+          "value": [
+            15.6,
+            16.8,
+            18,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24,
+            25.2,
+            26.4
+          ],
+          "unit": "percent",
+          "based_on": "caster_max_hp",
+          "duration": "permanent"
+        }
+      ]
+    }
+  ]
 }

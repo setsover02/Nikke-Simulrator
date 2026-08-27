@@ -1,194 +1,194 @@
 {
-    "characterID": "Char_821",
-    "characterName": "에밀리아",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "에밀리아 진영",
-        "burstLevel": 3,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_821",
+  "characterName": "에밀리아",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "에밀리아 진영",
+    "burstLevel": 3,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "미정령의 축복",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "미정령의 축복",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        8.92,
-                        9.37,
-                        9.83,
-                        10.28,
-                        10.74,
-                        11.19,
-                        11.65,
-                        12.1,
-                        12.55,
-                        13.01
-                    ],
-                    "unit": "percent",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        1.39,
-                        1.46,
-                        1.53,
-                        1.6,
-                        1.67,
-                        1.74,
-                        1.81,
-                        1.88,
-                        1.95,
-                        2.01
-                    ],
-                    "unit": "percent",
-                    "based_on": "final_max_ammo",
-                    "bullet": 1
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "charge_speed_pct",
+          "value": [
+            8.92,
+            9.37,
+            9.83,
+            10.28,
+            10.74,
+            11.19,
+            11.65,
+            12.1,
+            12.55,
+            13.01
+          ],
+          "unit": "percent",
+          "bullet": 1
         },
         {
-            "id": "skill_2",
-            "name": "대정령의 철퇴",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "buff",
-                    "value": [
-                        41.32,
-                        43.28,
-                        45.25,
-                        47.21,
-                        49.18,
-                        51.14,
-                        53.1,
-                        55.07,
-                        57.03,
-                        58.99
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        2,
-                        2,
-                        2,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "count",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "빙결의 마녀",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "explosion_range_up",
-                    "value": [
-                        59.82,
-                        64.42,
-                        69.03,
-                        73.63,
-                        78.23,
-                        82.83,
-                        87.43,
-                        92.04,
-                        96.64,
-                        101.24
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300,
-                        300
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        842.4,
-                        893.3,
-                        944.2,
-                        995.11,
-                        1046.01,
-                        1096.92,
-                        1147.82,
-                        1198.72,
-                        1249.63,
-                        1300.53
-                    ],
-                    "unit": "percent"
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            1.39,
+            1.46,
+            1.53,
+            1.6,
+            1.67,
+            1.74,
+            1.81,
+            1.88,
+            1.95,
+            2.01
+          ],
+          "unit": "percent",
+          "based_on": "final_max_ammo",
+          "bullet": 1
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "대정령의 철퇴",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "buff",
+          "value": [
+            41.32,
+            43.28,
+            45.25,
+            47.21,
+            49.18,
+            51.14,
+            53.1,
+            55.07,
+            57.03,
+            58.99
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            1,
+            1,
+            1,
+            2,
+            2,
+            2,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "count",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "빙결의 마녀",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "explosion_range",
+          "value": [
+            59.82,
+            64.42,
+            69.03,
+            73.63,
+            78.23,
+            82.83,
+            87.43,
+            92.04,
+            96.64,
+            101.24
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_speed_pct",
+          "value": [
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300,
+            300
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            842.4,
+            893.3,
+            944.2,
+            995.11,
+            1046.01,
+            1096.92,
+            1147.82,
+            1198.72,
+            1249.63,
+            1300.53
+          ],
+          "unit": "percent"
+        }
+      ]
+    }
+  ]
 }

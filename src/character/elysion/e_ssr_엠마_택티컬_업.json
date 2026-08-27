@@ -1,366 +1,366 @@
 {
-    "characterID": "Char_93",
-    "characterName": "엠마 : 택티컬 업",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "MG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "앱솔루트",
-        "burstLevel": 1,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_93",
+  "characterName": "엠마 : 택티컬 업",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "앱솔루트",
+    "burstLevel": 1,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "환경 조성",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "환경 조성",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "received_dmg",
-                    "value": [
-                        2.3,
-                        2.48,
-                        2.66,
-                        2.84,
-                        3.01,
-                        3.19,
-                        3.37,
-                        3.55,
-                        3.72,
-                        3.9
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "status": "환경 조성",
-                    "value": [
-                        1.37,
-                        1.47,
-                        1.58,
-                        1.68,
-                        1.79,
-                        1.9,
-                        2,
-                        2.11,
-                        2.21,
-                        2.32
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10,
-                    "interval": 1
-                },
-                {
-                    "trigger": "enemy_spawn",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "enemy_spawn",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "enemy_spawn",
-                    "target": "self",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "skill_2",
-            "name": "포메이션 LT",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        13.89,
-                        14.96,
-                        16.03,
-                        17.1,
-                        18.16,
-                        19.23,
-                        20.3,
-                        21.37,
-                        22.44,
-                        23.51
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "value": [
-                        1.37,
-                        1.47,
-                        1.58,
-                        1.68,
-                        1.79,
-                        1.9,
-                        2,
-                        2.11,
-                        2.21,
-                        2.32
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        18.3,
-                        19.71,
-                        21.12,
-                        22.52,
-                        23.93,
-                        25.34,
-                        26.75,
-                        28.16,
-                        29.56,
-                        30.97
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "value": [
-                        1.83,
-                        1.97,
-                        2.11,
-                        2.25,
-                        2.39,
-                        2.53,
-                        2.67,
-                        2.81,
-                        2.95,
-                        3.09
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "received_dmg",
+          "value": [
+            2.3,
+            2.48,
+            2.66,
+            2.84,
+            3.01,
+            3.19,
+            3.37,
+            3.55,
+            3.72,
+            3.9
+          ],
+          "unit": "percent",
+          "duration": 10
         },
         {
-            "id": "burst",
-            "name": "전장 조성",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "status": "전장 조성",
-                    "value": [
-                        23.68,
-                        25.5,
-                        27.32,
-                        29.14,
-                        30.96,
-                        32.78,
-                        34.61,
-                        36.43,
-                        38.25,
-                        40.07
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        17.16,
-                        18.48,
-                        19.8,
-                        21.12,
-                        22.44,
-                        23.76,
-                        25.08,
-                        26.4,
-                        27.72,
-                        29.04
-                    ],
-                    "unit": "percent"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "status": "환경 조성",
+          "value": [
+            1.37,
+            1.47,
+            1.58,
+            1.68,
+            1.79,
+            1.9,
+            2,
+            2.11,
+            2.21,
+            2.32
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 10,
+          "interval": 1
+        },
+        {
+          "trigger": "enemy_spawn",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "enemy_spawn",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "enemy_spawn",
+          "target": "self",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": "permanent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "포메이션 LT",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "crit_dmg",
+          "value": [
+            13.89,
+            14.96,
+            16.03,
+            17.1,
+            18.16,
+            19.23,
+            20.3,
+            21.37,
+            22.44,
+            23.51
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "buff",
+          "value": [
+            1.37,
+            1.47,
+            1.58,
+            1.68,
+            1.79,
+            1.9,
+            2,
+            2.11,
+            2.21,
+            2.32
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            18.3,
+            19.71,
+            21.12,
+            22.52,
+            23.93,
+            25.34,
+            26.75,
+            28.16,
+            29.56,
+            30.97
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "buff",
+          "value": [
+            1.83,
+            1.97,
+            2.11,
+            2.25,
+            2.39,
+            2.53,
+            2.67,
+            2.81,
+            2.95,
+            3.09
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "duration": "permanent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "전장 조성",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "status": "전장 조성",
+          "value": [
+            23.68,
+            25.5,
+            27.32,
+            29.14,
+            30.96,
+            32.78,
+            34.61,
+            36.43,
+            38.25,
+            40.07
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            17.16,
+            18.48,
+            19.8,
+            21.12,
+            22.44,
+            23.76,
+            25.08,
+            26.4,
+            27.72,
+            29.04
+          ],
+          "unit": "percent"
+        }
+      ]
+    }
+  ]
 }

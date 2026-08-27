@@ -1,182 +1,182 @@
 {
-    "characterID": "2B",
-    "characterName": "2B",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "AR",
-        "class": "방어형",
-        "company": "Abnormal",
-        "squad": "요르하",
-        "burstLevel": 3,
-        "atkCoef": 5.99,
-        "maxAmmo": 90,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "2B",
+  "characterName": "2B",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "AR",
+    "class": "방어형",
+    "company": "Abnormal",
+    "squad": "요르하",
+    "burstLevel": 3,
+    "atkCoef": 5.99,
+    "maxAmmo": 90,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "생존 행동",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "생존 행동",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        5.92,
-                        6.38,
-                        6.84,
-                        7.29,
-                        7.75,
-                        8.2,
-                        8.66,
-                        9.12,
-                        9.57,
-                        10.03
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        11.85,
-                        12.76,
-                        13.68,
-                        14.59,
-                        15.5,
-                        16.41,
-                        17.32,
-                        18.24,
-                        19.15,
-                        20.06
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 2
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        34.13,
-                        36.75,
-                        39.38,
-                        42,
-                        44.63,
-                        47.25,
-                        49.88,
-                        52.5,
-                        55.13,
-                        57.76
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack_level": 3
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            5.92,
+            6.38,
+            6.84,
+            7.29,
+            7.75,
+            8.2,
+            8.66,
+            9.12,
+            9.57,
+            10.03
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 1
         },
         {
-            "id": "skill_2",
-            "name": "클러스터 봄",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        98.94,
-                        106.56,
-                        114.17,
-                        121.78,
-                        129.39,
-                        137,
-                        144.61,
-                        152.22,
-                        159.84,
-                        167.45
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        3.64,
-                        3.92,
-                        4.2,
-                        4.48,
-                        4.76,
-                        5.04,
-                        5.32,
-                        5.6,
-                        5.88,
-                        6.16
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            11.85,
+            12.76,
+            13.68,
+            14.59,
+            15.5,
+            16.41,
+            17.32,
+            18.24,
+            19.15,
+            20.06
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 2
         },
         {
-            "id": "burst",
-            "name": "연속 공격",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        1441.44,
-                        1552.32,
-                        1663.2,
-                        1774.08,
-                        1884.96,
-                        1995.84,
-                        2106.72,
-                        2217.6,
-                        2328.48,
-                        2439.36
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "extra_damage",
-                    "value": [
-                        468,
-                        504,
-                        540,
-                        576,
-                        612,
-                        648,
-                        684,
-                        720,
-                        756,
-                        792
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            34.13,
+            36.75,
+            39.38,
+            42,
+            44.63,
+            47.25,
+            49.88,
+            52.5,
+            55.13,
+            57.76
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack_level": 3
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "클러스터 봄",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            98.94,
+            106.56,
+            114.17,
+            121.78,
+            129.39,
+            137,
+            144.61,
+            152.22,
+            159.84,
+            167.45
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            3.64,
+            3.92,
+            4.2,
+            4.48,
+            4.76,
+            5.04,
+            5.32,
+            5.6,
+            5.88,
+            6.16
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "연속 공격",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "split_dmg_pct",
+          "value": [
+            1441.44,
+            1552.32,
+            1663.2,
+            1774.08,
+            1884.96,
+            1995.84,
+            2106.72,
+            2217.6,
+            2328.48,
+            2439.36
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "extra_damage",
+          "value": [
+            468,
+            504,
+            540,
+            576,
+            612,
+            648,
+            684,
+            720,
+            756,
+            792
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

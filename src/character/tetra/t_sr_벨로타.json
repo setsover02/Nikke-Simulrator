@@ -1,140 +1,140 @@
 {
-    "characterID": "Char_60",
-    "characterName": "벨로타",
-    "stats": {
-        "rarity": "SR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Tetra",
-        "squad": "리틀 캐논",
-        "burstLevel": 2,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1.5,
-        "fireRate": 1,
-        "fullChargeDamage": 350,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_60",
+  "characterName": "벨로타",
+  "stats": {
+    "rarity": "SR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Tetra",
+    "squad": "리틀 캐논",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1.5,
+    "fireRate": 1,
+    "fullChargeDamage": 350,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "서프라이즈",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "서프라이즈",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "explosion_range_up",
-                    "value": [
-                        3.41,
-                        4.09,
-                        4.77,
-                        5.46,
-                        6.14,
-                        6.82,
-                        7.5,
-                        8.18,
-                        8.87,
-                        9.55
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "그리디",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "enemy_def_down_pct",
-                    "value": [
-                        1.25,
-                        1.51,
-                        1.76,
-                        2.01,
-                        2.26,
-                        2.51,
-                        2.77,
-                        3.02,
-                        3.27,
-                        3.52
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "extra_damage",
-                    "value": [
-                        5.34,
-                        6.41,
-                        7.48,
-                        8.55,
-                        9.61,
-                        10.68,
-                        11.75,
-                        12.82,
-                        13.89,
-                        14.96
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "트릭키 봄버",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        68.57,
-                        82.28,
-                        95.99,
-                        109.71,
-                        123.42,
-                        137.14,
-                        150.85,
-                        164.57,
-                        178.28,
-                        192
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        1.01,
-                        1.21,
-                        1.41,
-                        1.61,
-                        1.81,
-                        2.02,
-                        2.22,
-                        2.42,
-                        2.62,
-                        2.82
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "explosion_range",
+          "value": [
+            3.41,
+            4.09,
+            4.77,
+            5.46,
+            6.14,
+            6.82,
+            7.5,
+            8.18,
+            8.87,
+            9.55
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "그리디",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "target",
+          "effect": "enemy_def_down_pct",
+          "value": [
+            1.25,
+            1.51,
+            1.76,
+            2.01,
+            2.26,
+            2.51,
+            2.77,
+            3.02,
+            3.27,
+            3.52
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "passive",
+          "target": "target",
+          "effect": "extra_damage",
+          "value": [
+            5.34,
+            6.41,
+            7.48,
+            8.55,
+            9.61,
+            10.68,
+            11.75,
+            12.82,
+            13.89,
+            14.96
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "트릭키 봄버",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            68.57,
+            82.28,
+            95.99,
+            109.71,
+            123.42,
+            137.14,
+            150.85,
+            164.57,
+            178.28,
+            192
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "charge_speed_pct",
+          "value": [
+            1.01,
+            1.21,
+            1.41,
+            1.61,
+            1.81,
+            2.02,
+            2.22,
+            2.42,
+            2.62,
+            2.82
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

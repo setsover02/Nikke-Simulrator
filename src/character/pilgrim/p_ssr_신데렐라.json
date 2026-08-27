@@ -1,219 +1,220 @@
 {
-    "characterID": "Char_511",
-    "characterName": "신데렐라",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Pilgrim",
-        "squad": "올드 테일즈",
-        "burstLevel": 3,
-        "atkCoef": 32.11,
-        "maxAmmo": 24,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 3,
-        "fullChargeDamage": 200,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_511",
+  "characterName": "신데렐라",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Pilgrim",
+    "squad": "올드 테일즈",
+    "burstLevel": 3,
+    "atkCoef": 32.11,
+    "maxAmmo": 24,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 3,
+    "fullChargeDamage": 200,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "무결한 유리",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "무결한 유리",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_enter:3",
-                    "target": "self",
-                    "effect": "atk_from_hp_pct",
-                    "value": [
-                        1.7,
-                        1.8,
-                        1.92,
-                        2.02,
-                        2.13,
-                        2.26,
-                        2.36,
-                        2.49,
-                        2.58,
-                        2.71
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "무결한 유리",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "self",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무결한 유리 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:full_reload",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "무결한 유리 3",
-                    "type": "instant",
-                    "target_effect": "무결한 유리"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        80.72,
-                        86.94,
-                        93.13,
-                        99.35,
-                        105.55,
-                        111.76,
-                        117.98,
-                        124.19,
-                        130.39,
-                        136.6
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "무결한 유리 4",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "burst_enter:3",
+          "target": "self",
+          "effect": "atk_from_hp_pct",
+          "value": [
+            1.7,
+            1.8,
+            1.92,
+            2.02,
+            2.13,
+            2.26,
+            2.36,
+            2.49,
+            2.58,
+            2.71
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "무결한 유리",
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "더러워지지 않는 거울",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "decoy",
-                    "value": [
-                        52.8,
-                        57.6,
-                        62.4,
-                        67.2,
-                        72,
-                        76.8,
-                        81.6,
-                        86.4,
-                        91.2,
-                        96
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "디코이",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "every:3s",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        0.98,
-                        1.07,
-                        1.13,
-                        1.2,
-                        1.28,
-                        1.33,
-                        1.38,
-                        1.46,
-                        1.54,
-                        1.6
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "아름다움",
-                    "type": "buff",
-                    "condition": "self_state:디코이",
-                    "stack": 12
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "self",
+          "effect": "charge_speed_pct",
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "무결한 유리 2",
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "유리 구두 풀 컨텍트",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_random",
-                    "effect": "sequential_damage:10",
-                    "value": [
-                        853.7,
-                        910.62,
-                        967.5,
-                        1024.46,
-                        1081.38,
-                        1138.26,
-                        1195.16,
-                        1252.08,
-                        1309,
-                        1365.92
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "유리 구두 풀 컨텍트",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target:유리 구두 풀 컨텍트",
-                    "effect": "bonus_damage",
-                    "value": [
-                        18.07,
-                        19.28,
-                        20.49,
-                        21.68,
-                        22.88,
-                        24.09,
-                        25.3,
-                        26.5,
-                        27.69,
-                        28.9
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "유리 구두 풀 컨텍트 2",
-                    "type": "damage",
-                    "condition": "self_state:아름다움",
-                    "scaling": "stack_count",
-                    "scaling_ref": "아름다움"
-                }
-            ]
+          "trigger": "event:full_reload",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "무결한 유리 3",
+          "type": "instant",
+          "target_effect": "무결한 유리"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            80.72,
+            86.94,
+            93.13,
+            99.35,
+            105.55,
+            111.76,
+            117.98,
+            124.19,
+            130.39,
+            136.6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "무결한 유리 4",
+          "type": "damage"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "더러워지지 않는 거울",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "decoy",
+          "value": [
+            52.8,
+            57.6,
+            62.4,
+            67.2,
+            72,
+            76.8,
+            81.6,
+            86.4,
+            91.2,
+            96
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "디코이",
+          "type": "buff"
+        },
+        {
+          "trigger": "every:3s",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            0.98,
+            1.07,
+            1.13,
+            1.2,
+            1.28,
+            1.33,
+            1.38,
+            1.46,
+            1.54,
+            1.6
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "아름다움",
+          "type": "buff",
+          "condition": "self_state:디코이",
+          "stack": 12
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "유리 구두 풀 컨텍트",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_random",
+          "effect": "sequential_damage",
+          "value": [
+            853.7,
+            910.62,
+            967.5,
+            1024.46,
+            1081.38,
+            1138.26,
+            1195.16,
+            1252.08,
+            1309,
+            1365.92
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "유리 구두 풀 컨텍트",
+          "type": "damage",
+          "hits": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "same_target:유리 구두 풀 컨텍트",
+          "effect": "bonus_damage",
+          "value": [
+            18.07,
+            19.28,
+            20.49,
+            21.68,
+            22.88,
+            24.09,
+            25.3,
+            26.5,
+            27.69,
+            28.9
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "유리 구두 풀 컨텍트 2",
+          "type": "damage",
+          "condition": "self_state:아름다움",
+          "scaling": "stack_count",
+          "scaling_ref": "아름다움"
+        }
+      ]
+    }
+  ]
 }

@@ -1,159 +1,159 @@
 {
-    "characterID": "Char_221",
-    "characterName": "라푼젤",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Pilgrim",
-        "squad": "파이오니아",
-        "burstLevel": 1,
-        "atkCoef": 62.95,
-        "maxAmmo": 6,
-        "reloadTime": 2.3,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_221",
+  "characterName": "라푼젤",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Pilgrim",
+    "squad": "파이오니아",
+    "burstLevel": 1,
+    "atkCoef": 62.95,
+    "maxAmmo": 6,
+    "reloadTime": 2.3,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "세크리파이스",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "세크리파이스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        2.52,
-                        2.68,
-                        2.85,
-                        3.02,
-                        3.19,
-                        3.36,
-                        3.52,
-                        3.69,
-                        3.86,
-                        4.03
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "디바인 블레스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        5.11,
-                        5.46,
-                        5.8,
-                        6.14,
-                        6.48,
-                        6.82,
-                        7.16,
-                        7.5,
-                        7.84,
-                        8.19
-                    ],
-                    "unit": "percent",
-                    "duration": 15
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        8.53,
-                        9.09,
-                        9.66,
-                        10.23,
-                        10.8,
-                        11.37,
-                        11.94,
-                        12.51,
-                        13.08,
-                        13.65
-                    ],
-                    "unit": "percent",
-                    "duration": 15
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "가든 오브 샹그릴라",
-            "type": "burst",
-            "cooldown": 60,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        18.56,
-                        21.03,
-                        23.51,
-                        25.98,
-                        28.46,
-                        30.93,
-                        33.41,
-                        35.88,
-                        38.36,
-                        40.83
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "highest_atk_dead_allies_1",
-                    "effect": "revive",
-                    "value": [
-                        37.12,
-                        42.07,
-                        47.02,
-                        51.97,
-                        56.92,
-                        61.87,
-                        66.82,
-                        71.77,
-                        76.72,
-                        81.67
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "stun",
-                    "condition": "self_hp_below:30",
-                    "unit": "percent",
-                    "duration": 1,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            2.52,
+            2.68,
+            2.85,
+            3.02,
+            3.19,
+            3.36,
+            3.52,
+            3.69,
+            3.86,
+            4.03
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "디바인 블레스",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            5.11,
+            5.46,
+            5.8,
+            6.14,
+            6.48,
+            6.82,
+            7.16,
+            7.5,
+            7.84,
+            8.19
+          ],
+          "unit": "percent",
+          "duration": 15
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            8.53,
+            9.09,
+            9.66,
+            10.23,
+            10.8,
+            11.37,
+            11.94,
+            12.51,
+            13.08,
+            13.65
+          ],
+          "unit": "percent",
+          "duration": 15
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "가든 오브 샹그릴라",
+      "type": "burst",
+      "cooldown": 60,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            18.56,
+            21.03,
+            23.51,
+            25.98,
+            28.46,
+            30.93,
+            33.41,
+            35.88,
+            38.36,
+            40.83
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_down_top_atk_excl:1",
+          "effect": "revive",
+          "value": [
+            37.12,
+            42.07,
+            47.02,
+            51.97,
+            56.92,
+            61.87,
+            66.82,
+            71.77,
+            76.72,
+            81.67
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "stun",
+          "condition": "self_hp_below:30",
+          "unit": "percent",
+          "duration": 1,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

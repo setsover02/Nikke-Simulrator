@@ -358,7 +358,7 @@ const Home: React.FC = () => {
                                     charIdToName={charIdToName}
                                 />
                             )}
-                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} skillInfoMap={skillInfoMap} charIdToName={charIdToName} />}
+                            {simResult && <CanvasTimelineChart summary={simResult} duration={180} />}
                         </div>
                     ) : (
                         <h2 className="chart-title-empty">차트</h2>

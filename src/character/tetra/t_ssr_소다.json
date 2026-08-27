@@ -1,142 +1,142 @@
 {
-    "characterID": "Char_312",
-    "characterName": "소다",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "MG",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "메이드 포 유",
-        "burstLevel": 1,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_312",
+  "characterName": "소다",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "메이드 포 유",
+    "burstLevel": 1,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "자리 청소 메이드",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "자리 청소 메이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:180",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "status": "메이드정신",
-                    "value": [
-                        7.15,
-                        7.8,
-                        8.45,
-                        9.1,
-                        9.75,
-                        10.4,
-                        11.05,
-                        11.7,
-                        12.35,
-                        13
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "stack": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "바닥 청소 메이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        2.04,
-                        2.17,
-                        2.3,
-                        2.43,
-                        2.57,
-                        2.7,
-                        2.83,
-                        2.96,
-                        3.1,
-                        3.23
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        5.37,
-                        6.19,
-                        7,
-                        7.82,
-                        8.63,
-                        9.45,
-                        10.26,
-                        11.08,
-                        11.89,
-                        12.71
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "대청소 메이드",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        110.68,
-                        134.08,
-                        157.48,
-                        180.88,
-                        204.28,
-                        227.68,
-                        251.08,
-                        274.48,
-                        297.88,
-                        321.28
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "random_enemies",
-                    "effect": "stun",
-                    "unit": "percent",
-                    "duration": 1,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "hit_count:180",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "status": "메이드정신",
+          "value": [
+            7.15,
+            7.8,
+            8.45,
+            9.1,
+            9.75,
+            10.4,
+            11.05,
+            11.7,
+            12.35,
+            13
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "stack": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "바닥 청소 메이드",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            2.04,
+            2.17,
+            2.3,
+            2.43,
+            2.57,
+            2.7,
+            2.83,
+            2.96,
+            3.1,
+            3.23
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        },
+        {
+          "trigger": "max_stack_applied",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            5.37,
+            6.19,
+            7,
+            7.82,
+            8.63,
+            9.45,
+            10.26,
+            11.08,
+            11.89,
+            12.71
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "대청소 메이드",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_random",
+          "effect": "damage",
+          "value": [
+            110.68,
+            134.08,
+            157.48,
+            180.88,
+            204.28,
+            227.68,
+            251.08,
+            274.48,
+            297.88,
+            321.28
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_random",
+          "effect": "stun",
+          "unit": "percent",
+          "duration": 1,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -1,121 +1,121 @@
 {
-    "characterID": "Crow",
-    "characterName": "크로우",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SMG",
-        "class": "방어형",
-        "company": "Missilis",
-        "squad": "이그조틱",
-        "burstLevel": 3,
-        "atkCoef": 5.59,
-        "maxAmmo": 120,
-        "reloadTime": 1.67,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 250,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Crow",
+  "characterName": "크로우",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SMG",
+    "class": "방어형",
+    "company": "Missilis",
+    "squad": "이그조틱",
+    "burstLevel": 3,
+    "atkCoef": 5.59,
+    "maxAmmo": 120,
+    "reloadTime": 1.67,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 250,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "킬링타임",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "킬링타임",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_enemies",
-                    "effect": "atk_pct",
-                    "value": [
-                        11.77,
-                        12.68,
-                        13.59,
-                        14.49,
-                        15.4,
-                        16.31,
-                        17.21,
-                        18.12,
-                        19.02,
-                        19.93
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "데어데블",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "target",
-                    "effect": "extra_damage",
-                    "value": [
-                        52.65,
-                        56.7,
-                        60.75,
-                        64.8,
-                        68.85,
-                        72.9,
-                        76.95,
-                        81,
-                        85.05,
-                        89.09
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        7.52,
-                        8.1,
-                        8.67,
-                        9.25,
-                        9.83,
-                        10.41,
-                        10.99,
-                        11.57,
-                        12.15,
-                        12.72
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "더 테러리스트",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "highest_atk_enemy_1",
-                    "effect": "skill_damage",
-                    "value": [
-                        541.12,
-                        582.75,
-                        624.37,
-                        666,
-                        707.62,
-                        749.25,
-                        790.87,
-                        832.5,
-                        874.12,
-                        915.75
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_enemies",
+          "effect": "atk_pct",
+          "value": [
+            11.77,
+            12.68,
+            13.59,
+            14.49,
+            15.4,
+            16.31,
+            17.21,
+            18.12,
+            19.02,
+            19.93
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "데어데블",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "last_bullet_hit",
+          "target": "target",
+          "effect": "extra_damage",
+          "value": [
+            52.65,
+            56.7,
+            60.75,
+            64.8,
+            68.85,
+            72.9,
+            76.95,
+            81,
+            85.05,
+            89.09
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            7.52,
+            8.1,
+            8.67,
+            9.25,
+            9.83,
+            10.41,
+            10.99,
+            11.57,
+            12.15,
+            12.72
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "더 테러리스트",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_top_atk:1",
+          "effect": "damage",
+          "value": [
+            541.12,
+            582.75,
+            624.37,
+            666,
+            707.62,
+            749.25,
+            790.87,
+            832.5,
+            874.12,
+            915.75
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

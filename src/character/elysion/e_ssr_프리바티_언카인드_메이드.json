@@ -1,178 +1,178 @@
 {
-    "characterID": "Char_313",
-    "characterName": "프리바티 : 언카인드 메이드",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "메이드 포 유",
-        "burstLevel": 3,
-        "atkCoef": 182.1,
-        "maxAmmo": 9,
-        "reloadTime": 2,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_313",
+  "characterName": "프리바티 : 언카인드 메이드",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "메이드 포 유",
+    "burstLevel": 3,
+    "atkCoef": 182.1,
+    "maxAmmo": 9,
+    "reloadTime": 2,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "열정 충만 메이드",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "열정 충만 메이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:30",
-                    "target": "target",
-                    "effect": "skill_damage",
-                    "value": [
-                        119.86,
-                        129.08,
-                        138.3,
-                        147.52,
-                        156.74,
-                        165.96,
-                        175.18,
-                        184.4,
-                        193.62,
-                        202.84
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "사랑 가득 메이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:1",
-                    "target": "self",
-                    "effect": "reload_speed_pct",
-                    "value": [
-                        12.33,
-                        13.28,
-                        14.23,
-                        15.18,
-                        16.13,
-                        17.08,
-                        18.03,
-                        18.98,
-                        19.93,
-                        20.88
-                    ],
-                    "unit": "percent",
-                    "duration": 2
-                },
-                {
-                    "trigger": "full_burst_normal_attack",
-                    "target": "self",
-                    "effect": "ammo_charge_pct",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "full_burst_normal_attack",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        6.63,
-                        7.14,
-                        7.65,
-                        8.16,
-                        8.67,
-                        9.18,
-                        9.69,
-                        10.2,
-                        10.71,
-                        11.22
-                    ],
-                    "unit": "percent",
-                    "duration": 2,
-                    "stack": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "부끄러운! 당신의 메이드",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        6.24,
-                        6.72,
-                        7.2,
-                        7.68,
-                        8.16,
-                        8.64,
-                        9.12,
-                        9.6,
-                        10.08,
-                        10.56
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        52.1,
-                        56.11,
-                        60.12,
-                        64.12,
-                        68.13,
-                        72.14,
-                        76.15,
-                        80.16,
-                        84.16,
-                        88.17
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        630.3,
-                        678.78,
-                        727.27,
-                        775.75,
-                        824.24,
-                        872.72,
-                        921.21,
-                        969.69,
-                        1018.18,
-                        1066.66
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "target",
+          "effect": "damage",
+          "value": [
+            119.86,
+            129.08,
+            138.3,
+            147.52,
+            156.74,
+            165.96,
+            175.18,
+            184.4,
+            193.62,
+            202.84
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "사랑 가득 메이드",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:1",
+          "target": "self",
+          "effect": "reload_speed_pct",
+          "value": [
+            12.33,
+            13.28,
+            14.23,
+            15.18,
+            16.13,
+            17.08,
+            18.03,
+            18.98,
+            19.93,
+            20.88
+          ],
+          "unit": "percent",
+          "duration": 2
+        },
+        {
+          "trigger": "full_burst_normal_attack",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "full_burst_normal_attack",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            6.63,
+            7.14,
+            7.65,
+            8.16,
+            8.67,
+            9.18,
+            9.69,
+            10.2,
+            10.71,
+            11.22
+          ],
+          "unit": "percent",
+          "duration": 2,
+          "stack": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "부끄러운! 당신의 메이드",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            6.24,
+            6.72,
+            7.2,
+            7.68,
+            8.16,
+            8.64,
+            9.12,
+            9.6,
+            10.08,
+            10.56
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            52.1,
+            56.11,
+            60.12,
+            64.12,
+            68.13,
+            72.14,
+            76.15,
+            80.16,
+            84.16,
+            88.17
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            630.3,
+            678.78,
+            727.27,
+            775.75,
+            824.24,
+            872.72,
+            921.21,
+            969.69,
+            1018.18,
+            1066.66
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

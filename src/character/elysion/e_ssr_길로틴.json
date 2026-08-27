@@ -1,160 +1,160 @@
 {
-    "characterID": "Char_180",
-    "characterName": "길로틴",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "익스터너",
-        "burstLevel": 3,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_180",
+  "characterName": "길로틴",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "익스터너",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "유열",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "유열",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:30",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        6.28,
-                        6.61,
-                        6.95,
-                        7.28,
-                        7.62,
-                        7.95,
-                        8.28,
-                        8.62,
-                        8.95,
-                        9.28
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "hit_count:30",
-                    "target": "self",
-                    "effect": "current_hp_down",
-                    "value": [
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01,
-                        2.01
-                    ],
-                    "unit": "percent"
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            6.28,
+            6.61,
+            6.95,
+            7.28,
+            7.62,
+            7.95,
+            8.28,
+            8.62,
+            8.95,
+            9.28
+          ],
+          "unit": "percent",
+          "duration": 10
         },
         {
-            "id": "skill_2",
-            "name": "흑화",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:150",
-                    "target": "self",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        8.68,
-                        9.35,
-                        10.02,
-                        10.68,
-                        11.35,
-                        12.02,
-                        12.69,
-                        13.36,
-                        14.02,
-                        14.69
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "condition": "self_hp_below:70",
-                    "value": [
-                        0.56,
-                        0.61,
-                        0.65,
-                        0.69,
-                        0.74,
-                        0.78,
-                        0.82,
-                        0.87,
-                        0.91,
-                        0.96
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "마계흑룡파",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "highest_atk_enemy_1",
-                    "effect": "skill_damage",
-                    "value": [
-                        731.25,
-                        787.5,
-                        843.75,
-                        900,
-                        956.25,
-                        1012.5,
-                        1068.75,
-                        1125,
-                        1181.25,
-                        1237.5
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target",
-                    "effect": "extra_damage",
-                    "condition": "self_hp_below:50",
-                    "value": [
-                        731.25,
-                        787.5,
-                        843.75,
-                        900,
-                        956.25,
-                        1012.5,
-                        1068.75,
-                        1125,
-                        1181.25,
-                        1237.5
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "self",
+          "effect": "current_hp_reduce",
+          "value": [
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01,
+            2.01
+          ],
+          "unit": "percent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "흑화",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:150",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            8.68,
+            9.35,
+            10.02,
+            10.68,
+            11.35,
+            12.02,
+            12.69,
+            13.36,
+            14.02,
+            14.69
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "condition": "self_hp_below:70",
+          "value": [
+            0.56,
+            0.61,
+            0.65,
+            0.69,
+            0.74,
+            0.78,
+            0.82,
+            0.87,
+            0.91,
+            0.96
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "마계흑룡파",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_top_atk:1",
+          "effect": "damage",
+          "value": [
+            731.25,
+            787.5,
+            843.75,
+            900,
+            956.25,
+            1012.5,
+            1068.75,
+            1125,
+            1181.25,
+            1237.5
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "same_target",
+          "effect": "extra_damage",
+          "condition": "self_hp_below:50",
+          "value": [
+            731.25,
+            787.5,
+            843.75,
+            900,
+            956.25,
+            1012.5,
+            1068.75,
+            1125,
+            1181.25,
+            1237.5
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

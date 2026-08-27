@@ -1,199 +1,199 @@
 {
-    "characterID": "Char_501",
-    "characterName": "트로니",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SR",
-        "class": "화력형",
-        "company": "Missilis",
-        "squad": "일렉트릭 쇼크",
-        "burstLevel": 3,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_501",
+  "characterName": "트로니",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SR",
+    "class": "화력형",
+    "company": "Missilis",
+    "squad": "일렉트릭 쇼크",
+    "burstLevel": 3,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "T.Rony 봄버",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "T.Rony 봄버",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "split_dmg_pct",
-                    "status": "cummulative_explosion",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "skill_damage",
-                    "value": [
-                        907.63,
-                        977.45,
-                        1047.27,
-                        1117.09,
-                        1186.9,
-                        1256.72,
-                        1326.54,
-                        1396.36,
-                        1466.18,
-                        1536
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "buff",
-                    "value": [
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "enemies_in_range",
-                    "effect": "split_dmg_pct",
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "split_dmg_pct",
+          "status": "cummulative_explosion",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "skill_2",
-            "name": "효율 증가",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        30.63,
-                        32.98,
-                        35.34,
-                        37.7,
-                        40.05,
-                        42.41,
-                        44.77,
-                        47.12,
-                        49.48,
-                        51.84
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "enemy_def_down_pct",
-                    "value": [
-                        5.67,
-                        6.1,
-                        6.54,
-                        6.98,
-                        7.41,
-                        7.85,
-                        8.29,
-                        8.72,
-                        9.16,
-                        9.59
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "damage",
+          "value": [
+            907.63,
+            977.45,
+            1047.27,
+            1117.09,
+            1186.9,
+            1256.72,
+            1326.54,
+            1396.36,
+            1466.18,
+            1536
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
         },
         {
-            "id": "burst",
-            "name": "메가 T.Rony",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        59.9,
-                        64.51,
-                        69.12,
-                        73.72,
-                        78.33,
-                        82.94,
-                        87.55,
-                        92.16,
-                        96.76,
-                        101.37
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "status": "cummulative_explosion",
-                    "value": [
-                        37.12,
-                        39.98,
-                        42.84,
-                        45.69,
-                        48.55,
-                        51.4,
-                        54.26,
-                        57.12,
-                        59.97,
-                        62.83
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "buff",
+          "value": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "enemies_in_range",
+          "effect": "split_dmg_pct",
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "효율 증가",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "value": [
+            30.63,
+            32.98,
+            35.34,
+            37.7,
+            40.05,
+            42.41,
+            44.77,
+            47.12,
+            49.48,
+            51.84
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "duration": 10
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "enemy_def_down_pct",
+          "value": [
+            5.67,
+            6.1,
+            6.54,
+            6.98,
+            7.41,
+            7.85,
+            8.29,
+            8.72,
+            9.16,
+            9.59
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "메가 T.Rony",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            59.9,
+            64.51,
+            69.12,
+            73.72,
+            78.33,
+            82.94,
+            87.55,
+            92.16,
+            96.76,
+            101.37
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "status": "cummulative_explosion",
+          "value": [
+            37.12,
+            39.98,
+            42.84,
+            45.69,
+            48.55,
+            51.4,
+            54.26,
+            57.12,
+            59.97,
+            62.83
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

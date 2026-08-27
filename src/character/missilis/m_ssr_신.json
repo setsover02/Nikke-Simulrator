@@ -1,201 +1,201 @@
 {
-    "characterID": "Char_401",
-    "characterName": "신",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "AR",
-        "class": "방어형",
-        "company": "Missilis",
-        "squad": "리얼 카인드니스",
-        "burstLevel": 2,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_401",
+  "characterName": "신",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "AR",
+    "class": "방어형",
+    "company": "Missilis",
+    "squad": "리얼 카인드니스",
+    "burstLevel": 2,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "센텐스 엔딩스",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "센텐스 엔딩스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "copy_max_hp",
-                    "value": [
-                        7.94,
-                        8.72,
-                        9.51,
-                        10.3,
-                        11.09,
-                        11.88,
-                        12.66,
-                        13.45,
-                        14.24,
-                        15.03
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "hp_copy",
+          "value": [
+            7.94,
+            8.72,
+            9.51,
+            10.3,
+            11.09,
+            11.88,
+            12.66,
+            13.45,
+            14.24,
+            15.03
+          ],
+          "unit": "percent",
+          "duration": 5
         },
         {
-            "id": "skill_2",
-            "name": "허리 온",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "burst_gauge_charge_speed_up",
-                    "value": [
-                        8.08,
-                        8.98,
-                        9.88,
-                        10.78,
-                        11.67,
-                        12.57,
-                        13.47,
-                        14.37,
-                        15.27,
-                        16.17
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        7.65,
-                        8.5,
-                        9.35,
-                        10.2,
-                        11.05,
-                        11.9,
-                        12.75,
-                        13.6,
-                        14.45,
-                        15.3
-                    ],
-                    "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": 5,
-                    "stack_level": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        25.5,
-                        28.33,
-                        31.16,
-                        34,
-                        36.83,
-                        39.66,
-                        42.5,
-                        45.33,
-                        48.16,
-                        51
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "stack_level": 2
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        21.6,
-                        24,
-                        26.4,
-                        28.8,
-                        31.2,
-                        33.6,
-                        36,
-                        38.4,
-                        40.8,
-                        43.2
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "stack_level": 3
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "워드 오브 킬",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "received_dmg",
-                    "value": [
-                        6.11,
-                        6.79,
-                        7.47,
-                        8.15,
-                        8.83,
-                        9.51,
-                        10.19,
-                        10.87,
-                        11.55,
-                        12.23
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        88.16,
-                        97.95,
-                        107.75,
-                        117.55,
-                        127.34,
-                        137.14,
-                        146.93,
-                        156.73,
-                        166.53,
-                        176.32
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "허리 온",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "burst_charge_speed_pct",
+          "value": [
+            8.08,
+            8.98,
+            9.88,
+            10.78,
+            11.67,
+            12.57,
+            13.47,
+            14.37,
+            15.27,
+            16.17
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            7.65,
+            8.5,
+            9.35,
+            10.2,
+            11.05,
+            11.9,
+            12.75,
+            13.6,
+            14.45,
+            15.3
+          ],
+          "unit": "percent",
+          "based_on": "attack_damage",
+          "duration": 5,
+          "stack_level": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            25.5,
+            28.33,
+            31.16,
+            34,
+            36.83,
+            39.66,
+            42.5,
+            45.33,
+            48.16,
+            51
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "stack_level": 2
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            21.6,
+            24,
+            26.4,
+            28.8,
+            31.2,
+            33.6,
+            36,
+            38.4,
+            40.8,
+            43.2
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "stack_level": 3
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "워드 오브 킬",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "received_dmg",
+          "value": [
+            6.11,
+            6.79,
+            7.47,
+            8.15,
+            8.83,
+            9.51,
+            10.19,
+            10.87,
+            11.55,
+            12.23
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            88.16,
+            97.95,
+            107.75,
+            117.55,
+            127.34,
+            137.14,
+            146.93,
+            156.73,
+            166.53,
+            176.32
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

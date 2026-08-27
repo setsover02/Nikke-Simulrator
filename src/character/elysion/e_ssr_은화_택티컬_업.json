@@ -1,321 +1,321 @@
 {
-    "characterID": "Char_95",
-    "characterName": "은화 : 택티컬 업",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SR",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "앱솔루트",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_95",
+  "characterName": "은화 : 택티컬 업",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SR",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "앱솔루트",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "카모플라쥬 스카프",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "카모플라쥬 스카프",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "remove_status",
-                    "status": "카모플라쥬",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "remove_status",
-                    "status": "카모플라쥬",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "skill_damage",
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": "permanent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        24.96,
-                        26.88,
-                        28.8,
-                        30.72,
-                        32.64,
-                        34.56,
-                        36.48,
-                        38.4,
-                        40.32,
-                        42.24
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "remove_status",
+          "status": "카모플라쥬",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": 5
         },
         {
-            "id": "skill_2",
-            "name": "포메이션 AS",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        4.82,
-                        5.19,
-                        5.56,
-                        5.93,
-                        6.31,
-                        6.68,
-                        7.05,
-                        7.42,
-                        7.79,
-                        8.16
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        24.71,
-                        26.61,
-                        28.51,
-                        30.41,
-                        32.31,
-                        34.21,
-                        36.11,
-                        38.01,
-                        39.91,
-                        41.81
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        24.96,
-                        26.88,
-                        28.8,
-                        30.72,
-                        32.64,
-                        34.56,
-                        36.48,
-                        38.4,
-                        40.32,
-                        42.24
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "value": [
-                        3.02,
-                        3.25,
-                        3.48,
-                        3.71,
-                        3.94,
-                        4.18,
-                        4.41,
-                        4.64,
-                        4.87,
-                        5.11
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        18.3,
-                        19.71,
-                        21.12,
-                        22.52,
-                        23.93,
-                        25.34,
-                        26.75,
-                        28.16,
-                        29.56,
-                        30.97
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "remove_status",
+          "status": "카모플라쥬",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": 5
         },
         {
-            "id": "burst",
-            "name": "내부 폭발탄",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "change_weapon",
-                    "weapon_override": {
-                        "chargeTime": 0.3,
-                        "atkCoef": [
-                            62.4,
-                            67.2,
-                            72,
-                            76.8,
-                            81.6,
-                            86.4,
-                            91.19,
-                            95.99,
-                            100.8,
-                            105.6
-                        ],
-                        "fullChargeDamage": 300,
-                        "maxAmmo": [
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1,
-                            1
-                        ]
-                    },
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "received_dmg",
-                    "status": "내부 폭발탄",
-                    "value": [
-                        16.47,
-                        17.74,
-                        19,
-                        20.27,
-                        21.54,
-                        22.8,
-                        24.07,
-                        25.34,
-                        26.61,
-                        27.87
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "damage",
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "duration": "permanent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            24.96,
+            26.88,
+            28.8,
+            30.72,
+            32.64,
+            34.56,
+            36.48,
+            38.4,
+            40.32,
+            42.24
+          ],
+          "unit": "percent",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "포메이션 AS",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            4.82,
+            5.19,
+            5.56,
+            5.93,
+            6.31,
+            6.68,
+            7.05,
+            7.42,
+            7.79,
+            8.16
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "charge_dmg_pct",
+          "value": [
+            24.71,
+            26.61,
+            28.51,
+            30.41,
+            32.31,
+            34.21,
+            36.11,
+            38.01,
+            39.91,
+            41.81
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            24.96,
+            26.88,
+            28.8,
+            30.72,
+            32.64,
+            34.56,
+            36.48,
+            38.4,
+            40.32,
+            42.24
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "buff",
+          "value": [
+            3.02,
+            3.25,
+            3.48,
+            3.71,
+            3.94,
+            4.18,
+            4.41,
+            4.64,
+            4.87,
+            5.11
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            18.3,
+            19.71,
+            21.12,
+            22.52,
+            23.93,
+            25.34,
+            26.75,
+            28.16,
+            29.56,
+            30.97
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "내부 폭발탄",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "change_weapon",
+          "weapon_override": {
+            "chargeTime": 0.3,
+            "atkCoef": [
+              62.4,
+              67.2,
+              72,
+              76.8,
+              81.6,
+              86.4,
+              91.19,
+              95.99,
+              100.8,
+              105.6
+            ],
+            "fullChargeDamage": 300,
+            "maxAmmo": [
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1,
+              1
+            ]
+          },
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "received_dmg",
+          "status": "내부 폭발탄",
+          "value": [
+            16.47,
+            17.74,
+            19,
+            20.27,
+            21.54,
+            22.8,
+            24.07,
+            25.34,
+            26.61,
+            27.87
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

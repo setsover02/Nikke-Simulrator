@@ -63,9 +63,27 @@ export interface ScenarioResult {
     buffTimeline: any[];
 }
 
+/** BuffManager에서 수집한 타임라인 이벤트 */
+export interface BuffTimelineEvent {
+    uid: number;
+    targetId: string;
+    casterId: string;
+    buffName: string;
+    stat: string;
+    sourceSkill: string;
+    polarity: string;
+    value: number;
+    startTime: number;
+    endTime: number;
+    isPermanent: boolean;
+}
+
 export interface ScenarioSummary {
     chars: ScenarioResult[];
     teamTotal: number;
+    buffTimeline: BuffTimelineEvent[];
+    /** charId → charName 맵 (타임라인 차트에서 사용) */
+    idToName: Record<string, string>;
 }
 
 // --- Simulation Runner 입출력 타입 ---

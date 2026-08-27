@@ -1,121 +1,121 @@
 {
-    "characterID": "iDollFlower",
-    "characterName": "iDoll 플라워",
-    "stats": {
-        "rarity": "R",
-        "element": "풍압",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Tetra",
-        "squad": "리플레이스",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "iDollFlower",
+  "characterName": "iDoll 플라워",
+  "stats": {
+    "rarity": "R",
+    "element": "풍압",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Tetra",
+    "squad": "리플레이스",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "플라워 리프",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "플라워 리프",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "target",
-                    "effect": "atk_pct",
-                    "value": [
-                        4.13,
-                        5.5,
-                        6.88,
-                        8.26,
-                        9.63,
-                        11.01,
-                        12.39,
-                        13.77,
-                        15.14,
-                        16.52
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "플라워 컬러",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        9.84,
-                        13.12,
-                        16.4,
-                        19.68,
-                        22.96,
-                        26.25,
-                        29.53,
-                        32.81,
-                        36.09,
-                        39.37
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "플라워 퍼퓸",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "skill_damage",
-                    "value": [
-                        110.2,
-                        134.69,
-                        159.18,
-                        183.67,
-                        208.16,
-                        232.65,
-                        257.14,
-                        281.63,
-                        306.12,
-                        330.61
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 2,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "target",
+          "effect": "atk_pct",
+          "value": [
+            4.13,
+            5.5,
+            6.88,
+            8.26,
+            9.63,
+            11.01,
+            12.39,
+            13.77,
+            15.14,
+            16.52
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "플라워 컬러",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            9.84,
+            13.12,
+            16.4,
+            19.68,
+            22.96,
+            26.25,
+            29.53,
+            32.81,
+            36.09,
+            39.37
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "플라워 퍼퓸",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "damage",
+          "value": [
+            110.2,
+            134.69,
+            159.18,
+            183.67,
+            208.16,
+            232.65,
+            257.14,
+            281.63,
+            306.12,
+            330.61
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 2,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

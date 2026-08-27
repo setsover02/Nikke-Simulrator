@@ -1,140 +1,140 @@
 {
-    "characterID": "Char_201",
-    "characterName": "얀",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "달란트",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1.5,
-        "fireRate": 1,
-        "fullChargeDamage": 350,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_201",
+  "characterName": "얀",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "달란트",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1.5,
+    "fireRate": 1,
+    "fullChargeDamage": 350,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "풍비박산",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "풍비박산",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        11.85,
-                        12.93,
-                        14,
-                        15.08,
-                        16.16,
-                        17.24,
-                        18.31,
-                        19.39,
-                        20.47,
-                        21.55
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "다다익선",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        1.52,
-                        1.66,
-                        1.8,
-                        1.94,
-                        2.07,
-                        2.21,
-                        2.35,
-                        2.49,
-                        2.63,
-                        2.77
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        0.73,
-                        0.8,
-                        0.87,
-                        0.93,
-                        1,
-                        1.07,
-                        1.13,
-                        1.2,
-                        1.27,
-                        1.33
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "일확천금",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        172.4,
-                        192,
-                        211.59,
-                        231.18,
-                        250.77,
-                        270.36,
-                        289.95,
-                        309.55,
-                        329.14,
-                        348.73
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "duration": 2,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "charge_dmg_pct",
+          "value": [
+            11.85,
+            12.93,
+            14,
+            15.08,
+            16.16,
+            17.24,
+            18.31,
+            19.39,
+            20.47,
+            21.55
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "다다익선",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            1.52,
+            1.66,
+            1.8,
+            1.94,
+            2.07,
+            2.21,
+            2.35,
+            2.49,
+            2.63,
+            2.77
+          ],
+          "unit": "percent",
+          "duration": 5
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            0.73,
+            0.8,
+            0.87,
+            0.93,
+            1,
+            1.07,
+            1.13,
+            1.2,
+            1.27,
+            1.33
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "일확천금",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            172.4,
+            192,
+            211.59,
+            231.18,
+            250.77,
+            270.36,
+            289.95,
+            309.55,
+            329.14,
+            348.73
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "buff",
+          "unit": "percent",
+          "duration": 2,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

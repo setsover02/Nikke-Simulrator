@@ -196,4 +196,18 @@ export interface BattleResult {
     burstZones: { start: number; end: number }[];
     log: LogEntry[];
     team: Team;
+    /** BuffManager에서 수집한 전체 버프 타임라인 이벤트 */
+    buffTimeline: Array<{
+        uid: number;
+        targetId: string;
+        casterId: string;
+        buffName: string;
+        stat: string;
+        sourceSkill: string;
+        polarity: string;
+        value: number;
+        startTime: number;
+        endTime: number;
+        isPermanent: boolean;
+    }>;
 }

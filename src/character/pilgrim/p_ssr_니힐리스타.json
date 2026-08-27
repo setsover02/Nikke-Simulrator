@@ -1,181 +1,181 @@
 {
-    "characterID": "Char_261",
-    "characterName": "니힐리스타",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SR",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "헬레틱",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_261",
+  "characterName": "니힐리스타",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SR",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "헬레틱",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "버닝 샷",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "버닝 샷",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "unit": "percent",
-                    "bullet": 1,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "pierce_range_up",
-                    "value": [
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50,
-                        50
-                    ],
-                    "unit": "percent",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "extra_damage",
-                    "value": [
-                        11.28,
-                        15.62,
-                        19.95,
-                        24.29,
-                        28.63,
-                        32.97,
-                        37.31,
-                        41.65,
-                        45.99,
-                        50.33
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "unit": "percent",
+          "bullet": 1,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "skill_2",
-            "name": "메기도 플레임",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        66.56,
-                        71.68,
-                        76.79,
-                        81.92,
-                        87.04,
-                        92.16,
-                        97.27,
-                        102.4,
-                        107.52,
-                        112.64
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "pierce_range",
+          "value": [
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50,
+            50
+          ],
+          "unit": "percent",
+          "bullet": 1
         },
         {
-            "id": "burst",
-            "name": "번 아포칼립스",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        99.84,
-                        106.36,
-                        112.89,
-                        119.42,
-                        125.95,
-                        132.48,
-                        139,
-                        145.53,
-                        152.06,
-                        158.59
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_in_range",
-                    "effect": "dot_damage",
-                    "status": "화상",
-                    "value": [
-                        7.48,
-                        8.12,
-                        8.75,
-                        9.38,
-                        10.02,
-                        10.65,
-                        11.28,
-                        11.92,
-                        12.55,
-                        13.19
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10,
-                    "interval": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        3,
-                        4,
-                        4,
-                        4,
-                        4,
-                        5,
-                        5,
-                        5,
-                        6,
-                        6
-                    ],
-                    "unit": "count",
-                    "duration": 15
-                }
-            ]
+          "trigger": "passive",
+          "target": "target",
+          "effect": "extra_damage",
+          "value": [
+            11.28,
+            15.62,
+            19.95,
+            24.29,
+            28.63,
+            32.97,
+            37.31,
+            41.65,
+            45.99,
+            50.33
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "메기도 플레임",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            66.56,
+            71.68,
+            76.79,
+            81.92,
+            87.04,
+            92.16,
+            97.27,
+            102.4,
+            107.52,
+            112.64
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "번 아포칼립스",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            99.84,
+            106.36,
+            112.89,
+            119.42,
+            125.95,
+            132.48,
+            139,
+            145.53,
+            152.06,
+            158.59
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_in_range",
+          "effect": "dot_damage",
+          "status": "화상",
+          "value": [
+            7.48,
+            8.12,
+            8.75,
+            9.38,
+            10.02,
+            10.65,
+            11.28,
+            11.92,
+            12.55,
+            13.19
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "duration": 10,
+          "interval": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            3,
+            4,
+            4,
+            4,
+            4,
+            5,
+            5,
+            5,
+            6,
+            6
+          ],
+          "unit": "count",
+          "duration": 15
+        }
+      ]
+    }
+  ]
 }

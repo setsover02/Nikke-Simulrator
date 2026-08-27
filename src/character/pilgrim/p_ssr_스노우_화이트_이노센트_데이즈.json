@@ -1,180 +1,180 @@
 {
-    "characterID": "Char_224",
-    "characterName": "스노우 화이트 : 이노센트 데이즈",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "갓데스",
-        "burstLevel": 3,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_224",
+  "characterName": "스노우 화이트 : 이노센트 데이즈",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "갓데스",
+    "burstLevel": 3,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "세븐스 드워프 V&VI",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "세븐스 드워프 V&VI",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:30",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        15.16,
-                        16.33,
-                        17.5,
-                        18.66,
-                        19.83,
-                        21,
-                        22.16,
-                        23.33,
-                        24.5,
-                        25.66
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "stack": 5
-                },
-                {
-                    "trigger": "hit_count:30",
-                    "target": "enemies_in_range",
-                    "effect": "skill_damage",
-                    "value": [
-                        129.1,
-                        135.72,
-                        142.34,
-                        148.96,
-                        155.58,
-                        162.2,
-                        168.82,
-                        175.44,
-                        182.06,
-                        188.68
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            15.16,
+            16.33,
+            17.5,
+            18.66,
+            19.83,
+            21,
+            22.16,
+            23.33,
+            24.5,
+            25.66
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "stack": 5
         },
         {
-            "id": "skill_2",
-            "name": "세븐스 드워프 IV",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:50",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        36.45,
-                        39.25,
-                        42.06,
-                        44.86,
-                        47.67,
-                        50.47,
-                        53.28,
-                        56.08,
-                        58.88,
-                        61.69
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        12.48,
-                        13.44,
-                        14.4,
-                        15.36,
-                        16.32,
-                        17.28,
-                        18.24,
-                        19.2,
-                        20.16,
-                        21.12
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "세븐스 드워프 III",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "skill_trigger_count_reduction",
-                    "value": [
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20
-                    ],
-                    "unit": "count",
-                    "duration": 10,
-                    "target_skill": "skill_2"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        32.4,
-                        39.6,
-                        46.8,
-                        54,
-                        61.2,
-                        68.4,
-                        75.6,
-                        82.8,
-                        90,
-                        97.2
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "infinite_ammo",
-                    "unit": "percent",
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "enemies_in_range",
+          "effect": "damage",
+          "value": [
+            129.1,
+            135.72,
+            142.34,
+            148.96,
+            155.58,
+            162.2,
+            168.82,
+            175.44,
+            182.06,
+            188.68
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "세븐스 드워프 IV",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:50",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            36.45,
+            39.25,
+            42.06,
+            44.86,
+            47.67,
+            50.47,
+            53.28,
+            56.08,
+            58.88,
+            61.69
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            12.48,
+            13.44,
+            14.4,
+            15.36,
+            16.32,
+            17.28,
+            18.24,
+            19.2,
+            20.16,
+            21.12
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "세븐스 드워프 III",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "trigger_count_reduce",
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "unit": "count",
+          "duration": 10,
+          "target_skill": "skill_2"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            32.4,
+            39.6,
+            46.8,
+            54,
+            61.2,
+            68.4,
+            75.6,
+            82.8,
+            90,
+            97.2
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "infinite_ammo",
+          "unit": "percent",
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

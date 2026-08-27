@@ -1,121 +1,121 @@
 {
-    "characterID": "Char_172",
-    "characterName": "애드미",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "트라이앵글",
-        "burstLevel": 2,
-        "atkCoef": 67.37,
-        "maxAmmo": 6,
-        "reloadTime": 1.73,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_172",
+  "characterName": "애드미",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "트라이앵글",
+    "burstLevel": 2,
+    "atkCoef": 67.37,
+    "maxAmmo": 6,
+    "reloadTime": 1.73,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "응원의 손길",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "응원의 손길",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:20",
-                    "target": "all_allies",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        4.8,
-                        5.33,
-                        5.86,
-                        6.4,
-                        6.93,
-                        7.46,
-                        8,
-                        8.53,
-                        9.06,
-                        9.59
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "고양이 숨결",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "allies_top_atk:2",
-                    "effect": "received_dmg",
-                    "value": [
-                        14.32,
-                        15.91,
-                        17.51,
-                        19.1,
-                        20.69,
-                        22.28,
-                        23.87,
-                        25.46,
-                        27.06,
-                        28.65
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "애정의 보은",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "reload_speed_pct",
-                    "value": [
-                        25.45,
-                        28.28,
-                        31.11,
-                        33.94,
-                        36.77,
-                        39.6,
-                        42.42,
-                        45.25,
-                        48.08,
-                        50.91
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "crit_dmg_pct",
-                    "value": [
-                        14.17,
-                        15.74,
-                        17.32,
-                        18.89,
-                        20.46,
-                        22.04,
-                        23.61,
-                        25.19,
-                        26.76,
-                        28.34
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "hit_count:20",
+          "target": "all_allies",
+          "effect": "charge_dmg_pct",
+          "value": [
+            4.8,
+            5.33,
+            5.86,
+            6.4,
+            6.93,
+            7.46,
+            8,
+            8.53,
+            9.06,
+            9.59
+          ],
+          "unit": "percent",
+          "duration": 20
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "고양이 숨결",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "allies_top_atk:2",
+          "effect": "received_dmg",
+          "value": [
+            14.32,
+            15.91,
+            17.51,
+            19.1,
+            20.69,
+            22.28,
+            23.87,
+            25.46,
+            27.06,
+            28.65
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "애정의 보은",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "reload_speed_pct",
+          "value": [
+            25.45,
+            28.28,
+            31.11,
+            33.94,
+            36.77,
+            39.6,
+            42.42,
+            45.25,
+            48.08,
+            50.91
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "crit_dmg",
+          "value": [
+            14.17,
+            15.74,
+            17.32,
+            18.89,
+            20.46,
+            22.04,
+            23.61,
+            25.19,
+            26.76,
+            28.34
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

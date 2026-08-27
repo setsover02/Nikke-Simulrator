@@ -379,7 +379,11 @@ export function resolveSkills(ctx: BattleContext) {
           intervalSkill.timeSinceLastHit >= intervalSkill.effectDef.interval
         ) {
           intervalSkill.timeSinceLastHit -= intervalSkill.effectDef.interval
-          const hitDef = { ...intervalSkill.effectDef, effect: 'damage' }
+          const hitDef = {
+            ...intervalSkill.effectDef,
+            effect: 'damage',
+            // 원본 effect 이름을 skillName으로 전달 (로그 툴팁용)
+          }
           applySpecificEffectToTarget(
             ctx,
             char,
@@ -1104,6 +1108,7 @@ function applySpecificEffectToTarget(
       case 'damage':
       case 'bubble_barrage':
       case 'distribute_damage':
+      case 'split_damage':    // 홍련:흑영 분배 대미지 (단일적 시뮬레이션: 전체 값을 하나의 적에 적용)
       case 'extra_damage': {
         const hits = effectDef.hits || 1
         const stack = effectDef.stack_level
@@ -1139,6 +1144,39 @@ function applySpecificEffectToTarget(
         })
         break
       }
+
+      // Sequential Damage (PARSING.md 기준: effect='sequential_damage' + hits: N)
+      case 'sequential_damage': {
+        if (isEnemy) {
+          // hits 필드 우선 (신형), 구형 sequential_damage:N 하위 호환
+          const seqHits = Math.max(1, typeof (effectDef as any).hits === 'number'
+            ? (effectDef as any).hits
+            : 1)
+          const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
+          let totalSeqDmg = 0
+          for (let h = 0; h < seqHits; h++) {
+            const isCrit = ctx.rng.next() < critChance
+            totalSeqDmg += calcNikkeDamage(
+              buildSkillDamageParams(ctx, sourceChar, target, value / 100, isCrit)
+            )
+          }
+          target.hp -= totalSeqDmg
+          ctx.totalDamage += totalSeqDmg
+          ctx.log.push({
+            time: ctx.time,
+            type: 'skill_damage',
+            source: sourceChar.id,
+            value: totalSeqDmg,
+            description: `sequential_damage×${seqHits}`,
+            skillName,
+          })
+        }
+        break
+      }
+
+      // 미구현/미지원 effect — no-op
+      default:
+        break
 
       // Interval Damage (일정 시간마다 스킬 대미지 발생, 지속 피해(DoT) 아님)
       case 'interval_damage':
@@ -1271,8 +1309,8 @@ function applySpecificEffectToTarget(
         break
       }
 
-      default:
-        break
+      // 미구현 enemy effect 중 no-op
+      // (sequential_damage는 위의 default에서 처리)
     }
     return
   }
@@ -1532,6 +1570,38 @@ function applySpecificEffectToTarget(
       ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'DoT Damage Up' })
       applied = true
       break
+    // ── 홍련:흑영 게이지 시스템 ──
+    case 'gauge_charge': {
+      // 파죽 게이지 충전: ctx.state[charId_gauge] += value
+      ctx.state = ctx.state || {}
+      const gaugeKey = `${sourceChar.id}_gauge`
+      ctx.state[gaugeKey] = (ctx.state[gaugeKey] || 0) + Math.round(value)
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: `Gauge +${Math.round(value)} (now ${ctx.state[gaugeKey]})` })
+      break
+    }
+    case 'gauge_consume': {
+      // 게이지 소모 (damage 발동 후 소모)
+      ctx.state = ctx.state || {}
+      const consumeKey = `${sourceChar.id}_gauge`
+      const consumed = Math.min(ctx.state[consumeKey] || 0, Math.round(value))
+      ctx.state[consumeKey] = Math.max(0, (ctx.state[consumeKey] || 0) - consumed)
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value: consumed, description: `Gauge -${consumed}` })
+      break
+    }
+    case 'trigger_count_reduce': {
+      // 트리거 횟수 감소 (no-op: 현재 사이클 기반 트리거 시스템에서는 처리 불필요)
+      ctx.log.push({ time: ctx.time, type: 'skill', source: sourceChar.id, value, description: 'Trigger Count Reduced (no-op)' })
+      break
+    }
+    // 미구현 ally effect — no-op
+    case 'focus_fire':
+    case 'received_dmg_pct':
+    case 'remove_named_buff':
+    case 'burst_charge_pct':
+    case 'atk_caster_based_pct':
+    case 'ammo_charge_pct':
+    case 'max_ammo_pct':
+      break
     default:
       break
   }
@@ -1599,7 +1669,7 @@ function applySpecificEffectToTarget(
       pct: value,
     })
 
-    // 타임라인 기록
+    // 타임라인 기록 (char.buffTimeline 레거시 경로 + BuffManager 통합 경로)
     const existingEvent = char.buffTimeline!.find(
       (e) =>
         e.buffType === buffKey &&
@@ -1609,19 +1679,60 @@ function applySpecificEffectToTarget(
         (duration === undefined ? e.endTime === ctx.config.duration : e.endTime > ctx.time)
     )
 
+    const slotEndTime = duration === undefined ? ctx.config.duration : ctx.time + duration
+    const slotUid = char.buffSlots!.length // 단순 인덱스 uid (고유성 보장)
+
     if (existingEvent) {
       existingEvent.endTime = duration === undefined ? ctx.config.duration : Math.max(existingEvent.endTime, ctx.time + duration)
+      // BuffManager: 기존 이벤트 닫고 새 이벤트 열기
+      if (ctx.buffManager) {
+        const bmUid = (existingEvent as any).__bmUid
+        if (bmUid !== undefined) ctx.buffManager.closeTimelineEvent(bmUid, ctx.time)
+        const newUid = Date.now() + slotUid
+          ; (existingEvent as any).__bmUid = newUid
+        ctx.buffManager.recordTimelineEvent({
+          uid: newUid,
+          targetId: char.id,
+          casterId: sourceChar.id,
+          buffName: skillName,
+          stat: effectDef.effect || buffKey,
+          sourceSkill: skillName,
+          polarity: 'beneficial',
+          value: appliedFlatValue,
+          startTime: ctx.time,
+          isPermanent: duration === undefined,
+        })
+      }
     } else {
-      char.buffTimeline!.push({
+      const newEvent: any = {
         skillName,
         buffType: buffKey,
         startTime: ctx.time,
-        endTime: duration === undefined ? ctx.config.duration : ctx.time + duration,
+        endTime: slotEndTime,
         isBullet,
         sourceCharId: sourceChar.id,
         value,
-        stackLevel: stackLv
-      })
+        stackLevel: stackLv,
+      }
+      char.buffTimeline!.push(newEvent)
+
+      // BuffManager 통합 타임라인에도 기록
+      if (ctx.buffManager) {
+        const bmUid = Date.now() * 1000 + Math.random() * 999 | 0
+        newEvent.__bmUid = bmUid
+        ctx.buffManager.recordTimelineEvent({
+          uid: bmUid,
+          targetId: char.id,
+          casterId: sourceChar.id,
+          buffName: skillName,
+          stat: effectDef.effect || buffKey,
+          sourceSkill: skillName,
+          polarity: 'beneficial',
+          value: appliedFlatValue,
+          startTime: ctx.time,
+          isPermanent: duration === undefined,
+        })
+      }
     }
   }
 }
@@ -1801,7 +1912,14 @@ function endBuffTimeline(ctx: BattleContext, char: Character, slot: import('../t
         e.skillName === slot.skillName &&
         e.endTime > ctx.time
     )
-    activeEvents.forEach((e) => { e.endTime = ctx.time })
+    activeEvents.forEach((e) => {
+      e.endTime = ctx.time
+      // BuffManager 타임라인도 동기화
+      const bmUid = (e as any).__bmUid
+      if (bmUid !== undefined && ctx.buffManager) {
+        ctx.buffManager.closeTimelineEvent(bmUid, ctx.time)
+      }
+    })
   }
 }
 

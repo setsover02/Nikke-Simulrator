@@ -188,7 +188,7 @@ template에 timing 키워드 없으면:
 | `최대 장탄 재장전 완료 시 삭제` | 직전 효과에 `"duration": -1` 기록. 추가로 `event:full_reload` timing의 `remove_named_buff` instant 항목을 별도 생성 (target_effect = 직전 효과의 name) |
 | `N초 간격` | 해당 clause 직전 효과 항목의 `tick_interval`로 기록 |
 | `N중첩` | 해당 clause 직전 효과 항목의 `max_stack`으로 기록. **직전 항목이 `dot_damage`면 `"scaling": "stack_count"`도 함께 적는다** — `[N 중첩]` DoT는 인스턴스가 병존하므로(`GAMEPLAY.md` §버프 스택) 틱 대미지가 중첩만큼 곱해져야 하는데, 엔진은 그 표시가 있을 때만 곱한다(`timeline.py`). 빠뜨리면 중첩은 쌓이는데 대미지는 1중첩에 머물며 로그에도 흔적이 없다 (레이븐 `쇼크웨이브`가 그랬다 — 총딜 −208%). `calculator/test_stacking_dot.py`가 강제한다 |
-| `N회 순차 공격` | 해당 clause 직전 효과 항목의 `stat`을 `"sequential_damage:N"` 형태로 갱신 |
+| `N회 순차 공격` | 해당 clause 직전 효과 항목의 `stat`을 `"sequential_damage"` 로 설정하고, `"hits": N`(정수) 필드를 추가. **effect 키 이름에 횟수를 포함하지 않는다** — `sequential_damage:4` 같은 형태는 switch-case 매칭 실패(무발동)를 유발하므로 금지. hits를 다른 게이지/스택 참조로 쓰는 경우(`X개만큼 공격`)는 `"hits_ref": "게이지명"` 사용. |
 | `[게이지명/스택명] 갯수만큼 공격` / `[게이지명/스택명] 수만큼 공격` | "순차 공격" 문구 없이 게이지/스택 수에 비례한 공격 횟수. 직전 damage 항목에 `"scaling": "stack_count"`, `"scaling_ref": "게이지명/스택명"` 추가. target은 `"enemies_random"` (무작위 배분) 또는 원문 그대로. |
 | `N회 발동` | 해당 clause 직전 효과 항목이 damage type이면 stat을 `"stat_base:N"` 형태로 갱신 (예: `bonus_damage` → `bonus_damage:5`). damage 외 type이면 `max_trigger`로 기록 |
 | `전투 중 N회 발동` | 해당 clause 직전 효과 항목의 `max_trigger`로 기록 |
@@ -584,15 +584,15 @@ template에 timing 키워드 없으면:
 |------|------|
 | `damage` | 일반 대미지 (`공격력 X% 대미지` 또는 `최종 공격력 X% 대미지`) |
 | `auto_damage` | 주기 자동공격 대미지. `damage_formula: "normal_attack"` + `tick_interval` 함께 사용 |
+| `sequential_damage` | 연속 순차 공격 대미지. **반드시 `hits: N`(정수) 또는 `hits_ref: "참조명"`을 함께 기입**. `hits`가 없으면 엔진이 1회로 처리. `sequential_damage:N` 형태의 effect 키는 허용하지 않는다 |
+| `split_damage` | 분배 대미지 — 범위 내 적에게 공격력의 X%를 균등 분배. 단일 적 시뮬레이션에서는 전체 값을 해당 적에게 적용 |
 | `burst_damage` | 버스트 스킬 대미지 (텍스트에 "버스트 스킬 대미지" 명시 시에만 사용; 그 외 스킬3 대미지는 `damage`) |
 | `dot_damage` | 지속 대미지 (tick_interval 추가 필요, duration 추가 필요). **buff 필수 필드도 함께 작성**: `polarity`(항상 `"harmful"` 또는 `"harmful_irremovable"`), `max_stack`(명시 시), `duration`(필수). 인게임에서 DoT는 해로운 효과 판정이므로 debuff_cleanse로 제거 가능. `[해제 불가]` 블록이 있으면 `"harmful_irremovable"` 사용. |
-| `split_damage` | 분배 대미지 |
 | `bonus_damage` | 추가 대미지 |
 | `armor_break_damage` | 방어력 무시 대미지 |
 | `pierce_damage` | 관통 대미지 |
 | `projectile_explosion_damage` | 발사체 폭발 대미지 |
 | `projectile_attachment_damage` | 발사체 부착 대미지 |
-| `sequential_damage` | 순차 공격 대미지. `[N회 순차 공격]` 블록이 있으면 `stat: "sequential_damage:N"` 형태로 N을 stat에 포함. target은 `"enemies_random"` (N 미명시) 또는 `"enemies_random:N"`. N이 스택/게이지 기반으로 동적인 경우 `stat: "sequential_damage:스택명"` 형태로 기입하고 `scaling_ref`는 사용하지 않는다. |
 | `core_damage` | 코어 명중 대미지. 원문에 `코어 명중` 이 명시된 스킬 딜. condition에 `core_hit`를 함께 적는다 — 코어 없는 적에서는 무발동이고, 코어가 있으면 **확정 코어 명중**(확률 판정 없음)으로 무기 코어 배율 + `core_dmg_pct` 버프가 실린다 |
 
 > **`hits_parts: true`**: 원문이 대상에 **파츠를 명시**한 damage 효과(`적 전체 (파츠 포함)` 등)에 붙이는 boolean 필드. 이게 붙은 히트만 파츠 판정을 받아 `part_dmg_pct` 버프가 실리며, 파츠 보유 보스(`enemy.has_parts`)일 때만 성립한다. 기본공격에는 붙지 않는다. 신데렐라 : 크리스탈 웨이브 `모드 스왑 2`

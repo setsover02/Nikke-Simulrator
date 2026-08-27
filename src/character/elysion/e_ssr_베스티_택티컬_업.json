@@ -1,216 +1,216 @@
 {
-    "characterID": "Char_94",
-    "characterName": "베스티 : 택티컬 업",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "앱솔루트",
-        "burstLevel": 3,
-        "atkCoef": 22.44,
-        "maxAmmo": 8,
-        "reloadTime": 2,
-        "chargeTime": 2,
-        "fireRate": 3,
-        "fullChargeDamage": 200,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_94",
+  "characterName": "베스티 : 택티컬 업",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "앱솔루트",
+    "burstLevel": 3,
+    "atkCoef": 22.44,
+    "maxAmmo": 8,
+    "reloadTime": 2,
+    "chargeTime": 2,
+    "fireRate": 3,
+    "fullChargeDamage": 200,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "미사일 가이드",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "미사일 가이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "charge_speed_pct",
-                    "status": "미사일 가이드",
-                    "value": [
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100,
-                        100
-                    ],
-                    "unit": "percent",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        34.56,
-                        37.22,
-                        39.88,
-                        42.54,
-                        45.2,
-                        47.86,
-                        50.52,
-                        53.18,
-                        55.84,
-                        58.5
-                    ],
-                    "unit": "percent",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "full_reload",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "charge_speed_pct",
+          "status": "미사일 가이드",
+          "value": [
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100,
+            100
+          ],
+          "unit": "percent",
+          "bullet": 3
         },
         {
-            "id": "skill_2",
-            "name": "몬스터 스테이지",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "skill_damage",
-                    "value": [
-                        157.53,
-                        169.65,
-                        181.76,
-                        193.88,
-                        206,
-                        218.12,
-                        230.24,
-                        242.36,
-                        254.48,
-                        266.6
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        11.82,
-                        12.73,
-                        13.64,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 3
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        11.82,
-                        12.73,
-                        13.64,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 3
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            34.56,
+            37.22,
+            39.88,
+            42.54,
+            45.2,
+            47.86,
+            50.52,
+            53.18,
+            55.84,
+            58.5
+          ],
+          "unit": "percent",
+          "bullet": 3
         },
         {
-            "id": "burst",
-            "name": "미사일 컨테이너 온라인",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "explosion_range_up",
-                    "value": [
-                        59.09,
-                        63.63,
-                        68.18,
-                        72.72,
-                        77.27,
-                        81.81,
-                        86.36,
-                        90.91,
-                        95.45,
-                        100
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        35.45,
-                        38.18,
-                        40.91,
-                        43.63,
-                        46.36,
-                        49.09,
-                        51.81,
-                        54.54,
-                        57.27,
-                        60
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "skill_damage",
-                    "value": [
-                        290.9,
-                        313.28,
-                        335.66,
-                        358.04,
-                        380.41,
-                        402.79,
-                        425.17,
-                        447.55,
-                        469.92,
-                        492.3
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk"
-                }
-            ]
+          "trigger": "full_reload",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "몬스터 스테이지",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "damage",
+          "value": [
+            157.53,
+            169.65,
+            181.76,
+            193.88,
+            206,
+            218.12,
+            230.24,
+            242.36,
+            254.48,
+            266.6
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            11.82,
+            12.73,
+            13.64,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "duration": 3
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            11.82,
+            12.73,
+            13.64,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "duration": 3
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "미사일 컨테이너 온라인",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "explosion_range",
+          "value": [
+            59.09,
+            63.63,
+            68.18,
+            72.72,
+            77.27,
+            81.81,
+            86.36,
+            90.91,
+            95.45,
+            100
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            35.45,
+            38.18,
+            40.91,
+            43.63,
+            46.36,
+            49.09,
+            51.81,
+            54.54,
+            57.27,
+            60
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            290.9,
+            313.28,
+            335.66,
+            358.04,
+            380.41,
+            402.79,
+            425.17,
+            447.55,
+            469.92,
+            492.3
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk"
+        }
+      ]
+    }
+  ]
 }

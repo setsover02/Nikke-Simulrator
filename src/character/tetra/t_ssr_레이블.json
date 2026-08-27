@@ -1,355 +1,355 @@
 {
-    "characterID": "Char_582",
-    "characterName": "레이블",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "AR",
-        "class": "방어형",
-        "company": "Elysion",
-        "squad": "베스트 셀러",
-        "burstLevel": 1,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_582",
+  "characterName": "레이블",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "AR",
+    "class": "방어형",
+    "company": "Elysion",
+    "squad": "베스트 셀러",
+    "burstLevel": 1,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "만남과 이별(상상)",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "만남과 이별(상상)",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "망상",
-                    "value": [
-                        17.82,
-                        19.19,
-                        20.56,
-                        21.93,
-                        23.3,
-                        24.67,
-                        26.04,
-                        27.41,
-                        28.78,
-                        30.15
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "remove_status",
-                    "status": "상상 실연",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "stun",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "normal_attack",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "망상",
-                    "value": [
-                        17.82,
-                        19.19,
-                        20.56,
-                        21.93,
-                        23.3,
-                        24.67,
-                        26.04,
-                        27.41,
-                        28.78,
-                        30.15
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "망상",
-                    "value": [
-                        17.82,
-                        19.19,
-                        20.56,
-                        21.93,
-                        23.3,
-                        24.67,
-                        26.04,
-                        27.41,
-                        28.78,
-                        30.15
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "shield",
+          "status": "망상",
+          "value": [
+            17.82,
+            19.19,
+            20.56,
+            21.93,
+            23.3,
+            24.67,
+            26.04,
+            27.41,
+            28.78,
+            30.15
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
         },
         {
-            "id": "skill_2",
-            "name": "연애의 달콤함(상상)",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "allies_excluding_self",
-                    "effect": "received_dmg",
-                    "value": [
-                        41.6,
-                        44.8,
-                        48,
-                        51.2,
-                        54.4,
-                        57.6,
-                        60.8,
-                        64,
-                        67.2,
-                        70.4
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "count_limit": 1
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "burst_gauge_charge_speed_up",
-                    "value": [
-                        41.6,
-                        44.8,
-                        48,
-                        51.2,
-                        54.4,
-                        57.6,
-                        60.8,
-                        64,
-                        67.2,
-                        70.4
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        55.18,
-                        59.43,
-                        63.67,
-                        67.92,
-                        72.16,
-                        76.41,
-                        80.65,
-                        84.9,
-                        89.14,
-                        93.39
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "received_dmg",
-                    "value": [
-                        41.6,
-                        44.8,
-                        48,
-                        51.2,
-                        54.4,
-                        57.6,
-                        60.8,
-                        64,
-                        67.2,
-                        70.4
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_excluding_self",
-                    "effect": "atk_pct",
-                    "value": [
-                        47.48,
-                        51.13,
-                        54.78,
-                        58.44,
-                        62.09,
-                        65.74,
-                        69.39,
-                        73.05,
-                        76.7,
-                        80.36
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "burst",
-            "name": "폭발하는 마음",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        11.97,
-                        12.89,
-                        13.81,
-                        14.73,
-                        15.66,
-                        16.58,
-                        17.5,
-                        18.42,
-                        19.34,
-                        20.26
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "shield",
-                    "status": "망상 공유",
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "remove_status",
+          "status": "상상 실연",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "stun",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent"
+        },
+        {
+          "trigger": "normal_attack",
+          "target": "self",
+          "effect": "shield",
+          "status": "망상",
+          "value": [
+            17.82,
+            19.19,
+            20.56,
+            21.93,
+            23.3,
+            24.67,
+            26.04,
+            27.41,
+            28.78,
+            30.15
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "shield",
+          "status": "망상",
+          "value": [
+            17.82,
+            19.19,
+            20.56,
+            21.93,
+            23.3,
+            24.67,
+            26.04,
+            27.41,
+            28.78,
+            30.15
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "연애의 달콤함(상상)",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "all_allies_excl_self",
+          "effect": "received_dmg",
+          "value": [
+            41.6,
+            44.8,
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            67.2,
+            70.4
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "count_limit": 1
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "burst_charge_speed_pct",
+          "value": [
+            41.6,
+            44.8,
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            67.2,
+            70.4
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            55.18,
+            59.43,
+            63.67,
+            67.92,
+            72.16,
+            76.41,
+            80.65,
+            84.9,
+            89.14,
+            93.39
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "received_dmg",
+          "value": [
+            41.6,
+            44.8,
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            67.2,
+            70.4
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies_excl_self",
+          "effect": "atk_pct",
+          "value": [
+            47.48,
+            51.13,
+            54.78,
+            58.44,
+            62.09,
+            65.74,
+            69.39,
+            73.05,
+            76.7,
+            80.36
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "폭발하는 마음",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            11.97,
+            12.89,
+            13.81,
+            14.73,
+            15.66,
+            16.58,
+            17.5,
+            18.42,
+            19.34,
+            20.26
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "shield",
+          "status": "망상 공유",
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }
