@@ -158,7 +158,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             20.72,
             22.32,
@@ -178,7 +178,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies_excl_self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             6.03,
             6.49,

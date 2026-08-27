@@ -27,7 +27,7 @@
         {
           "trigger": "battle_start",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "status": "nano_coating",
           "value": [
             11.61,
@@ -48,7 +48,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "status": "nano_coating",
           "value": [
             11.61,

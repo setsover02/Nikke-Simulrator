@@ -27,7 +27,7 @@
         {
           "trigger": "passive",
           "target": "allies_top_atk:2",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             6.85,
             7.61,
@@ -119,7 +119,7 @@
         {
           "trigger": "burst_cast",
           "target": "allies_top_atk:2",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             16.45,
             18.28,

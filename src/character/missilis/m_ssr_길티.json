@@ -101,7 +101,7 @@
         {
           "trigger": "max_stack_applied",
           "target": "same_target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             10.12,
             11.25,

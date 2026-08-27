@@ -27,7 +27,7 @@
         {
           "trigger": "last_bullet_hit",
           "target": "target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             4.62,
             5.04,
@@ -91,7 +91,7 @@
         {
           "trigger": "full_burst_start",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             35.82,
             38.27,

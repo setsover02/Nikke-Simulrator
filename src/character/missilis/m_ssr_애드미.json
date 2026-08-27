@@ -53,7 +53,7 @@
         {
           "trigger": "passive",
           "target": "allies_top_atk:2",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             14.32,
             15.91,

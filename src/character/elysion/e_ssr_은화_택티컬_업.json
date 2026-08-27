@@ -126,7 +126,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -201,7 +203,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -220,7 +224,9 @@
             5.11
           ],
           "unit": "percent",
-          "duration": "permanent"
+          "duration": "permanent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -252,7 +258,6 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "change_weapon",
           "weapon_override": {
             "chargeTime": 0.3,
             "atkCoef": [
@@ -293,12 +298,13 @@
             0,
             0,
             0
-          ]
+          ],
+          "type": "weapon_change"
         },
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "status": "내부 폭발탄",
           "value": [
             16.47,

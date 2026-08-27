@@ -27,7 +27,7 @@
         {
           "trigger": "passive",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             22.96,
             26.25,
@@ -72,7 +72,7 @@
         {
           "trigger": "full_burst_time",
           "target": "same_target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             4.1,
             4.69,
@@ -99,7 +99,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             42,
             48,

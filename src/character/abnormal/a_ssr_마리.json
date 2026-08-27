@@ -27,7 +27,7 @@
         {
           "trigger": "full_charge_attack",
           "target": "all_allies",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             59.17,
             63.72,

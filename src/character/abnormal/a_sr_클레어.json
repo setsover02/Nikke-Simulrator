@@ -1,123 +1,123 @@
 {
-    "characterID": "Char_842",
-    "characterName": "클레어",
-    "stats": {
-        "rarity": "SR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Abnormal",
-        "squad": "B.S.T.",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_842",
+  "characterName": "클레어",
+  "stats": {
+    "rarity": "SR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Abnormal",
+    "squad": "B.S.T.",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "녹색 약초",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "녹색 약초",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "status": "녹색 허브",
-                    "value": [
-                        1.26,
-                        1.44,
-                        1.62,
-                        1.79,
-                        1.97,
-                        2.15,
-                        2.33,
-                        2.5,
-                        2.68,
-                        2.86
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "임시 바리케이드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "shield",
-                    "status": "푸른 허브",
-                    "value": [
-                        4.43,
-                        5.06,
-                        5.7,
-                        6.33,
-                        6.96,
-                        7.6,
-                        8.23,
-                        8.87,
-                        9.5,
-                        10.13
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "R+G+B",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        14.96,
-                        17.12,
-                        19.27,
-                        21.43,
-                        23.58,
-                        25.74,
-                        27.89,
-                        30.04,
-                        32.2,
-                        34.35
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "status": "녹색 허브",
+          "value": [
+            1.26,
+            1.44,
+            1.62,
+            1.79,
+            1.97,
+            2.15,
+            2.33,
+            2.5,
+            2.68,
+            2.86
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "임시 바리케이드",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "shield_from_max_hp_pct",
+          "status": "푸른 허브",
+          "value": [
+            4.43,
+            5.06,
+            5.7,
+            6.33,
+            6.96,
+            7.6,
+            8.23,
+            8.87,
+            9.5,
+            10.13
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "R+G+B",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            14.96,
+            17.12,
+            19.27,
+            21.43,
+            23.58,
+            25.74,
+            27.89,
+            30.04,
+            32.2,
+            34.35
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        }
+      ]
+    }
+  ]
 }

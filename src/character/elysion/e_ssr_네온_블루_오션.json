@@ -162,7 +162,6 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "change_weapon",
           "weapon_override": {
             "atkCoef": [
               19.5,
@@ -189,7 +188,8 @@
             0,
             0,
             0
-          ]
+          ],
+          "type": "weapon_change"
         },
         {
           "trigger": "burst_cast",

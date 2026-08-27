@@ -80,7 +80,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             18.93,
             21.03,

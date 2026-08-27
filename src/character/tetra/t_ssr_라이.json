@@ -119,7 +119,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             7.92,
             8.64,

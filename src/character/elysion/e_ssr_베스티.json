@@ -137,7 +137,9 @@
             2,
             2
           ],
-          "unit": "percent"
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "burst_cast",

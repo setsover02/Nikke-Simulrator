@@ -40,12 +40,14 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "battle_start",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             2.3,
             2.48,
@@ -99,7 +101,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "enemy_spawn",
@@ -117,7 +121,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "enemy_spawn",
@@ -161,7 +167,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -199,7 +207,9 @@
             2.32
           ],
           "unit": "percent",
-          "duration": "permanent"
+          "duration": "permanent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -217,7 +227,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -255,7 +267,9 @@
             3.09
           ],
           "unit": "percent",
-          "duration": "permanent"
+          "duration": "permanent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -274,7 +288,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "passive",
@@ -293,7 +309,9 @@
             20
           ],
           "unit": "percent",
-          "duration": "permanent"
+          "duration": "permanent",
+          "_unparseable": true,
+          "_raw": "buff"
         }
       ]
     },
@@ -340,7 +358,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "burst_cast",

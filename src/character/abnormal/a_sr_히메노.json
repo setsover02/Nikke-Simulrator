@@ -1,140 +1,140 @@
 {
-    "characterID": "Char_802",
-    "characterName": "히메노",
-    "stats": {
-        "rarity": "SR",
-        "element": "풍압",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Abnormal",
-        "squad": "데블 헌터",
-        "burstLevel": 2,
-        "atkCoef": 70.89,
-        "maxAmmo": 6,
-        "reloadTime": 2.3,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_802",
+  "characterName": "히메노",
+  "stats": {
+    "rarity": "SR",
+    "element": "풍압",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Abnormal",
+    "squad": "데블 헌터",
+    "burstLevel": 2,
+    "atkCoef": 70.89,
+    "maxAmmo": 6,
+    "reloadTime": 2.3,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "약점 공략",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "약점 공략",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "enemy_def_down_pct",
-                    "value": [
-                        3.03,
-                        3.47,
-                        3.9,
-                        4.33,
-                        4.77,
-                        5.2,
-                        5.64,
-                        6.07,
-                        6.5,
-                        6.94
-                    ],
-                    "unit": "percent",
-                    "duration": 3
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "보이지 않는 손",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "allies_weapon:SR",
-                    "effect": "atk_pct",
-                    "value": [
-                        1.47,
-                        2.53,
-                        3.59,
-                        4.64,
-                        5.7,
-                        6.75,
-                        7.81,
-                        8.87,
-                        9.92,
-                        10.98
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_weapon:SR",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "count",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "고스트",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        7.56,
-                        9.36,
-                        11.16,
-                        12.96,
-                        14.76,
-                        16.56,
-                        18.36,
-                        20.16,
-                        21.96,
-                        23.76
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        8.52,
-                        9.39,
-                        10.26,
-                        11.13,
-                        12,
-                        12.87,
-                        13.74,
-                        14.61,
-                        15.48,
-                        16.35
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "received_dmg_pct",
+          "value": [
+            3.03,
+            3.47,
+            3.9,
+            4.33,
+            4.77,
+            5.2,
+            5.64,
+            6.07,
+            6.5,
+            6.94
+          ],
+          "unit": "percent",
+          "duration": 3
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "보이지 않는 손",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "allies_weapon:SR",
+          "effect": "atk_pct",
+          "value": [
+            1.47,
+            2.53,
+            3.59,
+            4.64,
+            5.7,
+            6.75,
+            7.81,
+            8.87,
+            9.92,
+            10.98
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "passive",
+          "target": "allies_weapon:SR",
+          "effect": "max_ammo_pct",
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "unit": "count",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "고스트",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            7.56,
+            9.36,
+            11.16,
+            12.96,
+            14.76,
+            16.56,
+            18.36,
+            20.16,
+            21.96,
+            23.76
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            8.52,
+            9.39,
+            10.26,
+            11.13,
+            12,
+            12.87,
+            13.74,
+            14.61,
+            15.48,
+            16.35
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

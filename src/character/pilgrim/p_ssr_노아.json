@@ -1,160 +1,160 @@
 {
-    "characterID": "Char_232",
-    "characterName": "노아",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Pilgrim",
-        "squad": "인헤르트",
-        "burstLevel": 2,
-        "atkCoef": 32.02,
-        "maxAmmo": 6,
-        "reloadTime": 2.5,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_232",
+  "characterName": "노아",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Pilgrim",
+    "squad": "인헤르트",
+    "burstLevel": 2,
+    "atkCoef": 32.02,
+    "maxAmmo": 6,
+    "reloadTime": 2.5,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "아파 보이네?",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "아파 보이네?",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "on_hit",
-                    "target": "all_allies",
-                    "effect": "received_dmg",
-                    "condition": "prob:10",
-                    "value": [
-                        4.4,
-                        4.8,
-                        5.2,
-                        5.6,
-                        6,
-                        6.4,
-                        6.8,
-                        7.2,
-                        7.6,
-                        8
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "때려볼래?",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 2,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "atk_pct",
-                    "value": [
-                        9.35,
-                        9.78,
-                        10.22,
-                        10.65,
-                        11.09,
-                        11.52,
-                        11.95,
-                        12.39,
-                        12.82,
-                        13.25
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "약오르죠?",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "invincible",
-                    "unit": "percent",
-                    "duration": 3,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        88.93,
-                        93.88,
-                        98.83,
-                        103.78,
-                        108.73,
-                        113.68,
-                        118.63,
-                        123.58,
-                        128.53,
-                        133.48
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "on_hit",
+          "target": "all_allies",
+          "effect": "received_dmg_pct",
+          "condition": "prob:10",
+          "value": [
+            4.4,
+            4.8,
+            5.2,
+            5.6,
+            6,
+            6.4,
+            6.8,
+            7.2,
+            7.6,
+            8
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "때려볼래?",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 2,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "atk_pct",
+          "value": [
+            9.35,
+            9.78,
+            10.22,
+            10.65,
+            11.09,
+            11.52,
+            11.95,
+            12.39,
+            12.82,
+            13.25
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "약오르죠?",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "invincible",
+          "unit": "percent",
+          "duration": 3,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            88.93,
+            93.88,
+            98.83,
+            103.78,
+            108.73,
+            113.68,
+            118.63,
+            123.58,
+            128.53,
+            133.48
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

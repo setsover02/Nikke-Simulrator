@@ -86,7 +86,9 @@
             57.03,
             58.99
           ],
-          "unit": "percent"
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "full_burst_start",
@@ -150,7 +152,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "burst_cast",

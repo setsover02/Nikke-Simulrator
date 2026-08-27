@@ -140,7 +140,7 @@
         {
           "trigger": "hit_count:10",
           "target": "self",
-          "effect": "ammo_charge_flat",
+          "effect": "ammo_charge_pct",
           "value": [
             3,
             3,

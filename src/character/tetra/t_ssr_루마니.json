@@ -1,161 +1,161 @@
 {
-    "characterID": "Char_240",
-    "characterName": "루마니",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Tetra",
-        "squad": "라이프 토닉",
-        "burstLevel": 1,
-        "atkCoef": 56.38,
-        "maxAmmo": 6,
-        "reloadTime": 0.6,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_240",
+  "characterName": "루마니",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Tetra",
+    "squad": "라이프 토닉",
+    "burstLevel": 1,
+    "atkCoef": 56.38,
+    "maxAmmo": 6,
+    "reloadTime": 0.6,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "머슬 업",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "머슬 업",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "status": "머슬 업",
-                    "value": [
-                        1.79,
-                        1.93,
-                        2.07,
-                        2.21,
-                        2.35,
-                        2.48,
-                        2.62,
-                        2.76,
-                        2.9,
-                        3.04
-                    ],
-                    "unit": "percent",
-                    "duration": 2,
-                    "stack": 5
-                },
-                {
-                    "trigger": "full_burst_normal_attack",
-                    "target": "target",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 5,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "status": "머슬 업",
+          "value": [
+            1.79,
+            1.93,
+            2.07,
+            2.21,
+            2.35,
+            2.48,
+            2.62,
+            2.76,
+            2.9,
+            3.04
+          ],
+          "unit": "percent",
+          "duration": 2,
+          "stack": 5
         },
         {
-            "id": "skill_2",
-            "name": "머슬 타임",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "part_dmg_pct",
-                    "value": [
-                        5.94,
-                        6.39,
-                        6.85,
-                        7.31,
-                        7.76,
-                        8.22,
-                        8.68,
-                        9.13,
-                        9.59,
-                        10.05
-                    ],
-                    "unit": "percent",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "머슬 올마이티",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        8.94,
-                        9.63,
-                        10.32,
-                        11,
-                        11.69,
-                        12.38,
-                        13.07,
-                        13.76,
-                        14.44,
-                        15.13
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        5.94,
-                        6.39,
-                        6.85,
-                        7.31,
-                        7.76,
-                        8.22,
-                        8.68,
-                        9.13,
-                        9.59,
-                        10.05
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "self",
-                    "effect": "received_dmg",
-                    "value": [
-                        11.85,
-                        12.76,
-                        13.68,
-                        14.59,
-                        15.5,
-                        16.41,
-                        17.32,
-                        18.24,
-                        19.15,
-                        20.06
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_burst_normal_attack",
+          "target": "target",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 5,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "머슬 타임",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "part_dmg_pct",
+          "value": [
+            5.94,
+            6.39,
+            6.85,
+            7.31,
+            7.76,
+            8.22,
+            8.68,
+            9.13,
+            9.59,
+            10.05
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "머슬 올마이티",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            8.94,
+            9.63,
+            10.32,
+            11,
+            11.69,
+            12.38,
+            13.07,
+            13.76,
+            14.44,
+            15.13
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            5.94,
+            6.39,
+            6.85,
+            7.31,
+            7.76,
+            8.22,
+            8.68,
+            9.13,
+            9.59,
+            10.05
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "max_stack_applied",
+          "target": "self",
+          "effect": "received_dmg_pct",
+          "value": [
+            11.85,
+            12.76,
+            13.68,
+            14.59,
+            15.5,
+            16.41,
+            17.32,
+            18.24,
+            19.15,
+            20.06
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

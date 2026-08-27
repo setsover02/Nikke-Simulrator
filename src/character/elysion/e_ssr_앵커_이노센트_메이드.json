@@ -1,256 +1,258 @@
 {
-    "characterID": "Char_355",
-    "characterName": "앵커 : 이노센트 메이드",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "이지스",
-        "burstLevel": 2,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_355",
+  "characterName": "앵커 : 이노센트 메이드",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "이지스",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "불가사리(모양) 오므라이스",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "불가사리(모양) 오므라이스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start_count:1",
-                    "target": "all_allies",
-                    "effect": "heal_received_pct",
-                    "value": [
-                        18.29,
-                        19.7,
-                        21.11,
-                        22.51,
-                        23.92,
-                        25.33,
-                        26.74,
-                        28.14,
-                        29.55,
-                        30.96
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "불가사리(모양) 오므라이스",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start_count:2",
-                    "target": "all_allies",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        17.96,
-                        19.34,
-                        20.72,
-                        22.1,
-                        23.49,
-                        24.87,
-                        26.25,
-                        27.63,
-                        29.01,
-                        30.4
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "불가사리(모양) 오므라이스 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start_count:3",
-                    "target": "all_allies",
-                    "effect": "debuff_stack_remove",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "불가사리(모양) 오므라이스 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.79,
-                        1.93,
-                        2.07,
-                        2.21,
-                        2.34,
-                        2.48,
-                        2.62,
-                        2.76,
-                        2.9,
-                        3.04
-                    ],
-                    "unit": "percent",
-                    "duration": 8,
-                    "name": "불가사리(모양) 오므라이스 4",
-                    "type": "instant",
-                    "condition": "squad_ally_exists"
-                }
-            ]
+          "trigger": "full_burst_start_count:1",
+          "target": "all_allies",
+          "effect": "heal_received_pct",
+          "value": [
+            18.29,
+            19.7,
+            21.11,
+            22.51,
+            23.92,
+            25.33,
+            26.74,
+            28.14,
+            29.55,
+            30.96
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "불가사리(모양) 오므라이스",
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "말미잘(모양) 파스타",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end_count:1",
-                    "target": "all_allies",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        5.98,
-                        6.44,
-                        6.9,
-                        7.36,
-                        7.83,
-                        8.29,
-                        8.75,
-                        9.21,
-                        9.67,
-                        10.13
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "말미잘(모양) 파스타",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_end_count:2",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        20.65,
-                        22.25,
-                        23.85,
-                        25.44,
-                        27.04,
-                        28.64,
-                        30.23,
-                        31.83,
-                        33.43,
-                        35.02
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "말미잘(모양) 파스타 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_end_count:3",
-                    "target": "all_allies",
-                    "effect": "reload_speed_pct",
-                    "value": [
-                        23.82,
-                        25.62,
-                        27.42,
-                        29.23,
-                        31.03,
-                        32.83,
-                        34.63,
-                        36.44,
-                        38.24,
-                        40.04
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "말미잘(모양) 파스타 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start_count:2",
+          "target": "all_allies",
+          "effect": "split_dmg_pct",
+          "value": [
+            17.96,
+            19.34,
+            20.72,
+            22.1,
+            23.49,
+            24.87,
+            26.25,
+            27.63,
+            29.01,
+            30.4
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "불가사리(모양) 오므라이스 2",
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "바다 산책",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_overcharge_store",
-                    "value": [
-                        35.56,
-                        38.3,
-                        41.04,
-                        43.77,
-                        46.51,
-                        49.24,
-                        51.98,
-                        54.72,
-                        57.45,
-                        60.19
-                    ],
-                    "unit": "percent",
-                    "duration": 25,
-                    "name": "저장",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        23.56,
-                        25.41,
-                        27.25,
-                        29.1,
-                        30.95,
-                        32.79,
-                        34.64,
-                        36.49,
-                        38.33,
-                        40.18
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "바다 산책",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        17.78,
-                        19.15,
-                        20.52,
-                        21.88,
-                        23.25,
-                        24.62,
-                        25.99,
-                        27.36,
-                        28.72,
-                        30.09
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "바다 산책 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start_count:3",
+          "target": "all_allies",
+          "effect": "debuff_stack_remove",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "불가사리(모양) 오므라이스 3",
+          "type": "instant",
+          "_unparseable": true,
+          "_raw": "debuff_stack_remove"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.79,
+            1.93,
+            2.07,
+            2.21,
+            2.34,
+            2.48,
+            2.62,
+            2.76,
+            2.9,
+            3.04
+          ],
+          "unit": "percent",
+          "duration": 8,
+          "name": "불가사리(모양) 오므라이스 4",
+          "type": "instant",
+          "condition": "squad_ally_exists"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "말미잘(모양) 파스타",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_end_count:1",
+          "target": "all_allies",
+          "effect": "accuracy_pct",
+          "value": [
+            5.98,
+            6.44,
+            6.9,
+            7.36,
+            7.83,
+            8.29,
+            8.75,
+            9.21,
+            9.67,
+            10.13
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "말미잘(모양) 파스타",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_end_count:2",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            20.65,
+            22.25,
+            23.85,
+            25.44,
+            27.04,
+            28.64,
+            30.23,
+            31.83,
+            33.43,
+            35.02
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "말미잘(모양) 파스타 2",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_end_count:3",
+          "target": "all_allies",
+          "effect": "reload_speed_pct",
+          "value": [
+            23.82,
+            25.62,
+            27.42,
+            29.23,
+            31.03,
+            32.83,
+            34.63,
+            36.44,
+            38.24,
+            40.04
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "name": "말미잘(모양) 파스타 3",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "바다 산책",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_overcharge_store",
+          "value": [
+            35.56,
+            38.3,
+            41.04,
+            43.77,
+            46.51,
+            49.24,
+            51.98,
+            54.72,
+            57.45,
+            60.19
+          ],
+          "unit": "percent",
+          "duration": 25,
+          "name": "저장",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            23.56,
+            25.41,
+            27.25,
+            29.1,
+            30.95,
+            32.79,
+            34.64,
+            36.49,
+            38.33,
+            40.18
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "바다 산책",
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            17.78,
+            19.15,
+            20.52,
+            21.88,
+            23.25,
+            24.62,
+            25.99,
+            27.36,
+            28.72,
+            30.09
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "바다 산책 2",
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

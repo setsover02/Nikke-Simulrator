@@ -118,7 +118,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_enemies",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             5.82,
             6.66,

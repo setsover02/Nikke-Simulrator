@@ -1,323 +1,323 @@
 {
-    "characterID": "Char_550",
-    "characterName": "베이",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "RL",
-        "class": "방어형",
-        "company": "Tetra",
-        "squad": "리와인드",
-        "burstLevel": 2,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_550",
+  "characterName": "베이",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "RL",
+    "class": "방어형",
+    "company": "Tetra",
+    "squad": "리와인드",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "유 캔 두잇",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "유 캔 두잇",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "split_dmg_pct",
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        5.57,
-                        6.08,
-                        6.58,
-                        7.09,
-                        7.6,
-                        8.11,
-                        8.61,
-                        9.12,
-                        9.63,
-                        10.13
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "split_dmg_pct",
+          "unit": "percent",
+          "duration": "permanent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
         },
         {
-            "id": "skill_2",
-            "name": "치얼업 투게더",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.58,
-                        1.72,
-                        1.87,
-                        2.01,
-                        2.16,
-                        2.3,
-                        2.44,
-                        2.59,
-                        2.73,
-                        2.88
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 5,
-                    "interval": 1
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "퍼스트 위너",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        9.9,
-                        10.8,
-                        11.7,
-                        12.6,
-                        13.5,
-                        14.4,
-                        15.3,
-                        16.2,
-                        17.1,
-                        18
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "received_dmg",
-                    "value": [
-                        4.87,
-                        5.32,
-                        5.76,
-                        6.2,
-                        6.65,
-                        7.09,
-                        7.53,
-                        7.98,
-                        8.42,
-                        8.87
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            5.57,
+            6.08,
+            6.58,
+            7.09,
+            7.6,
+            8.11,
+            8.61,
+            9.12,
+            9.63,
+            10.13
+          ],
+          "unit": "percent",
+          "based_on": "caster_def",
+          "duration": "permanent"
         }
-    ],
-    "favoriteItem": {
-        "itemName": "연습용 신발",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "유 캔 두잇",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "def_up",
-                            "value": [
-                                5.57,
-                                6.08,
-                                6.58,
-                                7.09,
-                                7.6,
-                                8.11,
-                                8.61,
-                                9.12,
-                                9.63,
-                                10.13
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "heal",
-                            "value": [
-                                2.36,
-                                2.54,
-                                2.72,
-                                2.91,
-                                3.09,
-                                3.27,
-                                3.45,
-                                3.63,
-                                3.82,
-                                4
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "치얼업 투게더",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "heal",
-                            "value": [
-                                1.58,
-                                1.72,
-                                1.87,
-                                2.01,
-                                2.16,
-                                2.3,
-                                2.44,
-                                2.59,
-                                2.73,
-                                2.88
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "heal",
-                            "value": [
-                                11.82,
-                                12.73,
-                                13.64,
-                                14.54,
-                                15.45,
-                                16.36,
-                                17.27,
-                                18.18,
-                                19.09,
-                                20
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "퍼스트 위너",
-                    "effects": [
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "heal",
-                            "value": [
-                                11.81,
-                                12.72,
-                                13.63,
-                                14.54,
-                                15.45,
-                                16.36,
-                                17.27,
-                                18.18,
-                                19.09,
-                                20
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "heal",
-                            "value": [
-                                9.9,
-                                10.8,
-                                11.7,
-                                12.6,
-                                13.5,
-                                14.4,
-                                15.3,
-                                16.2,
-                                17.1,
-                                18
-                            ],
-                            "unit": "percent"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "atk_damage_up",
-                            "value": [
-                                4.87,
-                                5.32,
-                                5.76,
-                                6.2,
-                                6.65,
-                                7.09,
-                                7.53,
-                                7.98,
-                                8.42,
-                                8.87
-                            ],
-                            "unit": "percent"
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "치얼업 투게더",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "unit": "percent",
+          "duration": "permanent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.58,
+            1.72,
+            1.87,
+            2.01,
+            2.16,
+            2.3,
+            2.44,
+            2.59,
+            2.73,
+            2.88
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 5,
+          "interval": 1
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "퍼스트 위너",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            9.9,
+            10.8,
+            11.7,
+            12.6,
+            13.5,
+            14.4,
+            15.3,
+            16.2,
+            17.1,
+            18
+          ],
+          "unit": "percent",
+          "duration": 20
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "received_dmg_pct",
+          "value": [
+            4.87,
+            5.32,
+            5.76,
+            6.2,
+            6.65,
+            7.09,
+            7.53,
+            7.98,
+            8.42,
+            8.87
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "연습용 신발",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "유 캔 두잇",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "def_up",
+              "value": [
+                5.57,
+                6.08,
+                6.58,
+                7.09,
+                7.6,
+                8.11,
+                8.61,
+                9.12,
+                9.63,
+                10.13
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "heal",
+              "value": [
+                2.36,
+                2.54,
+                2.72,
+                2.91,
+                3.09,
+                3.27,
+                3.45,
+                3.63,
+                3.82,
+                4
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "치얼업 투게더",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "heal",
+              "value": [
+                1.58,
+                1.72,
+                1.87,
+                2.01,
+                2.16,
+                2.3,
+                2.44,
+                2.59,
+                2.73,
+                2.88
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "heal",
+              "value": [
+                11.82,
+                12.73,
+                13.64,
+                14.54,
+                15.45,
+                16.36,
+                17.27,
+                18.18,
+                19.09,
+                20
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "퍼스트 위너",
+          "effects": [
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "heal",
+              "value": [
+                11.81,
+                12.72,
+                13.63,
+                14.54,
+                15.45,
+                16.36,
+                17.27,
+                18.18,
+                19.09,
+                20
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "heal",
+              "value": [
+                9.9,
+                10.8,
+                11.7,
+                12.6,
+                13.5,
+                14.4,
+                15.3,
+                16.2,
+                17.1,
+                18
+              ],
+              "unit": "percent"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "atk_damage_up",
+              "value": [
+                4.87,
+                5.32,
+                5.76,
+                6.2,
+                6.65,
+                7.09,
+                7.53,
+                7.98,
+                8.42,
+                8.87
+              ],
+              "unit": "percent"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

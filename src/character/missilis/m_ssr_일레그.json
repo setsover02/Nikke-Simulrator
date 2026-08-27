@@ -158,7 +158,7 @@
         {
           "trigger": "burst_cast",
           "target": "target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "status": "boom_install",
           "value": [
             21.06,

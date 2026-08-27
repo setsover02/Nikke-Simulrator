@@ -1,326 +1,326 @@
 {
-    "characterID": "Char_601",
-    "characterName": "프리카",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "T.T. STAR",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_601",
+  "characterName": "프리카",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "T.T. STAR",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "무대, 시작할게.",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "무대, 시작할게.",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "projectile_explosion_dmg_pct",
-                    "value": [
-                        11.82,
-                        12.72,
-                        13.63,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "무대, 시작할게.",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        7.73,
-                        8.33,
-                        8.92,
-                        9.52,
-                        10.11,
-                        10.71,
-                        11.3,
-                        11.9,
-                        12.49,
-                        13.09
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "무대, 시작할게. 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        11.11,
-                        12.09,
-                        13.08,
-                        14.07,
-                        15.06,
-                        16.04,
-                        17.03,
-                        18.02,
-                        19.01,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "무대, 시작할게. 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "outgoing_heal_pct",
-                    "value": [
-                        29.5,
-                        31.77,
-                        34.03,
-                        36.3,
-                        38.57,
-                        40.84,
-                        43.11,
-                        45.38,
-                        47.65,
-                        49.92
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무대, 시작할게. 4",
-                    "type": "buff",
-                    "condition": "self_state:퍼포먼스"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무대, 시작할게. 5",
-                    "type": "buff",
-                    "condition": "self_state:퍼포먼스"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "projectile_explosion_dmg_pct",
+          "value": [
+            11.82,
+            12.72,
+            13.63,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "name": "무대, 시작할게.",
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "한 곡 더!",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        11.8,
-                        12.71,
-                        13.62,
-                        14.53,
-                        15.44,
-                        16.34,
-                        17.25,
-                        18.16,
-                        19.07,
-                        19.98
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "한 곡 더!",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:떼창",
-                    "target": "민트",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무대 파트 : 보컬",
-                    "type": "buff",
-                    "condition": "self_state:퍼포먼스"
-                },
-                {
-                    "trigger": "event:떼창",
-                    "target": "all_allies",
-                    "effect": "named_buff_duration_extend",
-                    "value": [
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21,
-                        21
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "앵콜",
-                    "type": "instant",
-                    "condition": "self_state:퍼포먼스",
-                    "target_effect": "퍼포먼스"
-                },
-                {
-                    "trigger": "event:떼창",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        14.29,
-                        15.48,
-                        16.67,
-                        17.86,
-                        19.05,
-                        20.24,
-                        21.43,
-                        22.62,
-                        23.81,
-                        25.01
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "앵콜 2",
-                    "type": "buff",
-                    "condition": "self_state:퍼포먼스"
-                },
-                {
-                    "trigger": "event:떼창",
-                    "target": "self",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21,
-                        -21
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "앵콜 3",
-                    "type": "instant",
-                    "condition": "self_state:퍼포먼스"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            7.73,
+            8.33,
+            8.92,
+            9.52,
+            10.11,
+            10.71,
+            11.3,
+            11.9,
+            12.49,
+            13.09
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "name": "무대, 시작할게. 2",
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "최고의 무대를 보여줄게!",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 25,
-                    "name": "퍼포먼스",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.79,
-                        1.93,
-                        2.07,
-                        2.21,
-                        2.34,
-                        2.48,
-                        2.62,
-                        2.76,
-                        2.9,
-                        3.04
-                    ],
-                    "unit": "percent",
-                    "duration": 25,
-                    "name": "퍼포먼스 2",
-                    "type": "instant",
-                    "scaling": "max_hp"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        13.88,
-                        15.12,
-                        16.35,
-                        17.59,
-                        18.82,
-                        20.06,
-                        21.29,
-                        22.53,
-                        23.76,
-                        25
-                    ],
-                    "unit": "percent",
-                    "duration": 25,
-                    "name": "퍼포먼스 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            11.11,
+            12.09,
+            13.08,
+            14.07,
+            15.06,
+            16.04,
+            17.03,
+            18.02,
+            19.01,
+            20
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "name": "무대, 시작할게. 3",
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "outgoing_heal_pct",
+          "value": [
+            29.5,
+            31.77,
+            34.03,
+            36.3,
+            38.57,
+            40.84,
+            43.11,
+            45.38,
+            47.65,
+            49.92
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "무대, 시작할게. 4",
+          "type": "buff",
+          "condition": "self_state:퍼포먼스"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "무대, 시작할게. 5",
+          "type": "buff",
+          "condition": "self_state:퍼포먼스"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "한 곡 더!",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            11.8,
+            12.71,
+            13.62,
+            14.53,
+            15.44,
+            16.34,
+            17.25,
+            18.16,
+            19.07,
+            19.98
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "한 곡 더!",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:떼창",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "무대 파트 : 보컬",
+          "type": "buff",
+          "condition": "self_state:퍼포먼스"
+        },
+        {
+          "trigger": "event:떼창",
+          "target": "all_allies",
+          "effect": "named_buff_duration_extend",
+          "value": [
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21,
+            21
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "앵콜",
+          "type": "instant",
+          "condition": "self_state:퍼포먼스",
+          "target_effect": "퍼포먼스"
+        },
+        {
+          "trigger": "event:떼창",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            14.29,
+            15.48,
+            16.67,
+            17.86,
+            19.05,
+            20.24,
+            21.43,
+            22.62,
+            23.81,
+            25.01
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "앵콜 2",
+          "type": "buff",
+          "condition": "self_state:퍼포먼스"
+        },
+        {
+          "trigger": "event:떼창",
+          "target": "self",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            -21,
+            -21,
+            -21,
+            -21,
+            -21,
+            -21,
+            -21,
+            -21,
+            -21,
+            -21
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "앵콜 3",
+          "type": "instant",
+          "condition": "self_state:퍼포먼스"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "최고의 무대를 보여줄게!",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 25,
+          "name": "퍼포먼스",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.79,
+            1.93,
+            2.07,
+            2.21,
+            2.34,
+            2.48,
+            2.62,
+            2.76,
+            2.9,
+            3.04
+          ],
+          "unit": "percent",
+          "duration": 25,
+          "name": "퍼포먼스 2",
+          "type": "instant",
+          "scaling": "max_hp"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "charge_dmg_pct",
+          "value": [
+            13.88,
+            15.12,
+            16.35,
+            17.59,
+            18.82,
+            20.06,
+            21.29,
+            22.53,
+            23.76,
+            25
+          ],
+          "unit": "percent",
+          "duration": 25,
+          "name": "퍼포먼스 3",
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

@@ -1,262 +1,264 @@
 {
-    "characterID": "Char_182",
-    "characterName": "길로틴 : 윈터 슬레이어",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "익스터너",
-        "burstLevel": 3,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_182",
+  "characterName": "길로틴 : 윈터 슬레이어",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "익스터너",
+    "burstLevel": 3,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "용사의 숙명",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "용사의 숙명",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "buff",
-                    "status": "용사 레벨 업",
-                    "value": [
-                        11,
-                        11,
-                        11,
-                        11,
-                        11,
-                        11,
-                        11,
-                        11,
-                        11,
-                        11
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "ammo_charge_pct",
-                    "status": "용사 레벨 업 보상",
-                    "value": [
-                        6.06,
-                        6.53,
-                        7,
-                        7.46,
-                        7.93,
-                        8.4,
-                        8.86,
-                        9.33,
-                        9.8,
-                        10.26
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "status": "용사 레벨 업 보상",
-                    "value": [
-                        1.44,
-                        1.55,
-                        1.66,
-                        1.77,
-                        1.88,
-                        2,
-                        2.11,
-                        2.22,
-                        2.33,
-                        2.44
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_element:수냉",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        0.68,
-                        0.74,
-                        0.79,
-                        0.84,
-                        0.89,
-                        0.94,
-                        1,
-                        1.06,
-                        1.1,
-                        1.16
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "allies_element:수냉",
-                    "effect": "atk_pct",
-                    "value": [
-                        0.55,
-                        0.58,
-                        0.63,
-                        0.67,
-                        0.71,
-                        0.75,
-                        0.79,
-                        0.84,
-                        0.88,
-                        0.91
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "buff",
+          "status": "용사 레벨 업",
+          "value": [
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11,
+            11
+          ],
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "용사의 자질",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:6",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "경험치",
-                    "value": [
-                        1.07,
-                        1.15,
-                        1.24,
-                        1.32,
-                        1.4,
-                        1.48,
-                        1.57,
-                        1.65,
-                        1.73,
-                        1.81
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack": 100
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "경험치",
-                    "value": [
-                        1.07,
-                        1.15,
-                        1.24,
-                        1.32,
-                        1.4,
-                        1.48,
-                        1.57,
-                        1.65,
-                        1.73,
-                        1.81
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "stack": 100
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        4.37,
-                        4.76,
-                        5.07,
-                        5.4,
-                        5.72,
-                        6.05,
-                        6.42,
-                        6.81,
-                        7.07,
-                        7.46
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent"
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "status": "용사 레벨 업 보상",
+          "value": [
+            6.06,
+            6.53,
+            7,
+            7.46,
+            7.93,
+            8.4,
+            8.86,
+            9.33,
+            9.8,
+            10.26
+          ],
+          "unit": "percent"
         },
         {
-            "id": "burst",
-            "name": "익스터미네이션",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_element:수냉",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        5.99,
-                        6.45,
-                        6.91,
-                        7.37,
-                        7.83,
-                        8.29,
-                        8.76,
-                        9.22,
-                        9.68,
-                        10.14
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_element:수냉",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        11.08,
-                        11.93,
-                        12.78,
-                        13.64,
-                        14.49,
-                        15.34,
-                        16.19,
-                        17.05,
-                        17.9,
-                        18.75
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "dot_damage",
-                    "value": [
-                        12.34,
-                        13.28,
-                        14.23,
-                        15.17,
-                        16.14,
-                        17.08,
-                        18.03,
-                        18.99,
-                        19.93,
-                        20.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10,
-                    "interval": 1
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "status": "용사 레벨 업 보상",
+          "value": [
+            1.44,
+            1.55,
+            1.66,
+            1.77,
+            1.88,
+            2,
+            2.11,
+            2.22,
+            2.33,
+            2.44
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp"
+        },
+        {
+          "trigger": "passive",
+          "target": "allies_element:수냉",
+          "effect": "atk_dmg_pct",
+          "value": [
+            0.68,
+            0.74,
+            0.79,
+            0.84,
+            0.89,
+            0.94,
+            1,
+            1.06,
+            1.1,
+            1.16
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        },
+        {
+          "trigger": "passive",
+          "target": "allies_element:수냉",
+          "effect": "atk_pct",
+          "value": [
+            0.55,
+            0.58,
+            0.63,
+            0.67,
+            0.71,
+            0.75,
+            0.79,
+            0.84,
+            0.88,
+            0.91
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "용사의 자질",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:6",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "경험치",
+          "value": [
+            1.07,
+            1.15,
+            1.24,
+            1.32,
+            1.4,
+            1.48,
+            1.57,
+            1.65,
+            1.73,
+            1.81
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack": 100
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "status": "경험치",
+          "value": [
+            1.07,
+            1.15,
+            1.24,
+            1.32,
+            1.4,
+            1.48,
+            1.57,
+            1.65,
+            1.73,
+            1.81
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "stack": 100
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            4.37,
+            4.76,
+            5.07,
+            5.4,
+            5.72,
+            6.05,
+            6.42,
+            6.81,
+            7.07,
+            7.46
+          ],
+          "unit": "percent",
+          "duration": "permanent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "익스터미네이션",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "allies_element:수냉",
+          "effect": "atk_dmg_pct",
+          "value": [
+            5.99,
+            6.45,
+            6.91,
+            7.37,
+            7.83,
+            8.29,
+            8.76,
+            9.22,
+            9.68,
+            10.14
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_element:수냉",
+          "effect": "atk_dmg_pct",
+          "value": [
+            11.08,
+            11.93,
+            12.78,
+            13.64,
+            14.49,
+            15.34,
+            16.19,
+            17.05,
+            17.9,
+            18.75
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "dot_damage",
+          "value": [
+            12.34,
+            13.28,
+            14.23,
+            15.17,
+            16.14,
+            17.08,
+            18.03,
+            18.99,
+            19.93,
+            20.87
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "duration": 10,
+          "interval": 1
+        }
+      ]
+    }
+  ]
 }

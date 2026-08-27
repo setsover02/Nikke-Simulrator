@@ -79,7 +79,9 @@
             50,
             50
           ],
-          "unit": "percent"
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "full_charge_attack",
@@ -130,7 +132,7 @@
         {
           "trigger": "full_charge_attack",
           "target": "target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             5.67,
             6.1,

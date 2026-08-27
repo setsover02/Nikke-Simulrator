@@ -1,315 +1,323 @@
 {
-    "characterID": "Char_521",
-    "characterName": "크러스트",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "쿠킹오일",
-        "burstLevel": 2,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_521",
+  "characterName": "크러스트",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "쿠킹오일",
+    "burstLevel": 2,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "굽고, 데치고",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "굽고, 데치고",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "value": [
-                        1.48,
-                        1.59,
-                        1.71,
-                        1.82,
-                        1.93,
-                        2.05,
-                        2.16,
-                        2.28,
-                        2.39,
-                        2.5
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "value": [
-                        1.48,
-                        1.59,
-                        1.71,
-                        1.82,
-                        1.93,
-                        2.05,
-                        2.16,
-                        2.28,
-                        2.39,
-                        2.5
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "status": "마이야르",
-                    "value": [
-                        5.9,
-                        6.36,
-                        6.81,
-                        7.27,
-                        7.72,
-                        8.18,
-                        8.63,
-                        9.09,
-                        9.54,
-                        10
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "status": "블렌칭",
-                    "value": [
-                        5.9,
-                        6.36,
-                        6.81,
-                        7.27,
-                        7.72,
-                        8.18,
-                        8.63,
-                        9.09,
-                        9.54,
-                        10
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "buff",
-                    "unit": "percent",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "buff",
+          "value": [
+            1.48,
+            1.59,
+            1.71,
+            1.82,
+            1.93,
+            2.05,
+            2.16,
+            2.28,
+            2.39,
+            2.5
+          ],
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "든든한 요리",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "status": "든든한 요리",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.82,
-                        7.27,
-                        7.73,
-                        8.18,
-                        8.64,
-                        9.09,
-                        9.55,
-                        10
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": 10
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "all_allies",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "status": "든든한 요리",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.82,
-                        7.27,
-                        7.73,
-                        8.18,
-                        8.64,
-                        9.09,
-                        9.55,
-                        10
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": 10
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "target",
-                    "effect": "atk_pct",
-                    "value": [
-                        11.81,
-                        12.72,
-                        13.63,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "buff",
+          "value": [
+            1.48,
+            1.59,
+            1.71,
+            1.82,
+            1.93,
+            2.05,
+            2.16,
+            2.28,
+            2.39,
+            2.5
+          ],
+          "unit": "percent",
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
-            "id": "burst",
-            "name": "진짜 맛",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        11.81,
-                        12.72,
-                        13.63,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        35.45,
-                        38.18,
-                        40.91,
-                        43.64,
-                        46.37,
-                        49.09,
-                        51.82,
-                        54.55,
-                        57.28,
-                        60
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_atk",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "dot_dmg_pct",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.82,
-                        7.27,
-                        7.73,
-                        8.18,
-                        8.64,
-                        9.09,
-                        9.55,
-                        10
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "status": "마이야르",
+          "value": [
+            5.9,
+            6.36,
+            6.81,
+            7.27,
+            7.72,
+            8.18,
+            8.63,
+            9.09,
+            9.54,
+            10
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 10
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "status": "블렌칭",
+          "value": [
+            5.9,
+            6.36,
+            6.81,
+            7.27,
+            7.72,
+            8.18,
+            8.63,
+            9.09,
+            9.54,
+            10
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 10
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "buff",
+          "unit": "percent",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "든든한 요리",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "status": "든든한 요리",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "based_on": "caster_def",
+          "duration": 10
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "all_allies",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "status": "든든한 요리",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "based_on": "caster_def",
+          "duration": 10
+        },
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "passive",
+          "target": "target",
+          "effect": "atk_pct",
+          "value": [
+            11.81,
+            12.72,
+            13.63,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "based_on": "caster_atk",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "진짜 맛",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            11.81,
+            12.72,
+            13.63,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "split_dmg_pct",
+          "value": [
+            35.45,
+            38.18,
+            40.91,
+            43.64,
+            46.37,
+            49.09,
+            51.82,
+            54.55,
+            57.28,
+            60
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_atk",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "dot_dmg_pct",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

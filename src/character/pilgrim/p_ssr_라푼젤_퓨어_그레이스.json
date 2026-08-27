@@ -27,7 +27,7 @@
         {
           "trigger": "battle_start",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             12.16,
             13.1,
@@ -47,7 +47,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "shield",
+          "effect": "shield_from_max_hp_pct",
           "value": [
             12.16,
             13.1,

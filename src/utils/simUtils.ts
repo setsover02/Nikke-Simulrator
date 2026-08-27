@@ -43,7 +43,57 @@ export interface ScatterPoint {
     source: string;
     description: string;
     skillName: string;
-    dmgType: string; // 'skill_damage' | 'dot_damage' | 'burst_damage'
+    dmgType: string;   // log.type: 'skill_damage' | 'dot_damage'
+    dmgStat: string;   // PARSING.md damage stat: 'damage' | 'sequential_damage' | ...
+}
+
+/** PARSING.md 대미지 stat → 시각화 메타 */
+export interface DmgStatMeta {
+    label: string;    // 범례 표시 이름
+    shape: 'circle' | 'diamond' | 'triangle' | 'square' | 'cross' | 'star';
+    color: string;    // stat별 고유 기본 색상 오버레이 (캐릭터 색상 위에 blend)
+    alpha: number;
+    radius: number;
+}
+
+export const DAMAGE_STAT_META: Record<string, DmgStatMeta> = {
+    'damage':                       { label: 'Skill',       shape: 'circle',   color: '',              alpha: 0.85, radius: 3.5 },
+    'burst_damage':                 { label: 'Burst',       shape: 'star',     color: '',              alpha: 0.95, radius: 5.0 },
+    'sequential_damage':            { label: 'Sequential',  shape: 'triangle', color: '',              alpha: 0.85, radius: 4.0 },
+    'split_damage':                 { label: 'Split',       shape: 'square',   color: '',              alpha: 0.80, radius: 3.5 },
+    'dot_damage':                   { label: 'DoT',         shape: 'diamond',  color: '',              alpha: 0.55, radius: 2.5 },
+    'bonus_damage':                 { label: 'Bonus',       shape: 'cross',    color: '',              alpha: 0.80, radius: 3.5 },
+    'armor_break_damage':           { label: 'ArmorBreak',  shape: 'circle',   color: '',              alpha: 0.80, radius: 3.0 },
+    'pierce_damage':                { label: 'Pierce',      shape: 'triangle', color: '',              alpha: 0.75, radius: 3.0 },
+    'projectile_explosion_damage':  { label: 'Explosion',   shape: 'star',     color: '',              alpha: 0.85, radius: 4.5 },
+    'projectile_attachment_damage': { label: 'Attachment',  shape: 'square',   color: '',              alpha: 0.80, radius: 3.0 },
+    'core_damage':                  { label: 'Core',        shape: 'star',     color: '',              alpha: 0.90, radius: 4.5 },
+    'auto_damage':                  { label: 'Auto',        shape: 'circle',   color: '',              alpha: 0.65, radius: 2.5 },
+    'extra_damage':                 { label: 'Extra',       shape: 'cross',    color: '',              alpha: 0.80, radius: 3.0 },
+    'distribute_damage':            { label: 'Distribute',  shape: 'square',   color: '',              alpha: 0.80, radius: 3.5 },
+    'unknown':                      { label: '?',           shape: 'circle',   color: '',              alpha: 0.60, radius: 2.5 },
+};
+
+/** log.description → PARSING.md stat 이름으로 매핑 */
+function resolveDmgStat(description: string, logType: string): string {
+    if (!description) return logType === 'dot_damage' ? 'dot_damage' : 'damage';
+    const d = description.toLowerCase();
+    // sequential_damage×N 패턴
+    if (d.startsWith('sequential_damage')) return 'sequential_damage';
+    // 정확 매핑
+    const knownStats = [
+        'damage', 'burst_damage', 'split_damage', 'dot_damage', 'bonus_damage',
+        'armor_break_damage', 'pierce_damage', 'projectile_explosion_damage',
+        'projectile_attachment_damage', 'core_damage', 'auto_damage',
+        'extra_damage', 'distribute_damage', 'bubble_barrage',
+    ];
+    for (const s of knownStats) {
+        if (d === s || d.startsWith(s + ':') || d.startsWith(s + '×')) return s;
+    }
+    // bubble_barrage → damage 계열
+    if (d.includes('barrage')) return 'damage';
+    // fallback: log type 기반
+    return logType === 'dot_damage' ? 'dot_damage' : 'damage';
 }
 
 /** 집계 대상 비-attack 대미지 타입 전체 */
@@ -67,7 +117,7 @@ export const generateScatterData = (
     for (const log of result.log) {
         if (!DAMAGE_TYPES.has(log.type)) continue;
         if (sourceFilter && log.source !== sourceFilter) continue;
-        if (!log.value || log.value <= 0) continue; // 0 이하 값 제외
+        if (!log.value || log.value <= 0) continue;
 
         data.push({
             time: log.time,
@@ -76,6 +126,7 @@ export const generateScatterData = (
             description: log.description || '',
             skillName: log.skillName || log.description || '',
             dmgType: log.type,
+            dmgStat: resolveDmgStat(log.description || '', log.type),
         });
     }
 

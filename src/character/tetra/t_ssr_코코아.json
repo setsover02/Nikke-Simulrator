@@ -1,139 +1,139 @@
 {
-    "characterID": "Char_311",
-    "characterName": "코코아",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "메이드 포 유",
-        "burstLevel": 1,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_311",
+  "characterName": "코코아",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "메이드 포 유",
+    "burstLevel": 1,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "프로 종이접기",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "프로 종이접기",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        9.77,
-                        10.66,
-                        11.55,
-                        12.43,
-                        13.32,
-                        14.21,
-                        15.1,
-                        15.99,
-                        16.88,
-                        17.76
-                    ],
-                    "unit": "percent"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                }
-            ]
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            9.77,
+            10.66,
+            11.55,
+            12.43,
+            13.32,
+            14.21,
+            15.1,
+            15.99,
+            16.88,
+            17.76
+          ],
+          "unit": "percent"
         },
         {
-            "id": "skill_2",
-            "name": "프로 케첩",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "received_dmg",
-                    "status": "프로 케첩",
-                    "value": [
-                        2.4,
-                        2.62,
-                        2.84,
-                        3.06,
-                        3.28,
-                        3.5,
-                        3.71,
-                        3.93,
-                        4.15,
-                        4.37
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "stack": 15
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "프로 메이드장",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "dispel",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "max_stack_applied",
-                    "target": "all_enemies",
-                    "effect": "atk_pct",
-                    "value": [
-                        7.47,
-                        8.15,
-                        8.83,
-                        9.51,
-                        10.19,
-                        10.87,
-                        11.55,
-                        12.23,
-                        12.91,
-                        13.59
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "passive",
+          "target": "self",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "프로 케첩",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "received_dmg_pct",
+          "status": "프로 케첩",
+          "value": [
+            2.4,
+            2.62,
+            2.84,
+            3.06,
+            3.28,
+            3.5,
+            3.71,
+            3.93,
+            4.15,
+            4.37
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "stack": 15
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "프로 메이드장",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "dispel",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "max_stack_applied",
+          "target": "all_enemies",
+          "effect": "atk_pct",
+          "value": [
+            7.47,
+            8.15,
+            8.83,
+            9.51,
+            10.19,
+            10.87,
+            11.55,
+            12.23,
+            12.91,
+            13.59
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

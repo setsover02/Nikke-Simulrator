@@ -1,142 +1,142 @@
 {
-    "characterID": "Char_430",
-    "characterName": "노이즈",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "프리마돈나",
-        "burstLevel": 1,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_430",
+  "characterName": "노이즈",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "프리마돈나",
+    "burstLevel": 1,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "코러스",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "코러스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:20",
-                    "target": "all_allies",
-                    "effect": "received_dmg",
-                    "value": [
-                        5.86,
-                        6.4,
-                        6.93,
-                        7.46,
-                        8,
-                        8.53,
-                        9.06,
-                        9.59,
-                        10.13,
-                        10.66
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "싱잉 투게더",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "target",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 2,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                },
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        17.54,
-                        18.35,
-                        19.16,
-                        19.98,
-                        20.79,
-                        21.6,
-                        22.42,
-                        23.23,
-                        24.04,
-                        24.86
-                    ],
-                    "unit": "percent",
-                    "duration": 1.8
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "에너제틱 노이즈",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.36,
-                        1.48,
-                        1.6,
-                        1.73,
-                        1.85,
-                        1.98,
-                        2.1,
-                        2.22,
-                        2.35,
-                        2.47
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10,
-                    "interval": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        27.22,
-                        29.7,
-                        32.17,
-                        34.65,
-                        37.12,
-                        39.6,
-                        42.07,
-                        44.55,
-                        47.02,
-                        49.5
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "hit_count:20",
+          "target": "all_allies",
+          "effect": "received_dmg_pct",
+          "value": [
+            5.86,
+            6.4,
+            6.93,
+            7.46,
+            8,
+            8.53,
+            9.06,
+            9.59,
+            10.13,
+            10.66
+          ],
+          "unit": "percent",
+          "duration": 20
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "싱잉 투게더",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_attack",
+          "target": "target",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 2,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            17.54,
+            18.35,
+            19.16,
+            19.98,
+            20.79,
+            21.6,
+            22.42,
+            23.23,
+            24.04,
+            24.86
+          ],
+          "unit": "percent",
+          "duration": 1.8
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "에너제틱 노이즈",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.36,
+            1.48,
+            1.6,
+            1.73,
+            1.85,
+            1.98,
+            2.1,
+            2.22,
+            2.35,
+            2.47
+          ],
+          "unit": "percent",
+          "based_on": "caster_final_max_hp",
+          "duration": 10,
+          "interval": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "max_hp_pct",
+          "value": [
+            27.22,
+            29.7,
+            32.17,
+            34.65,
+            37.12,
+            39.6,
+            42.07,
+            44.55,
+            47.02,
+            49.5
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

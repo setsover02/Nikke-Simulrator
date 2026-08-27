@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback } from 'react';
-import { BurstWindow, ScatterPoint } from '../../utils/simUtils';
+import { BurstWindow, ScatterPoint, DAMAGE_STAT_META } from '../../utils/simUtils';
 import { Font } from '../../components/Font';
 
 function formatTime(timeVal: number): string {
@@ -176,34 +176,75 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
             ctx.strokeRect(toX(s), PT, toX(e) - toX(s), graphH);
         });
 
-        // Draw scatter points — dmgType별 시각적 구분
+        // ── stat별 형태 그리기 함수 ──────────────────────────────────────
+        function drawShape(
+            cx: CanvasRenderingContext2D,
+            shape: string, x: number, y: number, r: number
+        ) {
+            cx.beginPath();
+            switch (shape) {
+                case 'diamond':
+                    cx.moveTo(x, y - r);
+                    cx.lineTo(x + r, y);
+                    cx.lineTo(x, y + r);
+                    cx.lineTo(x - r, y);
+                    cx.closePath();
+                    break;
+                case 'triangle':
+                    cx.moveTo(x, y - r);
+                    cx.lineTo(x + r * 0.87, y + r * 0.5);
+                    cx.lineTo(x - r * 0.87, y + r * 0.5);
+                    cx.closePath();
+                    break;
+                case 'square':
+                    cx.rect(x - r * 0.8, y - r * 0.8, r * 1.6, r * 1.6);
+                    break;
+                case 'cross': {
+                    const t = r * 0.35;
+                    cx.rect(x - r, y - t, r * 2, t * 2);
+                    cx.rect(x - t, y - r, t * 2, r * 2);
+                    break;
+                }
+                case 'star': {
+                    const spikes = 4;
+                    const outerR = r;
+                    const innerR = r * 0.45;
+                    for (let i = 0; i < spikes * 2; i++) {
+                        const ang = (i * Math.PI) / spikes - Math.PI / 2;
+                        const rr = i % 2 === 0 ? outerR : innerR;
+                        if (i === 0) cx.moveTo(x + rr * Math.cos(ang), y + rr * Math.sin(ang));
+                        else cx.lineTo(x + rr * Math.cos(ang), y + rr * Math.sin(ang));
+                    }
+                    cx.closePath();
+                    break;
+                }
+                default: // circle
+                    cx.arc(x, y, r, 0, 2 * Math.PI);
+            }
+        }
+
+        // Draw scatter points — dmgStat별 시각적 구분
         datasets.forEach(ds => {
             ds.data.forEach((pt: any) => {
                 const x = toX(pt.time);
                 const y = toY(pt.value);
                 if (x < PL - 5 || x > W - PR + 5) return;
 
-                const isDot = pt.dmgType === 'dot_damage';
-                const radius = isDot ? 2.5 : 3.5;
-                const alpha = isDot ? 0.55 : 0.85;
+                const stat = (pt as any).dmgStat || (pt.dmgType === 'dot_damage' ? 'dot_damage' : 'damage');
+                const meta = DAMAGE_STAT_META[stat] ?? DAMAGE_STAT_META['unknown'];
 
-                ctx.globalAlpha = alpha;
+                ctx.globalAlpha = meta.alpha;
                 ctx.fillStyle = ds.color;
 
-                if (isDot) {
-                    // DoT: 다이아몬드 형태
-                    ctx.beginPath();
-                    ctx.moveTo(x, y - radius);
-                    ctx.lineTo(x + radius, y);
-                    ctx.lineTo(x, y + radius);
-                    ctx.lineTo(x - radius, y);
-                    ctx.closePath();
-                    ctx.fill();
-                } else {
-                    // 스킬 대미지: 원형
-                    ctx.beginPath();
-                    ctx.arc(x, y, radius, 0, 2 * Math.PI);
-                    ctx.fill();
+                drawShape(ctx, meta.shape, x, y, meta.radius);
+                ctx.fill();
+
+                // burst/core/sequential은 테두리로 강조
+                if (stat === 'burst_damage' || stat === 'core_damage' || stat === 'sequential_damage') {
+                    ctx.globalAlpha = meta.alpha * 0.6;
+                    ctx.strokeStyle = '#ffffff';
+                    ctx.lineWidth = 0.8;
+                    ctx.stroke();
                 }
             });
         });
@@ -257,15 +298,107 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
         ctx.font = 'bold 13px monospace';
         ctx.fillText(title, PL, PT - 28);
 
-        // 우측 상단: 총 데미지 인스턴스 수
+        // ── 우측 상단: stat별 집계 카운트 ──────────────────────────────
         const totalPoints = datasets.reduce((s, ds) => s + ds.data.length, 0);
         if (totalPoints > 0) {
-            const dotCount = datasets.reduce((s, ds) => s + ds.data.filter((p: any) => p.dmgType === 'dot_damage').length, 0);
-            const skillCount = totalPoints - dotCount;
+            const statCounts: Record<string, number> = {};
+            datasets.forEach(ds => ds.data.forEach((p: any) => {
+                const s = (p as any).dmgStat || 'damage';
+                statCounts[s] = (statCounts[s] || 0) + 1;
+            }));
+
+            // stat 우선순위 순서로 표시 (발생 빈도 기준 상위 4개만)
+            const topStats = Object.entries(statCounts)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 5);
+
             ctx.font = '10px monospace';
-            ctx.fillStyle = '#555';
             ctx.textAlign = 'right';
-            ctx.fillText(`Skill: ${skillCount}  DoT: ${dotCount}`, W - PR, PT - 28);
+            let statLabelX = W - PR;
+            const statLabelY = PT - 12;
+            topStats.reverse().forEach(([stat, cnt]) => {
+                const meta = DAMAGE_STAT_META[stat] ?? DAMAGE_STAT_META['unknown'];
+                const txt = `${meta.label}: ${cnt}`;
+                const tw = ctx.measureText(txt).width;
+                ctx.fillStyle = '#555';
+                ctx.fillText(txt, statLabelX, statLabelY);
+                statLabelX -= tw + 14;
+            });
+
+            // 총 개수
+            ctx.fillStyle = '#444';
+            ctx.textAlign = 'right';
+            ctx.fillText(`Total: ${totalPoints}`, W - PR, PT - 24);
+        }
+
+        // ── stat 형태 범례 (차트 우측 하단) ──────────────────────────
+        {
+            const usedStats = new Set<string>();
+            datasets.forEach(ds => ds.data.forEach((p: any) => {
+                usedStats.add((p as any).dmgStat || 'damage');
+            }));
+            const statOrder = [
+                'damage', 'burst_damage', 'sequential_damage', 'split_damage',
+                'dot_damage', 'bonus_damage', 'armor_break_damage', 'pierce_damage',
+                'core_damage', 'projectile_explosion_damage', 'projectile_attachment_damage',
+                'auto_damage', 'extra_damage', 'distribute_damage',
+            ].filter(s => usedStats.has(s));
+
+            if (statOrder.length > 1) {  // 2종 이상일 때만 범례 표시
+                let legRX = W - PR;
+                const legRY = H - PB + 22;
+                ctx.font = '10px monospace';
+                ctx.textAlign = 'right';
+
+                [...statOrder].reverse().forEach(stat => {
+                    const meta = DAMAGE_STAT_META[stat] ?? DAMAGE_STAT_META['unknown'];
+                    const txt = meta.label;
+                    const tw = ctx.measureText(txt).width;
+                    const iconX = legRX - tw - 10;
+                    const iconY = legRY;
+
+                    // 형태 아이콘
+                    ctx.globalAlpha = 0.8;
+                    ctx.fillStyle = '#888';
+                    // 미니 아이콘 (r=4)
+                    ctx.beginPath();
+                    switch (meta.shape) {
+                        case 'diamond':
+                            ctx.moveTo(iconX, iconY - 4); ctx.lineTo(iconX + 4, iconY);
+                            ctx.lineTo(iconX, iconY + 4); ctx.lineTo(iconX - 4, iconY);
+                            ctx.closePath(); break;
+                        case 'triangle':
+                            ctx.moveTo(iconX, iconY - 4);
+                            ctx.lineTo(iconX + 3.5, iconY + 2);
+                            ctx.lineTo(iconX - 3.5, iconY + 2);
+                            ctx.closePath(); break;
+                        case 'square':
+                            ctx.rect(iconX - 3.2, iconY - 3.2, 6.4, 6.4); break;
+                        case 'star': {
+                            for (let i = 0; i < 8; i++) {
+                                const ang = (i * Math.PI) / 4 - Math.PI / 2;
+                                const rr = i % 2 === 0 ? 4 : 1.8;
+                                if (i === 0) ctx.moveTo(iconX + rr * Math.cos(ang), iconY + rr * Math.sin(ang));
+                                else ctx.lineTo(iconX + rr * Math.cos(ang), iconY + rr * Math.sin(ang));
+                            }
+                            ctx.closePath(); break;
+                        }
+                        case 'cross': {
+                            const t = 1.4;
+                            ctx.rect(iconX - 4, iconY - t, 8, t * 2);
+                            ctx.rect(iconX - t, iconY - 4, t * 2, 8); break;
+                        }
+                        default:
+                            ctx.arc(iconX, iconY, 3.5, 0, 2 * Math.PI);
+                    }
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+
+                    ctx.fillStyle = '#555';
+                    ctx.fillText(txt, legRX, legRY + 3.5);
+                    legRX -= tw + 18;
+                });
+            }
         }
 
         const isZoomed = vMin > 0 || vMax < absMaxTime - 0.1;
@@ -441,18 +574,36 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                                     {Math.floor(pt.value).toLocaleString()}
                                 </Font>
                             </div>
-                            {/* dmgType 배지 */}
-                            <div style={{ paddingLeft: '12px', marginBottom: '2px' }}>
-                                <span style={{
-                                    fontSize: '10px',
-                                    padding: '1px 5px',
-                                    borderRadius: '3px',
-                                    background: (pt as any).dmgType === 'dot_damage' ? 'rgba(255,100,100,0.2)' : 'rgba(79,195,247,0.15)',
-                                    color: (pt as any).dmgType === 'dot_damage' ? '#ff8080' : '#4fc3f7',
-                                }}>
-                                    {(pt as any).dmgType === 'dot_damage' ? '◆ DoT' : '● Skill'}
-                                </span>
-                            </div>
+                            {/* dmgStat 배지 */}
+                            {(() => {
+                                const stat = (pt as any).dmgStat || ((pt as any).dmgType === 'dot_damage' ? 'dot_damage' : 'damage');
+                                const meta = DAMAGE_STAT_META[stat] ?? DAMAGE_STAT_META['unknown'];
+                                const STAT_BADGE_COLORS: Record<string, string> = {
+                                    'burst_damage': '#ffd700', 'dot_damage': '#ff8080',
+                                    'sequential_damage': '#a78bfa', 'split_damage': '#34d399',
+                                    'bonus_damage': '#fb923c', 'armor_break_damage': '#f472b6',
+                                    'core_damage': '#facc15', 'damage': '#4fc3f7',
+                                    'auto_damage': '#94a3b8', 'extra_damage': '#fb923c',
+                                    'pierce_damage': '#60a5fa', 'projectile_explosion_damage': '#f97316',
+                                    'projectile_attachment_damage': '#22d3ee',
+                                };
+                                const badgeColor = STAT_BADGE_COLORS[stat] ?? '#4fc3f7';
+                                const shapeIcon: Record<string, string> = {
+                                    'circle': '●', 'diamond': '◆', 'triangle': '▲',
+                                    'square': '■', 'cross': '✚', 'star': '✦',
+                                };
+                                const icon = shapeIcon[meta.shape] ?? '●';
+                                return (
+                                    <div style={{ paddingLeft: '12px', marginBottom: '2px' }}>
+                                        <span style={{
+                                            fontSize: '10px', padding: '1px 5px', borderRadius: '3px',
+                                            background: `${badgeColor}22`, color: badgeColor,
+                                        }}>
+                                            {icon} {meta.label}
+                                        </span>
+                                    </div>
+                                );
+                            })()}
                             <div style={{ color: '#aaa', fontSize: '11px', paddingLeft: '12px' }}>
                                 {pt.skillName || pt.description || '스킬 대미지'}
                             </div>

@@ -160,7 +160,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_enemies",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             6.11,
             6.79,

@@ -27,7 +27,7 @@
         {
           "trigger": "hit_count:60",
           "target": "target",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             2.97,
             3.3,
@@ -119,7 +119,7 @@
         {
           "trigger": "burst_cast",
           "target": "enemies_in_range",
-          "effect": "enemy_def_down_pct",
+          "effect": "received_dmg_pct",
           "value": [
             6.17,
             6.85,

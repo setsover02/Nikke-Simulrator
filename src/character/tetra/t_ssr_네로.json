@@ -27,7 +27,7 @@
         {
           "trigger": "passive",
           "target": "target",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "value": [
             8.07,
             8.74,
@@ -46,7 +46,7 @@
         {
           "trigger": "passive",
           "target": "self",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "status": "고양이 보은",
           "value": [
             5.24,
@@ -74,7 +74,7 @@
         {
           "trigger": "on_hit",
           "target": "target",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "condition": "prob:30",
           "value": [
             5.33,

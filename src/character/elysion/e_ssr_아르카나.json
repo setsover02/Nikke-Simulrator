@@ -1,260 +1,260 @@
 {
-    "characterID": "Char_581",
-    "characterName": "아르카나",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "베스트 셀러",
-        "burstLevel": 2,
-        "atkCoef": 64.04,
-        "maxAmmo": 6,
-        "reloadTime": 2.5,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_581",
+  "characterName": "아르카나",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "베스트 셀러",
+    "burstLevel": 2,
+    "atkCoef": 64.04,
+    "maxAmmo": 6,
+    "reloadTime": 2.5,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "깨어나는 운명",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "깨어나는 운명",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end",
-                    "target": "이사벨",
-                    "effect": "skill_cooldown_pct",
-                    "value": [
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75,
-                        -75
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "마법사 카드",
-                    "type": "buff",
-                    "condition": "self_state:운명의 수레바퀴 카드"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "이사벨",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        106.36,
-                        114.54,
-                        122.73,
-                        130.91,
-                        139.09,
-                        147.27,
-                        155.45,
-                        163.64,
-                        171.82,
-                        180
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "마법사 카드 2",
-                    "type": "buff",
-                    "condition": "self_state:운명의 수레바퀴 카드"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        2.95,
-                        3.18,
-                        3.41,
-                        3.64,
-                        3.86,
-                        4.09,
-                        4.32,
-                        4.55,
-                        4.77,
-                        5
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "깨어나는 운명",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "skill_cooldown_pct",
+          "value": [
+            -75,
+            -75,
+            -75,
+            -75,
+            -75,
+            -75,
+            -75,
+            -75,
+            -75,
+            -75
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "name": "마법사 카드",
+          "type": "buff",
+          "condition": "self_state:운명의 수레바퀴 카드"
         },
         {
-            "id": "skill_2",
-            "name": "순환하는 운명",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end",
-                    "target": "이사벨",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        106.36,
-                        114.54,
-                        122.73,
-                        130.91,
-                        139.09,
-                        147.27,
-                        155.45,
-                        163.64,
-                        171.82,
-                        180
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "힘 카드",
-                    "type": "buff",
-                    "condition": "self_state:운명의 수레바퀴 카드"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        3,
-                        3.33,
-                        3.66,
-                        3.99,
-                        4.32,
-                        4.65,
-                        4.98,
-                        5.31,
-                        5.64,
-                        6
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "순환하는 운명",
-                    "type": "instant",
-                    "condition": "self_state:운명의 수레바퀴 카드"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        29.54,
-                        31.81,
-                        34.09,
-                        36.36,
-                        38.63,
-                        40.91,
-                        43.18,
-                        45.45,
-                        47.72,
-                        50
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "죽음 카드",
-                    "type": "buff",
-                    "condition": "self_state:운명의 수레바퀴 카드"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        4.43,
-                        4.77,
-                        5.11,
-                        5.45,
-                        5.79,
-                        6.13,
-                        6.48,
-                        6.82,
-                        7.16,
-                        7.5
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "순환하는 운명 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            106.36,
+            114.54,
+            122.73,
+            130.91,
+            139.09,
+            147.27,
+            155.45,
+            163.64,
+            171.82,
+            180
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "name": "마법사 카드 2",
+          "type": "buff",
+          "condition": "self_state:운명의 수레바퀴 카드"
         },
         {
-            "id": "burst",
-            "name": "운명의 굴레",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code:전격",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.82,
-                        7.27,
-                        7.73,
-                        8.18,
-                        8.64,
-                        9.09,
-                        9.55,
-                        10
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "운명의 수레바퀴 카드",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        150,
-                        166.67,
-                        183.34,
-                        200.01,
-                        216.68,
-                        233.35,
-                        250.02,
-                        266.69,
-                        283.36,
-                        300
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "운명의 굴레",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.82,
-                        7.27,
-                        7.73,
-                        8.18,
-                        8.64,
-                        9.09,
-                        9.55,
-                        10
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "심판 카드",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            2.95,
+            3.18,
+            3.41,
+            3.64,
+            3.86,
+            4.09,
+            4.32,
+            4.55,
+            4.77,
+            5
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "깨어나는 운명",
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "순환하는 운명",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            106.36,
+            114.54,
+            122.73,
+            130.91,
+            139.09,
+            147.27,
+            155.45,
+            163.64,
+            171.82,
+            180
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "name": "힘 카드",
+          "type": "buff",
+          "condition": "self_state:운명의 수레바퀴 카드"
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            3,
+            3.33,
+            3.66,
+            3.99,
+            4.32,
+            4.65,
+            4.98,
+            5.31,
+            5.64,
+            6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "순환하는 운명",
+          "type": "instant",
+          "condition": "self_state:운명의 수레바퀴 카드"
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            29.54,
+            31.81,
+            34.09,
+            36.36,
+            38.63,
+            40.91,
+            43.18,
+            45.45,
+            47.72,
+            50
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "죽음 카드",
+          "type": "buff",
+          "condition": "self_state:운명의 수레바퀴 카드"
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            4.43,
+            4.77,
+            5.11,
+            5.45,
+            5.79,
+            6.13,
+            6.48,
+            6.82,
+            7.16,
+            7.5
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "순환하는 운명 2",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "운명의 굴레",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code:전격",
+          "effect": "atk_dmg_pct",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "운명의 수레바퀴 카드",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            150,
+            166.67,
+            183.34,
+            200.01,
+            216.68,
+            233.35,
+            250.02,
+            266.69,
+            283.36,
+            300
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "운명의 굴레",
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "received_dmg_pct",
+          "value": [
+            5.91,
+            6.36,
+            6.82,
+            7.27,
+            7.73,
+            8.18,
+            8.64,
+            9.09,
+            9.55,
+            10
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "심판 카드",
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

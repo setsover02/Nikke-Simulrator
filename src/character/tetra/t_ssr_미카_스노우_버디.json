@@ -27,7 +27,7 @@
         {
           "trigger": "hit_count:120",
           "target": "all_allies",
-          "effect": "received_dmg",
+          "effect": "received_dmg_pct",
           "status": "정리정돈",
           "value": [
             1.1,

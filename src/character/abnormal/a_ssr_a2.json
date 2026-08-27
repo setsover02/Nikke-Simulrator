@@ -131,7 +131,9 @@
             0,
             0,
             0
-          ]
+          ],
+          "_unparseable": true,
+          "_raw": "buff"
         },
         {
           "trigger": "burst_cast",
