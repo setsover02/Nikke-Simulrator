@@ -144,6 +144,7 @@ export const applyBaseStats = (
         cubePartDmgUp: cube.partDmgUp,
         cubePierceDmgUp: cube.pierceDmgUp,
         cubeIgnoreDefDmgUp: cube.ignoreDefDmgUp,
+        cubeSplitDmgUp: cube.splitDmgUp,
         cubeBastionRefund: cube.bastionRefund,
 
         normalAtkMultiplier: collectionEffect.normalAtkMultiplier,

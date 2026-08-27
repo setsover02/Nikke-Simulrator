@@ -1,4 +1,5 @@
 import React from 'react';
+import { Ripple } from '../Ripple/Ripple';
 import styles from './Chip.module.scss';
 
 export interface ChipProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -26,6 +27,7 @@ export const Chip: React.FC<ChipProps> = ({
             {...props}
         >
             {children}
+            {!props.disabled && <Ripple />}
         </button>
     );
 };

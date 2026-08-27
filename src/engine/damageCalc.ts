@@ -280,7 +280,7 @@ function buildDamageParams(
 
         /* ⑦ Damage Taken */
         enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (buffs ? buffs.received_dmg / 100 : 0) + (ctx.enemy.debuff?.takenUp ?? 0),
-        shareDmgUp: buffs ? buffs.split_dmg_pct / 100 : 0,
+        shareDmgUp: (buffs ? buffs.split_dmg_pct / 100 : 0) + (char.cubeSplitDmgUp ?? 0),
         enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };
 }

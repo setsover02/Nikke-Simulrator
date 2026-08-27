@@ -8,6 +8,7 @@ import { Font } from '../components/Font';
 import { Ripple } from '../components/Ripple/Ripple';
 import { Avatar } from '../components/Avatar/Avatar';
 import { Switch } from '../components/Switch/Switch';
+import { Chip } from '../components/Chip/Chip';
 import { Card } from '../components/Card/Card';
 import { Container } from '../components/Layout/Container';
 import { Grid } from '../components/Layout/Grid';
@@ -53,6 +54,37 @@ const StatefulButtonToggle: React.FC<any> = ({ selected: initialSelected = false
     return <ButtonToggle {...props} selected={selected} disabled={disabled} onClick={disabled ? undefined : () => setSelected(!selected)} />;
 };
 
+const StatefulChipDemo: React.FC = () => {
+    const [stage, setStage] = useState(0);
+    const maxStage = 10;
+
+    const getLabel = (s: number) => {
+        if (s === 0) return '명함';
+        if (s <= 3) return `★${s}`;
+        return `★+${s - 3}`;
+    };
+
+    const getVariant = (s: number): 'default' | 'limit-break' | 'core' => {
+        if (s === 0) return 'default';
+        if (s <= 3) return 'limit-break';
+        return 'core';
+    };
+
+    return (
+        <Chip
+            variant={getVariant(stage)}
+            onClick={() => setStage(prev => (prev >= maxStage ? 0 : prev + 1))}
+            onContextMenu={(e) => {
+                e.preventDefault();
+                setStage(prev => (prev <= 0 ? maxStage : prev - 1));
+            }}
+            title="좌클릭: 단계 증가 / 우클릭: 단계 감소"
+        >
+            {getLabel(stage)}
+        </Chip>
+    );
+};
+
 // A-Z 순서로 관리되는 섹션 네비게이션 목록 (새 컴포넌트 추가 시에도 알파벳 순으로 정렬하여 추가)
 const SECTIONS = [
     { id: 'avatar', name: 'Avatar' },
@@ -61,6 +93,7 @@ const SECTIONS = [
     { id: 'button-text', name: 'Button (Text)' },
     { id: 'button-toggle', name: 'Button Toggle' },
     { id: 'button-icon-toggle', name: 'Button Toggle (Icon)' },
+    { id: 'chip', name: 'Chip' },
     { id: 'container', name: 'Container' },
     { id: 'grid', name: 'Grid' },
     { id: 'modal', name: 'Modal' },
@@ -311,7 +344,67 @@ const Playground: React.FC = () => {
                         </div>
                     </Card>
 
-                    {/* 7. Container */}
+                    {/* Chip */}
+                    <Card as="section" id="chip" className="pa-3">
+                        <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Chip</Font>
+                        <div className="pt-2" style={{ borderTop: '1px solid var(--Divider-Normal)' }}>
+                            <TableRow title="Variants">
+                                <DemoBox label="Default (명함/기본)">
+                                    <Chip variant="default">명함</Chip>
+                                </DemoBox>
+                                <DemoBox label="Limit Break (돌파)">
+                                    <Chip variant="limit-break">★3</Chip>
+                                </DemoBox>
+                                <DemoBox label="Core (코어 강화)">
+                                    <Chip variant="core">★+7</Chip>
+                                </DemoBox>
+                            </TableRow>
+
+                            <TableRow title="Collection / Status">
+                                <DemoBox label="None">
+                                    <Chip variant="default">없음</Chip>
+                                </DemoBox>
+                                <DemoBox label="R">
+                                    <Chip variant="limit-break">R</Chip>
+                                </DemoBox>
+                                <DemoBox label="SR">
+                                    <Chip variant="limit-break">SR</Chip>
+                                </DemoBox>
+                                <DemoBox label="SSR (애장품)">
+                                    <Chip variant="core">애장품</Chip>
+                                </DemoBox>
+                            </TableRow>
+
+                            <TableRow title="Badge / Count">
+                                <DemoBox label="Count Badge">
+                                    <Chip variant="limit-break" disabled>197</Chip>
+                                </DemoBox>
+                                <DemoBox label="Core Badge">
+                                    <Chip variant="core" disabled>MAX</Chip>
+                                </DemoBox>
+                            </TableRow>
+
+                            <TableRow title="Interactive Demo">
+                                <DemoBox label="좌클릭(+) / 우클릭(-)">
+                                    <StatefulChipDemo />
+                                </DemoBox>
+                            </TableRow>
+
+                            <TableRow title="Disabled States">
+                                <DemoBox label="Default Disabled">
+                                    <Chip variant="default" disabled>명함</Chip>
+                                </DemoBox>
+                                <DemoBox label="Limit Break Disabled">
+                                    <Chip variant="limit-break" disabled>★3</Chip>
+                                </DemoBox>
+                                <DemoBox label="Core Disabled">
+                                    <Chip variant="core" disabled>★+7</Chip>
+                                </DemoBox>
+                            </TableRow>
+                        </div>
+                    </Card>
+
+                    {/* Container */}
                     <Card as="section" id="container" className="pa-3">
                         <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Container</Font>
                         <div className="pt-2" style={{ borderTop: '1px solid var(--Divider-Normal)', display: 'flex', flexDirection: 'column', gap: '16px' }}>

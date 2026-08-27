@@ -35,6 +35,7 @@ export interface CubeEffect {
     partDmgUp: number;             // 파츠 대미지 증가 (0.01 = +1%)
     pierceDmgUp: number;           // 관통 대미지 증가 (0.01 = +1%)
     ignoreDefDmgUp: number;        // 방어력 무시 대미지 (0.01 = +1%)
+    splitDmgUp: number;            // 분배 대미지 증가 (0.01 = +1%)
 }
 
 const EMPTY_EFFECT: CubeEffect = {
@@ -50,6 +51,7 @@ const EMPTY_EFFECT: CubeEffect = {
     partDmgUp: 0,
     pierceDmgUp: 0,
     ignoreDefDmgUp: 0,
+    splitDmgUp: 0,
 };
 
 /**
@@ -98,6 +100,9 @@ export function getCubeEffect(cubeName: string, cubeLevel: number): CubeEffect {
             break;
         case '15-cube-crash': // 렐릭 크래시: 방어력 무시 대미지
             effect.ignoreDefDmgUp = tierValue(cubeLevel, 7.07, 10.6, 14.14) / 100;
+            break;
+        case '16-cube-divide': // 렐릭 디바이드: 분배 대미지 증가
+            effect.splitDmgUp = tierValue(cubeLevel, 8.84, 13.27, 17.69) / 100;
             break;
     }
 

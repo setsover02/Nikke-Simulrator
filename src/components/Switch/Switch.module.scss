@@ -12,6 +12,7 @@
     cursor: pointer;
     transition: background-color 0.2s $cubic-bezier, box-shadow 0.2s $cubic-bezier;
     position: relative;
+    overflow: hidden;
 
     &:hover:not(.disabled):not(.checked) {
         box-shadow: 0 0 0 4px var(--Interact-Hover);
@@ -31,6 +32,8 @@
     }
 
     .handle {
+        position: relative;
+        z-index: 1;
         width: 24px;
         height: 24px;
         border-radius: 50%;

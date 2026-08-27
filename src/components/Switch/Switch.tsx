@@ -1,4 +1,5 @@
 import React, { InputHTMLAttributes, useState } from 'react';
+import { Ripple } from '../Ripple/Ripple';
 import styles from './Switch.module.scss';
 
 export interface SwitchProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type' | 'className'> {
@@ -50,6 +51,7 @@ export const Switch: React.FC<SwitchProps> = ({
                 {...props}
             />
             <div className={styles.handle} />
+            {!disabled && <Ripple />}
         </label>
     );
 };

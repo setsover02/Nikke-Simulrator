@@ -7,6 +7,9 @@ import { getCharDefaultState, SavedOutpostState } from '../../utils/storageUtils
 import { Icon } from '../../components/Icon/Icon';
 import { Font } from '../../components/Font';
 import { Avatar } from '../../components/Avatar/Avatar';
+import { Textfield } from '../../components/Textfield/Textfield';
+import { Chip } from '../../components/Chip/Chip';
+import { Grid } from '../../components/Layout/Grid';
 import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
 
 // Cube Data Source
@@ -26,7 +29,8 @@ const CUBE_OPTIONS = [
     { value: '12-cube-assist', label: '렐릭 어시스터', icon: '/src/assets/cube/12-cube-assist.webp' },
     { value: '13-cube-destruction', label: '렐릭 디스트로이', icon: '/src/assets/cube/13-cube-destruction.webp' },
     { value: '14-cube-piercing', label: '렐릭 피어싱', icon: '/src/assets/cube/14-cube-piercing.webp' },
-    { value: '15-cube-crash', label: '렐릭 크래시', icon: '/src/assets/cube/15-cube-crash.webp' }
+    { value: '15-cube-crash', label: '렐릭 크래시', icon: '/src/assets/cube/15-cube-crash.webp' },
+    { value: '16-cube-divide', label: '렐릭 디바이드', icon: '/src/assets/cube/16-cube-divide.webp' }
 ];
 
 interface Props {
@@ -356,10 +360,10 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             </div>
 
             {/* Equipment (Collection / Cube) */}
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">소장품</span>
-                <div
-                    className={`collection-chip ${slot.collectionGrade === 'SSR' ? 'chip-ssr' : slot.collectionGrade === 'SR' ? 'chip-sr' : slot.collectionGrade === 'R' ? 'chip-r' : 'chip-none'}`}
+                <Chip
+                    variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
                     onClick={() => {
                         const hasTreasure = slot.char.data.stats.treasure;
                         const current = slot.collectionGrade || 'None';
@@ -375,15 +379,15 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     }}
                 >
                     {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
-                </div>
+                </Chip>
 
                 <span className="color-777">소장품 레벨</span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                    <input
-                        className="slot-input"
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
+                    <Textfield
+                        size="small"
                         type="number"
-                        min="0"
-                        max="15"
+                        min={0}
+                        max={15}
                         value={slot.collectionLevel || '0'}
                         onChange={e => onUpdate({ collectionLevel: e.target.value })}
                         disabled={slot.collectionGrade === 'None' || !slot.collectionGrade}
@@ -415,14 +419,14 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     isSearchable={false}
                 />
             </div>
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">큐브 레벨</span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
-                    <input
-                        className="slot-input"
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
+                    <Textfield
+                        size="small"
                         type="number"
-                        min="1"
-                        max="15"
+                        min={1}
+                        max={15}
                         value={slot.cubeLevel || '0'}
                         onChange={e => {
                             const val = Math.max(1, Math.min(15, parseInt(e.target.value) || 1));
@@ -454,52 +458,58 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             </div>
 
             {/* 돌파 및 호감도 */}
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">돌파</span>
-                <select
-                    className="slot-input"
-                    value={currentGrowthStage}
-                    onChange={e => {
-                        const newStage = parseInt(e.target.value);
-                        // 돌파 단계 변경 시 호감도 최대값이 줄어들 수 있으므로 제한 적용
-                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, newStage).maxAffinity;
+                <Chip
+                    variant={currentGrowthStage === 0 ? 'default' : currentGrowthStage <= 3 ? 'limit-break' : 'core'}
+                    onClick={(e) => {
+                        e.preventDefault();
+                        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
+                        const nextStage = currentGrowthStage >= maxStage ? 0 : currentGrowthStage + 1;
+                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, nextStage).maxAffinity;
                         const currentAffinity = parseInt(slot.affinityLevel) || 1;
                         onUpdate({
-                            growthStage: String(newStage),
+                            growthStage: String(nextStage),
                             affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
                         });
                     }}
-                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                    onContextMenu={(e) => {
+                        e.preventDefault();
+                        const maxStage = MAX_STAGE_BY_RARITY[charRarity] ?? 10;
+                        const prevStage = currentGrowthStage <= 0 ? maxStage : currentGrowthStage - 1;
+                        const newMaxAffinity = resolveGrowthStage(charRarity, charCompany, charName, prevStage).maxAffinity;
+                        const currentAffinity = parseInt(slot.affinityLevel) || 1;
+                        onUpdate({
+                            growthStage: String(prevStage),
+                            affinityLevel: String(Math.min(currentAffinity, newMaxAffinity))
+                        });
+                    }}
+                    title="좌클릭: 단계 증가 / 우클릭: 단계 감소"
                 >
-                    {growthOptions.map(opt => (
-                        <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>
-                            {opt.label}
-                        </option>
-                    ))}
-                </select>
+                    {growthStageLabel(currentGrowthStage)}
+                </Chip>
 
                 <span className="color-777">호감도</span>
-                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100%', alignItems: 'center', gap: '4px' }}>
-                    <input
-                        className="slot-input"
+                <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100px' }}>
+                    <Textfield
+                        size="small"
                         type="number"
-                        min="1"
+                        min={1}
                         max={maxAffinity}
                         value={slot.affinityLevel || '1'}
                         onChange={e => {
                             const v = Math.max(1, Math.min(maxAffinity, parseInt(e.target.value) || 1));
                             onUpdate({ affinityLevel: String(v) });
                         }}
-                        style={{ width: '40px' }}
+                        suffix={`/ ${maxAffinity}`}
                     />
-                    <span style={{ fontSize: '10px', color: '#777' }}>/ {maxAffinity}</span>
                 </div>
             </div>
 
             {/* Equip Lines */}
             <div className="slot-subtitle">장비</div>
 
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">머리</span>
                 <select
                     className="slot-input"
@@ -510,18 +520,21 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierHead === 'Overload' || slot.equipTierHead === '기업') && (
-                    <>
-                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
-                        <input
-                            className="slot-input" type="number" min="0" max="5"
+                    <div style={{ width: '80px' }}>
+                        <Textfield
+                            size="small"
+                            type="number"
+                            min={0}
+                            max={5}
+                            label={<Font variant="caption-2" color="muted">강화</Font>}
                             value={slot.equipUpgradeHead || '0'}
                             onChange={e => onUpdate({ equipUpgradeHead: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
                         />
-                    </>
+                    </div>
                 )}
             </div>
 
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">몸통</span>
                 <select
                     className="slot-input"
@@ -532,18 +545,21 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierTorso === 'Overload' || slot.equipTierTorso === '기업') && (
-                    <>
-                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
-                        <input
-                            className="slot-input" type="number" min="0" max="5"
+                    <div style={{ width: '80px' }}>
+                        <Textfield
+                            size="small"
+                            type="number"
+                            min={0}
+                            max={5}
+                            label={<Font variant="caption-2" color="muted">강화</Font>}
                             value={slot.equipUpgradeTorso || '0'}
                             onChange={e => onUpdate({ equipUpgradeTorso: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
                         />
-                    </>
+                    </div>
                 )}
             </div>
 
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">팔</span>
                 <select
                     className="slot-input"
@@ -554,18 +570,21 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierArms === 'Overload' || slot.equipTierArms === '기업') && (
-                    <>
-                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
-                        <input
-                            className="slot-input" type="number" min="0" max="5"
+                    <div style={{ width: '80px' }}>
+                        <Textfield
+                            size="small"
+                            type="number"
+                            min={0}
+                            max={5}
+                            label={<Font variant="caption-2" color="muted">강화</Font>}
                             value={slot.equipUpgradeArms || '0'}
                             onChange={e => onUpdate({ equipUpgradeArms: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
                         />
-                    </>
+                    </div>
                 )}
             </div>
 
-            <div className="slot-section">
+            <div className="slot-section" style={{ alignItems: 'center' }}>
                 <span className="color-777">다리</span>
                 <select
                     className="slot-input"
@@ -576,71 +595,54 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierLegs === 'Overload' || slot.equipTierLegs === '기업') && (
-                    <>
-                        <span className="color-777" style={{ marginLeft: 8 }}>강화</span>
-                        <input
-                            className="slot-input" type="number" min="0" max="5"
+                    <div style={{ width: '80px' }}>
+                        <Textfield
+                            size="small"
+                            type="number"
+                            min={0}
+                            max={5}
+                            label={<Font variant="caption-2" color="muted">강화</Font>}
                             value={slot.equipUpgradeLegs || '0'}
                             onChange={e => onUpdate({ equipUpgradeLegs: String(Math.max(0, Math.min(5, parseInt(e.target.value) || 0))) })}
                         />
-                    </>
+                    </div>
                 )}
             </div>
-            <div className="slot-section">
-                <span className="color-777">우코</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipWeakPoint || '0'} onChange={e => handleEquipChange('equipWeakPoint', 116.64, e.target.value)} />%
-                </span>
 
-                <span className="color-777">공격력</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipATK || '0'} onChange={e => handleEquipChange('equipATK', 58.52, e.target.value)} />%
-                </span>
-
-                <span className="color-777">장탄</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipAmmo || '0'} onChange={e => handleEquipChange('equipAmmo', 341.48, e.target.value)} />%
-                </span>
-
-                <span className="color-777">명중률</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipAccuracy || '0'} onChange={e => handleEquipChange('equipAccuracy', 58.52, e.target.value)} />%
-                </span>
-
-                <span className="color-777">차댐</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipChargeDmg || '0'} onChange={e => handleEquipChange('equipChargeDmg', 58.52, e.target.value)} />%
-                </span>
-
-                <span className="color-777">차속</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipChargeSpeed || '0'} onChange={e => handleEquipChange('equipChargeSpeed', 24.36, e.target.value)} />%
-                </span>
-
-                <span className="color-777">크확</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipCritRate || '0'} onChange={e => handleEquipChange('equipCritRate', 28.28, e.target.value)} />%
-                </span>
-
-                <span className="color-777">크댐</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipCritDmg || '0'} onChange={e => handleEquipChange('equipCritDmg', 81.44, e.target.value)} />%
-                </span>
-
-                <span className="color-777">방어력</span>
-                <span className="percent-wrapper">
-                    <input className="slot-input" value={slot.equipDef || '0'} onChange={e => handleEquipChange('equipDef', 58.52, e.target.value)} />%
-                </span>
-            </div>
+            {/* Overload Options */}
+            <div className="slot-subtitle">오버로드 옵션</div>
+            <Grid columns={3} gap={1} className="mb-3">
+                {[
+                    { id: 'equipWeakPoint', label: '우코', max: 116.64 },
+                    { id: 'equipATK', label: '공격력', max: 58.52 },
+                    { id: 'equipAmmo', label: '장탄', max: 341.48 },
+                    { id: 'equipAccuracy', label: '명중률', max: 58.52 },
+                    { id: 'equipChargeDmg', label: '차댐', max: 58.52 },
+                    { id: 'equipChargeSpeed', label: '차속', max: 24.36 },
+                    { id: 'equipCritRate', label: '크확', max: 28.28 },
+                    { id: 'equipCritDmg', label: '크댐', max: 81.44 },
+                    { id: 'equipDef', label: '방어력', max: 58.52 },
+                ].map(opt => (
+                    <Textfield
+                        key={opt.id}
+                        size="small"
+                        label={<Font variant="caption-2" color="muted">{opt.label}</Font>}
+                        value={slot[opt.id as keyof SlotState] || '0'}
+                        onChange={e => handleEquipChange(opt.id as keyof SlotState, opt.max, e.target.value)}
+                        suffix="%"
+                    />
+                ))}
+            </Grid>
 
             {/* Skills */}
-            <div className="slot-subtitle">스킬</div>
-            <div className="slot-section" ref={skillsRef}>
-                <span className="color-777">스킬1</span>
-                <input
-                    className="slot-input"
+            <div className="slot-subtitle">스킬 레벨</div>
+            <Grid columns={3} gap={1} ref={skillsRef}>
+                <Textfield
+                    size="small"
                     type="number"
-                    min="1" max="10"
+                    min={1}
+                    max={10}
+                    label={<Font variant="caption-2" color="muted">스킬1</Font>}
                     value={slot.skill1Level || 10}
                     onChange={e => onUpdate({ skill1Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
                     onWheel={e => {
@@ -649,12 +651,12 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         onUpdate({ skill1Level: Math.max(1, Math.min(10, current + delta)) });
                     }}
                 />
-
-                <span className="color-777">스킬2</span>
-                <input
-                    className="slot-input"
+                <Textfield
+                    size="small"
                     type="number"
-                    min="1" max="10"
+                    min={1}
+                    max={10}
+                    label={<Font variant="caption-2" color="muted">스킬2</Font>}
                     value={slot.skill2Level || 10}
                     onChange={e => onUpdate({ skill2Level: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
                     onWheel={e => {
@@ -663,12 +665,12 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         onUpdate({ skill2Level: Math.max(1, Math.min(10, current + delta)) });
                     }}
                 />
-
-                <span className="color-777">버스트</span>
-                <input
-                    className="slot-input"
+                <Textfield
+                    size="small"
                     type="number"
-                    min="1" max="10"
+                    min={1}
+                    max={10}
+                    label={<Font variant="caption-2" color="muted">버스트</Font>}
                     value={slot.burstLevel || 10}
                     onChange={e => onUpdate({ burstLevel: Math.max(1, Math.min(10, parseInt(e.target.value) || 1)) })}
                     onWheel={e => {
@@ -677,7 +679,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                         onUpdate({ burstLevel: Math.max(1, Math.min(10, current + delta)) });
                     }}
                 />
-            </div>
+            </Grid>
         </div>
     );
 };

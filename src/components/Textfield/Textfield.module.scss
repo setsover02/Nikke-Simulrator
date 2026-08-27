@@ -128,8 +128,6 @@
 }
 
 .error {
-
-
     .textfield-container {
         border-color: var(--Status-Error-100);
 
@@ -142,5 +140,46 @@
     .textfield-count *,
     .textfield-label * {
         color: var(--Status-Error-F100) !important;
+    }
+}
+
+.readonly {
+    .textfield-container {
+        border: 1px dashed var(--Divider-Strong);
+        cursor: default;
+
+        &:hover {
+            background-color: var(--Interact-Default);
+        }
+
+        &:focus-within {
+            border-color: var(--Divider-Strong);
+            box-shadow: none;
+        }
+    }
+
+    .textfield-input {
+        cursor: default;
+    }
+}
+
+.disabled {
+    .textfield-container {
+        background-color: var(--Disabled-Background);
+        border-color: transparent;
+        cursor: not-allowed;
+
+        &:hover {
+            background-color: var(--Disabled-Background);
+        }
+
+        &:focus-within {
+            box-shadow: none;
+        }
+    }
+
+    .textfield-input {
+        cursor: not-allowed;
+        color: var(--Disabled-Font);
     }
 }

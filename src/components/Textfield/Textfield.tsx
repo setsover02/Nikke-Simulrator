@@ -47,13 +47,26 @@ export const Textfield: React.FC<TextfieldProps> = ({
     ].filter(Boolean).join(' ');
 
     const inputRef = useRef<HTMLInputElement>(null);
+    const isReadOnly = Boolean(props.readOnly);
+    const isDisabled = Boolean(props.disabled);
 
     const handleContainerClick = () => {
-        inputRef.current?.focus();
+        if (!isReadOnly && !isDisabled) {
+            inputRef.current?.focus();
+        }
     };
 
     return (
-        <div className={`${styles['textfield-wrapper']} ${size === 'small' ? styles.small : ''} ${error ? styles.error : ''} ${className || ''}`}>
+        <div
+            className={[
+                styles['textfield-wrapper'],
+                size === 'small' ? styles.small : '',
+                error ? styles.error : '',
+                isReadOnly ? styles.readonly : '',
+                isDisabled ? styles.disabled : '',
+                className || ''
+            ].filter(Boolean).join(' ')}
+        >
             <div className={styles['textfield-container']} onClick={handleContainerClick}>
                 {(leftIcon || label || leftElement) && (
                     <div className={styles['textfield-left-section']}>
