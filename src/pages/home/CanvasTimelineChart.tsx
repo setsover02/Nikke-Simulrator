@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { ScenarioSummary, BuffTimelineEvent } from '../../types/simulator';
+import { Font } from '../../components/Font';
+import styles from './CanvasTimelineChart.module.scss';
 
 // ─────────────────────────────────────────────────────────────
 // 유틸리티
@@ -219,7 +221,8 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
 
     const [tooltip, setTooltip] = useState<{
         x: number; y: number;
-        targetName: string; casterName: string;
+        targetId: string; targetName: string;
+        casterId: string; casterName: string;
         buffName: string; stat: string; value: number;
         start: number; end: number;
     } | null>(null);
@@ -510,7 +513,9 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                     if (seg) {
                         setTooltip({
                             x: mouseX, y: mouseY,
+                            targetId: hit.row.targetId,
                             targetName: hit.row.targetName,
+                            casterId: hit.row.casterId,
                             casterName: hit.row.casterName,
                             buffName: hit.row.buffName,
                             stat: hit.row.stat,
@@ -533,67 +538,63 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
     const isZoomed = vMin > 0 || (viewMax !== null && vMax < duration - 0.1);
 
     return (
-        <div ref={wrapperRef} style={{ position: 'relative', width: '100%', marginTop: '16px' }}>
+        <div ref={wrapperRef} className={styles['timeline-wrapper']}>
             {isZoomed && (
                 <button
                     onClick={() => { setViewMin(0); setViewMax(null); }}
-                    style={{
-                        position: 'absolute', top: '10px', right: '28px', zIndex: 10,
-                        padding: '3px 8px', fontSize: '10px', background: '#1e2030',
-                        color: '#8a8fa8', border: '1px solid #2a2f45', borderRadius: '4px',
-                        cursor: 'pointer',
-                    }}
+                    className={styles['reset-button']}
                 >
                     리셋
                 </button>
             )}
             <canvas
                 ref={canvasRef}
+                className={styles['timeline-canvas']}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                    display: 'block',
-                    borderRadius: '6px',
                     cursor: isDragging.current ? 'grabbing' : 'crosshair',
-                    userSelect: 'none',
-                    touchAction: 'none',
                 }}
             />
             {tooltip && (
-                <div style={{
-                    position: 'absolute',
-                    left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 260)}px`,
-                    top: `${Math.max(4, tooltip.y - 6)}px`,
-                    background: 'rgba(16,18,28,0.96)',
-                    border: '1px solid #2a3050',
-                    borderRadius: '8px',
-                    padding: '10px 13px',
-                    color: '#e0e4f0',
-                    fontSize: '12px',
-                    pointerEvents: 'none',
-                    zIndex: 30,
-                    boxShadow: '0 4px 20px rgba(0,0,0,0.7)',
-                    minWidth: '220px',
-                }}>
-                    <div style={{ borderBottom: '1px solid #2a3050', marginBottom: '7px', paddingBottom: '5px' }}>
-                        <span style={{ color: '#e0e4f0', fontWeight: 'bold' }}>{tooltip.targetName}</span>
-                        <span style={{ color: '#555', margin: '0 5px' }}>←</span>
-                        <span style={{ color: '#8a8fa8' }}>{tooltip.casterName}</span>
+                <div
+                    className={styles['tooltip-container']}
+                    style={{
+                        left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 260)}px`,
+                        top: `${Math.max(4, tooltip.y - 6)}px`,
+                    }}
+                >
+                    <div className={styles['tooltip-header']}>
+                        <Font as="span" variant="caption-1" weight="bold" style={{ color: getSlotColor(tooltip.targetId) }}>
+                            {tooltip.targetName}
+                        </Font>
+                        <Font as="span" variant="caption-2" color="muted">←</Font>
+                        <Font as="span" variant="caption-2" weight="medium" style={{ color: getSlotColor(tooltip.casterId) }}>
+                            {tooltip.casterName}
+                        </Font>
                     </div>
-                    <div style={{ color: '#ffb74d', marginBottom: '6px', fontWeight: '600', fontSize: '12px' }}>
-                        {tooltip.buffName}
+                    <div className={styles['tooltip-skill']}>
+                        <Font as="div" variant="body" weight="semibold" style={{ color: 'var(--Status-Warning-100)' }}>
+                            {tooltip.buffName}
+                        </Font>
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
-                        <span style={{ color: '#8a8fa8', fontSize: '11px' }}>{statToKoreanDesc(tooltip.stat)}</span>
-                        <span style={{ color: '#4fc3f7', fontWeight: 'bold', fontSize: '12px' }}>
+                    <div className={styles['tooltip-stat-row']}>
+                        <Font as="span" variant="caption-2" color="muted">
+                            {statToKoreanDesc(tooltip.stat)}
+                        </Font>
+                        <Font as="span" variant="caption-1" weight="bold" style={{ color: 'var(--Status-Info-100)', fontVariantNumeric: 'tabular-nums' }}>
                             {formatBuffTooltipValue(tooltip.stat, tooltip.value)}
-                        </span>
+                        </Font>
                     </div>
-                    <div style={{ marginTop: '6px', color: '#666', fontSize: '10px', display: 'flex', justifyContent: 'space-between' }}>
-                        <span>{formatTime(tooltip.start, duration)} → {formatTime(tooltip.end, duration)}</span>
-                        <span>({(tooltip.end - tooltip.start).toFixed(1)}s)</span>
+                    <div className={styles['tooltip-footer']}>
+                        <Font as="span" variant="footnote" color="inactive">
+                            {formatTime(tooltip.start, duration)} → {formatTime(tooltip.end, duration)}
+                        </Font>
+                        <Font as="span" variant="footnote" color="inactive">
+                            ({(tooltip.end - tooltip.start).toFixed(1)}s)
+                        </Font>
                     </div>
                 </div>
             )}

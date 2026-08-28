@@ -1,0 +1,153 @@
+.sync-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.tab-group {
+    display: flex;
+    gap: 8px;
+    border-bottom: 1px solid var(--Divider-Normal);
+    padding-bottom: 8px;
+}
+
+.tab-btn {
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--Interact-Stroke-Default);
+    background: var(--Interact-Default);
+    color: var(--Font-isMuted);
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s ease;
+
+    &:hover {
+        background: var(--Interact-Hover);
+        color: var(--Font-Default);
+    }
+
+    &.active {
+        background: var(--Primary-100);
+        color: var(--Static-White);
+        border-color: var(--Primary-100);
+        font-weight: 700;
+    }
+}
+
+.guide-box {
+    background: var(--Interact-Default);
+    border: 1px solid var(--Interact-Stroke-Default);
+    border-radius: 8px;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.guide-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    color: var(--Font-isMuted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.step-num {
+    background: var(--Secondary-100);
+    color: var(--Font-Default);
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: bold;
+    flex-shrink: 0;
+    margin-top: 1px;
+}
+
+.cookie-textarea {
+    width: 100%;
+    height: 90px;
+    background: var(--Background-Card);
+    border: 1px solid var(--Interact-Stroke-Default);
+    border-radius: 6px;
+    padding: 10px 12px;
+    color: var(--Font-Default);
+    font-family: monospace;
+    font-size: 11px;
+    resize: vertical;
+    outline: none;
+    box-sizing: border-box;
+
+    &:focus {
+        border-color: var(--Primary-100);
+    }
+
+    &::placeholder {
+        color: var(--Disabled-Font);
+    }
+}
+
+.file-upload-area {
+    border: 2px dashed var(--Interact-Stroke-Hover);
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    cursor: pointer;
+    background: var(--Interact-Default);
+    transition: all 0.15s ease;
+
+    &:hover {
+        background: var(--Interact-Hover);
+        border-color: var(--Primary-100);
+    }
+}
+
+.progress-box {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: var(--Interact-Default);
+    border: 1px solid var(--Interact-Stroke-Default);
+}
+
+.progress-bar-bg {
+    width: 100%;
+    height: 6px;
+    background: var(--Secondary-100);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: var(--Status-Info-100);
+    border-radius: 3px;
+    transition: width 0.2s ease;
+}
+
+.status-badge-success {
+    background: var(--Status-Success-24);
+    color: var(--Status-Success-100);
+    border: 1px solid var(--Status-Success-100);
+    border-radius: 6px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.status-badge-error {
+    background: var(--Status-Error-24);
+    color: var(--Status-Error-100);
+    border: 1px solid var(--Status-Error-100);
+    border-radius: 6px;
+    padding: 10px 14px;
+}

@@ -1,0 +1,79 @@
+.timeline-wrapper {
+    position: relative;
+    width: 100%;
+    margin-top: 16px;
+}
+
+.timeline-canvas {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--Interact-Stroke-Default);
+    border-radius: 8px;
+    user-select: none;
+    touch-action: none;
+}
+
+.reset-button {
+    position: absolute;
+    top: 8px;
+    right: 28px;
+    z-index: 10;
+    padding: 3px 8px;
+    font-size: 11px;
+    background: var(--Secondary-100);
+    color: var(--Font-isMuted);
+    border: 1px solid var(--Interact-Stroke-Default);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+
+    &:hover {
+        background: var(--Interact-Hover);
+        color: var(--Font-Default);
+        border-color: var(--Interact-Stroke-Hover);
+    }
+}
+
+.tooltip-container {
+    position: absolute;
+    background: var(--Background-Overlay);
+    border: 1px solid var(--Interact-Stroke-Hover);
+    border-radius: 8px;
+    padding: 10px 14px;
+    pointer-events: none;
+    z-index: 30;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.75);
+    min-width: 230px;
+    backdrop-filter: blur(8px);
+}
+
+.tooltip-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-bottom: 1px solid var(--Divider-Strong);
+    margin-bottom: 8px;
+    padding-bottom: 6px;
+}
+
+.tooltip-skill {
+    margin-bottom: 6px;
+}
+
+.tooltip-stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 6px;
+}
+
+.tooltip-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--Divider-Normal);
+    padding-top: 6px;
+    margin-top: 6px;
+}

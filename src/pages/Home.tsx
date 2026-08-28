@@ -33,6 +33,7 @@ import { ButtonToggle } from '../components/Button/ButtonToggle';
 import { OutpostCard } from '../components/OutpostCard/OutpostCard';
 import { Grid } from '../components/Layout/Grid';
 import { Modal } from '../components/Modal';
+import ProfileSyncModal from '../components/ProfileSyncModal/ProfileSyncModal';
 
 const Home: React.FC = () => {
     // 5 Character slots: null means empty
@@ -42,6 +43,8 @@ const Home: React.FC = () => {
     const [activeDetailModalIdx, setActiveDetailModalIdx] = useState<number | null>(null);
     // Character selection modal slot index (for empty slots)
     const [charSelectionModalSlotIdx, setCharSelectionModalSlotIdx] = useState<number | null>(null);
+    // Profile sync modal
+    const [isProfileSyncOpen, setIsProfileSyncOpen] = useState(false);
 
     // Responsive desktop screen check
     const [isDesktop, setIsDesktop] = useState(() => (typeof window !== 'undefined' ? window.innerWidth >= 1280 : true));
@@ -259,6 +262,7 @@ const Home: React.FC = () => {
                 <GlobalLevelPanel
                     outpostState={outpostState}
                     onChange={handleOutpostChange}
+                    onOpenProfileSync={() => setIsProfileSyncOpen(true)}
                 />
             </OutpostCard>
 
@@ -411,6 +415,20 @@ const Home: React.FC = () => {
                     />
                 )}
             </Modal>
+
+            {/* 8. blablalink 프로필 동기화 모달 */}
+            <ProfileSyncModal
+                isOpen={isProfileSyncOpen}
+                onClose={() => setIsProfileSyncOpen(false)}
+                onSyncComplete={(updatedOutpost) => {
+                    setOutpostState(updatedOutpost);
+                    setSlots(prev => prev.map(s => {
+                        if (!s || !s.char) return s;
+                        const fresh = getCharDefaultState(s.char);
+                        return { ...s, ...fresh, char: s.char };
+                    }));
+                }}
+            />
         </Grid>
     );
 };

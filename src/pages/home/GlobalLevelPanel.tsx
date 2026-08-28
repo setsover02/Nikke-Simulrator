@@ -13,9 +13,12 @@ import { SavedOutpostState } from '../../utils/storageUtils';
 import { TextField } from '../../components/TextField';
 import Font from '../../components/Font';
 
+import { Button } from '../../components/Button/Button';
+
 interface GlobalLevelPanelProps {
     outpostState: SavedOutpostState;
     onChange: (patch: Partial<SavedOutpostState>) => void;
+    onOpenProfileSync?: () => void;
 }
 
 /* ─── 인라인 스타일 상수 ──────────────────────────────────────────── */
@@ -29,6 +32,7 @@ const S = {
     header: {
         display: 'flex',
         alignItems: 'center',
+        justifyContent: 'space-between',
         gap: '8px',
     },
     divider: {
@@ -91,12 +95,22 @@ const LevelInput: React.FC<LevelInputProps> = ({ id, label, value, onChange, max
 
 /* ─── 메인 패널 ──────────────────────────────────────────────────── */
 
-const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onChange }) => {
+const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({ outpostState, onChange, onOpenProfileSync }) => {
     return (
         <div style={S.panel} className="pt-3 pb-3 px-2">
             {/* 헤더 */}
             <div style={S.header}>
                 <Font as="h3" variant="subtitle" weight="bold" color="default" className="m-0" style={{ letterSpacing: '0.04em' }}>전초기지 레벨 설정</Font>
+                {onOpenProfileSync && (
+                    <Button
+                        variant="assistive"
+                        size="small"
+                        onClick={onOpenProfileSync}
+                        style={{ fontSize: '11px', padding: '4px 8px' }}
+                    >
+                        🔄 내 스펙 동기화
+                    </Button>
+                )}
             </div>
 
             <div className="my-1" style={{ ...S.divider, margin: '4px -16px' }} />

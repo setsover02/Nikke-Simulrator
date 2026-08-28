@@ -9,13 +9,13 @@ import { ButtonIcon } from '../../components/Button/ButtonIcon';
 import { ELEMENT_ICONS, BURST_ICONS } from '../../constants/icons';
 import styles from './SquadAvatarList.module.scss';
 
-// _theme.scss의 Accent-Lime부터 순차적인 5개 Accent 색상 토큰
+// _theme.scss의 Accent-Lime, Cyan, Blue, Purple, Orange 토큰
 const ACCENT_COLORS = [
     'var(--Accent-Lime)',
     'var(--Accent-Cyan)',
     'var(--Accent-Blue)',
     'var(--Accent-Purple)',
-    'var(--Accent-Pink)',
+    'var(--Accent-Orange)',
 ];
 
 interface SquadAvatarListProps {
