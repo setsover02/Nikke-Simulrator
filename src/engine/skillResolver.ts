@@ -355,19 +355,19 @@ function buildSkillDamageParams(
     : null
 
   return {
-    baseATK: caster.atk,
-    extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs ? buffs.atk_pct / 100 : 0),
-    extraATKFlat: buffs ? buffs.atk_flat : (caster.buff?.extraATK ?? 0),
-    enemyBaseDEF: ctx.enemy.defense,
-    enemyDEFPercent: buffs ? -(buffs.enemy_def_down_pct / 100) : 0,
+    baseATK: caster.atk || 0,
+    extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs ? (buffs.atk_pct || 0) / 100 : 0),
+    extraATKFlat: buffs ? (buffs.atk_flat || 0) : (caster.buff?.extraATK ?? 0),
+    enemyBaseDEF: ctx.enemy.defense || 0,
+    enemyDEFPercent: buffs ? -((buffs.enemy_def_down_pct || 0) / 100) : 0,
     enemyDEFFlat: target.debuff?.defFlat ?? 0,
     atkCoef,
-    finalATKModifier: buffs ? buffs.final_atk_pct / 100 : (caster.buff?.atkDmgUp ?? 0),
+    finalATKModifier: buffs ? (buffs.final_atk_pct || 0) / 100 : (caster.buff?.atkDmgUp ?? 0),
     normalAtkMultiplier: 0,
     isNormalAttack: false,
     isCrit,
     critBonusBase: (caster.critMult ? (caster.critMult - 1) : wm.critBonus) + (caster.equipCritDmgPercent ?? 0),
-    extraCritDmg: buffs ? buffs.crit_dmg_pct / 100 : (caster.buff?.critDmg ?? 0),
+    extraCritDmg: buffs ? ((buffs.crit_dmg ?? buffs.crit_dmg_pct ?? 0) / 100) : (caster.buff?.critDmg ?? 0),
     isCore: false,
     coreHitBonus: 0,
     coreHitMultiplier: 0,
@@ -376,20 +376,20 @@ function buildSkillDamageParams(
     weakPointBase: hasAdvantage ? 1.1 : 1.0,
     weakPointExtra:
       (buffs
-        ? buffs.element_bonus_pct / 100
+        ? (buffs.element_bonus_pct || 0) / 100
         : (caster.buff?.weak ?? 0) + (caster.buff?.elementDmgUp ?? 0)) +
       (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
     chargeDmgBonus: 0,
     chargeDmgMultiplier: 0,
-    atkDmgUp: buffs ? buffs.atk_dmg_pct / 100 : (caster.buff?.atkDmgUpFinal ?? 0),
-    dotDmgUp: overrides?.dotDmgUp ?? (buffs ? buffs.dot_dmg_pct / 100 : 0),
-    pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs ? buffs.pierce_dmg_pct / 100 : 0),
-    partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs ? buffs.part_dmg_pct / 100 : 0),
-    ignoreDefDmgUp: (caster.cubeIgnoreDefDmgUp ?? 0) + (buffs ? buffs.ignore_def_dmg_pct / 100 : 0),
+    atkDmgUp: buffs ? (buffs.atk_dmg_pct || 0) / 100 : (caster.buff?.atkDmgUpFinal ?? 0),
+    dotDmgUp: overrides?.dotDmgUp ?? (buffs ? (buffs.dot_dmg_pct || 0) / 100 : 0),
+    pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs ? (buffs.pierce_dmg_pct || 0) / 100 : 0),
+    partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs ? (buffs.part_dmg_pct || 0) / 100 : 0),
+    ignoreDefDmgUp: (caster.cubeIgnoreDefDmgUp ?? 0) + (buffs ? (buffs.ignore_def_dmg_pct || 0) / 100 : 0),
     projectileDmgUp: 0,
     interruptionPartDmgUp: 0,
     extraDmgUp: 0,
-    enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (target.debuff?.takenUp ?? 0),
+    enemyTakenUp: (enemyBuffs ? (enemyBuffs.received_dmg || 0) / 100 : 0) + (target.debuff?.takenUp ?? 0),
     shareDmgUp: 0,
     enemyTakenDown: target.debuff?.takenDown ?? 0,
   }
@@ -1118,13 +1118,24 @@ function applySpecificEffectToTarget(
 
   const value = resolveValue(effectDef)
 
-  const isEnemy = target === ctx.enemy
-  const isChar = !isEnemy
+  const DAMAGE_EFFECT_NAMES = new Set([
+    'damage', 'burst_damage', 'burst_dmg', 'burst_dmg_pct', 'burst_damage_pct',
+    'bonus_damage', 'bonus_dmg', 'bonus_dmg_pct', 'armor_break_damage', 'pierce_damage',
+    'projectile_explosion_damage', 'projectile_attachment_damage', 'core_damage',
+    'auto_damage', 'bubble_barrage', 'distribute_damage', 'split_damage',
+    'split_dmg', 'split_dmg_pct', 'split_damage_pct', 'extra_damage', 'sequential_damage'
+  ]);
+  const effNameBase = (effectDef.effect || '').split(':')[0];
+  const isDamageEffect = DAMAGE_EFFECT_NAMES.has(effNameBase);
+
+  const isEnemy = target === ctx.enemy || isDamageEffect;
+  const actualTarget = isDamageEffect ? ctx.enemy : target;
+  const isChar = !isEnemy;
 
   // ── status-only 처리 (effect 없이 status만 있는 경우: 상태 충전/스택 변경) ──
   if (!effectDef.effect && effectDef.status) {
     ctx.state = ctx.state || {}
-    if (isEnemy) {
+    if (isEnemy && target === ctx.enemy) {
       // 적에게 상태 스택 추가 (chain_binding 등)
       target.debuff = target.debuff || {}
       target.debuff.activeDots = target.debuff.activeDots || []
@@ -1151,7 +1162,7 @@ function applySpecificEffectToTarget(
 
   // ─── ENEMY DEBUFF / DAMAGE ─────────────────────────────────────────────
   if (isEnemy) {
-    target.debuff = target.debuff || {}
+    actualTarget.debuff = actualTarget.debuff || {}
 
     switch (effectDef.effect) {
       // Bubble
@@ -1195,36 +1206,61 @@ function applySpecificEffectToTarget(
         }
         break
 
-      // Damage (skill_damage 타입, nikkeFormula 사용)
+      // Damage (skill_damage 타입, nikkeFormula 사용 — PARSING.md 대미지 stat 전체 지원)
       case 'damage':
+      case 'burst_damage':
+      case 'burst_dmg':
+      case 'burst_dmg_pct':
+      case 'burst_damage_pct':
+      case 'bonus_damage':
+      case 'bonus_dmg':
+      case 'bonus_dmg_pct':
+      case 'armor_break_damage':
+      case 'pierce_damage':
+      case 'projectile_explosion_damage':
+      case 'projectile_attachment_damage':
+      case 'core_damage':
+      case 'auto_damage':
       case 'bubble_barrage':
       case 'distribute_damage':
-      case 'split_damage':    // 홍련:흑영 분배 대미지 (단일적 시뮬레이션: 전체 값을 하나의 적에 적용)
+      case 'split_damage':
+      case 'split_dmg':
+      case 'split_dmg_pct':
+      case 'split_damage_pct':
       case 'extra_damage': {
-        const hits = effectDef.hits || 1
-        const stack = effectDef.stack_level
+        let suffixHits = 1;
+        const effRaw = effectDef.effect || '';
+        if (effRaw.includes(':')) {
+          const parts = effRaw.split(':');
+          const n = parseInt(parts[1], 10);
+          if (!isNaN(n) && n > 0) suffixHits = n;
+        }
+        const hits = (effectDef.hits || 1) * suffixHits;
+        const stack = effectDef.stack_level;
 
         // stack_level 기반: 현재 stack 횟수에 따라 해당 level까지 합산
-        // (stack_level이 없으면 무조건 1회)
-        let stackCount = 0
+        let stackCount = 0;
         if (stack !== undefined) {
-          const stackKey = `${sourceChar.id}_stackcount`
-          ctx.state = ctx.state || {}
-          stackCount = ctx.state[stackKey] || 0
+          const stackKey = `${sourceChar.id}_stackcount`;
+          ctx.state = ctx.state || {};
+          stackCount = ctx.state[stackKey] || 0;
           if (stackCount < stack) {
-            // 아직 이 레벨에 도달하지 않았으면 skip
-            return
+            return;
           }
         }
 
-        const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100
-        const isCrit = ctx.rng.next() < critChance
-        const singleDmg = calcNikkeDamage(
-          buildSkillDamageParams(ctx, sourceChar, target, value / 100, isCrit)
-        )
-        const totalDmg = singleDmg * hits
-        target.hp -= totalDmg
-        ctx.totalDamage += totalDmg
+        const isCoreDamage = effRaw.startsWith('core_damage');
+        const critChance = ((sourceChar.crit ?? 15) + (sourceChar.buff?.critRate || 0)) / 100;
+        const isCrit = ctx.rng.next() < critChance;
+        const damageParams = buildSkillDamageParams(ctx, sourceChar, actualTarget, value / 100, isCrit);
+        if (isCoreDamage) {
+          damageParams.isCore = true;
+        }
+
+        const singleDmg = calcNikkeDamage(damageParams);
+        const totalDmg = singleDmg * hits;
+        actualTarget.hp -= totalDmg;
+        ctx.totalDamage += totalDmg;
         ctx.log.push({
           time: ctx.time,
           type: 'skill_damage',
@@ -1232,8 +1268,8 @@ function applySpecificEffectToTarget(
           value: totalDmg,
           description: effectDef.effect,
           skillName,
-        })
-        break
+        });
+        break;
       }
 
       // Sequential Damage (PARSING.md 기준: effect='sequential_damage' + hits: N)
@@ -1248,10 +1284,10 @@ function applySpecificEffectToTarget(
           for (let h = 0; h < seqHits; h++) {
             const isCrit = ctx.rng.next() < critChance
             totalSeqDmg += calcNikkeDamage(
-              buildSkillDamageParams(ctx, sourceChar, target, value / 100, isCrit)
+              buildSkillDamageParams(ctx, sourceChar, actualTarget, value / 100, isCrit)
             )
           }
-          target.hp -= totalSeqDmg
+          actualTarget.hp -= totalSeqDmg
           ctx.totalDamage += totalSeqDmg
           ctx.log.push({
             time: ctx.time,

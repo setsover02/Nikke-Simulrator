@@ -165,11 +165,53 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             const s = Math.max(bw.start, vMin);
             const e = Math.min(bw.end, vMax);
             if (e <= s) return;
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.15)';
-            ctx.fillRect(toX(s), PT, toX(e) - toX(s), graphH);
+            const bx = toX(s);
+            const bw2 = toX(e) - bx;
+
+            // 버스트 구간 배경 (황금색 반투명)
+            ctx.fillStyle = 'rgba(255, 215, 0, 0.12)';
+            ctx.fillRect(bx, PT, bw2, graphH);
+
+            // 버스트 구간 시작선 (좌)
+            ctx.beginPath();
+            ctx.moveTo(bx, PT);
+            ctx.lineTo(bx, H - PB);
+            ctx.strokeStyle = 'rgba(255, 215, 0, 0.55)';
+            ctx.lineWidth = 1.5;
+            ctx.setLineDash([4, 3]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 버스트 구간 종료선 (우)
+            const ex = toX(e);
+            ctx.beginPath();
+            ctx.moveTo(ex, PT);
+            ctx.lineTo(ex, H - PB);
             ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
             ctx.lineWidth = 1;
-            ctx.strokeRect(toX(s), PT, toX(e) - toX(s), graphH);
+            ctx.setLineDash([2, 4]);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 버스트 구간 상단에 발동 니케 이름 반드시 표시
+            if (bw.casters.length > 0) {
+                const names = bw.casters.map(id => charIdToName[id] || id.split('_')[0]);
+                const label = names.join(' → ');
+                const maxW = Math.max(0, bw2 - 8);
+                ctx.font = 'bold 10px sans-serif';
+                ctx.fillStyle = 'rgba(255, 215, 0, 0.85)';
+                ctx.textAlign = 'left';
+                ctx.textBaseline = 'top';
+                // 트런케이트 처리
+                let displayLabel = label;
+                if (maxW > 0 && ctx.measureText(displayLabel).width > maxW) {
+                    while (displayLabel.length > 1 && ctx.measureText(displayLabel + '…').width > maxW) {
+                        displayLabel = displayLabel.slice(0, -1);
+                    }
+                    displayLabel += '…';
+                }
+                ctx.fillText(displayLabel, bx + 4, PT + 4);
+            }
         });
 
         const visibleDatasets = [...datasets];
@@ -263,7 +305,7 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
             ctx.font = '11px monospace';
             ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, W - PR, PT - 28);
         }
-    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title]);
+    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title, charIdToName]);
 
     useEffect(() => { draw(); }, [draw]);
     useEffect(() => { setViewMin(0); setViewMax(null); }, [datasets]);
@@ -404,10 +446,21 @@ const CanvasChart = ({ datasets, burstWindows = [], title = 'Cumulative Combat D
                     </div>
                     {(() => {
                         const bw = burstWindows.find(w => hoverInfo.time >= w.start && hoverInfo.time <= w.end);
-                        if (!bw || bw.casters.length === 0) return null;
+                        if (!bw) return null;
+                        // casters를 레벨별로 분류: burst_l1_fired, l2, l3 순서
+                        const l1 = bw.casters.filter((_, i) => {
+                            // charIdToName에서 레벨 정보를 직접 알 수 없으므로 순서대로 표시
+                            return true;
+                        }).map(id => charIdToName[id] || id.split('_')[0]);
+                        if (l1.length === 0) return null;
                         return (
-                            <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', color: 'rgba(255,215,0,0.9)', fontSize: '11px' }}>
-                                ⚡ {bw.casters.map(id => charIdToName[id] || id).join(' → ')}
+                            <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', color: 'rgba(255,215,0,0.9)', fontSize: '11px', lineHeight: '1.6' }}>
+                                <div style={{ color: '#aaa', marginBottom: '2px' }}>⚡ Full Burst</div>
+                                {l1.map((name, i) => (
+                                    <div key={i} style={{ paddingLeft: '8px' }}>
+                                        {i === 0 ? 'L1' : i === 1 ? 'L2' : i === 2 ? 'L3' : `+${i}`}: <span style={{ color: 'rgba(255,215,0,1)' }}>{name}</span>
+                                    </div>
+                                ))}
                             </div>
                         );
                     })()}

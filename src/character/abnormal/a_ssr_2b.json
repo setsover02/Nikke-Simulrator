@@ -92,7 +92,7 @@
       "type": "passive",
       "effects": [
         {
-          "trigger": "passive",
+          "trigger": "hit_count:300",
           "target": "all_enemies",
           "effect": "damage",
           "value": [
@@ -113,7 +113,7 @@
         {
           "trigger": "battle_start",
           "target": "self",
-          "effect": "atk_pct",
+          "effect": "atk_from_hp_pct",
           "value": [
             3.64,
             3.92,
@@ -127,7 +127,6 @@
             6.16
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         }
       ]

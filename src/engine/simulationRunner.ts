@@ -301,7 +301,7 @@ function sumDamage(resultData: any): number {
     const DAMAGE_TYPES = new Set(['attack', 'skill_damage', 'dot_damage']);
     return resultData.log
         .filter((l: any) => DAMAGE_TYPES.has(l.type))
-        .reduce((s: number, l: any) => s + l.value, 0);
+        .reduce((s: number, l: any) => s + (typeof l.value === 'number' && !isNaN(l.value) ? l.value : 0), 0);
 }
 
 function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSlot[]) {

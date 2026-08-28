@@ -107,7 +107,6 @@ export function processAttack(ctx: BattleContext) {
                     ctx.buffManager.notify('last_bullet', ctx.time, char.id, ctx);
                 }
                 if (isChargeAttack) {
-                    ctx.buffManager.notify('full_charge_hit', ctx.time, char.id, ctx);
                     ctx.buffManager.notify('full_charge', ctx.time, char.id, ctx);
                 }
                 ctx.buffManager.consumeBulletBuff(char.id);

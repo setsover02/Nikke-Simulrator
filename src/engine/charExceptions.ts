@@ -15,49 +15,32 @@ import { BattleContext } from '../types/battle';
 import { BuffCollection } from '../types/buff';
 
 // ─────────────────────────────────────────────────────────────────────────────
-// burst_reenter: 버스트 재진입 가능 캐릭터 ID 집합
-// 해당 캐릭터가 버스트를 사용하고 종료할 때 다시 버스트 게이지가 채워지는 로직
+// burst_reenter: 버스트 재진입 처리
+// ─────────────────────────────────────────────────────────────────────────────
+// ⚠️ DEPRECATED: 재진입 로직은 burstSystem.ts의 getReenterLevel()로 이전됨.
+//    재진입 여부는 캐릭터 JSON의 burst 스킬 effects에서 effect === 'burst_reenter'를
+//    동적으로 탐지하며, 특정 캐릭터 이름을 하드코딩하지 않는다.
+//    신규 재진입 캐릭터 추가 시 별도 코드 수정 불필요 — JSON에 effect만 추가하면 됨.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** burst_reenter 보유 캐릭터 ID (json 파일명 기준) */
-export const BURST_REENTER_CHARS = new Set([
-  '티아',         // m_ssr_티아.json
-  '차임',         // p_ssr_차임.json
-  '루피: 윈터 쇼퍼',    // t_ssr_루피_윈터_쇼퍼.json
-  '아비스타',     // t_ssr_아비스타.json
-  '앨리스: 원더랜드 바니', // t_ssr_앨리스_원더랜드_바니.json
-]);
+/**
+ * @deprecated burstSystem.ts의 getReenterLevel()이 JSON 기반으로 동적 처리.
+ *             외부 참조 호환성을 위해 export 유지.
+ */
+export const BURST_REENTER_CHARS = new Set<string>();
 
 /**
- * burst_reenter 판정
- * 버스트 종료 후 즉시 재돌입 가능 여부를 반환.
- * 실제 재돌입 로직은 시뮬레이터 루프(simulator.ts)에서 이 함수를 참조해 처리.
+ * @deprecated burstSystem.ts에서 직접 처리. 이 함수는 더 이상 호출되지 않는다.
  */
-export function hasBurstReenter(charId: string, ctx: BattleContext): boolean {
-  if (!BURST_REENTER_CHARS.has(charId)) return false;
-  // 버스트 재진입은 full_burst_end 이후 재발동 가능하도록 엔진이 처리
-  // 이 함수는 재진입 여부만 판단, 실제 게이지 리셋은 simulator.ts에서
-  return true;
+export function hasBurstReenter(_charId: string, _ctx: BattleContext): boolean {
+  return false;
 }
 
 /**
- * burst_reenter 처리 — full_burst_end 시 호출
- * 재진입 가능 캐릭터의 버스트 쿨다운을 즉시 0으로 리셋하여 재돌입 가능하게 한다.
+ * @deprecated burstSystem.ts에서 직접 처리. 이 함수는 더 이상 호출되지 않는다.
  */
-export function handleBurstReenter(charId: string, ctx: BattleContext): boolean {
-  if (!hasBurstReenter(charId, ctx)) return false;
-
-  // 버스트 쿨다운 즉시 리셋
-  if (ctx.burstCooldowns && ctx.burstCooldowns[charId] !== undefined) {
-    ctx.burstCooldowns[charId] = 0;
-  }
-
-  // 재진입 플래그 기록
-  if (!ctx.state) ctx.state = {} as any;
-  (ctx.state as any).__burst_reenter_pending = (ctx.state as any).__burst_reenter_pending || {};
-  (ctx.state as any).__burst_reenter_pending[charId] = true;
-
-  return true;
+export function handleBurstReenter(_charId: string, _ctx: BattleContext): boolean {
+  return false;
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

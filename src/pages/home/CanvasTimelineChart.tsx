@@ -12,31 +12,142 @@ function formatTime(sec: number, totalDuration: number): string {
     return `${m}:${s.toString().padStart(2, '0')}`;
 }
 
-function statToLabel(stat: string): string {
-    const MAP: Record<string, string> = {
-        atk_pct: 'ATK%',
-        atk_flat: 'ATK+',
-        atk_dmg_pct: 'ATK DMG',
-        final_atk_pct: 'Final ATK',
-        crit_rate: 'Crit Rate',
-        crit_dmg_pct: 'Crit DMG',
-        core_dmg_pct: 'Core DMG',
-        normal_atk_dmg_pct: 'Nrm ATK',
-        burst_dmg_pct: 'Burst DMG',
-        charge_dmg_pct: 'Chg DMG',
-        pierce_dmg_pct: 'Pierce',
-        dot_dmg_pct: 'DoT DMG',
-        part_dmg_pct: 'Part DMG',
-        element_bonus_pct: 'Elem Bonus',
-        received_dmg: 'Rcv DMG↑',
-        enemy_def_down_pct: 'DEF↓',
-        split_dmg_pct: 'Share DMG',
-        charge_speed_pct: 'Chg Spd',
-        reload_speed_pct: 'Reload Spd',
-        max_ammo_pct: 'Max Ammo',
-        attack_speed_pct: 'ATK Spd',
-    };
-    return MAP[stat] || stat.replace(/_/g, ' ');
+/** PARSING.md 기준 stat 한글 설명 매핑 사전 */
+export const STAT_KOREAN_DESC: Record<string, string> = {
+    // ── DealForm ② 공방 ──
+    atk_pct: '공격력 % 증가',
+    atk_flat: '공격력 고정 증가',
+    atk_caster_based_pct: '시전자 공격력 기준 공격력 증가',
+    atk_from_hp_pct: '최종 최대 체력 비례 공격력 증가',
+    def_pct: '방어력 % 증가',
+    def_caster_based_pct: '시전자 방어력 기준 방어력 증가',
+    enemy_def_down_pct: '적 방어력 감소',
+    def_down: '방어력 감소',
+
+    // ── 체력 / 보호막 ──
+    max_hp_pct: '최대 체력 % 증가 (체력 동반 증가)',
+    max_hp_only_pct: '최대 체력만 % 증가 (현재 체력 유지)',
+    hp_caster_based_pct: '시전자 기준 최대 체력 % 증가',
+    hp_only_caster_based_pct: '시전자 기준 최대 체력만 % 증가',
+    heal_hp_pct: '체력 회복',
+    lifesteal_pct: '공격 대미지 비례 체력 흡수',
+    heal_received_pct: '받는 체력 회복량 % 증가',
+    outgoing_heal_pct: '주는 체력 회복량 % 증가',
+    shield_from_max_hp_pct: '최대 체력 비례 보호막 생성',
+    shield_restore_pct: '보호막 회복',
+
+    // ── DealForm ③ 크리 / 코어 ──
+    crit_rate: '크리티컬 확률 % 증가',
+    normal_atk_crit_rate: '일반 공격 크리티컬 확률 % 증가',
+    crit_dmg: '크리티컬 대미지 % 증가',
+    crit_dmg_pct: '크리티컬 대미지 % 증가',
+    normal_atk_crit_dmg: '일반 공격 크리티컬 대미지 % 증가',
+    core_dmg_pct: '코어 대미지 % 증가',
+
+    // ── DealForm ④ 차지 ──
+    charge_dmg_pct: '차지 대미지 % 증가',
+    charge_dmg_mag_pct: '차지 대미지 배율 % 증가',
+    charge_speed_pct: '차지 속도 % 증가',
+    charge_speed_caster_based_pct: '시전자 기준 차지 속도 % 증가',
+    charge_time_flat: '차지 시간 감소',
+    charge_time_fixed: '차지 시간 고정',
+    charge_speed_overflow_conversion_pct: '초과 차지 속도의 차지 대미지 전환',
+
+    // ── DealForm ⑤ 유형별 대미지 ──
+    atk_dmg_pct: '공격 대미지 % 증가',
+    normal_atk_dmg_pct: '일반 공격 대미지 배율 % 증가',
+    burst_dmg_pct: '버스트 스킬 대미지 % 증가',
+    burst_dmg_aoe_pct: '전체 대상 버스트 대미지 % 증가',
+    burst_dmg_single_pct: '단일 대상 버스트 대미지 % 증가',
+    pierce_dmg_pct: '관통 대미지 % 증가',
+    dot_dmg_pct: '지속 대미지 % 증가',
+    split_dmg_pct: '분배 대미지 % 증가',
+    sequential_dmg_pct: '순차 공격 대미지 % 증가',
+    part_dmg_pct: '파츠 대미지 % 증가',
+    intercept_dmg_pct: '저지 부위 대미지 % 증가',
+    armor_break_dmg_pct: '방어력 무시 대미지 % 증가',
+    projectile_dmg_pct: '발사체 대미지 % 증가',
+    projectile_attachment_dmg_pct: '발사체 부착 대미지 % 증가',
+    projectile_explosion_dmg_pct: '발사체 폭발 대미지 % 증가',
+    element_bonus_pct: '우월 코드 공격 대미지 % 증가',
+
+    // ── DealForm ⑥ 받는 대미지 ──
+    received_dmg: '받는 대미지 % 증가',
+    received_dmg_pct: '받는 대미지 % 증가',
+
+    // ── 장탄 / 사격 ──
+    max_ammo_pct: '최대 장탄 수 % 증가',
+    max_ammo_flat: '최대 장탄 수 고정 증가',
+    ammo_charge_pct: '탄환 충전 %',
+    ammo_charge_flat: '탄환 충전',
+    reload_speed_pct: '재장전 속도 % 증가',
+    reload_time_fixed: '재장전 시간 고정',
+    attack_speed_pct: '공격 속도 % 증가',
+    accuracy_pct: '명중률 % 증가',
+    mg_warmup_speed_pct: 'MG 예열 진행 속도 % 증가',
+    pellet_count: '펠릿 개수 증가',
+    pellet_count_fixed: '펠릿 개수 고정',
+    infinite_ammo: '장탄수 무한',
+
+    // ── 스킬 / 버스트 제어 ──
+    burst_cooldown: '버스트 쿨타임 감소',
+    burst_cooldown_reduce: '버스트 쿨타임 즉시 감소',
+    skill_cooldown_pct: '스킬 쿨타임 % 감소',
+    skill_cooldown: '스킬 쿨타임 감소',
+    burst_charge_speed_pct: '버스트 충전 속도 % 증가',
+    gauge_charge: '버스트 게이지 충전',
+    fullburst_duration: '풀버스트 지속시간 증가',
+
+    // ── 특수 상태 및 면역 ──
+    pierce_enabled: '관통 특화',
+    armor_break_enabled: '방어력 무시 특화',
+    stun: '기절',
+    invincible: '무적',
+    undying: '불굴',
+    stealth: '은신',
+    taunt: '도발',
+    debuff_immune: '해로운 효과 면역',
+    stun_immune: '기절 면역',
+    charge_speed_buff_immune: '차지 속도 증가 면역',
+    charge_speed_debuff_immune: '차지 속도 감소 면역',
+    stack_change_immune: '중첩량 변경 면역',
+    buff_max_stack_add: '이로운 효과 최대 중첩량 증가',
+
+    // ── 대미지 효과 ──
+    damage: '스킬 대미지',
+    burst_damage: '버스트 스킬 대미지',
+    split_damage: '분배 대미지',
+    dot_damage: '지속 대미지 (DoT)',
+    bonus_damage: '추가 대미지',
+    extra_damage: '추가 대미지',
+    armor_break_damage: '방어력 무시 대미지',
+    pierce_damage: '관통 대미지',
+    projectile_explosion_damage: '발사체 폭발 대미지',
+    projectile_attachment_damage: '발사체 부착 대미지',
+    core_damage: '코어 명중 대미지',
+    sequential_damage: '연속 순차 대미지',
+    distribute_damage: '분배 대미지',
+    auto_damage: '자동 공격 대미지',
+};
+
+function statToKoreanDesc(stat: string): string {
+    return STAT_KOREAN_DESC[stat] || stat.replace(/_/g, ' ');
+}
+
+function formatBuffTooltipValue(stat: string, val: number): string {
+    if (val === undefined || val === null || isNaN(val)) return '';
+    const isBool = ['infinite_ammo', 'pierce_enabled', 'armor_break_enabled', 'stun', 'invincible', 'undying', 'stealth', 'taunt', 'debuff_immune', 'stun_immune'].includes(stat);
+    if (isBool) return '적용 중';
+
+    const isFlat = ['atk_flat', 'max_ammo_flat', 'pellet_count', 'burst_cooldown', 'burst_cooldown_reduce', 'charge_time_flat', 'fullburst_duration'].includes(stat);
+    if (isFlat) {
+        return val >= 0 ? `+${val.toLocaleString()}` : `${val.toLocaleString()}`;
+    }
+
+    // 기본적으로 % 수치
+    const pctVal = (val * 100);
+    const sign = pctVal >= 0 ? '+' : '';
+    return `${sign}${pctVal.toFixed(2)}%`;
 }
 
 function statColor(stat: string, polarity: string): string {
@@ -45,9 +156,12 @@ function statColor(stat: string, polarity: string): string {
     const COLORS: Record<string, string> = {
         atk_pct: '#4fc3f7',
         atk_flat: '#29b6f6',
+        atk_caster_based_pct: '#29b6f6',
+        atk_from_hp_pct: '#26c6da',
         atk_dmg_pct: '#26c6da',
         final_atk_pct: '#00e5ff',
         crit_rate: '#ffb300',
+        crit_dmg: '#ffa726',
         crit_dmg_pct: '#ffa726',
         core_dmg_pct: '#ff7043',
         normal_atk_dmg_pct: '#66bb6a',
@@ -57,7 +171,11 @@ function statColor(stat: string, polarity: string): string {
         dot_dmg_pct: '#ec407a',
         element_bonus_pct: '#26a69a',
         received_dmg: '#ff8f00',
+        received_dmg_pct: '#ff8f00',
         enemy_def_down_pct: '#d32f2f',
+        def_pct: '#81c784',
+        max_hp_pct: '#4db6ac',
+        max_hp_only_pct: '#26a69a',
         charge_speed_pct: '#42a5f5',
         reload_speed_pct: '#5c6bc0',
         max_ammo_pct: '#8d6e63',
@@ -89,7 +207,7 @@ interface TimelineRow {
 const LINE_H = 18;
 const ROW_GAP = 3;
 const CHAR_GAP = 10;
-const PAD = { top: 36, right: 20, bottom: 42, left: 210 };
+const PAD = { top: 36, right: 20, bottom: 42, left: 250 };
 const MIN_ZOOM = 5;
 
 // ─────────────────────────────────────────────────────────────
@@ -152,11 +270,11 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                     targetName: idToName[ev.targetId] || ev.targetId,
                     casterId: ev.casterId,
                     casterName: idToName[ev.casterId] || ev.casterId,
-                    buffName: ev.buffName,
+                    buffName: ev.buffName || statToKoreanDesc(ev.stat),
                     stat: ev.stat,
                     polarity: ev.polarity,
                     color,
-                    label: statToLabel(ev.stat),
+                    label: statToKoreanDesc(ev.stat),
                     segments: [],
                 });
             }
@@ -308,17 +426,18 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
             }
             lastTarget = row.targetId;
 
-            // 버프 레이블 (stat 이름 + 시전자)
+            // 스킬 레이블 (스킬 이름 + 시전자)
             const sameCaster = row.casterName === row.targetName;
+            const skillDisplayName = row.buffName || row.label;
             const labelRight = sameCaster
-                ? row.label
-                : `${row.label} ← ${row.casterName.substring(0, 6)}`;
+                ? skillDisplayName
+                : `${skillDisplayName} ← ${row.casterName.substring(0, 8)}`;
 
             ctx.fillStyle = row.color;
-            ctx.font = '10px "Inter", sans-serif';
+            ctx.font = '10px "Inter", "Pretendard", sans-serif';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(labelRight.substring(0, 28), PAD.left - 8, yCursor + LINE_H / 2);
+            ctx.fillText(labelRight.substring(0, 32), PAD.left - 8, yCursor + LINE_H / 2);
 
             yCursor += LINE_H + ROW_GAP;
         });
@@ -467,7 +586,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
             {tooltip && (
                 <div style={{
                     position: 'absolute',
-                    left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 220)}px`,
+                    left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 260)}px`,
                     top: `${Math.max(4, tooltip.y - 6)}px`,
                     background: 'rgba(16,18,28,0.96)',
                     border: '1px solid #2a3050',
@@ -478,25 +597,25 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                     pointerEvents: 'none',
                     zIndex: 30,
                     boxShadow: '0 4px 20px rgba(0,0,0,0.7)',
-                    minWidth: '190px',
+                    minWidth: '220px',
                 }}>
                     <div style={{ borderBottom: '1px solid #2a3050', marginBottom: '7px', paddingBottom: '5px' }}>
                         <span style={{ color: '#e0e4f0', fontWeight: 'bold' }}>{tooltip.targetName}</span>
                         <span style={{ color: '#555', margin: '0 5px' }}>←</span>
                         <span style={{ color: '#8a8fa8' }}>{tooltip.casterName}</span>
                     </div>
-                    <div style={{ color: '#c5cae9', marginBottom: '4px', fontSize: '11px' }}>
+                    <div style={{ color: '#ffb74d', marginBottom: '6px', fontWeight: '600', fontSize: '12px' }}>
                         {tooltip.buffName}
                     </div>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px' }}>
-                        <span style={{ color: '#8a8fa8' }}>{statToLabel(tooltip.stat)}</span>
-                        <span style={{ color: '#4fc3f7', fontWeight: 'bold' }}>
-                            {(tooltip.value * 100).toFixed(1)}%
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px' }}>
+                        <span style={{ color: '#8a8fa8', fontSize: '11px' }}>{statToKoreanDesc(tooltip.stat)}</span>
+                        <span style={{ color: '#4fc3f7', fontWeight: 'bold', fontSize: '12px' }}>
+                            {formatBuffTooltipValue(tooltip.stat, tooltip.value)}
                         </span>
                     </div>
-                    <div style={{ marginTop: '5px', color: '#555', fontSize: '10px' }}>
-                        {formatTime(tooltip.start, duration)} → {formatTime(tooltip.end, duration)}
-                        <span style={{ marginLeft: '8px' }}>({(tooltip.end - tooltip.start).toFixed(1)}s)</span>
+                    <div style={{ marginTop: '6px', color: '#666', fontSize: '10px', display: 'flex', justifyContent: 'space-between' }}>
+                        <span>{formatTime(tooltip.start, duration)} → {formatTime(tooltip.end, duration)}</span>
+                        <span>({(tooltip.end - tooltip.start).toFixed(1)}s)</span>
                     </div>
                 </div>
             )}

@@ -105,17 +105,42 @@ export class BuffManager {
             return;
           }
 
-          // 구현 제외 stat 경고
-          const statKey = eff.stat || eff.effect;
+          // stat 키 정규화 (legacy based_on 지원 -> PARSING.md 표준 stat으로 통합)
+          let rawStatKey = eff.stat || eff.effect;
+          const basedOn = eff.based_on;
+
+          if (rawStatKey === 'atk_pct' || rawStatKey === 'atk_up') {
+            if (basedOn === 'caster_final_max_hp' || basedOn === 'caster_max_hp') {
+              rawStatKey = 'atk_from_hp_pct';
+            } else if (basedOn === 'caster_atk' || basedOn === 'caster_final_atk') {
+              rawStatKey = 'atk_caster_based_pct';
+            }
+          } else if (rawStatKey === 'max_hp_pct' || rawStatKey === 'max_hp_up') {
+            if (basedOn === 'caster_final_max_hp' || basedOn === 'caster_max_hp') {
+              rawStatKey = 'hp_caster_based_pct';
+            }
+          } else if (rawStatKey === 'max_hp_only_pct') {
+            if (basedOn === 'caster_final_max_hp' || basedOn === 'caster_max_hp') {
+              rawStatKey = 'hp_only_caster_based_pct';
+            }
+          } else if (rawStatKey === 'def_pct' || rawStatKey === 'def_up') {
+            if (basedOn === 'caster_def' || basedOn === 'caster_final_def') {
+              rawStatKey = 'def_caster_based_pct';
+            }
+          }
+
+          const statKey = rawStatKey;
           if (statKey && _UNIMPLEMENTED_STATS.has(statKey)) {
             console.debug(`[BuffManager] 미구현 stat "${statKey}" (${char.id} / ${eff.name}) — 무시됨.`);
           }
+
+          const displayName = skill.name || eff.name || '스킬 효과';
 
           const normalized: NormalizedSkillEffect = {
             id: eff.id || `${char.id}__${skill.id || skill.name}__eff${idx}`,
             source: skill.id || skill.type || 'skill',
             type: eff.type || 'buff',
-            name: eff.name || skill.name || 'Skill Effect',
+            name: displayName,
             trigger: {
               timing: Array.isArray(eff.trigger)
                 ? eff.trigger
@@ -224,8 +249,9 @@ export class BuffManager {
       // 완전 일치
       if (tm === event) return true;
 
-      // timing_count:N (full_burst_start_count:2, full_burst_end_count:1 등)
-      if (tm.startsWith(`${event}_count:`)) {
+      // timing_count:N — 누적 달성형 이벤트(full_burst_start_count, full_burst_end_count, burst_cast_count 등)만 >= req 적용
+      const CUMULATIVE_COUNT_EVENTS = new Set(['full_burst_start', 'full_burst_end', 'burst_cast', 'burst_enter']);
+      if (CUMULATIVE_COUNT_EVENTS.has(event) && tm.startsWith(`${event}_count:`)) {
         const req = parseInt(tm.split(':')[1], 10);
         if (!isNaN(req) && count >= req) return true;
       }
@@ -256,8 +282,8 @@ export class BuffManager {
         }
       }
 
-      // full_charge_count:N
-      if (event === 'full_charge_hit' && tm.startsWith('full_charge_count:')) {
+      // full_charge_count:N (풀차지 N회마다)
+      if ((event === 'full_charge' || event === 'full_charge_hit') && tm.startsWith('full_charge_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
         if (!isNaN(req) && count % req === 0) return true;
       }
@@ -1194,6 +1220,42 @@ export class BuffManager {
         if (caster) {
           const casterMaxHp = caster.maxHp || caster.hp;
           buffs.atk_flat += casterMaxHp * (val / 100);
+        }
+        continue;
+      }
+
+      if (stat === 'hp_caster_based_pct') {
+        const caster = members.find((m) => m.id === ab.casterId);
+        if (caster && targetChar) {
+          const casterMaxHp = caster.maxHp || caster.hp;
+          const targetMaxHp = targetChar.maxHp || targetChar.hp;
+          if (targetMaxHp > 0) {
+            buffs.max_hp_pct += (casterMaxHp * (val / 100) / targetMaxHp) * 100;
+          }
+        }
+        continue;
+      }
+
+      if (stat === 'hp_only_caster_based_pct') {
+        const caster = members.find((m) => m.id === ab.casterId);
+        if (caster && targetChar) {
+          const casterMaxHp = caster.maxHp || caster.hp;
+          const targetMaxHp = targetChar.maxHp || targetChar.hp;
+          if (targetMaxHp > 0) {
+            buffs.max_hp_only_pct += (casterMaxHp * (val / 100) / targetMaxHp) * 100;
+          }
+        }
+        continue;
+      }
+
+      if (stat === 'def_caster_based_pct') {
+        const caster = members.find((m) => m.id === ab.casterId);
+        if (caster && targetChar) {
+          const casterDef = caster.defense;
+          const targetDef = targetChar.defense;
+          if (targetDef > 0) {
+            buffs.def_pct += (casterDef * (val / 100) / targetDef) * 100;
+          }
         }
         continue;
       }

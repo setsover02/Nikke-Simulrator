@@ -11,7 +11,7 @@ export const generateChartData = (
     sourceFilter?: string,
     typeFilter?: Set<string>
 ) => {
-    const DAMAGE_TYPES = typeFilter ?? new Set(['attack', 'skill_damage']);
+    const DAMAGE_TYPES = typeFilter ?? new Set(['attack', 'skill_damage', 'dot_damage']);
     const aggregated: { [second: number]: number } = {};
     for (const log of result.log) {
         if (!DAMAGE_TYPES.has(log.type)) continue;
@@ -80,6 +80,20 @@ function resolveDmgStat(description: string, logType: string): string {
     const d = description.toLowerCase();
     // sequential_damage×N 패턴
     if (d.startsWith('sequential_damage')) return 'sequential_damage';
+    // alias 및 접두사 매핑
+    if (d.startsWith('split_dmg') || d.startsWith('split_damage')) return 'split_damage';
+    if (d.startsWith('burst_dmg') || d.startsWith('burst_damage')) return 'burst_damage';
+    if (d.startsWith('bonus_dmg') || d.startsWith('bonus_damage')) return 'bonus_damage';
+    if (d.startsWith('dot_dmg') || d.startsWith('dot_damage')) return 'dot_damage';
+    if (d.startsWith('core_dmg') || d.startsWith('core_damage')) return 'core_damage';
+    if (d.startsWith('armor_break')) return 'armor_break_damage';
+    if (d.startsWith('pierce')) return 'pierce_damage';
+    if (d.startsWith('projectile_explosion')) return 'projectile_explosion_damage';
+    if (d.startsWith('projectile_attachment')) return 'projectile_attachment_damage';
+    if (d.startsWith('distribute')) return 'distribute_damage';
+    if (d.startsWith('extra')) return 'extra_damage';
+    if (d.startsWith('auto')) return 'auto_damage';
+
     // 정확 매핑
     const knownStats = [
         'damage', 'burst_damage', 'split_damage', 'dot_damage', 'bonus_damage',
@@ -148,17 +162,29 @@ export const generateBurstWindows = (
     let currentCasters: string[] = [];
 
     for (const entry of log) {
-        if (entry.type === 'burst') {
-            if ((entry.description || '').includes('_fired') && entry.source) {
-                currentCasters.push(entry.source);
-            }
-            if (entry.description === 'full_burst_start') {
-                startTime = entry.time;
-            } else if (entry.description === 'full_burst_end' && startTime !== null) {
-                windows.push({ start: startTime, end: Math.min(duration, entry.time), casters: [...currentCasters] });
-                startTime = null;
-                currentCasters = [];
-            }
+        if (entry.type !== 'burst') continue;
+
+        const desc = entry.description || '';
+
+        // burst_l1_fired / burst_l2_fired / burst_l3_fired — 체인의 모든 발동 수집
+        if (desc.includes('_fired') && entry.source) {
+            currentCasters.push(entry.source);
+        }
+
+        if (desc === 'burst_chain_fail') {
+            currentCasters = [];
+        }
+
+        if (desc === 'full_burst_start') {
+            startTime = entry.time;
+        } else if (desc === 'full_burst_end' && startTime !== null) {
+            windows.push({
+                start: startTime,
+                end: Math.min(duration, entry.time),
+                casters: [...currentCasters],
+            });
+            startTime = null;
+            currentCasters = [];
         }
     }
 
