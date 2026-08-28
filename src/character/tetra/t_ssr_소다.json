@@ -68,8 +68,7 @@
             3.1,
             3.23
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "max_stack_applied",
@@ -87,8 +86,7 @@
             11.89,
             12.71
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         }
       ]
     },
@@ -114,8 +112,7 @@
             297.88,
             321.28
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

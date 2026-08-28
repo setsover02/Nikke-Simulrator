@@ -66,8 +66,7 @@
             52.8,
             56.32
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "full_burst_time",
@@ -113,7 +112,6 @@
             96
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 5
         }
       ]

@@ -207,8 +207,7 @@
             10.5,
             11
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

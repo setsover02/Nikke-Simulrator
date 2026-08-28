@@ -196,7 +196,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "status": "마하타루카쟈",
           "value": [
             12.48,
@@ -211,7 +211,6 @@
             21.12
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": "permanent"
         },
         {
@@ -237,7 +236,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies",
-          "effect": "def_pct",
+          "effect": "def_caster_based_pct",
           "status": "마하라쿠카쟈",
           "value": [
             12.48,
@@ -252,7 +251,6 @@
             21.12
           ],
           "unit": "percent",
-          "based_on": "caster_def",
           "duration": "permanent"
         },
         {
@@ -299,8 +297,7 @@
             378,
             396
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

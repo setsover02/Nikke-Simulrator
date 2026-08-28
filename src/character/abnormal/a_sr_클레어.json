@@ -41,8 +41,7 @@
             2.68,
             2.86
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         }
       ]
     },
@@ -69,7 +68,6 @@
             10.13
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         }
       ]
@@ -96,8 +94,7 @@
             32.2,
             34.35
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

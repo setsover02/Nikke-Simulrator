@@ -157,8 +157,7 @@
             201.04,
             210.62
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",
@@ -176,8 +175,7 @@
             236.01,
             247.25
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",
@@ -195,8 +193,7 @@
             288.46,
             302.19
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

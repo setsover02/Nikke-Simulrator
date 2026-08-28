@@ -106,8 +106,7 @@
             254.48,
             266.6
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "full_charge_attack",
@@ -211,8 +210,7 @@
             469.92,
             492.3
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

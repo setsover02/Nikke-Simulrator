@@ -42,7 +42,6 @@
             30.15
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         },
         {
@@ -181,7 +180,6 @@
             30.15
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         },
         {
@@ -202,7 +200,6 @@
             30.15
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         }
       ]
@@ -292,7 +289,7 @@
         {
           "trigger": "passive",
           "target": "all_allies_excl_self",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             47.48,
             51.13,
@@ -306,7 +303,6 @@
             80.36
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": "permanent"
         }
       ]
@@ -342,7 +338,6 @@
           "effect": "shield_from_max_hp_pct",
           "status": "망상 공유",
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10,
           "value": [
             0,

@@ -42,7 +42,6 @@
             21.12
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         },
         {
@@ -63,7 +62,6 @@
             21.12
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent"
         }
       ]
@@ -89,8 +87,7 @@
             2.71,
             2.85
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",
@@ -176,8 +173,7 @@
             5,
             5
           ],
-          "unit": "percent",
-          "based_on": "final_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

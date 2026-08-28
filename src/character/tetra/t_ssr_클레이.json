@@ -93,7 +93,7 @@
         {
           "trigger": "passive",
           "target": "all_allies",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             11.8,
             12.72,
@@ -107,7 +107,6 @@
             20.07
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": "permanent"
         }
       ]
@@ -142,7 +141,6 @@
           "target": "self",
           "effect": "damage",
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 10,
           "value": [
             0,

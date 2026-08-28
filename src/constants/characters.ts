@@ -56,4 +56,5 @@ for (const path in characterModules) {
     }
 }
 
-export const SLOT_COLORS = ['#1890ff', '#ff7a45', '#52c41a', '#b37feb', '#ff7ec8'];
+// _theme.scss의 Accent-Lime, Cyan, Blue, Purple, Pink (#6BE016, #28D0ED, #4F95FF, #D478FF, #FA73E3)
+export const SLOT_COLORS = ['#6BE016', '#28D0ED', '#4F95FF', '#D478FF', '#FA73E3'];

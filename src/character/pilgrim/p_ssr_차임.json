@@ -1,143 +1,142 @@
 {
-    "characterID": "Char_331",
-    "characterName": "차임",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SMG",
-        "class": "지원형",
-        "company": "Pilgrim",
-        "squad": "바이스리터",
-        "burstLevel": 2,
-        "atkCoef": 8.1,
-        "maxAmmo": 120,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_331",
+  "characterName": "차임",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SMG",
+    "class": "지원형",
+    "company": "Pilgrim",
+    "squad": "바이스리터",
+    "burstLevel": 2,
+    "atkCoef": 8.1,
+    "maxAmmo": 120,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "일등 신하",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "일등 신하",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "status": "소원",
-                    "value": [
-                        27.45,
-                        29.56,
-                        31.68,
-                        33.79,
-                        35.9,
-                        38.01,
-                        40.12,
-                        42.24,
-                        44.35,
-                        46.46
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": "permanent"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "왕의 비서",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "status": "일과 보고",
-                    "value": [
-                        27.31,
-                        29.41,
-                        31.51,
-                        33.61,
-                        35.71,
-                        37.81,
-                        39.91,
-                        42.02,
-                        44.12,
-                        46.22
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "왕을 위해",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "burst_reenter",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "count"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        11.82,
-                        12.72,
-                        13.63,
-                        14.54,
-                        15.45,
-                        16.36,
-                        17.27,
-                        18.18,
-                        19.09,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "status": "충심",
-                    "value": [
-                        54.62,
-                        58.82,
-                        63.03,
-                        67.23,
-                        71.43,
-                        75.63,
-                        79.83,
-                        84.04,
-                        88.24,
-                        92.44
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_caster_based_pct",
+          "status": "소원",
+          "value": [
+            27.45,
+            29.56,
+            31.68,
+            33.79,
+            35.9,
+            38.01,
+            40.12,
+            42.24,
+            44.35,
+            46.46
+          ],
+          "unit": "percent",
+          "duration": "permanent"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "왕의 비서",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "status": "일과 보고",
+          "value": [
+            27.31,
+            29.41,
+            31.51,
+            33.61,
+            35.71,
+            37.81,
+            39.91,
+            42.02,
+            44.12,
+            46.22
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "왕을 위해",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "burst_reenter",
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "unit": "count"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "max_ammo_pct",
+          "value": [
+            11.82,
+            12.72,
+            13.63,
+            14.54,
+            15.45,
+            16.36,
+            17.27,
+            18.18,
+            19.09,
+            20
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "status": "충심",
+          "value": [
+            54.62,
+            58.82,
+            63.03,
+            67.23,
+            71.43,
+            75.63,
+            79.83,
+            84.04,
+            88.24,
+            92.44
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

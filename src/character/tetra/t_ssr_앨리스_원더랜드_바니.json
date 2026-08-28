@@ -40,8 +40,7 @@
             6.93,
             7.4
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "hit_count:60",
@@ -169,8 +168,7 @@
             25.39,
             27
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "max_stack_applied",

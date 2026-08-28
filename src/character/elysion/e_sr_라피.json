@@ -66,8 +66,7 @@
             504.48,
             528.97
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "passive",
@@ -112,8 +111,7 @@
             621.18,
             657.72
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

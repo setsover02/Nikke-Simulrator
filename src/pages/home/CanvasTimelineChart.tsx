@@ -144,43 +144,21 @@ function formatBuffTooltipValue(stat: string, val: number): string {
         return val >= 0 ? `+${val.toLocaleString()}` : `${val.toLocaleString()}`;
     }
 
-    // 기본적으로 % 수치
-    const pctVal = (val * 100);
-    const sign = pctVal >= 0 ? '+' : '';
-    return `${sign}${pctVal.toFixed(2)}%`;
+    // val은 JSON/엔진에서 이미 백분율 수치 (예: 6.65 = 6.65%)
+    const sign = val >= 0 ? '+' : '';
+    return `${sign}${val.toFixed(2)}%`;
 }
 
-function statColor(stat: string, polarity: string): string {
-    if (polarity === 'harmful') return '#ff4444';
+import { SLOT_COLORS } from '../../constants/characters';
 
-    const COLORS: Record<string, string> = {
-        atk_pct: '#4fc3f7',
-        atk_flat: '#29b6f6',
-        atk_caster_based_pct: '#29b6f6',
-        atk_from_hp_pct: '#26c6da',
-        atk_dmg_pct: '#26c6da',
-        final_atk_pct: '#00e5ff',
-        crit_rate: '#ffb300',
-        crit_dmg: '#ffa726',
-        crit_dmg_pct: '#ffa726',
-        core_dmg_pct: '#ff7043',
-        normal_atk_dmg_pct: '#66bb6a',
-        burst_dmg_pct: '#ab47bc',
-        charge_dmg_pct: '#7e57c2',
-        pierce_dmg_pct: '#ef5350',
-        dot_dmg_pct: '#ec407a',
-        element_bonus_pct: '#26a69a',
-        received_dmg: '#ff8f00',
-        received_dmg_pct: '#ff8f00',
-        enemy_def_down_pct: '#d32f2f',
-        def_pct: '#81c784',
-        max_hp_pct: '#4db6ac',
-        max_hp_only_pct: '#26a69a',
-        charge_speed_pct: '#42a5f5',
-        reload_speed_pct: '#5c6bc0',
-        max_ammo_pct: '#8d6e63',
-    };
-    return COLORS[stat] || '#78909c';
+function getSlotColor(id: string, fallbackIdx: number = 0): string {
+    if (!id || id === '__enemy__') return '#d32f2f';
+    const match = id.match(/_(\d+)$/);
+    if (match) {
+        const idx = parseInt(match[1], 10);
+        return SLOT_COLORS[idx % SLOT_COLORS.length];
+    }
+    return SLOT_COLORS[fallbackIdx % SLOT_COLORS.length];
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -264,7 +242,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         for (const ev of events) {
             const key = `${ev.targetId}__${ev.casterId}__${ev.buffName}__${ev.stat}`;
             if (!grouped.has(key)) {
-                const color = statColor(ev.stat, ev.polarity);
+                const color = getSlotColor(ev.casterId);
                 grouped.set(key, {
                     targetId: ev.targetId,
                     targetName: idToName[ev.targetId] || ev.targetId,
@@ -417,12 +395,12 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
             if (lastTarget && row.targetId !== lastTarget) yCursor += CHAR_GAP;
 
             if (row.targetId !== lastTarget) {
-                // 캐릭터명
-                ctx.fillStyle = '#e0e4f0';
-                ctx.font = 'bold 11px "Inter", sans-serif';
+                // 캐릭터명 (슬롯 색상)
+                ctx.fillStyle = getSlotColor(row.targetId);
+                ctx.font = 'bold 11px "Inter", "Pretendard", sans-serif';
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(row.targetName.substring(0, 12), 8, yCursor + LINE_H / 2);
+                ctx.fillText(row.targetName.substring(0, 14), 8, yCursor + LINE_H / 2);
             }
             lastTarget = row.targetId;
 

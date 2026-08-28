@@ -60,7 +60,6 @@
             2.01
           ],
           "unit": "percent",
-          "based_on": "final_max_ammo",
           "bullet": 1
         }
       ]

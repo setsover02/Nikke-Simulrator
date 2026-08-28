@@ -42,7 +42,6 @@
             1.9
           ],
           "unit": "percent",
-          "based_on": "caster_def",
           "duration": 3,
           "stack": 50
         },
@@ -103,7 +102,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "max_hp_pct",
+          "effect": "hp_caster_based_pct",
           "value": [
             50.93,
             54.85,
@@ -117,7 +116,6 @@
             86.2
           ],
           "unit": "percent",
-          "based_on": "caster_max_hp",
           "duration": 7
         },
         {
@@ -157,7 +155,6 @@
             4.52
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 7,
           "interval": 1
         }

@@ -59,8 +59,7 @@
             151.45,
             158.65
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     },
@@ -72,7 +71,7 @@
         {
           "trigger": "hit_count:60",
           "target": "all_allies",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             5.49,
             6.33,
@@ -86,7 +85,6 @@
             13.09
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": 5
         },
         {
@@ -133,7 +131,6 @@
             39.74
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 10
         },
         {
@@ -152,8 +149,7 @@
             302.22,
             316.66
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

@@ -90,7 +90,7 @@
         {
           "trigger": "passive",
           "target": "self",
-          "effect": "def_pct",
+          "effect": "def_caster_based_pct",
           "value": [
             5.67,
             6.3,
@@ -104,7 +104,6 @@
             11.34
           ],
           "unit": "percent",
-          "based_on": "caster_def",
           "duration": 5
         }
       ]
@@ -132,7 +131,6 @@
             10.08
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         }
       ]

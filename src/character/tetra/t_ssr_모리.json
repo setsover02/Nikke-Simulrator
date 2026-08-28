@@ -42,7 +42,6 @@
             40.12
           ],
           "unit": "percent",
-          "based_on": "final_hp",
           "duration": "permanent"
         },
         {
@@ -63,7 +62,6 @@
             40.12
           ],
           "unit": "percent",
-          "based_on": "final_hp",
           "duration": "permanent"
         },
         {
@@ -149,7 +147,6 @@
             23.23
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 15,
           "interval": 1
         }
@@ -177,8 +174,7 @@
             14.36,
             15.04
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

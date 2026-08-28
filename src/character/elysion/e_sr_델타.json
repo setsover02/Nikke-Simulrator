@@ -1,123 +1,122 @@
 {
-    "characterID": "Char_20",
-    "characterName": "델타",
-    "stats": {
-        "rarity": "SR",
-        "element": "풍압",
-        "weapon": "SR",
-        "class": "방어형",
-        "company": "Elysion",
-        "squad": "스카우팅",
-        "burstLevel": 2,
-        "atkCoef": 65.95,
-        "maxAmmo": 6,
-        "reloadTime": 1.5,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_20",
+  "characterName": "델타",
+  "stats": {
+    "rarity": "SR",
+    "element": "풍압",
+    "weapon": "SR",
+    "class": "방어형",
+    "company": "Elysion",
+    "squad": "스카우팅",
+    "burstLevel": 2,
+    "atkCoef": 65.95,
+    "maxAmmo": 6,
+    "reloadTime": 1.5,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "리콜렉션",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "리콜렉션",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_attack",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        3.15,
-                        3.78,
-                        4.41,
-                        5.04,
-                        5.67,
-                        6.3,
-                        6.93,
-                        7.56,
-                        8.18,
-                        8.82
-                    ],
-                    "unit": "percent",
-                    "duration": 10
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "라스트 메모리",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        18.36,
-                        22.04,
-                        25.71,
-                        29.38,
-                        33.06,
-                        36.73,
-                        40.4,
-                        44.08,
-                        47.75,
-                        51.42
-                    ],
-                    "unit": "percent",
-                    "duration": 20
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "리멤버 미",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "decoy",
-                    "status": "디코이",
-                    "value": [
-                        41.06,
-                        46.68,
-                        52.31,
-                        57.93,
-                        63.56,
-                        69.18,
-                        74.81,
-                        80.43,
-                        86.06,
-                        91.68
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "taunt",
-                    "unit": "percent",
-                    "duration": 10,
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ]
-                }
-            ]
+          "trigger": "full_charge_attack",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            3.15,
+            3.78,
+            4.41,
+            5.04,
+            5.67,
+            6.3,
+            6.93,
+            7.56,
+            8.18,
+            8.82
+          ],
+          "unit": "percent",
+          "duration": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "라스트 메모리",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            18.36,
+            22.04,
+            25.71,
+            29.38,
+            33.06,
+            36.73,
+            40.4,
+            44.08,
+            47.75,
+            51.42
+          ],
+          "unit": "percent",
+          "duration": 20
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "리멤버 미",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "decoy",
+          "status": "디코이",
+          "value": [
+            41.06,
+            46.68,
+            52.31,
+            57.93,
+            63.56,
+            69.18,
+            74.81,
+            80.43,
+            86.06,
+            91.68
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "taunt",
+          "unit": "percent",
+          "duration": 10,
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
 }

@@ -105,7 +105,6 @@
             15.3
           ],
           "unit": "percent",
-          "based_on": "attack_damage",
           "duration": 5,
           "stack_level": 1
         },
@@ -192,8 +191,7 @@
             166.53,
             176.32
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

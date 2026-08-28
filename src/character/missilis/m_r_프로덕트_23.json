@@ -67,7 +67,6 @@
             16.15
           ],
           "unit": "percent",
-          "based_on": "attack_damage",
           "duration": 10
         }
       ]

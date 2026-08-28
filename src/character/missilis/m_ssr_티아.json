@@ -124,8 +124,7 @@
             20.2,
             21.41
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",
@@ -144,7 +143,6 @@
             21.96
           ],
           "unit": "percent",
-          "based_on": "attack_damage",
           "duration": 10
         }
       ]
@@ -172,7 +170,6 @@
             35.07
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         },
         {
@@ -192,7 +189,6 @@
             10.21
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         },
         {

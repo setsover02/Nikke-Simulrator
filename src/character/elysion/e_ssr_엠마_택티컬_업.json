@@ -81,7 +81,6 @@
             2.32
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10,
           "interval": 1
         },
@@ -324,7 +323,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "status": "전장 조성",
           "value": [
             23.68,
@@ -339,7 +338,6 @@
             40.07
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": 10
         },
         {

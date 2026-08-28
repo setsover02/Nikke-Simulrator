@@ -40,8 +40,7 @@
             5.93,
             6.28
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         }
       ]
     },
@@ -93,8 +92,7 @@
             52.22,
             55.29
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         }
       ]
     }

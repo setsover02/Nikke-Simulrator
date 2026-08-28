@@ -40,8 +40,7 @@
             4.25,
             4.45
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "last_bullet_hit",
@@ -87,8 +86,7 @@
             152.72,
             160
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "passive",
@@ -133,8 +131,7 @@
             1181.25,
             1237.5
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "max_stack_applied",
@@ -152,8 +149,7 @@
             25.98,
             27.22
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         }
       ]
     }

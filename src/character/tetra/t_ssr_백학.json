@@ -27,7 +27,7 @@
         {
           "trigger": "passive",
           "target": "all_allies",
-          "effect": "max_hp_pct",
+          "effect": "hp_caster_based_pct",
           "status": "회복 독점 서약",
           "value": [
             5.9,
@@ -42,7 +42,6 @@
             10
           ],
           "unit": "percent",
-          "based_on": "caster_max_hp",
           "duration": "permanent"
         },
         {
@@ -108,8 +107,7 @@
             1.26,
             1.32
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "full_burst_start",
@@ -128,7 +126,6 @@
             9.5
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         },
         {
@@ -170,7 +167,6 @@
             0.24
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": "permanent",
           "interval": 1
         }
@@ -198,8 +194,7 @@
             42.65,
             44.68
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

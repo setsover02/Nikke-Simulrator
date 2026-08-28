@@ -60,8 +60,7 @@
             1466.18,
             1536
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "full_charge_attack",
@@ -88,7 +87,6 @@
           "target": "enemies_in_range",
           "effect": "split_dmg_pct",
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "value": [
             0,
             0,
@@ -126,7 +124,6 @@
             51.84
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 10
         },
         {

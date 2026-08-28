@@ -46,7 +46,7 @@
         {
           "trigger": "burst_cast",
           "target": "all_allies",
-          "effect": "def_pct",
+          "effect": "def_caster_based_pct",
           "value": [
             5.57,
             6.08,
@@ -60,7 +60,6 @@
             10.13
           ],
           "unit": "percent",
-          "based_on": "caster_def",
           "duration": "permanent"
         }
       ]
@@ -106,7 +105,6 @@
             2.88
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 5,
           "interval": 1
         }

@@ -52,7 +52,13 @@ function findBurstCandidate(
             const cd = ctx.burstCooldowns[char.id] ?? 0;
             return cd <= 0;
         })
-        .sort((a, b) => a.slotIndex - b.slotIndex);
+        .sort((a, b) => {
+            // 재진입 스킬을 가진 니케가 동일 레벨 내에서 일반 니케보다 우선 발동
+            const aReenter = getReenterLevel(a) !== null ? 0 : 1;
+            const bReenter = getReenterLevel(b) !== null ? 0 : 1;
+            if (aReenter !== bReenter) return aReenter - bReenter;
+            return a.slotIndex - b.slotIndex;
+        });
 
     return candidates[0] ?? null;
 }

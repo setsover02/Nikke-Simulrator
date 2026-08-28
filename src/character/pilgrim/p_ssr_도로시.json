@@ -85,8 +85,7 @@
             207,
             216
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     },
@@ -154,7 +153,6 @@
             8900.83
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 10
         }
       ]

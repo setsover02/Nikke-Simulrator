@@ -41,7 +41,6 @@
             100.09
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 3
         },
         {
@@ -111,7 +110,7 @@
         {
           "trigger": "passive",
           "target": "all_allies",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             18.17,
             19.57,
@@ -125,7 +124,6 @@
             30.78
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": 5
         }
       ]
@@ -152,8 +150,7 @@
             608.72,
             639.36
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

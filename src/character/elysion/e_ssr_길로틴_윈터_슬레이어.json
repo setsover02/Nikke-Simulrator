@@ -81,8 +81,7 @@
             2.33,
             2.44
           ],
-          "unit": "percent",
-          "based_on": "caster_final_max_hp"
+          "unit": "percent"
         },
         {
           "trigger": "passive",
@@ -106,7 +105,7 @@
         {
           "trigger": "passive",
           "target": "allies_element:수냉",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             0.55,
             0.58,
@@ -120,7 +119,6 @@
             0.91
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": "permanent"
         }
       ]
@@ -254,7 +252,6 @@
             20.87
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 10,
           "interval": 1
         }

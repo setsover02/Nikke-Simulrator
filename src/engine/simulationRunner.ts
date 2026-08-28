@@ -305,10 +305,10 @@ function sumDamage(resultData: any): number {
 }
 
 function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSlot[]) {
-    return activeSlots.map(({ slot, originalIndex }, idx) => {
+    return activeSlots.map(({ slot, originalIndex }) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
         const charName = slot.char.data.characterName;
-        const color = SLOT_COLORS[idx % SLOT_COLORS.length];
+        const color = SLOT_COLORS[originalIndex % SLOT_COLORS.length];
         return { label: charName, color, data: generateChartData(result, duration, charId) };
     });
 }
@@ -316,10 +316,10 @@ function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSl
 function buildSkillChartDatasets(result: any, activeSlots: ActiveSlot[]) {
     // 1) source → { charName, color } 역방향 맵 구성
     const sourceMap = new Map<string, { label: string; color: string }>();
-    activeSlots.forEach(({ slot, originalIndex }, idx) => {
+    activeSlots.forEach(({ slot, originalIndex }) => {
         const charId = `${slot.char.data.characterID}_${originalIndex}`;
         const charName = slot.char.data.characterName;
-        const color = SLOT_COLORS[idx % SLOT_COLORS.length];
+        const color = SLOT_COLORS[originalIndex % SLOT_COLORS.length];
         sourceMap.set(charId, { label: charName, color });
         // characterID만으로도 매핑 (source 포맷이 다를 경우 fallback)
         sourceMap.set(slot.char.data.characterID, { label: charName, color });

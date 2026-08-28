@@ -94,7 +94,6 @@
             37.86
           ],
           "unit": "percent",
-          "based_on": "caster_final_max_hp",
           "duration": 10
         },
         {

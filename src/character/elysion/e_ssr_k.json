@@ -61,8 +61,7 @@
             22.82,
             23.9
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "full_burst_end",
@@ -212,7 +211,7 @@
         {
           "trigger": "burst_cast",
           "target": "self",
-          "effect": "atk_pct",
+          "effect": "atk_caster_based_pct",
           "value": [
             37.44,
             40.32,
@@ -226,7 +225,6 @@
             63.36
           ],
           "unit": "percent",
-          "based_on": "caster_atk",
           "duration": 10
         },
         {

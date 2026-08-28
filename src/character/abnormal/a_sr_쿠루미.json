@@ -42,7 +42,6 @@
             52.24
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 5,
           "interval": 1
         },
@@ -64,7 +63,6 @@
             52.24
           ],
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": 5,
           "interval": 1
         }
@@ -91,8 +89,7 @@
             82.25,
             86.17
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     },

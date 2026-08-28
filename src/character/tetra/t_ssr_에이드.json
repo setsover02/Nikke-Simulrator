@@ -1,168 +1,164 @@
 {
-    "characterID": "Char_310",
-    "characterName": "에이드",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "AR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "메이드 포 유",
-        "burstLevel": 2,
-        "atkCoef": 14.71,
-        "maxAmmo": 60,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_310",
+  "characterName": "에이드",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "AR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "메이드 포 유",
+    "burstLevel": 2,
+    "atkCoef": 14.71,
+    "maxAmmo": 60,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "청소를 시작하겠습니다, 주인님.",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "청소를 시작하겠습니다, 주인님.",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "all_allies",
-                    "effect": "debuff_immune",
-                    "status": "perfect_maid",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count",
-                    "duration": "permanent",
-                    "stack": 1
-                },
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "condition": "self_hp_below:90",
-                    "value": [
-                        3.29,
-                        3.5,
-                        3.71,
-                        3.92,
-                        4.13,
-                        4.35,
-                        4.56,
-                        4.77,
-                        4.98,
-                        5.19
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 5
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "all_allies",
+          "effect": "debuff_immune",
+          "status": "perfect_maid",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count",
+          "duration": "permanent",
+          "stack": 1
         },
         {
-            "id": "skill_2",
-            "name": "잠시 쉬어갈 시간입니다, 주인님.",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:420",
-                    "target": "all_allies",
-                    "effect": "debuff_immune",
-                    "status": "perfect_maid",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "count",
-                    "duration": "permanent",
-                    "stack": 1
-                },
-                {
-                    "trigger": "hit_count:120",
-                    "target": "all_allies",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        8.78,
-                        9.54,
-                        10.3,
-                        11.06,
-                        11.82,
-                        12.58,
-                        13.34,
-                        14.1,
-                        14.86,
-                        15.62
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 5
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "식사 시간입니다, 주인님.",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        16.88,
-                        17.8,
-                        18.72,
-                        19.64,
-                        20.56,
-                        21.47,
-                        22.39,
-                        23.31,
-                        24.23,
-                        25.15
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        6.58,
-                        6.98,
-                        7.38,
-                        7.77,
-                        8.17,
-                        8.56,
-                        8.96,
-                        9.36,
-                        9.75,
-                        10.15
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_atk",
-                    "duration": 10
-                }
-            ]
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "condition": "self_hp_below:90",
+          "value": [
+            3.29,
+            3.5,
+            3.71,
+            3.92,
+            4.13,
+            4.35,
+            4.56,
+            4.77,
+            4.98,
+            5.19
+          ],
+          "unit": "percent",
+          "duration": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "잠시 쉬어갈 시간입니다, 주인님.",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:420",
+          "target": "all_allies",
+          "effect": "debuff_immune",
+          "status": "perfect_maid",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "count",
+          "duration": "permanent",
+          "stack": 1
+        },
+        {
+          "trigger": "hit_count:120",
+          "target": "all_allies",
+          "effect": "hp_caster_based_pct",
+          "value": [
+            8.78,
+            9.54,
+            10.3,
+            11.06,
+            11.82,
+            12.58,
+            13.34,
+            14.1,
+            14.86,
+            15.62
+          ],
+          "unit": "percent",
+          "duration": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "식사 시간입니다, 주인님.",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "hp_caster_based_pct",
+          "value": [
+            16.88,
+            17.8,
+            18.72,
+            19.64,
+            20.56,
+            21.47,
+            22.39,
+            23.31,
+            24.23,
+            25.15
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            6.58,
+            6.98,
+            7.38,
+            7.77,
+            8.17,
+            8.56,
+            8.96,
+            9.36,
+            9.75,
+            10.15
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

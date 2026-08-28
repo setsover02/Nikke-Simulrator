@@ -114,8 +114,7 @@
             437.06,
             457.87
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "max_stack_applied",
@@ -133,8 +132,7 @@
             437.06,
             457.87
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

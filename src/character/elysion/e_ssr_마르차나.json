@@ -1,144 +1,140 @@
 {
-    "characterID": "Marciana",
-    "characterName": "마르차나",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "아카데미아",
-        "burstLevel": 2,
-        "atkCoef": 201.5,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Marciana",
+  "characterName": "마르차나",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "아카데미아",
+    "burstLevel": 2,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "드론 서포터",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "드론 서포터",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        6.47,
-                        6.97,
-                        7.47,
-                        7.96,
-                        8.46,
-                        8.96,
-                        9.46,
-                        9.96,
-                        10.46,
-                        10.95
-                    ],
-                    "unit": "percent",
-                    "based_on": "attack_damage",
-                    "duration": 3
-                },
-                {
-                    "trigger": "last_bullet_hit",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        15.94,
-                        17.16,
-                        18.39,
-                        19.62,
-                        20.84,
-                        22.07,
-                        23.3,
-                        24.52,
-                        25.75,
-                        26.98
-                    ],
-                    "unit": "percent",
-                    "duration": 3
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            6.47,
+            6.97,
+            7.47,
+            7.96,
+            8.46,
+            8.96,
+            9.46,
+            9.96,
+            10.46,
+            10.95
+          ],
+          "unit": "percent",
+          "duration": 3
         },
         {
-            "id": "skill_2",
-            "name": "양호 선생님",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        17.31,
-                        18.51,
-                        19.71,
-                        20.91,
-                        22.11,
-                        23.31,
-                        24.51,
-                        25.71,
-                        26.91,
-                        28.11
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_final_max_hp"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "스승의 은혜",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "status": "저장",
-                    "value": [
-                        16.47,
-                        17.74,
-                        19,
-                        20.27,
-                        21.54,
-                        22.8,
-                        24.07,
-                        25.34,
-                        26.61,
-                        27.87
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_max_hp",
-                    "duration": 10
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        12.35,
-                        13.3,
-                        14.25,
-                        15.2,
-                        16.15,
-                        17.1,
-                        18.05,
-                        19,
-                        19.95,
-                        20.9
-                    ],
-                    "unit": "percent",
-                    "based_on": "caster_def",
-                    "duration": 10
-                }
-            ]
+          "trigger": "last_bullet_hit",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            15.94,
+            17.16,
+            18.39,
+            19.62,
+            20.84,
+            22.07,
+            23.3,
+            24.52,
+            25.75,
+            26.98
+          ],
+          "unit": "percent",
+          "duration": 3
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "양호 선생님",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            17.31,
+            18.51,
+            19.71,
+            20.91,
+            22.11,
+            23.31,
+            24.51,
+            25.71,
+            26.91,
+            28.11
+          ],
+          "unit": "percent"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "스승의 은혜",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "status": "저장",
+          "value": [
+            16.47,
+            17.74,
+            19,
+            20.27,
+            21.54,
+            22.8,
+            24.07,
+            25.34,
+            26.61,
+            27.87
+          ],
+          "unit": "percent",
+          "duration": 10
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "def_caster_based_pct",
+          "value": [
+            12.35,
+            13.3,
+            14.25,
+            15.2,
+            16.15,
+            17.1,
+            18.05,
+            19,
+            19.95,
+            20.9
+          ],
+          "unit": "percent",
+          "duration": 10
+        }
+      ]
+    }
+  ]
 }

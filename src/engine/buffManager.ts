@@ -134,13 +134,15 @@ export class BuffManager {
             console.debug(`[BuffManager] 미구현 stat "${statKey}" (${char.id} / ${eff.name}) — 무시됨.`);
           }
 
-          const displayName = skill.name || eff.name || '스킬 효과';
+          const effName = eff.name || skill.name || '스킬 효과';
+          const skillName = skill.name || eff.name || '스킬';
 
           const normalized: NormalizedSkillEffect = {
             id: eff.id || `${char.id}__${skill.id || skill.name}__eff${idx}`,
             source: skill.id || skill.type || 'skill',
             type: eff.type || 'buff',
-            name: displayName,
+            name: effName,
+            sourceSkill: skillName,
             trigger: {
               timing: Array.isArray(eff.trigger)
                 ? eff.trigger
@@ -213,7 +215,17 @@ export class BuffManager {
     const currentCount = this._eventCounts[eventKey][cId];
 
     for (const eff of this._effects) {
-      // 시전자 필터링
+      // 버스트 시전(burst_cast, burst_cast_self, burst_enter) 트리거는 오직 해당 니케 본인이 버스트를 시전했을 때만 발동
+      const isBurstCastTiming = eff.trigger.timing.some(
+        (tm) => tm === 'burst_cast' || tm === 'burst_cast_self' || tm.startsWith('burst_enter:')
+      );
+      if (isBurstCastTiming) {
+        if (!casterId || eff.casterId !== casterId) {
+          continue;
+        }
+      }
+
+      // 일반 시전자 필터링
       if (
         casterId &&
         eff.casterId &&
@@ -428,7 +440,9 @@ export class BuffManager {
 
       if (cond === 'back_row' && caster) {
         const idx = ctx.team.members.indexOf(caster);
-        if (idx !== 1 && idx !== 3) return false;
+        const slotIdx = caster.slotIndex !== undefined ? caster.slotIndex : idx;
+        // 니케 진형에서 2번(index 1) 또는 4번(index 3) 자리가 후열(back row)
+        if (slotIdx !== 1 && slotIdx !== 3) return false;
       }
 
       if (cond === 'during_shield' && caster) {
@@ -509,7 +523,11 @@ export class BuffManager {
   /** 자신 상태(버프명 또는 weapon_change 모드) 판정 */
   private _hasSelfState(charId: string, stateName: string, ctx: BattleContext): boolean {
     const inActive = this._active.some(
-      (ab) => ab.targetId === charId && ab.name === stateName
+      (ab) =>
+        ab.targetId === charId &&
+        (ab.name === stateName ||
+          ab.sourceSkill === stateName ||
+          (ab.effectDef as any)?.name === stateName)
     );
     if (inActive) return true;
     const weaponChangeMode = (ctx.state as any)?.weapon_change?.[charId];

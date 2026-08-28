@@ -107,8 +107,7 @@
             159.84,
             167.45
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "battle_start",
@@ -153,8 +152,7 @@
             2328.48,
             2439.36
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",
@@ -172,8 +170,7 @@
             756,
             792
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         }
       ]
     }

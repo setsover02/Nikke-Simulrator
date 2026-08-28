@@ -60,7 +60,6 @@
             3.52
           ],
           "unit": "percent",
-          "based_on": "attack_damage",
           "duration": 15
         },
         {
@@ -80,7 +79,6 @@
             16.5
           ],
           "unit": "percent",
-          "based_on": "attack_damage",
           "duration": 15
         }
       ]
@@ -182,8 +180,7 @@
             394.27,
             426.24
           ],
-          "unit": "percent",
-          "based_on": "caster_final_atk"
+          "unit": "percent"
         },
         {
           "trigger": "burst_cast",

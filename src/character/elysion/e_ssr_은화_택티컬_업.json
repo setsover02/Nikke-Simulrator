@@ -69,7 +69,6 @@
           "target": "self",
           "effect": "damage",
           "unit": "percent",
-          "based_on": "caster_final_atk",
           "duration": "permanent",
           "value": [
             0,
