@@ -35,6 +35,7 @@ export class BuffManager {
     interval: number;
     nextTick: number;
     expiresAt: number;
+    isSkillDamage?: boolean;
   }> = [];
 
   // 스쿼드 탄 소비 누적 집계 (squad_ammo_consume:N trigger용)
@@ -305,6 +306,11 @@ export class BuffManager {
     for (const tm of timings) {
       // 완전 일치
       if (tm === event) return true;
+
+      // full_charge <-> full_charge_hit 상호 호환
+      if ((event === 'full_charge' || event === 'full_charge_hit') && (tm === 'full_charge' || tm === 'full_charge_hit')) {
+        return true;
+      }
 
       // weapon_hit:name (named damage effect 발동 시)
       if (tm.startsWith('weapon_hit:') && event.startsWith('weapon_hit:')) {
@@ -876,6 +882,26 @@ export class BuffManager {
         .map((m) => m.id);
     }
 
+    if (targetPattern === 'self_and_allies_below_def') {
+      const caster = members.find((m) => m.id === casterId);
+      if (!caster) return [casterId];
+      const belowDefAllies = members
+        .filter((m) => m.id !== casterId && (m.defense || 0) < (caster.defense || 0))
+        .map((m) => m.id);
+      return [casterId, ...belowDefAllies];
+    }
+
+    // ── 적 타겟 패턴 ──────────────────────────────────────────
+    if (
+      targetPattern === 'enemies_random' ||
+      targetPattern === 'enemy_random' ||
+      targetPattern === 'enemies' ||
+      targetPattern === 'target' ||
+      targetPattern === 'enemy'
+    ) {
+      return ['__enemy__'];
+    }
+
     // ── 무기별 ────────────────────────────────────────────────
     const weaponMatch = targetPattern.match(/^allies_weapon:(.+)$/);
     if (weaponMatch) {
@@ -1206,7 +1232,12 @@ export class BuffManager {
     targets: string[],
     ctx: BattleContext
   ): void {
-    if (eff.stat === 'dot_damage') {
+    if (
+      eff.stat === 'dot_damage' ||
+      eff.stat === 'auto_damage' ||
+      eff.stat === 'interval_damage' ||
+      (typeof eff.interval === 'number' && eff.interval > 0)
+    ) {
       const duration = eff.duration === 'permanent' || eff.duration === -1 ? 10 : (eff.duration ?? 5);
       const interval = eff.tick_interval || eff.interval || 1.0;
       this._dotTimers.push({
@@ -1218,6 +1249,7 @@ export class BuffManager {
         interval,
         nextTick: t + interval,
         expiresAt: t + (duration as number),
+        isSkillDamage: eff.stat !== 'dot_damage',
       });
       return;
     }
@@ -1295,6 +1327,72 @@ export class BuffManager {
     }
   }
 
+  /** Interval 기반 스킬 대미지 1회 틱 계산 및 발동 */
+  private _dispatchDamageSingleTick(
+    eff: NormalizedSkillEffect,
+    t: number,
+    casterId: string,
+    targetId: string,
+    ctx: BattleContext
+  ): void {
+    const caster = ctx.team.members.find((m) => m.id === casterId);
+    if (!caster) return;
+
+    const buffs = this.getBuffs(caster.id, caster.id, ctx, t);
+    const enemyBuffs = this.getBuffs('__enemy__', caster.id, ctx, t);
+    const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element, caster.id, ctx);
+    const critChance = (buffs.crit_rate || (caster.crit ?? 15) + (caster.buff?.critRate || 0)) / 100;
+    const isCrit = ctx.rng ? ctx.rng.next() < critChance : false;
+
+    const damageParams: DamageParams = {
+      baseATK: caster.atk || 0,
+      extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs.atk_pct / 100),
+      extraATKFlat: buffs.atk_flat || (caster.buff?.extraATK ?? 0),
+      enemyBaseDEF: ctx.enemy.defense || 0,
+      enemyDEFPercent: buffs.enemy_def_down_pct ? -(buffs.enemy_def_down_pct / 100) : 0,
+      enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
+      atkCoef: (eff.value || 0) / 100,
+      finalATKModifier: 0,
+      isNormalAttack: false,
+      isCrit,
+      critBonusBase: (caster.critMult ? (caster.critMult - 1) : 0.5) + (caster.equipCritDmgPercent ?? 0),
+      extraCritDmg: buffs.crit_dmg / 100,
+      isCore: false,
+      coreHitBonus: 0,
+      fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+      rangeBonus: 0,
+      weakPointBase: hasAdvantage ? 1.1 : 1.0,
+      weakPointExtra: (buffs.element_bonus_pct / 100) + (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
+      chargeDmgBonus: 0,
+      atkDmgUp: buffs.atk_dmg_pct / 100,
+      dotDmgUp: buffs.dot_dmg_pct / 100,
+      pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs.pierce_dmg_pct / 100),
+      partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs.part_dmg_pct / 100),
+      projectileAttachmentDmgUp: eff.stat === 'projectile_attachment_damage' ? (buffs.projectile_attachment_dmg / 100) : 0,
+      projectileExplosionDmgUp: eff.stat === 'projectile_explosion_damage' ? (buffs.projectile_explosion_dmg / 100) : 0,
+      burstDmgUp: eff.stat === 'burst_damage' ? (buffs.burst_dmg_pct / 100) : 0,
+      extraDmgUp: 0,
+      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (buffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
+      shareDmgUp: (buffs.split_dmg_pct / 100) + (caster.cubeSplitDmgUp ?? 0),
+      enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
+    };
+
+    const singleDmg = calcNikkeDamage(damageParams);
+    const hits = eff.hits || 1;
+    const totalDmg = singleDmg * hits;
+
+    ctx.enemy.hp -= totalDmg;
+    ctx.totalDamage += totalDmg;
+    ctx.log.push({
+      time: t,
+      type: 'skill_damage',
+      source: casterId,
+      value: totalDmg,
+      description: eff.stat,
+      skillName: eff.name || '슈팅 스타',
+    });
+  }
+
   /** 매 프레임(dt) 갱신 */
   public tick(t: number, dt: number, ctx: BattleContext): void {
     // 1. 만료된 버프 정리
@@ -1332,7 +1430,10 @@ export class BuffManager {
       }
       if (t >= dot.nextTick) {
         dot.nextTick += dot.interval;
-        if (ctx.state) {
+        if (dot.isSkillDamage) {
+          // 스킬 대미지 틱 (슈팅 스타 등)
+          this._dispatchDamageSingleTick(dot.effectDef, t, dot.casterId, dot.targetId, ctx);
+        } else if (ctx.state) {
           (ctx.state as any).__pending_dot_dmg = (ctx.state as any).__pending_dot_dmg || [];
           (ctx.state as any).__pending_dot_dmg.push({
             casterId: dot.casterId,
@@ -1374,7 +1475,12 @@ export class BuffManager {
       const stat = ab.stat;
 
       // _FIXED_VALUE_STATS: getBuffs() 합산 안 함 (직접 _active 읽는 경로)
-      if (_FIXED_VALUE_STATS.has(stat)) continue;
+      if (_FIXED_VALUE_STATS.has(stat)) {
+        if (stat === 'charge_time_fixed' || stat === 'reload_time_fixed') {
+          (buffs as any)[stat] = ab.value;
+        }
+        continue;
+      }
 
       // boolean 플래그 처리
       if (_BOOLEAN_FLAG_STATS.has(stat)) {

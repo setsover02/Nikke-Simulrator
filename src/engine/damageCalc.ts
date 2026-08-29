@@ -49,8 +49,11 @@ export function processAttack(ctx: BattleContext) {
 
         if (isCharge) {
             // 차징 무기 처리 (SR / RL) — weapon.md 기준
+            const fixedChargeTime = buffs?.charge_time_fixed;
             const chargeSpeedBuff = (buffs ? buffs.charge_speed_pct / 100 : (char.buff?.chargeSpeed ?? 0));
-            const chargeSeconds = Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
+            const chargeSeconds = (typeof fixedChargeTime === 'number' && fixedChargeTime > 0)
+                ? fixedChargeTime
+                : Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
             char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
             if (char.currentCharge >= 1.0) {
@@ -108,6 +111,7 @@ export function processAttack(ctx: BattleContext) {
                 }
                 if (isChargeAttack) {
                     ctx.buffManager.notify('full_charge', ctx.time, char.id, ctx);
+                    ctx.buffManager.notify('full_charge_hit', ctx.time, char.id, ctx);
                 }
                 ctx.buffManager.consumeBulletBuff(char.id);
             }

@@ -169,7 +169,10 @@
           "condition": "has_burst1_ally"
         },
         {
-          "trigger": "full_charge_hit",
+          "trigger": [
+            "full_charge",
+            "full_charge_hit"
+          ],
           "target": "target",
           "effect": "bonus_damage",
           "value": [
@@ -186,6 +189,7 @@
           ],
           "unit": "percent",
           "duration": null,
+          "name": "스타 폴",
           "type": "damage"
         }
       ]
@@ -303,6 +307,8 @@
           ],
           "unit": "percent",
           "duration": 10,
+          "interval": 0.25,
+          "name": "슈팅 스타",
           "type": "damage"
         },
         {
@@ -310,18 +316,18 @@
           "target": "self",
           "effect": "charge_time_fixed",
           "value": [
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0,
-            0
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7,
+            0.7
           ],
-          "unit": "percent",
+          "unit": "seconds",
           "duration": 10,
           "type": "buff"
         },
