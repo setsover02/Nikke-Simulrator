@@ -13,7 +13,7 @@
     "maxAmmo": 6,
     "reloadTime": 0.67,
     "chargeTime": 1,
-    "fireRate": 1,
+    "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
     "pelletCount": 1

@@ -208,7 +208,7 @@ export const _UNIMPLEMENTED_STATS = new Set([
   'intercept_dmg_pct',
   'optimal_range_max', 'optimal_range_max_pct', 'optimal_range_min',
   'explosion_range', 'pierce_range',
-  'heal_received_pct', 'outgoing_heal_pct',
+  'outgoing_heal_pct',
   'shield_dmg_pct',
   'cover_def_pct', 'cover_hp_pct', 'cover_heal_pct', 'cover_disabled',
   'next_shield_hp_pct', 'accumulate_max_scale_pct',
@@ -217,7 +217,7 @@ export const _UNIMPLEMENTED_STATS = new Set([
   'buff_max_stack_add',
   'burst_dmg_single_pct',
   'skill_cooldown',           // ✅ 대상 지정 초 단위, 미구현
-  'invincible', 'undying', 'stealth', 'decoy',
+  'undying', 'stealth', 'decoy',
   'enemy_movement_disable',
   'atk_copy', 'hp_copy', 'received_dmg_split', 'heal_split',
   'burst_charge_pct', 'burst_charge_speed_pct',

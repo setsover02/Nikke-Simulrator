@@ -25,27 +25,33 @@
       "type": "passive",
       "effects": [
         {
-          "trigger": "event:state_end:미래 예지",
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
+          ],
           "target": "self",
-          "effect": "ammo_charge_pct",
+          "effect": "force_reload",
           "value": [
-            -100,
-            -100,
-            -100,
-            -100,
-            -100,
-            -100,
-            -100,
-            -100,
-            -100,
-            -100
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
           ],
           "unit": "percent",
           "duration": null,
           "type": "instant"
         },
         {
-          "trigger": "event:state_end:미래 예지",
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
+          ],
           "target": "self",
           "effect": "reload_speed_pct",
           "value": [
@@ -62,6 +68,7 @@
           ],
           "unit": "percent",
           "duration": "permanent",
+          "name": "방열",
           "type": "buff"
         },
         {
@@ -86,28 +93,10 @@
           "target_effect": "방열"
         },
         {
-          "trigger": "passive",
-          "target": "self",
-          "effect": "heal_hp_pct",
-          "value": [
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2,
-            2
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
           ],
-          "unit": "percent",
-          "duration": "permanent",
-          "type": "instant",
-          "condition": "self_state:방열"
-        },
-        {
-          "trigger": "passive",
           "target": "all_allies",
           "effect": "burst_charge_speed_pct",
           "value": [
@@ -128,7 +117,10 @@
           "condition": "self_state:방열"
         },
         {
-          "trigger": "passive",
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
+          ],
           "target": "all_allies",
           "effect": "pierce_dmg_pct",
           "value": [
@@ -172,7 +164,7 @@
             15.48
           ],
           "unit": "percent",
-          "duration": null,
+          "duration": "permanent",
           "name": "과열 I",
           "type": "buff"
         },
@@ -198,7 +190,7 @@
           "target_effect": "과열 I"
         },
         {
-          "trigger": "event:미래 예지",
+          "trigger": "hit_count:30",
           "target": "self",
           "effect": "atk_pct",
           "value": [
@@ -215,11 +207,12 @@
           ],
           "unit": "percent",
           "duration": "permanent",
+          "name": "과열 II",
           "type": "buff",
           "condition": "self_state:미래 예지"
         },
         {
-          "trigger": "event:미래 예지",
+          "trigger": "hit_count:30",
           "target": "self",
           "effect": "atk_dmg_pct",
           "value": [
@@ -236,8 +229,57 @@
           ],
           "unit": "percent",
           "duration": "permanent",
+          "name": "과열 III",
           "type": "buff",
           "condition": "self_state:미래 예지"
+        },
+        {
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
+          ],
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "과열 II"
+        },
+        {
+          "trigger": [
+            "full_burst_end",
+            "event:state_end:미래 예지"
+          ],
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "과열 III"
         }
       ]
     },
@@ -247,27 +289,6 @@
       "type": "burst",
       "cooldown": 20,
       "effects": [
-        {
-          "trigger": "burst_cast",
-          "target": "self",
-          "effect": "current_hp_reduce",
-          "value": [
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1,
-            1
-          ],
-          "unit": "percent",
-          "duration": 10,
-          "name": "미래 예지",
-          "type": "instant"
-        },
         {
           "trigger": "burst_cast",
           "target": "self",
@@ -286,6 +307,7 @@
           ],
           "unit": "percent",
           "duration": 10,
+          "name": "미래 예지",
           "type": "buff"
         },
         {
@@ -407,6 +429,27 @@
           "unit": "percent",
           "duration": 10,
           "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "current_hp_reduce",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "interval": 1,
+          "type": "damage"
         }
       ]
     }

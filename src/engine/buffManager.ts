@@ -643,6 +643,11 @@ export class BuffManager {
         existing.expiresAt = expiresAt;
         if (eff.duration_bullets) existing.bulletsLeft = eff.duration_bullets;
 
+        if (eff.name && existing.stack >= existing.maxStack) {
+          this.notify(`stack_reach:${eff.name}:${existing.stack}`, t, targetId, ctx);
+          this.notify(`stack_reach:${eff.name}:${existing.maxStack}`, t, targetId, ctx);
+        }
+
         const prevEvent = this._timelineEvents.find(
           (e) => e.uid === existing.uid && e.endTime === Infinity
         );
@@ -1064,6 +1069,8 @@ export class BuffManager {
         if (char) {
           const healAmt = (char.maxHp || char.hp) * (value / 100);
           char.hp = Math.min(char.maxHp || char.hp, char.hp + healAmt);
+          this.notify('event:heal_received', t, targetId, ctx);
+          this.notify('heal_received', t, targetId, ctx);
         }
       }
 

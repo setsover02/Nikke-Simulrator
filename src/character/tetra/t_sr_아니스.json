@@ -12,7 +12,7 @@
     "atkCoef": 65.02,
     "maxAmmo": 6,
     "reloadTime": 0.67,
-    "fireRate": 1,
+    "fireRate": 0,
     "chargeTime": 1,
     "fullChargeDamage": 250,
     "coreDamage": 200,

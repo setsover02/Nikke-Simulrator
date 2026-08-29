@@ -120,8 +120,10 @@ function fireBurst(ctx: BattleContext, char: Character): void {
     const cooldown = (burstSkill as any).cooldown ?? 20;
     ctx.burstCooldowns[char.id] = cooldown;
 
-    // enter_burst_n 플래그 기록
+    // enter_burst_n 플래그 및 burst_casted 기록
     ctx.state = ctx.state || {};
+    ctx.state.burst_casted = ctx.state.burst_casted || {};
+    ctx.state.burst_casted[char.id] = true;
     const burstLevel = getEffectiveBurstLevel(char, ctx);
     ctx.state[`__enterBurstLevel_${burstLevel}`] = true;
 
@@ -302,6 +304,9 @@ export function updateBurst(ctx: BattleContext): void {
             firedSet.clear();
             ctx.state.__reenterLevelPending = null;
 
+            if (ctx.state) {
+                ctx.state.burst_casted = {};
+            }
             if (ctx.burstZones.length > 0) {
                 ctx.burstZones[ctx.burstZones.length - 1].end = ctx.time;
             }

@@ -13,7 +13,7 @@
     "maxAmmo": 6,
     "reloadTime": 2,
     "chargeTime": 1,
-    "fireRate": 2,
+    "fireRate": 0,
     "fullChargeDamage": 250,
     "coreDamage": 200,
     "pelletCount": 1
@@ -45,7 +45,10 @@
           "type": "buff"
         },
         {
-          "trigger": "battle_start",
+          "trigger": [
+            "battle_start",
+            "full_burst_end"
+          ],
           "target": "self",
           "effect": "remove_named_buff",
           "value": [
@@ -67,7 +70,10 @@
           "target_effect": "모두의 별"
         },
         {
-          "trigger": "battle_start",
+          "trigger": [
+            "battle_start",
+            "full_burst_end"
+          ],
           "target": "self",
           "effect": "atk_pct",
           "value": [
@@ -89,7 +95,10 @@
           "condition": "no_burst1_ally"
         },
         {
-          "trigger": "battle_start",
+          "trigger": [
+            "battle_start",
+            "full_burst_end"
+          ],
           "target": "all_allies",
           "effect": "burst_cooldown_reduce",
           "value": [
@@ -104,13 +113,16 @@
             7.24,
             7.48
           ],
-          "unit": "percent",
+          "unit": "seconds",
           "duration": null,
           "type": "instant",
           "condition": "no_burst1_ally"
         },
         {
-          "trigger": "battle_start",
+          "trigger": [
+            "battle_start",
+            "full_burst_end"
+          ],
           "target": "self",
           "effect": "remove_named_buff",
           "value": [
@@ -132,7 +144,10 @@
           "target_effect": "나만의 별"
         },
         {
-          "trigger": "battle_start",
+          "trigger": [
+            "battle_start",
+            "full_burst_end"
+          ],
           "target": "self",
           "effect": "burst_stage_override:reenter1",
           "value": [

@@ -13,7 +13,7 @@
     "maxAmmo": 300,
     "reloadTime": 2.5,
     "chargeTime": 0,
-    "fireRate": 1,
+    "fireRate": 60,
     "fullChargeDamage": 100,
     "coreDamage": 200,
     "pelletCount": 1
@@ -161,9 +161,7 @@
           "duration": null,
           "type": "instant",
           "condition": "during_full_burst",
-          "target_effect": "사슬 감기",
-          "_unparseable": true,
-          "_raw": "debuff_stack_add"
+          "target_effect": "사슬 감기"
         },
         {
           "trigger": "event:self_down",
@@ -185,9 +183,7 @@
           "duration": null,
           "type": "instant",
           "condition": "target_state:사슬 감기",
-          "target_effect": "사슬 감기",
-          "_unparseable": true,
-          "_raw": "debuff_stack_add"
+          "target_effect": "사슬 감기"
         },
         {
           "trigger": "enemy_death",

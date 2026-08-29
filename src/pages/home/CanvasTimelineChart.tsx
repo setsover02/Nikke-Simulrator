@@ -370,17 +370,9 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                 let w = toX(Math.min(vMax, seg.end)) - x0;
                 w = Math.max(2, w);
 
-                // 바 채우기 (반투명 + 테두리)
-                ctx.fillStyle = row.color + 'aa';
-                ctx.beginPath();
-                ctx.roundRect(x0, barY, w, barH, 2);
-                ctx.fill();
-
-                ctx.strokeStyle = row.color;
-                ctx.lineWidth = 1;
-                ctx.beginPath();
-                ctx.roundRect(x0, barY, w, barH, 2);
-                ctx.stroke();
+                // 직사각형 바 채우기 (radius 삭제, stroke 삭제)
+                ctx.fillStyle = row.color;
+                ctx.fillRect(x0, barY, w, barH);
             });
 
             hitData.push({ y: yCursor, h: LINE_H, row });
