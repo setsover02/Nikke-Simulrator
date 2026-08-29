@@ -127,7 +127,7 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
             const currentGrowthStage = parseInt(slot.growthStage || '0', 10) || 0;
             const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
 
-            const synchroLevel = parseInt(outpostState?.synchroLevel || '1', 10) || 1;
+            const synchroLevel = outpostState?.lockSynchro400 ? 400 : (parseInt(outpostState?.synchroLevel || '1', 10) || 1);
             const commonConsoleLevel = parseInt(outpostState?.commonResearchLevel || '0', 10) || 0;
             const classConsoleLevel = getClassConsoleLevel(s.class, outpostState || {} as any);
             const corpConsoleLevel = getCorpConsoleLevel(s.company, outpostState || {} as any);
@@ -212,7 +212,7 @@ function extractChars(
         const currentGrowthStage = parseInt(slot.growthStage || '0', 10) || 0;
         const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
 
-        const synchroLevel = parseInt(outpostState?.synchroLevel || '1', 10) || 1;
+        const synchroLevel = outpostState?.lockSynchro400 ? 400 : (parseInt(outpostState?.synchroLevel || '1', 10) || 1);
         const commonConsoleLevel = parseInt(outpostState?.commonResearchLevel || '0', 10) || 0;
         const classConsoleLevel = getClassConsoleLevel(charStats.class, outpostState || {} as any);
         const corpConsoleLevel = getCorpConsoleLevel(charStats.company, outpostState || {} as any);

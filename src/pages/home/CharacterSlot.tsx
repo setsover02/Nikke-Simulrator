@@ -280,7 +280,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
         return calculateBaseStat({
             classType: charStats.class,
             weaponType: charStats.weapon,
-            level: parseInt(outpostState.synchroLevel) || 1,
+            level: outpostState.lockSynchro400 ? 400 : (parseInt(outpostState.synchroLevel) || 1),
             affinityLevel: Math.min(parseInt(slot.affinityLevel) || 1, maxAffinity),
             growthStage: currentGrowthStage,
             rarity: charRarity,

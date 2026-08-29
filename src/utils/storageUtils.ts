@@ -9,6 +9,7 @@ const OUTPOST_KEY = 'nikke_sim_outpost';
 
 export interface SavedOutpostState {
     synchroLevel: string;
+    lockSynchro400?: boolean;
     commonResearchLevel: string;
     elysionConsole: string;
     missilisConsole: string;
@@ -48,6 +49,7 @@ export function getGlobalCubeLevel(cubeName: string): string {
 export function loadOutpostState(): SavedOutpostState {
     const defaultState: SavedOutpostState = {
         synchroLevel: '1',
+        lockSynchro400: false,
         commonResearchLevel: '0',
         elysionConsole: '0',
         missilisConsole: '0',
@@ -64,6 +66,7 @@ export function loadOutpostState(): SavedOutpostState {
             const parsed = JSON.parse(stored);
             return {
                 synchroLevel: parsed.synchroLevel || '1',
+                lockSynchro400: !!parsed.lockSynchro400,
                 commonResearchLevel: parsed.commonResearchLevel || '0',
                 elysionConsole: parsed.elysionConsole || '0',
                 missilisConsole: parsed.missilisConsole || '0',

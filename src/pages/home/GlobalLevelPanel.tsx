@@ -14,6 +14,7 @@ import { SavedOutpostState, loadGlobalCubeLevels, saveGlobalCubeLevel } from '..
 import { TextField } from '../../components/TextField';
 import Font from '../../components/Font';
 import { Button } from '../../components/Button/Button';
+import { Switch } from '../../components/Switch/Switch';
 
 // 큐브 이미지 모듈 로드
 const cubeImageModules = import.meta.glob('/src/assets/cube/*.webp', {
@@ -104,6 +105,7 @@ interface LevelInputProps {
     min?: number;
     fullWidth?: boolean;
     leftIcon?: React.ReactNode;
+    disabled?: boolean;
 }
 
 const LevelInput: React.FC<LevelInputProps> = ({
@@ -115,6 +117,7 @@ const LevelInput: React.FC<LevelInputProps> = ({
     min = 0,
     fullWidth = false,
     leftIcon,
+    disabled = false,
 }) => {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const v = e.target.value;
@@ -136,6 +139,7 @@ const LevelInput: React.FC<LevelInputProps> = ({
                 label={<Font variant="caption-1" color="muted">{label}</Font>}
                 size="small"
                 leftIcon={leftIcon}
+                disabled={disabled}
             />
         </div>
     );
@@ -189,11 +193,29 @@ export const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({
                         id="global-synchro-level"
                         min={1}
                         max={1200}
-                        value={outpostState.synchroLevel}
+                        value={outpostState.lockSynchro400 ? '400' : outpostState.synchroLevel}
                         onChange={v => onChange({ synchroLevel: v })}
                         label="싱크로 레벨"
                         fullWidth
+                        disabled={!!outpostState.lockSynchro400}
                     />
+                    <div
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            marginTop: '8px',
+                            padding: '0 4px',
+                        }}
+                    >
+                        <Font variant="caption-1" color={outpostState.lockSynchro400 ? 'default' : 'muted'} weight={outpostState.lockSynchro400 ? 'semibold' : 'regular'}>
+                            400레벨 고정
+                        </Font>
+                        <Switch
+                            checked={!!outpostState.lockSynchro400}
+                            onChange={e => onChange({ lockSynchro400: e.target.checked })}
+                        />
+                    </div>
                 </div>
 
                 <div className="my-1" style={{ ...S.divider, margin: '4px -16px' }} />

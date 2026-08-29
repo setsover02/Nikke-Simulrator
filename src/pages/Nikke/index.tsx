@@ -138,7 +138,7 @@ const Nikke: React.FC = () => {
         const currentGrowthStage = Math.min(parseInt(state.growthStage || '0', 10) || 0, maxStage);
         const { maxAffinity } = resolveGrowthStage(charRarity, charCompany, charName, currentGrowthStage);
 
-        const synchroLevel = parseInt(outpostState.synchroLevel) || 1;
+        const synchroLevel = outpostState.lockSynchro400 ? 400 : (parseInt(outpostState.synchroLevel) || 1);
         const commonConsoleLevel = parseInt(outpostState.commonResearchLevel) || 0;
         const classConsoleLevel = getClassConsoleLevel(charStats.class, outpostState);
         const corpConsoleLevel = getCorpConsoleLevel(charStats.company, outpostState);
