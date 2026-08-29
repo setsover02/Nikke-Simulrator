@@ -896,10 +896,26 @@ export class BuffManager {
       targetPattern === 'enemies_random' ||
       targetPattern === 'enemy_random' ||
       targetPattern === 'enemies' ||
+      targetPattern === 'all_enemies' ||
       targetPattern === 'target' ||
-      targetPattern === 'enemy'
+      targetPattern === 'target_body' ||
+      targetPattern === 'same_target' ||
+      targetPattern === 'enemy' ||
+      targetPattern.startsWith('enemies_lowest_hp:') ||
+      targetPattern.startsWith('enemies_random:') ||
+      targetPattern.startsWith('enemies_nearest:')
     ) {
       return ['__enemy__'];
+    }
+
+    // 적 코드 타겟 (enemies_code:풍압, enemies_lowest_hp_code:풍압:1 등)
+    if (targetPattern.startsWith('enemies_code:') || targetPattern.startsWith('enemies_lowest_hp_code:')) {
+      const parts = targetPattern.split(':');
+      const elemCode = parts[1]; // '풍압', '작열', '전격', '수냉', '철갑'
+      if (ctx?.enemy?.element && (ctx.enemy.element === elemCode || elemCode === 'all')) {
+        return ['__enemy__'];
+      }
+      return []; // 적 코드가 일치하지 않으면 미부여
     }
 
     // ── 무기별 ────────────────────────────────────────────────
@@ -1302,7 +1318,7 @@ export class BuffManager {
       projectileExplosionDmgUp: eff.stat === 'projectile_explosion_damage' ? (buffs.projectile_explosion_dmg / 100) : 0,
       burstDmgUp: eff.stat === 'burst_damage' ? (buffs.burst_dmg_pct / 100) : 0,
       extraDmgUp: 0,
-      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (buffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
+      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
       shareDmgUp: (buffs.split_dmg_pct / 100) + (caster.cubeSplitDmgUp ?? 0),
       enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };
@@ -1372,7 +1388,7 @@ export class BuffManager {
       projectileExplosionDmgUp: eff.stat === 'projectile_explosion_damage' ? (buffs.projectile_explosion_dmg / 100) : 0,
       burstDmgUp: eff.stat === 'burst_damage' ? (buffs.burst_dmg_pct / 100) : 0,
       extraDmgUp: 0,
-      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (buffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
+      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
       shareDmgUp: (buffs.split_dmg_pct / 100) + (caster.cubeSplitDmgUp ?? 0),
       enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };

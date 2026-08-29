@@ -97,15 +97,15 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
     return {
         members: activeSlots.map(({ slot, originalIndex }) => {
             const eq: EquipmentOptions = {
-                atkPercent: parseFloat(slot.equipATK || '0') / 100,
-                weakPointPercent: parseFloat(slot.equipWeakPoint || '0') / 100,
-                ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
-                accuracyPercent: parseFloat(slot.equipAccuracy || '0') / 100,
-                chargeDmgPercent: parseFloat(slot.equipChargeDmg || '0') / 100,
-                chargeSpeedPercent: parseFloat(slot.equipChargeSpeed || '0') / 100,
-                critRatePercent: parseFloat(slot.equipCritRate || '0') / 100,
-                critDmgPercent: parseFloat(slot.equipCritDmg || '0') / 100,
-                defPercent: parseFloat(slot.equipDef || '0') / 100,
+                atkPercent: (parseFloat(slot.equipATK || '0') || 0) / 100,
+                weakPointPercent: (parseFloat(slot.equipWeakPoint || '0') || 0) / 100,
+                ammoPercent: (parseFloat(slot.equipAmmo || '0') || 0) / 100,
+                accuracyPercent: (parseFloat(slot.equipAccuracy || '0') || 0) / 100,
+                chargeDmgPercent: (parseFloat(slot.equipChargeDmg || '0') || 0) / 100,
+                chargeSpeedPercent: (parseFloat(slot.equipChargeSpeed || '0') || 0) / 100,
+                critRatePercent: (parseFloat(slot.equipCritRate || '0') || 0) / 100,
+                critDmgPercent: (parseFloat(slot.equipCritDmg || '0') || 0) / 100,
+                defPercent: (parseFloat(slot.equipDef || '0') || 0) / 100,
             };
             const collectionLevelNum = parseInt(slot.collectionLevel || '0', 10) || 0;
             const skillLevels = {
@@ -157,12 +157,9 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
                 collectionLevel: collectionLevelNum,
             });
 
-            const customHP = parseInt(slot.customHP || '0', 10);
-            char.hp = customHP > 0 ? customHP : calculated.hp;
-            const customATK = parseInt(slot.customATK || '0', 10);
-            char.atk = customATK > 0 ? customATK : calculated.atk;
-            const customDEF = parseInt(slot.customDEF || '0', 10);
-            char.defense = customDEF > 0 ? customDEF : calculated.def;
+            char.hp = calculated.hp;
+            char.atk = calculated.atk;
+            char.defense = calculated.def;
 
             const rb = getWeaponRangeBonus(char.weapon, rangeMode);
             if (rb > 0) char.buff = { ...(char.buff || {}), range: rb };
@@ -243,20 +240,19 @@ function extractChars(
             collectionLevel: collectionLevelNum,
         });
 
-        const customATK = parseInt(slot.customATK || '0', 10);
-        const effectiveBaseATK = customATK > 0 ? customATK : calculated.atk;
-        const atkPercent = parseFloat(slot.equipATK || '0') / 100;
-        const weakPercent = parseFloat(slot.equipWeakPoint || '0') / 100;
+        const effectiveBaseATK = calculated.atk;
+        const atkPercent = (parseFloat(slot.equipATK || '0') || 0) / 100;
+        const weakPercent = (parseFloat(slot.equipWeakPoint || '0') || 0) / 100;
         const eq: EquipmentOptions = {
             atkPercent,
             weakPointPercent: weakPercent,
-            ammoPercent: parseFloat(slot.equipAmmo || '0') / 100,
-            accuracyPercent: parseFloat(slot.equipAccuracy || '0') / 100,
-            chargeDmgPercent: parseFloat(slot.equipChargeDmg || '0') / 100,
-            chargeSpeedPercent: parseFloat(slot.equipChargeSpeed || '0') / 100,
-            critRatePercent: parseFloat(slot.equipCritRate || '0') / 100,
-            critDmgPercent: parseFloat(slot.equipCritDmg || '0') / 100,
-            defPercent: parseFloat(slot.equipDef || '0') / 100,
+            ammoPercent: (parseFloat(slot.equipAmmo || '0') || 0) / 100,
+            accuracyPercent: (parseFloat(slot.equipAccuracy || '0') || 0) / 100,
+            chargeDmgPercent: (parseFloat(slot.equipChargeDmg || '0') || 0) / 100,
+            chargeSpeedPercent: (parseFloat(slot.equipChargeSpeed || '0') || 0) / 100,
+            critRatePercent: (parseFloat(slot.equipCritRate || '0') || 0) / 100,
+            critDmgPercent: (parseFloat(slot.equipCritDmg || '0') || 0) / 100,
+            defPercent: (parseFloat(slot.equipDef || '0') || 0) / 100,
         };
         const skillLevels = {
             skill1Level: slot.skill1Level || 10,

@@ -2,9 +2,8 @@ import { BattleContext, Character } from "../types/battle";
 import { calcNikkeDamage } from "./nikkeFormula";
 import { WeaponType, resolveHit, ResolveHitParams } from "./accuraySystem";
 import { heatWarmupByTime, coolWarmupLevel, getMgFireRate } from "./mgWarmup";
-import { getWeaponMultipliers } from "../constants/weaponStats";
+import { getWeaponMultipliers, getWeaponRangeBonus, RangeMode } from "../constants/weaponStats";
 import { checkAdvantage } from "../utils/charUtils";
-import { RangeMode } from "../constants/weaponStats";
 import { decrementBulletBuffs } from "./skillResolver";
 
 /** 기본 SG 펠릿 수 */
@@ -16,7 +15,7 @@ const DEFAULT_PELLET_COUNT = 10;
 
 export function processAttack(ctx: BattleContext) {
     const dt = ctx.delta;
-    const rangeMode: RangeMode = (ctx.config as any).rangeMode ?? 'mid';
+    const rangeMode: RangeMode = (ctx.config as any).rangeMode ?? 0;
 
     ctx.team.members.forEach((char) => {
         // weaponOverride가 활성이면 차지형 무기로 처리 (무기 변경 효과)
@@ -184,7 +183,7 @@ function calcShotgunDamage(
         const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
         const isCrit = ctx.rng.next() < critChance;
 
-        const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale);
+        const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale, rangeMode);
         totalDmg += calcNikkeDamage(params);
 
         if (ctx.buffManager) {
@@ -230,7 +229,7 @@ function calcCharacterDamage(
     const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
     const isCrit = ctx.rng.next() < critChance;
 
-    const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0);
+    const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, 1.0, rangeMode);
     return { damage: calcNikkeDamage(params), isCore: hitResult.isCore };
 }
 
@@ -244,7 +243,8 @@ function buildDamageParams(
     isCrit: boolean,
     isCore: boolean,
     isChargeAttack: boolean,
-    atkCoefScale: number // 펠릿 분할 배율 (일반: 1.0, SG 1/N)
+    atkCoefScale: number, // 펠릿 분할 배율 (일반: 1.0, SG 1/N)
+    rangeMode: RangeMode = (ctx.config as any)?.rangeMode ?? 0
 ) {
     const wm = getWeaponMultipliers(char.weapon);
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
@@ -278,7 +278,7 @@ function buildDamageParams(
         coreHitBonus: (char.coreDamage ? (char.coreDamage / 100 - 1) : wm.coreHitBonus) + (buffs ? buffs.core_dmg_pct / 100 : 0),
         coreHitMultiplier: char.coreHitMultiplier ?? 0,
         fullBurstBonus: ctx.burstActive ? 0.5 : 0,
-        rangeBonus: 0,  // PARSING.md에 range_bonus 없음, 0으로 고정
+        rangeBonus: getWeaponRangeBonus(char.weapon, rangeMode),
 
         /* ④ Element Bonus */
         weakPointBase: checkAdvantage(ctx.enemy.element, char.element, char.id, ctx) ? 1.1 : 1.0,
@@ -296,7 +296,7 @@ function buildDamageParams(
         extraDmgUp: 0,
 
         /* ⑦ Damage Taken */
-        enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (buffs ? buffs.received_dmg / 100 : 0) + (ctx.enemy.debuff?.takenUp ?? 0),
+        enemyTakenUp: (enemyBuffs ? enemyBuffs.received_dmg / 100 : 0) + (ctx.enemy.debuff?.takenUp ?? 0),
         shareDmgUp: (buffs ? buffs.split_dmg_pct / 100 : 0) + (char.cubeSplitDmgUp ?? 0),
         enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
     };
