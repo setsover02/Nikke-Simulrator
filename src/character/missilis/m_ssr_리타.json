@@ -1,213 +1,205 @@
 {
-    "characterID": "Char_82",
-    "characterName": "리타",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SMG",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "마이티 툴즈",
-        "burstLevel": 1,
-        "atkCoef": 8.73,
-        "maxAmmo": 120,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_82",
+  "characterName": "리타",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SMG",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "마이티 툴즈",
+    "burstLevel": 1,
+    "atkCoef": 8.73,
+    "maxAmmo": 120,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "리타 부스트",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "리타 부스트",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start_count:1",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34,
-                        2.34
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리타 부스트",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:2",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7,
-                        2.7
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리타 부스트 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:3",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17,
-                        3.17
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리타 부스트 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast_count:1",
-                    "target": "all_allies",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        7.05,
-                        11.29,
-                        15.52,
-                        19.76,
-                        23.99,
-                        28.23,
-                        32.46,
-                        36.7,
-                        40.93,
-                        45.17
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리타 부스트 4",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:2",
-                    "target": "all_allies",
-                    "effect": "crit_dmg",
-                    "value": [
-                        3.36,
-                        4.37,
-                        5.38,
-                        6.39,
-                        7.4,
-                        8.41,
-                        9.42,
-                        10.44,
-                        11.45,
-                        12.46
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리타 부스트 5",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:3",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        5.05,
-                        6.09,
-                        7.13,
-                        8.17,
-                        9.21,
-                        10.25,
-                        11.29,
-                        12.33,
-                        13.37,
-                        14.42
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리타 부스트 6",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start_count:1",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34,
+            2.34
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         },
         {
-            "id": "skill_2",
-            "name": "볼트 부스트",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:15.0s",
-                    "target": "allies_lowest_cover_hp:2",
-                    "effect": "cover_heal_pct",
-                    "value": [
-                        28.87,
-                        31.5,
-                        34.12,
-                        36.75,
-                        39.37,
-                        42,
-                        44.62,
-                        47.25,
-                        49.87,
-                        52.5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "볼트 부스트",
-                    "type": "instant"
-                }
-            ]
+          "trigger": "full_burst_start_count:2",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7,
+            2.7
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         },
         {
-            "id": "burst",
-            "name": "더블 부스트",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        36.3,
-                        39.6,
-                        42.9,
-                        46.2,
-                        49.5,
-                        52.8,
-                        56.1,
-                        59.4,
-                        62.7,
-                        66
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "더블 부스트",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start_count:3",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17,
+            3.17
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast_count:1",
+          "target": "all_allies",
+          "effect": "max_ammo_pct",
+          "value": [
+            7.05,
+            11.29,
+            15.52,
+            19.76,
+            23.99,
+            28.23,
+            32.46,
+            36.7,
+            40.93,
+            45.17
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast_count:2",
+          "target": "all_allies",
+          "effect": "crit_dmg",
+          "value": [
+            3.36,
+            4.37,
+            5.38,
+            6.39,
+            7.4,
+            8.41,
+            9.42,
+            10.44,
+            11.45,
+            12.46
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast_count:3",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            5.05,
+            6.09,
+            7.13,
+            8.17,
+            9.21,
+            10.25,
+            11.29,
+            12.33,
+            13.37,
+            14.42
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "볼트 부스트",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:15.0s",
+          "target": "allies_lowest_cover_hp:2",
+          "effect": "cover_heal_pct",
+          "value": [
+            28.87,
+            31.5,
+            34.12,
+            36.75,
+            39.37,
+            42,
+            44.62,
+            47.25,
+            49.87,
+            52.5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "더블 부스트",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            36.3,
+            39.6,
+            42.9,
+            46.2,
+            49.5,
+            52.8,
+            56.1,
+            59.4,
+            62.7,
+            66
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

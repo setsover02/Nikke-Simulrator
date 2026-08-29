@@ -1,367 +1,354 @@
 {
-    "characterID": "Char_223",
-    "characterName": "나유타",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SMG",
-        "class": "지원형",
-        "company": "Pilgrim",
-        "squad": "파이오니아",
-        "burstLevel": 2,
-        "atkCoef": 8.73,
-        "maxAmmo": 120,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 24,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_223",
+  "characterName": "나유타",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SMG",
+    "class": "지원형",
+    "company": "Pilgrim",
+    "squad": "파이오니아",
+    "burstLevel": 2,
+    "atkCoef": 8.73,
+    "maxAmmo": 120,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 24,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "위선",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "위선",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "undying",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 9,
-                    "name": "부동심",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "all_allies",
-                    "effect": "core_dmg_pct",
-                    "value": [
-                        15.72,
-                        16.77,
-                        17.82,
-                        18.86,
-                        19.91,
-                        20.96,
-                        22.01,
-                        23.06,
-                        24.11,
-                        25.15
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "위선",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        17.82,
-                        19.19,
-                        20.56,
-                        21.93,
-                        23.3,
-                        24.67,
-                        26.04,
-                        27.42,
-                        28.79,
-                        30.16
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "위선 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "all_allies",
-                    "effect": "heal_split",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "위선 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        14.77,
-                        15.91,
-                        17.05,
-                        18.18,
-                        19.32,
-                        20.46,
-                        21.6,
-                        22.73,
-                        23.87,
-                        25
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위선 4",
-                    "type": "instant",
-                    "scaling": "max_hp"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_enemies",
-                    "effect": "damage",
-                    "value": [
-                        88.46,
-                        95.27,
-                        102.08,
-                        108.88,
-                        115.69,
-                        122.49,
-                        129.3,
-                        136.1,
-                        142.91,
-                        150
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위선 5",
-                    "type": "damage",
-                    "condition": "self_state:기억 연소"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "same_target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        221.86,
-                        238.93,
-                        256,
-                        273.06,
-                        290.13,
-                        307.2,
-                        324.26,
-                        341.33,
-                        358.4,
-                        380.46
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위선 6",
-                    "type": "damage",
-                    "condition": "self_state:기억 연소"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "undying",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 9,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "무상",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:3s",
-                    "target": "self",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        0.83,
-                        0.89,
-                        0.96,
-                        1.02,
-                        1.08,
-                        1.15,
-                        1.21,
-                        1.28,
-                        1.34,
-                        1.4
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "기억 흡수",
-                    "type": "buff",
-                    "stack": 30
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        8.98,
-                        9.67,
-                        10.36,
-                        11.05,
-                        11.75,
-                        12.44,
-                        13.13,
-                        13.82,
-                        14.51,
-                        15.2
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무상",
-                    "type": "buff",
-                    "condition": "self_stack_above:기억 흡수:2"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        11.98,
-                        12.9,
-                        13.82,
-                        14.74,
-                        15.66,
-                        16.58,
-                        17.51,
-                        18.43,
-                        19.35,
-                        20.27
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무상 2",
-                    "type": "buff",
-                    "condition": "self_stack_above:기억 흡수:10"
-                },
-                {
-                    "trigger": "event:기억 흡수",
-                    "target": "self",
-                    "effect": "core_dmg_pct",
-                    "value": [
-                        12.44,
-                        13.39,
-                        14.35,
-                        15.31,
-                        16.27,
-                        17.22,
-                        18.18,
-                        19.14,
-                        20.09,
-                        21.05
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "무상 3",
-                    "type": "buff",
-                    "condition": "self_stack_above:기억 흡수:30"
-                }
-            ]
+          "trigger": "event:기억 흡수",
+          "target": "all_allies",
+          "effect": "core_dmg_pct",
+          "value": [
+            15.72,
+            16.77,
+            17.82,
+            18.86,
+            19.91,
+            20.96,
+            22.01,
+            23.06,
+            24.11,
+            25.15
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "고행",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        20.94,
-                        22.55,
-                        24.17,
-                        25.78,
-                        27.39,
-                        29,
-                        30.61,
-                        32.22,
-                        33.83,
-                        35.45
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "고행",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        381.33,
-                        410.66,
-                        440,
-                        469.33,
-                        498.66,
-                        528,
-                        557.33,
-                        586.66,
-                        616,
-                        645.33
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "고행 2",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "기억 연소",
-                    "type": "weapon_change"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "infinite_ammo",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "고행 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "event:기억 흡수",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            17.82,
+            19.19,
+            20.56,
+            21.93,
+            23.3,
+            24.67,
+            26.04,
+            27.42,
+            28.79,
+            30.16
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:기억 흡수",
+          "target": "all_allies",
+          "effect": "heal_split",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:기억 흡수",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            14.77,
+            15.91,
+            17.05,
+            18.18,
+            19.32,
+            20.46,
+            21.6,
+            22.73,
+            23.87,
+            25
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "scaling": "max_hp"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            88.46,
+            95.27,
+            102.08,
+            108.88,
+            115.69,
+            122.49,
+            129.3,
+            136.1,
+            142.91,
+            150
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:기억 연소"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "same_target",
+          "effect": "bonus_damage",
+          "value": [
+            221.86,
+            238.93,
+            256,
+            273.06,
+            290.13,
+            307.2,
+            324.26,
+            341.33,
+            358.4,
+            380.46
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:기억 연소"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "무상",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:3s",
+          "target": "self",
+          "effect": "accuracy_pct",
+          "value": [
+            0.83,
+            0.89,
+            0.96,
+            1.02,
+            1.08,
+            1.15,
+            1.21,
+            1.28,
+            1.34,
+            1.4
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "기억 흡수",
+          "type": "buff",
+          "stack": 30
+        },
+        {
+          "trigger": "event:기억 흡수",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            8.98,
+            9.67,
+            10.36,
+            11.05,
+            11.75,
+            12.44,
+            13.13,
+            13.82,
+            14.51,
+            15.2
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_stack_above:기억 흡수:2"
+        },
+        {
+          "trigger": "event:기억 흡수",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            11.98,
+            12.9,
+            13.82,
+            14.74,
+            15.66,
+            16.58,
+            17.51,
+            18.43,
+            19.35,
+            20.27
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_stack_above:기억 흡수:10"
+        },
+        {
+          "trigger": "event:기억 흡수",
+          "target": "self",
+          "effect": "core_dmg_pct",
+          "value": [
+            12.44,
+            13.39,
+            14.35,
+            15.31,
+            16.27,
+            17.22,
+            18.18,
+            19.14,
+            20.09,
+            21.05
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_stack_above:기억 흡수:30"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "고행",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            20.94,
+            22.55,
+            24.17,
+            25.78,
+            27.39,
+            29,
+            30.61,
+            32.22,
+            33.83,
+            35.45
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            381.33,
+            410.66,
+            440,
+            469.33,
+            498.66,
+            528,
+            557.33,
+            586.66,
+            616,
+            645.33
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "name": "기억 연소",
+          "type": "weapon_change"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "infinite_ammo",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

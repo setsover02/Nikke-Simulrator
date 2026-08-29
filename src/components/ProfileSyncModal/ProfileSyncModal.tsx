@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Modal } from '../Modal/Modal';
 import { Button } from '../Button/Button';
 import { Font } from '../Font';
-import { syncBlablalinkProfile, importProfileFromJson, SyncedProfileResult } from '../../utils/profileSync';
+import { parseAndSyncProfileCsv, CsvSyncResult } from '../../utils/csvProfileSync';
 import { SavedOutpostState, loadOutpostState } from '../../utils/storageUtils';
 import styles from './ProfileSyncModal.module.scss';
 
@@ -17,180 +17,140 @@ export const ProfileSyncModal: React.FC<ProfileSyncModalProps> = ({
     onClose,
     onSyncComplete,
 }) => {
-    const [tab, setTab] = useState<'cookie' | 'file'>('cookie');
-    const [cookieInput, setCookieInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const [progressText, setProgressText] = useState('');
-    const [progressPercent, setProgressPercent] = useState(0);
-    const [result, setResult] = useState<SyncedProfileResult | null>(null);
+    const [result, setResult] = useState<CsvSyncResult | null>(null);
     const [errorMsg, setErrorMsg] = useState<string | null>(null);
+    const [fileName, setFileName] = useState<string | null>(null);
 
-    const handleCookieSync = async () => {
-        if (!cookieInput.trim()) {
-            setErrorMsg('쿠키를 입력해주세요.');
-            return;
-        }
-
+    const handleFileProcess = (file: File) => {
+        if (!file) return;
+        setFileName(file.name);
         setIsLoading(true);
         setErrorMsg(null);
         setResult(null);
-        setProgressText('동기화 준비 중...');
-        setProgressPercent(0);
-
-        try {
-            const res = await syncBlablalinkProfile(cookieInput.trim(), (step, cur, total) => {
-                setProgressText(step);
-                setProgressPercent(Math.min(100, Math.round((cur / total) * 100)));
-            });
-
-            setResult(res);
-            if (res.success) {
-                const updatedOutpost = loadOutpostState();
-                onSyncComplete?.(updatedOutpost);
-            } else if (res.error) {
-                setErrorMsg(res.error);
-            }
-        } catch (e: any) {
-            setErrorMsg(e.message || '동기화 중 오류가 발생했습니다.');
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
 
         const reader = new FileReader();
         reader.onload = (event) => {
             try {
-                const json = JSON.parse(event.target?.result as string);
-                const res = importProfileFromJson(json);
-                if (res.success) {
-                    const updatedOutpost = loadOutpostState();
-                    onSyncComplete?.(updatedOutpost);
-                    setResult({
-                        success: true,
-                        syncedCount: res.syncedCount,
-                        synchroLevel: parseInt(updatedOutpost.synchroLevel, 10) || 1,
-                        consoleSummary: updatedOutpost,
-                        warnings: [],
-                    });
-                    setErrorMsg(null);
+                const text = event.target?.result as string;
+                const syncRes = parseAndSyncProfileCsv(text);
+
+                if (syncRes.success) {
+                    setResult(syncRes);
+                    const freshOutpost = loadOutpostState();
+                    onSyncComplete?.(freshOutpost);
                 } else {
-                    setErrorMsg(res.error || '프로필 파일 적용에 실패했습니다.');
+                    setErrorMsg(syncRes.error || 'CSV 파싱에 실패했습니다.');
                 }
-            } catch (err) {
-                setErrorMsg('올바른 JSON 파일이 아닙니다.');
+            } catch (err: any) {
+                setErrorMsg(err.message || '파일을 읽는 도중 오류가 발생했습니다.');
+            } finally {
+                setIsLoading(false);
             }
         };
-        reader.readAsText(file);
+        reader.readAsText(file, 'utf-8');
+    };
+
+    const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (file) {
+            handleFileProcess(file);
+        }
+    };
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const file = e.dataTransfer.files?.[0];
+        if (file) {
+            handleFileProcess(file);
+        }
+    };
+
+    const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault();
+        e.stopPropagation();
     };
 
     return (
         <Modal
             isOpen={isOpen}
             onClose={onClose}
-            title="blablalink 프로필 동기화 (내 스펙 가져오기)"
-            maxWidth={560}
+            title="니케 육성 데이터 동기화 (CSV 파일 업로드)"
+            maxWidth={580}
         >
             <div className={styles['sync-container']}>
-                <div className={styles['tab-group']}>
-                    <button
-                        className={`${styles['tab-btn']} ${tab === 'cookie' ? styles.active : ''}`}
-                        onClick={() => { setTab('cookie'); setErrorMsg(null); }}
-                    >
-                        blablalink 세션 쿠키로 동기화
-                    </button>
-                    <button
-                        className={`${styles['tab-btn']} ${tab === 'file' ? styles.active : ''}`}
-                        onClick={() => { setTab('file'); setErrorMsg(null); }}
-                    >
-                        프로필 JSON 파일 업로드
-                    </button>
+                {/* CSV 업로드 영역 */}
+                <div
+                    className={styles['file-upload-area']}
+                    onDrop={handleDrop}
+                    onDragOver={handleDragOver}
+                >
+                    <input
+                        type="file"
+                        id="profile-csv-input"
+                        accept=".csv"
+                        style={{ display: 'none' }}
+                        onChange={handleFileInput}
+                    />
+                    <label htmlFor="profile-csv-input" style={{ cursor: 'pointer', display: 'block' }}>
+                        <div style={{ fontSize: '32px', marginBottom: '8px' }}>📄</div>
+                        <Font as="div" variant="body" weight="bold" color="default" style={{ marginBottom: '6px' }}>
+                            {fileName ? fileName : 'CSV 파일을 여기에 드래그하거나 클릭하여 선택하세요'}
+                        </Font>
+                        <Font as="div" variant="caption-2" color="muted">
+                            니케정보_.csv 형식의 파일을 업로드하여 캐릭터 육성 정보와 전초기지 스펙을 동기화합니다.
+                        </Font>
+                    </label>
                 </div>
 
-                {tab === 'cookie' && (
-                    <>
-                        <div className={styles['guide-box']}>
-                            <Font as="div" variant="caption-1" weight="bold" color="default">
-                                📌 세션 쿠키 추출 방법 (최초 1회)
-                            </Font>
-                            <div className={styles['guide-step']}>
-                                <span className={styles['step-num']}>1</span>
-                                <span><a href="https://www.blablalink.com" target="_blank" rel="noreferrer" style={{ color: 'var(--Status-Info-100)', textDecoration: 'underline' }}>blablalink.com</a> 에 로그인하고 게임 계정을 연동합니다.</span>
-                            </div>
-                            <div className={styles['guide-step']}>
-                                <span className={styles['step-num']}>2</span>
-                                <span>F12 (개발자 도구) → <b>Network</b> 탭에서 <code>api.blablalink.com</code> 요청의 <b>Cookie:</b> 헤더 값을 전체 복사합니다.</span>
-                            </div>
-                            <div className={styles['guide-step']}>
-                                <span className={styles['step-num']}>3</span>
-                                <span>아래 입력창에 붙여넣고 [동기화 시작] 버튼을 누릅니다. (game_token, game_openid 포함)</span>
-                            </div>
-                        </div>
-
-                        <textarea
-                            className={styles['cookie-textarea']}
-                            placeholder="game_token=...; game_openid=...; game_gameid=29080..."
-                            value={cookieInput}
-                            onChange={(e) => setCookieInput(e.target.value)}
-                            disabled={isLoading}
-                        />
-
-                        <Button
-                            variant="primary"
-                            onClick={handleCookieSync}
-                            disabled={isLoading || !cookieInput.trim()}
-                        >
-                            {isLoading ? '동기화 진행 중...' : 'blablalink 계정 스펙 동기화 시작'}
-                        </Button>
-                    </>
-                )}
-
-                {tab === 'file' && (
-                    <div className={styles['file-upload-area']}>
-                        <input
-                            type="file"
-                            id="profile-json-input"
-                            accept=".json"
-                            style={{ display: 'none' }}
-                            onChange={handleFileUpload}
-                        />
-                        <label htmlFor="profile-json-input" style={{ cursor: 'pointer', display: 'block' }}>
-                            <Font as="div" variant="body" weight="semibold" color="default" style={{ marginBottom: '6px' }}>
-                                📁 profiles/me.json 파일 선택
-                            </Font>
-                            <Font as="div" variant="caption-2" color="muted">
-                                scraper/profile_fetch.py 로 생성된 JSON 프로필을 업로드합니다.
-                            </Font>
-                        </label>
+                {/* 지원 컬럼 안내 */}
+                <div className={styles['guide-box']}>
+                    <Font as="div" variant="caption-1" weight="bold" color="default">
+                        📌 자동 반영 항목
+                    </Font>
+                    <div className={styles['guide-step']}>
+                        <span className={styles['step-num']}>1</span>
+                        <span><b>캐릭터 스펙:</b> 돌파, 코강, 호감도, 스킬 1/2/버스트 레벨, 소장품/애장품 단계, 큐브 및 큐브 레벨</span>
                     </div>
-                )}
+                    <div className={styles['guide-step']}>
+                        <span className={styles['step-num']}>2</span>
+                        <span><b>오버로드 장비:</b> 4부위 티어 및 9개 옵션 합산 퍼센트 (우코, 공증, 장탄, 크확, 크댐, 명중, 차댐, 차속, 방어)</span>
+                    </div>
+                    <div className={styles['guide-step']}>
+                        <span className={styles['step-num']}>3</span>
+                        <span><b>전초기지 연구:</b> 공용 연구 레벨 및 클래스(3종) / 기업(5종) 재활용실 콘솔 레벨</span>
+                    </div>
+                </div>
 
+                {/* 로딩 진행 표시 */}
                 {isLoading && (
                     <div className={styles['progress-box']}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                            <Font as="span" variant="caption-2" color="default">{progressText}</Font>
-                            <Font as="span" variant="caption-2" weight="bold" color="muted">{progressPercent}%</Font>
-                        </div>
-                        <div className={styles['progress-bar-bg']}>
-                            <div className={styles['progress-bar-fill']} style={{ width: `${progressPercent}%` }} />
-                        </div>
+                        <Font as="div" variant="caption-2" color="default">
+                            CSV 데이터를 분석하고 로컬 스토리지에 저장하는 중...
+                        </Font>
                     </div>
                 )}
 
+                {/* 결과 요약 */}
                 {result && result.success && (
                     <div className={styles['status-badge-success']}>
                         <Font as="div" variant="caption-1" weight="bold">
                             🎉 동기화 완료: 총 {result.syncedCount}명의 니케 육성 데이터가 저장되었습니다!
                         </Font>
                         <Font as="div" variant="footnote" color="default">
-                            동기화 소대 레벨: {result.synchroLevel} | 전초기지 콘솔 레벨이 자동으로 반영되었습니다.
+                            전초기지 콘솔 레벨(공용: {result.outpost.commonResearchLevel}, 화력: {result.outpost.attackerConsole}, 방어: {result.outpost.defenderConsole}, 지원: {result.outpost.supporterConsole})이 홈 화면에 즉시 적용되었습니다.
                         </Font>
+                        {result.warnings.length > 0 && (
+                            <div style={{ marginTop: '6px', fontSize: '11px', color: 'var(--Status-Warning-100)' }}>
+                                ⚠️ {result.warnings.length}개 캐릭터 제외됨: {result.warnings.slice(0, 3).join(', ')}
+                                {result.warnings.length > 3 ? ` 외 ${result.warnings.length - 3}건` : ''}
+                            </div>
+                        )}
                     </div>
                 )}
 
+                {/* 에러 메시지 */}
                 {errorMsg && (
                     <div className={styles['status-badge-error']}>
                         <Font as="div" variant="caption-2" weight="semibold">
@@ -202,4 +162,5 @@ export const ProfileSyncModal: React.FC<ProfileSyncModalProps> = ({
         </Modal>
     );
 };
+
 export default ProfileSyncModal;

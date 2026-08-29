@@ -64,6 +64,198 @@ export interface SyncedProfileResult {
     error?: string;
 }
 
+const SESSION_COOKIE_KEY = 'nikke_blablalink_session_cookie';
+
+export function getSavedSessionCookie(): string | null {
+    try {
+        return localStorage.getItem(SESSION_COOKIE_KEY);
+    } catch (e) {
+        return null;
+    }
+}
+
+export function saveSessionCookie(cookie: string): void {
+    try {
+        localStorage.setItem(SESSION_COOKIE_KEY, cookie.trim());
+    } catch (e) { }
+}
+
+export function clearSessionCookie(): void {
+    try {
+        localStorage.removeItem(SESSION_COOKIE_KEY);
+    } catch (e) { }
+}
+
+export interface ParsedBlablaInput {
+    type: 'url' | 'cookie' | 'openid' | 'unknown';
+    targetOpenId: string | null;
+    gameId: string | null;
+    cookie: string | null;
+}
+
+/**
+ * URL, 쿠키, 또는 Base64 openid 입력을 자동 분석하여 openid와 세션 쿠키를 분리 추출
+ */
+export function parseBlablalinkInput(input: string): ParsedBlablaInput {
+    const trimmed = input.trim();
+    if (!trimmed) {
+        return { type: 'unknown', targetOpenId: null, gameId: null, cookie: null };
+    }
+
+    // 1. 쿠키 문자열인지 검사 (game_token= 또는 game_openid= 포함)
+    if (trimmed.includes('game_token=') || trimmed.includes('game_openid=')) {
+        const openid = extractOpenIdFromCookie(trimmed);
+        return {
+            type: 'cookie',
+            targetOpenId: openid,
+            gameId: '29080',
+            cookie: trimmed,
+        };
+    }
+
+    // 2. shiftyspad URL인지 검사
+    let rawOpenIdParam: string | null = null;
+    if (trimmed.startsWith('http://') || trimmed.startsWith('https://')) {
+        try {
+            const url = new URL(trimmed);
+            rawOpenIdParam = url.searchParams.get('openid');
+        } catch (e) {
+            const match = trimmed.match(/[?&]openid=([^&#]+)/);
+            if (match) rawOpenIdParam = decodeURIComponent(match[1]);
+        }
+    } else if (trimmed.includes('=')) {
+        // Base64 문자열 직접 입력 (예: MjkwODAtMTA2Nzk1NjkzODM2MTUyODMyMA==)
+        rawOpenIdParam = trimmed;
+    }
+
+    if (rawOpenIdParam) {
+        try {
+            const decoded = atob(rawOpenIdParam); // 예: "29080-1067956938361528320"
+            const parts = decoded.split('-');
+            if (parts.length >= 2) {
+                return {
+                    type: 'url',
+                    gameId: parts[0],
+                    targetOpenId: parts[1],
+                    cookie: getSavedSessionCookie(),
+                };
+            }
+        } catch (e) {
+            console.warn('Failed to decode base64 openid', e);
+        }
+    }
+
+    // 3. 숫자 형태의 순수 openid인지 검사
+    if (/^\d{15,25}$/.test(trimmed)) {
+        return {
+            type: 'openid',
+            gameId: '29080',
+            targetOpenId: trimmed,
+            cookie: getSavedSessionCookie(),
+        };
+    }
+
+    return {
+        type: 'unknown',
+        targetOpenId: null,
+        gameId: null,
+        cookie: getSavedSessionCookie(),
+    };
+}
+
+/**
+ * 북마클릿(Bookmarklet) 코드 생성
+ * 사용자가 blablalink.com 페이지에서 실행 시 쿠키 및 로컬 세션을 수집하여 시뮬레이터로 전달
+ */
+export function generateBookmarkletCode(simOrigin: string): string {
+    const rawScript = `(function(){
+  try {
+    var c = document.cookie || '';
+    var items = [];
+    if (c) items.push(c);
+    for (var i = 0; i < localStorage.length; i++) {
+      var k = localStorage.key(i);
+      var v = localStorage.getItem(k);
+      if (k && v && (k.indexOf('token') >= 0 || k.indexOf('openid') >= 0 || k.indexOf('game') >= 0 || k.indexOf('user') >= 0)) {
+        items.push(k + '=' + encodeURIComponent(v));
+      }
+    }
+    var cookieStr = items.join('; ');
+    if (!cookieStr || (cookieStr.indexOf('game_token') < 0 && cookieStr.indexOf('token') < 0 && cookieStr.indexOf('game_openid') < 0)) {
+      alert('⚠️ blablalink.com 에 먼저 로그인하고 게임 계정을 연동한 후 눌러주세요!');
+      return;
+    }
+
+    var targetUrl = '${simOrigin}/?blabla_sync=' + encodeURIComponent(cookieStr);
+
+    var existing = document.getElementById('nikke-sim-sync-overlay');
+    if (existing) existing.remove();
+
+    var overlay = document.createElement('div');
+    overlay.id = 'nikke-sim-sync-overlay';
+    overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.82);z-index:9999999;display:flex;align-items:center;justify-content:center;font-family:Wanted Sans,system-ui,sans-serif;';
+
+    var box = document.createElement('div');
+    box.style.cssText = 'background:#141624;border:2px solid #7c3aed;border-radius:12px;padding:24px 28px;max-width:420px;text-align:center;color:#f8fafc;box-shadow:0 12px 36px rgba(0,0,0,0.9);';
+    box.innerHTML = '<h3 style=\"margin:0 0 10px;color:#c084fc;font-size:18px;font-weight:bold;\">🎉 세션 추출 성공!</h3>'
+      + '<p style=\"margin:0 0 20px;font-size:13px;color:#94a3b8;line-height:1.5;\">blablalink 계정 세션을 성공적으로 읽어왔습니다.<br>아래 버튼을 누르면 시뮬레이터로 자동 전송됩니다.</p>'
+      + '<div style=\"display:flex;gap:10px;\">'
+      + '<button id=\"nikke-sync-now-btn\" style=\"flex:1;background:#7c3aed;color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:bold;cursor:pointer;\">🚀 시뮬레이터로 전송</button>'
+      + '<button id=\"nikke-sync-close-btn\" style=\"background:#334155;color:#cbd5e1;border:none;border-radius:8px;padding:12px 16px;font-size:13px;cursor:pointer;\">닫기</button>'
+      + '</div>';
+
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
+
+    document.getElementById('nikke-sync-now-btn').onclick = function() {
+      window.location.href = targetUrl;
+    };
+    document.getElementById('nikke-sync-close-btn').onclick = function() {
+      overlay.remove();
+    };
+  } catch(err) {
+    alert('❌ 오류 발생: ' + err.message);
+  }
+})();`;
+
+    return 'javascript:' + encodeURIComponent(rawScript.replace(/\n\s*/g, ' '));
+}
+
+/**
+ * 앱 로드 시 URL에 ?blabla_sync=... 파라미터가 있는지 검사하여 자동 동기화 수행
+ */
+export async function checkAndProcessUrlSync(
+    onProgress?: SyncProgressCallback
+): Promise<SyncedProfileResult | null> {
+    if (typeof window === 'undefined') return null;
+
+    const params = new URLSearchParams(window.location.search);
+    const syncPayload = params.get('blabla_sync');
+
+    if (!syncPayload) return null;
+
+    try {
+        const cookieStr = decodeURIComponent(syncPayload);
+        const result = await syncBlablalinkProfile(cookieStr, onProgress);
+
+        // URL 파라미터 정리
+        const url = new URL(window.location.href);
+        url.searchParams.delete('blabla_sync');
+        window.history.replaceState({}, '', url.pathname + (url.search ? url.search : ''));
+
+        return result;
+    } catch (e: any) {
+        return {
+            success: false,
+            syncedCount: 0,
+            synchroLevel: 1,
+            consoleSummary: {},
+            warnings: [],
+            error: e.message || '북마클릿 동기화 실패',
+        };
+    }
+}
+
 /**
  * 쿠키 문자열에서 openid 추출
  */
@@ -99,7 +291,7 @@ async function postApi(route: string, body: any, cookie: string): Promise<any> {
     const json = await res.json();
     if (json.code !== 0) {
         if (json.code === 300001) {
-            throw new Error('로그인 세션이 만료되었습니다 (game not login). blablalink 쿠키를 새로 갱신해주세요.');
+            throw new Error('로그인 세션이 만료되었거나 유효하지 않습니다 (game not login). 최신 세션 쿠키를 등록해주세요.');
         }
         throw new Error(json.msg || `API Error (code ${json.code})`);
     }
@@ -151,24 +343,41 @@ function buildResourceToCharMap(cdnIdMap: Record<number, number>) {
     return { resMap, nameToCharIdMap };
 }
 
-/**
- * blablalink 전체 프로필 동기화 실행
- */
 export async function syncBlablalinkProfile(
-    cookie: string,
+    input: string,
     onProgress?: SyncProgressCallback
 ): Promise<SyncedProfileResult> {
     const warnings: string[] = [];
-    const openid = extractOpenIdFromCookie(cookie);
+    const parsed = parseBlablalinkInput(input);
 
-    if (!openid) {
+    if (parsed.cookie) {
+        saveSessionCookie(parsed.cookie);
+    }
+
+    const effectiveCookie = parsed.cookie || getSavedSessionCookie();
+    const effectiveOpenId = parsed.targetOpenId || (effectiveCookie ? extractOpenIdFromCookie(effectiveCookie) : null);
+
+    if (!effectiveCookie) {
         return {
             success: false,
             syncedCount: 0,
             synchroLevel: 1,
             consoleSummary: {},
             warnings: [],
-            error: '쿠키에 game_openid 가 없습니다. 로그인 세션 쿠키 전체를 복사해주세요.',
+            error: parsed.targetOpenId
+                ? `URL에서 OpenID(${parsed.targetOpenId})를 감지했으나, blablalink API 조회를 위한 인증 세션이 등록되지 않았습니다. 최초 1회 본인 계정의 세션 쿠키를 등록해주세요.`
+                : '세션 쿠키 또는 유효한 blablalink 프로필 URL을 입력해주세요.',
+        };
+    }
+
+    if (!effectiveOpenId) {
+        return {
+            success: false,
+            syncedCount: 0,
+            synchroLevel: 1,
+            consoleSummary: {},
+            warnings: [],
+            error: 'OpenID를 감지할 수 없습니다. 올바른 blablalink URL 또는 game_openid 가 포함된 쿠키를 입력해주세요.',
         };
     }
 
@@ -178,11 +387,11 @@ export async function syncBlablalinkProfile(
         const { resMap, nameToCharIdMap } = buildResourceToCharMap(cdnIdMap);
 
         // 1. 캐릭터 목록 조회
-        onProgress?.('캐릭터 로스터 조회 중...', 10, 100);
+        onProgress?.(`캐릭터 로스터 조회 중 (OpenID: ${effectiveOpenId})...`, 10, 100);
         const charsData = await postApi('Game/GetUserCharacters', {
-            intl_open_id: openid,
+            intl_open_id: effectiveOpenId,
             nikke_area_id: '83', // 기본 83 (글로벌/한국 공통)
-        }, cookie);
+        }, effectiveCookie);
 
         const rawList = charsData.character_info_list || [];
         if (rawList.length === 0) {
@@ -207,10 +416,10 @@ export async function syncBlablalinkProfile(
             onProgress?.(`캐릭터 상세 정보 조회 중 (${i + 1}/${nameCodes.length})...`, 20 + Math.floor((i / nameCodes.length) * 50), 100);
 
             const detailsData = await postApi('Game/GetUserCharacterDetails', {
-                intl_open_id: openid,
+                intl_open_id: effectiveOpenId,
                 nikke_area_id: '83',
                 name_codes: chunk,
-            }, cookie);
+            }, effectiveCookie);
 
             for (const eff of detailsData.state_effects || []) {
                 const fd = eff.function_details?.[0];
@@ -247,9 +456,9 @@ export async function syncBlablalinkProfile(
 
         try {
             const outpostData = await postApi('Game/GetUserProfileOutpostInfo', {
-                intl_open_id: openid,
+                intl_open_id: effectiveOpenId,
                 nikke_area_id: '83',
-            }, cookie);
+            }, effectiveCookie);
 
             if (outpostData) {
                 outpostState.synchroLevel = String(outpostData.synchro_level || 1);

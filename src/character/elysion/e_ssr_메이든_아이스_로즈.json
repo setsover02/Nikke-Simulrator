@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "메디테이션",
           "type": "instant",
           "condition": "gauge_eq:MP:0"
         },
@@ -64,7 +63,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "메디테이션 1 초기화",
           "type": "instant"
         },
         {
@@ -85,7 +83,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "메디테이션 2",
           "type": "instant",
           "condition": "gauge_above:MP:1"
         },
@@ -107,7 +104,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "메디테이션 3",
           "type": "buff",
           "stack": 10
         }
@@ -136,7 +132,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "블레스 유",
           "type": "buff",
           "condition": "gauge_above:MP:1"
         },
@@ -158,7 +153,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "블레스 유 2",
           "type": "buff",
           "condition": "gauge_above:MP:1"
         },
@@ -180,7 +174,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "블레스 유 3",
           "type": "buff",
           "condition": "gauge_eq:MP:0"
         },
@@ -202,7 +195,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "블레스 유 4",
           "type": "buff",
           "condition": "gauge_eq:MP:0"
         },
@@ -224,7 +216,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "블레스 유 5",
           "type": "damage"
         }
       ]
@@ -253,7 +244,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "다이아몬드 더스트",
           "type": "damage",
           "scaling": "max_hp_additive",
           "hits_ref": "MP"

@@ -1,404 +1,397 @@
 {
-    "characterID": "Char_100",
-    "characterName": "라플라스",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Missilis",
-        "squad": "메티스",
-        "burstLevel": 3,
-        "atkCoef": 63.11,
-        "maxAmmo": 6,
-        "reloadTime": 2.33,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_100",
+  "characterName": "라플라스",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Missilis",
+    "squad": "메티스",
+    "burstLevel": 3,
+    "atkCoef": 63.11,
+    "maxAmmo": 6,
+    "reloadTime": 2.33,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "히어로 비전",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "히어로 비전",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "self",
-                    "effect": "explosion_range",
-                    "value": [
-                        2.11,
-                        2.27,
-                        2.43,
-                        2.6,
-                        2.76,
-                        2.92,
-                        3.08,
-                        3.25,
-                        3.41,
-                        3.57
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "히어로 비전",
-                    "type": "buff",
-                    "stack": 5
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "히어로 봄버",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        48.25,
-                        51.96,
-                        55.68,
-                        59.39,
-                        63.1,
-                        66.81,
-                        70.52,
-                        74.24,
-                        77.95,
-                        81.66
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "히어로 봄버",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "part_hit_count:1",
-                    "target": "target_body",
-                    "effect": "bonus_damage",
-                    "value": [
-                        8.73,
-                        9.4,
-                        10.08,
-                        10.75,
-                        11.42,
-                        12.09,
-                        12.76,
-                        13.44,
-                        14.11,
-                        14.78
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "히어로 봄버 2",
-                    "type": "damage"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "라플라스 버스터",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "라플라스 버스터",
-                    "type": "weapon_change"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "라플라스 버스터 2",
-                    "type": "buff",
-                    "condition": "self_state:라플라스 버스터"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "same_target",
-                    "effect": "armor_break_damage",
-                    "value": [
-                        7.03,
-                        7.57,
-                        8.11,
-                        8.65,
-                        9.19,
-                        9.73,
-                        10.27,
-                        10.81,
-                        11.36,
-                        11.9
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "라플라스 버스터 4",
-                    "type": "damage",
-                    "condition": "self_state:라플라스 버스터"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "cover_disabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "라플라스 버스터 5",
-                    "type": "buff",
-                    "condition": "self_state:라플라스 버스터"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "self",
+          "effect": "explosion_range",
+          "value": [
+            2.11,
+            2.27,
+            2.43,
+            2.6,
+            2.76,
+            2.92,
+            3.08,
+            3.25,
+            3.41,
+            3.57
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "stack": 5
         }
-    ],
-    "favoriteItem": {
-        "itemName": "히어로 트릴로지 BD",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "히어로 봄버",
-                    "effects": [
-                        {
-                            "trigger": "full_charge_hit",
-                            "target": "target",
-                            "effect": "bonus_damage",
-                            "value": [
-                                78.26,
-                                84.28,
-                                90.3,
-                                96.32,
-                                102.34,
-                                108.36,
-                                114.38,
-                                120.41,
-                                126.43,
-                                132.45
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "히어로 봄버",
-                            "type": "damage"
-                        },
-                        {
-                            "trigger": "part_hit_count:1",
-                            "target": "target_body",
-                            "effect": "bonus_damage",
-                            "value": [
-                                8.73,
-                                9.4,
-                                10.08,
-                                10.75,
-                                11.42,
-                                12.09,
-                                12.76,
-                                13.44,
-                                14.11,
-                                14.78
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "히어로 봄버 2",
-                            "type": "damage"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "라플라스 버스터",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "atk_pct",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "라플라스 버스터",
-                            "type": "weapon_change"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "pierce_enabled",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "라플라스 버스터 2",
-                            "type": "buff",
-                            "condition": "self_state:라플라스 버스터"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "armor_break_enabled",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "라플라스 버스터 3",
-                            "type": "buff",
-                            "condition": "self_state:라플라스 버스터"
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "same_target",
-                            "effect": "armor_break_damage",
-                            "value": [
-                                7.03,
-                                7.57,
-                                8.11,
-                                8.65,
-                                9.19,
-                                9.73,
-                                10.27,
-                                10.81,
-                                11.36,
-                                11.9
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "라플라스 버스터 4",
-                            "type": "damage",
-                            "condition": "self_state:라플라스 버스터"
-                        },
-                        {
-                            "trigger": "passive",
-                            "target": "self",
-                            "effect": "cover_disabled",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "라플라스 버스터 5",
-                            "type": "buff",
-                            "condition": "self_state:라플라스 버스터"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "히어로 비전",
-                    "effects": [
-                        {
-                            "trigger": "full_charge_hit",
-                            "target": "self",
-                            "effect": "explosion_range",
-                            "value": [
-                                2.11,
-                                2.27,
-                                2.43,
-                                2.6,
-                                2.76,
-                                2.92,
-                                3.08,
-                                3.25,
-                                3.41,
-                                3.57
-                            ],
-                            "unit": "percent",
-                            "duration": 15,
-                            "name": "히어로 비전",
-                            "type": "buff",
-                            "stack": 5
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "히어로 봄버",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "last_bullet",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            48.25,
+            51.96,
+            55.68,
+            59.39,
+            63.1,
+            66.81,
+            70.52,
+            74.24,
+            77.95,
+            81.66
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "part_hit_count:1",
+          "target": "target_body",
+          "effect": "bonus_damage",
+          "value": [
+            8.73,
+            9.4,
+            10.08,
+            10.75,
+            11.42,
+            12.09,
+            12.76,
+            13.44,
+            14.11,
+            14.78
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "라플라스 버스터",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "weapon_change"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_state:라플라스 버스터"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "same_target",
+          "effect": "armor_break_damage",
+          "value": [
+            7.03,
+            7.57,
+            8.11,
+            8.65,
+            9.19,
+            9.73,
+            10.27,
+            10.81,
+            11.36,
+            11.9
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:라플라스 버스터"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "cover_disabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_state:라플라스 버스터"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "히어로 트릴로지 BD",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "히어로 봄버",
+          "effects": [
+            {
+              "trigger": "full_charge_hit",
+              "target": "target",
+              "effect": "bonus_damage",
+              "value": [
+                78.26,
+                84.28,
+                90.3,
+                96.32,
+                102.34,
+                108.36,
+                114.38,
+                120.41,
+                126.43,
+                132.45
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "히어로 봄버",
+              "type": "damage"
+            },
+            {
+              "trigger": "part_hit_count:1",
+              "target": "target_body",
+              "effect": "bonus_damage",
+              "value": [
+                8.73,
+                9.4,
+                10.08,
+                10.75,
+                11.42,
+                12.09,
+                12.76,
+                13.44,
+                14.11,
+                14.78
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "히어로 봄버 2",
+              "type": "damage"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "라플라스 버스터",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "atk_pct",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "라플라스 버스터",
+              "type": "weapon_change"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "pierce_enabled",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "라플라스 버스터 2",
+              "type": "buff",
+              "condition": "self_state:라플라스 버스터"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "armor_break_enabled",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "라플라스 버스터 3",
+              "type": "buff",
+              "condition": "self_state:라플라스 버스터"
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "same_target",
+              "effect": "armor_break_damage",
+              "value": [
+                7.03,
+                7.57,
+                8.11,
+                8.65,
+                9.19,
+                9.73,
+                10.27,
+                10.81,
+                11.36,
+                11.9
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "라플라스 버스터 4",
+              "type": "damage",
+              "condition": "self_state:라플라스 버스터"
+            },
+            {
+              "trigger": "passive",
+              "target": "self",
+              "effect": "cover_disabled",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "라플라스 버스터 5",
+              "type": "buff",
+              "condition": "self_state:라플라스 버스터"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "히어로 비전",
+          "effects": [
+            {
+              "trigger": "full_charge_hit",
+              "target": "self",
+              "effect": "explosion_range",
+              "value": [
+                2.11,
+                2.27,
+                2.43,
+                2.6,
+                2.76,
+                2.92,
+                3.08,
+                3.25,
+                3.41,
+                3.57
+              ],
+              "unit": "percent",
+              "duration": 15,
+              "name": "히어로 비전",
+              "type": "buff",
+              "stack": 5
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

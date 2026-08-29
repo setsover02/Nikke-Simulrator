@@ -21,19 +21,37 @@ const ACCENT_COLORS = [
 interface SquadAvatarListProps {
     slots: (SlotState | null)[];
     onUpdateSlot: (idx: number, patch: Partial<SlotState> | null) => void;
+    onSwapSlots?: (fromIdx: number, toIdx: number) => void;
     onOpenDetailModal: (idx: number) => void;
 }
 
 export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
     slots,
     onUpdateSlot,
+    onSwapSlots,
     onOpenDetailModal,
 }) => {
     const [dragOverIdx, setDragOverIdx] = useState<number | null>(null);
+    const [draggedSlotIdx, setDraggedSlotIdx] = useState<number | null>(null);
+
+    const handleDragStart = (e: React.DragEvent, idx: number) => {
+        const slot = slots[idx];
+        if (!slot || !slot.char) return;
+
+        setDraggedSlotIdx(idx);
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('application/json', JSON.stringify({ type: 'squad-slot', fromIdx: idx }));
+        e.dataTransfer.setData('text/plain', slot.char.data.characterID);
+    };
+
+    const handleDragEnd = () => {
+        setDraggedSlotIdx(null);
+        setDragOverIdx(null);
+    };
 
     const handleDragOver = (e: React.DragEvent, idx: number) => {
         e.preventDefault();
-        e.dataTransfer.dropEffect = 'copy';
+        e.dataTransfer.dropEffect = 'move';
         if (dragOverIdx !== idx) {
             setDragOverIdx(idx);
         }
@@ -48,7 +66,25 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
     const handleDrop = (e: React.DragEvent, idx: number) => {
         e.preventDefault();
         setDragOverIdx(null);
+        setDraggedSlotIdx(null);
 
+        // 1. 스쿼드 슬롯 간 드래그 스왑(Swap) 검사
+        const rawJson = e.dataTransfer.getData('application/json');
+        if (rawJson) {
+            try {
+                const data = JSON.parse(rawJson);
+                if (data.type === 'squad-slot' && typeof data.fromIdx === 'number') {
+                    if (data.fromIdx !== idx) {
+                        onSwapSlots?.(data.fromIdx, idx);
+                    }
+                    return;
+                }
+            } catch (err) {
+                // Ignore JSON parse errors
+            }
+        }
+
+        // 2. 캐릭터 패널에서 드래그해온 새 캐릭터 배치
         const charID = e.dataTransfer.getData('text/plain');
         if (!charID) return;
 
@@ -76,6 +112,7 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
                     const charID = slot?.char?.data?.characterID;
                     const charName = slot?.char?.label || slot?.char?.data?.characterName || '';
                     const isDragOver = dragOverIdx === idx;
+                    const isDragging = draggedSlotIdx === idx;
                     const badgeBgColor = ACCENT_COLORS[idx % 5];
 
                     const stats = slot?.char?.data?.stats;
@@ -87,12 +124,20 @@ export const SquadAvatarList: React.FC<SquadAvatarListProps> = ({
                     return (
                         <div key={idx} className={`${styles['squad-item']}`}>
                             <div
-                                className={`${styles['squad-card']} ${isFilled ? styles.filled : styles.empty} ${isDragOver ? styles['drag-over'] : ''}`}
+                                className={[
+                                    styles['squad-card'],
+                                    isFilled ? styles.filled : styles.empty,
+                                    isDragOver ? styles['drag-over'] : '',
+                                    isDragging ? styles.dragging : '',
+                                ].filter(Boolean).join(' ')}
+                                draggable={isFilled}
+                                onDragStart={(e) => isFilled && handleDragStart(e, idx)}
+                                onDragEnd={handleDragEnd}
                                 onClick={() => onOpenDetailModal(idx)}
                                 onDragOver={(e) => handleDragOver(e, idx)}
                                 onDragLeave={() => handleDragLeave(idx)}
                                 onDrop={(e) => handleDrop(e, idx)}
-                                title={isFilled ? `${charName} 상세 설정` : `슬롯 ${idx + 1} 캐릭터 배치`}
+                                title={isFilled ? `${charName} (드래그하여 자리 이동 / 클릭하여 상세 설정)` : `슬롯 ${idx + 1} 캐릭터 배치`}
                             >
                                 {/* 1~5번 숫자 및 Accent-Lime부터 5가지 순차적 배지 배경색 */}
                                 <div

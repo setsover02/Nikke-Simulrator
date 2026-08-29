@@ -1,439 +1,432 @@
 {
-    "characterID": "Char_411",
-    "characterName": "플로라",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "MG",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "보타닉 가든",
-        "burstLevel": 2,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_411",
+  "characterName": "플로라",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "MG",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "보타닉 가든",
+    "burstLevel": 2,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "피튜니아",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "피튜니아",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "allies_adjacent:2",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "피튜니아",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "allies_adjacent:2",
-                    "effect": "heal_received_pct",
-                    "value": [
-                        2.36,
-                        2.55,
-                        2.73,
-                        2.91,
-                        3.09,
-                        3.27,
-                        3.46,
-                        3.64,
-                        3.82,
-                        4
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "피튜니아 2",
-                    "type": "buff",
-                    "stack": 5
-                },
-                {
-                    "trigger": "hit_count:100",
-                    "target": "allies_code:전격",
-                    "effect": "buff_max_stack_add",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "피튜니아 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "allies_adjacent:2",
+          "effect": "heal_hp_pct",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "instant"
         },
         {
-            "id": "skill_2",
-            "name": "아이리스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "event:adjacent_hp_below:90",
-                    "target": "all_allies",
-                    "effect": "shield_from_max_hp_pct",
-                    "value": [
-                        6.04,
-                        6.5,
-                        6.96,
-                        7.43,
-                        7.89,
-                        8.36,
-                        8.82,
-                        9.29,
-                        9.75,
-                        10.22
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "아이리스",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:adjacent_hp_max",
-                    "target": "all_allies",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        18.3,
-                        19.71,
-                        21.12,
-                        22.52,
-                        23.93,
-                        25.34,
-                        26.75,
-                        28.16,
-                        29.56,
-                        30.97
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "아이리스 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "allies_adjacent:2",
+          "effect": "heal_received_pct",
+          "value": [
+            2.36,
+            2.55,
+            2.73,
+            2.91,
+            3.09,
+            3.27,
+            3.46,
+            3.64,
+            3.82,
+            4
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "stack": 5
         },
         {
-            "id": "burst",
-            "name": "시크릿 가든",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        6.17,
-                        6.65,
-                        7.12,
-                        7.6,
-                        8.07,
-                        8.55,
-                        9.02,
-                        9.5,
-                        9.97,
-                        10.45
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "시크릿 가든",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        25.05,
-                        26.98,
-                        28.9,
-                        30.83,
-                        32.76,
-                        34.68,
-                        36.61,
-                        38.54,
-                        40.47,
-                        42.39
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "시크릿 가든 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "hit_count:100",
+          "target": "allies_code:전격",
+          "effect": "buff_max_stack_add",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
         }
-    ],
-    "favoriteItem": {
-        "itemName": "함께 만든 화분",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "피튜니아",
-                    "effects": [
-                        {
-                            "trigger": "battle_start",
-                            "target": "allies_adjacent:2",
-                            "effect": "heal_hp_pct",
-                            "value": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "마음의 평화",
-                            "type": "instant"
-                        },
-                        {
-                            "trigger": "battle_start",
-                            "target": "allies_adjacent:2",
-                            "effect": "heal_received_pct",
-                            "value": [
-                                2.36,
-                                2.55,
-                                2.73,
-                                2.91,
-                                3.09,
-                                3.27,
-                                3.46,
-                                3.64,
-                                3.82,
-                                4
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "피튜니아",
-                            "type": "buff",
-                            "stack": 5
-                        },
-                        {
-                            "trigger": "hit_count:100",
-                            "target": "allies_code:전격",
-                            "effect": "buff_max_stack_add",
-                            "value": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "피튜니아 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_enter:2",
-                            "target": "allies_adjacent:2",
-                            "effect": "hp_only_caster_based_pct",
-                            "value": [
-                                8.87,
-                                9.55,
-                                10.24,
-                                10.92,
-                                11.6,
-                                12.28,
-                                12.97,
-                                13.65,
-                                14.33,
-                                15.01
-                            ],
-                            "unit": "percent",
-                            "duration": 2,
-                            "name": "피튜니아 3",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "아이리스",
-                    "effects": [
-                        {
-                            "trigger": "event:adjacent_hp_below:90",
-                            "target": "all_allies",
-                            "effect": "shield_from_max_hp_pct",
-                            "value": [
-                                6.04,
-                                6.5,
-                                6.96,
-                                7.43,
-                                7.89,
-                                8.36,
-                                8.82,
-                                9.29,
-                                9.75,
-                                10.22
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "아이리스",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "event:adjacent_hp_max",
-                            "target": "all_allies",
-                            "effect": "armor_break_dmg_pct",
-                            "value": [
-                                18.3,
-                                19.71,
-                                21.12,
-                                22.52,
-                                23.93,
-                                25.34,
-                                26.75,
-                                28.16,
-                                29.56,
-                                30.97
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "아이리스 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "event:shield_applied",
-                            "target": "allies_adjacent:2",
-                            "effect": "atk_caster_based_pct",
-                            "value": [
-                                26.66,
-                                28.71,
-                                30.76,
-                                32.81,
-                                34.86,
-                                36.91,
-                                38.96,
-                                41.02,
-                                43.07,
-                                45.12
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "아이리스 3",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "시크릿 가든",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "heal_hp_pct",
-                            "value": [
-                                6.17,
-                                6.65,
-                                7.12,
-                                7.6,
-                                8.07,
-                                8.55,
-                                9.02,
-                                9.5,
-                                9.97,
-                                10.45
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "시크릿 가든",
-                            "type": "instant"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "armor_break_dmg_pct",
-                            "value": [
-                                25.05,
-                                26.98,
-                                28.9,
-                                30.83,
-                                32.76,
-                                34.68,
-                                36.61,
-                                38.54,
-                                40.47,
-                                42.39
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "시크릿 가든 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "atk_caster_based_pct",
-                            "value": [
-                                50.73,
-                                54.64,
-                                58.54,
-                                62.44,
-                                66.35,
-                                70.25,
-                                74.15,
-                                78.05,
-                                81.96,
-                                85.86
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "시크릿 가든 3",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "아이리스",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "event:adjacent_hp_below:90",
+          "target": "all_allies",
+          "effect": "shield_from_max_hp_pct",
+          "value": [
+            6.04,
+            6.5,
+            6.96,
+            7.43,
+            7.89,
+            8.36,
+            8.82,
+            9.29,
+            9.75,
+            10.22
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:adjacent_hp_max",
+          "target": "all_allies",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            18.3,
+            19.71,
+            21.12,
+            22.52,
+            23.93,
+            25.34,
+            26.75,
+            28.16,
+            29.56,
+            30.97
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "시크릿 가든",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            6.17,
+            6.65,
+            7.12,
+            7.6,
+            8.07,
+            8.55,
+            9.02,
+            9.5,
+            9.97,
+            10.45
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            25.05,
+            26.98,
+            28.9,
+            30.83,
+            32.76,
+            34.68,
+            36.61,
+            38.54,
+            40.47,
+            42.39
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "함께 만든 화분",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "피튜니아",
+          "effects": [
+            {
+              "trigger": "battle_start",
+              "target": "allies_adjacent:2",
+              "effect": "heal_hp_pct",
+              "value": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "마음의 평화",
+              "type": "instant"
+            },
+            {
+              "trigger": "battle_start",
+              "target": "allies_adjacent:2",
+              "effect": "heal_received_pct",
+              "value": [
+                2.36,
+                2.55,
+                2.73,
+                2.91,
+                3.09,
+                3.27,
+                3.46,
+                3.64,
+                3.82,
+                4
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "피튜니아",
+              "type": "buff",
+              "stack": 5
+            },
+            {
+              "trigger": "hit_count:100",
+              "target": "allies_code:전격",
+              "effect": "buff_max_stack_add",
+              "value": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "피튜니아 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_enter:2",
+              "target": "allies_adjacent:2",
+              "effect": "hp_only_caster_based_pct",
+              "value": [
+                8.87,
+                9.55,
+                10.24,
+                10.92,
+                11.6,
+                12.28,
+                12.97,
+                13.65,
+                14.33,
+                15.01
+              ],
+              "unit": "percent",
+              "duration": 2,
+              "name": "피튜니아 3",
+              "type": "buff"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "아이리스",
+          "effects": [
+            {
+              "trigger": "event:adjacent_hp_below:90",
+              "target": "all_allies",
+              "effect": "shield_from_max_hp_pct",
+              "value": [
+                6.04,
+                6.5,
+                6.96,
+                7.43,
+                7.89,
+                8.36,
+                8.82,
+                9.29,
+                9.75,
+                10.22
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "아이리스",
+              "type": "buff"
+            },
+            {
+              "trigger": "event:adjacent_hp_max",
+              "target": "all_allies",
+              "effect": "armor_break_dmg_pct",
+              "value": [
+                18.3,
+                19.71,
+                21.12,
+                22.52,
+                23.93,
+                25.34,
+                26.75,
+                28.16,
+                29.56,
+                30.97
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "아이리스 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "event:shield_applied",
+              "target": "allies_adjacent:2",
+              "effect": "atk_caster_based_pct",
+              "value": [
+                26.66,
+                28.71,
+                30.76,
+                32.81,
+                34.86,
+                36.91,
+                38.96,
+                41.02,
+                43.07,
+                45.12
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "아이리스 3",
+              "type": "buff"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "시크릿 가든",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "heal_hp_pct",
+              "value": [
+                6.17,
+                6.65,
+                7.12,
+                7.6,
+                8.07,
+                8.55,
+                9.02,
+                9.5,
+                9.97,
+                10.45
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "시크릿 가든",
+              "type": "instant"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "armor_break_dmg_pct",
+              "value": [
+                25.05,
+                26.98,
+                28.9,
+                30.83,
+                32.76,
+                34.68,
+                36.61,
+                38.54,
+                40.47,
+                42.39
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "시크릿 가든 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "atk_caster_based_pct",
+              "value": [
+                50.73,
+                54.64,
+                58.54,
+                62.44,
+                66.35,
+                70.25,
+                74.15,
+                78.05,
+                81.96,
+                85.86
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "시크릿 가든 3",
+              "type": "buff"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

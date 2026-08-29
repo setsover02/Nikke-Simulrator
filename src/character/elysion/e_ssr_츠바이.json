@@ -1,427 +1,420 @@
 {
-    "characterID": "Char_390",
-    "characterName": "츠바이",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "스쿨 서클",
-        "burstLevel": 1,
-        "atkCoef": 100.75,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 5
-    },
-    "skills": [
+  "characterID": "Char_390",
+  "characterName": "츠바이",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "스쿨 서클",
+    "burstLevel": 1,
+    "atkCoef": 100.75,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 5
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "관통 계산식",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "관통 계산식",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        11.89,
-                        12.81,
-                        13.72,
-                        14.64,
-                        15.55,
-                        16.47,
-                        17.38,
-                        18.3,
-                        19.21,
-                        20.13
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "관통 계산식",
-                    "type": "buff",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        5.94,
-                        6.4,
-                        6.86,
-                        7.32,
-                        7.77,
-                        8.23,
-                        8.69,
-                        9.15,
-                        9.6,
-                        10.06
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "관통 계산식 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            11.89,
+            12.81,
+            13.72,
+            14.64,
+            15.55,
+            16.47,
+            17.38,
+            18.3,
+            19.21,
+            20.13
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
         },
         {
-            "id": "skill_2",
-            "name": "골조 해석",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:5",
-                    "target": "all_allies",
-                    "effect": "cover_heal_pct",
-                    "value": [
-                        4.38,
-                        4.73,
-                        5.08,
-                        5.43,
-                        5.78,
-                        6.13,
-                        6.48,
-                        6.83,
-                        7.17,
-                        7.52
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "골조 해석",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        11.01,
-                        11.86,
-                        12.7,
-                        13.55,
-                        14.4,
-                        15.25,
-                        16.09,
-                        16.94,
-                        17.79,
-                        18.63
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "골조 해석 2",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "과충전 공식",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "과충전 공식",
-                    "type": "weapon_change",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "과충전 공식 2",
-                    "type": "buff",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        9.15,
-                        9.85,
-                        10.56,
-                        11.26,
-                        11.96,
-                        12.67,
-                        13.37,
-                        14.08,
-                        14.78,
-                        15.48
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "과충전 공식 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            5.94,
+            6.4,
+            6.86,
+            7.32,
+            7.77,
+            8.23,
+            8.69,
+            9.15,
+            9.6,
+            10.06
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         }
-    ],
-    "favoriteItem": {
-        "itemName": "네잎클로버 책갈피",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "과충전 공식",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "atk_pct",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "과충전 공식",
-                            "type": "weapon_change",
-                            "bullet": 1
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "pierce_enabled",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "과충전 공식 2",
-                            "type": "buff",
-                            "bullet": 1
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "pierce_dmg_pct",
-                            "value": [
-                                14.79,
-                                15.92,
-                                17.06,
-                                18.2,
-                                19.34,
-                                20.48,
-                                21.61,
-                                22.75,
-                                23.89,
-                                25.03
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "관통학 개론",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "골조 해석",
-                    "effects": [
-                        {
-                            "trigger": "hit_count:5",
-                            "target": "all_allies",
-                            "effect": "cover_heal_pct",
-                            "value": [
-                                4.38,
-                                4.73,
-                                5.08,
-                                5.43,
-                                5.78,
-                                6.13,
-                                6.48,
-                                6.83,
-                                7.17,
-                                7.52
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "골조 해석",
-                            "type": "instant"
-                        },
-                        {
-                            "trigger": "full_burst_start",
-                            "target": "all_allies",
-                            "effect": "crit_rate",
-                            "value": [
-                                11.01,
-                                11.86,
-                                12.7,
-                                13.55,
-                                14.4,
-                                15.25,
-                                16.09,
-                                16.94,
-                                17.79,
-                                18.63
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "골조 해석 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "on_attack",
-                            "target": "all_allies",
-                            "effect": "crit_rate",
-                            "value": [
-                                8.86,
-                                9.55,
-                                10.23,
-                                10.91,
-                                11.59,
-                                12.28,
-                                12.96,
-                                13.64,
-                                14.32,
-                                15
-                            ],
-                            "unit": "percent",
-                            "duration": 5,
-                            "name": "골조 해석 3",
-                            "type": "buff",
-                            "condition": "self_state:관통학 개론",
-                            "stack": 3
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "관통 계산식",
-                    "effects": [
-                        {
-                            "trigger": "full_burst_start",
-                            "target": "all_allies",
-                            "effect": "pierce_dmg_pct",
-                            "value": [
-                                11.89,
-                                12.81,
-                                13.72,
-                                14.64,
-                                15.55,
-                                16.47,
-                                17.38,
-                                18.3,
-                                19.21,
-                                20.13
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "관통 계산식",
-                            "type": "buff",
-                            "bullet": 1
-                        },
-                        {
-                            "trigger": "full_burst_start",
-                            "target": "all_allies",
-                            "effect": "pierce_dmg_pct",
-                            "value": [
-                                5.94,
-                                6.4,
-                                6.86,
-                                7.32,
-                                7.77,
-                                8.23,
-                                8.69,
-                                9.15,
-                                9.6,
-                                10.06
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "관통 계산식 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "on_attack",
-                            "target": "all_allies",
-                            "effect": "pierce_dmg_pct",
-                            "value": [
-                                14.76,
-                                15.9,
-                                17.04,
-                                18.17,
-                                19.31,
-                                20.44,
-                                21.58,
-                                22.72,
-                                23.85,
-                                24.99
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "관통 계산식 3",
-                            "type": "buff",
-                            "condition": "during_full_burst",
-                            "stack": 3,
-                            "bullet": 1
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "골조 해석",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:5",
+          "target": "all_allies",
+          "effect": "cover_heal_pct",
+          "value": [
+            4.38,
+            4.73,
+            5.08,
+            5.43,
+            5.78,
+            6.13,
+            6.48,
+            6.83,
+            7.17,
+            7.52
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            11.01,
+            11.86,
+            12.7,
+            13.55,
+            14.4,
+            15.25,
+            16.09,
+            16.94,
+            17.79,
+            18.63
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "과충전 공식",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "weapon_change",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            9.15,
+            9.85,
+            10.56,
+            11.26,
+            11.96,
+            12.67,
+            13.37,
+            14.08,
+            14.78,
+            15.48
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "네잎클로버 책갈피",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "과충전 공식",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "atk_pct",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "과충전 공식",
+              "type": "weapon_change",
+              "bullet": 1
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "pierce_enabled",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "과충전 공식 2",
+              "type": "buff",
+              "bullet": 1
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "pierce_dmg_pct",
+              "value": [
+                14.79,
+                15.92,
+                17.06,
+                18.2,
+                19.34,
+                20.48,
+                21.61,
+                22.75,
+                23.89,
+                25.03
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "관통학 개론",
+              "type": "buff"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "골조 해석",
+          "effects": [
+            {
+              "trigger": "hit_count:5",
+              "target": "all_allies",
+              "effect": "cover_heal_pct",
+              "value": [
+                4.38,
+                4.73,
+                5.08,
+                5.43,
+                5.78,
+                6.13,
+                6.48,
+                6.83,
+                7.17,
+                7.52
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "골조 해석",
+              "type": "instant"
+            },
+            {
+              "trigger": "full_burst_start",
+              "target": "all_allies",
+              "effect": "crit_rate",
+              "value": [
+                11.01,
+                11.86,
+                12.7,
+                13.55,
+                14.4,
+                15.25,
+                16.09,
+                16.94,
+                17.79,
+                18.63
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "골조 해석 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "on_attack",
+              "target": "all_allies",
+              "effect": "crit_rate",
+              "value": [
+                8.86,
+                9.55,
+                10.23,
+                10.91,
+                11.59,
+                12.28,
+                12.96,
+                13.64,
+                14.32,
+                15
+              ],
+              "unit": "percent",
+              "duration": 5,
+              "name": "골조 해석 3",
+              "type": "buff",
+              "condition": "self_state:관통학 개론",
+              "stack": 3
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "관통 계산식",
+          "effects": [
+            {
+              "trigger": "full_burst_start",
+              "target": "all_allies",
+              "effect": "pierce_dmg_pct",
+              "value": [
+                11.89,
+                12.81,
+                13.72,
+                14.64,
+                15.55,
+                16.47,
+                17.38,
+                18.3,
+                19.21,
+                20.13
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "관통 계산식",
+              "type": "buff",
+              "bullet": 1
+            },
+            {
+              "trigger": "full_burst_start",
+              "target": "all_allies",
+              "effect": "pierce_dmg_pct",
+              "value": [
+                5.94,
+                6.4,
+                6.86,
+                7.32,
+                7.77,
+                8.23,
+                8.69,
+                9.15,
+                9.6,
+                10.06
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "관통 계산식 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "on_attack",
+              "target": "all_allies",
+              "effect": "pierce_dmg_pct",
+              "value": [
+                14.76,
+                15.9,
+                17.04,
+                18.17,
+                19.31,
+                20.44,
+                21.58,
+                22.72,
+                23.85,
+                24.99
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "관통 계산식 3",
+              "type": "buff",
+              "condition": "during_full_burst",
+              "stack": 3,
+              "bullet": 1
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

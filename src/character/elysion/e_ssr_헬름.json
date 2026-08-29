@@ -1,376 +1,371 @@
 {
-    "characterID": "Char_352",
-    "characterName": "헬름",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "SR",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "이지스",
-        "burstLevel": 3,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_352",
+  "characterName": "헬름",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "SR",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "이지스",
+    "burstLevel": 3,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "진두지휘",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "진두지휘",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet",
-                    "target": "all_allies",
-                    "effect": "normal_atk_crit_rate",
-                    "value": [
-                        8.65,
-                        9.31,
-                        9.98,
-                        10.64,
-                        11.31,
-                        11.98,
-                        12.64,
-                        13.31,
-                        13.97,
-                        14.64
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "진두지휘",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "포문 개방",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "intercept_dmg_pct",
-                    "value": [
-                        1.82,
-                        1.96,
-                        2.1,
-                        2.24,
-                        2.38,
-                        2.52,
-                        2.66,
-                        2.8,
-                        2.94,
-                        3.08
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "포문 개방",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        7,
-                        7.54,
-                        8.08,
-                        8.62,
-                        9.15,
-                        9.69,
-                        10.23,
-                        10.77,
-                        11.31,
-                        11.85
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "포문 개방 2",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "이지스 캐논",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_top_atk:1",
-                    "effect": "burst_damage",
-                    "value": [
-                        731.25,
-                        787.5,
-                        843.75,
-                        900,
-                        956.25,
-                        1012.5,
-                        1068.75,
-                        1125,
-                        1181.25,
-                        1237.5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "이지스 캐논",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "lifesteal_pct",
-                    "value": [
-                        32.17,
-                        34.65,
-                        37.12,
-                        39.6,
-                        42.07,
-                        44.55,
-                        47.02,
-                        49.5,
-                        51.97,
-                        54.45
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "이지스 캐논 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "last_bullet",
+          "target": "all_allies",
+          "effect": "normal_atk_crit_rate",
+          "value": [
+            8.65,
+            9.31,
+            9.98,
+            10.64,
+            11.31,
+            11.98,
+            12.64,
+            13.31,
+            13.97,
+            14.64
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         }
-    ],
-    "favoriteItem": {
-        "itemName": "낡은 나침반",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "진두지휘",
-                    "effects": [
-                        {
-                            "trigger": "last_bullet",
-                            "target": "all_allies",
-                            "effect": "normal_atk_crit_rate",
-                            "value": [
-                                8.65,
-                                9.31,
-                                9.98,
-                                10.64,
-                                11.31,
-                                11.98,
-                                12.64,
-                                13.31,
-                                13.97,
-                                14.64
-                            ],
-                            "unit": "percent",
-                            "duration": 5,
-                            "name": "진두지휘",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "full_charge_hit",
-                            "target": "all_allies",
-                            "effect": "heal_hp_pct",
-                            "value": [
-                                0.34,
-                                0.37,
-                                0.4,
-                                0.42,
-                                0.45,
-                                0.48,
-                                0.51,
-                                0.53,
-                                0.56,
-                                0.59
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "진두지휘 2",
-                            "type": "instant",
-                            "scaling": "max_hp"
-                        },
-                        {
-                            "trigger": "full_charge_hit",
-                            "target": "all_allies",
-                            "effect": "burst_charge_pct",
-                            "value": [
-                                8.46,
-                                9.11,
-                                9.76,
-                                10.41,
-                                11.06,
-                                11.71,
-                                12.36,
-                                13.01,
-                                13.66,
-                                14.31
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "진두지휘 3",
-                            "type": "instant"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "포문 개방",
-                    "effects": [
-                        {
-                            "trigger": "passive",
-                            "target": "all_allies",
-                            "effect": "intercept_dmg_pct",
-                            "value": [
-                                1.82,
-                                1.96,
-                                2.1,
-                                2.24,
-                                2.38,
-                                2.52,
-                                2.66,
-                                2.8,
-                                2.94,
-                                3.08
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "포문 개방",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "full_burst_start",
-                            "target": "all_allies",
-                            "effect": "atk_dmg_pct",
-                            "value": [
-                                16.47,
-                                17.74,
-                                19,
-                                20.27,
-                                21.54,
-                                22.8,
-                                24.07,
-                                25.34,
-                                26.61,
-                                27.87
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "포문 개방 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "full_charge_hit",
-                            "target": "target",
-                            "effect": "bonus_damage",
-                            "value": [
-                                105.76,
-                                113.89,
-                                122.03,
-                                130.16,
-                                138.3,
-                                146.44,
-                                154.57,
-                                162.71,
-                                170.84,
-                                178.98
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "포문 개방 3",
-                            "type": "damage"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "이지스 캐논",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "enemies_top_atk:1",
-                            "effect": "burst_damage",
-                            "value": [
-                                4867.2,
-                                5241.6,
-                                5616,
-                                5990.4,
-                                6364.8,
-                                6739.2,
-                                7113.6,
-                                7488,
-                                7862.4,
-                                8236.8
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "이지스 캐논",
-                            "type": "damage"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "lifesteal_pct",
-                            "value": [
-                                32.17,
-                                34.65,
-                                37.12,
-                                39.6,
-                                42.07,
-                                44.55,
-                                47.02,
-                                49.5,
-                                51.97,
-                                54.45
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "이지스 캐논 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "charge_dmg_mag_pct",
-                            "value": [
-                                93.6,
-                                100.8,
-                                108,
-                                115.2,
-                                122.4,
-                                129.6,
-                                136.8,
-                                144,
-                                151.2,
-                                158.4
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "이지스 캐논 3",
-                            "type": "buff",
-                            "bullet": 10
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "포문 개방",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "intercept_dmg_pct",
+          "value": [
+            1.82,
+            1.96,
+            2.1,
+            2.24,
+            2.38,
+            2.52,
+            2.66,
+            2.8,
+            2.94,
+            3.08
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            7,
+            7.54,
+            8.08,
+            8.62,
+            9.15,
+            9.69,
+            10.23,
+            10.77,
+            11.31,
+            11.85
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "이지스 캐논",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_top_atk:1",
+          "effect": "burst_damage",
+          "value": [
+            731.25,
+            787.5,
+            843.75,
+            900,
+            956.25,
+            1012.5,
+            1068.75,
+            1125,
+            1181.25,
+            1237.5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "lifesteal_pct",
+          "value": [
+            32.17,
+            34.65,
+            37.12,
+            39.6,
+            42.07,
+            44.55,
+            47.02,
+            49.5,
+            51.97,
+            54.45
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "낡은 나침반",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "진두지휘",
+          "effects": [
+            {
+              "trigger": "last_bullet",
+              "target": "all_allies",
+              "effect": "normal_atk_crit_rate",
+              "value": [
+                8.65,
+                9.31,
+                9.98,
+                10.64,
+                11.31,
+                11.98,
+                12.64,
+                13.31,
+                13.97,
+                14.64
+              ],
+              "unit": "percent",
+              "duration": 5,
+              "name": "진두지휘",
+              "type": "buff"
+            },
+            {
+              "trigger": "full_charge_hit",
+              "target": "all_allies",
+              "effect": "heal_hp_pct",
+              "value": [
+                0.34,
+                0.37,
+                0.4,
+                0.42,
+                0.45,
+                0.48,
+                0.51,
+                0.53,
+                0.56,
+                0.59
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "진두지휘 2",
+              "type": "instant",
+              "scaling": "max_hp"
+            },
+            {
+              "trigger": "full_charge_hit",
+              "target": "all_allies",
+              "effect": "burst_charge_pct",
+              "value": [
+                8.46,
+                9.11,
+                9.76,
+                10.41,
+                11.06,
+                11.71,
+                12.36,
+                13.01,
+                13.66,
+                14.31
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "진두지휘 3",
+              "type": "instant"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "포문 개방",
+          "effects": [
+            {
+              "trigger": "passive",
+              "target": "all_allies",
+              "effect": "intercept_dmg_pct",
+              "value": [
+                1.82,
+                1.96,
+                2.1,
+                2.24,
+                2.38,
+                2.52,
+                2.66,
+                2.8,
+                2.94,
+                3.08
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "포문 개방",
+              "type": "buff"
+            },
+            {
+              "trigger": "full_burst_start",
+              "target": "all_allies",
+              "effect": "atk_dmg_pct",
+              "value": [
+                16.47,
+                17.74,
+                19,
+                20.27,
+                21.54,
+                22.8,
+                24.07,
+                25.34,
+                26.61,
+                27.87
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "포문 개방 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "full_charge_hit",
+              "target": "target",
+              "effect": "bonus_damage",
+              "value": [
+                105.76,
+                113.89,
+                122.03,
+                130.16,
+                138.3,
+                146.44,
+                154.57,
+                162.71,
+                170.84,
+                178.98
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "포문 개방 3",
+              "type": "damage"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "이지스 캐논",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "enemies_top_atk:1",
+              "effect": "burst_damage",
+              "value": [
+                4867.2,
+                5241.6,
+                5616,
+                5990.4,
+                6364.8,
+                6739.2,
+                7113.6,
+                7488,
+                7862.4,
+                8236.8
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "이지스 캐논",
+              "type": "damage"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "lifesteal_pct",
+              "value": [
+                32.17,
+                34.65,
+                37.12,
+                39.6,
+                42.07,
+                44.55,
+                47.02,
+                49.5,
+                51.97,
+                54.45
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "이지스 캐논 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "charge_dmg_mag_pct",
+              "value": [
+                93.6,
+                100.8,
+                108,
+                115.2,
+                122.4,
+                129.6,
+                136.8,
+                144,
+                151.2,
+                158.4
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "이지스 캐논 3",
+              "type": "buff",
+              "bullet": 10
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

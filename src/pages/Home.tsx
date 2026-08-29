@@ -34,6 +34,7 @@ import { OutpostCard } from '../components/OutpostCard/OutpostCard';
 import { Grid } from '../components/Layout/Grid';
 import { Modal } from '../components/Modal';
 import ProfileSyncModal from '../components/ProfileSyncModal/ProfileSyncModal';
+import { checkAndProcessUrlSync } from '../utils/profileSync';
 
 const Home: React.FC = () => {
     // 5 Character slots: null means empty
@@ -53,6 +54,22 @@ const Home: React.FC = () => {
         const handleResize = () => setIsDesktop(window.innerWidth >= 1280);
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // 북마클릿을 통한 들어오는 동기화 요청 자동 처리
+    useEffect(() => {
+        checkAndProcessUrlSync().then((res) => {
+            if (res && res.success) {
+                const freshOutpost = loadOutpostState();
+                setOutpostState(freshOutpost);
+                setSlots(prev => prev.map(s => {
+                    if (!s || !s.char) return s;
+                    const fresh = getCharDefaultState(s.char);
+                    return { ...s, ...fresh, char: s.char };
+                }));
+                alert(`🎉 [북마클릿 연동 성공] 총 ${res.syncedCount}명의 니케 육성 데이터가 동기화되었습니다!`);
+            }
+        });
     }, []);
 
     // Outpost level settings
@@ -205,6 +222,33 @@ const Home: React.FC = () => {
         saveTeamLayout(nextSlots.map(s => s?.char?.data?.characterID ?? null));
     };
 
+    const handleGlobalCubeChange = (cubeId: string, level: string) => {
+        setSlots(prev => prev.map(s => {
+            if (s && s.cubeName === cubeId) {
+                const merged = { ...s, cubeLevel: level };
+                if (s.char?.data?.characterID) {
+                    const { char, ...stateToSave } = merged;
+                    saveCharSettings(char.data.characterID, stateToSave);
+                }
+                return merged;
+            }
+            return s;
+        }));
+    };
+
+    const handleSwapSlots = (fromIdx: number, toIdx: number) => {
+        if (fromIdx === toIdx) return;
+        setSlots(prev => {
+            const next = [...prev];
+            while (next.length < 5) next.push(null);
+            const temp = next[fromIdx];
+            next[fromIdx] = next[toIdx];
+            next[toIdx] = temp;
+            saveTeamLayout(next.map(s => s?.char?.data?.characterID ?? null));
+            return next;
+        });
+    };
+
     // Handler when user clicks an avatar in the right CharacterSelectionPanel
     const handleSelectCharacterFromPanel = (charOption: typeof characterOptions[0]) => {
         const charID = charOption.data.characterID;
@@ -262,6 +306,7 @@ const Home: React.FC = () => {
                 <GlobalLevelPanel
                     outpostState={outpostState}
                     onChange={handleOutpostChange}
+                    onCubeChange={handleGlobalCubeChange}
                     onOpenProfileSync={() => setIsProfileSyncOpen(true)}
                 />
             </OutpostCard>
@@ -283,6 +328,7 @@ const Home: React.FC = () => {
                     <SquadAvatarList
                         slots={slots}
                         onUpdateSlot={updateSlot}
+                        onSwapSlots={handleSwapSlots}
                         onOpenDetailModal={(idx) => {
                             const isFilled = Boolean(slots[idx]?.char);
                             if (isFilled) {

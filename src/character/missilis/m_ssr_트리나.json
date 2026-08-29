@@ -1,322 +1,309 @@
 {
-    "characterID": "Char_412",
-    "characterName": "트리나",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "보타닉 가든",
-        "burstLevel": 2,
-        "atkCoef": 68.59,
-        "maxAmmo": 6,
-        "reloadTime": 0.83,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_412",
+  "characterName": "트리나",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "보타닉 가든",
+    "burstLevel": 2,
+    "atkCoef": 68.59,
+    "maxAmmo": 6,
+    "reloadTime": 0.83,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "네이처 그레이스",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "네이처 그레이스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_end",
-                    "target": "all_allies",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        2.4,
-                        2.58,
-                        2.77,
-                        2.95,
-                        3.14,
-                        3.32,
-                        3.51,
-                        3.69,
-                        3.88,
-                        4.06
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "네이처 그레이스",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "allies_lowest_hp:2",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.2,
-                        1.29,
-                        1.38,
-                        1.48,
-                        1.57,
-                        1.66,
-                        1.75,
-                        1.85,
-                        1.94,
-                        2.03
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "네이처 그레이스 2",
-                    "type": "instant",
-                    "condition": "ally_hp_below:30"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "allies_lowest_hp:2",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        1.03,
-                        1.09,
-                        1.15,
-                        1.21,
-                        1.27,
-                        1.33,
-                        1.39,
-                        1.45,
-                        1.51,
-                        1.57
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "네이처 그레이스 3",
-                    "type": "instant",
-                    "condition": "ally_hp_below:50"
-                }
-            ]
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "heal_hp_pct",
+          "value": [
+            2.4,
+            2.58,
+            2.77,
+            2.95,
+            3.14,
+            3.32,
+            3.51,
+            3.69,
+            3.88,
+            4.06
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "instant"
         },
         {
-            "id": "skill_2",
-            "name": "피스풀 트리",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "allies_code_weapon:전격:AR",
-                    "effect": "hp_only_caster_based_pct",
-                    "value": [
-                        26.57,
-                        28.62,
-                        30.66,
-                        32.71,
-                        34.75,
-                        36.8,
-                        38.84,
-                        40.89,
-                        42.93,
-                        44.98
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "피스풀 트리",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "allies_code_weapon_leftmost:전격:AR:1",
-                    "effect": "invincible",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 2,
-                    "name": "피스풀 트리 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code_weapon_leftmost:전격:AR:1",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        55.64,
-                        59.92,
-                        64.2,
-                        68.48,
-                        72.76,
-                        77.04,
-                        81.32,
-                        85.6,
-                        89.87,
-                        94.15
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "피스풀 트리 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code_weapon_leftmost:전격:AR:1",
-                    "effect": "reload_speed_pct",
-                    "value": [
-                        30.03,
-                        32.34,
-                        34.65,
-                        36.96,
-                        39.27,
-                        41.58,
-                        43.89,
-                        46.2,
-                        48.51,
-                        50.82
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "피스풀 트리 4",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "allies_lowest_hp:2",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.2,
+            1.29,
+            1.38,
+            1.48,
+            1.57,
+            1.66,
+            1.75,
+            1.85,
+            1.94,
+            2.03
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "ally_hp_below:30"
         },
         {
-            "id": "burst",
-            "name": "머덜리 포레스트",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "hp_only_caster_based_pct",
-                    "value": [
-                        11.9,
-                        12.82,
-                        13.73,
-                        14.65,
-                        15.56,
-                        16.48,
-                        17.4,
-                        18.31,
-                        19.23,
-                        20.14
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "머덜리 포레스트",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        12.35,
-                        13.3,
-                        14.25,
-                        15.2,
-                        16.15,
-                        17.1,
-                        18.05,
-                        19,
-                        19.95,
-                        20.9
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "머덜리 포레스트 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "burst_dmg_aoe_pct",
-                    "value": [
-                        257.4,
-                        277.2,
-                        297,
-                        316.8,
-                        336.6,
-                        356.4,
-                        376.2,
-                        396,
-                        415.8,
-                        435.6
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "뻗은 뿌리",
-                    "type": "buff",
-                    "condition": "enemy_count_below:1"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "burst_dmg_aoe_pct",
-                    "value": [
-                        38.09,
-                        41.02,
-                        43.95,
-                        46.88,
-                        49.81,
-                        52.74,
-                        55.67,
-                        58.6,
-                        61.53,
-                        64.46
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "시든 뿌리",
-                    "type": "buff",
-                    "condition": "enemy_count_above:2"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code_weapon:전격:AR",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        26.76,
-                        28.82,
-                        30.88,
-                        32.94,
-                        35,
-                        37.06,
-                        39.12,
-                        41.18,
-                        43.24,
-                        45.3
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "머덜리 포레스트 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code_weapon:전격:AR",
-                    "effect": "max_ammo_flat",
-                    "value": [
-                        10,
-                        11,
-                        12,
-                        13,
-                        14,
-                        15,
-                        16,
-                        17,
-                        18,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "머덜리 포레스트 4",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "allies_lowest_hp:2",
+          "effect": "heal_hp_pct",
+          "value": [
+            1.03,
+            1.09,
+            1.15,
+            1.21,
+            1.27,
+            1.33,
+            1.39,
+            1.45,
+            1.51,
+            1.57
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "ally_hp_below:50"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "피스풀 트리",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "allies_code_weapon:전격:AR",
+          "effect": "hp_only_caster_based_pct",
+          "value": [
+            26.57,
+            28.62,
+            30.66,
+            32.71,
+            34.75,
+            36.8,
+            38.84,
+            40.89,
+            42.93,
+            44.98
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "allies_code_weapon_leftmost:전격:AR:1",
+          "effect": "invincible",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 2,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code_weapon_leftmost:전격:AR:1",
+          "effect": "atk_dmg_pct",
+          "value": [
+            55.64,
+            59.92,
+            64.2,
+            68.48,
+            72.76,
+            77.04,
+            81.32,
+            85.6,
+            89.87,
+            94.15
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code_weapon_leftmost:전격:AR:1",
+          "effect": "reload_speed_pct",
+          "value": [
+            30.03,
+            32.34,
+            34.65,
+            36.96,
+            39.27,
+            41.58,
+            43.89,
+            46.2,
+            48.51,
+            50.82
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "머덜리 포레스트",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "hp_only_caster_based_pct",
+          "value": [
+            11.9,
+            12.82,
+            13.73,
+            14.65,
+            15.56,
+            16.48,
+            17.4,
+            18.31,
+            19.23,
+            20.14
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            12.35,
+            13.3,
+            14.25,
+            15.2,
+            16.15,
+            17.1,
+            18.05,
+            19,
+            19.95,
+            20.9
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "burst_dmg_aoe_pct",
+          "value": [
+            257.4,
+            277.2,
+            297,
+            316.8,
+            336.6,
+            356.4,
+            376.2,
+            396,
+            415.8,
+            435.6
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "condition": "enemy_count_below:1"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "burst_dmg_aoe_pct",
+          "value": [
+            38.09,
+            41.02,
+            43.95,
+            46.88,
+            49.81,
+            52.74,
+            55.67,
+            58.6,
+            61.53,
+            64.46
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "condition": "enemy_count_above:2"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code_weapon:전격:AR",
+          "effect": "accuracy_pct",
+          "value": [
+            26.76,
+            28.82,
+            30.88,
+            32.94,
+            35,
+            37.06,
+            39.12,
+            41.18,
+            43.24,
+            45.3
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code_weapon:전격:AR",
+          "effect": "max_ammo_flat",
+          "value": [
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            20
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

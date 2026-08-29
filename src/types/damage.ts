@@ -1,6 +1,5 @@
 // types/damage.ts
 // 니케 DealForm ①~⑦ 기준 파라미터 정의 — PARSING.md + IMPL-STATUS.md 기준
-// 레거시 필드(ignoreDefDmgUp, projectileDmgUp, interruptionPartDmgUp) 제거 완료
 
 export interface DamageParams {
 
@@ -73,7 +72,15 @@ export interface DamageParams {
    dotDmgUp: number;    // dot_dmg_pct (is_dot=true 히트)
    pierceDmgUp: number; // pierce_dmg_pct (is_pierce_damage=true 히트)
    partDmgUp: number;   // part_dmg_pct (is_part=true 히트)
-   extraDmgUp: number;  // 기타 (예비)
+   extraDmgUp: number;
+   projectileDmgUp?: number;  // 기타 (예비)
+   projectileAttachmentDmgUp?: number; // projectile_attachment_dmg_pct (is_projectile_attachment=true)
+   projectileExplosionDmgUp?: number;  // projectile_explosion_dmg_pct (is_projectile_explosion=true)
+   burstDmgUp?: number;       // burst_dmg_pct (is_burst_damage=true)
+   burstAoeDmgUp?: number;    // burst_dmg_aoe_pct (is_aoe_burst=true)
+   sequentialDmgUp?: number;  // sequential_dmg_pct (is_sequential=true)
+   armorBreakDmgUp?: number;  // armor_break_dmg_pct (is_armor_break_damage=true)
+   ignoreDefDmgUp?: number;
 
 
    /* ================================================

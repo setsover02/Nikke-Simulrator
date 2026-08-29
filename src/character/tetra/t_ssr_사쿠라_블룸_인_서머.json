@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "피어나다 4",
           "type": "instant"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": 30,
-          "name": "피어나다",
           "type": "buff"
         },
         {
@@ -84,7 +82,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "피어나다 2",
           "type": "instant",
           "condition": "self_state:춤추는 꽃",
           "target_effect": "춤추는 꽃"
@@ -107,7 +104,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "피어나다 3",
           "type": "instant",
           "target_effect": "벚꽃잎"
         }
@@ -186,7 +182,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "화양연화",
           "type": "damage",
           "hits": 10
         },
@@ -208,7 +203,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "화양연화 2",
           "type": "damage",
           "stack": 10,
           "scaling": "stack_count"

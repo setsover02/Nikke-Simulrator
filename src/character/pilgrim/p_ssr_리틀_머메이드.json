@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "버블 오더",
           "type": "buff",
           "condition": "focusing"
         },
@@ -64,7 +63,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "버블 오더 2",
           "type": "instant"
         },
         {
@@ -85,7 +83,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "버블 오더 3",
           "type": "buff"
         },
         {
@@ -106,7 +103,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "버블 오더 4",
           "type": "instant"
         }
       ]
@@ -155,7 +151,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "터진 거품",
           "type": "buff",
           "condition": "target_state:거품"
         },
@@ -177,7 +172,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "터진 거품 2",
           "type": "buff",
           "condition": "target_state:거품"
         },
@@ -199,7 +193,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "터진 거품 3",
           "type": "instant",
           "condition": "target_state:거품",
           "target_effect": "거품"
@@ -222,7 +215,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "버블 웨이브",
           "type": "damage",
           "condition": "during_full_burst",
           "hits": 4
@@ -245,7 +237,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "거품 난사",
           "type": "damage",
           "hits": 10
         }
@@ -275,7 +266,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "세이렌 송",
           "type": "buff"
         },
         {
@@ -296,7 +286,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "세이렌 송 2",
           "type": "instant"
         },
         {
@@ -317,7 +306,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "세이렌 송 3",
           "type": "buff"
         }
       ]

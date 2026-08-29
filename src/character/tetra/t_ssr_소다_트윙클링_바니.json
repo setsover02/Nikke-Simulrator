@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "럭키 골든 칩",
           "type": "instant",
           "target_effect": "골든 칩",
           "_unparseable": true,
@@ -89,7 +88,6 @@
           ],
           "unit": "percent",
           "duration": 2,
-          "name": "럭키 골든 칩 2",
           "type": "buff",
           "condition": "during_full_burst"
         },
@@ -111,7 +109,6 @@
           ],
           "unit": "percent",
           "duration": 2,
-          "name": "럭키 골든 칩 2",
           "type": "buff",
           "condition": "during_full_burst"
         }
@@ -140,7 +137,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "시간 연장 I",
           "type": "buff",
           "condition": "self_stack_above:골든 칩:9"
         },
@@ -162,7 +158,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "시간 연장 II",
           "type": "buff",
           "condition": "self_stack_above:골든 칩:19"
         },
@@ -184,7 +179,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "비기너즈 베네핏 I",
           "type": "damage",
           "condition": "during_full_burst"
         },
@@ -206,7 +200,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "비기너즈 베네핏 II",
           "type": "damage",
           "condition": "during_full_burst"
         }
@@ -236,7 +229,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "고 어헤드, 소다!",
           "type": "damage"
         },
         {
@@ -257,7 +249,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "고 어헤드, 소다! 2",
           "type": "buff",
           "condition": "self_stack_above:골든 칩:19"
         },
@@ -279,7 +270,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "고 어헤드, 소다! 3",
           "type": "buff",
           "condition": "self_stack_above:골든 칩:29"
         },
@@ -301,7 +291,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "고 어헤드, 소다! 4",
           "type": "instant",
           "target_effect": "골든 칩",
           "_unparseable": true,

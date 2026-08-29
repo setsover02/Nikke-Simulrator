@@ -1,632 +1,620 @@
 {
-    "characterID": "Char_281",
-    "characterName": "목단",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "AR",
-        "class": "방어형",
-        "company": "Tetra",
-        "squad": "언더월드 퀸",
-        "burstLevel": 1,
-        "atkCoef": 14.71,
-        "maxAmmo": 60,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_281",
+  "characterName": "목단",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "AR",
+    "class": "방어형",
+    "company": "Tetra",
+    "squad": "언더월드 퀸",
+    "burstLevel": 1,
+    "atkCoef": 14.71,
+    "maxAmmo": 60,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "다 덤벼!",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "다 덤벼!",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        1.93,
-                        2.1,
-                        2.28,
-                        2.45,
-                        2.63,
-                        2.81,
-                        2.98,
-                        3.16,
-                        3.33,
-                        3.51
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "다 덤벼!",
-                    "type": "buff",
-                    "scaling": "lost_hp_pct"
-                },
-                {
-                    "trigger": "hit_count:5",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        25.95,
-                        28.31,
-                        30.67,
-                        33.03,
-                        35.38,
-                        37.74,
-                        40.1,
-                        42.46,
-                        44.82,
-                        47.18
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "다 덤벼! 2",
-                    "type": "damage",
-                    "condition": "self_state:무기 변경"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            1.93,
+            2.1,
+            2.28,
+            2.45,
+            2.63,
+            2.81,
+            2.98,
+            3.16,
+            3.33,
+            3.51
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "scaling": "lost_hp_pct"
         },
         {
-            "id": "skill_2",
-            "name": "여긴 내가 맡는다!",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "last_bullet_fire",
-                    "target": "enemies_top_atk:3",
-                    "effect": "taunt",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 4,
-                    "name": "여긴 내가 맡는다!",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hp_below_count:20:1",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        55,
-                        59,
-                        63,
-                        67,
-                        71,
-                        75,
-                        79,
-                        83,
-                        87,
-                        91
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "근성 1",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hp_below_count:20:2",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        36.09,
-                        39.84,
-                        43.59,
-                        47.34,
-                        51.09,
-                        54.84,
-                        58.59,
-                        62.34,
-                        66.09,
-                        69.84
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "근성 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hp_below_count:20:3",
-                    "target": "self",
-                    "effect": "max_hp_pct",
-                    "value": [
-                        25.78,
-                        28.59,
-                        31.4,
-                        34.21,
-                        37.03,
-                        39.84,
-                        42.65,
-                        45.46,
-                        48.28,
-                        51.09
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "근성 3",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "정정당당 승부다!",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "정정당당 승부다!",
-                    "type": "weapon_change"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "lifesteal_pct",
-                    "value": [
-                        19.89,
-                        21.7,
-                        23.51,
-                        25.31,
-                        27.12,
-                        28.92,
-                        30.73,
-                        32.53,
-                        34.34,
-                        36.14
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "정정당당 승부다! 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "taunt",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "주목",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        -21.78,
-                        -23.26,
-                        -24.75,
-                        -26.23,
-                        -27.72,
-                        -29.2,
-                        -30.69,
-                        -32.17,
-                        -33.66,
-                        -35.14
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "정정당당 승부다! 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "def_caster_based_pct",
-                    "value": [
-                        8.16,
-                        8.91,
-                        9.65,
-                        10.39,
-                        11.13,
-                        11.88,
-                        12.62,
-                        13.36,
-                        14.1,
-                        14.85
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "정정당당 승부다! 4",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "cover_disabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "정정당당 승부다! 6",
-                    "type": "buff",
-                    "condition": "self_state:정정당당 승부다!"
-                }
-            ]
+          "trigger": "hit_count:5",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            25.95,
+            28.31,
+            30.67,
+            33.03,
+            35.38,
+            37.74,
+            40.1,
+            42.46,
+            44.82,
+            47.18
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:무기 변경"
         }
-    ],
-    "favoriteItem": {
-        "itemName": "모란꽃 모양 비녀",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "다 덤벼!",
-                    "effects": [
-                        {
-                            "trigger": "battle_start",
-                            "target": "self",
-                            "effect": "def_pct",
-                            "value": [
-                                1.93,
-                                2.1,
-                                2.28,
-                                2.45,
-                                2.63,
-                                2.81,
-                                2.98,
-                                3.16,
-                                3.33,
-                                3.51
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "다 덤벼!",
-                            "type": "buff",
-                            "scaling": "lost_hp_pct"
-                        },
-                        {
-                            "trigger": "hit_count:5",
-                            "target": "target",
-                            "effect": "bonus_damage",
-                            "value": [
-                                25.95,
-                                28.31,
-                                30.67,
-                                33.03,
-                                35.38,
-                                37.74,
-                                40.1,
-                                42.46,
-                                44.82,
-                                47.18
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "다 덤벼! 2",
-                            "type": "damage",
-                            "condition": "self_state:무기 변경"
-                        },
-                        {
-                            "trigger": "event:enemy_spawn",
-                            "target": "self",
-                            "effect": "burst_cooldown",
-                            "value": [
-                                20,
-                                20,
-                                20,
-                                20,
-                                20,
-                                20,
-                                20,
-                                20,
-                                20,
-                                20
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "열혈",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "여긴 내가 맡는다!",
-                    "effects": [
-                        {
-                            "trigger": "last_bullet_fire",
-                            "target": "enemies_top_atk:3",
-                            "effect": "taunt",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": 4,
-                            "name": "여긴 내가 맡는다!",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "hp_below_count:20:1",
-                            "target": "self",
-                            "effect": "max_hp_pct",
-                            "value": [
-                                55,
-                                59,
-                                63,
-                                67,
-                                71,
-                                75,
-                                79,
-                                83,
-                                87,
-                                91
-                            ],
-                            "unit": "percent",
-                            "duration": 3,
-                            "name": "근성 1",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "hp_below_count:20:2",
-                            "target": "self",
-                            "effect": "max_hp_pct",
-                            "value": [
-                                36.09,
-                                39.84,
-                                43.59,
-                                47.34,
-                                51.09,
-                                54.84,
-                                58.59,
-                                62.34,
-                                66.09,
-                                69.84
-                            ],
-                            "unit": "percent",
-                            "duration": 3,
-                            "name": "근성 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "hp_below_count:20:3",
-                            "target": "self",
-                            "effect": "max_hp_pct",
-                            "value": [
-                                25.78,
-                                28.59,
-                                31.4,
-                                34.21,
-                                37.03,
-                                39.84,
-                                42.65,
-                                45.46,
-                                48.28,
-                                51.09
-                            ],
-                            "unit": "percent",
-                            "duration": 3,
-                            "name": "근성 3",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "full_burst_start",
-                            "target": "all_allies",
-                            "effect": "burst_cooldown_reduce",
-                            "value": [
-                                5.34,
-                                5.58,
-                                5.82,
-                                6.05,
-                                6.29,
-                                6.53,
-                                6.77,
-                                7,
-                                7.24,
-                                7.48
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "여긴 내가 맡는다! 2",
-                            "type": "instant",
-                            "condition": "self_state:열혈"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "정정당당 승부다!",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "atk_pct",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "정정당당 승부다!",
-                            "type": "weapon_change"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "lifesteal_pct",
-                            "value": [
-                                19.89,
-                                21.7,
-                                23.51,
-                                25.31,
-                                27.12,
-                                28.92,
-                                30.73,
-                                32.53,
-                                34.34,
-                                36.14
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "정정당당 승부다! 2",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_enemies",
-                            "effect": "taunt",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "주목",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "received_dmg_pct",
-                            "value": [
-                                -21.78,
-                                -23.26,
-                                -24.75,
-                                -26.23,
-                                -27.72,
-                                -29.2,
-                                -30.69,
-                                -32.17,
-                                -33.66,
-                                -35.14
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "정정당당 승부다! 3",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "def_caster_based_pct",
-                            "value": [
-                                8.16,
-                                8.91,
-                                9.65,
-                                10.39,
-                                11.13,
-                                11.88,
-                                12.62,
-                                13.36,
-                                14.1,
-                                14.85
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "정정당당 승부다! 4",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_allies",
-                            "effect": "atk_caster_based_pct",
-                            "value": [
-                                23.41,
-                                25.54,
-                                27.67,
-                                29.79,
-                                31.92,
-                                34.05,
-                                36.18,
-                                38.31,
-                                40.44,
-                                42.57
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "정정당당 승부다! 5",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "여긴 내가 맡는다!",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "last_bullet_fire",
+          "target": "enemies_top_atk:3",
+          "effect": "taunt",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 4,
+          "type": "buff"
+        },
+        {
+          "trigger": "hp_below_count:20:1",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            55,
+            59,
+            63,
+            67,
+            71,
+            75,
+            79,
+            83,
+            87,
+            91
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "buff"
+        },
+        {
+          "trigger": "hp_below_count:20:2",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            36.09,
+            39.84,
+            43.59,
+            47.34,
+            51.09,
+            54.84,
+            58.59,
+            62.34,
+            66.09,
+            69.84
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "buff"
+        },
+        {
+          "trigger": "hp_below_count:20:3",
+          "target": "self",
+          "effect": "max_hp_pct",
+          "value": [
+            25.78,
+            28.59,
+            31.4,
+            34.21,
+            37.03,
+            39.84,
+            42.65,
+            45.46,
+            48.28,
+            51.09
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "정정당당 승부다!",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "weapon_change"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "lifesteal_pct",
+          "value": [
+            19.89,
+            21.7,
+            23.51,
+            25.31,
+            27.12,
+            28.92,
+            30.73,
+            32.53,
+            34.34,
+            36.14
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "taunt",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "received_dmg_pct",
+          "value": [
+            -21.78,
+            -23.26,
+            -24.75,
+            -26.23,
+            -27.72,
+            -29.2,
+            -30.69,
+            -32.17,
+            -33.66,
+            -35.14
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "def_caster_based_pct",
+          "value": [
+            8.16,
+            8.91,
+            9.65,
+            10.39,
+            11.13,
+            11.88,
+            12.62,
+            13.36,
+            14.1,
+            14.85
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "cover_disabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_state:정정당당 승부다!"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "모란꽃 모양 비녀",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "다 덤벼!",
+          "effects": [
+            {
+              "trigger": "battle_start",
+              "target": "self",
+              "effect": "def_pct",
+              "value": [
+                1.93,
+                2.1,
+                2.28,
+                2.45,
+                2.63,
+                2.81,
+                2.98,
+                3.16,
+                3.33,
+                3.51
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "다 덤벼!",
+              "type": "buff",
+              "scaling": "lost_hp_pct"
+            },
+            {
+              "trigger": "hit_count:5",
+              "target": "target",
+              "effect": "bonus_damage",
+              "value": [
+                25.95,
+                28.31,
+                30.67,
+                33.03,
+                35.38,
+                37.74,
+                40.1,
+                42.46,
+                44.82,
+                47.18
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "다 덤벼! 2",
+              "type": "damage",
+              "condition": "self_state:무기 변경"
+            },
+            {
+              "trigger": "event:enemy_spawn",
+              "target": "self",
+              "effect": "burst_cooldown",
+              "value": [
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20,
+                20
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "열혈",
+              "type": "buff"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "여긴 내가 맡는다!",
+          "effects": [
+            {
+              "trigger": "last_bullet_fire",
+              "target": "enemies_top_atk:3",
+              "effect": "taunt",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": 4,
+              "name": "여긴 내가 맡는다!",
+              "type": "buff"
+            },
+            {
+              "trigger": "hp_below_count:20:1",
+              "target": "self",
+              "effect": "max_hp_pct",
+              "value": [
+                55,
+                59,
+                63,
+                67,
+                71,
+                75,
+                79,
+                83,
+                87,
+                91
+              ],
+              "unit": "percent",
+              "duration": 3,
+              "name": "근성 1",
+              "type": "buff"
+            },
+            {
+              "trigger": "hp_below_count:20:2",
+              "target": "self",
+              "effect": "max_hp_pct",
+              "value": [
+                36.09,
+                39.84,
+                43.59,
+                47.34,
+                51.09,
+                54.84,
+                58.59,
+                62.34,
+                66.09,
+                69.84
+              ],
+              "unit": "percent",
+              "duration": 3,
+              "name": "근성 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "hp_below_count:20:3",
+              "target": "self",
+              "effect": "max_hp_pct",
+              "value": [
+                25.78,
+                28.59,
+                31.4,
+                34.21,
+                37.03,
+                39.84,
+                42.65,
+                45.46,
+                48.28,
+                51.09
+              ],
+              "unit": "percent",
+              "duration": 3,
+              "name": "근성 3",
+              "type": "buff"
+            },
+            {
+              "trigger": "full_burst_start",
+              "target": "all_allies",
+              "effect": "burst_cooldown_reduce",
+              "value": [
+                5.34,
+                5.58,
+                5.82,
+                6.05,
+                6.29,
+                6.53,
+                6.77,
+                7,
+                7.24,
+                7.48
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "여긴 내가 맡는다! 2",
+              "type": "instant",
+              "condition": "self_state:열혈"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "정정당당 승부다!",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "atk_pct",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "정정당당 승부다!",
+              "type": "weapon_change"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "lifesteal_pct",
+              "value": [
+                19.89,
+                21.7,
+                23.51,
+                25.31,
+                27.12,
+                28.92,
+                30.73,
+                32.53,
+                34.34,
+                36.14
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "정정당당 승부다! 2",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_enemies",
+              "effect": "taunt",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "주목",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "received_dmg_pct",
+              "value": [
+                -21.78,
+                -23.26,
+                -24.75,
+                -26.23,
+                -27.72,
+                -29.2,
+                -30.69,
+                -32.17,
+                -33.66,
+                -35.14
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "정정당당 승부다! 3",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "def_caster_based_pct",
+              "value": [
+                8.16,
+                8.91,
+                9.65,
+                10.39,
+                11.13,
+                11.88,
+                12.62,
+                13.36,
+                14.1,
+                14.85
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "정정당당 승부다! 4",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "all_allies",
+              "effect": "atk_caster_based_pct",
+              "value": [
+                23.41,
+                25.54,
+                27.67,
+                29.79,
+                31.92,
+                34.05,
+                36.18,
+                38.31,
+                40.44,
+                42.57
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "정정당당 승부다! 5",
+              "type": "buff"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

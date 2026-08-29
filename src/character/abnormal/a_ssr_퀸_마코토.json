@@ -1,364 +1,351 @@
 {
-    "characterID": "Char_870",
-    "characterName": "퀸(마코토)",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "마음의 괴도단",
-        "burstLevel": 3,
-        "atkCoef": 201.5,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_870",
+  "characterName": "퀸(마코토)",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "마음의 괴도단",
+    "burstLevel": 3,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "페르소나 : 요한나",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "페르소나 : 요한나",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "persona_state",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "페르소나 - 요한나",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "element_bonus_pct",
-                    "value": [
-                        8.03,
-                        8.65,
-                        9.27,
-                        9.88,
-                        10.5,
-                        11.12,
-                        11.74,
-                        12.36,
-                        12.97,
-                        13.59
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "핵열 부스터",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        8.73,
-                        9.4,
-                        10.08,
-                        10.75,
-                        11.42,
-                        12.09,
-                        12.76,
-                        13.44,
-                        14.11,
-                        14.78
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "방어의 마음가짐",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        29.7,
-                        32,
-                        34.28,
-                        36.56,
-                        38.84,
-                        41.14,
-                        43.42,
-                        45.7,
-                        48,
-                        50.28
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "페르소나 : 요한나",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:1more",
-                    "target": "all_enemies",
-                    "effect": "split_damage",
-                    "value": [
-                        324.39,
-                        349.34,
-                        374.3,
-                        399.25,
-                        424.21,
-                        449.16,
-                        474.11,
-                        499.07,
-                        524.02,
-                        548.99
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "페르소나 : 요한나 2",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "event:추격",
-                    "target": "all_enemies",
-                    "effect": "split_damage",
-                    "value": [
-                        324.39,
-                        349.34,
-                        374.3,
-                        399.25,
-                        424.21,
-                        449.16,
-                        474.11,
-                        499.07,
-                        524.02,
-                        548.99
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "페르소나 : 요한나 3",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "persona_state",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "철・권・제・재!",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        17.72,
-                        19.09,
-                        20.45,
-                        21.82,
-                        23.18,
-                        24.54,
-                        25.91,
-                        27.27,
-                        28.64,
-                        30
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "철・권・제・재!",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "element_bonus_pct",
-                    "value": [
-                        15.09,
-                        16.25,
-                        17.41,
-                        18.57,
-                        19.73,
-                        20.89,
-                        22.05,
-                        23.21,
-                        24.38,
-                        25.56
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "핵열 하이부스터",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "def_pct",
-                    "value": [
-                        10.6,
-                        11.42,
-                        12.24,
-                        13.05,
-                        13.87,
-                        14.68,
-                        15.5,
-                        16.32,
-                        17.13,
-                        17.95
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "라쿠카쟈",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "철・권・제・재! 해제",
-                    "type": "instant",
-                    "target_effect": "핵열 하이부스터"
-                },
-                {
-                    "trigger": "full_burst_end",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "철・권・제・재! 해제 2",
-                    "type": "instant",
-                    "target_effect": "라쿠카쟈"
-                },
-                {
-                    "trigger": "burst_enter:3",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        53.18,
-                        57.28,
-                        61.37,
-                        65.46,
-                        69.55,
-                        73.64,
-                        77.73,
-                        81.82,
-                        85.92,
-                        90.01
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "철・권・제・재! 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:1more",
-                    "target": "allies_burst3_persona_excl_self",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        20.8,
-                        22.4,
-                        24,
-                        25.6,
-                        27.2,
-                        28.8,
-                        30.4,
-                        32,
-                        33.6,
-                        35.2
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "배턴 터치",
-                    "type": "buff",
-                    "stack": 3
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "element_bonus_pct",
+          "value": [
+            8.03,
+            8.65,
+            9.27,
+            9.88,
+            10.5,
+            11.12,
+            11.74,
+            12.36,
+            12.97,
+            13.59
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "마하프레이다인",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "split_damage",
-                    "value": [
-                        840.08,
-                        904.7,
-                        969.33,
-                        1033.95,
-                        1098.57,
-                        1163.19,
-                        1227.82,
-                        1292.43,
-                        1357.06,
-                        1421.69
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "마하프레이다인",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        17.88,
-                        19.26,
-                        20.64,
-                        22.01,
-                        23.39,
-                        24.76,
-                        26.14,
-                        27.52,
-                        28.89,
-                        30.27
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "1more",
-                    "type": "buff",
-                    "condition": "target_code:풍압"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            8.73,
+            9.4,
+            10.08,
+            10.75,
+            11.42,
+            12.09,
+            12.76,
+            13.44,
+            14.11,
+            14.78
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            29.7,
+            32,
+            34.28,
+            36.56,
+            38.84,
+            41.14,
+            43.42,
+            45.7,
+            48,
+            50.28
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:1more",
+          "target": "all_enemies",
+          "effect": "split_damage",
+          "value": [
+            324.39,
+            349.34,
+            374.3,
+            399.25,
+            424.21,
+            449.16,
+            474.11,
+            499.07,
+            524.02,
+            548.99
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "event:추격",
+          "target": "all_enemies",
+          "effect": "split_damage",
+          "value": [
+            324.39,
+            349.34,
+            374.3,
+            399.25,
+            424.21,
+            449.16,
+            474.11,
+            499.07,
+            524.02,
+            548.99
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "철・권・제・재!",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            17.72,
+            19.09,
+            20.45,
+            21.82,
+            23.18,
+            24.54,
+            25.91,
+            27.27,
+            28.64,
+            30
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "element_bonus_pct",
+          "value": [
+            15.09,
+            16.25,
+            17.41,
+            18.57,
+            19.73,
+            20.89,
+            22.05,
+            23.21,
+            24.38,
+            25.56
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "핵열 하이부스터",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "def_pct",
+          "value": [
+            10.6,
+            11.42,
+            12.24,
+            13.05,
+            13.87,
+            14.68,
+            15.5,
+            16.32,
+            17.13,
+            17.95
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "라쿠카쟈",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "핵열 하이부스터"
+        },
+        {
+          "trigger": "full_burst_end",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "라쿠카쟈"
+        },
+        {
+          "trigger": "burst_enter:3",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "value": [
+            53.18,
+            57.28,
+            61.37,
+            65.46,
+            69.55,
+            73.64,
+            77.73,
+            81.82,
+            85.92,
+            90.01
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:1more",
+          "target": "allies_burst3_persona_excl_self",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            20.8,
+            22.4,
+            24,
+            25.6,
+            27.2,
+            28.8,
+            30.4,
+            32,
+            33.6,
+            35.2
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "stack": 3
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "마하프레이다인",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "split_damage",
+          "value": [
+            840.08,
+            904.7,
+            969.33,
+            1033.95,
+            1098.57,
+            1163.19,
+            1227.82,
+            1292.43,
+            1357.06,
+            1421.69
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            17.88,
+            19.26,
+            20.64,
+            22.01,
+            23.39,
+            24.76,
+            26.14,
+            27.52,
+            28.89,
+            30.27
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "condition": "target_code:풍압"
+        }
+      ]
+    }
+  ]
 }

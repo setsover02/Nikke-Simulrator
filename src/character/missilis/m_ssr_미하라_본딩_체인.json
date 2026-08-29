@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "바디 컨텍",
           "type": "instant"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "바디 컨텍 2",
           "type": "instant",
           "condition": "burst_casted"
         },
@@ -85,7 +83,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "바디 컨텍 3",
           "type": "damage",
           "condition": "gauge_above:포획 사슬:1",
           "scaling": "stack_count",
@@ -134,7 +131,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "바디 컨텍 5",
           "type": "instant",
           "condition": "gauge_above:포획 사슬:1"
         }
@@ -163,7 +159,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "타이트",
           "type": "instant",
           "condition": "during_full_burst",
           "target_effect": "사슬 감기",
@@ -188,7 +183,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "타이트 2",
           "type": "instant",
           "condition": "target_state:사슬 감기",
           "target_effect": "사슬 감기",
@@ -213,7 +207,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "타이트 3",
           "type": "instant",
           "condition": "target_state:사슬 감기"
         },
@@ -235,7 +228,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "타이트 4",
           "type": "buff"
         }
       ]
@@ -264,7 +256,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "사슬 당기기",
           "type": "damage",
           "condition": "target_state:사슬 감기",
           "scaling": "stack_count",
@@ -288,7 +279,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "사슬 당기기 2",
           "type": "instant",
           "condition": "target_state:사슬 감기",
           "target_effect": "사슬 감기"

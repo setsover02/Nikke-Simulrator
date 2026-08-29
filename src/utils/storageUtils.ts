@@ -40,9 +40,9 @@ export function saveGlobalCubeLevel(cubeName: string, level: string) {
     localStorage.setItem(CUBE_STORAGE_KEY, JSON.stringify(cubes));
 }
 
-export function getGlobalCubeLevel(cubeName: string): string | null {
-    if (!cubeName || cubeName === 'None') return null;
-    return loadGlobalCubeLevels()[cubeName] || null;
+export function getGlobalCubeLevel(cubeName: string): string {
+    if (!cubeName || cubeName === 'None') return '0';
+    return loadGlobalCubeLevels()[cubeName] || '0';
 }
 
 export function loadOutpostState(): SavedOutpostState {
@@ -118,14 +118,13 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
     const saved = allSettings[charId];
 
     if (saved) {
-        // If a cube is equipped, sync its level from the global store, otherwise fallback to the saved char slot level.
-        const cubeLevel = (saved.cubeName && saved.cubeName !== 'None')
-            ? (getGlobalCubeLevel(saved.cubeName) || saved.cubeLevel || '1')
-            : '0';
+        const cubeName = (saved.cubeName && saved.cubeName !== 'None') ? saved.cubeName : '03-cube-resilience';
+        const cubeLevel = getGlobalCubeLevel(cubeName) || saved.cubeLevel || '0';
 
         return {
             char: charOption,
             ...saved,
+            cubeName,
             cubeLevel
         };
     }
@@ -137,8 +136,8 @@ export function getCharDefaultState(charOption: typeof characterOptions[0]): Slo
         customDEF: String(stats.defense || ''),
         collectionGrade: 'None',
         collectionLevel: '0',
-        cubeName: 'None',
-        cubeLevel: '0',
+        cubeName: '03-cube-resilience',
+        cubeLevel: getGlobalCubeLevel('03-cube-resilience') || '0',
         affinityLevel: '1',
         growthStage: (() => {
             const rarity = charOption.data.stats?.rarity;

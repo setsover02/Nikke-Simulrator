@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": 5,
-          "name": "불가사리(모양) 오므라이스",
           "type": "buff"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "불가사리(모양) 오므라이스 2",
           "type": "buff"
         },
         {
@@ -84,7 +82,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "불가사리(모양) 오므라이스 3",
           "type": "instant",
           "_unparseable": true,
           "_raw": "debuff_stack_remove"
@@ -107,7 +104,6 @@
           ],
           "unit": "percent",
           "duration": 8,
-          "name": "불가사리(모양) 오므라이스 4",
           "type": "instant",
           "condition": "squad_ally_exists"
         }
@@ -136,7 +132,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "말미잘(모양) 파스타",
           "type": "buff"
         },
         {
@@ -157,7 +152,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "말미잘(모양) 파스타 2",
           "type": "buff"
         },
         {
@@ -178,7 +172,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "말미잘(모양) 파스타 3",
           "type": "buff"
         }
       ]
@@ -207,7 +200,6 @@
           ],
           "unit": "percent",
           "duration": 25,
-          "name": "저장",
           "type": "buff"
         },
         {
@@ -228,7 +220,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "바다 산책",
           "type": "instant"
         },
         {
@@ -249,7 +240,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "바다 산책 2",
           "type": "buff"
         }
       ]

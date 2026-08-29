@@ -1,175 +1,169 @@
 {
-    "characterID": "Char_282",
-    "characterName": "사쿠라",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "언더월드 퀸",
-        "burstLevel": 1,
-        "atkCoef": 67,
-        "maxAmmo": 6,
-        "reloadTime": 1.67,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_282",
+  "characterName": "사쿠라",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "언더월드 퀸",
+    "burstLevel": 1,
+    "atkCoef": 67,
+    "maxAmmo": 6,
+    "reloadTime": 1.67,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "벚꽃차",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "벚꽃차",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:3",
-                    "target": "all_allies",
-                    "effect": "def_pct",
-                    "value": [
-                        4.81,
-                        5.18,
-                        5.55,
-                        5.92,
-                        6.29,
-                        6.66,
-                        7.04,
-                        7.41,
-                        7.78,
-                        8.15
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "stack": 10,
-                    "name": "벚꽃차",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "꽃잎 떨구기",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "projectile_attachment_dmg_pct",
-                    "value": [
-                        4.57,
-                        4.92,
-                        5.28,
-                        5.63,
-                        5.98,
-                        6.33,
-                        6.68,
-                        7.04,
-                        7.39,
-                        7.74
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "꽃잎 떨구기",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.86,
-                        3.08,
-                        3.3,
-                        3.52,
-                        3.74,
-                        3.96,
-                        4.18,
-                        4.4,
-                        4.62,
-                        4.84
-                    ],
-                    "unit": "seconds",
-                    "duration": null,
-                    "name": "꽃잎 떨구기 2",
-                    "type": "instant"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "앵화난만",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        56.16,
-                        60,
-                        63.84,
-                        67.68,
-                        71.52,
-                        75.36,
-                        79.2,
-                        83.04,
-                        86.88,
-                        90.72
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "앵화난만",
-                    "type": "buff",
-                    "condition": "enemy_element:Wind",
-                    "limit": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        12.35,
-                        13.62,
-                        14.88,
-                        16.15,
-                        17.42,
-                        18.69,
-                        19.95,
-                        21.22,
-                        22.49,
-                        23.76
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "앵화난만 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "intercept_dmg_pct",
-                    "value": [
-                        13.91,
-                        14.98,
-                        16.05,
-                        17.12,
-                        18.19,
-                        19.26,
-                        20.33,
-                        21.4,
-                        22.47,
-                        23.54
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "앵화난만 3",
-                    "type": "buff",
-                    "condition": "self_state:벚꽃차_max"
-                }
-            ]
+          "trigger": "hit_count:3",
+          "target": "all_allies",
+          "effect": "def_pct",
+          "value": [
+            4.81,
+            5.18,
+            5.55,
+            5.92,
+            6.29,
+            6.66,
+            7.04,
+            7.41,
+            7.78,
+            8.15
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "stack": 10,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "꽃잎 떨구기",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "projectile_attachment_dmg_pct",
+          "value": [
+            4.57,
+            4.92,
+            5.28,
+            5.63,
+            5.98,
+            6.33,
+            6.68,
+            7.04,
+            7.39,
+            7.74
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.86,
+            3.08,
+            3.3,
+            3.52,
+            3.74,
+            3.96,
+            4.18,
+            4.4,
+            4.62,
+            4.84
+          ],
+          "unit": "seconds",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "앵화난만",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "received_dmg_pct",
+          "value": [
+            56.16,
+            60,
+            63.84,
+            67.68,
+            71.52,
+            75.36,
+            79.2,
+            83.04,
+            86.88,
+            90.72
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "condition": "enemy_element:Wind",
+          "limit": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            12.35,
+            13.62,
+            14.88,
+            16.15,
+            17.42,
+            18.69,
+            19.95,
+            21.22,
+            22.49,
+            23.76
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "intercept_dmg_pct",
+          "value": [
+            13.91,
+            14.98,
+            16.05,
+            17.12,
+            18.19,
+            19.26,
+            20.33,
+            21.4,
+            22.47,
+            23.54
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "condition": "self_state:벚꽃차_max"
+        }
+      ]
+    }
+  ]
 }

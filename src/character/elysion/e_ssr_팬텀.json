@@ -1,653 +1,644 @@
 {
-    "characterID": "Char_580",
-    "characterName": "팬텀",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "베스트 셀러",
-        "burstLevel": 3,
-        "atkCoef": 15.78,
-        "maxAmmo": 60,
-        "reloadTime": 2,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_580",
+  "characterName": "팬텀",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "베스트 셀러",
+    "burstLevel": 3,
+    "atkCoef": 15.78,
+    "maxAmmo": 60,
+    "reloadTime": 2,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "괴도의 예고장",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "괴도의 예고장",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:1",
-                    "target": "self",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        15.22,
-                        16.39,
-                        17.57,
-                        18.74,
-                        19.9,
-                        21.07,
-                        22.25,
-                        23.42,
-                        24.6,
-                        25.75
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "괴도의 단검",
-                    "type": "buff",
-                    "condition": "not_target_state:예고장",
-                    "stack": 3
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "def_pct",
-                    "value": [
-                        -19.02,
-                        -20.49,
-                        -21.96,
-                        -23.43,
-                        -24.87,
-                        -26.34,
-                        -27.81,
-                        -29.28,
-                        -30.75,
-                        -32.19
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "예고장",
-                    "type": "buff",
-                    "condition": "not_target_state:예고장"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        44.41,
-                        47.83,
-                        51.25,
-                        54.67,
-                        58.09,
-                        61.49,
-                        64.91,
-                        68.33,
-                        71.75,
-                        75.17
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "괴도의 예고장",
-                    "type": "buff",
-                    "condition": "target_state:예고장",
-                    "bullet": 1
-                }
-            ]
+          "trigger": "hit_count:1",
+          "target": "self",
+          "effect": "accuracy_pct",
+          "value": [
+            15.22,
+            16.39,
+            17.57,
+            18.74,
+            19.9,
+            21.07,
+            22.25,
+            23.42,
+            24.6,
+            25.75
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "괴도의 단검",
+          "type": "buff",
+          "condition": "not_target_state:예고장",
+          "stack": 3
         },
         {
-            "id": "skill_2",
-            "name": "괴도의 시선",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        49.82,
-                        53.66,
-                        57.49,
-                        61.33,
-                        65.16,
-                        68.99,
-                        72.82,
-                        76.67,
-                        80.5,
-                        84.33
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "괴도의 시선",
-                    "type": "damage",
-                    "condition": "self_stack_above:괴도의 단검:3"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "괴도의 시선 2",
-                    "type": "instant",
-                    "condition": "self_stack_above:괴도의 단검:3",
-                    "target_effect": "예고장"
-                },
-                {
-                    "trigger": "stack_reach:괴도의 단검:3",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        7.61,
-                        8.18,
-                        8.78,
-                        9.36,
-                        9.94,
-                        10.54,
-                        11.11,
-                        11.71,
-                        12.29,
-                        12.86
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "괴도의 시선 3",
-                    "type": "buff",
-                    "stack": 3
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "괴도의 시선 5",
-                    "type": "instant",
-                    "condition": "self_stack_above:괴도의 단검:3",
-                    "target_effect": "괴도의 단검"
-                },
-                {
-                    "trigger": "hit_count:10",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        50.32,
-                        54.16,
-                        58.08,
-                        61.92,
-                        65.76,
-                        69.68,
-                        73.52,
-                        77.44,
-                        81.28,
-                        85.12
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "괴도의 시선 6",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:10",
-                    "target": "self",
-                    "effect": "split_dmg_pct",
-                    "value": [
-                        18.87,
-                        20.31,
-                        21.78,
-                        23.22,
-                        24.66,
-                        26.13,
-                        27.57,
-                        29.04,
-                        30.48,
-                        31.92
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "괴도의 시선 7",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "괴도의 시선 8",
-                    "type": "instant",
-                    "target_effect": "괴도의 시선 3"
-                }
-            ]
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "def_pct",
+          "value": [
+            -19.02,
+            -20.49,
+            -21.96,
+            -23.43,
+            -24.87,
+            -26.34,
+            -27.81,
+            -29.28,
+            -30.75,
+            -32.19
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "예고장",
+          "type": "buff",
+          "condition": "not_target_state:예고장"
         },
         {
-            "id": "burst",
-            "name": "비기 괴도 난무",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "split_damage",
-                    "value": [
-                        861.12,
-                        927.36,
-                        993.6,
-                        1059.84,
-                        1126.08,
-                        1192.32,
-                        1258.56,
-                        1324.8,
-                        1391.04,
-                        1457.28
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "비기 괴도 난무",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "hit_count:1",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            44.41,
+            47.83,
+            51.25,
+            54.67,
+            58.09,
+            61.49,
+            64.91,
+            68.33,
+            71.75,
+            75.17
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "target_state:예고장",
+          "bullet": 1
         }
-    ],
-    "favoriteItem": {
-        "itemName": "소중한 가면들",
-        "stages": [
-            {
-                "stage": 1,
-                "replaceSlot": 1,
-                "skill": {
-                    "id": "skill_1",
-                    "name": "괴도의 예고장",
-                    "effects": [
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "self",
-                            "effect": "accuracy_pct",
-                            "value": [
-                                15.22,
-                                16.39,
-                                17.57,
-                                18.74,
-                                19.9,
-                                21.07,
-                                22.25,
-                                23.42,
-                                24.6,
-                                25.75
-                            ],
-                            "unit": "percent",
-                            "duration": 5,
-                            "name": "괴도의 단검",
-                            "type": "buff",
-                            "condition": "not_target_state:예고장",
-                            "stack": 3
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "target",
-                            "effect": "def_pct",
-                            "value": [
-                                -19.02,
-                                -20.49,
-                                -21.96,
-                                -23.43,
-                                -24.87,
-                                -26.34,
-                                -27.81,
-                                -29.28,
-                                -30.75,
-                                -32.19
-                            ],
-                            "unit": "percent",
-                            "duration": 5,
-                            "name": "예고장",
-                            "type": "buff",
-                            "condition": "not_target_state:예고장"
-                        },
-                        {
-                            "trigger": "hit_count:30",
-                            "target": "self",
-                            "effect": "buff_stack_add",
-                            "value": [
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1,
-                                1
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 단검 2",
-                            "type": "instant",
-                            "target_effect": "괴도의 단검"
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "self",
-                            "effect": "atk_dmg_pct",
-                            "value": [
-                                44.41,
-                                47.83,
-                                51.25,
-                                54.67,
-                                58.09,
-                                61.49,
-                                64.91,
-                                68.33,
-                                71.75,
-                                75.17
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 예고장",
-                            "type": "buff",
-                            "condition": "target_state:예고장",
-                            "bullet": 1
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 2,
-                "replaceSlot": 2,
-                "skill": {
-                    "id": "skill_2",
-                    "name": "괴도의 시선",
-                    "effects": [
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "target",
-                            "effect": "bonus_damage",
-                            "value": [
-                                49.82,
-                                53.66,
-                                57.49,
-                                61.33,
-                                65.16,
-                                68.99,
-                                72.82,
-                                76.67,
-                                80.5,
-                                84.33
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 시선",
-                            "type": "damage",
-                            "condition": "self_stack_above:괴도의 단검:3"
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "target",
-                            "effect": "remove_named_buff",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 시선 2",
-                            "type": "instant",
-                            "condition": "self_stack_above:괴도의 단검:3",
-                            "target_effect": "예고장"
-                        },
-                        {
-                            "trigger": "stack_reach:괴도의 단검:3",
-                            "target": "self",
-                            "effect": "split_dmg_pct",
-                            "value": [
-                                7.61,
-                                8.18,
-                                8.78,
-                                9.36,
-                                9.94,
-                                10.54,
-                                11.11,
-                                11.71,
-                                12.29,
-                                12.86
-                            ],
-                            "unit": "percent",
-                            "duration": "permanent",
-                            "name": "괴도의 시선 3",
-                            "type": "buff",
-                            "stack": 3
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "all_enemies",
-                            "effect": "split_damage",
-                            "value": [
-                                125,
-                                138.89,
-                                152.78,
-                                166.67,
-                                180.56,
-                                194.44,
-                                208.33,
-                                222.22,
-                                236.11,
-                                250
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 시선 4",
-                            "type": "damage",
-                            "condition": "self_stack_above:괴도의 단검:3"
-                        },
-                        {
-                            "trigger": "hit_count:1",
-                            "target": "self",
-                            "effect": "remove_named_buff",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 시선 5",
-                            "type": "instant",
-                            "condition": "self_stack_above:괴도의 단검:3",
-                            "target_effect": "괴도의 단검"
-                        },
-                        {
-                            "trigger": "hit_count:10",
-                            "target": "self",
-                            "effect": "atk_pct",
-                            "value": [
-                                50.32,
-                                54.16,
-                                58.08,
-                                61.92,
-                                65.76,
-                                69.68,
-                                73.52,
-                                77.44,
-                                81.28,
-                                85.12
-                            ],
-                            "unit": "percent",
-                            "duration": 5,
-                            "name": "괴도의 시선 6",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "hit_count:10",
-                            "target": "self",
-                            "effect": "split_dmg_pct",
-                            "value": [
-                                18.87,
-                                20.31,
-                                21.78,
-                                23.22,
-                                24.66,
-                                26.13,
-                                27.57,
-                                29.04,
-                                30.48,
-                                31.92
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "괴도의 시선 7",
-                            "type": "buff"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "remove_named_buff",
-                            "value": [
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0,
-                                0
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "괴도의 시선 8",
-                            "type": "instant",
-                            "target_effect": "괴도의 시선 3"
-                        }
-                    ]
-                }
-            },
-            {
-                "stage": 3,
-                "replaceSlot": 3,
-                "skill": {
-                    "id": "burst",
-                    "name": "비기 괴도 난무",
-                    "effects": [
-                        {
-                            "trigger": "burst_cast",
-                            "target": "all_enemies",
-                            "effect": "split_damage",
-                            "value": [
-                                861.12,
-                                927.36,
-                                993.6,
-                                1059.84,
-                                1126.08,
-                                1192.32,
-                                1258.56,
-                                1324.8,
-                                1391.04,
-                                1457.28
-                            ],
-                            "unit": "percent",
-                            "duration": null,
-                            "name": "비기 괴도 난무",
-                            "type": "damage"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "same_target",
-                            "effect": "received_dmg_pct",
-                            "value": [
-                                9,
-                                10,
-                                11,
-                                12,
-                                13,
-                                14,
-                                15,
-                                16,
-                                17,
-                                18
-                            ],
-                            "unit": "percent",
-                            "duration": 30,
-                            "name": "비기 괴도 난무 2",
-                            "type": "buff",
-                            "condition": "target_code:작열"
-                        },
-                        {
-                            "trigger": "burst_cast",
-                            "target": "self",
-                            "effect": "max_ammo_pct",
-                            "value": [
-                                27.5,
-                                30,
-                                32.5,
-                                35,
-                                37.5,
-                                40,
-                                42.5,
-                                45,
-                                47.5,
-                                50
-                            ],
-                            "unit": "percent",
-                            "duration": 10,
-                            "name": "비기 괴도 난무 3",
-                            "type": "buff"
-                        }
-                    ]
-                }
-            }
-        ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "괴도의 시선",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            49.82,
+            53.66,
+            57.49,
+            61.33,
+            65.16,
+            68.99,
+            72.82,
+            76.67,
+            80.5,
+            84.33
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_stack_above:괴도의 단검:3"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "self_stack_above:괴도의 단검:3",
+          "target_effect": "예고장"
+        },
+        {
+          "trigger": "stack_reach:괴도의 단검:3",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "value": [
+            7.61,
+            8.18,
+            8.78,
+            9.36,
+            9.94,
+            10.54,
+            11.11,
+            11.71,
+            12.29,
+            12.86
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "stack": 3
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "self_stack_above:괴도의 단검:3",
+          "target_effect": "괴도의 단검"
+        },
+        {
+          "trigger": "hit_count:10",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            50.32,
+            54.16,
+            58.08,
+            61.92,
+            65.76,
+            69.68,
+            73.52,
+            77.44,
+            81.28,
+            85.12
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:10",
+          "target": "self",
+          "effect": "split_dmg_pct",
+          "value": [
+            18.87,
+            20.31,
+            21.78,
+            23.22,
+            24.66,
+            26.13,
+            27.57,
+            29.04,
+            30.48,
+            31.92
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "괴도의 시선"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "비기 괴도 난무",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "split_damage",
+          "value": [
+            861.12,
+            927.36,
+            993.6,
+            1059.84,
+            1126.08,
+            1192.32,
+            1258.56,
+            1324.8,
+            1391.04,
+            1457.28
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
     }
+  ],
+  "favoriteItem": {
+    "itemName": "소중한 가면들",
+    "stages": [
+      {
+        "stage": 1,
+        "replaceSlot": 1,
+        "skill": {
+          "id": "skill_1",
+          "name": "괴도의 예고장",
+          "effects": [
+            {
+              "trigger": "hit_count:1",
+              "target": "self",
+              "effect": "accuracy_pct",
+              "value": [
+                15.22,
+                16.39,
+                17.57,
+                18.74,
+                19.9,
+                21.07,
+                22.25,
+                23.42,
+                24.6,
+                25.75
+              ],
+              "unit": "percent",
+              "duration": 5,
+              "name": "괴도의 단검",
+              "type": "buff",
+              "condition": "not_target_state:예고장",
+              "stack": 3
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "target",
+              "effect": "def_pct",
+              "value": [
+                -19.02,
+                -20.49,
+                -21.96,
+                -23.43,
+                -24.87,
+                -26.34,
+                -27.81,
+                -29.28,
+                -30.75,
+                -32.19
+              ],
+              "unit": "percent",
+              "duration": 5,
+              "name": "예고장",
+              "type": "buff",
+              "condition": "not_target_state:예고장"
+            },
+            {
+              "trigger": "hit_count:30",
+              "target": "self",
+              "effect": "buff_stack_add",
+              "value": [
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1,
+                1
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 단검 2",
+              "type": "instant",
+              "target_effect": "괴도의 단검"
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "self",
+              "effect": "atk_dmg_pct",
+              "value": [
+                44.41,
+                47.83,
+                51.25,
+                54.67,
+                58.09,
+                61.49,
+                64.91,
+                68.33,
+                71.75,
+                75.17
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 예고장",
+              "type": "buff",
+              "condition": "target_state:예고장",
+              "bullet": 1
+            }
+          ]
+        }
+      },
+      {
+        "stage": 2,
+        "replaceSlot": 2,
+        "skill": {
+          "id": "skill_2",
+          "name": "괴도의 시선",
+          "effects": [
+            {
+              "trigger": "hit_count:1",
+              "target": "target",
+              "effect": "bonus_damage",
+              "value": [
+                49.82,
+                53.66,
+                57.49,
+                61.33,
+                65.16,
+                68.99,
+                72.82,
+                76.67,
+                80.5,
+                84.33
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 시선",
+              "type": "damage",
+              "condition": "self_stack_above:괴도의 단검:3"
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "target",
+              "effect": "remove_named_buff",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 시선 2",
+              "type": "instant",
+              "condition": "self_stack_above:괴도의 단검:3",
+              "target_effect": "예고장"
+            },
+            {
+              "trigger": "stack_reach:괴도의 단검:3",
+              "target": "self",
+              "effect": "split_dmg_pct",
+              "value": [
+                7.61,
+                8.18,
+                8.78,
+                9.36,
+                9.94,
+                10.54,
+                11.11,
+                11.71,
+                12.29,
+                12.86
+              ],
+              "unit": "percent",
+              "duration": "permanent",
+              "name": "괴도의 시선 3",
+              "type": "buff",
+              "stack": 3
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "all_enemies",
+              "effect": "split_damage",
+              "value": [
+                125,
+                138.89,
+                152.78,
+                166.67,
+                180.56,
+                194.44,
+                208.33,
+                222.22,
+                236.11,
+                250
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 시선 4",
+              "type": "damage",
+              "condition": "self_stack_above:괴도의 단검:3"
+            },
+            {
+              "trigger": "hit_count:1",
+              "target": "self",
+              "effect": "remove_named_buff",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 시선 5",
+              "type": "instant",
+              "condition": "self_stack_above:괴도의 단검:3",
+              "target_effect": "괴도의 단검"
+            },
+            {
+              "trigger": "hit_count:10",
+              "target": "self",
+              "effect": "atk_pct",
+              "value": [
+                50.32,
+                54.16,
+                58.08,
+                61.92,
+                65.76,
+                69.68,
+                73.52,
+                77.44,
+                81.28,
+                85.12
+              ],
+              "unit": "percent",
+              "duration": 5,
+              "name": "괴도의 시선 6",
+              "type": "buff"
+            },
+            {
+              "trigger": "hit_count:10",
+              "target": "self",
+              "effect": "split_dmg_pct",
+              "value": [
+                18.87,
+                20.31,
+                21.78,
+                23.22,
+                24.66,
+                26.13,
+                27.57,
+                29.04,
+                30.48,
+                31.92
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "괴도의 시선 7",
+              "type": "buff"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "remove_named_buff",
+              "value": [
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "괴도의 시선 8",
+              "type": "instant",
+              "target_effect": "괴도의 시선 3"
+            }
+          ]
+        }
+      },
+      {
+        "stage": 3,
+        "replaceSlot": 3,
+        "skill": {
+          "id": "burst",
+          "name": "비기 괴도 난무",
+          "effects": [
+            {
+              "trigger": "burst_cast",
+              "target": "all_enemies",
+              "effect": "split_damage",
+              "value": [
+                861.12,
+                927.36,
+                993.6,
+                1059.84,
+                1126.08,
+                1192.32,
+                1258.56,
+                1324.8,
+                1391.04,
+                1457.28
+              ],
+              "unit": "percent",
+              "duration": null,
+              "name": "비기 괴도 난무",
+              "type": "damage"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "same_target",
+              "effect": "received_dmg_pct",
+              "value": [
+                9,
+                10,
+                11,
+                12,
+                13,
+                14,
+                15,
+                16,
+                17,
+                18
+              ],
+              "unit": "percent",
+              "duration": 30,
+              "name": "비기 괴도 난무 2",
+              "type": "buff",
+              "condition": "target_code:작열"
+            },
+            {
+              "trigger": "burst_cast",
+              "target": "self",
+              "effect": "max_ammo_pct",
+              "value": [
+                27.5,
+                30,
+                32.5,
+                35,
+                37.5,
+                40,
+                42.5,
+                45,
+                47.5,
+                50
+              ],
+              "unit": "percent",
+              "duration": 10,
+              "name": "비기 괴도 난무 3",
+              "type": "buff"
+            }
+          ]
+        }
+      }
+    ]
+  }
 }

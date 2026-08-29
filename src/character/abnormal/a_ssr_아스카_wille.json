@@ -1,347 +1,333 @@
 {
-    "characterID": "WILLE",
-    "characterName": "아스카 : WILLE",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "WILLE",
-        "burstLevel": 3,
-        "atkCoef": 5.47,
-        "maxAmmo": 300,
-        "reloadTime": 2.33,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "WILLE",
+  "characterName": "아스카 : WILLE",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "WILLE",
+    "burstLevel": 3,
+    "atkCoef": 5.47,
+    "maxAmmo": 300,
+    "reloadTime": 2.33,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "안티 AT 필드",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "안티 AT 필드",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:50",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        278.82,
-                        300.27,
-                        321.72,
-                        343.17,
-                        364.62,
-                        386.07,
-                        407.51,
-                        428.96,
-                        450.41,
-                        471.86
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "안티 AT 필드 강타",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "hit_count:10",
-                    "target": "enemies_nearest:2",
-                    "effect": "damage",
-                    "value": [
-                        9.22,
-                        9.93,
-                        10.65,
-                        11.36,
-                        12.07,
-                        12.78,
-                        13.49,
-                        14.2,
-                        14.91,
-                        15.62
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬멸 태세 추가 효과",
-                    "type": "damage",
-                    "condition": "self_state:섬멸 태세"
-                },
-                {
-                    "trigger": "hit_count:10",
-                    "target": "enemies_nearest:2",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        0.49,
-                        0.52,
-                        0.56,
-                        0.6,
-                        0.64,
-                        0.68,
-                        0.71,
-                        0.75,
-                        0.79,
-                        0.83
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "안티 AT 필드",
-                    "type": "buff",
-                    "condition": "self_state:섬멸 태세",
-                    "stack": 30
-                }
-            ]
+          "trigger": "hit_count:50",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            278.82,
+            300.27,
+            321.72,
+            343.17,
+            364.62,
+            386.07,
+            407.51,
+            428.96,
+            450.41,
+            471.86
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         },
         {
-            "id": "skill_2",
-            "name": "긴급 수복",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        18.3,
-                        19.71,
-                        21.12,
-                        22.52,
-                        23.93,
-                        25.34,
-                        26.75,
-                        28.16,
-                        29.56,
-                        30.97
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "긴급 수복",
-                    "type": "buff",
-                    "condition": "self_state:섬멸 태세"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "self",
-                    "effect": "mg_warmup_speed_pct",
-                    "value": [
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "긴급 수복 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "self",
-                    "effect": "force_reload",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "긴급 수복 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "self",
-                    "effect": "heal_hp_pct",
-                    "value": [
-                        2.22,
-                        2.4,
-                        2.57,
-                        2.74,
-                        2.91,
-                        3.08,
-                        3.25,
-                        3.42,
-                        3.6,
-                        3.77
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "긴급 수복 4",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "self",
-                    "effect": "reload_speed_pct",
-                    "value": [
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60,
-                        60
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "긴급 수복 5",
-                    "type": "buff",
-                    "bullet": 1
-                }
-            ]
+          "trigger": "hit_count:10",
+          "target": "enemies_nearest:2",
+          "effect": "damage",
+          "value": [
+            9.22,
+            9.93,
+            10.65,
+            11.36,
+            12.07,
+            12.78,
+            13.49,
+            14.2,
+            14.91,
+            15.62
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:섬멸 태세"
         },
         {
-            "id": "burst",
-            "name": "섬멸 태세",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "normal_atk_dmg_pct",
-                    "value": [
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40,
-                        -40
-                    ],
-                    "unit": "percent",
-                    "duration": 9,
-                    "name": "섬멸 태세",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "ammo_charge_pct",
-                    "value": [
-                        12.4,
-                        13.36,
-                        14.31,
-                        15.27,
-                        16.22,
-                        17.18,
-                        18.13,
-                        19.09,
-                        20.04,
-                        21
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬멸 태세 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        27.65,
-                        29.78,
-                        31.9,
-                        34.03,
-                        36.16,
-                        38.29,
-                        40.41,
-                        42.54,
-                        44.67,
-                        46.8
-                    ],
-                    "unit": "percent",
-                    "duration": 9,
-                    "name": "섬멸 태세 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        21.27,
-                        22.9,
-                        24.54,
-                        26.18,
-                        27.81,
-                        29.45,
-                        31.09,
-                        32.72,
-                        34.36,
-                        36
-                    ],
-                    "unit": "percent",
-                    "duration": 9,
-                    "name": "섬멸 태세 4",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "enemies_with_buff:안티 AT 필드",
-                    "effect": "bonus_damage",
-                    "value": [
-                        3.91,
-                        4.21,
-                        4.51,
-                        4.81,
-                        5.11,
-                        5.41,
-                        5.72,
-                        6.02,
-                        6.32,
-                        6.62
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬멸",
-                    "type": "damage",
-                    "scaling": "stack_count",
-                    "scaling_ref": "안티 AT 필드"
-                },
-                {
-                    "trigger": "event:state_end:섬멸 태세",
-                    "target": "enemies_with_buff:안티 AT 필드",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬멸 2",
-                    "type": "instant",
-                    "target_effect": "안티 AT 필드"
-                }
-            ]
+          "trigger": "hit_count:10",
+          "target": "enemies_nearest:2",
+          "effect": "received_dmg_pct",
+          "value": [
+            0.49,
+            0.52,
+            0.56,
+            0.6,
+            0.64,
+            0.68,
+            0.71,
+            0.75,
+            0.79,
+            0.83
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "condition": "self_state:섬멸 태세",
+          "stack": 30
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "긴급 수복",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            18.3,
+            19.71,
+            21.12,
+            22.52,
+            23.93,
+            25.34,
+            26.75,
+            28.16,
+            29.56,
+            30.97
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "condition": "self_state:섬멸 태세"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "self",
+          "effect": "mg_warmup_speed_pct",
+          "value": [
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "self",
+          "effect": "force_reload",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "self",
+          "effect": "heal_hp_pct",
+          "value": [
+            2.22,
+            2.4,
+            2.57,
+            2.74,
+            2.91,
+            3.08,
+            3.25,
+            3.42,
+            3.6,
+            3.77
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "instant"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "self",
+          "effect": "reload_speed_pct",
+          "value": [
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60,
+            60
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "섬멸 태세",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "normal_atk_dmg_pct",
+          "value": [
+            -40,
+            -40,
+            -40,
+            -40,
+            -40,
+            -40,
+            -40,
+            -40,
+            -40,
+            -40
+          ],
+          "unit": "percent",
+          "duration": 9,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "value": [
+            12.4,
+            13.36,
+            14.31,
+            15.27,
+            16.22,
+            17.18,
+            18.13,
+            19.09,
+            20.04,
+            21
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            27.65,
+            29.78,
+            31.9,
+            34.03,
+            36.16,
+            38.29,
+            40.41,
+            42.54,
+            44.67,
+            46.8
+          ],
+          "unit": "percent",
+          "duration": 9,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            21.27,
+            22.9,
+            24.54,
+            26.18,
+            27.81,
+            29.45,
+            31.09,
+            32.72,
+            34.36,
+            36
+          ],
+          "unit": "percent",
+          "duration": 9,
+          "type": "buff"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "enemies_with_buff:안티 AT 필드",
+          "effect": "bonus_damage",
+          "value": [
+            3.91,
+            4.21,
+            4.51,
+            4.81,
+            5.11,
+            5.41,
+            5.72,
+            6.02,
+            6.32,
+            6.62
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "scaling": "stack_count",
+          "scaling_ref": "안티 AT 필드"
+        },
+        {
+          "trigger": "event:state_end:섬멸 태세",
+          "target": "enemies_with_buff:안티 AT 필드",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "안티 AT 필드"
+        }
+      ]
+    }
+  ]
 }

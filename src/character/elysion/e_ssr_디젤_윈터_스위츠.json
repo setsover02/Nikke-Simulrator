@@ -86,7 +86,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "아아, 마이크 테스트",
           "type": "buff",
           "condition": "self_state:인트로"
         },
@@ -108,7 +107,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "아아, 마이크 테스트 2",
           "type": "buff",
           "condition": "self_state:클라이막스"
         }
@@ -159,7 +157,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "노래할게요!",
           "type": "buff"
         },
         {
@@ -180,7 +177,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "노래할게요! 2",
           "type": "buff",
           "stack": 2
         },
@@ -202,7 +198,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "노래할게요! 3",
           "type": "damage"
         }
       ]
@@ -231,7 +226,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "라라라♬",
           "type": "buff"
         },
         {
@@ -252,7 +246,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "라라라♬ 2",
           "type": "damage"
         },
         {
@@ -273,7 +266,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "라라라♬ 3",
           "type": "damage"
         },
         {
@@ -294,7 +286,6 @@
           ],
           "unit": "percent",
           "duration": 1,
-          "name": "소음 공해",
           "type": "buff",
           "condition": "self_state:클라이막스"
         },
@@ -316,7 +307,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "라라라♬ 4",
           "type": "instant",
           "condition": "self_state:클라이막스",
           "target_effect": "음소거",

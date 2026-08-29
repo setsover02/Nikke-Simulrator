@@ -344,7 +344,7 @@ function buildSkillDamageParams(
   overrides?: { dotDmgUp?: number }
 ): DamageParams {
   const wm = getWeaponMultipliers(caster.weapon)
-  const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element)
+  const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element, caster.id, ctx)
 
   // calc-master _damage_handler와 동일하게 BuffManager를 단일 정본으로 사용
   const buffs = ctx.buffManager
@@ -387,7 +387,9 @@ function buildSkillDamageParams(
     partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs ? (buffs.part_dmg_pct || 0) / 100 : 0),
     ignoreDefDmgUp: (caster.cubeIgnoreDefDmgUp ?? 0) + (buffs ? (buffs.ignore_def_dmg_pct || 0) / 100 : 0),
     projectileDmgUp: 0,
-    interruptionPartDmgUp: 0,
+    projectileAttachmentDmgUp: buffs ? (buffs.projectile_attachment_dmg || 0) / 100 : 0,
+    projectileExplosionDmgUp: buffs ? (buffs.projectile_explosion_dmg || 0) / 100 : 0,
+    burstDmgUp: buffs ? (buffs.burst_dmg_pct || 0) / 100 : 0,
     extraDmgUp: 0,
     enemyTakenUp: (enemyBuffs ? (enemyBuffs.received_dmg || 0) / 100 : 0) + (target.debuff?.takenUp ?? 0),
     shareDmgUp: 0,

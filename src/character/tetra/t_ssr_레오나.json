@@ -1,173 +1,168 @@
 {
-    "characterID": "Char_382",
-    "characterName": "레오나",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "SG",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "해피 주",
-        "burstLevel": 2,
-        "atkCoef": 201.5,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_382",
+  "characterName": "레오나",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "SG",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "해피 주",
+    "burstLevel": 2,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "우렁찬 포효",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "우렁찬 포효",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:5",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        1.38,
-                        1.52,
-                        1.65,
-                        1.79,
-                        1.93,
-                        2.07,
-                        2.2,
-                        2.34,
-                        2.48,
-                        2.62
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "포효",
-                    "type": "buff",
-                    "stack": 5
-                },
-                {
-                    "trigger": "hit_count:15",
-                    "target": "allies_weapon:SG",
-                    "effect": "optimal_range_max_pct",
-                    "value": [
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20,
-                        20
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "우렁찬 포효",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "hit_count:5",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            1.38,
+            1.52,
+            1.65,
+            1.79,
+            1.93,
+            2.07,
+            2.2,
+            2.34,
+            2.48,
+            2.62
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "포효",
+          "type": "buff",
+          "stack": 5
         },
         {
-            "id": "skill_2",
-            "name": "용기있는 시선",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        10.77,
-                        11.83,
-                        12.88,
-                        13.94,
-                        15,
-                        16.05,
-                        17.11,
-                        18.16,
-                        19.22,
-                        20.28
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "용기있는 시선",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "allies_weapon_top_atk:SG:2",
-                    "effect": "pellet_count",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        4,
-                        4,
-                        4,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "용기있는 시선 2",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "사자의 심장",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "crit_dmg",
-                    "value": [
-                        20.46,
-                        22.04,
-                        23.61,
-                        25.19,
-                        26.76,
-                        28.34,
-                        29.91,
-                        31.49,
-                        33.06,
-                        34.64
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "사자의 심장",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_weapon:SG",
-                    "effect": "crit_rate",
-                    "value": [
-                        12.6,
-                        13.57,
-                        14.54,
-                        15.51,
-                        16.48,
-                        17.44,
-                        18.41,
-                        19.38,
-                        20.35,
-                        21.32
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "사자의 심장 2",
-                    "type": "buff",
-                    "condition": "self_stack_above:포효:5"
-                }
-            ]
+          "trigger": "hit_count:15",
+          "target": "allies_weapon:SG",
+          "effect": "optimal_range_max_pct",
+          "value": [
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20,
+            20
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "용기있는 시선",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "accuracy_pct",
+          "value": [
+            10.77,
+            11.83,
+            12.88,
+            13.94,
+            15,
+            16.05,
+            17.11,
+            18.16,
+            19.22,
+            20.28
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "allies_weapon_top_atk:SG:2",
+          "effect": "pellet_count",
+          "value": [
+            3,
+            3,
+            3,
+            4,
+            4,
+            4,
+            5,
+            5,
+            5,
+            5
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "사자의 심장",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "crit_dmg",
+          "value": [
+            20.46,
+            22.04,
+            23.61,
+            25.19,
+            26.76,
+            28.34,
+            29.91,
+            31.49,
+            33.06,
+            34.64
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_weapon:SG",
+          "effect": "crit_rate",
+          "value": [
+            12.6,
+            13.57,
+            14.54,
+            15.51,
+            16.48,
+            17.44,
+            18.41,
+            19.38,
+            20.35,
+            21.32
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "condition": "self_stack_above:포효:5"
+        }
+      ]
+    }
+  ]
 }

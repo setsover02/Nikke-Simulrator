@@ -1,172 +1,166 @@
 {
-    "characterID": "Char_283",
-    "characterName": "로산나 : 시크 오션",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "AR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "언더월드 퀸",
-        "burstLevel": 2,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_283",
+  "characterName": "로산나 : 시크 오션",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "AR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "언더월드 퀸",
+    "burstLevel": 2,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "페리타",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "페리타",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "all_allies",
-                    "effect": "part_dmg_pct",
-                    "value": [
-                        14.33,
-                        15.44,
-                        16.54,
-                        17.64,
-                        18.74,
-                        19.85,
-                        20.95,
-                        22.05,
-                        23.16,
-                        24.26
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "페리타",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:part_destroy",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        1.77,
-                        1.91,
-                        2.04,
-                        2.18,
-                        2.32,
-                        2.45,
-                        2.59,
-                        2.73,
-                        2.86,
-                        3
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "페리타 2",
-                    "type": "buff",
-                    "stack": 5
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "all_allies",
+          "effect": "part_dmg_pct",
+          "value": [
+            14.33,
+            15.44,
+            16.54,
+            17.64,
+            18.74,
+            19.85,
+            20.95,
+            22.05,
+            23.16,
+            24.26
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "스피나 디 로사",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:30s",
-                    "target": "all_allies",
-                    "effect": "part_dmg_pct",
-                    "value": [
-                        14.33,
-                        15.44,
-                        16.54,
-                        17.64,
-                        18.74,
-                        19.85,
-                        20.95,
-                        22.05,
-                        23.16,
-                        24.26
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "스피나 디 로사",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "every:30s",
-                    "target": "enemies_nearest:1",
-                    "effect": "dot_damage",
-                    "value": [
-                        41.6,
-                        44.8,
-                        48,
-                        51.2,
-                        54.4,
-                        57.6,
-                        60.8,
-                        64,
-                        67.2,
-                        70.4
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "스피나 디 로사 2",
-                    "type": "damage"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "온다 그란데",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "dot_dmg_pct",
-                    "value": [
-                        12.01,
-                        12.93,
-                        13.86,
-                        14.78,
-                        15.7,
-                        16.63,
-                        17.55,
-                        18.48,
-                        19.4,
-                        20.32
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "온다 그란데",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        19.04,
-                        20.51,
-                        21.97,
-                        23.44,
-                        24.9,
-                        26.37,
-                        27.83,
-                        29.3,
-                        30.76,
-                        32.23
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "온다 그란데 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "event:part_destroy",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            1.77,
+            1.91,
+            2.04,
+            2.18,
+            2.32,
+            2.45,
+            2.59,
+            2.73,
+            2.86,
+            3
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "stack": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "스피나 디 로사",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:30s",
+          "target": "all_allies",
+          "effect": "part_dmg_pct",
+          "value": [
+            14.33,
+            15.44,
+            16.54,
+            17.64,
+            18.74,
+            19.85,
+            20.95,
+            22.05,
+            23.16,
+            24.26
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "every:30s",
+          "target": "enemies_nearest:1",
+          "effect": "dot_damage",
+          "value": [
+            41.6,
+            44.8,
+            48,
+            51.2,
+            54.4,
+            57.6,
+            60.8,
+            64,
+            67.2,
+            70.4
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "damage"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "온다 그란데",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "dot_dmg_pct",
+          "value": [
+            12.01,
+            12.93,
+            13.86,
+            14.78,
+            15.7,
+            16.63,
+            17.55,
+            18.48,
+            19.4,
+            20.32
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "received_dmg_pct",
+          "value": [
+            19.04,
+            20.51,
+            21.97,
+            23.44,
+            24.9,
+            26.37,
+            27.83,
+            29.3,
+            30.76,
+            32.23
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

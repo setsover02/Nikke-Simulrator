@@ -1,352 +1,338 @@
 {
-    "characterID": "Char_105",
-    "characterName": "맥스웰 : 오디너리 미케닉",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Missilis",
-        "squad": "메티스",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_105",
+  "characterName": "맥스웰 : 오디너리 미케닉",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Missilis",
+    "squad": "메티스",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "순차적 리미트 해제",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "순차적 리미트 해제",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "hp_caster_based_pct",
-                    "value": [
-                        0.5,
-                        0.56,
-                        0.61,
-                        0.67,
-                        0.72,
-                        0.78,
-                        0.84,
-                        0.89,
-                        0.95,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "순차적 리미트 해제",
-                    "type": "buff",
-                    "stack": 30
-                },
-                {
-                    "trigger": "burst_enter:3",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        6.25,
-                        6.67,
-                        7.08,
-                        7.5,
-                        7.92,
-                        8.33,
-                        8.75,
-                        9.16,
-                        9.58,
-                        10
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "순차적 리미트 해제 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "hp_caster_based_pct",
+          "value": [
+            0.5,
+            0.56,
+            0.61,
+            0.67,
+            0.72,
+            0.78,
+            0.84,
+            0.89,
+            0.95,
+            1
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "stack": 30
         },
         {
-            "id": "skill_2",
-            "name": "출력 전환 시퀀스",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_from_hp_pct",
-                    "value": [
-                        0.5,
-                        0.56,
-                        0.61,
-                        0.67,
-                        0.72,
-                        0.78,
-                        0.84,
-                        0.89,
-                        0.95,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "출력 전환 시퀀스",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        15,
-                        16.67,
-                        18.34,
-                        20,
-                        21.67,
-                        23.33,
-                        25,
-                        26.67,
-                        28.33,
-                        30
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "과전류",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "gauge_charge",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "과전류 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "burst_charge_pct",
-                    "value": [
-                        3.58,
-                        3.98,
-                        4.38,
-                        4.77,
-                        5.17,
-                        5.57,
-                        5.96,
-                        6.36,
-                        6.76,
-                        7.15
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "출력 전환 시퀀스 2",
-                    "type": "instant"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "메티스 버스트 버스터",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터",
-                    "type": "weapon_change",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 2",
-                    "type": "buff",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 3",
-                    "type": "buff",
-                    "condition": "gauge_eq:과전류:1",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5,
-                        2.5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 4",
-                    "type": "buff",
-                    "condition": "gauge_eq:과전류:2",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 5",
-                    "type": "buff",
-                    "condition": "gauge_eq:과전류:3",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5,
-                        1.5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 6",
-                    "type": "buff",
-                    "condition": "gauge_eq:과전류:4",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4,
-                        0.4
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "메티스 버스트 버스터 7",
-                    "type": "buff",
-                    "condition": "gauge_eq:과전류:5",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        12.5,
-                        13.89,
-                        15.28,
-                        16.67,
-                        18.06,
-                        19.44,
-                        20.83,
-                        22.22,
-                        23.61,
-                        25
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "메티스 버스트 버스터 8",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "burst_enter:3",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            6.25,
+            6.67,
+            7.08,
+            7.5,
+            7.92,
+            8.33,
+            8.75,
+            9.16,
+            9.58,
+            10
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "출력 전환 시퀀스",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_from_hp_pct",
+          "value": [
+            0.5,
+            0.56,
+            0.61,
+            0.67,
+            0.72,
+            0.78,
+            0.84,
+            0.89,
+            0.95,
+            1
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            15,
+            16.67,
+            18.34,
+            20,
+            21.67,
+            23.33,
+            25,
+            26.67,
+            28.33,
+            30
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "gauge_charge",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "burst_charge_pct",
+          "value": [
+            3.58,
+            3.98,
+            4.38,
+            4.77,
+            5.17,
+            5.57,
+            5.96,
+            6.36,
+            6.76,
+            7.15
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "메티스 버스트 버스터",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "weapon_change",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "gauge_eq:과전류:1",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5,
+            2.5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "gauge_eq:과전류:2",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "gauge_eq:과전류:3",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "gauge_eq:과전류:4",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4,
+            0.4
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "condition": "gauge_eq:과전류:5",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            12.5,
+            13.89,
+            15.28,
+            16.67,
+            18.06,
+            19.44,
+            20.83,
+            22.22,
+            23.61,
+            25
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

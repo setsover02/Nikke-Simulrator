@@ -1,216 +1,208 @@
 {
-    "characterID": "Char_271",
-    "characterName": "누아르",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Tetra",
-        "squad": "",
-        "burstLevel": 3,
-        "atkCoef": 204.6,
-        "maxAmmo": 9,
-        "reloadTime": 0.23,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_271",
+  "characterName": "누아르",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Tetra",
+    "squad": "",
+    "burstLevel": 3,
+    "atkCoef": 204.6,
+    "maxAmmo": 9,
+    "reloadTime": 0.23,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "럭키챰",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "럭키챰",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "passive",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        8.32,
-                        8.96,
-                        9.6,
-                        10.24,
-                        10.88,
-                        11.52,
-                        12.16,
-                        12.8,
-                        13.44,
-                        14.08
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "럭키챰",
-                    "type": "buff",
-                    "condition": "self_hp_above:70"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "래빗 트윈즈 B",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "max_ammo_flat",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        4,
-                        4,
-                        4,
-                        4,
-                        5,
-                        5
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "래빗 트윈즈 B",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "ammo_charge_pct",
-                    "value": [
-                        26.02,
-                        27.56,
-                        29.1,
-                        30.64,
-                        32.18,
-                        33.72,
-                        35.26,
-                        36.8,
-                        38.34,
-                        39.88
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "래빗 트윈즈 B 2",
-                    "type": "instant"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "피날레",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        207.79,
-                        223.77,
-                        239.76,
-                        255.74,
-                        271.72,
-                        287.71,
-                        303.69,
-                        319.68,
-                        335.66,
-                        351.64
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "피날레",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_weapon:SG",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        8.23,
-                        8.87,
-                        9.5,
-                        10.13,
-                        10.77,
-                        11.4,
-                        12.03,
-                        12.67,
-                        13.3,
-                        13.93
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "피날레 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_weapon:SG",
-                    "effect": "intercept_dmg_pct",
-                    "value": [
-                        13.72,
-                        14.78,
-                        15.84,
-                        16.89,
-                        17.95,
-                        19,
-                        20.06,
-                        21.12,
-                        22.17,
-                        23.23
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "피날레 3",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        6.86,
-                        7.39,
-                        7.92,
-                        8.44,
-                        8.97,
-                        9.5,
-                        10.03,
-                        10.56,
-                        11.08,
-                        11.61
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "피날레 4",
-                    "type": "buff",
-                    "condition": "squad_ally_exists"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "intercept_dmg_pct",
-                    "value": [
-                        11.44,
-                        12.32,
-                        13.2,
-                        14.08,
-                        14.96,
-                        15.84,
-                        16.72,
-                        17.6,
-                        18.48,
-                        19.36
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "피날레 5",
-                    "type": "buff",
-                    "condition": "squad_ally_exists"
-                }
-            ]
+          "trigger": "passive",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            8.32,
+            8.96,
+            9.6,
+            10.24,
+            10.88,
+            11.52,
+            12.16,
+            12.8,
+            13.44,
+            14.08
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_hp_above:70"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "래빗 트윈즈 B",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "max_ammo_flat",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            4,
+            4,
+            4,
+            4,
+            5,
+            5
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "ammo_charge_pct",
+          "value": [
+            26.02,
+            27.56,
+            29.1,
+            30.64,
+            32.18,
+            33.72,
+            35.26,
+            36.8,
+            38.34,
+            39.88
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "피날레",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            207.79,
+            223.77,
+            239.76,
+            255.74,
+            271.72,
+            287.71,
+            303.69,
+            319.68,
+            335.66,
+            351.64
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_weapon:SG",
+          "effect": "accuracy_pct",
+          "value": [
+            8.23,
+            8.87,
+            9.5,
+            10.13,
+            10.77,
+            11.4,
+            12.03,
+            12.67,
+            13.3,
+            13.93
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_weapon:SG",
+          "effect": "intercept_dmg_pct",
+          "value": [
+            13.72,
+            14.78,
+            15.84,
+            16.89,
+            17.95,
+            19,
+            20.06,
+            21.12,
+            22.17,
+            23.23
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "accuracy_pct",
+          "value": [
+            6.86,
+            7.39,
+            7.92,
+            8.44,
+            8.97,
+            9.5,
+            10.03,
+            10.56,
+            11.08,
+            11.61
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "condition": "squad_ally_exists"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "intercept_dmg_pct",
+          "value": [
+            11.44,
+            12.32,
+            13.2,
+            14.08,
+            14.96,
+            15.84,
+            16.72,
+            17.6,
+            18.48,
+            19.36
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "buff",
+          "condition": "squad_ally_exists"
+        }
+      ]
+    }
+  ]
 }

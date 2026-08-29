@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "무대, 시작할게.",
           "type": "buff"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "무대, 시작할게. 2",
           "type": "buff"
         },
         {
@@ -84,7 +82,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "무대, 시작할게. 3",
           "type": "buff"
         },
         {
@@ -105,7 +102,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "무대, 시작할게. 4",
           "type": "buff",
           "condition": "self_state:퍼포먼스"
         },
@@ -127,7 +123,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "무대, 시작할게. 5",
           "type": "buff",
           "condition": "self_state:퍼포먼스"
         }
@@ -156,7 +151,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "한 곡 더!",
           "type": "buff"
         },
         {
@@ -177,7 +171,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "무대 파트 : 보컬",
           "type": "buff",
           "condition": "self_state:퍼포먼스"
         },
@@ -199,7 +192,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "앵콜",
           "type": "instant",
           "condition": "self_state:퍼포먼스",
           "target_effect": "퍼포먼스"
@@ -222,7 +214,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "앵콜 2",
           "type": "buff",
           "condition": "self_state:퍼포먼스"
         },
@@ -244,7 +235,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "앵콜 3",
           "type": "instant",
           "condition": "self_state:퍼포먼스"
         }
@@ -295,7 +285,6 @@
           ],
           "unit": "percent",
           "duration": 25,
-          "name": "퍼포먼스 2",
           "type": "instant",
           "scaling": "max_hp"
         },
@@ -317,7 +306,6 @@
           ],
           "unit": "percent",
           "duration": 25,
-          "name": "퍼포먼스 3",
           "type": "buff"
         }
       ]

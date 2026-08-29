@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "보수공사",
           "type": "instant"
         }
       ]
@@ -70,7 +69,6 @@
           ],
           "unit": "percent",
           "duration": 5,
-          "name": "현장검토",
           "type": "buff"
         }
       ]
@@ -99,7 +97,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "착공시작",
           "type": "damage"
         },
         {
@@ -120,7 +117,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "착공시작 2",
           "type": "buff"
         }
       ]

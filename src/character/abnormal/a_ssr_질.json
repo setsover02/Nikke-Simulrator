@@ -1,301 +1,289 @@
 {
-    "characterID": "Char_841",
-    "characterName": "질",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "B.S.T.",
-        "burstLevel": 3,
-        "atkCoef": 71.09,
-        "maxAmmo": 9,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 2.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_841",
+  "characterName": "질",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "B.S.T.",
+    "burstLevel": 3,
+    "atkCoef": 71.09,
+    "maxAmmo": 9,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 2.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "매그넘탄",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "매그넘탄",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "normal_atk_dmg_pct",
-                    "value": [
-                        17.01,
-                        18.46,
-                        19.9,
-                        21.34,
-                        22.79,
-                        24.23,
-                        25.67,
-                        27.12,
-                        28.56,
-                        30
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "매그넘탄",
-                    "type": "buff",
-                    "bullet": 9
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        20.59,
-                        22.19,
-                        23.79,
-                        25.39,
-                        26.99,
-                        28.59,
-                        30.19,
-                        31.79,
-                        33.39,
-                        34.99
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "매그넘탄 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "normal_atk_dmg_pct",
+          "value": [
+            17.01,
+            18.46,
+            19.9,
+            21.34,
+            22.79,
+            24.23,
+            25.67,
+            27.12,
+            28.56,
+            30
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 9
         },
         {
-            "id": "skill_2",
-            "name": "산성탄",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "산성탄",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "dot_damage",
-                    "value": [
-                        113.45,
-                        122.18,
-                        130.9,
-                        139.63,
-                        148.36,
-                        157.09,
-                        165.81,
-                        174.54,
-                        183.27,
-                        192
-                    ],
-                    "unit": "percent",
-                    "duration": 30,
-                    "name": "산성탄 2",
-                    "type": "damage",
-                    "condition": "self_state:산성탄"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "산성탄 3",
-                    "type": "instant",
-                    "condition": "self_state:산성탄",
-                    "target_effect": "산성탄"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        22.15,
-                        24.13,
-                        26.12,
-                        28.11,
-                        30.1,
-                        32.08,
-                        34.07,
-                        36.06,
-                        38.04,
-                        40.03
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "산성탄 4",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "슈퍼 캅",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "reload_time_fixed",
-                    "value": [
-                        0.454,
-                        0.4036,
-                        0.3532,
-                        0.3028,
-                        0.2524,
-                        0.202,
-                        0.1516,
-                        0.1012,
-                        0.0508,
-                        0.0004
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "슈퍼 캅",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "ammo_charge_pct",
-                    "value": [
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100,
-                        -100
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "슈퍼 캅 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "force_reload",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "슈퍼 캅 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        47.73,
-                        51.4,
-                        55.08,
-                        58.75,
-                        62.42,
-                        66.09,
-                        69.76,
-                        73.44,
-                        77.11,
-                        80.78
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "슈퍼 캅 4",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        42.43,
-                        46.05,
-                        49.67,
-                        53.28,
-                        56.9,
-                        60.52,
-                        64.14,
-                        67.76,
-                        71.38,
-                        75
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "슈퍼 캅 5",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "armor_break_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "슈퍼 캅 6",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            20.59,
+            22.19,
+            23.79,
+            25.39,
+            26.99,
+            28.59,
+            30.19,
+            31.79,
+            33.39,
+            34.99
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "산성탄",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "dot_damage",
+          "value": [
+            113.45,
+            122.18,
+            130.9,
+            139.63,
+            148.36,
+            157.09,
+            165.81,
+            174.54,
+            183.27,
+            192
+          ],
+          "unit": "percent",
+          "duration": 30,
+          "type": "damage",
+          "condition": "self_state:산성탄"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "self_state:산성탄",
+          "target_effect": "산성탄"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            22.15,
+            24.13,
+            26.12,
+            28.11,
+            30.1,
+            32.08,
+            34.07,
+            36.06,
+            38.04,
+            40.03
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "슈퍼 캅",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "reload_time_fixed",
+          "value": [
+            0.454,
+            0.4036,
+            0.3532,
+            0.3028,
+            0.2524,
+            0.202,
+            0.1516,
+            0.1012,
+            0.0508,
+            0.0004
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "value": [
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "force_reload",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "accuracy_pct",
+          "value": [
+            47.73,
+            51.4,
+            55.08,
+            58.75,
+            62.42,
+            66.09,
+            69.76,
+            73.44,
+            77.11,
+            80.78
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            42.43,
+            46.05,
+            49.67,
+            53.28,
+            56.9,
+            60.52,
+            64.14,
+            67.76,
+            71.38,
+            75
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "armor_break_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

@@ -1,238 +1,230 @@
 {
-    "characterID": "Char_840",
-    "characterName": "에이다",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "B.S.T.",
-        "burstLevel": 3,
-        "atkCoef": 61.3,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_840",
+  "characterName": "에이다",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "B.S.T.",
+    "burstLevel": 3,
+    "atkCoef": 61.3,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "은밀한 지원",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "은밀한 지원",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "allies_burst_casted_burst3",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        35.46,
-                        38.19,
-                        40.92,
-                        43.64,
-                        46.37,
-                        49.1,
-                        51.83,
-                        54.56,
-                        57.28,
-                        60
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "은밀한 지원",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "allies_burst_casted_burst3",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        29.54,
-                        31.82,
-                        34.09,
-                        36.36,
-                        38.63,
-                        40.91,
-                        43.18,
-                        45.45,
-                        47.73,
-                        50
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "은밀한 지원 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "allies_burst_casted_burst3",
-                    "effect": "lifesteal_pct",
-                    "value": [
-                        5.91,
-                        6.36,
-                        6.81,
-                        7.27,
-                        7.72,
-                        8.18,
-                        8.63,
-                        9.09,
-                        9.54,
-                        10
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "은밀한 지원 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "allies_burst_casted_burst3",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            35.46,
+            38.19,
+            40.92,
+            43.64,
+            46.37,
+            49.1,
+            51.83,
+            54.56,
+            57.28,
+            60
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "섬광 수류탄",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:2s",
-                    "target": "enemies_nearest_in_range",
-                    "effect": "armor_break_damage",
-                    "value": [
-                        248.18,
-                        267.27,
-                        286.36,
-                        305.45,
-                        324.54,
-                        343.63,
-                        362.72,
-                        381.82,
-                        400.91,
-                        420
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광 수류탄 투척",
-                    "type": "damage",
-                    "condition": "during_full_burst"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "effect_interval",
-                    "value": [
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1,
-                        -1
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "섬광 수류탄 투척 발동 시간 조건",
-                    "type": "buff",
-                    "target_effect": "섬광 수류탄 투척"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "allies_burst_casted_burst3",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            29.54,
+            31.82,
+            34.09,
+            36.36,
+            38.63,
+            40.91,
+            43.18,
+            45.45,
+            47.73,
+            50
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "시크릿 에이전트",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        23.63,
-                        25.45,
-                        27.27,
-                        29.09,
-                        30.9,
-                        32.72,
-                        34.54,
-                        36.36,
-                        38.18,
-                        40
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "시크릿 에이전트",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        24.82,
-                        26.73,
-                        28.64,
-                        30.55,
-                        32.46,
-                        34.37,
-                        36.28,
-                        38.19,
-                        40.1,
-                        42
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "시크릿 에이전트 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_speed_pct",
-                    "value": [
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300,
-                        -300
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "특수 개조",
-                    "type": "buff",
-                    "bullet": 1
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        886.37,
-                        954.55,
-                        1022.73,
-                        1090.92,
-                        1159.1,
-                        1227.28,
-                        1295.46,
-                        1363.65,
-                        1431.83,
-                        1500
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "특수 개조 2",
-                    "type": "buff",
-                    "bullet": 1
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "allies_burst_casted_burst3",
+          "effect": "lifesteal_pct",
+          "value": [
+            5.91,
+            6.36,
+            6.81,
+            7.27,
+            7.72,
+            8.18,
+            8.63,
+            9.09,
+            9.54,
+            10
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "섬광 수류탄",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:2s",
+          "target": "enemies_nearest_in_range",
+          "effect": "armor_break_damage",
+          "value": [
+            248.18,
+            267.27,
+            286.36,
+            305.45,
+            324.54,
+            343.63,
+            362.72,
+            381.82,
+            400.91,
+            420
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "섬광 수류탄 투척",
+          "type": "damage",
+          "condition": "during_full_burst"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "effect_interval",
+          "value": [
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1,
+            -1
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "target_effect": "섬광 수류탄 투척"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "시크릿 에이전트",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            23.63,
+            25.45,
+            27.27,
+            29.09,
+            30.9,
+            32.72,
+            34.54,
+            36.36,
+            38.18,
+            40
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            24.82,
+            26.73,
+            28.64,
+            30.55,
+            32.46,
+            34.37,
+            36.28,
+            38.19,
+            40.1,
+            42
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_speed_pct",
+          "value": [
+            -300,
+            -300,
+            -300,
+            -300,
+            -300,
+            -300,
+            -300,
+            -300,
+            -300,
+            -300
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            886.37,
+            954.55,
+            1022.73,
+            1090.92,
+            1159.1,
+            1227.28,
+            1295.46,
+            1363.65,
+            1431.83,
+            1500
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 1
+        }
+      ]
+    }
+  ]
 }

@@ -1,150 +1,145 @@
 {
-    "characterID": "Char_73",
-    "characterName": "브리드 : 사일런트 트랙",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "SG",
-        "class": "지원형",
-        "company": "Elysion",
-        "squad": "인피니티 레일",
-        "burstLevel": 2,
-        "atkCoef": 201.5,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_73",
+  "characterName": "브리드 : 사일런트 트랙",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "SG",
+    "class": "지원형",
+    "company": "Elysion",
+    "squad": "인피니티 레일",
+    "burstLevel": 2,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "기동",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "기동",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "enemies_code:풍압",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        8.93,
-                        9.62,
-                        10.31,
-                        11,
-                        11.69,
-                        12.37,
-                        13.06,
-                        13.75,
-                        14.44,
-                        15.12
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "기동",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_enemies",
-                    "effect": "damage",
-                    "value": [
-                        375.82,
-                        404.73,
-                        433.64,
-                        462.54,
-                        491.45,
-                        520.36,
-                        549.27,
-                        578.18,
-                        607.09,
-                        636
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "기동 2",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "enemies_code:풍압",
+          "effect": "received_dmg_pct",
+          "value": [
+            8.93,
+            9.62,
+            10.31,
+            11,
+            11.69,
+            12.37,
+            13.06,
+            13.75,
+            14.44,
+            15.12
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "전도",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:10",
-                    "target": "enemies_lowest_hp_code:풍압:1",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        7.16,
-                        7.71,
-                        8.27,
-                        8.82,
-                        9.37,
-                        9.92,
-                        10.47,
-                        11.02,
-                        11.57,
-                        12.12
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "전도",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:5",
-                    "target": "enemies_lowest_hp:1",
-                    "effect": "damage",
-                    "value": [
-                        398.86,
-                        429.55,
-                        460.23,
-                        490.91,
-                        521.59,
-                        552.28,
-                        582.96,
-                        613.64,
-                        644.32,
-                        675
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "전도 2",
-                    "type": "damage"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "풀 마스콘",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies_excl_self",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        39.3,
-                        42.33,
-                        45.35,
-                        48.37,
-                        51.4,
-                        54.42,
-                        57.44,
-                        60.47,
-                        63.49,
-                        66.52
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "풀 마스콘",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            375.82,
+            404.73,
+            433.64,
+            462.54,
+            491.45,
+            520.36,
+            549.27,
+            578.18,
+            607.09,
+            636
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "전도",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "hit_count:10",
+          "target": "enemies_lowest_hp_code:풍압:1",
+          "effect": "received_dmg_pct",
+          "value": [
+            7.16,
+            7.71,
+            8.27,
+            8.82,
+            9.37,
+            9.92,
+            10.47,
+            11.02,
+            11.57,
+            12.12
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:5",
+          "target": "enemies_lowest_hp:1",
+          "effect": "damage",
+          "value": [
+            398.86,
+            429.55,
+            460.23,
+            490.91,
+            521.59,
+            552.28,
+            582.96,
+            613.64,
+            644.32,
+            675
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "풀 마스콘",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies_excl_self",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            39.3,
+            42.33,
+            45.35,
+            48.37,
+            51.4,
+            54.42,
+            57.44,
+            60.47,
+            63.49,
+            66.52
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

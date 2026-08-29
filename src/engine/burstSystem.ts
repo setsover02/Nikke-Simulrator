@@ -38,6 +38,29 @@ function getGaugeDelay(ctx: BattleContext): number {
 }
 
 /**
+ * 캐릭터의 현재 유효 버스트 단계를 반환합니다.
+ * 활성 버프 중 burst_stage_override:N이 있으면 N을 반환하고, 없으면 기본 burstLevel을 반환합니다.
+ */
+export function getEffectiveBurstLevel(char: Character, ctx: BattleContext): number {
+    if (ctx.buffManager) {
+        const activeBuffs = ctx.buffManager.getActiveBuffs?.() || [];
+        const override = activeBuffs.find(
+            (b: any) =>
+                b.targetId === char.id &&
+                (b.stat?.startsWith('burst_stage_override:') ||
+                 b.effect?.startsWith('burst_stage_override:') ||
+                 b.effectDef?.effect?.startsWith('burst_stage_override:'))
+        );
+        if (override) {
+            const statStr = override.stat || override.effect || override.effectDef?.effect || '';
+            const n = parseInt(statStr.split(':')[1], 10);
+            if (!isNaN(n)) return n;
+        }
+    }
+    return char.burstLevel ?? 0;
+}
+
+/**
  * 특정 버스트 레벨의 니케 중 이번 체인에서 발동하지 않았고 슬롯 번호가 가장 낮으며 쿨타임이 0인 니케 반환.
  */
 function findBurstCandidate(
@@ -47,7 +70,8 @@ function findBurstCandidate(
 ): Character | null {
     const candidates = ctx.team.members
         .filter(char => {
-            if ((char.burstLevel ?? 0) !== level) return false;
+            const effLevel = getEffectiveBurstLevel(char, ctx);
+            if (effLevel !== level) return false;
             if (excludeIds.has(char.id)) return false;
             const cd = ctx.burstCooldowns[char.id] ?? 0;
             return cd <= 0;
@@ -98,20 +122,20 @@ function fireBurst(ctx: BattleContext, char: Character): void {
 
     // enter_burst_n 플래그 기록
     ctx.state = ctx.state || {};
-    const burstLevel = char.burstLevel ?? 0;
+    const burstLevel = getEffectiveBurstLevel(char, ctx);
     ctx.state[`__enterBurstLevel_${burstLevel}`] = true;
 
-    // BuffManager 이벤트 통지
+    // BuffManager 이벤트 통지 (BuffManager가 활성화되어 있으면 모든 버스트 스킬 효과 디스패치를 전담)
     if (ctx.buffManager) {
         ctx.buffManager.notify('burst_cast', ctx.time, char.id, ctx);
         ctx.buffManager.notify(`burst_enter:${burstLevel}`, ctx.time, char.id, ctx);
-    }
-
-    // 버스트 스킬 효과 적용
-    const effects: any[] = (burstSkill as any).effects ?? [];
-    for (const effectDef of effects) {
-        if (effectDef.effect === 'burst_reenter') continue; // 재진입은 burstSystem에서 제어
-        applyEffect(ctx, char, (burstSkill as any).name || 'Burst Skill', effectDef);
+    } else {
+        // 레거시 fallback: BuffManager가 없을 때만 수동 applyEffect 적용
+        const effects: any[] = (burstSkill as any).effects ?? [];
+        for (const effectDef of effects) {
+            if (effectDef.effect === 'burst_reenter') continue; // 재진입은 burstSystem에서 제어
+            applyEffect(ctx, char, (burstSkill as any).name || 'Burst Skill', effectDef);
+        }
     }
 
     ctx.log.push({

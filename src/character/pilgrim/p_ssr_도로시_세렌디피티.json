@@ -1,283 +1,272 @@
 {
-    "characterID": "Char_234",
-    "characterName": "도로시 : 세렌디피티",
-    "stats": {
-        "rarity": "SSR",
-        "element": "수냉",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "인헤르트",
-        "burstLevel": 3,
-        "atkCoef": 201.5,
-        "maxAmmo": 9,
-        "reloadTime": 1.5,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_234",
+  "characterName": "도로시 : 세렌디피티",
+  "stats": {
+    "rarity": "SSR",
+    "element": "수냉",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "인헤르트",
+    "burstLevel": 3,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "섬광",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "섬광",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "pellet_hit_count:80",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광",
-                    "type": "buff",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "pellet_hit_count:80",
-                    "target": "self",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        78.54,
-                        80.72,
-                        82.9,
-                        85.09,
-                        87.27,
-                        89.45,
-                        91.63,
-                        93.81,
-                        96,
-                        98.18
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광 2",
-                    "type": "buff",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "pellet_hit_count:80",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        43.2,
-                        46.4,
-                        49.6,
-                        52.8,
-                        56,
-                        59.2,
-                        62.4,
-                        65.6,
-                        68.8,
-                        72
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광 3",
-                    "type": "buff",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "pellet_hit_count:80",
-                    "target": "self",
-                    "effect": "pellet_count_fixed",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광 4",
-                    "type": "buff",
-                    "bullet": 3
-                },
-                {
-                    "trigger": "pellet_hit_count:160",
-                    "target": "self",
-                    "effect": "pierce_range",
-                    "value": [
-                        200,
-                        200,
-                        200,
-                        200,
-                        200,
-                        200,
-                        200,
-                        200,
-                        200,
-                        200
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬광 5",
-                    "type": "buff",
-                    "bullet": 3
-                }
-            ]
+          "trigger": "pellet_hit_count:80",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 3
         },
         {
-            "id": "skill_2",
-            "name": "광익",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        31.68,
-                        34.28,
-                        36.88,
-                        39.48,
-                        42.08,
-                        44.68,
-                        47.28,
-                        49.88,
-                        52.48,
-                        55.08
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "광익",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        45,
-                        48.36,
-                        51.72,
-                        55.08,
-                        58.44,
-                        61.8,
-                        65.16,
-                        68.52,
-                        71.88,
-                        75.24
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "광익 2",
-                    "type": "buff",
-                    "condition": "during_full_burst"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        23.4,
-                        25.32,
-                        27.24,
-                        29.16,
-                        31.08,
-                        33,
-                        34.92,
-                        36.84,
-                        38.76,
-                        40.68
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "광익 3",
-                    "type": "buff",
-                    "condition": "during_full_burst"
-                }
-            ]
+          "trigger": "pellet_hit_count:80",
+          "target": "self",
+          "effect": "accuracy_pct",
+          "value": [
+            78.54,
+            80.72,
+            82.9,
+            85.09,
+            87.27,
+            89.45,
+            91.63,
+            93.81,
+            96,
+            98.18
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 3
         },
         {
-            "id": "burst",
-            "name": "위구원",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "attack_speed_pct",
-                    "value": [
-                        36.72,
-                        39.86,
-                        43,
-                        46.14,
-                        49.29,
-                        52.43,
-                        55.57,
-                        58.71,
-                        61.86,
-                        65
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "위구원",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        51.08,
-                        55.19,
-                        59.31,
-                        63.42,
-                        67.54,
-                        71.65,
-                        75.77,
-                        79.89,
-                        84,
-                        88.12
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "위구원 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "pellet_count",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        4,
-                        4,
-                        4,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "위구원 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "pellet_hit_count:80",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            43.2,
+            46.4,
+            49.6,
+            52.8,
+            56,
+            59.2,
+            62.4,
+            65.6,
+            68.8,
+            72
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 3
+        },
+        {
+          "trigger": "pellet_hit_count:80",
+          "target": "self",
+          "effect": "pellet_count_fixed",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 3
+        },
+        {
+          "trigger": "pellet_hit_count:160",
+          "target": "self",
+          "effect": "pierce_range",
+          "value": [
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff",
+          "bullet": 3
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "광익",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            31.68,
+            34.28,
+            36.88,
+            39.48,
+            42.08,
+            44.68,
+            47.28,
+            49.88,
+            52.48,
+            55.08
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            45,
+            48.36,
+            51.72,
+            55.08,
+            58.44,
+            61.8,
+            65.16,
+            68.52,
+            71.88,
+            75.24
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "during_full_burst"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "accuracy_pct",
+          "value": [
+            23.4,
+            25.32,
+            27.24,
+            29.16,
+            31.08,
+            33,
+            34.92,
+            36.84,
+            38.76,
+            40.68
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "during_full_burst"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "위구원",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "attack_speed_pct",
+          "value": [
+            36.72,
+            39.86,
+            43,
+            46.14,
+            49.29,
+            52.43,
+            55.57,
+            58.71,
+            61.86,
+            65
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            51.08,
+            55.19,
+            59.31,
+            63.42,
+            67.54,
+            71.65,
+            75.77,
+            79.89,
+            84,
+            88.12
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "pellet_count",
+          "value": [
+            3,
+            3,
+            3,
+            4,
+            4,
+            4,
+            5,
+            5,
+            5,
+            5
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

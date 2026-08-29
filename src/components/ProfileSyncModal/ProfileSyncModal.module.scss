@@ -36,6 +36,50 @@
     }
 }
 
+.bookmarklet-card {
+    background: var(--Interact-Default);
+    border: 1px solid var(--Interact-Stroke-Hover);
+    border-radius: 8px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.bookmarklet-action-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.bookmarklet-drag-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    background: var(--Primary-100);
+    color: var(--Static-White);
+    font-weight: 700;
+    font-size: 13px;
+    text-decoration: none;
+    cursor: grab;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--Primary-F100);
+    transition: all 0.15s ease;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+        background: var(--Primary-F100);
+    }
+
+    &:active {
+        cursor: grabbing;
+    }
+}
+
 .guide-box {
     background: var(--Interact-Default);
     border: 1px solid var(--Interact-Stroke-Default);
@@ -70,9 +114,33 @@
     margin-top: 1px;
 }
 
+.session-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: var(--Interact-Default);
+    border: 1px solid var(--Interact-Stroke-Default);
+}
+
+.detected-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--Primary-24);
+    color: var(--Primary-F100);
+    border: 1px solid var(--Primary-100);
+    font-size: 11px;
+    font-weight: bold;
+    width: fit-content;
+}
+
 .cookie-textarea {
     width: 100%;
-    height: 90px;
+    height: 70px;
     background: var(--Background-Card);
     border: 1px solid var(--Interact-Stroke-Default);
     border-radius: 6px;

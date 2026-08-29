@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "섬멸 지원",
           "type": "damage",
           "condition": "target_state:안티 AT 필드"
         },
@@ -64,7 +63,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "섬멸 지원 2",
           "type": "instant",
           "condition": "target_state:안티 AT 필드",
           "target_effect": "안티 AT 필드",
@@ -89,7 +87,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "섬멸 지원 3",
           "type": "damage",
           "condition": "self_state:공격 태세"
         },
@@ -111,7 +108,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "섬멸 지원 4",
           "type": "buff",
           "target_effect": "섬멸 태세 추가 효과"
         },
@@ -133,7 +129,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "섬멸 지원 5",
           "type": "buff",
           "target_effect": "섬멸 태세 추가 효과"
         },
@@ -155,7 +150,6 @@
           ],
           "unit": "percent",
           "duration": 9,
-          "name": "섬멸 지원 6",
           "type": "buff"
         }
       ]
@@ -183,7 +177,6 @@
           ],
           "unit": "percent",
           "duration": 13,
-          "name": "정비 및 보급",
           "type": "buff"
         },
         {
@@ -204,7 +197,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "정비 및 보급 2",
           "type": "buff"
         }
       ]
@@ -233,7 +225,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "공격 태세",
           "type": "buff"
         },
         {
@@ -254,7 +245,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "공격 태세 2",
           "type": "buff"
         },
         {
@@ -275,7 +265,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "공격 태세 3",
           "type": "damage"
         }
       ]

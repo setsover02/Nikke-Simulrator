@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "임팩트 타입 엑소스파인",
           "type": "buff"
         },
         {
@@ -85,7 +84,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "임팩트 타입 엑소스파인 2",
           "type": "buff"
         }
       ]
@@ -113,7 +111,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "이글아이 타입 엑소스파인",
           "type": "buff"
         },
         {
@@ -134,7 +131,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "이글아이 타입 엑소스파인 2",
           "type": "buff"
         },
         {
@@ -155,7 +151,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "이글아이 타입 엑소스파인 3",
           "type": "instant",
           "condition": "target_code:전격"
         }
@@ -185,7 +180,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "카운터 체인",
           "type": "damage",
           "hits": 6
         },
@@ -207,7 +201,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "엑소스파인 Mk2",
           "type": "buff",
           "target_effect": "불안정 에너지"
         },
@@ -229,7 +222,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "엑소스파인 Mk2 2",
           "type": "buff",
           "target_effect": "이글아이 타입 엑소스파인"
         }

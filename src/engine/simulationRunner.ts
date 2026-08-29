@@ -247,8 +247,6 @@ function extractChars(
         const effectiveBaseATK = customATK > 0 ? customATK : calculated.atk;
         const atkPercent = parseFloat(slot.equipATK || '0') / 100;
         const weakPercent = parseFloat(slot.equipWeakPoint || '0') / 100;
-        const isWeak = checkAdvantage(enemy.element, charStats.element);
-
         const eq: EquipmentOptions = {
             atkPercent,
             weakPointPercent: weakPercent,
@@ -267,6 +265,7 @@ function extractChars(
         };
         const cubeOpts = { cubeName: slot.cubeName || 'None', cubeLevel: parseInt(slot.cubeLevel || '0', 10) || 0 };
         const char = applyBaseStats(slot.char.data, showCore, eq, slot.collectionGrade, collectionLevelNum, originalIndex, skillLevels, cubeOpts);
+        const isWeak = checkAdvantage(enemy.element, charStats.element, char.id);
         const hitDamages = calcHitDamages(
             {
                 atk: effectiveBaseATK,

@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": 3,
-          "name": "여왕의 시선",
           "type": "buff"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "여왕의 시선 2",
           "type": "damage"
         },
         {
@@ -84,7 +82,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "여왕의 시선 3",
           "type": "instant"
         }
       ]
@@ -112,7 +109,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "눈보라",
           "type": "damage"
         },
         {
@@ -133,7 +129,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "눈보라 2",
           "type": "buff"
         }
       ]
@@ -162,7 +157,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "이끄는 등불",
           "type": "buff"
         },
         {
@@ -183,7 +177,6 @@
           ],
           "unit": "percent",
           "duration": 20,
-          "name": "이끄는 등불 2",
           "type": "buff"
         }
       ]

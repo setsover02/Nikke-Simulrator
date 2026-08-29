@@ -1,213 +1,205 @@
 {
-    "characterID": "Char_202",
-    "characterName": "도라",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "달란트",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_202",
+  "characterName": "도라",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "달란트",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "기업가 정신",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "기업가 정신",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:10s",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        8.88,
-                        9.69,
-                        10.5,
-                        11.31,
-                        12.12,
-                        12.93,
-                        13.73,
-                        14.54,
-                        15.35,
-                        16.16
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "기업가 정신",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "skill_2",
-            "name": "리스크 공유",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start_count:1",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리스크 공유",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:2",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리스크 공유 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:3",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "리스크 공유 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "burst_cast_count:1",
-                    "target": "all_allies",
-                    "effect": "atk_pct",
-                    "value": [
-                        1.18,
-                        1.91,
-                        2.64,
-                        3.36,
-                        4.09,
-                        4.81,
-                        5.54,
-                        6.27,
-                        6.99,
-                        7.72
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리스크 공유 4",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:2",
-                    "target": "all_allies",
-                    "effect": "crit_rate",
-                    "value": [
-                        1.05,
-                        1.4,
-                        1.75,
-                        2.1,
-                        2.45,
-                        2.8,
-                        3.15,
-                        3.5,
-                        3.85,
-                        4.21
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리스크 공유 5",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:3",
-                    "target": "all_allies",
-                    "effect": "crit_dmg",
-                    "value": [
-                        3.85,
-                        4.89,
-                        5.93,
-                        6.98,
-                        8.02,
-                        9.06,
-                        10.1,
-                        11.14,
-                        12.18,
-                        13.22
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "리스크 공유 6",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "R&D 샷",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_top_def:1",
-                    "effect": "burst_damage",
-                    "value": [
-                        404.08,
-                        440.81,
-                        477.55,
-                        514.28,
-                        551.02,
-                        587.75,
-                        624.48,
-                        661.22,
-                        697.95,
-                        734.69
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "R&D 샷",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "every:10s",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            8.88,
+            9.69,
+            10.5,
+            11.31,
+            12.12,
+            12.93,
+            13.73,
+            14.54,
+            15.35,
+            16.16
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "리스크 공유",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start_count:1",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_burst_start_count:2",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_burst_start_count:3",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "burst_cast_count:1",
+          "target": "all_allies",
+          "effect": "atk_pct",
+          "value": [
+            1.18,
+            1.91,
+            2.64,
+            3.36,
+            4.09,
+            4.81,
+            5.54,
+            6.27,
+            6.99,
+            7.72
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast_count:2",
+          "target": "all_allies",
+          "effect": "crit_rate",
+          "value": [
+            1.05,
+            1.4,
+            1.75,
+            2.1,
+            2.45,
+            2.8,
+            3.15,
+            3.5,
+            3.85,
+            4.21
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast_count:3",
+          "target": "all_allies",
+          "effect": "crit_dmg",
+          "value": [
+            3.85,
+            4.89,
+            5.93,
+            6.98,
+            8.02,
+            9.06,
+            10.1,
+            11.14,
+            12.18,
+            13.22
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "R&D 샷",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_top_def:1",
+          "effect": "burst_damage",
+          "value": [
+            404.08,
+            440.81,
+            477.55,
+            514.28,
+            551.02,
+            587.75,
+            624.48,
+            661.22,
+            697.95,
+            734.69
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
 }

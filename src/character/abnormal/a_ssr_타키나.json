@@ -1,214 +1,206 @@
 {
-    "characterID": "Char_861",
-    "characterName": "타키나",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Abnormal",
-        "squad": "찻집 리코리코",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_861",
+  "characterName": "타키나",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Abnormal",
+    "squad": "찻집 리코리코",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "전투 보정",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "전투 보정",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        47.29,
-                        50.93,
-                        54.57,
-                        58.21,
-                        61.85,
-                        65.49,
-                        69.12,
-                        72.76,
-                        76.4,
-                        80.04
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "전투 보정",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        20.71,
-                        22.3,
-                        23.9,
-                        25.49,
-                        27.08,
-                        28.68,
-                        30.27,
-                        31.86,
-                        33.46,
-                        35.05
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "전투 보정 2",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            47.29,
+            50.93,
+            54.57,
+            58.21,
+            61.85,
+            65.49,
+            69.12,
+            72.76,
+            76.4,
+            80.04
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "전장 통제",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:15s",
-                    "target": "all_enemies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        5.96,
-                        6.42,
-                        6.88,
-                        7.33,
-                        7.79,
-                        8.25,
-                        8.71,
-                        9.17,
-                        9.63,
-                        10.09
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "전장 통제",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "every:15s",
-                    "target": "all_enemies",
-                    "effect": "stun",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 2,
-                    "name": "전장 통제 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "every:15s",
-                    "target": "all_allies",
-                    "effect": "armor_break_dmg_pct",
-                    "value": [
-                        83.01,
-                        89.4,
-                        95.79,
-                        102.17,
-                        108.56,
-                        114.94,
-                        121.33,
-                        127.72,
-                        134.1,
-                        140.49
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "전장 통제 3",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "제압 개시",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "제압 개시",
-                    "type": "weapon_change"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "armor_break_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "제압 개시 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        3.56,
-                        3.84,
-                        4.11,
-                        4.39,
-                        4.66,
-                        4.94,
-                        5.21,
-                        5.49,
-                        5.76,
-                        6.04
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "제압 개시 3",
-                    "type": "buff",
-                    "condition": "self_state:제압 개시"
-                }
-            ]
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            20.71,
+            22.3,
+            23.9,
+            25.49,
+            27.08,
+            28.68,
+            30.27,
+            31.86,
+            33.46,
+            35.05
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "전장 통제",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:15s",
+          "target": "all_enemies",
+          "effect": "received_dmg_pct",
+          "value": [
+            5.96,
+            6.42,
+            6.88,
+            7.33,
+            7.79,
+            8.25,
+            8.71,
+            9.17,
+            9.63,
+            10.09
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "every:15s",
+          "target": "all_enemies",
+          "effect": "stun",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 2,
+          "type": "buff"
+        },
+        {
+          "trigger": "every:15s",
+          "target": "all_allies",
+          "effect": "armor_break_dmg_pct",
+          "value": [
+            83.01,
+            89.4,
+            95.79,
+            102.17,
+            108.56,
+            114.94,
+            121.33,
+            127.72,
+            134.1,
+            140.49
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "제압 개시",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "weapon_change"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "armor_break_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "received_dmg_pct",
+          "value": [
+            3.56,
+            3.84,
+            4.11,
+            4.39,
+            4.66,
+            4.94,
+            5.21,
+            5.49,
+            5.76,
+            6.04
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "condition": "self_state:제압 개시"
+        }
+      ]
+    }
+  ]
 }

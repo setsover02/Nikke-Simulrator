@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "무결한 유리",
           "type": "buff"
         },
         {
@@ -63,7 +62,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "무결한 유리 2",
           "type": "buff"
         },
         {
@@ -84,7 +82,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "무결한 유리 3",
           "type": "instant",
           "target_effect": "무결한 유리"
         },
@@ -106,7 +103,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "무결한 유리 4",
           "type": "damage"
         }
       ]
@@ -186,7 +182,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "유리 구두 풀 컨텍트",
           "type": "damage",
           "hits": 10
         },
@@ -208,7 +203,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "유리 구두 풀 컨텍트 2",
           "type": "damage",
           "condition": "self_state:아름다움",
           "scaling": "stack_count",

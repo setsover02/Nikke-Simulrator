@@ -35,6 +35,7 @@ export interface NormalizedSkillEffect {
   scaling_ref?: string;
   target_effect?: string;
   target_skill?: string;
+  target_code?: string;
   gauge_id?: string;
   feather_id?: string;
   casterId?: string;
@@ -70,6 +71,7 @@ export interface ActiveBuff {
   hasRuntimeConditions?: boolean;
   scaling?: string;
   scalingRef?: string;
+  target_code?: string;
 }
 
 /** 집계된 버프 딕셔너리 — PARSING.md stat 마스터 테이블 기준

@@ -25,10 +25,44 @@ export interface EquipmentOptions {
  * @param charElement    캐릭터 코드
  * @returns 캐릭터 코드가 적의 약점 코드와 일치하면 true (우월코드 보너스 적용)
  */
-export function checkAdvantage(enemyWeakCode: string | undefined, charElement: string | undefined): boolean {
-    if (!enemyWeakCode || !charElement) return false;
-    // 적의 약점 코드 = 캐릭터 코드 → 우월코드 보너스 적용
-    return enemyWeakCode === charElement;
+export function checkAdvantage(enemyWeakCode: string | undefined, charElement: string | undefined, charId?: string, ctx?: any): boolean {
+    const weakCode = enemyWeakCode || ctx?.enemy?.element;
+    if (!weakCode || !charElement) return false;
+
+    // 1. 기본 약점 속성 일치 (예: SimToolbar에서 '작열' 약점을 선택했고 캐릭터가 '작열'인 경우)
+    if (weakCode === charElement) {
+        return true;
+    }
+
+    // 2. element_code_override 버프 검사
+    // - 라피의 target_code = '전격' (전격 보스) -> 전격 보스의 약점 속성은 '철갑'임.
+    // - 따라서 SimToolbar에서 '철갑' 약점을 골랐을 때도 우월코드(1.1x + 장비우코)가 적용됨.
+    if (ctx && ctx.buffManager && charId) {
+        const activeBuffs = ctx.buffManager.getActiveBuffs?.() || [];
+        const hasOverride = activeBuffs.some((b: any) => {
+            if (b.targetId !== charId && b.casterId !== charId) return false;
+            const isElemOverride = (
+                b.stat === 'element_code_override' ||
+                b.effect === 'element_code_override' ||
+                b.effectDef?.effect === 'element_code_override' ||
+                b.effectDef?.stat === 'element_code_override'
+            );
+            if (!isElemOverride) return false;
+
+            const targetCode = b.target_code || b.effectDef?.target_code;
+            if (!targetCode) return false;
+
+            // 각 적 본체 속성에 대응하는 약점 속성 선택값 매핑
+            if (targetCode === '전격' && (weakCode === '철갑' || weakCode === '전격')) return true;
+            if (targetCode === '수냉' && (weakCode === '전격' || weakCode === '수냉')) return true;
+            if (targetCode === '작열' && (weakCode === '수냉' || weakCode === '작열')) return true;
+            if (targetCode === '풍압' && (weakCode === '작열' || weakCode === '풍압')) return true;
+            if (targetCode === '철갑' && (weakCode === '풍압' || weakCode === '철갑')) return true;
+            return false;
+        });
+        if (hasOverride) return true;
+    }
+    return false;
 }
 
 export const applyBaseStats = (

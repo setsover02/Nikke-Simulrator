@@ -1,195 +1,188 @@
 {
-    "characterID": "Char_260",
-    "characterName": "모더니아",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "헬레틱",
-        "burstLevel": 3,
-        "atkCoef": 7.71,
-        "maxAmmo": 300,
-        "reloadTime": 2.3,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_260",
+  "characterName": "모더니아",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "헬레틱",
+    "burstLevel": 3,
+    "atkCoef": 7.71,
+    "maxAmmo": 300,
+    "reloadTime": 2.3,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "고속진화",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "고속진화",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:1",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        1.9,
-                        2.03,
-                        2.16,
-                        2.29,
-                        2.41,
-                        2.54,
-                        2.67,
-                        2.8,
-                        2.92,
-                        3.05
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "고속진화",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "hit_count:200",
-                    "target": "self",
-                    "effect": "crit_dmg",
-                    "value": [
-                        9.93,
-                        10.41,
-                        10.89,
-                        11.37,
-                        11.85,
-                        12.33,
-                        12.81,
-                        13.29,
-                        13.77,
-                        14.25
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "고속진화 2",
-                    "type": "buff",
-                    "stack": 5
-                },
-                {
-                    "trigger": "hit_count:200",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04,
-                        -5.04
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "고속진화 3",
-                    "type": "buff",
-                    "stack": 5
-                }
-            ]
+          "trigger": "hit_count:1",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            1.9,
+            2.03,
+            2.16,
+            2.29,
+            2.41,
+            2.54,
+            2.67,
+            2.8,
+            2.92,
+            3.05
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         },
         {
-            "id": "skill_2",
-            "name": "대도약",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_allies",
-                    "effect": "accuracy_pct",
-                    "value": [
-                        5.35,
-                        5.7,
-                        6.06,
-                        6.42,
-                        6.77,
-                        7.13,
-                        7.49,
-                        7.84,
-                        8.2,
-                        8.56
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "대도약",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:200",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        18.36,
-                        19.59,
-                        20.81,
-                        22.04,
-                        23.26,
-                        24.48,
-                        25.71,
-                        26.93,
-                        28.16,
-                        29.38
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "대도약 2",
-                    "type": "buff",
-                    "condition": "self_stat_above:accuracy_pct:0"
-                }
-            ]
+          "trigger": "hit_count:200",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            9.93,
+            10.41,
+            10.89,
+            11.37,
+            11.85,
+            12.33,
+            12.81,
+            13.29,
+            13.77,
+            14.25
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "stack": 5
         },
         {
-            "id": "burst",
-            "name": "신세계",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "fullburst_duration",
-                    "value": [
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5,
-                        5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "신세계",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": 15,
-                    "name": "섬멸 모드",
-                    "type": "weapon_change"
-                }
-            ]
+          "trigger": "hit_count:200",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04,
+            -5.04
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "stack": 5
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "대도약",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "all_allies",
+          "effect": "accuracy_pct",
+          "value": [
+            5.35,
+            5.7,
+            6.06,
+            6.42,
+            6.77,
+            7.13,
+            7.49,
+            7.84,
+            8.2,
+            8.56
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "buff"
+        },
+        {
+          "trigger": "hit_count:200",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            18.36,
+            19.59,
+            20.81,
+            22.04,
+            23.26,
+            24.48,
+            25.71,
+            26.93,
+            28.16,
+            29.38
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "condition": "self_stat_above:accuracy_pct:0"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "신세계",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "fullburst_duration",
+          "value": [
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5,
+            5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": 15,
+          "type": "weapon_change"
+        }
+      ]
+    }
+  ]
 }

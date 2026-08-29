@@ -17,6 +17,8 @@ import {
 } from './buffConstants';
 import { BattleContext, Character } from '../types/battle';
 import { checkAdvantage } from '../utils/charUtils';
+import { calcNikkeDamage } from './nikkeFormula';
+import { DamageParams } from '../types/damage';
 
 export class BuffManager {
   private _nextUid = 1;
@@ -175,6 +177,7 @@ export class BuffManager {
             scaling_ref: eff.scaling_ref,
             target_effect: eff.target_effect,
             target_skill: eff.target_skill,
+            target_code: eff.target_code,
             gauge_id: eff.gauge_id,
             feather_id: eff.feather_id,
             weapon_override: eff.weapon_override,
@@ -225,19 +228,27 @@ export class BuffManager {
         }
       }
 
-      // 일반 시전자 필터링
+      // 전장/팀 공통 이벤트(full_burst_start, full_burst_end, battle_start 등)는 시전자 일치 여부와 무관하게 모든 니케 대상 평가
+      const isGlobalTiming = eff.trigger.timing.some(
+        (tm) =>
+          tm === 'full_burst_start' ||
+          tm === 'full_burst_end' ||
+          tm === 'battle_start' ||
+          tm.startsWith('all_allies') ||
+          tm.startsWith('squad_')
+      );
+
+      // 일반 시전자 필터링 (글로벌 타이밍이 아닌 경우 본인 이벤트만 처리)
       if (
         casterId &&
         eff.casterId &&
         eff.casterId !== casterId &&
-        !eff.trigger.timing.some(
-          (tm) => tm.startsWith('all_allies') || tm.startsWith('squad_')
-        )
+        !isGlobalTiming
       ) {
         continue;
       }
 
-      if (!this._timingMatch(eff.trigger.timing, event, currentCount, casterId, ctx)) {
+      if (!this._timingMatch(eff, eff.trigger.timing, event, currentCount, casterId, ctx)) {
         continue;
       }
 
@@ -249,8 +260,42 @@ export class BuffManager {
     }
   }
 
+  /** 활성화된 trigger_count_reduce 버프가 eff를 대상으로 하면 n을 감소시킨다. 최솟값 1. */
+  private _applyTriggerCountReduce(
+    n: number,
+    eff: NormalizedSkillEffect,
+    casterId: string,
+    t: number
+  ): number {
+    if (!casterId) return n;
+    let reduce = 0;
+    for (const ab of this._active) {
+      if (ab.targetId !== casterId && ab.casterId !== casterId) continue;
+      if (ab.stat !== 'trigger_count_reduce' && ab.effectDef?.stat !== 'trigger_count_reduce') continue;
+      if (ab.expiresAt !== Infinity && ab.expiresAt <= t) continue;
+      const targetName = ab.effectDef?.target_effect || (ab as any).target_effect;
+      if (!targetName) continue;
+      if (eff.name === targetName) {
+        reduce += (ab.effectDef?.fixed_value ?? ab.value ?? 0);
+      } else {
+        const effTimings = eff.trigger?.timing || [];
+        const hasMatch = this._effects.some(
+          (e) =>
+            e.casterId === casterId &&
+            e.name === targetName &&
+            e.trigger?.timing?.some((tm) => effTimings.includes(tm))
+        );
+        if (hasMatch) {
+          reduce += (ab.effectDef?.fixed_value ?? ab.value ?? 0);
+        }
+      }
+    }
+    return Math.max(1, n - reduce);
+  }
+
   /** 타이밍 일치 여부 확인 — IMPL-STATUS.md trigger 마스터 테이블 기준 */
   private _timingMatch(
+    eff: NormalizedSkillEffect,
     timings: string[],
     event: string,
     count: number,
@@ -260,6 +305,11 @@ export class BuffManager {
     for (const tm of timings) {
       // 완전 일치
       if (tm === event) return true;
+
+      // weapon_hit:name (named damage effect 발동 시)
+      if (tm.startsWith('weapon_hit:') && event.startsWith('weapon_hit:')) {
+        if (tm === event) return true;
+      }
 
       // timing_count:N — 누적 달성형 이벤트(full_burst_start_count, full_burst_end_count, burst_cast_count 등)만 >= req 적용
       const CUMULATIVE_COUNT_EVENTS = new Set(['full_burst_start', 'full_burst_end', 'burst_cast', 'burst_enter']);
@@ -274,12 +324,13 @@ export class BuffManager {
         if (!isNaN(req) && count === req) return true;
       }
 
-      // hit_count:N (N발마다)
+      // hit_count:N (N발마다 — trigger_count_reduce 버프로 N 감소 가능)
       if (event === 'hit_count' && tm.startsWith('hit_count:')) {
         const parts = tm.split(':');
         if (parts.length === 2) {
           const req = parseInt(parts[1], 10);
-          if (!isNaN(req) && count % req === 0) return true;
+          const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+          if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
         }
       }
 
@@ -290,32 +341,37 @@ export class BuffManager {
         const effName = evParts.slice(1).join(':');
         if (tm.startsWith(`hit_count:${effName}:`)) {
           const req = parseInt(tm.split(':').pop() || '0', 10);
-          if (!isNaN(req) && count % req === 0) return true;
+          const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+          if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
         }
       }
 
       // full_charge_count:N (풀차지 N회마다)
       if ((event === 'full_charge' || event === 'full_charge_hit') && tm.startsWith('full_charge_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
-        if (!isNaN(req) && count % req === 0) return true;
+        const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+        if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
       }
 
       // crit_hit_count:N
       if (event === 'crit_hit' && tm.startsWith('crit_hit_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
-        if (!isNaN(req) && count % req === 0) return true;
+        const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+        if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
       }
 
       // core_hit_count:N
       if (event === 'core_hit' && tm.startsWith('core_hit_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
-        if (!isNaN(req) && count % req === 0) return true;
+        const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+        if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
       }
 
       // pellet_hit_count:N
       if (event === 'pellet_hit' && tm.startsWith('pellet_hit_count:')) {
         const req = parseInt(tm.split(':')[1], 10);
-        if (!isNaN(req) && count % req === 0) return true;
+        const effReq = this._applyTriggerCountReduce(req, eff, eff.casterId || casterId || '', ctx.time);
+        if (!isNaN(effReq) && effReq > 0 && count % effReq === 0) return true;
       }
 
       // squad_ammo_consume:N (N발 소비마다)
@@ -456,10 +512,15 @@ export class BuffManager {
         const parts = cond.split(':');
         const buffName = parts[1];
         const thresh = parseInt(parts[2] || '0', 10);
-        const ab = this._active.find(
-          (b) => b.targetId === (eff.casterId || casterId) && b.name === buffName
-        );
-        if (!ab || ab.stack <= thresh) return false;
+        const cId = eff.casterId || casterId;
+        const current = this._active
+          .filter(
+            (b) =>
+              b.name === buffName &&
+              (b.casterId === cId || b.targetId === cId || b.targetId === '__enemy__')
+          )
+          .reduce((max, b) => Math.max(max, b.stack), 0);
+        if (current < thresh) return false;
       }
 
       if (cond.startsWith('gauge_above:')) {
@@ -492,14 +553,14 @@ export class BuffManager {
 
       if (cond === 'has_burst1_ally') {
         const has = ctx.team.members.some(
-          (m) => (m as any).burstStage === 1
+          (m) => m.id !== (eff.casterId || casterId) && ((m.burstLevel ?? 0) === 1 || (m as any).burstStage === 1)
         );
         if (!has) return false;
       }
 
       if (cond === 'no_burst1_ally') {
         const has = ctx.team.members.some(
-          (m) => (m as any).burstStage === 1
+          (m) => m.id !== (eff.casterId || casterId) && ((m.burstLevel ?? 0) === 1 || (m as any).burstStage === 1)
         );
         if (has) return false;
       }
@@ -626,6 +687,7 @@ export class BuffManager {
           effectDef: eff,
           scaling: eff.scaling,
           scalingRef: eff.scaling_ref,
+          target_code: eff.target_code,
         };
         this._active.push(newBuff);
         this._timelineEvents.push({
@@ -868,7 +930,7 @@ export class BuffManager {
 
     // ── 버스트3 아군 ──────────────────────────────────────────
     if (targetPattern === 'allies_burst3') {
-      return members.filter((m) => (m as any).burstStage === 3).map((m) => m.id);
+      return members.filter((m) => (m.burstLevel === 3 || (m as any).burstStage === 3)).map((m) => m.id);
     }
 
     // ── 버스트3 중 공격력 하위 N명 ────────────────────────────
@@ -876,7 +938,7 @@ export class BuffManager {
     if (lowestAtkB3Match) {
       const n = parseInt(lowestAtkB3Match[1]);
       return [...members]
-        .filter((m) => (m as any).burstStage === 3)
+        .filter((m) => (m.burstLevel === 3 || (m as any).burstStage === 3))
         .sort((a, b) => this._getEffectiveAtk(a, ctx) - this._getEffectiveAtk(b, ctx))
         .slice(0, n)
         .map((m) => m.id);
@@ -911,7 +973,7 @@ export class BuffManager {
         .filter(
           (m) =>
             (ctx.state as any)?.burst_casted?.[m.id] &&
-            (m as any).burstStage === 3
+            (m.burstLevel === 3 || (m as any).burstStage === 3)
         )
         .map((m) => m.id);
     }
@@ -944,7 +1006,7 @@ export class BuffManager {
         .filter(
           (m) =>
             m.id !== casterId &&
-            (m as any).burstStage === 3 &&
+            (m.burstLevel === 3 || (m as any).burstStage === 3) &&
             this._active.some((ab) => ab.targetId === m.id && ab.stat === 'persona_state')
         )
         .map((m) => m.id);
@@ -1101,6 +1163,23 @@ export class BuffManager {
         }
       }
 
+      // ── 버프 이름 기반 전체 제거 ────────────────────────────
+      else if (stat === 'remove_named_buff') {
+        const buffName = eff.target_effect;
+        if (buffName) {
+          this._active = this._active.filter((ab) => {
+            const matchesName = ab.name === buffName || ab.effectDef?.name === buffName;
+            const matchesTarget = ab.targetId === targetId || ab.casterId === targetId || targetId === '__enemy__';
+            if (matchesName && matchesTarget) {
+              const ev = this._timelineEvents.find((e) => e.uid === ab.uid && e.endTime === Infinity);
+              if (ev) ev.endTime = t;
+              return false;
+            }
+            return true;
+          });
+        }
+      }
+
       // ── 스킬 쿨 감소 (%) ──────────────────────────────────
       else if (stat === 'skill_cooldown_reduce_pct') {
         // target 캐릭터의 every:Ns 스킬 잔여 시간 단축
@@ -1133,8 +1212,80 @@ export class BuffManager {
         nextTick: t + interval,
         expiresAt: t + (duration as number),
       });
+      return;
     }
-    // 단발 스킬 대미지는 damageCalc에서 처리
+
+    const caster = ctx.team.members.find((m) => m.id === casterId);
+    if (!caster) return;
+
+    let scaleFactor = 1;
+    if (eff.scaling === 'stack_count' && eff.scaling_ref) {
+      const refBuff = this._active.find(
+        (b) =>
+          b.name === eff.scaling_ref &&
+          (b.casterId === casterId || b.targetId === casterId || b.targetId === '__enemy__')
+      );
+      scaleFactor = refBuff ? refBuff.stack : 0;
+      if (scaleFactor === 0) return;
+    }
+
+    const buffs = this.getBuffs(caster.id, caster.id, ctx, t);
+    const enemyBuffs = this.getBuffs('__enemy__', caster.id, ctx, t);
+    const hasAdvantage = checkAdvantage(ctx.enemy.element, caster.element, caster.id, ctx);
+    const critChance = (buffs.crit_rate || (caster.crit ?? 15) + (caster.buff?.critRate || 0)) / 100;
+    const isCrit = ctx.rng ? ctx.rng.next() < critChance : false;
+
+    const damageParams: DamageParams = {
+      baseATK: caster.atk || 0,
+      extraATKPercent: (caster.equipATKPercent ?? 0) + (buffs.atk_pct / 100),
+      extraATKFlat: buffs.atk_flat || (caster.buff?.extraATK ?? 0),
+      enemyBaseDEF: ctx.enemy.defense || 0,
+      enemyDEFPercent: buffs.enemy_def_down_pct ? -(buffs.enemy_def_down_pct / 100) : 0,
+      enemyDEFFlat: ctx.enemy.debuff?.defFlat ?? 0,
+      atkCoef: (eff.value / 100) * scaleFactor,
+      finalATKModifier: 0,
+      isNormalAttack: false,
+      isCrit,
+      critBonusBase: (caster.critMult ? (caster.critMult - 1) : 0.5) + (caster.equipCritDmgPercent ?? 0),
+      extraCritDmg: buffs.crit_dmg / 100,
+      isCore: false,
+      coreHitBonus: 0,
+      fullBurstBonus: ctx.burstActive ? 0.5 : 0,
+      rangeBonus: 0,
+      weakPointBase: hasAdvantage ? 1.1 : 1.0,
+      weakPointExtra: (buffs.element_bonus_pct / 100) + (hasAdvantage ? (caster.equipWeakPointPercent ?? 0) : 0),
+      chargeDmgBonus: 0,
+      atkDmgUp: buffs.atk_dmg_pct / 100,
+      dotDmgUp: buffs.dot_dmg_pct / 100,
+      pierceDmgUp: (caster.cubePierceDmgUp ?? 0) + (buffs.pierce_dmg_pct / 100),
+      partDmgUp: (caster.cubePartDmgUp ?? 0) + (buffs.part_dmg_pct / 100),
+      projectileAttachmentDmgUp: eff.stat === 'projectile_attachment_damage' ? (buffs.projectile_attachment_dmg / 100) : 0,
+      projectileExplosionDmgUp: eff.stat === 'projectile_explosion_damage' ? (buffs.projectile_explosion_dmg / 100) : 0,
+      burstDmgUp: eff.stat === 'burst_damage' ? (buffs.burst_dmg_pct / 100) : 0,
+      extraDmgUp: 0,
+      enemyTakenUp: (enemyBuffs.received_dmg / 100) + (buffs.received_dmg / 100) + (ctx.enemy.debuff?.takenUp ?? 0),
+      shareDmgUp: (buffs.split_dmg_pct / 100) + (caster.cubeSplitDmgUp ?? 0),
+      enemyTakenDown: ctx.enemy.debuff?.takenDown ?? 0,
+    };
+
+    const singleDmg = calcNikkeDamage(damageParams);
+    const hits = eff.hits || 1;
+    const totalDmg = singleDmg * hits;
+
+    ctx.enemy.hp -= totalDmg;
+    ctx.totalDamage += totalDmg;
+    ctx.log.push({
+      time: t,
+      type: 'skill_damage',
+      source: casterId,
+      value: totalDmg,
+      description: eff.stat,
+      skillName: eff.name,
+    });
+
+    if (eff.name && !eff.trigger.timing.some((tm) => tm.startsWith('weapon_hit:'))) {
+      this.notify(`weapon_hit:${eff.name}`, t, casterId, ctx);
+    }
   }
 
   /** 매 프레임(dt) 갱신 */

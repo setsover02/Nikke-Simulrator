@@ -277,8 +277,8 @@ function buildDamageParams(
         rangeBonus: 0,  // PARSING.md에 range_bonus 없음, 0으로 고정
 
         /* ④ Element Bonus */
-        weakPointBase: checkAdvantage(ctx.enemy.element, char.element) ? 1.1 : 1.0,
-        weakPointExtra: (buffs ? buffs.element_bonus_pct / 100 : ((char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0))) + (checkAdvantage(ctx.enemy.element, char.element) ? (char.equipWeakPointPercent ?? 0) : 0),
+        weakPointBase: checkAdvantage(ctx.enemy.element, char.element, char.id, ctx) ? 1.1 : 1.0,
+        weakPointExtra: (buffs ? buffs.element_bonus_pct / 100 : ((char.buff?.weak ?? 0) + (char.buff?.elementDmgUp ?? 0))) + (checkAdvantage(ctx.enemy.element, char.element, char.id, ctx) ? (char.equipWeakPointPercent ?? 0) : 0),
 
         /* ⑤ Charge Damage */
         chargeDmgBonus: isChargeAttack ? ((1 + (char.fullChargeDamage ?? 0)) * (1 + (buffs ? buffs.charge_dmg_pct / 100 : (char.buff?.chargeDmg ?? 0))) - 1) : 0, // charge는 이미 OR 패턴

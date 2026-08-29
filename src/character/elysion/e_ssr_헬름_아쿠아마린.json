@@ -1,216 +1,208 @@
 {
-    "characterID": "Char_353",
-    "characterName": "헬름 : 아쿠아마린",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Elysion",
-        "squad": "이지스",
-        "burstLevel": 2,
-        "atkCoef": 13.65,
-        "maxAmmo": 60,
-        "reloadTime": 1,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_353",
+  "characterName": "헬름 : 아쿠아마린",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Elysion",
+    "squad": "이지스",
+    "burstLevel": 2,
+    "atkCoef": 13.65,
+    "maxAmmo": 60,
+    "reloadTime": 1,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "위드 어드마이어",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "위드 어드마이어",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:30",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        38.76,
-                        49.05,
-                        59.34,
-                        69.61,
-                        79.92,
-                        90.19,
-                        100.48,
-                        110.76,
-                        121.05,
-                        131.34
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위드 어드마이어",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "full_burst_start_count:1",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82,
-                        1.82
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위드 어드마이어 2",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:2",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2,
-                        2.2
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위드 어드마이어 3",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_burst_start_count:3",
-                    "target": "all_allies",
-                    "effect": "burst_cooldown_reduce",
-                    "value": [
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6,
-                        2.6
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "위드 어드마이어 4",
-                    "type": "instant"
-                }
-            ]
+          "trigger": "hit_count:30",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            38.76,
+            49.05,
+            59.34,
+            69.61,
+            79.92,
+            90.19,
+            100.48,
+            110.76,
+            121.05,
+            131.34
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         },
         {
-            "id": "skill_2",
-            "name": "이지스 캐논 견제 사격",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:4.0s",
-                    "target": "enemies_random:1",
-                    "effect": "damage",
-                    "value": [
-                        62.38,
-                        67.2,
-                        71.98,
-                        76.79,
-                        81.59,
-                        86.39,
-                        91.18,
-                        95.98,
-                        100.8,
-                        105.58
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "이지스 캐논 견제 사격",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "every:4.0s",
-                    "target": "same_target",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        3.33,
-                        3.6,
-                        3.84,
-                        4.11,
-                        4.35,
-                        4.62,
-                        4.86,
-                        5.13,
-                        5.4,
-                        5.64
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "이지스 캐논 견제 사격 2",
-                    "type": "buff",
-                    "condition": "target_code:전격",
-                    "stack": 5
-                }
-            ]
+          "trigger": "full_burst_start_count:1",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82,
+            1.82
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         },
         {
-            "id": "burst",
-            "name": "이지스 캐논 오버로드",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        97.39,
-                        104.89,
-                        112.38,
-                        119.88,
-                        127.36,
-                        134.86,
-                        142.35,
-                        149.85,
-                        157.33,
-                        164.83
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "이지스 캐논 오버로드",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "same_target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        97.39,
-                        104.89,
-                        112.38,
-                        119.88,
-                        127.36,
-                        134.86,
-                        142.35,
-                        149.85,
-                        157.33,
-                        164.83
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "이지스 캐논 오버로드 2",
-                    "type": "damage",
-                    "condition": "target_code:전격"
-                }
-            ]
+          "trigger": "full_burst_start_count:2",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2,
+            2.2
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "full_burst_start_count:3",
+          "target": "all_allies",
+          "effect": "burst_cooldown_reduce",
+          "value": [
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6,
+            2.6
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "이지스 캐논 견제 사격",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:4.0s",
+          "target": "enemies_random:1",
+          "effect": "damage",
+          "value": [
+            62.38,
+            67.2,
+            71.98,
+            76.79,
+            81.59,
+            86.39,
+            91.18,
+            95.98,
+            100.8,
+            105.58
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "every:4.0s",
+          "target": "same_target",
+          "effect": "received_dmg_pct",
+          "value": [
+            3.33,
+            3.6,
+            3.84,
+            4.11,
+            4.35,
+            4.62,
+            4.86,
+            5.13,
+            5.4,
+            5.64
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "condition": "target_code:전격",
+          "stack": 5
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "이지스 캐논 오버로드",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            97.39,
+            104.89,
+            112.38,
+            119.88,
+            127.36,
+            134.86,
+            142.35,
+            149.85,
+            157.33,
+            164.83
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "same_target",
+          "effect": "bonus_damage",
+          "value": [
+            97.39,
+            104.89,
+            112.38,
+            119.88,
+            127.36,
+            134.86,
+            142.35,
+            149.85,
+            157.33,
+            164.83
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "target_code:전격"
+        }
+      ]
+    }
+  ]
 }

@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "경계 대상 지정",
           "type": "damage",
           "condition": "burst_casted"
         },
@@ -64,7 +63,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "경계 대상",
           "type": "buff",
           "condition": "burst_casted"
         },
@@ -86,7 +84,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "이머전시 휘슬",
           "type": "damage",
           "condition": "target_state:고위험 대상"
         }
@@ -137,7 +134,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "휘슬 초기 중첩",
           "type": "instant",
           "target_effect": "휘슬",
           "_unparseable": true,
@@ -161,7 +157,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "휘슬 충전",
           "type": "instant",
           "condition": "enemy_count_below:3",
           "target_effect": "휘슬",
@@ -186,7 +181,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "펭군 긴급 출동",
           "type": "damage",
           "condition": "enemy_count_above:6"
         },
@@ -208,7 +202,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "휘슬 소모",
           "type": "instant",
           "condition": "enemy_count_above:6",
           "target_effect": "휘슬",
@@ -233,7 +226,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "펭군 긴급 출동 2",
           "type": "buff",
           "condition": "enemy_count_below:5"
         }
@@ -263,7 +255,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "펭군 스파이럴",
           "type": "buff"
         },
         {
@@ -284,7 +275,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "펭군 스파이럴 2",
           "type": "buff"
         },
         {

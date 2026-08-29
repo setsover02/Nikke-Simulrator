@@ -1,237 +1,228 @@
 {
-    "characterID": "Char_231",
-    "characterName": "이사벨",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "SG",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "인헤르트",
-        "burstLevel": 3,
-        "atkCoef": 210.7,
-        "maxAmmo": 9,
-        "reloadTime": 1.86,
-        "chargeTime": 0,
-        "fireRate": 1.5,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 10
-    },
-    "skills": [
+  "characterID": "Char_231",
+  "characterName": "이사벨",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "SG",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "인헤르트",
+    "burstLevel": 3,
+    "atkCoef": 210.7,
+    "maxAmmo": 9,
+    "reloadTime": 1.86,
+    "chargeTime": 0,
+    "fireRate": 1.5,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "타겟 마킹",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "타겟 마킹",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "burst_cast_count:1",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        3.91,
-                        4.17,
-                        4.43,
-                        4.69,
-                        4.95,
-                        5.22,
-                        5.48,
-                        5.74,
-                        6,
-                        6.26
-                    ],
-                    "unit": "percent",
-                    "duration": 45,
-                    "name": "타겟 마킹 1",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:2",
-                    "target": "self",
-                    "effect": "crit_dmg",
-                    "value": [
-                        11.27,
-                        12.02,
-                        12.77,
-                        13.52,
-                        14.27,
-                        15.03,
-                        15.78,
-                        16.53,
-                        17.28,
-                        18.03
-                    ],
-                    "unit": "percent",
-                    "duration": 45,
-                    "name": "타겟 마킹 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast_count:3",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        10.8,
-                        11.52,
-                        12.24,
-                        12.96,
-                        13.68,
-                        14.4,
-                        15.12,
-                        15.84,
-                        16.56,
-                        17.28
-                    ],
-                    "unit": "percent",
-                    "duration": 45,
-                    "name": "타겟 마킹 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "burst_cast_count:1",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            3.91,
+            4.17,
+            4.43,
+            4.69,
+            4.95,
+            5.22,
+            5.48,
+            5.74,
+            6,
+            6.26
+          ],
+          "unit": "percent",
+          "duration": 45,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "페더 이젝션",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "every:15.0s",
-                    "target": "enemies_top_def:5",
-                    "effect": "damage",
-                    "value": [
-                        106.61,
-                        113.72,
-                        120.83,
-                        127.93,
-                        135.04,
-                        142.15,
-                        149.26,
-                        156.36,
-                        163.47,
-                        170.58
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "페더 이젝션",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "burst_cast_count:2",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            11.27,
+            12.02,
+            12.77,
+            13.52,
+            14.27,
+            15.03,
+            15.78,
+            16.53,
+            17.28,
+            18.03
+          ],
+          "unit": "percent",
+          "duration": 45,
+          "type": "buff"
         },
         {
-            "id": "burst",
-            "name": "소닉 체이서",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        93.65,
-                        99.9,
-                        106.14,
-                        112.38,
-                        118.63,
-                        124.87,
-                        131.11,
-                        137.36,
-                        143.6,
-                        149.85
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "소닉 체이서",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "received_dmg_pct",
-                    "value": [
-                        24.97,
-                        26.64,
-                        28.3,
-                        29.97,
-                        31.63,
-                        33.3,
-                        34.96,
-                        36.63,
-                        38.29,
-                        39.96
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "소닉 체이서 2",
-                    "type": "buff",
-                    "condition": "self_state:타겟 마킹 1"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "bonus_damage",
-                    "value": [
-                        187.31,
-                        199.8,
-                        212.28,
-                        224.77,
-                        237.26,
-                        249.75,
-                        262.23,
-                        274.72,
-                        287.21,
-                        299.7
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "소닉 체이서 3",
-                    "type": "damage",
-                    "condition": "self_state:타겟 마킹 2"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "bonus_damage",
-                    "value": [
-                        218.53,
-                        233.1,
-                        247.66,
-                        262.23,
-                        276.8,
-                        291.37,
-                        305.94,
-                        320.51,
-                        335.08,
-                        349.65
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "소닉 체이서 4",
-                    "type": "damage",
-                    "condition": "self_state:타겟 마킹 3"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "fullburst_duration",
-                    "value": [
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5,
-                        -5
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "소닉 체이서 5",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "burst_cast_count:3",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            10.8,
+            11.52,
+            12.24,
+            12.96,
+            13.68,
+            14.4,
+            15.12,
+            15.84,
+            16.56,
+            17.28
+          ],
+          "unit": "percent",
+          "duration": 45,
+          "type": "buff"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "페더 이젝션",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "every:15.0s",
+          "target": "enemies_top_def:5",
+          "effect": "damage",
+          "value": [
+            106.61,
+            113.72,
+            120.83,
+            127.93,
+            135.04,
+            142.15,
+            149.26,
+            156.36,
+            163.47,
+            170.58
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "소닉 체이서",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            93.65,
+            99.9,
+            106.14,
+            112.38,
+            118.63,
+            124.87,
+            131.11,
+            137.36,
+            143.6,
+            149.85
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "received_dmg_pct",
+          "value": [
+            24.97,
+            26.64,
+            28.3,
+            29.97,
+            31.63,
+            33.3,
+            34.96,
+            36.63,
+            38.29,
+            39.96
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "condition": "self_state:타겟 마킹"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "bonus_damage",
+          "value": [
+            187.31,
+            199.8,
+            212.28,
+            224.77,
+            237.26,
+            249.75,
+            262.23,
+            274.72,
+            287.21,
+            299.7
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:타겟 마킹"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "bonus_damage",
+          "value": [
+            218.53,
+            233.1,
+            247.66,
+            262.23,
+            276.8,
+            291.37,
+            305.94,
+            320.51,
+            335.08,
+            349.65
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "self_state:타겟 마킹"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "fullburst_duration",
+          "value": [
+            -5,
+            -5,
+            -5,
+            -5,
+            -5,
+            -5,
+            -5,
+            -5,
+            -5,
+            -5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

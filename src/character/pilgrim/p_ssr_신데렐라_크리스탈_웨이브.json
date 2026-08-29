@@ -1,517 +1,500 @@
 {
-    "characterID": "Char_515",
-    "characterName": "신데렐라 : 크리스탈 웨이브",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "올드 테일즈",
-        "burstLevel": 3,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_515",
+  "characterName": "신데렐라 : 크리스탈 웨이브",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "올드 테일즈",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "뷰티-풀",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "뷰티-풀",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "event:full_reload",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "저격 모드",
-                    "type": "weapon_change",
-                    "condition": "self_state:변경 준비"
-                },
-                {
-                    "trigger": "event:full_reload",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "저격 모드 관통특화",
-                    "type": "buff",
-                    "condition": "self_state:변경 준비"
-                },
-                {
-                    "trigger": "event:full_reload",
-                    "target": "self",
-                    "effect": "charge_time_fixed",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "저격 모드 차지시간고정",
-                    "type": "buff",
-                    "condition": "self_state:변경 준비"
-                },
-                {
-                    "trigger": "event:state_end:저격 모드",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "저격 모드 관통특화 해제",
-                    "type": "instant",
-                    "target_effect": "저격 모드 관통특화"
-                },
-                {
-                    "trigger": "event:state_end:저격 모드",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "저격 모드 차지시간고정 해제",
-                    "type": "instant",
-                    "target_effect": "저격 모드 차지시간고정"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "self",
-                    "effect": "squad_ammo_consume_as",
-                    "value": [
-                        40,
-                        40,
-                        40,
-                        40,
-                        40,
-                        40,
-                        40,
-                        40,
-                        40,
-                        40
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "저격 모드 탄 소비 집계",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        13.2,
-                        14.4,
-                        15.6,
-                        16.8,
-                        18,
-                        19.2,
-                        20.4,
-                        21.6,
-                        22.8,
-                        24
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "뷰티-풀",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:full_reload",
-                    "target": "self",
-                    "effect": "reload_time_fixed",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "percent",
-                    "duration": 6,
-                    "name": "변경 준비",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "last_bullet_fire",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "변경 준비 해제",
-                    "type": "instant",
-                    "target_effect": "변경 준비"
-                },
-                {
-                    "trigger": "every:5s",
-                    "target": "enemies_nearest:1",
-                    "effect": "damage",
-                    "value": [
-                        450,
-                        500,
-                        550,
-                        600,
-                        650,
-                        700,
-                        750,
-                        800,
-                        850,
-                        900
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "뷰티-풀 2",
-                    "type": "damage"
-                },
-                {
-                    "trigger": "squad_ammo_consume:200",
-                    "target": "all_allies",
-                    "effect": "burst_charge_pct",
-                    "value": [
-                        7.09,
-                        7.64,
-                        8.19,
-                        8.74,
-                        9.29,
-                        9.84,
-                        10.39,
-                        10.94,
-                        11.49,
-                        12
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "뷰티-풀 3",
-                    "type": "instant"
-                }
-            ]
+          "trigger": "event:full_reload",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "weapon_change",
+          "condition": "self_state:변경 준비"
         },
         {
-            "id": "skill_2",
-            "name": "모드 스왑",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "decoy",
-                    "value": [
-                        41.56,
-                        44.76,
-                        47.95,
-                        51.15,
-                        54.35,
-                        57.55,
-                        60.74,
-                        63.94,
-                        67.14,
-                        70.34
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "디코이",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        15.95,
-                        17.4,
-                        18.85,
-                        20.3,
-                        21.75,
-                        23.2,
-                        24.65,
-                        26.1,
-                        27.55,
-                        29
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "모드 스왑",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:저격 모드",
-                    "target": "self",
-                    "effect": "part_dmg_pct",
-                    "value": [
-                        13.11,
-                        14.57,
-                        16.03,
-                        17.49,
-                        18.95,
-                        20.41,
-                        21.87,
-                        23.33,
-                        24.79,
-                        26.21
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "디스트로이",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "event:저격 모드",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "핀 포인트 해제",
-                    "type": "instant",
-                    "target_effect": "핀 포인트"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "core_dmg_pct",
-                    "value": [
-                        13,
-                        14.44,
-                        15.88,
-                        17.32,
-                        18.76,
-                        20.2,
-                        21.64,
-                        23.08,
-                        24.52,
-                        26
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "핀 포인트",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "remove_named_buff",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "디스트로이 해제",
-                    "type": "instant",
-                    "target_effect": "디스트로이"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_enemies",
-                    "effect": "damage",
-                    "value": [
-                        654.31,
-                        713.79,
-                        773.27,
-                        832.75,
-                        892.23,
-                        951.71,
-                        1011.19,
-                        1070.67,
-                        1130.15,
-                        1189.66
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "모드 스왑 2",
-                    "type": "damage",
-                    "condition": "burst_casted"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "all_enemies",
-                    "effect": "core_damage",
-                    "value": [
-                        458.58,
-                        500.27,
-                        541.96,
-                        583.65,
-                        625.34,
-                        667.03,
-                        708.72,
-                        750.41,
-                        792.1,
-                        833.79
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "모드 스왑 3",
-                    "type": "damage",
-                    "condition": "burst_casted"
-                }
-            ]
+          "trigger": "event:full_reload",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "저격 모드 관통특화",
+          "type": "buff",
+          "condition": "self_state:변경 준비"
         },
         {
-            "id": "burst",
-            "name": "유리 구두 풀 컨텍트 W",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        46,
-                        51.11,
-                        56.22,
-                        61.33,
-                        66.44,
-                        71.55,
-                        76.66,
-                        81.77,
-                        86.88,
-                        92
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "유리 구두 풀 컨텍트 W",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        35.75,
-                        39,
-                        42.25,
-                        45.5,
-                        48.75,
-                        52,
-                        55.25,
-                        58.5,
-                        61.75,
-                        65
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "유리 구두 풀 컨텍트 W 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "enemies_top_atk:1",
-                    "effect": "burst_damage",
-                    "value": [
-                        3299.97,
-                        3599.97,
-                        3899.97,
-                        4199.97,
-                        4499.97,
-                        4799.97,
-                        5099.97,
-                        5399.97,
-                        5699.97,
-                        6000
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "유리 구두 풀 컨텍트 W 3",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "event:full_reload",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "저격 모드 차지시간고정",
+          "type": "buff",
+          "condition": "self_state:변경 준비"
+        },
+        {
+          "trigger": "event:state_end:저격 모드",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "저격 모드 관통특화"
+        },
+        {
+          "trigger": "event:state_end:저격 모드",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "저격 모드 차지시간고정"
+        },
+        {
+          "trigger": "full_charge_hit",
+          "target": "self",
+          "effect": "squad_ammo_consume_as",
+          "value": [
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40,
+            40
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            13.2,
+            14.4,
+            15.6,
+            16.8,
+            18,
+            19.2,
+            20.4,
+            21.6,
+            22.8,
+            24
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:full_reload",
+          "target": "self",
+          "effect": "reload_time_fixed",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "percent",
+          "duration": 6,
+          "name": "변경 준비",
+          "type": "buff"
+        },
+        {
+          "trigger": "last_bullet_fire",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "변경 준비"
+        },
+        {
+          "trigger": "every:5s",
+          "target": "enemies_nearest:1",
+          "effect": "damage",
+          "value": [
+            450,
+            500,
+            550,
+            600,
+            650,
+            700,
+            750,
+            800,
+            850,
+            900
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        },
+        {
+          "trigger": "squad_ammo_consume:200",
+          "target": "all_allies",
+          "effect": "burst_charge_pct",
+          "value": [
+            7.09,
+            7.64,
+            8.19,
+            8.74,
+            9.29,
+            9.84,
+            10.39,
+            10.94,
+            11.49,
+            12
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "모드 스왑",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "decoy",
+          "value": [
+            41.56,
+            44.76,
+            47.95,
+            51.15,
+            54.35,
+            57.55,
+            60.74,
+            63.94,
+            67.14,
+            70.34
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            15.95,
+            17.4,
+            18.85,
+            20.3,
+            21.75,
+            23.2,
+            24.65,
+            26.1,
+            27.55,
+            29
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:저격 모드",
+          "target": "self",
+          "effect": "part_dmg_pct",
+          "value": [
+            13.11,
+            14.57,
+            16.03,
+            17.49,
+            18.95,
+            20.41,
+            21.87,
+            23.33,
+            24.79,
+            26.21
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "디스트로이",
+          "type": "buff"
+        },
+        {
+          "trigger": "event:저격 모드",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "핀 포인트"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "core_dmg_pct",
+          "value": [
+            13,
+            14.44,
+            15.88,
+            17.32,
+            18.76,
+            20.2,
+            21.64,
+            23.08,
+            24.52,
+            26
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "핀 포인트",
+          "type": "buff"
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "remove_named_buff",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "target_effect": "디스트로이"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            654.31,
+            713.79,
+            773.27,
+            832.75,
+            892.23,
+            951.71,
+            1011.19,
+            1070.67,
+            1130.15,
+            1189.66
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "burst_casted"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "all_enemies",
+          "effect": "core_damage",
+          "value": [
+            458.58,
+            500.27,
+            541.96,
+            583.65,
+            625.34,
+            667.03,
+            708.72,
+            750.41,
+            792.1,
+            833.79
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "burst_casted"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "유리 구두 풀 컨텍트 W",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            46,
+            51.11,
+            56.22,
+            61.33,
+            66.44,
+            71.55,
+            76.66,
+            81.77,
+            86.88,
+            92
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            35.75,
+            39,
+            42.25,
+            45.5,
+            48.75,
+            52,
+            55.25,
+            58.5,
+            61.75,
+            65
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "enemies_top_atk:1",
+          "effect": "burst_damage",
+          "value": [
+            3299.97,
+            3599.97,
+            3899.97,
+            4199.97,
+            4499.97,
+            4799.97,
+            5099.97,
+            5399.97,
+            5699.97,
+            6000
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
 }

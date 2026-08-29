@@ -1,175 +1,169 @@
 {
-    "characterID": "Char_222",
-    "characterName": "홍련",
-    "stats": {
-        "rarity": "SSR",
-        "element": "전격",
-        "weapon": "AR",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "파이오니아",
-        "burstLevel": 3,
-        "atkCoef": 27.08,
-        "maxAmmo": 20,
-        "reloadTime": 2.3,
-        "chargeTime": 0,
-        "fireRate": 12,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_222",
+  "characterName": "홍련",
+  "stats": {
+    "rarity": "SSR",
+    "element": "전격",
+    "weapon": "AR",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "파이오니아",
+    "burstLevel": 3,
+    "atkCoef": 27.08,
+    "maxAmmo": 20,
+    "reloadTime": 2.3,
+    "chargeTime": 0,
+    "fireRate": 12,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "육참골단",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "육참골단",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:10",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        17.48,
-                        18.11,
-                        18.74,
-                        19.37,
-                        20,
-                        20.63,
-                        21.26,
-                        21.89,
-                        22.52,
-                        23.15
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "육참골단",
-                    "type": "buff",
-                    "stack": 5
-                },
-                {
-                    "trigger": "hit_count:10",
-                    "target": "self",
-                    "effect": "current_hp_reduce",
-                    "value": [
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01,
-                        4.01
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "육참골단 2",
-                    "type": "instant"
-                }
-            ]
+          "trigger": "hit_count:10",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            17.48,
+            18.11,
+            18.74,
+            19.37,
+            20,
+            20.63,
+            21.26,
+            21.89,
+            22.52,
+            23.15
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff",
+          "stack": 5
         },
         {
-            "id": "skill_2",
-            "name": "검신합일",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "received_hit_count:1",
-                    "target": "target",
-                    "effect": "bonus_damage",
-                    "value": [
-                        86.39,
-                        92.15,
-                        97.91,
-                        103.68,
-                        109.44,
-                        115.2,
-                        120.96,
-                        126.72,
-                        132.48,
-                        138.24
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "검신합일",
-                    "type": "damage",
-                    "condition": "prob:30"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "crit_dmg",
-                    "value": [
-                        4.13,
-                        4.4,
-                        4.68,
-                        4.95,
-                        5.23,
-                        5.51,
-                        5.78,
-                        6.06,
-                        6.33,
-                        6.61
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "검신합일 2",
-                    "type": "buff",
-                    "condition": "self_hp_below:60"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "홍련일섬",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "crit_rate",
-                    "value": [
-                        12.23,
-                        13.05,
-                        13.86,
-                        14.68,
-                        15.49,
-                        16.31,
-                        17.12,
-                        17.94,
-                        18.75,
-                        19.57
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "홍련일섬",
-                    "type": "buff",
-                    "condition": "self_hp_below:50"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "burst_damage",
-                    "value": [
-                        530.71,
-                        566.1,
-                        601.48,
-                        636.86,
-                        672.24,
-                        707.62,
-                        743,
-                        778.38,
-                        813.76,
-                        849.15
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "홍련일섬 2",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "hit_count:10",
+          "target": "self",
+          "effect": "current_hp_reduce",
+          "value": [
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01,
+            4.01
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "검신합일",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "received_hit_count:1",
+          "target": "target",
+          "effect": "bonus_damage",
+          "value": [
+            86.39,
+            92.15,
+            97.91,
+            103.68,
+            109.44,
+            115.2,
+            120.96,
+            126.72,
+            132.48,
+            138.24
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "prob:30"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "crit_dmg",
+          "value": [
+            4.13,
+            4.4,
+            4.68,
+            4.95,
+            5.23,
+            5.51,
+            5.78,
+            6.06,
+            6.33,
+            6.61
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_hp_below:60"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "홍련일섬",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "crit_rate",
+          "value": [
+            12.23,
+            13.05,
+            13.86,
+            14.68,
+            15.49,
+            16.31,
+            17.12,
+            17.94,
+            18.75,
+            19.57
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "condition": "self_hp_below:50"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            530.71,
+            566.1,
+            601.48,
+            636.86,
+            672.24,
+            707.62,
+            743,
+            778.38,
+            813.76,
+            849.15
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
 }

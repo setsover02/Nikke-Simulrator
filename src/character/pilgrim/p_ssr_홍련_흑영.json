@@ -1,260 +1,251 @@
 {
-    "characterID": "ScarletBlackShadow",
-    "characterName": "홍련 : 흑영",
-    "stats": {
-        "rarity": "SSR",
-        "element": "풍압",
-        "weapon": "RL",
-        "class": "화력형",
-        "company": "Pilgrim",
-        "squad": "갓데스",
-        "burstLevel": 3,
-        "atkCoef": 57.29,
-        "maxAmmo": 9,
-        "reloadTime": 2,
-        "chargeTime": 0.3,
-        "fireRate": 1,
-        "fullChargeDamage": 150,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "ScarletBlackShadow",
+  "characterName": "홍련 : 흑영",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "RL",
+    "class": "화력형",
+    "company": "Pilgrim",
+    "squad": "갓데스",
+    "burstLevel": 3,
+    "atkCoef": 57.29,
+    "maxAmmo": 9,
+    "reloadTime": 2,
+    "chargeTime": 0.3,
+    "fireRate": 1,
+    "fullChargeDamage": 150,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "화무십일홍 · 파죽",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "화무십일홍 · 파죽",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_count:3",
-                    "target": "self",
-                    "effect": "gauge_charge",
-                    "value": [
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1,
-                        1
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "파죽 게이지",
-                    "type": "instant"
-                },
-                {
-                    "trigger": "full_charge_count:3",
-                    "target": "enemies_lowest_def:1",
-                    "effect": "damage",
-                    "value": [
-                        193.33,
-                        199.68,
-                        206.03,
-                        212.38,
-                        218.73,
-                        225.07,
-                        231.42,
-                        237.77,
-                        244.12,
-                        250.47
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "화무십일홍 · 파죽",
-                    "type": "damage",
-                    "condition": "gauge_eq:파죽:1"
-                },
-                {
-                    "trigger": "full_charge_count:3",
-                    "target": "enemies_in_range",
-                    "effect": "split_damage",
-                    "value": [
-                        328.57,
-                        347.61,
-                        366.66,
-                        385.71,
-                        404.76,
-                        423.8,
-                        442.85,
-                        461.9,
-                        480.95,
-                        500
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "화무십일홍 · 파죽 2",
-                    "type": "damage",
-                    "condition": "gauge_eq:파죽:2"
-                },
-                {
-                    "trigger": "full_charge_count:3",
-                    "target": "all_enemies",
-                    "effect": "split_damage",
-                    "value": [
-                        390.47,
-                        430.47,
-                        470.47,
-                        510.47,
-                        550.47,
-                        590.47,
-                        630.47,
-                        670.47,
-                        710.47,
-                        750.47
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "화무십일홍 · 파죽 3",
-                    "type": "damage",
-                    "condition": "gauge_eq:파죽:3"
-                },
-                {
-                    "trigger": "full_charge_count:3",
-                    "target": "self",
-                    "effect": "gauge_consume",
-                    "value": [
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3,
-                        3
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "화무십일홍 · 파죽 4",
-                    "type": "instant",
-                    "condition": "gauge_eq:파죽:3"
-                }
-            ]
+          "trigger": "full_charge_count:3",
+          "target": "self",
+          "effect": "gauge_charge",
+          "value": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "파죽 게이지",
+          "type": "instant"
         },
         {
-            "id": "skill_2",
-            "name": "화무십일홍 · 수라",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "max_ammo_pct",
-                    "value": [
-                        40,
-                        42.22,
-                        44.44,
-                        46.66,
-                        48.88,
-                        51.1,
-                        53.32,
-                        55.54,
-                        57.76,
-                        60
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "화무십일홍 · 수라",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_burst_start",
-                    "target": "self",
-                    "effect": "ammo_charge_pct",
-                    "value": [
-                        30,
-                        30,
-                        30,
-                        60,
-                        60,
-                        60,
-                        100,
-                        100,
-                        100,
-                        100
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "화무십일홍 · 수라 2",
-                    "type": "instant"
-                }
-            ]
+          "trigger": "full_charge_count:3",
+          "target": "enemies_lowest_def:1",
+          "effect": "damage",
+          "value": [
+            193.33,
+            199.68,
+            206.03,
+            212.38,
+            218.73,
+            225.07,
+            231.42,
+            237.77,
+            244.12,
+            250.47
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "gauge_eq:파죽:1"
         },
         {
-            "id": "burst",
-            "name": "화무십일홍 · 만개",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "trigger_count_reduce",
-                    "value": [
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2,
-                        2
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "화무십일홍 · 만개",
-                    "type": "buff",
-                    "target_effect": "파죽 게이지"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        17.28,
-                        28.15,
-                        39.02,
-                        49.89,
-                        60.76,
-                        71.64,
-                        82.51,
-                        93.38,
-                        104.25,
-                        115.12
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "화무십일홍 · 만개 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "charge_dmg_pct",
-                    "value": [
-                        85.32,
-                        92.52,
-                        99.72,
-                        106.92,
-                        114.12,
-                        121.32,
-                        128.52,
-                        135.72,
-                        142.92,
-                        150.12
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "화무십일홍 · 만개 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_count:3",
+          "target": "enemies_in_range",
+          "effect": "split_damage",
+          "value": [
+            328.57,
+            347.61,
+            366.66,
+            385.71,
+            404.76,
+            423.8,
+            442.85,
+            461.9,
+            480.95,
+            500
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "gauge_eq:파죽:2"
+        },
+        {
+          "trigger": "full_charge_count:3",
+          "target": "all_enemies",
+          "effect": "split_damage",
+          "value": [
+            390.47,
+            430.47,
+            470.47,
+            510.47,
+            550.47,
+            590.47,
+            630.47,
+            670.47,
+            710.47,
+            750.47
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage",
+          "condition": "gauge_eq:파죽:3"
+        },
+        {
+          "trigger": "full_charge_count:3",
+          "target": "self",
+          "effect": "gauge_consume",
+          "value": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3,
+            3
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant",
+          "condition": "gauge_eq:파죽:3"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "화무십일홍 · 수라",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "max_ammo_pct",
+          "value": [
+            40,
+            42.22,
+            44.44,
+            46.66,
+            48.88,
+            51.1,
+            53.32,
+            55.54,
+            57.76,
+            60
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "value": [
+            30,
+            30,
+            30,
+            60,
+            60,
+            60,
+            100,
+            100,
+            100,
+            100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "화무십일홍 · 만개",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "trigger_count_reduce",
+          "value": [
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2,
+            2
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff",
+          "target_effect": "파죽 게이지"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            17.28,
+            28.15,
+            39.02,
+            49.89,
+            60.76,
+            71.64,
+            82.51,
+            93.38,
+            104.25,
+            115.12
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "charge_dmg_pct",
+          "value": [
+            85.32,
+            92.52,
+            99.72,
+            106.92,
+            114.12,
+            121.32,
+            128.52,
+            135.72,
+            142.92,
+            150.12
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

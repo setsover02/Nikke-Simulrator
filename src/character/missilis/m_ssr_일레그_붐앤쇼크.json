@@ -63,7 +63,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "유령 포획",
           "type": "instant",
           "condition": "target_state:빙의"
         },
@@ -85,7 +84,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "헬로 고스트",
           "type": "buff",
           "condition": "gauge_above:유령:1"
         },
@@ -107,7 +105,6 @@
           ],
           "unit": "percent",
           "duration": "permanent",
-          "name": "헬로 고스트 2",
           "type": "buff",
           "condition": "gauge_above:유령:4"
         },
@@ -129,7 +126,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "빙의 해제",
           "type": "instant",
           "condition": "target_state:빙의",
           "target_effect": "빙의"
@@ -159,7 +155,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "고스트 버스터",
           "type": "buff"
         },
         {
@@ -180,7 +175,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "고스트 버스터 2",
           "type": "damage",
           "condition": "target_state:빙의"
         }
@@ -210,7 +204,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "13 고스트",
           "type": "damage",
           "condition": "gauge_below:유령:13",
           "hits": 6
@@ -233,7 +226,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "13 고스트 2",
           "type": "instant",
           "condition": "gauge_below:유령:13"
         },
@@ -255,7 +247,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "13 고스트 3",
           "type": "damage",
           "condition": "gauge_eq:유령:13",
           "hits": 13
@@ -278,7 +269,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "13 고스트 4",
           "type": "instant",
           "condition": "gauge_eq:유령:13"
         }

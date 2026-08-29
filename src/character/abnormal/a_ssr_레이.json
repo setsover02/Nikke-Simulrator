@@ -1,192 +1,185 @@
 {
-    "characterID": "Char_831",
-    "characterName": "레이",
-    "stats": {
-        "rarity": "SSR",
-        "element": "작열",
-        "weapon": "MG",
-        "class": "화력형",
-        "company": "Abnormal",
-        "squad": "NERV",
-        "burstLevel": 3,
-        "atkCoef": 5.57,
-        "maxAmmo": 300,
-        "reloadTime": 2.5,
-        "chargeTime": 0,
-        "fireRate": 1,
-        "fullChargeDamage": 100,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_831",
+  "characterName": "레이",
+  "stats": {
+    "rarity": "SSR",
+    "element": "작열",
+    "weapon": "MG",
+    "class": "화력형",
+    "company": "Abnormal",
+    "squad": "NERV",
+    "burstLevel": 3,
+    "atkCoef": 5.57,
+    "maxAmmo": 300,
+    "reloadTime": 2.5,
+    "chargeTime": 0,
+    "fireRate": 1,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "선두 제압",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "선두 제압",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "hit_count:100",
-                    "target": "self",
-                    "effect": "element_bonus_pct",
-                    "value": [
-                        22.91,
-                        23.72,
-                        24.54,
-                        25.35,
-                        26.16,
-                        26.98,
-                        27.79,
-                        28.61,
-                        29.42,
-                        30.23
-                    ],
-                    "unit": "percent",
-                    "duration": 3,
-                    "name": "선두 제압",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "hit_count:100",
-                    "target": "enemies_nearest_in_range",
-                    "effect": "damage",
-                    "value": [
-                        73.32,
-                        77.66,
-                        82,
-                        86.34,
-                        90.68,
-                        95.02,
-                        99.36,
-                        103.7,
-                        108.04,
-                        112.37
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "선두 제압 2",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "hit_count:100",
+          "target": "self",
+          "effect": "element_bonus_pct",
+          "value": [
+            22.91,
+            23.72,
+            24.54,
+            25.35,
+            26.16,
+            26.98,
+            27.79,
+            28.61,
+            29.42,
+            30.23
+          ],
+          "unit": "percent",
+          "duration": 3,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "공격 지원",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "battle_start",
-                    "target": "self",
-                    "effect": "shield_dmg_pct",
-                    "value": [
-                        472.72,
-                        498.03,
-                        523.34,
-                        548.65,
-                        573.96,
-                        599.27,
-                        624.58,
-                        649.89,
-                        675.2,
-                        700.5
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "공격 지원",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_enter:3",
-                    "target": "allies_code:작열",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        16.97,
-                        17.86,
-                        18.76,
-                        19.66,
-                        20.55,
-                        21.45,
-                        22.34,
-                        23.24,
-                        24.14,
-                        25.03
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "공격 지원 2",
-                    "type": "buff"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "섬멸용 고폭탄",
-            "type": "burst",
-            "cooldown": 40,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code:작열",
-                    "effect": "shield_from_max_hp_pct",
-                    "value": [
-                        9.98,
-                        10.36,
-                        10.75,
-                        11.13,
-                        11.52,
-                        11.9,
-                        12.28,
-                        12.67,
-                        13.05,
-                        13.44
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "섬멸용 고폭탄",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "allies_code:작열",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        29.81,
-                        31.84,
-                        33.86,
-                        35.88,
-                        37.9,
-                        39.93,
-                        41.95,
-                        43.97,
-                        45.99,
-                        48.02
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "섬멸용 고폭탄 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_enemies",
-                    "effect": "damage",
-                    "value": [
-                        654.54,
-                        691.84,
-                        729.13,
-                        766.43,
-                        803.72,
-                        841.02,
-                        878.32,
-                        915.61,
-                        952.91,
-                        990.2
-                    ],
-                    "unit": "percent",
-                    "duration": null,
-                    "name": "섬멸용 고폭탄 3",
-                    "type": "damage"
-                }
-            ]
+          "trigger": "hit_count:100",
+          "target": "enemies_nearest_in_range",
+          "effect": "damage",
+          "value": [
+            73.32,
+            77.66,
+            82,
+            86.34,
+            90.68,
+            95.02,
+            99.36,
+            103.7,
+            108.04,
+            112.37
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "공격 지원",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "shield_dmg_pct",
+          "value": [
+            472.72,
+            498.03,
+            523.34,
+            548.65,
+            573.96,
+            599.27,
+            624.58,
+            649.89,
+            675.2,
+            700.5
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_enter:3",
+          "target": "allies_code:작열",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            16.97,
+            17.86,
+            18.76,
+            19.66,
+            20.55,
+            21.45,
+            22.34,
+            23.24,
+            24.14,
+            25.03
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "섬멸용 고폭탄",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code:작열",
+          "effect": "shield_from_max_hp_pct",
+          "value": [
+            9.98,
+            10.36,
+            10.75,
+            11.13,
+            11.52,
+            11.9,
+            12.28,
+            12.67,
+            13.05,
+            13.44
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "allies_code:작열",
+          "effect": "atk_dmg_pct",
+          "value": [
+            29.81,
+            31.84,
+            33.86,
+            35.88,
+            37.9,
+            39.93,
+            41.95,
+            43.97,
+            45.99,
+            48.02
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "damage",
+          "value": [
+            654.54,
+            691.84,
+            729.13,
+            766.43,
+            803.72,
+            841.02,
+            878.32,
+            915.61,
+            952.91,
+            990.2
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
 }

@@ -1,216 +1,209 @@
 {
-    "characterID": "Char_315",
-    "characterName": "에이드 : 에이전트 바니",
-    "stats": {
-        "rarity": "SSR",
-        "element": "철갑",
-        "weapon": "SR",
-        "class": "지원형",
-        "company": "Tetra",
-        "squad": "메이드 포 유",
-        "burstLevel": 2,
-        "atkCoef": 69.04,
-        "maxAmmo": 6,
-        "reloadTime": 2,
-        "chargeTime": 1,
-        "fireRate": 1,
-        "fullChargeDamage": 250,
-        "coreDamage": 200,
-        "pelletCount": 1
-    },
-    "skills": [
+  "characterID": "Char_315",
+  "characterName": "에이드 : 에이전트 바니",
+  "stats": {
+    "rarity": "SSR",
+    "element": "철갑",
+    "weapon": "SR",
+    "class": "지원형",
+    "company": "Tetra",
+    "squad": "메이드 포 유",
+    "burstLevel": 2,
+    "atkCoef": 69.04,
+    "maxAmmo": 6,
+    "reloadTime": 2,
+    "chargeTime": 1,
+    "fireRate": 1,
+    "fullChargeDamage": 250,
+    "coreDamage": 200,
+    "pelletCount": 1
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "요원의 시선",
+      "type": "passive",
+      "effects": [
         {
-            "id": "skill_1",
-            "name": "요원의 시선",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "atk_caster_based_pct",
-                    "value": [
-                        8.98,
-                        9.67,
-                        10.36,
-                        11.05,
-                        11.75,
-                        12.44,
-                        13.13,
-                        13.82,
-                        14.51,
-                        15.2
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "요원의 시선",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "self",
-                    "effect": "optimal_range_min",
-                    "value": [
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44,
-                        4.44
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "스파이 렌즈",
-                    "type": "buff",
-                    "stack": 10
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "atk_caster_based_pct",
+          "value": [
+            8.98,
+            9.67,
+            10.36,
+            11.05,
+            11.75,
+            12.44,
+            13.13,
+            13.82,
+            14.51,
+            15.2
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
         },
         {
-            "id": "skill_2",
-            "name": "요원의 움직임",
-            "type": "passive",
-            "effects": [
-                {
-                    "trigger": "full_charge_hit",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        9.15,
-                        10.17,
-                        11.2,
-                        12.22,
-                        13.24,
-                        14.27,
-                        15.29,
-                        16.32,
-                        17.34,
-                        18.36
-                    ],
-                    "unit": "percent",
-                    "duration": 5,
-                    "name": "요원의 움직임",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "pierce_enabled",
-                    "value": [
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "요원의 움직임 2",
-                    "type": "buff",
-                    "condition": "self_stack_above:스파이 렌즈:10"
-                },
-                {
-                    "trigger": "passive",
-                    "target": "self",
-                    "effect": "atk_pct",
-                    "value": [
-                        9.36,
-                        10.09,
-                        10.83,
-                        11.57,
-                        12.31,
-                        13.05,
-                        13.78,
-                        14.52,
-                        15.26,
-                        16
-                    ],
-                    "unit": "percent",
-                    "duration": "permanent",
-                    "name": "요원의 움직임 3",
-                    "type": "buff",
-                    "condition": "self_stack_above:스파이 렌즈:10"
-                }
-            ]
-        },
-        {
-            "id": "burst",
-            "name": "최첨단 요원 장비",
-            "type": "burst",
-            "cooldown": 20,
-            "effects": [
-                {
-                    "trigger": "burst_cast",
-                    "target": "self",
-                    "effect": "optimal_range_min",
-                    "value": [
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56,
-                        55.56
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "최첨단 요원 장비",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "atk_dmg_pct",
-                    "value": [
-                        29.85,
-                        32.65,
-                        35.45,
-                        38.25,
-                        41.05,
-                        43.85,
-                        46.64,
-                        49.44,
-                        52.24,
-                        55.04
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "최첨단 요원 장비 2",
-                    "type": "buff"
-                },
-                {
-                    "trigger": "burst_cast",
-                    "target": "all_allies",
-                    "effect": "pierce_dmg_pct",
-                    "value": [
-                        5.14,
-                        5.7,
-                        6.25,
-                        6.81,
-                        7.36,
-                        7.92,
-                        8.47,
-                        9.02,
-                        9.58,
-                        10.13
-                    ],
-                    "unit": "percent",
-                    "duration": 10,
-                    "name": "최첨단 요원 장비 3",
-                    "type": "buff"
-                }
-            ]
+          "trigger": "full_charge_hit",
+          "target": "self",
+          "effect": "optimal_range_min",
+          "value": [
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44,
+            4.44
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "name": "스파이 렌즈",
+          "type": "buff",
+          "stack": 10
         }
-    ]
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "요원의 움직임",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_charge_hit",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            9.15,
+            10.17,
+            11.2,
+            12.22,
+            13.24,
+            14.27,
+            15.29,
+            16.32,
+            17.34,
+            18.36
+          ],
+          "unit": "percent",
+          "duration": 5,
+          "type": "buff"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "pierce_enabled",
+          "value": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_stack_above:스파이 렌즈:10"
+        },
+        {
+          "trigger": "passive",
+          "target": "self",
+          "effect": "atk_pct",
+          "value": [
+            9.36,
+            10.09,
+            10.83,
+            11.57,
+            12.31,
+            13.05,
+            13.78,
+            14.52,
+            15.26,
+            16
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "condition": "self_stack_above:스파이 렌즈:10"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "최첨단 요원 장비",
+      "type": "burst",
+      "cooldown": 20,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "optimal_range_min",
+          "value": [
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56,
+            55.56
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "atk_dmg_pct",
+          "value": [
+            29.85,
+            32.65,
+            35.45,
+            38.25,
+            41.05,
+            43.85,
+            46.64,
+            49.44,
+            52.24,
+            55.04
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_allies",
+          "effect": "pierce_dmg_pct",
+          "value": [
+            5.14,
+            5.7,
+            6.25,
+            6.81,
+            7.36,
+            7.92,
+            8.47,
+            9.02,
+            9.58,
+            10.13
+          ],
+          "unit": "percent",
+          "duration": 10,
+          "type": "buff"
+        }
+      ]
+    }
+  ]
 }

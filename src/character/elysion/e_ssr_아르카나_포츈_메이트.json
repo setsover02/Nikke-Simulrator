@@ -42,7 +42,6 @@
           ],
           "unit": "percent",
           "duration": 15,
-          "name": "쌓여가는 사진첩",
           "type": "buff",
           "scaling": "stack_count",
           "scaling_ref": "소중한 추억"
@@ -65,7 +64,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 2",
           "type": "instant",
           "target_effect": "추억 남기기"
         },
@@ -87,7 +85,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 3",
           "type": "instant",
           "target_effect": "추억 남기기 3"
         },
@@ -109,7 +106,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 4",
           "type": "instant",
           "target_effect": "행복한 기억"
         },
@@ -131,7 +127,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 5",
           "type": "instant",
           "target_effect": "청춘의 기록"
         },
@@ -153,7 +148,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 6",
           "type": "instant",
           "target_effect": "소중한 추억"
         },
@@ -175,7 +169,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "쌓여가는 사진첩 7",
           "type": "instant"
         },
         {
@@ -226,7 +219,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "기억과 추억",
           "type": "instant",
           "condition": "self_state:추억 남기기"
         },
@@ -248,7 +240,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "기억과 추억 2",
           "type": "instant",
           "condition": "self_state:추억 남기기"
         },
@@ -316,7 +307,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "기억과 추억 5",
           "type": "buff"
         }
       ]
@@ -366,7 +356,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "추억 남기기 2",
           "type": "instant"
         },
         {
@@ -408,7 +397,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "빛나는 청춘",
           "type": "damage"
         }
       ]

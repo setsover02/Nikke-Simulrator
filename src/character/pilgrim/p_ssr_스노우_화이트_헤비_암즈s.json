@@ -65,7 +65,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "록 온 해제 (공격)",
           "type": "instant",
           "target_effect": "록 온"
         },
@@ -87,7 +86,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "록 온 해제 (엄폐)",
           "type": "instant",
           "target_effect": "록 온"
         },
@@ -131,7 +129,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "오토 파이어 레디 충전",
           "type": "instant",
           "condition": "during_charge"
         },
@@ -153,7 +150,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "오토 파이어 레디1 제거",
           "type": "instant",
           "target_effect": "오토 파이어 레디1"
         },
@@ -175,7 +171,6 @@
           ],
           "unit": "percent",
           "duration": 4,
-          "name": "세븐스 드워프 V+VI",
           "type": "buff",
           "condition": "during_charge"
         },
@@ -197,7 +192,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "오토 파이어 1",
           "type": "damage"
         },
         {
@@ -218,7 +212,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "오토 파이어 2",
           "type": "damage",
           "scaling": "stack_count",
           "scaling_ref": "오토 파이어 레디",
@@ -242,7 +235,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "오토 파이어 레디 소모",
           "type": "instant"
         },
         {
@@ -263,7 +255,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "세븐스 드워프 V+VI 제거",
           "type": "instant",
           "condition": "not_during_full_burst",
           "target_effect": "세븐스 드워프 풀 액티브"
@@ -314,7 +305,6 @@
           ],
           "unit": "percent",
           "duration": 5,
-          "name": "어나더 화이트 관통특화",
           "type": "buff"
         },
         {
@@ -335,7 +325,6 @@
           ],
           "unit": "percent",
           "duration": 5,
-          "name": "어나더 화이트 공격력증가",
           "type": "buff"
         },
         {
@@ -356,7 +345,6 @@
           ],
           "unit": "percent",
           "duration": 5,
-          "name": "어나더 화이트 파츠대미지",
           "type": "buff"
         },
         {
@@ -377,7 +365,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "어나더 화이트 공격력증가 (버스트3)",
           "type": "buff"
         },
         {
@@ -398,9 +385,8 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "어나더 화이트 차지대미지",
           "type": "buff",
-          "condition": "self_state:세븐스 드워프 풀 액티브 3",
+          "condition": "self_state:세븐스 드워프 풀 액티브",
           "bullet": 1
         },
         {
@@ -421,9 +407,8 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "어나더 화이트 순차공격대미지",
           "type": "buff",
-          "condition": "self_state:세븐스 드워프 풀 액티브 3",
+          "condition": "self_state:세븐스 드워프 풀 액티브",
           "bullet": 1
         }
       ]
@@ -452,7 +437,6 @@
           ],
           "unit": "percent",
           "duration": 10,
-          "name": "세븐스 드워프 풀 액티브",
           "type": "buff"
         },
         {
@@ -473,7 +457,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "세븐스 드워프 풀 액티브 2",
           "type": "buff",
           "bullet": 2
         },
@@ -495,7 +478,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "어나더 화이트 차지시간고정 제거",
           "type": "instant",
           "target_effect": "어나더 화이트 차지시간고정"
         },
@@ -517,12 +499,11 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "세븐스 드워프 풀 액티브 3",
           "type": "buff",
           "bullet": 2
         },
         {
-          "trigger": "event:state_end:세븐스 드워프 풀 액티브 3",
+          "trigger": "event:state_end:세븐스 드워프 풀 액티브",
           "target": "self",
           "effect": "charge_time_fixed",
           "value": [
@@ -560,7 +541,6 @@
           ],
           "unit": "percent",
           "duration": null,
-          "name": "세븐스 드워프 풀 액티브 4",
           "type": "damage"
         }
       ]
