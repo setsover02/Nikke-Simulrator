@@ -6,6 +6,7 @@ import { SquadAvatarList } from './home/SquadAvatarList';
 import ResultSummary from './home/ResultSummary';
 import GlobalLevelPanel from './home/GlobalLevelPanel';
 import CanvasChart from './home/CanvasChart';
+import CanvasDpsChart from './home/CanvasDpsChart';
 import CanvasScatterChart from './home/CanvasScatterChart';
 import CanvasTimelineChart from './home/CanvasTimelineChart';
 import { runSimulation } from '../engine/simulationRunner';
@@ -87,11 +88,12 @@ const Home: React.FC = () => {
     // Simulation Results
     const [simResult, setSimResult] = useState<any | null>(null);
     const [chartDatasets, setChartDatasets] = useState<any[]>([]);
+    const [dps1sDatasets, setDps1sDatasets] = useState<any[]>([]);
     const [skillChartDatasets, setSkillChartDatasets] = useState<any[]>([]);
     const [burstWindows, setBurstWindows] = useState<any[]>([]);
     const [skillInfoMap, setSkillInfoMap] = useState<Record<string, { skill1?: string; skill2?: string; burst?: string }>>({});
     const [charIdToName, setCharIdToName] = useState<Record<string, string>>({});
-    const [chartTab, setChartTab] = useState<'total' | 'skill'>('total');
+    const [chartTab, setChartTab] = useState<'total' | 'dps' | 'skill'>('total');
 
     // Load saved team layout on mount
     useEffect(() => {
@@ -293,6 +295,7 @@ const Home: React.FC = () => {
 
         setSimResult(output.summary);
         setChartDatasets(output.chartDatasets);
+        setDps1sDatasets(output.dps1sDatasets);
         setSkillChartDatasets(output.skillChartDatasets);
         setBurstWindows(output.burstWindows);
         setSkillInfoMap(output.skillInfoMap);
@@ -389,6 +392,13 @@ const Home: React.FC = () => {
                                     전체 대미지
                                 </ButtonToggle>
                                 <ButtonToggle
+                                    selected={chartTab === 'dps'}
+                                    onClick={() => setChartTab('dps')}
+                                    size="small"
+                                >
+                                    초당 DPS
+                                </ButtonToggle>
+                                <ButtonToggle
                                     selected={chartTab === 'skill'}
                                     onClick={() => setChartTab('skill')}
                                     size="small"
@@ -401,6 +411,13 @@ const Home: React.FC = () => {
                                     datasets={chartDatasets}
                                     burstWindows={burstWindows}
                                     title={showCore ? 'Cumulative Damage (With Core)' : 'Cumulative Damage (No Core)'}
+                                    charIdToName={charIdToName}
+                                />
+                            ) : chartTab === 'dps' ? (
+                                <CanvasDpsChart
+                                    datasets={dps1sDatasets}
+                                    burstWindows={burstWindows}
+                                    title={showCore ? '1s Interval DPS (With Core)' : '1s Interval DPS (No Core)'}
                                     charIdToName={charIdToName}
                                 />
                             ) : (

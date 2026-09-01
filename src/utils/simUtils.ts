@@ -37,6 +37,35 @@ export const generateCombinedChartData = (result: any, duration: number) => {
     return generateChartData(result, duration);
 };
 
+/**
+ * 1초 단위 분할 DPS 차트 데이터 생성 (각 1초 구간별 발생한 대미지/초당 DPS)
+ * @param result - 시뮬레이션 결과
+ * @param duration - 시뮬레이션 시간(초)
+ * @param sourceFilter - 특정 캐릭터 ID로 필터링 (없으면 전체)
+ * @param typeFilter - 집계할 로그 타입 Set (없으면 attack + skill_damage + dot_damage 모두)
+ */
+export const generateDps1sData = (
+    result: any,
+    duration: number,
+    sourceFilter?: string,
+    typeFilter?: Set<string>
+) => {
+    const DAMAGE_TYPES = typeFilter ?? new Set(['attack', 'skill_damage', 'dot_damage']);
+    const aggregated: { [second: number]: number } = {};
+    for (const log of result.log) {
+        if (!DAMAGE_TYPES.has(log.type)) continue;
+        if (sourceFilter && log.source !== sourceFilter) continue;
+        // (0, 1] -> 1초, (1, 2] -> 2초 ...
+        const sec = Math.max(1, Math.ceil(log.time));
+        aggregated[sec] = (aggregated[sec] || 0) + (log.value || 0);
+    }
+    const data = [];
+    for (let i = 0; i <= duration; i++) {
+        data.push({ time: i, dps: aggregated[i] || 0 });
+    }
+    return data;
+};
+
 export interface ScatterPoint {
     time: number;
     value: number;
@@ -57,21 +86,21 @@ export interface DmgStatMeta {
 }
 
 export const DAMAGE_STAT_META: Record<string, DmgStatMeta> = {
-    'damage':                       { label: 'Skill',       shape: 'circle',   color: '',              alpha: 0.85, radius: 3.5 },
-    'burst_damage':                 { label: 'Burst',       shape: 'star',     color: '',              alpha: 0.95, radius: 5.0 },
-    'sequential_damage':            { label: 'Sequential',  shape: 'triangle', color: '',              alpha: 0.85, radius: 4.0 },
-    'split_damage':                 { label: 'Split',       shape: 'square',   color: '',              alpha: 0.80, radius: 3.5 },
-    'dot_damage':                   { label: 'DoT',         shape: 'diamond',  color: '',              alpha: 0.55, radius: 2.5 },
-    'bonus_damage':                 { label: 'Bonus',       shape: 'cross',    color: '',              alpha: 0.80, radius: 3.5 },
-    'armor_break_damage':           { label: 'ArmorBreak',  shape: 'circle',   color: '',              alpha: 0.80, radius: 3.0 },
-    'pierce_damage':                { label: 'Pierce',      shape: 'triangle', color: '',              alpha: 0.75, radius: 3.0 },
-    'projectile_explosion_damage':  { label: 'Explosion',   shape: 'star',     color: '',              alpha: 0.85, radius: 4.5 },
-    'projectile_attachment_damage': { label: 'Attachment',  shape: 'square',   color: '',              alpha: 0.80, radius: 3.0 },
-    'core_damage':                  { label: 'Core',        shape: 'star',     color: '',              alpha: 0.90, radius: 4.5 },
-    'auto_damage':                  { label: 'Auto',        shape: 'circle',   color: '',              alpha: 0.65, radius: 2.5 },
-    'extra_damage':                 { label: 'Extra',       shape: 'cross',    color: '',              alpha: 0.80, radius: 3.0 },
-    'distribute_damage':            { label: 'Distribute',  shape: 'square',   color: '',              alpha: 0.80, radius: 3.5 },
-    'unknown':                      { label: '?',           shape: 'circle',   color: '',              alpha: 0.60, radius: 2.5 },
+    'damage': { label: 'Skill', shape: 'circle', color: '', alpha: 0.85, radius: 3.5 },
+    'burst_damage': { label: 'Burst', shape: 'star', color: '', alpha: 0.95, radius: 5.0 },
+    'sequential_damage': { label: 'Sequential', shape: 'triangle', color: '', alpha: 0.85, radius: 4.0 },
+    'split_damage': { label: 'Split', shape: 'square', color: '', alpha: 0.80, radius: 3.5 },
+    'dot_damage': { label: 'DoT', shape: 'diamond', color: '', alpha: 0.55, radius: 2.5 },
+    'bonus_damage': { label: 'Bonus', shape: 'cross', color: '', alpha: 0.80, radius: 3.5 },
+    'armor_break_damage': { label: 'ArmorBreak', shape: 'circle', color: '', alpha: 0.80, radius: 3.0 },
+    'pierce_damage': { label: 'Pierce', shape: 'triangle', color: '', alpha: 0.75, radius: 3.0 },
+    'projectile_explosion_damage': { label: 'Explosion', shape: 'star', color: '', alpha: 0.85, radius: 4.5 },
+    'projectile_attachment_damage': { label: 'Attachment', shape: 'square', color: '', alpha: 0.80, radius: 3.0 },
+    'core_damage': { label: 'Core', shape: 'star', color: '', alpha: 0.90, radius: 4.5 },
+    'auto_damage': { label: 'Auto', shape: 'circle', color: '', alpha: 0.65, radius: 2.5 },
+    'extra_damage': { label: 'Extra', shape: 'cross', color: '', alpha: 0.80, radius: 3.0 },
+    'distribute_damage': { label: 'Distribute', shape: 'square', color: '', alpha: 0.80, radius: 3.5 },
+    'unknown': { label: '?', shape: 'circle', color: '', alpha: 0.60, radius: 2.5 },
 };
 
 /** log.description → PARSING.md stat 이름으로 매핑 */

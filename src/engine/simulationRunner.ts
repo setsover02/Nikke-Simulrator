@@ -7,7 +7,7 @@
 import { simulateBattle } from './battleEngine';
 import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
-import { generateChartData, calcHitDamages, generateBurstWindows, generateScatterData } from '../utils/simUtils';
+import { generateChartData, generateDps1sData, calcHitDamages, generateBurstWindows, generateScatterData } from '../utils/simUtils';
 import { SlotState, SimulationInput, SimulationOutput, SkillInfoEntry } from '../types/simulator';
 import { SLOT_COLORS } from '../constants/characters';
 import { getWeaponRangeBonus } from '../constants/weaponStats';
@@ -66,8 +66,11 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
     // --- 총 대미지 ---
     const teamTotal = sumDamage(result);
 
-    // --- 차트 데이터셋 ---
+    // --- 차트 데이터셋 (누적) ---
     const chartDatasets = buildChartDatasets(result, config.duration, activeSlots);
+
+    // --- 1초 분할 초당 DPS 차트 데이터셋 ---
+    const dps1sDatasets = buildDps1sDatasets(result, config.duration, activeSlots);
 
     // --- 스킬 차트 데이터셋 ---
     const skillChartDatasets = buildSkillChartDatasets(result, activeSlots);
@@ -84,6 +87,7 @@ export function runSimulation(input: SimulationInput): SimulationOutput | null {
     return {
         summary: { chars, teamTotal, buffTimeline: result.buffTimeline, idToName: charIdToName },
         chartDatasets,
+        dps1sDatasets,
         skillChartDatasets,
         burstWindows,
         skillInfoMap,
@@ -305,6 +309,15 @@ function buildChartDatasets(result: any, duration: number, activeSlots: ActiveSl
         const charName = slot.char.data.characterName;
         const color = SLOT_COLORS[originalIndex % SLOT_COLORS.length];
         return { label: charName, color, data: generateChartData(result, duration, charId) };
+    });
+}
+
+function buildDps1sDatasets(result: any, duration: number, activeSlots: ActiveSlot[]) {
+    return activeSlots.map(({ slot, originalIndex }) => {
+        const charId = `${slot.char.data.characterID}_${originalIndex}`;
+        const charName = slot.char.data.characterName;
+        const color = SLOT_COLORS[originalIndex % SLOT_COLORS.length];
+        return { label: charName, color, data: generateDps1sData(result, duration, charId) };
     });
 }
 

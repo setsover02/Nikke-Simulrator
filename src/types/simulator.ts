@@ -107,6 +107,7 @@ export interface SkillInfoEntry {
 export interface SimulationOutput {
     summary: ScenarioSummary;
     chartDatasets: { label: string; color: string; data: any[] }[];
+    dps1sDatasets: { label: string; color: string; data: any[] }[];
     skillChartDatasets: { label: string; color: string; data: any[] }[];
     burstWindows: BurstWindow[];
     skillInfoMap: Record<string, Record<string, SkillInfoEntry>>;
