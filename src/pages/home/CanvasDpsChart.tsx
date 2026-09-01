@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback } from 'react';
 import { BurstWindow } from '../../utils/simUtils';
 import { Font } from '../../components/Font';
+import { useChartTheme } from '../../utils/useChartTheme';
 
 function formatTime(timeVal: number): string {
     const remaining = Math.max(0, 180 - timeVal);
@@ -46,6 +47,8 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
 }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [containerWidth, setContainerWidth] = React.useState<number>(1200);
+    const themeTokens = useChartTheme();
 
     const [hoverInfo, setHoverInfo] = React.useState<{
         x: number;
@@ -64,6 +67,22 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
 
     useEffect(() => { viewMinRef.current = viewMin; }, [viewMin]);
     useEffect(() => { viewMaxRef.current = viewMax; }, [viewMax]);
+
+    // Container ResizeObserver for integer CSS pixel dimension
+    useEffect(() => {
+        const container = containerRef.current;
+        if (!container) return;
+
+        const updateWidth = () => {
+            const w = Math.floor(container.clientWidth);
+            if (w > 0) setContainerWidth(w);
+        };
+
+        updateWidth();
+        const ro = new ResizeObserver(updateWidth);
+        ro.observe(container);
+        return () => ro.disconnect();
+    }, []);
 
     const getAbsMaxTime = useCallback(() => {
         let max = 1;
@@ -85,20 +104,27 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const W = canvas.width;
-        const H = canvas.height;
-        const PL = 214, PR = 20, PT = 50, PB = 45;
+        const dpr = window.devicePixelRatio || 1;
+        const W = containerWidth || 1200;
+        const H = 380;
+
+        // Set backing buffer size with DPR
+        canvas.width = Math.round(W * dpr);
+        canvas.height = Math.round(H * dpr);
+        canvas.style.width = `${W}px`;
+        canvas.style.height = `${H}px`;
+
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
 
         ctx.clearRect(0, 0, W, H);
-        ctx.fillStyle = '#141414';
-        ctx.fillRect(0, 0, W, H);
 
         if (datasets.length === 0 || datasets.every(ds => ds.data.length === 0)) return;
 
         const absMaxTime = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
-        const graphW = W - PL - PR;
-        const graphH = H - PT - PB;
+        const graphW = W;
+        const graphH = H;
 
         // Y축 최대값 계산 (개별 캐릭터 DPS 중 최댓값 기준, 여유 공간 확보)
         let maxDps = 100;
@@ -107,29 +133,31 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
                 if (d.dps > maxDps) maxDps = d.dps;
             });
         });
-        // 10% 여유
         maxDps = Math.ceil(maxDps * 1.1);
 
-        const toX = (t: number) => PL + ((t - vMin) / (vMax - vMin)) * graphW;
-        const toY = (v: number) => H - PB - (v / maxDps) * graphH;
+        const toX = (t: number) => ((t - vMin) / (vMax - vMin)) * graphW;
+        const toY = (v: number) => H - (v / maxDps) * graphH;
 
-        // Y축 그리드선 및 라벨
-        ctx.font = '11px monospace';
+        // Y축 그리드선 (Half-pixel alignment for 1px crisp lines)
+        ctx.font = '500 10px "Wanted Sans Variable", "Wanted Sans", sans-serif';
         const yTicks = 5;
-        for (let i = 0; i <= yTicks; i++) {
+        for (let i = 1; i <= yTicks; i++) {
             const ratio = i / yTicks;
             const yVal = maxDps * ratio;
-            const yPos = H - PB - ratio * graphH;
+            const yPos = H - ratio * graphH;
+            const snapY = Math.floor(yPos) + 0.5;
+
             ctx.beginPath();
-            ctx.moveTo(PL, yPos);
-            ctx.lineTo(W - PR, yPos);
-            ctx.strokeStyle = '#262626';
+            ctx.moveTo(0, snapY);
+            ctx.lineTo(W, snapY);
+            ctx.strokeStyle = themeTokens.gridLine;
             ctx.lineWidth = 1;
             ctx.stroke();
-            ctx.fillStyle = '#666';
+
+            ctx.fillStyle = themeTokens.fontInactive;
             ctx.textAlign = 'right';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(Math.floor(yVal).toLocaleString(), PL - 8, yPos);
+            ctx.textBaseline = 'bottom';
+            ctx.fillText(Math.floor(yVal).toLocaleString(), Math.round(W - 8), Math.round(snapY - 2));
         }
 
         // X축 그리드선 및 시간 라벨
@@ -145,33 +173,28 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         const firstTick = Math.ceil(vMin / tickInterval) * tickInterval;
 
         ctx.textAlign = 'center';
-        ctx.textBaseline = 'top';
+        ctx.textBaseline = 'bottom';
         for (let t = firstTick; t <= vMax; t += tickInterval) {
-            const xPos = PL + ((t - vMin) / range) * graphW;
-            ctx.beginPath();
-            ctx.moveTo(xPos, PT);
-            ctx.lineTo(xPos, H - PB);
-            ctx.strokeStyle = '#262626';
-            ctx.stroke();
-            ctx.fillStyle = '#666';
-            ctx.fillText(formatTime(t), xPos, H - PB + 8);
-        }
+            const xPos = ((t - vMin) / range) * graphW;
+            const snapX = Math.floor(xPos) + 0.5;
 
-        // 축 테두리
-        ctx.beginPath();
-        ctx.moveTo(PL, PT);
-        ctx.lineTo(PL, H - PB);
-        ctx.lineTo(W - PR, H - PB);
-        ctx.strokeStyle = '#444';
-        ctx.lineWidth = 2;
-        ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(snapX, 0);
+            ctx.lineTo(snapX, H);
+            ctx.strokeStyle = themeTokens.gridLine;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            ctx.fillStyle = themeTokens.fontInactive;
+            ctx.fillText(formatTime(t), Math.round(xPos), Math.round(H - 6));
+        }
 
         ctx.save();
         ctx.beginPath();
-        ctx.rect(PL, PT, graphW, graphH);
+        ctx.rect(0, 0, graphW, graphH);
         ctx.clip();
 
-        // 1. 버스트 구간 배경 및 가이드라인
+        // 1. 버스트 구간 배경 (미니멀 배경 채우기)
         burstWindows.forEach(bw => {
             const s = Math.max(bw.start, vMin);
             const e = Math.min(bw.end, vMax);
@@ -179,67 +202,27 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
             const bx = toX(s);
             const bw2 = toX(e) - bx;
 
-            // 버스트 구간 배경 (골드 반투명)
-            ctx.fillStyle = 'rgba(255, 215, 0, 0.12)';
-            ctx.fillRect(bx, PT, bw2, graphH);
-
-            // 버스트 구간 시작선
-            ctx.beginPath();
-            ctx.moveTo(bx, PT);
-            ctx.lineTo(bx, H - PB);
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.55)';
-            ctx.lineWidth = 1.5;
-            ctx.setLineDash([4, 3]);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // 버스트 구간 종료선
-            const ex = toX(e);
-            ctx.beginPath();
-            ctx.moveTo(ex, PT);
-            ctx.lineTo(ex, H - PB);
-            ctx.strokeStyle = 'rgba(255, 215, 0, 0.3)';
-            ctx.lineWidth = 1;
-            ctx.setLineDash([2, 4]);
-            ctx.stroke();
-            ctx.setLineDash([]);
-
-            // 버스트 캐스터 이름 라벨
-            if (bw.casters.length > 0) {
-                const names = bw.casters.map(id => charIdToName[id] || id.split('_')[0]);
-                const label = names.join(' → ');
-                const maxW = Math.max(0, bw2 - 8);
-                ctx.font = 'bold 10px sans-serif';
-                ctx.fillStyle = 'rgba(255, 215, 0, 0.85)';
-                ctx.textAlign = 'left';
-                ctx.textBaseline = 'top';
-                let displayLabel = label;
-                if (maxW > 0 && ctx.measureText(displayLabel).width > maxW) {
-                    while (displayLabel.length > 1 && ctx.measureText(displayLabel + '…').width > maxW) {
-                        displayLabel = displayLabel.slice(0, -1);
-                    }
-                    displayLabel += '…';
-                }
-                ctx.fillText(displayLabel, bx + 4, PT + 4);
-            }
+            ctx.fillStyle = themeTokens.burstBg;
+            ctx.fillRect(Math.floor(bx), 0, Math.floor(bw2), graphH);
         });
 
         // 2. 각 니케별 1초 DPS 라인 및 은은한 영역 채우기
-        datasets.forEach(ds => {
+        datasets.forEach((ds, di) => {
+            const dsColor = themeTokens.resolveColor(ds.color, di);
             const tps = ds.data.map(d => d.time);
             if (tps.length === 0) return;
 
             // 은은한 영역 채우기
             ctx.beginPath();
-            ctx.moveTo(toX(tps[0]), H - PB);
+            ctx.moveTo(toX(tps[0]), H);
             for (let ti = 0; ti < tps.length; ti++) {
                 const x = toX(tps[ti]);
                 const y = toY(ds.data[ti].dps);
                 ctx.lineTo(x, y);
             }
-            ctx.lineTo(toX(tps[tps.length - 1]), H - PB);
+            ctx.lineTo(toX(tps[tps.length - 1]), H);
             ctx.closePath();
-            ctx.fillStyle = hexToRgba(ds.color.startsWith('#') ? ds.color : '#888888', 0.1);
+            ctx.fillStyle = hexToRgba(dsColor, 0.1);
             ctx.fill();
 
             // 선명한 라인 스트로크
@@ -250,34 +233,35 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
                 if (ti === 0) ctx.moveTo(x, y);
                 else ctx.lineTo(x, y);
             }
-            ctx.strokeStyle = ds.color;
+            ctx.strokeStyle = dsColor;
             ctx.lineWidth = ds.lineWidth ?? 2;
             ctx.stroke();
         });
 
         // 3. 호버 수직선
         if (hoverInfo) {
-            const xPos = toX(hoverInfo.time);
+            const snapHoverX = Math.floor(toX(hoverInfo.time)) + 0.5;
             ctx.beginPath();
             ctx.setLineDash([5, 5]);
-            ctx.moveTo(xPos, PT);
-            ctx.lineTo(xPos, H - PB);
-            ctx.strokeStyle = '#888';
+            ctx.moveTo(snapHoverX, 0);
+            ctx.lineTo(snapHoverX, H);
+            ctx.strokeStyle = themeTokens.hoverLine;
             ctx.lineWidth = 1;
             ctx.stroke();
             ctx.setLineDash([]);
 
-            // 각 데이터셋의 현재 시점 포인트 원(Point Circle)
-            datasets.forEach(ds => {
+            // 각 데이터셋의 현재 시점 포인트 원
+            datasets.forEach((ds, di) => {
+                const dsColor = themeTokens.resolveColor(ds.color, di);
                 const pt = ds.data.find(d => d.time === hoverInfo.time);
                 if (pt) {
                     const cx = toX(pt.time);
                     const cy = toY(pt.dps);
                     ctx.beginPath();
                     ctx.arc(cx, cy, 4, 0, Math.PI * 2);
-                    ctx.fillStyle = ds.color;
+                    ctx.fillStyle = dsColor;
                     ctx.fill();
-                    ctx.strokeStyle = '#fff';
+                    ctx.strokeStyle = themeTokens.theme === 'light' ? '#393939' : '#FFFFFF';
                     ctx.lineWidth = 1.5;
                     ctx.stroke();
                 }
@@ -287,36 +271,32 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         ctx.restore();
 
         // 4. 범례 (Legend)
-        const legX = PL + 10;
-        let legY = PT + 8;
-        datasets.forEach(ds => {
-            ctx.fillStyle = hexToRgba(ds.color.startsWith('#') ? ds.color : '#888', 0.7);
-            ctx.fillRect(legX, legY, 12, 12);
-            ctx.strokeStyle = ds.color;
+        const legX = 12;
+        let legY = 12;
+        datasets.forEach((ds, di) => {
+            const dsColor = themeTokens.resolveColor(ds.color, di);
+            ctx.fillStyle = hexToRgba(dsColor, 0.7);
+            ctx.fillRect(legX, legY, 10, 10);
+            ctx.strokeStyle = dsColor;
             ctx.lineWidth = 1;
-            ctx.strokeRect(legX, legY, 12, 12);
-            ctx.fillStyle = '#ccc';
+            ctx.strokeRect(legX + 0.5, legY + 0.5, 9, 9);
+            ctx.fillStyle = themeTokens.fontDefault;
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
-            ctx.font = '11px monospace';
-            ctx.fillText(ds.label, legX + 17, legY + 6);
+            ctx.font = '500 11px "Wanted Sans Variable", "Wanted Sans", sans-serif';
+            ctx.fillText(ds.label, Math.round(legX + 15), Math.round(legY + 5));
             legY += 16;
         });
 
-        // 5. 차트 타이틀 & 줌 상태
-        ctx.fillStyle = '#e8e8e8';
-        ctx.textAlign = 'left';
-        ctx.font = 'bold 13px monospace';
-        ctx.fillText(title, PL, PT - 28);
-
+        // 5. 줌 상태 표시
         const isZoomed = vMin > 0 || vMax < absMaxTime - 0.1;
         if (isZoomed) {
-            ctx.fillStyle = '#555';
+            ctx.fillStyle = themeTokens.fontInactive;
             ctx.textAlign = 'right';
-            ctx.font = '11px monospace';
-            ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, W - PR, PT - 28);
+            ctx.font = '500 10px "Wanted Sans Variable", "Wanted Sans", sans-serif';
+            ctx.fillText(`${formatTime(vMin)} – ${formatTime(vMax)}`, Math.round(W - 12), 16);
         }
-    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title, charIdToName]);
+    }, [datasets, burstWindows, hoverInfo, getViewRange, getAbsMaxTime, title, charIdToName, containerWidth, themeTokens]);
 
     useEffect(() => { draw(); }, [draw]);
     useEffect(() => { setViewMin(0); setViewMax(null); }, [datasets]);
@@ -326,14 +306,13 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         const absMax = getAbsMaxTime();
         const [vMin, vMax] = getViewRange();
         const range = vMax - vMin;
-        const PL = 214, PR = 20;
-        const canvas = canvasRef.current!;
-        const graphW = canvas.width - PL - PR;
+        const W = containerWidth || 1200;
 
-        const rect = canvas.getBoundingClientRect();
-        const logX = (e.clientX - rect.left) * (canvas.width / canvas.clientWidth);
+        const rect = canvasRef.current?.getBoundingClientRect();
+        if (!rect) return;
+        const mouseX = e.clientX - rect.left;
 
-        const ratio = Math.max(0, Math.min(1, (logX - PL) / graphW));
+        const ratio = Math.max(0, Math.min(1, mouseX / W));
         const cursor = vMin + ratio * range;
         const factor = e.deltaY < 0 ? 0.8 : 1.25;
         let newRange = Math.max(MIN_ZOOM_RANGE, Math.min(absMax, range * factor));
@@ -343,7 +322,7 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         if (newMax > absMax) { newMin = Math.max(0, newMin - (newMax - absMax)); newMax = absMax; }
         setViewMin(newMin);
         setViewMax(newMax >= absMax - 0.01 ? null : newMax);
-    }, [getAbsMaxTime, getViewRange]);
+    }, [getAbsMaxTime, getViewRange, containerWidth]);
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -361,15 +340,15 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
     const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
         const canvas = canvasRef.current;
         if (!canvas) return;
+        const W = containerWidth || 1200;
+
         if (isDragging.current) {
             const absMax = getAbsMaxTime();
             const [vMin, vMax] = [viewMinRef.current, viewMaxRef.current ?? absMax];
             const range = vMax - vMin;
-            const PL = 214, PR = 20;
-            const graphW = canvas.width - PL - PR;
-            const dx = (e.clientX - lastDragX.current) * (canvas.width / canvas.clientWidth);
+            const dx = e.clientX - lastDragX.current;
             lastDragX.current = e.clientX;
-            const dt = -(dx / graphW) * range;
+            const dt = -(dx / W) * range;
             let nm = Math.max(0, vMin + dt);
             let nx = vMax + dt;
             if (nm < 0) { nx -= nm; nm = 0; }
@@ -379,15 +358,12 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
             return;
         }
 
-        const PL = 214, PR = 20;
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const logX = mouseX * (canvas.width / canvas.clientWidth);
-        const graphW = canvas.width - PL - PR;
-        if (logX < PL || logX > canvas.width - PR) { setHoverInfo(null); return; }
+        if (mouseX < 0 || mouseX > W) { setHoverInfo(null); return; }
         const [vMin, vMax] = getViewRange();
-        const time = Math.round(vMin + ((logX - PL) / graphW) * (vMax - vMin));
+        const time = Math.round(vMin + (mouseX / W) * (vMax - vMin));
 
         let totalDps = 0;
         const values = datasets.map((ds) => {
@@ -410,22 +386,21 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
         <div ref={containerRef} style={{ position: 'relative', width: '100%' }}>
             {isZoomed && (
                 <button onClick={() => { setViewMin(0); setViewMax(null); }} style={{
-                    position: 'absolute', top: '10px', right: '30px', zIndex: 10,
-                    padding: '3px 8px', fontSize: '11px', background: '#2a2a2a',
-                    color: '#aaa', border: '1px solid #444', borderRadius: '4px', cursor: 'pointer',
+                    position: 'absolute', top: '10px', right: '10px', zIndex: 10,
+                    padding: '3px 8px', fontSize: '11px', background: 'var(--Secondary-100)',
+                    color: 'var(--Font-Default)', border: '1px solid var(--Divider-Strong)',
+                    borderRadius: '4px', cursor: 'pointer', fontFamily: 'inherit',
                 }}>Reset</button>
             )}
             <canvas
                 ref={canvasRef}
-                width={1200}
-                height={380}
                 onMouseMove={handleMouseMove}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseLeave}
                 style={{
-                    width: '100%', height: 'auto',
-                    border: '1px solid #2a2a2a', borderRadius: '8px',
+                    width: '100%', height: '380px',
+                    border: '1px solid var(--Divider-Normal)', borderRadius: '8px',
                     cursor: isDragging.current ? 'grabbing' : 'crosshair',
                     display: 'block', userSelect: 'none',
                 }}
@@ -435,24 +410,29 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
                     position: 'absolute',
                     left: `${Math.min(hoverInfo.x + 15, (containerRef.current?.clientWidth ?? 400) - 180)}px`,
                     top: `${hoverInfo.y + 15}px`,
-                    backgroundColor: 'rgba(15, 15, 25, 0.95)',
-                    border: '1px solid #333', borderRadius: '6px',
-                    padding: '10px 12px', color: '#fff', fontSize: '12px',
+                    backgroundColor: 'var(--Background-Overlay)',
+                    border: '1px solid var(--Divider-Strong)', borderRadius: '6px',
+                    padding: '8px 10px', color: 'var(--Font-Default)',
                     pointerEvents: 'none', zIndex: 10,
-                    boxShadow: '0 4px 16px rgba(0,0,0,0.6)', minWidth: '160px',
+                    boxShadow: 'var(--sh-md, 0 4px 16px rgba(0,0,0,0.4))', minWidth: '160px',
+                    backdropFilter: 'blur(8px)',
                 }}>
-                    <div style={{ borderBottom: '1px solid #333', marginBottom: '6px', paddingBottom: '4px', fontWeight: 'bold', color: '#aaa', fontSize: '11px' }}>
-                        ⏱ {formatTime(hoverInfo.time)} ({hoverInfo.time}s)
+                    <div style={{ borderBottom: '1px solid var(--Divider-Normal)', marginBottom: '6px', paddingBottom: '4px' }}>
+                        <Font as="span" variant="footnote" color="muted">
+                            ⏱ {formatTime(hoverInfo.time)} ({hoverInfo.time}s)
+                        </Font>
                     </div>
                     {hoverInfo.values.map((v, i) => (
-                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '3px' }}>
-                            <Font as="span" variant="caption-2" style={{ color: v.color }}>● {v.label}</Font>
-                            <Font as="span" variant="caption-2" style={{ color: '#ddd', fontVariantNumeric: 'tabular-nums' }}>{Math.floor(v.value).toLocaleString()} /s</Font>
+                        <div key={i} style={{ display: 'flex', justifyContent: 'space-between', gap: '12px', marginBottom: '2px' }}>
+                            <Font as="span" variant="footnote" style={{ color: v.color }}>● {v.label}</Font>
+                            <Font as="span" variant="footnote" style={{ color: 'var(--Font-Default)', fontVariantNumeric: 'tabular-nums' }}>
+                                {Math.floor(v.value).toLocaleString()} /s
+                            </Font>
                         </div>
                     ))}
-                    <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
-                        <Font as="span" variant="caption-2" color="muted">Total DPS</Font>
-                        <Font as="span" variant="caption-2" weight="bold" style={{ color: '#fff', fontVariantNumeric: 'tabular-nums' }}>
+                    <div style={{ borderTop: '1px solid var(--Divider-Normal)', marginTop: '4px', paddingTop: '4px', display: 'flex', justifyContent: 'space-between', gap: '12px' }}>
+                        <Font as="span" variant="footnote" color="muted">Total</Font>
+                        <Font as="span" variant="footnote" weight="bold" style={{ color: 'var(--Font-Default)', fontVariantNumeric: 'tabular-nums' }}>
                             {Math.floor(hoverInfo.total).toLocaleString()} /s
                         </Font>
                     </div>
@@ -462,11 +442,13 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
                         const l1 = bw.casters.map(id => charIdToName[id] || id.split('_')[0]);
                         if (l1.length === 0) return null;
                         return (
-                            <div style={{ borderTop: '1px solid #333', marginTop: '5px', paddingTop: '4px', color: 'rgba(255,215,0,0.9)', fontSize: '11px', lineHeight: '1.6' }}>
-                                <div style={{ color: '#aaa', marginBottom: '2px' }}>⚡ Full Burst</div>
+                            <div style={{ borderTop: '1px solid var(--Divider-Normal)', marginTop: '4px', paddingTop: '4px', color: 'var(--Status-Warning-100, #FFCB50)', lineHeight: '1.5' }}>
+                                <Font as="div" variant="footnote" color="muted" style={{ marginBottom: '2px' }}>⚡ Full Burst</Font>
                                 {l1.map((name, i) => (
-                                    <div key={i} style={{ paddingLeft: '8px' }}>
-                                        {i === 0 ? 'L1' : i === 1 ? 'L2' : i === 2 ? 'L3' : `+${i}`}: <span style={{ color: 'rgba(255,215,0,1)' }}>{name}</span>
+                                    <div key={i} style={{ paddingLeft: '6px' }}>
+                                        <Font as="span" variant="footnote" style={{ color: 'var(--Status-Warning-100, #FFCB50)' }}>
+                                            {i === 0 ? 'L1' : i === 1 ? 'L2' : i === 2 ? 'L3' : `+${i}`}: {name}
+                                        </Font>
                                     </div>
                                 ))}
                             </div>
@@ -479,3 +461,4 @@ export const CanvasDpsChart: React.FC<CanvasDpsChartProps> = ({
 };
 
 export default CanvasDpsChart;
+

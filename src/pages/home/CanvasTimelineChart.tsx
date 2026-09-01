@@ -151,17 +151,7 @@ function formatBuffTooltipValue(stat: string, val: number): string {
     return `${sign}${val.toFixed(2)}%`;
 }
 
-import { SLOT_COLORS } from '../../constants/characters';
-
-function getSlotColor(id: string, fallbackIdx: number = 0): string {
-    if (!id || id === '__enemy__') return '#d32f2f';
-    const match = id.match(/_(\d+)$/);
-    if (match) {
-        const idx = parseInt(match[1], 10);
-        return SLOT_COLORS[idx % SLOT_COLORS.length];
-    }
-    return SLOT_COLORS[fallbackIdx % SLOT_COLORS.length];
-}
+import { useChartTheme } from '../../utils/useChartTheme';
 
 // ─────────────────────────────────────────────────────────────
 // 행 데이터 구조
@@ -207,6 +197,7 @@ interface Props {
 const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff Timeline' }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
+    const themeTokens = useChartTheme();
 
     const [viewMin, setViewMin] = useState(0);
     const [viewMax, setViewMax] = useState<number | null>(null);
@@ -245,7 +236,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         for (const ev of events) {
             const key = `${ev.targetId}__${ev.casterId}__${ev.buffName}__${ev.stat}`;
             if (!grouped.has(key)) {
-                const color = getSlotColor(ev.casterId);
+                const color = themeTokens.getSlotColor(ev.casterId);
                 grouped.set(key, {
                     targetId: ev.targetId,
                     targetName: idToName[ev.targetId] || ev.targetId,
@@ -274,7 +265,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
             return a.stat.localeCompare(b.stat);
         });
         return result;
-    }, [summary]);
+    }, [summary, themeTokens]);
 
     const getViewRange = useCallback((): [number, number] => [viewMin, viewMax ?? duration], [viewMin, viewMax, duration]);
 
@@ -295,30 +286,33 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
 
         const rowCount = Math.max(1, rows.length);
         const ch = PAD.top + PAD.bottom + rowCount * (LINE_H + ROW_GAP) + Math.max(0, charGroupCount - 1) * CHAR_GAP;
-        const cw = wrapper.clientWidth;
 
-        canvas.width = cw;
-        canvas.height = ch;
+        const dpr = window.devicePixelRatio || 1;
+        const cw = Math.floor(wrapper.clientWidth) || 1200;
+
+        canvas.width = Math.round(cw * dpr);
+        canvas.height = Math.round(ch * dpr);
         canvas.style.width = `${cw}px`;
         canvas.style.height = `${ch}px`;
 
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        ctx.scale(dpr, dpr);
+
         ctx.clearRect(0, 0, cw, ch);
-        ctx.fillStyle = '#111318';
-        ctx.fillRect(0, 0, cw, ch);
 
         // 제목
-        ctx.fillStyle = '#8a8fa8';
-        ctx.font = 'bold 11px "Inter", sans-serif';
+        ctx.fillStyle = themeTokens.fontDefault;
+        ctx.font = '700 12px "Wanted Sans Variable", "Wanted Sans", sans-serif';
         ctx.textAlign = 'left';
         ctx.textBaseline = 'top';
-        ctx.fillText(title, PAD.left, 12);
+        ctx.fillText(title, Math.round(PAD.left), 12);
 
         if (rows.length === 0) {
-            ctx.fillStyle = '#444';
+            ctx.fillStyle = themeTokens.fontInactive;
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.font = '13px sans-serif';
-            ctx.fillText('시뮬레이션을 실행하면 버프 타임라인이 표시됩니다', cw / 2, ch / 2);
+            ctx.font = '12px "Wanted Sans Variable", "Wanted Sans", sans-serif';
+            ctx.fillText('시뮬레이션을 실행하면 버프 타임라인이 표시됩니다', Math.round(cw / 2), Math.round(ch / 2));
             return;
         }
 
@@ -331,20 +325,21 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         const tickInterval = [1, 2, 5, 10, 15, 20, 30, 60].find(i => range / 8 <= i) ?? 60;
         const firstTick = Math.ceil(vMin / tickInterval) * tickInterval;
 
-        ctx.strokeStyle = '#1e2030';
+        ctx.strokeStyle = themeTokens.gridLine;
         ctx.lineWidth = 1;
-        ctx.fillStyle = '#555';
-        ctx.font = '10px monospace';
+        ctx.fillStyle = themeTokens.fontInactive;
+        ctx.font = '500 10px "Wanted Sans Variable", "Wanted Sans", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'top';
 
         for (let t = firstTick; t <= vMax; t += tickInterval) {
             const x = toX(t);
+            const snapX = Math.floor(x) + 0.5;
             ctx.beginPath();
-            ctx.moveTo(x, PAD.top);
-            ctx.lineTo(x, ch - PAD.bottom);
+            ctx.moveTo(snapX, PAD.top);
+            ctx.lineTo(snapX, ch - PAD.bottom);
             ctx.stroke();
-            ctx.fillText(formatTime(t, duration), x, ch - PAD.bottom + 6);
+            ctx.fillText(formatTime(t, duration), Math.round(x), Math.round(ch - PAD.bottom + 6));
         }
 
         // ── 클리핑으로 바 렌더링 ──
@@ -370,9 +365,9 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                 let w = toX(Math.min(vMax, seg.end)) - x0;
                 w = Math.max(2, w);
 
-                // 직사각형 바 채우기 (radius 삭제, stroke 삭제)
-                ctx.fillStyle = row.color;
-                ctx.fillRect(x0, barY, w, barH);
+                // 직사각형 바 채우기 (정수 픽셀 배치)
+                ctx.fillStyle = themeTokens.getSlotColor(row.casterId);
+                ctx.fillRect(Math.floor(x0), Math.floor(barY), Math.floor(w), Math.floor(barH));
             });
 
             hitData.push({ y: yCursor, h: LINE_H, row });
@@ -391,11 +386,11 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
 
             if (row.targetId !== lastTarget) {
                 // 캐릭터명 (슬롯 색상)
-                ctx.fillStyle = getSlotColor(row.targetId);
-                ctx.font = 'bold 11px "Inter", "Pretendard", sans-serif';
+                ctx.fillStyle = themeTokens.getSlotColor(row.targetId);
+                ctx.font = '700 11px "Wanted Sans Variable", "Wanted Sans", sans-serif';
                 ctx.textAlign = 'left';
                 ctx.textBaseline = 'middle';
-                ctx.fillText(row.targetName.substring(0, 14), 8, yCursor + LINE_H / 2);
+                ctx.fillText(row.targetName.substring(0, 14), 8, Math.round(yCursor + LINE_H / 2));
             }
             lastTarget = row.targetId;
 
@@ -406,11 +401,11 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                 ? skillDisplayName
                 : `${skillDisplayName} ← ${row.casterName.substring(0, 8)}`;
 
-            ctx.fillStyle = row.color;
-            ctx.font = '10px "Inter", "Pretendard", sans-serif';
+            ctx.fillStyle = themeTokens.getSlotColor(row.casterId);
+            ctx.font = '500 10px "Wanted Sans Variable", "Wanted Sans", sans-serif';
             ctx.textAlign = 'right';
             ctx.textBaseline = 'middle';
-            ctx.fillText(labelRight.substring(0, 32), PAD.left - 8, yCursor + LINE_H / 2);
+            ctx.fillText(labelRight.substring(0, 32), Math.round(PAD.left - 8), Math.round(yCursor + LINE_H / 2));
 
             yCursor += LINE_H + ROW_GAP;
         });
@@ -418,15 +413,15 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         // 줌 표시
         const isZoomed = vMin > 0 || vMax < duration - 0.1;
         if (isZoomed) {
-            ctx.fillStyle = '#555';
+            ctx.fillStyle = themeTokens.fontInactive;
             ctx.textAlign = 'right';
-            ctx.font = '10px monospace';
+            ctx.font = '500 10px "Wanted Sans Variable", "Wanted Sans", sans-serif';
             ctx.fillText(
                 `${formatTime(vMin, duration)} – ${formatTime(vMax, duration)}`,
-                cw - PAD.right, 14
+                Math.round(cw - PAD.right), 14
             );
         }
-    }, [rows, duration, title, getViewRange]);
+    }, [rows, duration, title, getViewRange, themeTokens]);
 
     useEffect(() => {
         draw();
@@ -442,9 +437,9 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         const range = vMax - vMin;
         const canvas = canvasRef.current!;
         const rect = canvas.getBoundingClientRect();
-        const lx = (e.clientX - rect.left) * (canvas.width / canvas.clientWidth);
-        if (lx < PAD.left || lx > canvas.width - PAD.right) return;
-        const ratio = (lx - PAD.left) / (canvas.width - PAD.left - PAD.right);
+        const lx = e.clientX - rect.left;
+        if (lx < PAD.left || lx > rect.width - PAD.right) return;
+        const ratio = (lx - PAD.left) / (rect.width - PAD.left - PAD.right);
         const cursor = vMin + ratio * range;
         const factor = e.deltaY < 0 ? 0.75 : 1.33;
         let newRange = Math.max(MIN_ZOOM, Math.min(duration, range * factor));
@@ -474,14 +469,11 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         const rect = canvas.getBoundingClientRect();
         const mouseX = e.clientX - rect.left;
         const mouseY = e.clientY - rect.top;
-        const scaleY = canvas.height / canvas.clientHeight;
-        const logY = mouseY * scaleY;
-        const logX = mouseX * (canvas.width / canvas.clientWidth);
 
         if (isDragging.current) {
             const [vMin, vMax] = [viewMinRef.current, viewMaxRef.current ?? duration];
-            const graphW = canvas.width - PAD.left - PAD.right;
-            const dx = (e.clientX - lastDragX.current) * (canvas.width / canvas.clientWidth);
+            const graphW = rect.width - PAD.left - PAD.right;
+            const dx = e.clientX - lastDragX.current;
             lastDragX.current = e.clientX;
             const dt = -(dx / graphW) * (vMax - vMin);
             let nm = Math.max(0, vMin + dt);
@@ -494,13 +486,13 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         }
 
         // 툴팁 히트테스트
-        if (logX >= PAD.left && logX <= canvas.width - PAD.right) {
+        if (mouseX >= PAD.left && mouseX <= rect.width - PAD.right) {
             const [vMin, vMax] = getViewRange();
-            const graphW = canvas.width - PAD.left - PAD.right;
-            const cursorT = vMin + ((logX - PAD.left) / graphW) * (vMax - vMin);
+            const graphW = rect.width - PAD.left - PAD.right;
+            const cursorT = vMin + ((mouseX - PAD.left) / graphW) * (vMax - vMin);
 
             for (const hit of rowHitRef.current) {
-                if (logY >= hit.y && logY <= hit.y + hit.h) {
+                if (mouseY >= hit.y && mouseY <= hit.y + hit.h) {
                     const seg = hit.row.segments.find(s => cursorT >= s.start && cursorT <= s.end);
                     if (seg) {
                         setTooltip({
@@ -559,24 +551,24 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                     }}
                 >
                     <div className={styles['tooltip-header']}>
-                        <Font as="span" variant="caption-1" weight="bold" style={{ color: getSlotColor(tooltip.targetId) }}>
+                        <Font as="span" variant="footnote" weight="bold" style={{ color: themeTokens.getSlotColor(tooltip.targetId) }}>
                             {tooltip.targetName}
                         </Font>
-                        <Font as="span" variant="caption-2" color="muted">←</Font>
-                        <Font as="span" variant="caption-2" weight="medium" style={{ color: getSlotColor(tooltip.casterId) }}>
+                        <Font as="span" variant="footnote" color="muted">←</Font>
+                        <Font as="span" variant="footnote" weight="medium" style={{ color: themeTokens.getSlotColor(tooltip.casterId) }}>
                             {tooltip.casterName}
                         </Font>
                     </div>
                     <div className={styles['tooltip-skill']}>
-                        <Font as="div" variant="body" weight="semibold" style={{ color: 'var(--Status-Warning-100)' }}>
+                        <Font as="div" variant="caption-2" weight="bold" style={{ color: 'var(--Status-Warning-100)' }}>
                             {tooltip.buffName}
                         </Font>
                     </div>
                     <div className={styles['tooltip-stat-row']}>
-                        <Font as="span" variant="caption-2" color="muted">
+                        <Font as="span" variant="footnote" color="muted">
                             {statToKoreanDesc(tooltip.stat)}
                         </Font>
-                        <Font as="span" variant="caption-1" weight="bold" style={{ color: 'var(--Status-Info-100)', fontVariantNumeric: 'tabular-nums' }}>
+                        <Font as="span" variant="footnote" weight="bold" style={{ color: 'var(--Status-Info-100)', fontVariantNumeric: 'tabular-nums' }}>
                             {formatBuffTooltipValue(tooltip.stat, tooltip.value)}
                         </Font>
                     </div>
