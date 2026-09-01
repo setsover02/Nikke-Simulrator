@@ -1,6 +1,6 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
-import { calculateBaseStat } from './src/engine/baseStat.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
+import { calculateBaseStat } from '../src/engine/baseStat.js';
 import fs from 'fs';
 
 const crownData = JSON.parse(fs.readFileSync('src/character/pilgrim/p_ssr_크라운.json', 'utf8'));
@@ -74,7 +74,7 @@ const team = {
 };
 
 const enemy = { hp: 1e12, defense: 4000, element: '풍압', corePx: 52 };
-const config = { duration: 180, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
+const config = { duration: 180, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
 
 const result = simulateBattle(team, enemy, config);
 

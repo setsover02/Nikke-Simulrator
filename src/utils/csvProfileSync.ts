@@ -77,17 +77,11 @@ const CUBE_NAME_MAP: Record<string, string> = {
 
 // 소장품/애장품 문자열 파싱
 function parseCollection(raw: string): { grade: CollectionGrade; level: string } {
-    if (!raw) return { grade: 'none', level: '0' };
+    if (!raw) return { grade: 'None', level: '0' };
     const trimmed = raw.trim();
 
     if (trimmed.includes('애장품')) {
-        if (trimmed.includes('★★★') || trimmed.includes('3단계')) {
-            return { grade: 'favorite_phase3', level: '15' };
-        }
-        if (trimmed.includes('★★') || trimmed.includes('2단계')) {
-            return { grade: 'favorite_phase2', level: '15' };
-        }
-        return { grade: 'favorite_phase1', level: '15' };
+        return { grade: 'SSR', level: '15' };
     }
 
     if (trimmed.startsWith('SR')) {
@@ -102,7 +96,7 @@ function parseCollection(raw: string): { grade: CollectionGrade; level: string }
         return { grade: 'R', level: lvl };
     }
 
-    return { grade: 'none', level: '0' };
+    return { grade: 'None', level: '0' };
 }
 
 // 텍스트 정규화 (공백, 콜론, 특수문자 제거)
@@ -125,9 +119,18 @@ function normalizeCompany(c: string): string {
 
 // 장비 티어 변환
 function parseEquipTier(tierStr: string): string {
-    if (tierStr === '10') return 'Overload';
-    if (tierStr === '9') return 'T9';
+    const trimmed = (tierStr || '').trim();
+    if (trimmed === '10' || trimmed === 'Overload' || trimmed === '오버로드') return 'Overload';
+    if (trimmed === '9' || trimmed.toUpperCase() === 'T9') return 'T9';
+    if (trimmed === '기업' || trimmed.toLowerCase() === 'company') return '기업';
     return 'none';
+}
+
+// 장비 강화 레벨 변환 (0 ~ 5)
+function parseEquipLevel(lvlStr: string): string {
+    const n = parseInt(lvlStr, 10);
+    if (isNaN(n) || n < 0) return '0';
+    return String(Math.min(5, n));
 }
 
 /**
@@ -336,27 +339,80 @@ export function parseAndSyncProfileCsv(csvText: string): CsvSyncResult {
 
         // 장비 티어 & 강화
         const equipTierHead = parseEquipTier(getVal(row, '머리_티어'));
-        const equipUpgradeHead = getVal(row, '머리_레벨') || '0';
+        const equipUpgradeHead = parseEquipLevel(getVal(row, '머리_레벨'));
 
         const equipTierTorso = parseEquipTier(getVal(row, '몸통_티어'));
-        const equipUpgradeTorso = getVal(row, '몸통_레벨') || '0';
+        const equipUpgradeTorso = parseEquipLevel(getVal(row, '몸통_레벨'));
 
         const equipTierArms = parseEquipTier(getVal(row, '장갑_티어'));
-        const equipUpgradeArms = getVal(row, '장갑_레벨') || '0';
+        const equipUpgradeArms = parseEquipLevel(getVal(row, '장갑_레벨'));
 
         const equipTierLegs = parseEquipTier(getVal(row, '다리_티어'));
-        const equipUpgradeLegs = getVal(row, '다리_레벨') || '0';
+        const equipUpgradeLegs = parseEquipLevel(getVal(row, '다리_레벨'));
 
-        // 오버로드 9개 옵션 퍼센트 합산
-        const equipWeakPoint = getVal(row, '우코(%)') || '0.00';
-        const equipATK = getVal(row, '공증(%)') || '0.00';
-        const equipAmmo = getVal(row, '장탄(%)') || '0.00';
-        const equipCritRate = getVal(row, '크확(%)') || '0.00';
-        const equipCritDmg = getVal(row, '크댐(%)') || '0.00';
-        const equipAccuracy = getVal(row, '명중(%)') || '0.00';
-        const equipChargeDmg = getVal(row, '차댐(%)') || '0.00';
-        const equipChargeSpeed = getVal(row, '차속(%)') || '0.00';
-        const equipDef = getVal(row, '방어(%)') || '0.00';
+        // 오버로드 9개 옵션: 각 부위(머리/몸통/장갑/다리) 옵션1~3 및 옵션값 직접 합산 (fallback: 요약 컬럼)
+        const OVERLOAD_KEY_MAP: Record<string, string> = {
+            '우코': 'equipWeakPoint',
+            '우월코드': 'equipWeakPoint',
+            '공증': 'equipATK',
+            '공격력': 'equipATK',
+            '장탄': 'equipAmmo',
+            '최대장탄량': 'equipAmmo',
+            '크확': 'equipCritRate',
+            '치명타확률': 'equipCritRate',
+            '크댐': 'equipCritDmg',
+            '치명타피해': 'equipCritDmg',
+            '치명타데미지': 'equipCritDmg',
+            '명중': 'equipAccuracy',
+            '명중률': 'equipAccuracy',
+            '차댐': 'equipChargeDmg',
+            '차지대미지': 'equipChargeDmg',
+            '차지피해': 'equipChargeDmg',
+            '차속': 'equipChargeSpeed',
+            '차지속도': 'equipChargeSpeed',
+            '방어': 'equipDef',
+            '방어력': 'equipDef',
+        };
+
+        const pieceSums: Record<string, number> = {
+            equipWeakPoint: 0,
+            equipATK: 0,
+            equipAmmo: 0,
+            equipCritRate: 0,
+            equipCritDmg: 0,
+            equipAccuracy: 0,
+            equipChargeDmg: 0,
+            equipChargeSpeed: 0,
+            equipDef: 0,
+        };
+
+        let hasPieceOptions = false;
+        const equipPieces = ['머리', '몸통', '장갑', '다리'];
+        for (const p of equipPieces) {
+            for (let i = 1; i <= 3; i++) {
+                const optName = getVal(row, `${p}_옵${i}`);
+                const optValStr = getVal(row, `${p}_옵${i}값`);
+                if (optName && optValStr) {
+                    const cleanName = optName.replace(/\s+/g, '');
+                    const field = OVERLOAD_KEY_MAP[cleanName];
+                    const val = parseFloat(optValStr);
+                    if (field && !isNaN(val)) {
+                        pieceSums[field] = (pieceSums[field] || 0) + val;
+                        hasPieceOptions = true;
+                    }
+                }
+            }
+        }
+
+        const equipWeakPoint = hasPieceOptions ? pieceSums.equipWeakPoint.toFixed(2) : (getVal(row, '우코(%)') || '0.00');
+        const equipATK = hasPieceOptions ? pieceSums.equipATK.toFixed(2) : (getVal(row, '공증(%)') || '0.00');
+        const equipAmmo = hasPieceOptions ? pieceSums.equipAmmo.toFixed(2) : (getVal(row, '장탄(%)') || '0.00');
+        const equipCritRate = hasPieceOptions ? pieceSums.equipCritRate.toFixed(2) : (getVal(row, '크확(%)') || '0.00');
+        const equipCritDmg = hasPieceOptions ? pieceSums.equipCritDmg.toFixed(2) : (getVal(row, '크댐(%)') || '0.00');
+        const equipAccuracy = hasPieceOptions ? pieceSums.equipAccuracy.toFixed(2) : (getVal(row, '명중(%)') || '0.00');
+        const equipChargeDmg = hasPieceOptions ? pieceSums.equipChargeDmg.toFixed(2) : (getVal(row, '차댐(%)') || '0.00');
+        const equipChargeSpeed = hasPieceOptions ? pieceSums.equipChargeSpeed.toFixed(2) : (getVal(row, '차속(%)') || '0.00');
+        const equipDef = hasPieceOptions ? pieceSums.equipDef.toFixed(2) : (getVal(row, '방어(%)') || '0.00');
 
         const charState: SavedCharState = {
             customHP: '',

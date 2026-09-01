@@ -1,4 +1,4 @@
-import { calculateBaseStat } from './src/engine/baseStat.js';
+import { calculateBaseStat } from '../src/engine/baseStat.js';
 import fs from 'fs';
 
 const rapiData = JSON.parse(fs.readFileSync('src/character/elysion/e_ssr_라피_레드_후드.json', 'utf8'));

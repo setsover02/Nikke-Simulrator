@@ -1,6 +1,6 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
-import { calculateBaseStat } from './src/engine/baseStat.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
+import { calculateBaseStat } from '../src/engine/baseStat.js';
 import fs from 'fs';
 
 const crownData = JSON.parse(fs.readFileSync('src/character/pilgrim/p_ssr_크라운.json', 'utf8'));
@@ -77,7 +77,7 @@ rangeModes.forEach(rm => {
         ]
     };
 
-    const config = { duration: 180, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5, rangeMode: rm };
+    const config = { duration: 180, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5, rangeMode: rm };
     const result = simulateBattle(team, enemy, config);
 
     const nameMap = {

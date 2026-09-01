@@ -1,4 +1,4 @@
-import { runSimulation } from './src/engine/simulationRunner.js';
+import { runSimulation } from '../src/engine/simulationRunner.js';
 import fs from 'fs';
 
 const lmData = JSON.parse(fs.readFileSync('src/character/pilgrim/p_ssr_리틀_머메이드.json', 'utf8'));

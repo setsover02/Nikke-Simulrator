@@ -1,5 +1,5 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
 import fs from 'fs';
 
 const miharaData = JSON.parse(fs.readFileSync('src/character/missilis/m_ssr_미하라_본딩_체인.json', 'utf8'));
@@ -30,14 +30,14 @@ const team = {
     ]
 };
 const enemy = { hp: 1e9, defense: 3000, element: '작열', corePx: 52 };
-const config = { duration: 40, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
+const config = { duration: 40, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
 
 const result = simulateBattle(team, enemy, config);
 
 // 미하라의 버프 및 사슬 감기 스택 변화 추적
 console.log('--- 40초 전투 중 미하라 관련 이벤트 상세 ---');
-const timelineEvents = result.log.filter(l => 
-    l.source === 'MiharaBondingChain_2' || 
+const timelineEvents = result.log.filter(l =>
+    l.source === 'MiharaBondingChain_2' ||
     l.type === 'burst'
 );
 

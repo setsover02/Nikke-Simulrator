@@ -1,5 +1,5 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
 import fs from 'fs';
 
 const rapiData = JSON.parse(fs.readFileSync('src/character/elysion/e_ssr_라피_레드_후드.json', 'utf8'));
@@ -20,7 +20,7 @@ for (const weakElem of ['작열', '철갑', '수냉', '풍압', '전격']) {
     };
 
     const enemy = { hp: 1e9, defense: 3000, element: weakElem, corePx: 52 };
-    const config = { duration: 30, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
+    const config = { duration: 30, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
 
     const result = simulateBattle(team, enemy, config);
     const rapiTotal = result.totalDamage;

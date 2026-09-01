@@ -1,4 +1,4 @@
-import { runSimulation } from './src/engine/simulationRunner.js';
+import { runSimulation } from '../src/engine/simulationRunner.js';
 import fs from 'fs';
 
 // 5인 스쿼드: 크라운, 라피: 레드후드, 아니스: 스타, 미하라: 본딩체인, 브리드: 사일런트트랙

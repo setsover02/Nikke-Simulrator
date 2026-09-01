@@ -3,6 +3,8 @@ import { Button } from '../../components/Button/Button';
 import { Switch } from '../../components/Switch/Switch';
 import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { Font } from '../../components/Font';
+import { Grid } from '../../components/Layout/Grid';
+import { TextField } from '../../components/TextField';
 import { RangeMode } from '../../constants/weaponStats';
 
 import { CoreVisualizer } from './CoreVisualizer';
@@ -51,6 +53,8 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     onSimulate,
 }) => {
     const sliderRef = useRef<HTMLDivElement>(null);
+    const activeRangeOption = RANGE_OPTIONS.find(opt => opt.value === rangeMode);
+    const activeWeapons = activeRangeOption ? activeRangeOption.weapons.split(' · ') : [];
 
     const handlePointerDown = (e: React.PointerEvent) => {
         if (!sliderRef.current) return;
@@ -92,15 +96,15 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     };
 
     return (
-        <div className="pa-4" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-            <Font as="h3" variant="subtitle" weight="bold" className="toolbar-title">
+        <Grid columns={1} gap={3} className="pa-4">
+            <Font as="h3" variant="subtitle" weight="bold">
                 타겟 설정
             </Font>
 
             {/* 약점 속성 선택 */}
-            <div className="flex-col-gap-8">
+            <Grid columns={1} gap={1}>
                 <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
-                <div style={{ display: 'flex', gap: '8px', justifyContent: 'space-between' }}>
+                <Grid columns={5} gap={1}>
                     {ELEMENT_OPTIONS.map(opt => (
                         <ButtonIconToggle
                             key={opt.value}
@@ -111,24 +115,24 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                             title={opt.label}
                         />
                     ))}
-                </div>
-            </div>
+                </Grid>
+            </Grid>
 
             {/* 코어 여부 및 크기 설정 */}
-            <div className="flex-col-gap-8">
-                <div className="flex-between-center">
+            <Grid columns={1} gap={1}>
+                <Grid templateColumns="1fr auto" alignItems="center">
                     <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
                     <Switch checked={showCore} onChange={onToggleCore} />
-                </div>
+                </Grid>
 
                 {showCore && (
-                    <div className="flex-col-gap-8" style={{ marginTop: '4px' }}>
-                        <div className="flex-between-center">
+                    <Grid columns={1} gap={1} className="mt-1">
+                        <Grid templateColumns="1fr auto" alignItems="center">
                             <Font as="span" variant="caption-2" color="muted">코어 직경</Font>
                             <Font as="span" variant="caption-2" color="accent" weight="bold">
                                 {coreSize}px
                             </Font>
-                        </div>
+                        </Grid>
                         <input
                             type="range"
                             min="10"
@@ -138,7 +142,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                             onChange={e => onCoreSizeChange(Number(e.target.value))}
                             style={{ width: '100%', cursor: 'pointer', accentColor: '#ef4444' }}
                         />
-                    </div>
+                    </Grid>
                 )}
 
                 {/* 코어 & 탄착군 실시간 시각화 프리뷰 */}
@@ -147,25 +151,25 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                     showCore={showCore}
                     onCoreSizeChange={onCoreSizeChange}
                 />
-            </div>
+            </Grid>
 
             {/* 교전 거리 */}
-            <div className="flex-col-gap-8">
-                <div className="flex-between-center">
+            <Grid columns={1} gap={1}>
+                <Grid templateColumns="1fr auto" alignItems="center">
                     <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
-                    <div className="weapon-badge-container">
-                        {RANGE_OPTIONS.find(opt => opt.value === rangeMode)?.weapons.split(' · ').map(w => (
+                    <Grid templateColumns={`repeat(${activeWeapons.length}, auto)`} gap={1} justifyContent="end">
+                        {activeWeapons.map(w => (
                             <Font as="span" key={w} variant="footnote" className="weapon-badge">{w}</Font>
                         ))}
-                    </div>
-                </div>
+                    </Grid>
+                </Grid>
 
-                <div className="flex-col-gap-8" style={{ marginTop: '10px' }}>
-                    <div className="range-labels">
+                <Grid columns={1} gap={1} className="mt-1">
+                    <Grid columns={3} justifyContent="between" className="px-1">
                         <Font as="span" variant="footnote" color="muted">Near</Font>
-                        <Font as="span" variant="footnote" color="muted">Mid</Font>
-                        <Font as="span" variant="footnote" color="muted">Far</Font>
-                    </div>
+                        <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'center' }}>Mid</Font>
+                        <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'right' }}>Far</Font>
+                    </Grid>
                     <div
                         className="range-slider-bg"
                         onPointerDown={handlePointerDown}
@@ -191,7 +195,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                             </div>
                         </div>
                     </div>
-                    <div className="range-values">
+                    <Grid columns={RANGE_OPTIONS.length} justifyContent="between" className="px-1">
                         {RANGE_OPTIONS.map(opt => (
                             <Font
                                 as="span"
@@ -199,47 +203,43 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                                 variant="caption-2"
                                 onClick={() => onRangeModeChange(opt.value)}
                                 className={`range-value ${rangeMode === opt.value ? 'active' : 'inactive'}`}
+                                style={{ textAlign: 'center' }}
                             >
                                 {opt.label}
                             </Font>
                         ))}
-                    </div>
-                </div>
-            </div>
+                    </Grid>
+                </Grid>
+            </Grid>
 
             {/* 버스트 충전 시간 */}
-            <div className="toolbar-section">
-                <div className="flex-between-center">
-                    <Font as="span" variant="caption-1" color="muted">버스트 충전 시간</Font>
-                    <div>
-                        <input
-                            type="number" value={fullBurstInterval} onChange={e => onFullBurstIntervalChange(e.target.value)}
-                            className="toolbar-input"
-                            step="0.01" min="2.52"
-                        />
-                        <Font as="span" variant="caption-1" className="toolbar-unit"> 초</Font>
-                    </div>
-                </div>
-                <Font as="span" variant="footnote" color="inactive" className="toolbar-hint">버스트 충전 시간</Font>
-            </div>
+            <TextField
+                type="number"
+                value={fullBurstInterval}
+                onChange={e => onFullBurstIntervalChange(e.target.value)}
+                step="0.01"
+                min="2.52"
+                label={<Font variant="caption-1" color="muted">버스트 충전 시간</Font>}
+                suffix="초"
+                hintText="버스트 충전 시간"
+                size="small"
+            />
 
             {/* 적 방어력 */}
-            <div className="toolbar-section padded-bot">
-                <div className="flex-between-center">
-                    <Font as="span" variant="caption-1" color="muted">적 방어력</Font>
-                    <input
-                        type="number" value={enemyDef} onChange={e => onEnemyDefChange(e.target.value)}
-                        className="toolbar-input"
-                    />
-                </div>
-                <Font as="span" variant="footnote" color="inactive" className="toolbar-hint">유니온 사격장 기준 100</Font>
-            </div>
+            <TextField
+                type="number"
+                value={enemyDef}
+                onChange={e => onEnemyDefChange(e.target.value)}
+                label={<Font variant="caption-1" color="muted">적 방어력</Font>}
+                hintText="유니온 사격장 기준 100"
+                size="small"
+            />
 
             {/* Simulate 버튼 */}
             <Button onClick={onSimulate} variant="primary" size="large">
                 시뮬레이션
             </Button>
-        </div>
+        </Grid>
     );
 };
 

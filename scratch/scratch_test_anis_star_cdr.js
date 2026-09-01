@@ -1,5 +1,5 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
 import fs from 'fs';
 
 const anisStarData = JSON.parse(fs.readFileSync('src/character/tetra/t_ssr_아니스_스타.json', 'utf8'));
@@ -31,7 +31,7 @@ const team1 = {
     ]
 };
 const enemy = { hp: 1e9, defense: 3000, element: '작열', corePx: 52 };
-const config = { duration: 60, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
+const config = { duration: 60, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
 
 const result1 = simulateBattle(team1, enemy, config);
 

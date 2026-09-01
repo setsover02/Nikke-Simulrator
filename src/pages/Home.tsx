@@ -173,7 +173,7 @@ const Home: React.FC = () => {
 
         const actualPatch = patch ? { ...patch } : null;
 
-        if (actualPatch && slots[idx]) {
+        if (actualPatch && slots[idx] && (!actualPatch.char || slots[idx]?.char?.data?.characterID === actualPatch.char.data.characterID)) {
             // Did the user select a different cube?
             if (actualPatch.cubeName !== undefined && actualPatch.cubeName !== slots[idx]!.cubeName) {
                 actualPatch.cubeLevel = actualPatch.cubeName === 'None' ? '0' : (getGlobalCubeLevel(actualPatch.cubeName) || '1');
@@ -192,16 +192,19 @@ const Home: React.FC = () => {
         const nextSlots = slots.map((s, i) => {
             if (i === idx) {
                 if (actualPatch === null) return null;
-                if (s === null) {
-                    if (actualPatch.char) {
-                        const newSlot = getCharDefaultState(actualPatch.char);
-                        const merged = { ...newSlot, ...actualPatch };
-                        const { char, ...stateToSave } = merged;
-                        saveCharSettings(char.data.characterID, stateToSave);
-                        return merged;
-                    }
-                    return null;
+
+                // 새 캐릭터 교체 또는 빈 슬롯 신규 배치 -> 새 캐릭터의 저장된 스펙 로드
+                if (actualPatch.char && (!s || s.char?.data?.characterID !== actualPatch.char.data.characterID)) {
+                    const newSlot = getCharDefaultState(actualPatch.char);
+                    const merged = { ...newSlot, ...actualPatch };
+                    const { char, ...stateToSave } = merged;
+                    saveCharSettings(char.data.characterID, stateToSave);
+                    return merged;
                 }
+
+                if (s === null) return null;
+
+                // 동일 캐릭터의 단일 속성 패치
                 const merged = { ...s, ...actualPatch };
                 const { char, ...stateToSave } = merged;
                 saveCharSettings(char.data.characterID, stateToSave);

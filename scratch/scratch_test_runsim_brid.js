@@ -1,4 +1,4 @@
-import { runSimulation } from './src/engine/simulationRunner.js';
+import { runSimulation } from '../src/engine/simulationRunner.js';
 import fs from 'fs';
 
 const crownData = JSON.parse(fs.readFileSync('src/character/pilgrim/p_ssr_크라운.json', 'utf8'));

@@ -1,5 +1,5 @@
-import { simulateBattle } from './src/engine/battleEngine.js';
-import { applyBaseStats } from './src/utils/charUtils.js';
+import { simulateBattle } from '../src/engine/battleEngine.js';
+import { applyBaseStats } from '../src/utils/charUtils.js';
 import fs from 'fs';
 
 const graveData = JSON.parse(fs.readFileSync('src/character/pilgrim/p_ssr_그레이브.json', 'utf8'));
@@ -34,7 +34,7 @@ const team = {
     ]
 };
 const enemy = { hp: 1e9, defense: 3000, element: '풍압', corePx: 52 };
-const config = { duration: 40, tick: 1/60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
+const config = { duration: 40, tick: 1 / 60, seed: 42, fullBurstDuration: 10, burstGaugeDelay: 2.5 };
 
 const result = simulateBattle(team, enemy, config);
 
