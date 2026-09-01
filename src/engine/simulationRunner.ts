@@ -288,6 +288,7 @@ function extractChars(
 
         return {
             charId,
+            characterID: slot.char.data.characterID,
             charName: slot.char.data.characterName,
             totalDmg,
             hitDamages,

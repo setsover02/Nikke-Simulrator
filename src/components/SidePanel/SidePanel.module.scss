@@ -1,0 +1,53 @@
+@use '../../assets/style/layout/layout' as layout;
+@use '../../assets/style/abstracts/variables' as *;
+
+.side-panel {
+    position: fixed;
+    top: layout.$header-height + layout.$base-spacing;
+    left: layout.$base-spacing;
+    bottom: layout.$base-spacing;
+    width: 320px;
+    z-index: 100;
+    display: flex;
+    transition: transform 0.3s $cubic-bezier;
+    transform: translateX(calc(-100% - layout.$base-spacing));
+    pointer-events: none;
+    @include sh-lg;
+}
+
+.side-panel.open {
+    transform: translateX(0);
+}
+
+.toggle-button {
+    position: absolute;
+    right: -28px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 120px;
+    background-color: var(--Background-Card);
+    border-left: none;
+    border-radius: 0 12px 12px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    pointer-events: auto;
+    color: var(--Font-Default);
+    padding: 0;
+    transition: background-color 0.2s;
+    // @include sh-lg;
+
+    &:hover {
+        background-color: var(--Background-Card);
+    }
+}
+
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+    pointer-events: auto;
+    width: 100%;
+    background-color: var(--Background-Card);
+}

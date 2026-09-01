@@ -512,10 +512,10 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                                 return (
                                     <div style={{ paddingLeft: '8px', marginBottom: '2px' }}>
                                         <span style={{
-                                             fontSize: '10px', padding: '1px 5px', borderRadius: '3px',
-                                             background: `${badgeColor}22`, color: badgeColor,
+                                            fontSize: '10px', padding: '1px 5px', borderRadius: '3px',
+                                            background: `${badgeColor}22`, color: badgeColor,
                                         }}>
-                                             {icon} {meta.label}
+                                            {icon} {meta.label}
                                         </span>
                                     </div>
                                 );

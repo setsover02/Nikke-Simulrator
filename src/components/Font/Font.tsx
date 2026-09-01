@@ -1,5 +1,5 @@
 import React from 'react';
-import '../assets/style/base/_typography.scss';
+import '../../assets/style/base/_typography.scss';
 
 export type FontWeight = 'regular' | 'medium' | 'semibold' | 'bold' | 'extrabold' | 'black';
 export type FontVariant = 'display-1' | 'display-2' | 'display-3' | 'heading-1' | 'heading-2' | 'heading-3' | 'subtitle' | 'body' | 'reading' | 'caption-1' | 'caption-2' | 'footnote' | 'font-button' | 'font-button-small';

@@ -29,7 +29,8 @@ export const Avatar: React.FC<AvatarProps> = ({
     children,
     ...props
 }) => {
-    const imgSrc = src || (charId ? avatarMap[charId] : undefined);
+    const cleanId = charId ? charId.replace(/_\d+$/, '') : undefined;
+    const imgSrc = src || (charId ? (avatarMap[charId] || (cleanId ? avatarMap[cleanId] : undefined) || avatarMap[charId.split('_')[0]]) : undefined);
     const parsedRatio = formatRatio(ratio);
 
     const computedStyle: React.CSSProperties = { ...style };

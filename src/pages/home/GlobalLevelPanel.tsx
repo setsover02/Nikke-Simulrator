@@ -12,7 +12,7 @@
 import React, { useState, useEffect } from 'react';
 import { SavedOutpostState, loadGlobalCubeLevels, saveGlobalCubeLevel } from '../../utils/storageUtils';
 import { TextField } from '../../components/TextField';
-import Font from '../../components/Font';
+import { Font } from '../../components/Font';
 import { Button } from '../../components/Button/Button';
 import { Switch } from '../../components/Switch/Switch';
 
@@ -177,9 +177,8 @@ export const GlobalLevelPanel: React.FC<GlobalLevelPanelProps> = ({
                         variant="assistive"
                         size="small"
                         onClick={onOpenProfileSync}
-                        style={{ fontSize: '11px', padding: '4px 8px' }}
                     >
-                        🔄 내 스펙 동기화 (CSV)
+                        내 스펙 동기화 (CSV)
                     </Button>
                 )}
             </div>

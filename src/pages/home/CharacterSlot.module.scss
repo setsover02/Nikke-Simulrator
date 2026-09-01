@@ -57,7 +57,7 @@
     position: relative;
     z-index: 1;
 
-    & > .slot-select-sm {
+    &>.slot-select-sm {
         grid-column: 1 / -1;
         grid-row: 2;
     }

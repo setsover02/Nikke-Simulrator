@@ -57,6 +57,7 @@ export interface HitDamages {
 
 export interface ScenarioResult {
     charId: string;
+    characterID?: string;
     charName: string;
     totalDmg: number;
     hitDamages: HitDamages;

@@ -12,6 +12,7 @@ import { Font } from '../components/Font';
 import { Ripple } from '../components/Ripple/Ripple';
 import { Avatar } from '../components/Avatar/Avatar';
 import { Switch } from '../components/Switch/Switch';
+import { Slider } from '../components/Slider/Slider';
 import { Chip } from '../components/Chip/Chip';
 import { Card } from '../components/Card/Card';
 import { Container } from '../components/Layout/Container';
@@ -125,6 +126,7 @@ const SECTIONS = [
     { id: 'menu', name: 'Menu' },
     { id: 'modal', name: 'Modal' },
     { id: 'ripple', name: 'Ripple' },
+    { id: 'slider', name: 'Slider' },
     { id: 'switch', name: 'Switch' },
     { id: 'textfield', name: 'TextField' },
 ];
@@ -148,6 +150,11 @@ const Playground: React.FC = () => {
 
     const [isTopMenuOpen, setIsTopMenuOpen] = useState(false);
     const topAnchorRef = useRef<HTMLButtonElement>(null);
+
+    // State for Slider demos
+    const [continuousVal, setContinuousVal] = useState<number>(45);
+    const [steppedVal, setSteppedVal] = useState<number>(25);
+    const [rangeModeVal, setRangeModeVal] = useState<number>(35);
 
     return (
         <Grid columns="220px 1fr" alignItems="start">
@@ -855,7 +862,99 @@ const Playground: React.FC = () => {
                     </div>
                 </Card>
 
-                {/* 16. Switch */}
+                {/* 16. Slider */}
+                <Card as="section" id="slider" className="pa-3">
+                    <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Slider</Font>
+                    <div className="pt-2" style={{ borderTop: '1px solid var(--Divider-Normal)' }}>
+                        <TableRow title="Continuous">
+                            <DemoBox label={`자유 조절 (0~100)\nValue: ${continuousVal}`} width={280}>
+                                <Slider
+                                    value={continuousVal}
+                                    onChange={setContinuousVal}
+                                    min={0}
+                                    max={100}
+                                    step={1}
+                                />
+                            </DemoBox>
+                            <DemoBox label="소수점 조절 (0.0~10.0, step 0.5)" width={280}>
+                                <Slider
+                                    defaultValue={5.5}
+                                    min={0}
+                                    max={10}
+                                    step={0.5}
+                                    formatTooltip={v => `${v.toFixed(1)}s`}
+                                />
+                            </DemoBox>
+                        </TableRow>
+
+                        <TableRow title="Discrete (Marks)">
+                            <DemoBox label={`4단계 눈금 & 스냅\nValue: ${steppedVal}`} width={280}>
+                                <Slider
+                                    value={steppedVal}
+                                    onChange={setSteppedVal}
+                                    type="discrete"
+                                    min={0}
+                                    max={100}
+                                    step={25}
+                                    marks={[
+                                        { value: 0, label: '0%' },
+                                        { value: 25, label: '25%' },
+                                        { value: 50, label: '50%' },
+                                        { value: 75, label: '75%' },
+                                        { value: 100, label: '100%' },
+                                    ]}
+                                    formatTooltip={v => `${v}%`}
+                                />
+                            </DemoBox>
+                            <DemoBox label={`교전 거리 모드 (비균등 눈금)\nValue: ${rangeModeVal}`} width={320}>
+                                <Slider
+                                    value={rangeModeVal}
+                                    onChange={setRangeModeVal}
+                                    type="discrete"
+                                    min={0}
+                                    max={100}
+                                    marks={[
+                                        { value: 0, label: '0' },
+                                        { value: 15, label: '15' },
+                                        { value: 25, label: '25' },
+                                        { value: 35, label: '35' },
+                                        { value: 45, label: '45' },
+                                        { value: 55, label: '55' },
+                                        { value: 100, label: '100' },
+                                    ]}
+                                />
+                            </DemoBox>
+                        </TableRow>
+
+                        <TableRow title="Full Width (100%)">
+                            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                                <Font variant="caption-2" color="inactive">
+                                    가로 전체 너비 (100%) 연속 슬라이더
+                                </Font>
+                                <Slider
+                                    defaultValue={70}
+                                    min={0}
+                                    max={100}
+                                    formatTooltip={v => `Level ${v}`}
+                                />
+                            </div>
+                        </TableRow>
+
+                        <TableRow title="States">
+                            <DemoBox label="Disabled (Empty)" width={220}>
+                                <Slider defaultValue={0} disabled />
+                            </DemoBox>
+                            <DemoBox label="Disabled (WithValue)" width={220}>
+                                <Slider defaultValue={60} disabled />
+                            </DemoBox>
+                            <DemoBox label="Always Tooltip" width={220}>
+                                <Slider defaultValue={80} showTooltip="always" />
+                            </DemoBox>
+                        </TableRow>
+                    </div>
+                </Card>
+
+                {/* 17. Switch */}
                 <Card as="section" id="switch" className="pa-3">
                     <Font as="h2" variant="body" weight="semibold" className="mb-2" style={{ display: 'block' }}>Switch</Font>
                     <div className="pt-2" style={{ borderTop: '1px solid var(--Divider-Normal)' }}>

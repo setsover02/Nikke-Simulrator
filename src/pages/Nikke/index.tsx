@@ -15,7 +15,7 @@ import {
 } from '../../utils/storageUtils';
 import { characterOptions } from '../../constants/characters';
 import GlobalLevelPanel from '../home/GlobalLevelPanel';
-import { OutpostCard } from '../../components/OutpostCard/OutpostCard';
+import { SidePanel } from '../../components/SidePanel';
 import { Card } from '../../components/Card/Card';
 import { Grid } from '../../components/Layout/Grid';
 import { Chip } from '../../components/Chip/Chip';
@@ -178,12 +178,12 @@ const Nikke: React.FC = () => {
             </div>
 
             {/* 2. 전초기지 레벨 패널 */}
-            <OutpostCard>
+            <SidePanel>
                 <GlobalLevelPanel
                     outpostState={outpostState}
                     onChange={handleOutpostChange}
                 />
-            </OutpostCard>
+            </SidePanel>
 
             {/* 3. 니케 목록 */}
             <Card as="section" style={{ minHeight: '500px' }}>

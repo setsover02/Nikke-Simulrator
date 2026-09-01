@@ -1,4 +1,3 @@
-import React from 'react';
 import { Font } from '../components/Font';
 import { Card } from '../components/Card/Card';
 import { Grid } from '../components/Layout/Grid';

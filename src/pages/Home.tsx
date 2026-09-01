@@ -31,7 +31,7 @@ import { SlotState } from '../types/simulator';
 import { Card } from '../components/Card/Card';
 import { Button } from '../components/Button/Button';
 import { ButtonToggle } from '../components/Button/ButtonToggle';
-import { OutpostCard } from '../components/OutpostCard/OutpostCard';
+import { SidePanel } from '../components/SidePanel';
 import { Grid } from '../components/Layout/Grid';
 import { Font } from '../components/Font';
 import { Modal } from '../components/Modal';
@@ -309,14 +309,14 @@ const Home: React.FC = () => {
     return (
         <Grid columns={1}>
             {/* 1. 글로벌 레벨 설정 패널 (전체 넓이) */}
-            <OutpostCard>
+            <SidePanel>
                 <GlobalLevelPanel
                     outpostState={outpostState}
                     onChange={handleOutpostChange}
                     onCubeChange={handleGlobalCubeChange}
                     onOpenProfileSync={() => setIsProfileSyncOpen(true)}
                 />
-            </OutpostCard>
+            </SidePanel>
 
             {/* 2. 스쿼드 + 캐릭터 선택 패널 (데스크톱: 320px 1fr, 그 외: 1fr) */}
             <Grid columns={{ xs: '1fr', lg: '320px 1fr' }}>

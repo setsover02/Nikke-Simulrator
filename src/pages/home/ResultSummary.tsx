@@ -1,9 +1,9 @@
 import React from 'react';
 import { ScenarioSummary } from '../../types/simulator';
 import { Font } from '../../components/Font';
+import { Avatar } from '../../components/Avatar/Avatar';
 import { Grid } from '../../components/Layout/Grid';
 import { useChartTheme } from '../../utils/useChartTheme';
-import styles from './ResultSummary.module.scss';
 
 interface Props {
     summary: ScenarioSummary;
@@ -27,7 +27,7 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal }) => {
     const charCount = summary.chars.length;
 
     return (
-        <div className={styles['result-summary-container']}>
+        <Grid columns={1} className="pa-2">
             <Grid
                 columns={{
                     xs: 1,
@@ -40,30 +40,51 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal }) => {
                 {summary.chars.map((r, idx) => {
                     const slotColor = themeTokens.getSlotColor(r.charId || idx);
                     return (
-                        <div key={r.charId + idx} className={styles['character-card']}>
-                            <div className={styles['card-header']}>
+                        <Grid key={r.charId + idx} columns={1} gap={1}>
+                            {/* 1. 아바타 & 캐릭터 이름 한 줄 */}
+                            <Grid templateColumns="auto 1fr" gap={1} alignItems="center">
+                                <Avatar charId={r.characterID || r.charId} size={32} />
                                 <Font
                                     as="span"
-                                    variant="subtitle"
-                                    weight="bold"
-                                    style={{ color: slotColor }}
+                                    variant="body"
+                                    weight="medium"
+                                    style={{ color: slotColor, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
                                 >
                                     {r.charName}
                                 </Font>
-                                <Font as="span" variant="caption-2" color="muted">
-                                    Total:{' '}
-                                    <strong className={styles['total-value']}>
-                                        {Math.floor(r.totalDmg).toLocaleString()}
-                                    </strong>
-                                </Font>
-                            </div>
+                            </Grid>
 
+                            {/* 2. 니케 토탈 데미지 한 줄 */}
+                            <Grid
+                                templateColumns="1fr auto"
+                                alignItems="center"
+                                className="pb-1"
+                                style={{ borderBottom: '1px solid var(--Divider-Normal)' }}
+                            >
+                                <Font as="span" variant="caption-1" color="muted">
+                                    Total
+                                </Font>
+                                <Font
+                                    as="span"
+                                    variant="body"
+                                    weight="bold"
+                                    style={{ fontVariantNumeric: 'tabular-nums' }}
+                                >
+                                    {Math.floor(r.totalDmg).toLocaleString()}
+                                </Font>
+                            </Grid>
+
+                            {/* 3. 세부 대미지 수치 세로 나열 */}
                             {r.hitDamages && (
-                                <Grid columns={2} gap={1}>
+                                <Grid columns={1} gap={1}>
                                     {HIT_TAG_META.map(({ key, label, colorVar }) => {
                                         const value = r.hitDamages?.[key as keyof typeof r.hitDamages] ?? 0;
                                         return (
-                                            <div key={key} className={styles['hit-tag-item']}>
+                                            <Grid
+                                                key={key}
+                                                templateColumns="1fr auto"
+                                                alignItems="center"
+                                            >
                                                 <Font
                                                     as="span"
                                                     variant="footnote"
@@ -76,35 +97,44 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal }) => {
                                                     variant="footnote"
                                                     color="default"
                                                     weight="medium"
+                                                    style={{ fontVariantNumeric: 'tabular-nums' }}
                                                 >
                                                     {value.toLocaleString()}
                                                 </Font>
-                                            </div>
+                                            </Grid>
                                         );
                                     })}
                                 </Grid>
                             )}
-                        </div>
+                        </Grid>
                     );
                 })}
             </Grid>
 
             {showTeamTotal && (
-                <div className={styles['team-total-card']}>
-                    <Font as="span" variant="subtitle" weight="bold" className={styles['team-total-title']}>
+                <Grid
+                    templateColumns="1fr auto"
+                    alignItems="center"
+                    className="pt-2"
+                    style={{ borderTop: '1px solid var(--Divider-Normal)' }}
+                >
+                    <Font as="span" variant="caption-1" weight="medium">
                         ★ Team Total
                     </Font>
-                    <Font as="span" variant="caption-1" color="muted">
-                        Total DMG:
-                        <strong className={styles['team-total-value']}>
-                            {Math.floor(summary.teamTotal).toLocaleString()}
-                        </strong>
+                    <Font
+                        as="span"
+                        variant="subtitle"
+                        weight="bold"
+                        style={{ fontVariantNumeric: 'tabular-nums' }}
+                    >
+                        {Math.floor(summary.teamTotal).toLocaleString()}
                     </Font>
-                </div>
+                </Grid>
             )}
-        </div>
+        </Grid>
     );
 };
 
 export default ResultSummary;
+
 

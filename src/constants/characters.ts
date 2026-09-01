@@ -47,12 +47,18 @@ for (const path in characterModules) {
     const matchingAvatarPath = Object.keys(avatarModules).find(p => p.includes(`${filename}.webp`));
     if (matchingAvatarPath) {
         avatarMap[data.characterID] = avatarModules[matchingAvatarPath];
+        avatarMap[filename] = avatarModules[matchingAvatarPath];
+        if (data.characterName) avatarMap[data.characterName] = avatarModules[matchingAvatarPath];
+        if (data.name) avatarMap[data.name] = avatarModules[matchingAvatarPath];
     }
 
     // 매칭되는 전신 파일 찾기
     const matchingFullbodyPath = Object.keys(fullbodyModules).find(p => p.includes(`${filename}.webp`));
     if (matchingFullbodyPath) {
         fullbodyMap[data.characterID] = fullbodyModules[matchingFullbodyPath];
+        fullbodyMap[filename] = fullbodyModules[matchingFullbodyPath];
+        if (data.characterName) fullbodyMap[data.characterName] = fullbodyModules[matchingFullbodyPath];
+        if (data.name) fullbodyMap[data.name] = fullbodyModules[matchingFullbodyPath];
     }
 }
 

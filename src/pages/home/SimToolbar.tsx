@@ -1,14 +1,14 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { Button } from '../../components/Button/Button';
 import { Switch } from '../../components/Switch/Switch';
+import { Slider } from '../../components/Slider/Slider';
+import { Chip } from '../../components/Chip/Chip';
 import { ButtonIconToggle } from '../../components/Button/ButtonIconToggle';
 import { Font } from '../../components/Font';
 import { Grid } from '../../components/Layout/Grid';
 import { TextField } from '../../components/TextField';
 import { RangeMode } from '../../constants/weaponStats';
-
 import { CoreVisualizer } from './CoreVisualizer';
-import styles from './SimToolbar.module.scss';
 
 const ELEMENT_OPTIONS = [
     { value: '풍압', label: '풍압', iconName: 'code-anmi', element: 'wind' as const },
@@ -53,193 +53,141 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
     enemyDef, onEnemyDefChange,
     onSimulate,
 }) => {
-    const sliderRef = useRef<HTMLDivElement>(null);
     const activeRangeOption = RANGE_OPTIONS.find(opt => opt.value === rangeMode);
     const activeWeapons = activeRangeOption ? activeRangeOption.weapons.split(' · ') : [];
+    const currentRangeIndex = RANGE_OPTIONS.findIndex(opt => opt.value === rangeMode);
 
-    const handlePointerDown = (e: React.PointerEvent) => {
-        if (!sliderRef.current) return;
-        try {
-            (e.currentTarget as Element).setPointerCapture(e.pointerId);
-        } catch (err) { }
-
-        const updateRange = (clientX: number) => {
-            if (!sliderRef.current) return;
-            const rect = sliderRef.current.getBoundingClientRect();
-            let percent = (clientX - rect.left) / rect.width;
-            if (percent < 0) percent = 0;
-            if (percent > 1) percent = 1;
-
-            const indexFloat = percent * (RANGE_OPTIONS.length - 1);
-            const index = Math.round(indexFloat);
-            const closest = RANGE_OPTIONS[index]?.value || RANGE_OPTIONS[0].value;
-
-            if (closest !== rangeMode) {
-                onRangeModeChange(closest);
-            }
-        };
-
-        const handlePointerMove = (moveEvent: PointerEvent) => {
-            updateRange(moveEvent.clientX);
-        };
-
-        const handlePointerUp = (upEvent: PointerEvent) => {
-            updateRange(upEvent.clientX);
-            window.removeEventListener('pointermove', handlePointerMove);
-            window.removeEventListener('pointerup', handlePointerUp);
-        };
-
-        window.addEventListener('pointermove', handlePointerMove);
-        window.addEventListener('pointerup', handlePointerUp);
-
-        // Initial click update
-        updateRange(e.clientX);
-    };
+    const rangeMarks = RANGE_OPTIONS.map((opt, idx) => ({
+        value: idx,
+        label: opt.label,
+    }));
 
     return (
-        <Grid columns={1} gap={3} className="pa-4">
-            <Font as="h3" variant="subtitle" weight="bold">
-                타겟 설정
-            </Font>
-
-            {/* 약점 속성 선택 */}
-            <Grid columns={1} gap={1}>
-                <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
-                <Grid columns={5} gap={1}>
-                    {ELEMENT_OPTIONS.map(opt => (
-                        <ButtonIconToggle
-                            key={opt.value}
-                            svgIcon={opt.iconName}
-                            element={opt.element}
-                            selected={weaknessElement === opt.value}
-                            onClick={() => onWeaknessChange(opt.value)}
-                            title={opt.label}
-                        />
-                    ))}
-                </Grid>
+        <Grid columns={1} gap={2} className="pa-3">
+            {/* 상단 헤더: 타이틀 & 시뮬레이션 버튼 */}
+            <Grid templateColumns="1fr auto" alignItems="center">
+                <Font as="h3" variant="subtitle" weight="bold">
+                    타겟 설정
+                </Font>
+                <Button onClick={onSimulate} variant="primary" size="default">
+                    시뮬레이션
+                </Button>
             </Grid>
 
-            {/* 코어 여부 및 크기 설정 */}
-            <Grid columns={1} gap={1}>
-                <Grid templateColumns="1fr auto" alignItems="center">
-                    <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
-                    <Switch checked={showCore} onChange={onToggleCore} />
-                </Grid>
-
-                {showCore && (
-                    <Grid columns={1} gap={1} className="mt-1">
-                        <Grid templateColumns="1fr auto" alignItems="center">
-                            <Font as="span" variant="caption-2" color="muted">코어 직경</Font>
-                            <Font as="span" variant="caption-2" color="accent" weight="bold">
-                                {coreSize}px
-                            </Font>
+            {/* 설정 영역: 가로 3개 컬럼 그룹 */}
+            <Grid columns={{ xs: 1, md: 2, lg: 3 }} gap={3} alignItems="start">
+                {/* 그룹 1: 타겟 속성 및 스펙 */}
+                <Grid columns={1} gap={2}>
+                    {/* 약점 속성 선택 */}
+                    <Grid columns={1} gap={1}>
+                        <Font as="span" variant="caption-1" color="muted">약점 속성</Font>
+                        <Grid columns={5} gap={1}>
+                            {ELEMENT_OPTIONS.map(opt => (
+                                <ButtonIconToggle
+                                    key={opt.value}
+                                    svgIcon={opt.iconName}
+                                    element={opt.element}
+                                    selected={weaknessElement === opt.value}
+                                    onClick={() => onWeaknessChange(opt.value)}
+                                    title={opt.label}
+                                />
+                            ))}
                         </Grid>
-                        <input
-                            type="range"
-                            min="10"
-                            max="150"
-                            step="2"
-                            value={coreSize}
-                            onChange={e => onCoreSizeChange(Number(e.target.value))}
-                            style={{ width: '100%', cursor: 'pointer', accentColor: '#ef4444' }}
+                    </Grid>
+
+                    {/* 적 방어력 & 버스트 충전 시간 (가로 2열) */}
+                    <Grid columns={2} gap={1}>
+                        <TextField
+                            type="number"
+                            value={enemyDef}
+                            onChange={e => onEnemyDefChange(e.target.value)}
+                            label={<Font variant="caption-1" color="muted">적 방어력</Font>}
+                            hintText="유니온 100"
+                            size="small"
+                        />
+                        <TextField
+                            type="number"
+                            value={fullBurstInterval}
+                            onChange={e => onFullBurstIntervalChange(e.target.value)}
+                            step="0.01"
+                            min="2.52"
+                            label={<Font variant="caption-1" color="muted">버스트 충전</Font>}
+                            suffix="초"
+                            size="small"
                         />
                     </Grid>
-                )}
+                </Grid>
 
-                {/* 코어 & 탄착군 실시간 시각화 프리뷰 */}
-                <CoreVisualizer
-                    coreSize={coreSize}
-                    showCore={showCore}
-                    onCoreSizeChange={onCoreSizeChange}
-                />
-            </Grid>
+                {/* 그룹 2: 교전 거리 설정 */}
+                <Grid columns={1} gap={1}>
+                    <Grid templateColumns="1fr auto" alignItems="center">
+                        <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
+                        <Grid templateColumns={`repeat(${activeWeapons.length}, auto)`} gap={1} justifyContent="end">
+                            {activeWeapons.map(w => (
+                                <Chip key={w}>{w}</Chip>
+                            ))}
+                        </Grid>
+                    </Grid>
 
-            {/* 교전 거리 */}
-            <Grid columns={1} gap={1}>
-                <Grid templateColumns="1fr auto" alignItems="center">
-                    <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
-                    <Grid templateColumns={`repeat(${activeWeapons.length}, auto)`} gap={1} justifyContent="end">
-                        {activeWeapons.map(w => (
-                            <Font as="span" key={w} variant="footnote" className={styles['weapon-badge']}>{w}</Font>
-                        ))}
+                    <Grid columns={1} gap={1} className="mt-1">
+                        <Grid columns={3} justifyContent="between" className="px-1">
+                            <Font as="span" variant="footnote" color="muted">Near</Font>
+                            <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'center' }}>Mid</Font>
+                            <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'right' }}>Far</Font>
+                        </Grid>
+                        <Slider
+                            min={0}
+                            max={RANGE_OPTIONS.length - 1}
+                            step={1}
+                            type="discrete"
+                            value={currentRangeIndex >= 0 ? currentRangeIndex : 0}
+                            onChange={idx => {
+                                const selected = RANGE_OPTIONS[idx];
+                                if (selected) onRangeModeChange(selected.value);
+                            }}
+                            marks={rangeMarks}
+                            formatTooltip={idx => {
+                                const opt = RANGE_OPTIONS[idx];
+                                return opt ? `${opt.label} (${opt.weapons})` : '';
+                            }}
+                        />
                     </Grid>
                 </Grid>
 
-                <Grid columns={1} gap={1} className="mt-1">
-                    <Grid columns={3} justifyContent="between" className="px-1">
-                        <Font as="span" variant="footnote" color="muted">Near</Font>
-                        <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'center' }}>Mid</Font>
-                        <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'right' }}>Far</Font>
+                {/* 그룹 3: 코어 여부, 직경 및 탄착군 시각화 */}
+                <Grid columns={1} gap={1}>
+                    <Grid templateColumns="1fr auto" alignItems="center">
+                        <Font as="span" variant="caption-1" color="muted">코어 여부</Font>
+                        <Switch checked={showCore} onChange={onToggleCore} />
                     </Grid>
-                    <div
-                        className={styles['range-slider-bg']}
-                        onPointerDown={handlePointerDown}
-                        style={{ cursor: 'pointer', touchAction: 'none' }}
-                    >
-                        <div className={styles['range-slider-inner']} ref={sliderRef}>
-                            <div className={styles['range-track']} />
-                            <div
-                                className={styles['range-track-fill']}
-                                style={{ width: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
+
+                    {showCore && (
+                        <Grid columns={1} gap={1} className="mt-1">
+                            <Grid templateColumns="1fr auto" alignItems="center">
+                                <Font as="span" variant="caption-2" color="muted">코어 직경</Font>
+                                <Font as="span" variant="caption-2" color="accent" weight="bold">
+                                    {coreSize}px
+                                </Font>
+                            </Grid>
+                            <Slider
+                                min={10}
+                                max={150}
+                                step={2}
+                                value={coreSize}
+                                onChange={onCoreSizeChange}
+                                formatTooltip={v => `${v}px`}
                             />
-                            {RANGE_OPTIONS.map((opt, i) => {
-                                const leftPercent = (i / (RANGE_OPTIONS.length - 1)) * 100;
-                                return (
-                                    <div key={opt.value} className={styles['range-dot']} style={{ left: `${leftPercent}%` }} />
-                                );
-                            })}
-                            <div
-                                className={styles['range-thumb']}
-                                style={{ left: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
-                            >
-                                <div className={styles['range-point-inner']} />
-                            </div>
-                        </div>
-                    </div>
-                    <Grid columns={RANGE_OPTIONS.length} justifyContent="between" className="px-1">
-                        {RANGE_OPTIONS.map(opt => (
-                            <Font
-                                as="span"
-                                key={opt.value}
-                                variant="caption-2"
-                                onClick={() => onRangeModeChange(opt.value)}
-                                className={`${styles['range-value']} ${rangeMode === opt.value ? styles['range-value-active'] : styles['range-value-inactive']}`}
-                                style={{ textAlign: 'center' }}
-                            >
-                                {opt.label}
-                            </Font>
-                        ))}
-                    </Grid>
+                        </Grid>
+                    )}
+
+                    {/* 코어 & 탄착군 실시간 시각화 프리뷰 */}
+                    <CoreVisualizer
+                        coreSize={coreSize}
+                        showCore={showCore}
+                        onCoreSizeChange={onCoreSizeChange}
+                    />
                 </Grid>
             </Grid>
-
-            {/* 버스트 충전 시간 */}
-            <TextField
-                type="number"
-                value={fullBurstInterval}
-                onChange={e => onFullBurstIntervalChange(e.target.value)}
-                step="0.01"
-                min="2.52"
-                label={<Font variant="caption-1" color="muted">버스트 충전 시간</Font>}
-                suffix="초"
-                hintText="버스트 충전 시간"
-                size="small"
-            />
-
-            {/* 적 방어력 */}
-            <TextField
-                type="number"
-                value={enemyDef}
-                onChange={e => onEnemyDefChange(e.target.value)}
-                label={<Font variant="caption-1" color="muted">적 방어력</Font>}
-                hintText="유니온 사격장 기준 100"
-                size="small"
-            />
-
-            {/* Simulate 버튼 */}
-            <Button onClick={onSimulate} variant="primary" size="large">
-                시뮬레이션
-            </Button>
         </Grid>
     );
 };
