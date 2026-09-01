@@ -8,6 +8,7 @@ import { TextField } from '../../components/TextField';
 import { RangeMode } from '../../constants/weaponStats';
 
 import { CoreVisualizer } from './CoreVisualizer';
+import styles from './SimToolbar.module.scss';
 
 const ELEMENT_OPTIONS = [
     { value: '풍압', label: '풍압', iconName: 'code-anmi', element: 'wind' as const },
@@ -159,7 +160,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                     <Font as="span" variant="caption-1" color="muted">교전 거리</Font>
                     <Grid templateColumns={`repeat(${activeWeapons.length}, auto)`} gap={1} justifyContent="end">
                         {activeWeapons.map(w => (
-                            <Font as="span" key={w} variant="footnote" className="weapon-badge">{w}</Font>
+                            <Font as="span" key={w} variant="footnote" className={styles['weapon-badge']}>{w}</Font>
                         ))}
                     </Grid>
                 </Grid>
@@ -171,27 +172,27 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                         <Font as="span" variant="footnote" color="muted" style={{ textAlign: 'right' }}>Far</Font>
                     </Grid>
                     <div
-                        className="range-slider-bg"
+                        className={styles['range-slider-bg']}
                         onPointerDown={handlePointerDown}
                         style={{ cursor: 'pointer', touchAction: 'none' }}
                     >
-                        <div className="range-slider-inner" ref={sliderRef}>
-                            <div className="range-track" />
+                        <div className={styles['range-slider-inner']} ref={sliderRef}>
+                            <div className={styles['range-track']} />
                             <div
-                                className="range-track-fill"
+                                className={styles['range-track-fill']}
                                 style={{ width: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
                             />
                             {RANGE_OPTIONS.map((opt, i) => {
                                 const leftPercent = (i / (RANGE_OPTIONS.length - 1)) * 100;
                                 return (
-                                    <div key={opt.value} className="range-dot" style={{ left: `${leftPercent}%` }} />
+                                    <div key={opt.value} className={styles['range-dot']} style={{ left: `${leftPercent}%` }} />
                                 );
                             })}
                             <div
-                                className="range-thumb active"
+                                className={styles['range-thumb']}
                                 style={{ left: `${(RANGE_OPTIONS.findIndex(o => o.value === rangeMode) / (RANGE_OPTIONS.length - 1)) * 100}%` }}
                             >
-                                <div className="range-point-inner" />
+                                <div className={styles['range-point-inner']} />
                             </div>
                         </div>
                     </div>
@@ -202,7 +203,7 @@ const SimToolbar: React.FC<SimToolbarProps> = ({
                                 key={opt.value}
                                 variant="caption-2"
                                 onClick={() => onRangeModeChange(opt.value)}
-                                className={`range-value ${rangeMode === opt.value ? 'active' : 'inactive'}`}
+                                className={`${styles['range-value']} ${rangeMode === opt.value ? styles['range-value-active'] : styles['range-value-inactive']}`}
                                 style={{ textAlign: 'center' }}
                             >
                                 {opt.label}

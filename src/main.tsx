@@ -8,7 +8,6 @@ import Rules from './pages/Rules'
 import { AppHeader } from './components/AppHeader'
 import { Container } from './components/Layout/Container'
 import './assets/style/main.scss'
-import './assets/app.css'
 
 function App() {
   return (

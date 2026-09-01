@@ -9,6 +9,12 @@
   user-select: none;
 }
 
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .radar-wrapper {
   position: relative;
   width: 100%;

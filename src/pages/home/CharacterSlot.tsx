@@ -11,6 +11,7 @@ import { TextField } from '../../components/TextField';
 import { Chip } from '../../components/Chip/Chip';
 import { Grid } from '../../components/Layout/Grid';
 import { calculateBaseStat, getCorpConsoleLevel, getClassConsoleLevel, resolveGrowthStage, growthStageLabel, MAX_STAGE_BY_RARITY } from '../../engine/baseStat';
+import styles from './CharacterSlot.module.scss';
 
 // Cube Data Source
 const CUBE_OPTIONS = [
@@ -137,11 +138,11 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
     };
 
     return (
-        <div className="slot-empty-container">
-            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
-                <div className="slot-empty-avatar" style={{ width: '80px', height: '80px', borderRadius: '8px', flexShrink: 0 }} />
-                <div className="slot-empty-text">
-                    <div className="slot-select-wrapper">
+        <div className={styles['slot-empty-container']}>
+            <div className={styles['slot-header-identity']} style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
+                <div className={styles['slot-empty-avatar']} style={{ width: '80px', height: '80px', borderRadius: '8px', flexShrink: 0 }} />
+                <div className={styles['slot-empty-text']}>
+                    <div className={styles['slot-select-wrapper']}>
                         <Select
                             options={characterOptions}
                             value={null}
@@ -156,12 +157,12 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                             styles={{
                                 control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer' }),
                                 valueContainer: (b) => ({ ...b, padding: 0 }),
-                                singleValue: (b) => ({ ...b, color: '#555', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
-                                placeholder: (b) => ({ ...b, color: '#555', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
-                                input: (b) => ({ ...b, color: '#fff', margin: 0, padding: 0 }),
-                                menu: (b) => ({ ...b, background: '#252525', zIndex: 10 }),
+                                singleValue: (b) => ({ ...b, color: 'var(--Font-Inactive)', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
+                                placeholder: (b) => ({ ...b, color: 'var(--Font-Inactive)', fontSize: '14px', fontWeight: 'bold', margin: 0 }),
+                                input: (b) => ({ ...b, color: 'var(--Font-Default)', margin: 0, padding: 0 }),
+                                menu: (b) => ({ ...b, background: 'var(--Background-Overlay)', zIndex: 10 }),
                                 menuPortal: (b) => ({ ...b, zIndex: 9999 }),
-                                option: (b, s) => ({ ...b, background: s.isFocused ? '#353535' : '#252525', color: '#eee', fontSize: '13px' }),
+                                option: (b, s) => ({ ...b, background: s.isFocused ? 'var(--Interact-Hover)' : 'transparent', color: 'var(--Font-Default)', fontSize: '13px' }),
                             }}
                             isSearchable={true}
                         />
@@ -169,34 +170,34 @@ const EmptySlot: React.FC<EmptySlotProps> = ({ onUpdate }) => {
                 </div>
             </div>
 
-            <div className="slot-section">
-                <Font as="span" variant="caption-1" color="muted">소장품</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">레벨</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">큐브</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+            <div className={styles['slot-section']}>
+                <Font as="span" variant="caption-1" color="muted">소장품</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">레벨</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">큐브</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
             </div>
 
-            <div className="slot-section">
-                <Font as="span" variant="caption-1" color="muted">체력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+            <div className={styles['slot-section']}>
+                <Font as="span" variant="caption-1" color="muted">체력</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
             </div>
 
-            <div className="slot-section">
-                <Font as="span" variant="caption-1" color="muted">우코</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">장탄</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">명중률</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">차댐</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">차속</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">크확</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">크댐</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+            <div className={styles['slot-section']}>
+                <Font as="span" variant="caption-1" color="muted">우코</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">공격력</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">장탄</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">명중률</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">차댐</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">차속</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">크확</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">크댐</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">방어력</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
             </div>
 
-            <div className="slot-section">
-                <Font as="span" variant="caption-1" color="muted">스킬1</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">스킬2</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
-                <Font as="span" variant="caption-1" color="muted">버스트</Font> <Font as="span" variant="caption-1" color="inactive" className="text-right">-</Font>
+            <div className={styles['slot-section']}>
+                <Font as="span" variant="caption-1" color="muted">스킬1</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">스킬2</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
+                <Font as="span" variant="caption-1" color="muted">버스트</Font> <Font as="span" variant="caption-1" color="inactive" className={styles['text-right']}>-</Font>
             </div>
         </div>
     );
@@ -340,28 +341,28 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     };
 
     return (
-        <div className="slot-container" style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}>
+        <div className={styles['slot-container']} style={{ '--fullbody-bg': fullbody ? `url(${fullbody})` : 'none' } as React.CSSProperties}>
             {/* Header Identity (Avatar + Name) */}
-            <div className="slot-header-identity" style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
+            <div className={styles['slot-header-identity']} style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: '12px', padding: '4px 0 8px 0' }}>
                 <Avatar charId={data.characterID} alt={slot.char.label} size={80} ratio="1:1" />
-                <div className="slot-identity">
+                <div className={styles['slot-identity']}>
                     <Font as="h3" variant="subtitle" weight="bold">
                         {slot.char.label || data.characterName}
                     </Font>
                 </div>
             </div>
 
-            <div className="slot-icons">
-                {classIcon && <img src={classIcon} alt={stats.class} className="slot-icon-sm" />}
-                {companyIcon && <img src={companyIcon} alt={stats.company} className="slot-icon-sm" />}
-                {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className="slot-icon-sm" />}
-                {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className="slot-icon-sm" />}
-                {elementIcon && <img src={elementIcon} alt={stats.element} className="slot-icon-sm" />}
+            <div className={styles['slot-icons']}>
+                {classIcon && <img src={classIcon} alt={stats.class} className={styles['slot-icon-sm']} />}
+                {companyIcon && <img src={companyIcon} alt={stats.company} className={styles['slot-icon-sm']} />}
+                {weaponIcon && <img src={weaponIcon} alt={stats.weapon} className={styles['slot-icon-sm']} />}
+                {burstIcon && <img src={burstIcon} alt={`Burst ${stats.burstLevel}`} className={styles['slot-icon-sm']} />}
+                {elementIcon && <img src={elementIcon} alt={stats.element} className={styles['slot-icon-sm']} />}
             </div>
 
             {/* Equipment (Collection / Cube) */}
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">소장품</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>소장품</span>
                 <Chip
                     variant={slot.collectionGrade === 'SSR' ? 'core' : (slot.collectionGrade === 'SR' || slot.collectionGrade === 'R') ? 'limit-break' : 'default'}
                     onClick={() => {
@@ -381,7 +382,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {slot.collectionGrade === 'SSR' ? '애장품' : slot.collectionGrade === 'SR' ? 'SR' : slot.collectionGrade === 'R' ? 'R' : '없음'}
                 </Chip>
 
-                <span className="color-777">소장품 레벨</span>
+                <span className={styles['color-777']}>소장품 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
                     <TextField
                         size="small"
@@ -394,10 +395,10 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     />
                 </div>
             </div>
-            <div className="slot-section-fr">
-                <span className="color-777">큐브</span>
+            <div className={styles['slot-section-fr']}>
+                <span className={styles['color-777']}>큐브</span>
                 <Select
-                    className="slot-select-sm"
+                    className={styles['slot-select-sm']}
                     value={CUBE_OPTIONS.find(opt => opt.value === (slot.cubeName || 'None'))}
                     options={CUBE_OPTIONS}
                     onChange={(sel: any) => {
@@ -410,17 +411,17 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     styles={{
                         control: (b) => ({ ...b, background: 'transparent', border: 'none', boxShadow: 'none', minHeight: 'unset', cursor: 'pointer', padding: 0 }),
                         valueContainer: (b) => ({ ...b, padding: 0, overflow: 'visible' }),
-                        singleValue: (b) => ({ ...b, color: 'var(--shade-000)', fontSize: '13px', margin: 0, position: 'static', overflow: 'visible', transform: 'none' }),
+                        singleValue: (b) => ({ ...b, color: 'var(--Font-Default)', fontSize: '13px', margin: 0, position: 'static', overflow: 'visible', transform: 'none' }),
                         indicatorsContainer: (b) => ({ ...b }),
-                        menu: (b) => ({ ...b, background: '#2a2f3a', zIndex: 10 }),
+                        menu: (b) => ({ ...b, background: 'var(--Background-Overlay)', zIndex: 10 }),
                         menuPortal: (b) => ({ ...b, zIndex: 9999 }),
-                        option: (b, s) => ({ ...b, background: s.isFocused ? '#35353e' : '#2a2f3a', color: '#eee', fontSize: '13px' }),
+                        option: (b, s) => ({ ...b, background: s.isFocused ? 'var(--Interact-Hover)' : 'transparent', color: 'var(--Font-Default)', fontSize: '13px' }),
                     }}
                     isSearchable={false}
                 />
             </div>
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">큐브 레벨</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>큐브 레벨</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '80px' }}>
                     <TextField
                         size="small"
@@ -439,27 +440,27 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
 
 
             {/* Stats */}
-            <div className="slot-subtitle">스탯 (자동계산)</div>
-            <div className="slot-section">
-                <span className="color-777">체력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+            <div className={styles['slot-subtitle']}>스탯 (자동계산)</div>
+            <div className={styles['slot-section']}>
+                <span className={styles['color-777']}>체력</span>
+                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
                     {calculatedStats ? calculatedStats.hp.toLocaleString() : formatNumber(slot.customHP)}
                 </span>
 
-                <span className="color-777">공격력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+                <span className={styles['color-777']}>공격력</span>
+                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
                     {calculatedStats ? calculatedStats.atk.toLocaleString() : formatNumber(slot.customATK)}
                 </span>
 
-                <span className="color-777">방어력</span>
-                <span style={{ textAlign: 'right', fontSize: '13px', color: '#ccc' }}>
+                <span className={styles['color-777']}>방어력</span>
+                <span style={{ textAlign: 'right', fontSize: '13px', color: 'var(--Font-Default)' }}>
                     {calculatedStats ? calculatedStats.def.toLocaleString() : formatNumber(slot.customDEF)}
                 </span>
             </div>
 
             {/* 돌파 및 호감도 */}
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">돌파</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>돌파</span>
                 <Chip
                     variant={currentGrowthStage === 0 ? 'default' : currentGrowthStage <= 3 ? 'limit-break' : 'core'}
                     onClick={(e) => {
@@ -489,7 +490,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     {growthStageLabel(currentGrowthStage)}
                 </Chip>
 
-                <span className="color-777">호감도</span>
+                <span className={styles['color-777']}>호감도</span>
                 <div style={{ display: 'flex', justifyContent: 'flex-end', width: '100px' }}>
                     <TextField
                         size="small"
@@ -507,17 +508,17 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             </div>
 
             {/* Equip Lines */}
-            <div className="slot-subtitle">장비</div>
+            <div className={styles['slot-subtitle']}>장비</div>
 
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">머리</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>머리</span>
                 <select
-                    className="slot-input"
+                    className={styles['slot-input']}
                     value={slot.equipTierHead || 'none'}
                     onChange={e => onUpdate({ equipTierHead: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
                 >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierHead === 'Overload' || slot.equipTierHead === '기업') && (
                     <div style={{ width: '80px' }}>
@@ -534,15 +535,15 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 )}
             </div>
 
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">몸통</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>몸통</span>
                 <select
-                    className="slot-input"
+                    className={styles['slot-input']}
                     value={slot.equipTierTorso || 'none'}
                     onChange={e => onUpdate({ equipTierTorso: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
                 >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierTorso === 'Overload' || slot.equipTierTorso === '기업') && (
                     <div style={{ width: '80px' }}>
@@ -559,15 +560,15 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 )}
             </div>
 
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">팔</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>팔</span>
                 <select
-                    className="slot-input"
+                    className={styles['slot-input']}
                     value={slot.equipTierArms || 'none'}
                     onChange={e => onUpdate({ equipTierArms: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
                 >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierArms === 'Overload' || slot.equipTierArms === '기업') && (
                     <div style={{ width: '80px' }}>
@@ -584,15 +585,15 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                 )}
             </div>
 
-            <div className="slot-section" style={{ alignItems: 'center' }}>
-                <span className="color-777">다리</span>
+            <div className={styles['slot-section']} style={{ alignItems: 'center' }}>
+                <span className={styles['color-777']}>다리</span>
                 <select
-                    className="slot-input"
+                    className={styles['slot-input']}
                     value={slot.equipTierLegs || 'none'}
                     onChange={e => onUpdate({ equipTierLegs: e.target.value })}
-                    style={{ background: 'transparent', cursor: 'pointer', color: '#ccc' }}
+                    style={{ background: 'transparent', cursor: 'pointer', color: 'var(--Font-Default)' }}
                 >
-                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: '#252525' }}>{opt.label}</option>)}
+                    {EQUIP_TIER_OPTIONS.map(opt => <option key={opt.value} value={opt.value} style={{ background: 'var(--Secondary-100)' }}>{opt.label}</option>)}
                 </select>
                 {(slot.equipTierLegs === 'Overload' || slot.equipTierLegs === '기업') && (
                     <div style={{ width: '80px' }}>
@@ -610,7 +611,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             </div>
 
             {/* Overload Options */}
-            <div className="slot-subtitle">오버로드 옵션</div>
+            <div className={styles['slot-subtitle']}>오버로드 옵션</div>
             <Grid columns={3} gap={1} className="mb-3">
                 {[
                     { id: 'equipWeakPoint', label: '우코', max: 116.64 },
@@ -635,7 +636,7 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
             </Grid>
 
             {/* Skills */}
-            <div className="slot-subtitle">스킬 레벨</div>
+            <div className={styles['slot-subtitle']}>스킬 레벨</div>
             <Grid columns={3} gap={1} ref={skillsRef}>
                 <TextField
                     size="small"

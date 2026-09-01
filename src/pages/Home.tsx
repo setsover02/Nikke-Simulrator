@@ -33,6 +33,7 @@ import { Button } from '../components/Button/Button';
 import { ButtonToggle } from '../components/Button/ButtonToggle';
 import { OutpostCard } from '../components/OutpostCard/OutpostCard';
 import { Grid } from '../components/Layout/Grid';
+import { Font } from '../components/Font';
 import { Modal } from '../components/Modal';
 import ProfileSyncModal from '../components/ProfileSyncModal/ProfileSyncModal';
 import { checkAndProcessUrlSync } from '../utils/profileSync';
@@ -431,7 +432,7 @@ const Home: React.FC = () => {
                             {simResult && <CanvasTimelineChart summary={simResult} duration={180} />}
                         </div>
                     ) : (
-                        <h2 className="chart-title-empty">차트</h2>
+                        <Font as="h2" variant="heading-2" weight="bold" color="default">차트</Font>
                     )}
                 </div>
             </Card>

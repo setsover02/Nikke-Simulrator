@@ -48,7 +48,7 @@ export const CoreVisualizer: React.FC<CoreVisualizerProps> = ({
     return (
         <div className={styles['visualizer-container']}>
             {/* 상단 프리뷰 타이틀 & 선택된 무기 정보 */}
-            <div className="flex-between-center">
+            <div className={styles['header']}>
                 <Font as="span" variant="caption-2" color="muted">
                     탄착군 & 코어 판정 영역
                 </Font>

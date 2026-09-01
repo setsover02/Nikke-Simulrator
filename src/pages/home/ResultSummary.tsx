@@ -1,6 +1,9 @@
 import React from 'react';
 import { ScenarioSummary } from '../../types/simulator';
 import { Font } from '../../components/Font';
+import { Grid } from '../../components/Layout/Grid';
+import { useChartTheme } from '../../utils/useChartTheme';
+import styles from './ResultSummary.module.scss';
 
 interface Props {
     summary: ScenarioSummary;
@@ -8,45 +11,94 @@ interface Props {
     isCore: boolean;
 }
 
-const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
-    return (
-        <div className="result-summary-container pa-4">
-            {summary.chars.map((r, idx) => (
-                <div key={r.charId + idx} className="result-card">
-                    <div className="result-card-header">
-                        <Font as="span" variant="caption-1" weight="semibold" className="result-char-name">
-                            {r.charName}
-                        </Font>
-                        <Font as="span" variant="caption-1" color="muted" className="result-total-label">
-                            Total DMG: <strong className="result-total-value">{Math.floor(r.totalDmg).toLocaleString()}</strong>
-                        </Font>
-                    </div>
+const HIT_TAG_META = [
+    { key: 'normal', label: '일반', colorVar: 'var(--Font-Inactive)' },
+    { key: 'crit', label: '크리', colorVar: 'var(--Status-Info-100)' },
+    { key: 'core', label: '코어', colorVar: 'var(--Accent-Orange)' },
+    { key: 'coreCrit', label: '코어+크리', colorVar: 'var(--Accent-Purple)' },
+    { key: 'fbNormal', label: 'FB 일반', colorVar: 'var(--Font-Inactive)' },
+    { key: 'fbCrit', label: 'FB 크리', colorVar: 'var(--Status-Info-100)' },
+    { key: 'fbCore', label: 'FB 코어', colorVar: 'var(--Accent-Orange)' },
+    { key: 'fbCoreCrit', label: 'FB 코어+크리', colorVar: 'var(--Accent-Purple)' },
+] as const;
 
-                    {r.hitDamages && (
-                        <div className="hit-tags">
-                            {[
-                                { label: '일반', value: r.hitDamages.normal, color: '#9ca3af' },
-                                { label: '크리', value: r.hitDamages.crit, color: '#60a5fa' },
-                                { label: '코어', value: r.hitDamages.core, color: '#fb923c' },
-                                { label: '코어+크리', value: r.hitDamages.coreCrit, color: '#f472b6' },
-                                { label: 'FB 일반', value: r.hitDamages.fbNormal, color: '#9ca3af' },
-                                { label: 'FB 크리', value: r.hitDamages.fbCrit, color: '#60a5fa' },
-                                { label: 'FB 코어', value: r.hitDamages.fbCore, color: '#fb923c' },
-                                { label: 'FB 코어+크리', value: r.hitDamages.fbCoreCrit, color: '#f472b6' },
-                            ].map(({ label, value, color }) => (
-                                <Font as="span" key={label} variant="footnote" className="hit-tag" style={{ border: `1px solid ${color}50`, color }}>
-                                    {label}: {value.toLocaleString()}
+const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal }) => {
+    const themeTokens = useChartTheme();
+    const charCount = summary.chars.length;
+
+    return (
+        <div className={styles['result-summary-container']}>
+            <Grid
+                columns={{
+                    xs: 1,
+                    sm: 2,
+                    md: Math.min(3, charCount),
+                    lg: Math.min(5, charCount),
+                }}
+                gap={2}
+            >
+                {summary.chars.map((r, idx) => {
+                    const slotColor = themeTokens.getSlotColor(r.charId || idx);
+                    return (
+                        <div key={r.charId + idx} className={styles['character-card']}>
+                            <div className={styles['card-header']}>
+                                <Font
+                                    as="span"
+                                    variant="subtitle"
+                                    weight="bold"
+                                    style={{ color: slotColor }}
+                                >
+                                    {r.charName}
                                 </Font>
-                            ))}
+                                <Font as="span" variant="caption-2" color="muted">
+                                    Total:{' '}
+                                    <strong className={styles['total-value']}>
+                                        {Math.floor(r.totalDmg).toLocaleString()}
+                                    </strong>
+                                </Font>
+                            </div>
+
+                            {r.hitDamages && (
+                                <Grid columns={2} gap={1}>
+                                    {HIT_TAG_META.map(({ key, label, colorVar }) => {
+                                        const value = r.hitDamages?.[key as keyof typeof r.hitDamages] ?? 0;
+                                        return (
+                                            <div key={key} className={styles['hit-tag-item']}>
+                                                <Font
+                                                    as="span"
+                                                    variant="footnote"
+                                                    style={{ color: colorVar }}
+                                                >
+                                                    {label}
+                                                </Font>
+                                                <Font
+                                                    as="span"
+                                                    variant="footnote"
+                                                    color="default"
+                                                    weight="medium"
+                                                >
+                                                    {value.toLocaleString()}
+                                                </Font>
+                                            </div>
+                                        );
+                                    })}
+                                </Grid>
+                            )}
                         </div>
-                    )}
-                </div>
-            ))}
+                    );
+                })}
+            </Grid>
+
             {showTeamTotal && (
-                <div className="team-total-card">
-                    <Font as="span" variant="caption-1" weight="bold" className="team-total-title">★ Team Total</Font>
-                    <Font as="span" variant="caption-1" color="muted" className="result-total-label" style={{ marginLeft: '12px' }}>
-                        Total DMG: <strong className="team-total-value">{Math.floor(summary.teamTotal).toLocaleString()}</strong>
+                <div className={styles['team-total-card']}>
+                    <Font as="span" variant="subtitle" weight="bold" className={styles['team-total-title']}>
+                        ★ Team Total
+                    </Font>
+                    <Font as="span" variant="caption-1" color="muted">
+                        Total DMG:
+                        <strong className={styles['team-total-value']}>
+                            {Math.floor(summary.teamTotal).toLocaleString()}
+                        </strong>
                     </Font>
                 </div>
             )}
@@ -55,3 +107,4 @@ const ResultSummary: React.FC<Props> = ({ summary, showTeamTotal, isCore }) => {
 };
 
 export default ResultSummary;
+
