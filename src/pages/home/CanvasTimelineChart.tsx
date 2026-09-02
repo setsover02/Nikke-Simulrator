@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { ScenarioSummary, BuffTimelineEvent } from '../../types/simulator';
 import { Font } from '../../components/Font';
+import { useChartTheme } from '../../utils/useChartTheme';
 import styles from './CanvasTimelineChart.module.scss';
 
 // ─────────────────────────────────────────────────────────────
@@ -151,23 +152,31 @@ function formatBuffTooltipValue(stat: string, val: number): string {
     return `${sign}${val.toFixed(2)}%`;
 }
 
-import { useChartTheme } from '../../utils/useChartTheme';
-
 // ─────────────────────────────────────────────────────────────
 // 행 데이터 구조
 // ─────────────────────────────────────────────────────────────
 
-interface TimelineRow {
+export interface BuffStatItem {
+    stat: string;
+    label: string;
+    value: number;
+    polarity?: string;
+}
+
+export interface TimelineSegment {
+    start: number;
+    end: number;
+    stats: BuffStatItem[];
+}
+
+export interface TimelineRow {
     targetId: string;
     targetName: string;
     casterId: string;
     casterName: string;
     buffName: string;
-    stat: string;
-    polarity: string;
     color: string;
-    label: string;       // stat 한글 레이블
-    segments: { start: number; end: number; value: number }[];
+    segments: TimelineSegment[];
 }
 
 // ─────────────────────────────────────────────────────────────
@@ -214,7 +223,8 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
         x: number; y: number;
         targetId: string; targetName: string;
         casterId: string; casterName: string;
-        buffName: string; stat: string; value: number;
+        buffName: string;
+        stats: BuffStatItem[];
         start: number; end: number;
     } | null>(null);
 
@@ -230,42 +240,218 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
 
         if (events.length === 0) return [];
 
-        // 그룹 키: targetId + casterId + buffName + stat
-        const grouped = new Map<string, TimelineRow>();
+        // 1. (targetId, casterId, buffName, stat) 별로 개별 이벤트 스트림 수집
+        interface RawStatStream {
+            targetId: string;
+            targetName: string;
+            casterId: string;
+            casterName: string;
+            buffName: string;
+            stat: string;
+            label: string;
+            polarity: string;
+            events: { start: number; end: number; value: number }[];
+        }
+
+        const streamMap = new Map<string, RawStatStream>();
 
         for (const ev of events) {
-            const key = `${ev.targetId}__${ev.casterId}__${ev.buffName}__${ev.stat}`;
-            if (!grouped.has(key)) {
-                const color = themeTokens.getSlotColor(ev.casterId);
-                grouped.set(key, {
-                    targetId: ev.targetId,
-                    targetName: idToName[ev.targetId] || ev.targetId,
-                    casterId: ev.casterId,
-                    casterName: idToName[ev.casterId] || ev.casterId,
-                    buffName: ev.buffName || statToKoreanDesc(ev.stat),
+            const tId = ev.targetId;
+            const cId = ev.casterId;
+            const tName = tId === '__enemy__' || tId === 'enemy' ? (idToName[tId] || '적') : (idToName[tId] || tId);
+            const cName = cId === '__enemy__' || cId === 'enemy' ? (idToName[cId] || '적') : (idToName[cId] || cId);
+            const bName = ev.buffName || ev.sourceSkill || statToKoreanDesc(ev.stat);
+            const sStart = Math.max(0, ev.startTime);
+            const sEnd = Math.min(duration, ev.endTime);
+
+            if (sEnd <= sStart) continue;
+
+            const streamKey = `${tId}__${cId}__${bName}__${ev.stat}`;
+            if (!streamMap.has(streamKey)) {
+                streamMap.set(streamKey, {
+                    targetId: tId,
+                    targetName: tName,
+                    casterId: cId,
+                    casterName: cName,
+                    buffName: bName,
                     stat: ev.stat,
-                    polarity: ev.polarity,
-                    color,
                     label: statToKoreanDesc(ev.stat),
-                    segments: [],
+                    polarity: ev.polarity,
+                    events: [],
                 });
             }
-            grouped.get(key)!.segments.push({
-                start: ev.startTime,
-                end: ev.endTime,
+            streamMap.get(streamKey)!.events.push({
+                start: sStart,
+                end: sEnd,
                 value: ev.value,
             });
         }
 
-        // targetName 기준 정렬 → 그 안에서 stat 기준 정렬
-        const result = Array.from(grouped.values());
-        result.sort((a, b) => {
-            if (a.targetName < b.targetName) return -1;
-            if (a.targetName > b.targetName) return 1;
-            return a.stat.localeCompare(b.stat);
+        // 2. 각 스탯 스트림의 타임라인 시그니처 생성 및 정규화
+        interface NormalizedStream extends RawStatStream {
+            timelineKey: string;
+            segments: { start: number; end: number; value: number }[];
+        }
+
+        const normalizedStreams: NormalizedStream[] = [];
+
+        for (const stream of streamMap.values()) {
+            stream.events.sort((a, b) => a.start - b.start || a.end - b.end);
+
+            // 연속/동일 구간 병합
+            const mergedSegs: { start: number; end: number; value: number }[] = [];
+            for (const ev of stream.events) {
+                const last = mergedSegs[mergedSegs.length - 1];
+                if (last && Math.abs(last.end - ev.start) < 1e-4 && last.value === ev.value) {
+                    last.end = Math.max(last.end, ev.end);
+                } else {
+                    mergedSegs.push({ ...ev });
+                }
+            }
+
+            // 타임라인 시그니처 (시작-종료 구간 패턴)
+            const timelineKey = mergedSegs
+                .map(s => `${s.start.toFixed(2)}_${s.end.toFixed(2)}`)
+                .join('|');
+
+            normalizedStreams.push({
+                ...stream,
+                timelineKey,
+                segments: mergedSegs,
+            });
+        }
+
+        // 3. (targetId, casterId, buffName, timelineKey) 단위로 그룹화하여 행(Row) 생성
+        //    -> 타임라인이 동일한 다중 스탯은 하나의 Row로 묶이고, 타임라인이 다르면 별도 Row로 분리됨
+        const groupedRows = new Map<string, {
+            targetId: string;
+            targetName: string;
+            casterId: string;
+            casterName: string;
+            buffName: string;
+            color: string;
+            timelineKey: string;
+            statStreams: NormalizedStream[];
+        }>();
+
+        for (const ns of normalizedStreams) {
+            const rowKey = `${ns.targetId}__${ns.casterId}__${ns.buffName}__${ns.timelineKey}`;
+            if (!groupedRows.has(rowKey)) {
+                groupedRows.set(rowKey, {
+                    targetId: ns.targetId,
+                    targetName: ns.targetName,
+                    casterId: ns.casterId,
+                    casterName: ns.casterName,
+                    buffName: ns.buffName,
+                    color: themeTokens.getSlotColor(ns.casterId),
+                    timelineKey: ns.timelineKey,
+                    statStreams: [],
+                });
+            }
+            groupedRows.get(rowKey)!.statStreams.push(ns);
+        }
+
+        // 4. 각 Row의 통합 타임라인 세그먼트 빌드
+        const resultRows: TimelineRow[] = [];
+
+        for (const rowData of groupedRows.values()) {
+            const timePoints = new Set<number>();
+            for (const ss of rowData.statStreams) {
+                for (const seg of ss.segments) {
+                    timePoints.add(seg.start);
+                    timePoints.add(seg.end);
+                }
+            }
+            const sortedTimes = Array.from(timePoints).sort((a, b) => a - b);
+
+            const rowSegments: TimelineSegment[] = [];
+
+            for (let i = 0; i < sortedTimes.length - 1; i++) {
+                const t0 = sortedTimes[i];
+                const t1 = sortedTimes[i + 1];
+                if (t1 - t0 < 1e-4) continue;
+
+                const stats: BuffStatItem[] = [];
+                for (const ss of rowData.statStreams) {
+                    const activeSeg = ss.segments.find(
+                        s => s.start <= t0 + 1e-4 && s.end >= t1 - 1e-4
+                    );
+                    if (activeSeg) {
+                        stats.push({
+                            stat: ss.stat,
+                            label: ss.label,
+                            value: activeSeg.value,
+                            polarity: ss.polarity,
+                        });
+                    }
+                }
+
+                if (stats.length > 0) {
+                    const prev = rowSegments[rowSegments.length - 1];
+                    const isSameAsPrev =
+                        prev &&
+                        Math.abs(prev.end - t0) < 1e-4 &&
+                        prev.stats.length === stats.length &&
+                        prev.stats.every((ps, idx) => ps.stat === stats[idx].stat && ps.value === stats[idx].value);
+
+                    if (isSameAsPrev) {
+                        prev.end = t1;
+                    } else {
+                        rowSegments.push({
+                            start: t0,
+                            end: t1,
+                            stats,
+                        });
+                    }
+                }
+            }
+
+            if (rowSegments.length > 0) {
+                resultRows.push({
+                    targetId: rowData.targetId,
+                    targetName: rowData.targetName,
+                    casterId: rowData.casterId,
+                    casterName: rowData.casterName,
+                    buffName: rowData.buffName,
+                    color: rowData.color,
+                    segments: rowSegments,
+                });
+            }
+        }
+
+        // 5. 정렬:
+        //    (1) 대상(Target): 팀 슬롯 순서 -> 기타 -> 적(__enemy__)
+        //    (2) 행(Row): 자가 버프 우선 -> 시전자 슬롯 순 -> 버프명 가나다순
+        const targetOrderMap = new Map<string, number>();
+        (summary.chars || []).forEach((c, idx) => {
+            targetOrderMap.set(c.charId, idx);
+            if (c.characterID) targetOrderMap.set(c.characterID, idx);
         });
-        return result;
-    }, [summary, themeTokens]);
+
+        const getTargetRank = (id: string) => {
+            if (id === '__enemy__' || id === 'enemy') return 9999;
+            if (targetOrderMap.has(id)) return targetOrderMap.get(id)!;
+            return 5000;
+        };
+
+        resultRows.sort((a, b) => {
+            const rankA = getTargetRank(a.targetId);
+            const rankB = getTargetRank(b.targetId);
+            if (rankA !== rankB) return rankA - rankB;
+
+            const isSelfA = a.targetId === a.casterId ? 0 : 1;
+            const isSelfB = b.targetId === b.casterId ? 0 : 1;
+            if (isSelfA !== isSelfB) return isSelfA - isSelfB;
+
+            const casterRankA = getTargetRank(a.casterId);
+            const casterRankB = getTargetRank(b.casterId);
+            if (casterRankA !== casterRankB) return casterRankA - casterRankB;
+
+            return a.buffName.localeCompare(b.buffName);
+        });
+
+        return resultRows;
+    }, [summary, duration, themeTokens]);
 
     const getViewRange = useCallback((): [number, number] => [viewMin, viewMax ?? duration], [viewMin, viewMax, duration]);
 
@@ -396,7 +582,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
 
             // 스킬 레이블 (스킬 이름 + 시전자)
             const sameCaster = row.casterName === row.targetName;
-            const skillDisplayName = row.buffName || row.label;
+            const skillDisplayName = row.buffName;
             const labelRight = sameCaster
                 ? skillDisplayName
                 : `${skillDisplayName} ← ${row.casterName.substring(0, 8)}`;
@@ -502,8 +688,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                             casterId: hit.row.casterId,
                             casterName: hit.row.casterName,
                             buffName: hit.row.buffName,
-                            stat: hit.row.stat,
-                            value: seg.value,
+                            stats: seg.stats,
                             start: seg.start,
                             end: seg.end,
                         });
@@ -546,7 +731,7 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                 <div
                     className={styles['tooltip-container']}
                     style={{
-                        left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 260)}px`,
+                        left: `${Math.min(tooltip.x + 14, (wrapperRef.current?.clientWidth ?? 400) - 280)}px`,
                         top: `${Math.max(4, tooltip.y - 6)}px`,
                     }}
                 >
@@ -554,23 +739,31 @@ const CanvasTimelineChart: React.FC<Props> = ({ summary, duration, title = 'Buff
                         <Font as="span" variant="footnote" weight="bold" style={{ color: themeTokens.getSlotColor(tooltip.targetId) }}>
                             {tooltip.targetName}
                         </Font>
-                        <Font as="span" variant="footnote" color="muted">←</Font>
-                        <Font as="span" variant="footnote" weight="medium" style={{ color: themeTokens.getSlotColor(tooltip.casterId) }}>
-                            {tooltip.casterName}
-                        </Font>
+                        {tooltip.casterId !== tooltip.targetId && (
+                            <>
+                                <Font as="span" variant="footnote" color="muted">←</Font>
+                                <Font as="span" variant="footnote" weight="medium" style={{ color: themeTokens.getSlotColor(tooltip.casterId) }}>
+                                    {tooltip.casterName}
+                                </Font>
+                            </>
+                        )}
                     </div>
                     <div className={styles['tooltip-skill']}>
                         <Font as="div" variant="caption-2" weight="bold" style={{ color: 'var(--Status-Warning-100)' }}>
                             {tooltip.buffName}
                         </Font>
                     </div>
-                    <div className={styles['tooltip-stat-row']}>
-                        <Font as="span" variant="footnote" color="muted">
-                            {statToKoreanDesc(tooltip.stat)}
-                        </Font>
-                        <Font as="span" variant="footnote" weight="bold" style={{ color: 'var(--Status-Info-100)', fontVariantNumeric: 'tabular-nums' }}>
-                            {formatBuffTooltipValue(tooltip.stat, tooltip.value)}
-                        </Font>
+                    <div className={styles['tooltip-stats-list']}>
+                        {tooltip.stats.map((statItem, idx) => (
+                            <div key={idx} className={styles['tooltip-stat-row']}>
+                                <Font as="span" variant="footnote" color="muted">
+                                    {statItem.label}
+                                </Font>
+                                <Font as="span" variant="footnote" weight="bold" style={{ color: 'var(--Status-Info-100)', fontVariantNumeric: 'tabular-nums' }}>
+                                    {formatBuffTooltipValue(statItem.stat, statItem.value)}
+                                </Font>
+                            </div>
+                        ))}
                     </div>
                     <div className={styles['tooltip-footer']}>
                         <Font as="span" variant="footnote" color="inactive">
