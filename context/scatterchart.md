@@ -35,9 +35,10 @@ export const SKILL_DAMAGE_TYPES = new Set([
 | `distribute_damage` | `applySpecificEffectToTarget` | 분배 대미지 계열 |
 | `extra_damage` | `applySpecificEffectToTarget` | 추가 타격 (스택 조건) |
 | `interval_damage` tick | `activeIntervalSkills` → tick → `damage` | 주기적 반복 타격 |
-| 무기 변경 차지 공격 | `processWeaponOverrideAttack` | 앨리스 등 |
+| `weapon_change` (무기 변경 공격) | `processWeaponOverrideAttack` | 드레이크(그레이트 빌런), 앨리스 등 (⚔ WeaponChange 뱃지) |
 | 버스트 스킬 대미지 | `fireBurst` → `applyEffect` → `applySpecificEffectToTarget` | 모든 버스트 |
 
+> 무기 변경 공격은 `description: 'weapon_change'`로 기록되며 `dmgStat: 'weapon_change'`로 매핑되어 스캐터 차트에 고유 뱃지(`⚔ WeaponChange`)와 다이아몬드 형태로 표기된다.
 > 버스트 스킬의 대미지 효과는 `applyEffect()` → `applySpecificEffectToTarget()` 경로를 통해
 > 최종적으로 `type: 'skill_damage'` 로 기록된다. `type: 'burst'` 로그는 이벤트 마커이며 대미지가 없다.
 

@@ -9,7 +9,7 @@ import { Team, SimConfig } from '../types/battle';
 import { applyBaseStats, EquipmentOptions, checkAdvantage } from '../utils/charUtils';
 import { generateChartData, generateDps1sData, calcHitDamages, generateBurstWindows, generateScatterData } from '../utils/simUtils';
 import { SlotState, SimulationInput, SimulationOutput, SkillInfoEntry } from '../types/simulator';
-import { SLOT_COLORS } from '../constants/characters';
+import { SLOT_COLORS } from '../constants/slotColors';
 import { getWeaponRangeBonus } from '../constants/weaponStats';
 import { calculateBaseStat, getClassConsoleLevel, getCorpConsoleLevel, resolveGrowthStage } from './baseStat';
 

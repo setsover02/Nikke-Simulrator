@@ -502,18 +502,20 @@ const CanvasScatterChart = ({ datasets, burstWindows = [], title = 'Skill Damage
                                     'auto_damage': '#8E8E8E', 'extra_damage': '#FF9B61',
                                     'pierce_damage': '#69A5FF', 'projectile_explosion_damage': '#FF7B2E',
                                     'projectile_attachment_damage': '#28D0ED',
+                                    'weapon_change': '#E040FB',
                                 };
                                 const badgeColor = STAT_BADGE_COLORS[stat] ?? '#57DFF7';
                                 const shapeIcon: Record<string, string> = {
                                     'circle': '●', 'diamond': '◆', 'triangle': '▲',
                                     'square': '■', 'cross': '✚', 'star': '✦',
                                 };
-                                const icon = shapeIcon[meta.shape] ?? '●';
+                                const icon = stat === 'weapon_change' ? '⚔' : (shapeIcon[meta.shape] ?? '●');
                                 return (
                                     <div style={{ paddingLeft: '8px', marginBottom: '2px' }}>
                                         <span style={{
                                             fontSize: '10px', padding: '1px 5px', borderRadius: '3px',
                                             background: `${badgeColor}22`, color: badgeColor,
+                                            fontWeight: 600,
                                         }}>
                                             {icon} {meta.label}
                                         </span>

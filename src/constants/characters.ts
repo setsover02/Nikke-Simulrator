@@ -1,25 +1,23 @@
 // 캐릭터 데이터 상수
 
 // 아바타 및 전신 이미지 자동 불러오기
-const globFn = typeof (import.meta as any).glob === 'function' ? (import.meta as any).glob.bind(import.meta) : null;
-
-const avatarModules = globFn ? globFn('../assets/avatar/**/*.webp', {
+const avatarModules = import.meta.glob('../assets/avatar/**/*.webp', {
     eager: true,
     query: '?url',
     import: 'default'
-}) as Record<string, string> : {};
+}) as Record<string, string>;
 
-const fullbodyModules = globFn ? globFn('../assets/fullbody/**/*.webp', {
+const fullbodyModules = import.meta.glob('../assets/fullbody/**/*.webp', {
     eager: true,
     query: '?url',
     import: 'default'
-}) as Record<string, string> : {};
+}) as Record<string, string>;
 
 // 캐릭터 JSON 데이터 자동 불러오기
-const characterModules = globFn ? globFn('../character/**/*.json', {
+const characterModules = import.meta.glob('../character/**/*.json', {
     eager: true,
     import: 'default'
-}) as Record<string, any> : {};
+}) as Record<string, any>;
 
 export const avatarMap: Record<string, string> = {};
 export const fullbodyMap: Record<string, string> = {};
@@ -64,5 +62,5 @@ for (const path in characterModules) {
     }
 }
 
-// _theme.scss의 Accent-Lime, Cyan, Blue, Purple, Orange (#6BE016, #28D0ED, #4F95FF, #D478FF, #FFA938)
-export const SLOT_COLORS = ['#6BE016', '#28D0ED', '#4F95FF', '#D478FF', '#FFA938'];
+export { SLOT_COLORS } from './slotColors';
+

@@ -80,7 +80,7 @@
             1.5,
             1.5
           ],
-          "unit": "percent",
+          "unit": "seconds",
           "duration": null,
           "name": "오버 오버 드라이브 차지시간고정",
           "type": "buff",
@@ -102,7 +102,7 @@
             15,
             15
           ],
-          "unit": "percent",
+          "unit": "count",
           "duration": null,
           "name": "오버 오버 드라이브 펠릿고정",
           "type": "buff",

@@ -100,6 +100,7 @@ export const DAMAGE_STAT_META: Record<string, DmgStatMeta> = {
     'auto_damage': { label: 'Auto', shape: 'circle', color: '', alpha: 0.65, radius: 2.5 },
     'extra_damage': { label: 'Extra', shape: 'cross', color: '', alpha: 0.80, radius: 3.0 },
     'distribute_damage': { label: 'Distribute', shape: 'square', color: '', alpha: 0.80, radius: 3.5 },
+    'weapon_change': { label: 'WeaponChange', shape: 'diamond', color: '', alpha: 0.95, radius: 4.5 },
     'unknown': { label: '?', shape: 'circle', color: '', alpha: 0.60, radius: 2.5 },
 };
 
@@ -107,6 +108,8 @@ export const DAMAGE_STAT_META: Record<string, DmgStatMeta> = {
 function resolveDmgStat(description: string, logType: string): string {
     if (!description) return logType === 'dot_damage' ? 'dot_damage' : 'damage';
     const d = description.toLowerCase();
+    // 무기 변경 대미지
+    if (d === 'weapon_change' || d.startsWith('weapon_change') || d === 'weapon_override' || d.startsWith('weapon_override')) return 'weapon_change';
     // sequential_damage×N 패턴
     if (d.startsWith('sequential_damage')) return 'sequential_damage';
     // alias 및 접두사 매핑
@@ -128,7 +131,7 @@ function resolveDmgStat(description: string, logType: string): string {
         'damage', 'burst_damage', 'split_damage', 'dot_damage', 'bonus_damage',
         'armor_break_damage', 'pierce_damage', 'projectile_explosion_damage',
         'projectile_attachment_damage', 'core_damage', 'auto_damage',
-        'extra_damage', 'distribute_damage', 'bubble_barrage',
+        'extra_damage', 'distribute_damage', 'bubble_barrage', 'weapon_change',
     ];
     for (const s of knownStats) {
         if (d === s || d.startsWith(s + ':') || d.startsWith(s + '×')) return s;

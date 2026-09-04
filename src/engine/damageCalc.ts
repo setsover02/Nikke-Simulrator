@@ -49,7 +49,7 @@ export function processAttack(ctx: BattleContext) {
         if (isCharge) {
             // 차징 무기 처리 (SR / RL) — weapon.md 기준
             const fixedChargeTime = buffs?.charge_time_fixed;
-            const chargeSpeedBuff = (buffs ? buffs.charge_speed_pct / 100 : (char.buff?.chargeSpeed ?? 0));
+            const chargeSpeedBuff = (buffs ? (buffs.charge_speed_pct || 0) / 100 : (char.buff?.chargeSpeed ?? 0));
             const chargeSeconds = (typeof fixedChargeTime === 'number' && fixedChargeTime > 0)
                 ? fixedChargeTime
                 : Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
@@ -161,8 +161,17 @@ function calcShotgunDamage(
 ): number {
     let totalDmg = 0;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
-    const basePellets = char.weaponOverride?.pelletCount ?? (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
-    const pelletCount = buffs?.pellet_count_fixed ?? (basePellets + (buffs?.pellet_count || 0));
+    let pelletCount: number;
+    if (typeof buffs?.pellet_count_fixed === 'number' && buffs.pellet_count_fixed > 0) {
+        // 펠릿 수 고정: 외부 펠릿 증가 버프를 일체 적용하지 않고 고정값 유지
+        pelletCount = buffs.pellet_count_fixed;
+    } else if (char.weaponOverride?.pelletCount !== undefined) {
+        // 무기 변경으로 지정된 고정 펠릿 수: 외부 펠릿 증가 버프 미적용
+        pelletCount = char.weaponOverride.pelletCount;
+    } else {
+        const basePellets = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
+        pelletCount = basePellets + (buffs?.pellet_count || 0);
+    }
     const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
     const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
     const pelletAtkCoefScale = pelletCount > 0 ? (1.0 / pelletCount) : 1.0;
@@ -312,7 +321,8 @@ function applyDamage(
     dmg: number,
     source: string,
     type: string = 'attack',
-    skillName?: string
+    skillName?: string,
+    description?: string
 ) {
     ctx.enemy.hp -= dmg;
     ctx.totalDamage += dmg;
@@ -324,6 +334,7 @@ function applyDamage(
         source,
     };
     if (skillName) logEntry.skillName = skillName;
+    if (description) logEntry.description = description;
     ctx.log.push(logEntry);
 }
 
@@ -346,7 +357,7 @@ function processWeaponOverrideAttack(
     // 차지 공격 처리 (chargeTime 또는 charge_time_fixed 기반)
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
     const fixedChargeTime = buffs?.charge_time_fixed;
-    const chargeSpeedBuff = buffs ? buffs.charge_speed_pct / 100 : (char.buff?.chargeSpeed ?? 0);
+    const chargeSpeedBuff = buffs ? (buffs.charge_speed_pct || 0) / 100 : (char.buff?.chargeSpeed ?? 0);
     const chargeSeconds = (typeof fixedChargeTime === 'number' && fixedChargeTime > 0)
         ? fixedChargeTime
         : Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
@@ -369,9 +380,9 @@ function processWeaponOverrideAttack(
             }
         }
 
-        // weaponOverride 중 변경된 스킬 이름 추적
+        // weaponOverride 중 변경된 스킬 이름 추적 및 weapon_change 태그 부여
         const overrideSkillName = (char as any).weaponOverrideSkillName || '';
-        applyDamage(ctx, totalDmg, char.id, 'skill_damage', overrideSkillName);
+        applyDamage(ctx, totalDmg, char.id, 'skill_damage', overrideSkillName, 'weapon_change');
 
         // 탄약 소모 및 버프 소모
         char.ammo -= 1;
