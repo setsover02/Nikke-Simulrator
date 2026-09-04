@@ -587,6 +587,33 @@ export class BuffManager {
     return true;
   }
 
+  /** weapon_change 모드 종료 및 원래 무기 스탯 복원 */
+  private _endWeaponChange(charId: string, buffName: string, t: number, ctx: BattleContext): void {
+    if (ctx.state) {
+      (ctx.state as any).weapon_change = (ctx.state as any).weapon_change || {};
+      if ((ctx.state as any).weapon_change[charId] === buffName) {
+        delete (ctx.state as any).weapon_change[charId];
+      }
+    }
+    const char = ctx.team?.members.find((m) => m.id === charId);
+    if (char && char.originalWeaponStats) {
+      char.chargeTime = char.originalWeaponStats.chargeTime;
+      char.fireRate = char.originalWeaponStats.fireRate;
+      char.fullChargeDamage = char.originalWeaponStats.fullChargeDamage;
+      char.maxAmmo = char.originalWeaponStats.maxAmmo;
+      char.atkCoef = char.originalWeaponStats.atkCoef;
+      if (char.originalWeaponStats.pelletCount !== undefined) {
+        char.pelletCount = char.originalWeaponStats.pelletCount;
+      }
+      char.weaponOverride = undefined;
+      char.originalWeaponStats = undefined;
+      char.reloadRemain = 0;
+      char.currentCharge = 0;
+      delete (char as any).weaponOverrideSkillName;
+    }
+    this.notify(`event:state_end:${buffName}`, t, charId, ctx);
+  }
+
   /** 자신 상태(버프명 또는 weapon_change 모드) 판정 */
   private _hasSelfState(charId: string, stateName: string, ctx: BattleContext): boolean {
     const inActive = this._active.some(
@@ -647,7 +674,8 @@ export class BuffManager {
         existing.stack = Math.min(existing.maxStack, existing.stack + 1);
         existing.activatedAt = t;
         existing.expiresAt = expiresAt;
-        if (eff.duration_bullets) existing.bulletsLeft = eff.duration_bullets;
+        const bullets = eff.duration_bullets ?? (eff as any).bullet;
+        if (bullets !== undefined) existing.bulletsLeft = bullets;
 
         if (eff.name && existing.stack >= existing.maxStack) {
           this.notify(`stack_reach:${eff.name}:${existing.stack}`, t, targetId, ctx);
@@ -692,7 +720,7 @@ export class BuffManager {
           maxStack: eff.max_stack || 1,
           activatedAt: t,
           expiresAt,
-          bulletsLeft: eff.duration_bullets,
+          bulletsLeft: eff.duration_bullets ?? (eff as any).bullet,
           shotsLeft: eff.duration_shots,
           isPermanent: duration === Infinity,
           effectDef: eff,
@@ -718,6 +746,60 @@ export class BuffManager {
         // infinite_ammo 상태 동기화
         if (eff.stat === 'infinite_ammo') {
           this._infiniteAmmoChars.add(targetId);
+        }
+      }
+
+      // weapon_change 모드 상태 등록 및 캐릭터 무기 스탯 적용
+      if (eff.type === 'weapon_change') {
+        ctx.state = ctx.state || {};
+        (ctx.state as any).weapon_change = (ctx.state as any).weapon_change || {};
+        (ctx.state as any).weapon_change[targetId] = eff.name;
+
+        const char = ctx.team?.members.find((m) => m.id === targetId);
+        if (char) {
+          if (!char.originalWeaponStats) {
+            char.originalWeaponStats = {
+              chargeTime: char.chargeTime ?? 0,
+              fireRate: char.fireRate,
+              fullChargeDamage: char.fullChargeDamage ?? 0,
+              maxAmmo: char.maxAmmo,
+              atkCoef: char.atkCoef ?? 0,
+              ammo: char.ammo,
+              reloadRemain: char.reloadRemain,
+              pelletCount: char.pelletCount,
+            };
+          }
+
+          const wo = eff.weapon_override;
+          if (wo) {
+            char.weaponOverride = wo;
+            if (wo.chargeTime !== undefined) char.chargeTime = wo.chargeTime;
+            if (wo.fireRate !== undefined) char.fireRate = wo.fireRate;
+            if (wo.fullChargeDamage !== undefined) {
+              char.fullChargeDamage = wo.fullChargeDamage >= 100 ? (wo.fullChargeDamage / 100) - 1 : wo.fullChargeDamage;
+            }
+            if (wo.maxAmmo === 'infinity') {
+              char.maxAmmo = 999999;
+            } else if (typeof wo.maxAmmo === 'number') {
+              char.maxAmmo = wo.maxAmmo;
+            }
+            if (wo.atkCoef !== undefined) {
+              const rawAtk = Array.isArray(wo.atkCoef) ? wo.atkCoef[0] : wo.atkCoef;
+              char.atkCoef = rawAtk / 100;
+            } else if (typeof eff.value === 'number' && eff.value > 0) {
+              char.atkCoef = eff.value / 100;
+            }
+            if (wo.pelletCount !== undefined) {
+              char.pelletCount = wo.pelletCount;
+            }
+          } else if (typeof eff.value === 'number' && eff.value > 0) {
+            char.atkCoef = eff.value / 100;
+          }
+
+          char.ammo = char.maxAmmo;
+          char.reloadRemain = 0;
+          char.currentCharge = 0;
+          (char as any).weaponOverrideSkillName = eff.name;
         }
       }
     }
@@ -1095,14 +1177,14 @@ export class BuffManager {
       else if (stat === 'ammo_charge_pct') {
         if (char) {
           const addAmmo = Math.floor((char.maxAmmo || 0) * (value / 100));
-          char.ammo = Math.min(char.maxAmmo || 0, char.ammo + addAmmo);
+          char.ammo = Math.max(0, Math.min(char.maxAmmo || 0, char.ammo + addAmmo));
         }
       }
 
       // ── 장탄 충전 (flat) ──────────────────────────────────
       else if (stat === 'ammo_charge_flat') {
         if (char) {
-          char.ammo = Math.min(char.maxAmmo || 0, char.ammo + Math.floor(value));
+          char.ammo = Math.max(0, Math.min(char.maxAmmo || 0, char.ammo + Math.floor(value)));
         }
       }
 
@@ -1222,6 +1304,9 @@ export class BuffManager {
             if (matchesName && matchesTarget) {
               const ev = this._timelineEvents.find((e) => e.uid === ab.uid && e.endTime === Infinity);
               if (ev) ev.endTime = t;
+              if (ab.type === 'weapon_change') {
+                this._endWeaponChange(ab.targetId, ab.name, t, ctx);
+              }
               return false;
             }
             return true;
@@ -1420,6 +1505,10 @@ export class BuffManager {
         );
         if (ev) ev.endTime = t;
 
+        if (ab.type === 'weapon_change') {
+          this._endWeaponChange(ab.targetId, ab.name, t, ctx);
+        }
+
         // infinite_ammo 만료 시 상태 제거
         if (ab.stat === 'infinite_ammo') {
           const stillHas = this._active.some(
@@ -1462,12 +1551,21 @@ export class BuffManager {
   }
 
   /** 탄환 발사 시 탄환 기반 버프 소모 */
-  public consumeBulletBuff(charId: string): void {
+  public consumeBulletBuff(charId: string, ctx?: BattleContext): void {
+    const t = ctx ? ctx.time : 0;
     for (let i = this._active.length - 1; i >= 0; i--) {
       const ab = this._active[i];
       if (ab.targetId === charId && ab.bulletsLeft !== undefined) {
         ab.bulletsLeft -= 1;
         if (ab.bulletsLeft <= 0) {
+          const ev = this._timelineEvents.find(
+            (e) => e.uid === ab.uid && e.endTime === Infinity
+          );
+          if (ev) ev.endTime = t;
+
+          if (ab.type === 'weapon_change' && ctx) {
+            this._endWeaponChange(charId, ab.name, t, ctx);
+          }
           this._active.splice(i, 1);
         }
       }
@@ -1492,7 +1590,7 @@ export class BuffManager {
 
       // _FIXED_VALUE_STATS: getBuffs() 합산 안 함 (직접 _active 읽는 경로)
       if (_FIXED_VALUE_STATS.has(stat)) {
-        if (stat === 'charge_time_fixed' || stat === 'reload_time_fixed') {
+        if (stat === 'charge_time_fixed' || stat === 'reload_time_fixed' || stat === 'pellet_count_fixed') {
           (buffs as any)[stat] = ab.value;
         }
         continue;
@@ -1516,7 +1614,21 @@ export class BuffManager {
       if (stat === 'atk_from_hp_pct') {
         const caster = members.find((m) => m.id === ab.casterId);
         if (caster) {
-          const casterMaxHp = caster.maxHp || caster.hp;
+          const baseMaxHp = caster.maxHp || caster.hp;
+          let hpPctBonus = 0;
+          for (const b of this._active) {
+            if (b.targetId === ab.casterId || b.targetId === '__all__') {
+              if (
+                b.stat === 'max_hp_pct' ||
+                b.stat === 'max_hp_only_pct' ||
+                b.stat === 'hp_only_caster_based_pct' ||
+                b.stat === 'hp_caster_based_pct'
+              ) {
+                hpPctBonus += b.value * b.stack;
+              }
+            }
+          }
+          const casterMaxHp = baseMaxHp * (1 + hpPctBonus / 100);
           buffs.atk_flat += casterMaxHp * (val / 100);
         }
         continue;

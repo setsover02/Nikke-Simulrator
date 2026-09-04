@@ -1,0 +1,231 @@
+{
+  "characterID": "Char_104",
+  "characterName": "드레이크 : 그레이트 빌런",
+  "stats": {
+    "rarity": "SSR",
+    "element": "풍압",
+    "weapon": "SG",
+    "class": "방어형",
+    "company": "Missilis",
+    "squad": "메티스",
+    "burstLevel": 3,
+    "atkCoef": 201.5,
+    "maxAmmo": 9,
+    "reloadTime": 1.5,
+    "chargeTime": 0,
+    "fireRate": 1.51515,
+    "fullChargeDamage": 100,
+    "coreDamage": 200,
+    "pelletCount": 10
+  },
+  "skills": [
+    {
+      "id": "skill_1",
+      "name": "오버 오버 드라이브",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "name": "오버 오버 드라이브",
+          "effect": "atk_pct",
+          "value": [
+            121.88,
+            135.42,
+            148.96,
+            162.5,
+            176.04,
+            189.58,
+            203.12,
+            216.66,
+            230.2,
+            243.75
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "weapon_change",
+          "bullet": 6,
+          "weapon_override": {
+            "chargeTime": 1.5,
+            "atkCoef": [
+              121.88,
+              135.42,
+              148.96,
+              162.5,
+              176.04,
+              189.58,
+              203.12,
+              216.66,
+              230.2,
+              243.75
+            ],
+            "fullChargeDamage": 300,
+            "maxAmmo": 6,
+            "pelletCount": 15
+          }
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "charge_time_fixed",
+          "value": [
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5,
+            1.5
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "오버 오버 드라이브 차지시간고정",
+          "type": "buff",
+          "bullet": 6
+        },
+        {
+          "trigger": "full_burst_start",
+          "target": "self",
+          "effect": "pellet_count_fixed",
+          "value": [
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15,
+            15
+          ],
+          "unit": "percent",
+          "duration": null,
+          "name": "오버 오버 드라이브 펠릿고정",
+          "type": "buff",
+          "bullet": 6
+        },
+        {
+          "trigger": "event:state_end:오버 오버 드라이브",
+          "target": "self",
+          "effect": "ammo_charge_pct",
+          "value": [
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100,
+            -100
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "instant"
+        }
+      ]
+    },
+    {
+      "id": "skill_2",
+      "name": "빌런, 지각하다",
+      "type": "passive",
+      "effects": [
+        {
+          "trigger": "full_burst_end",
+          "target": "all_allies",
+          "effect": "hp_only_caster_based_pct",
+          "value": [
+            5.77,
+            6.3,
+            6.83,
+            7.36,
+            7.89,
+            8.42,
+            8.95,
+            9.48,
+            10.01,
+            10.5
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "type": "buff",
+          "stack": 4
+        },
+        {
+          "trigger": "battle_start",
+          "target": "self",
+          "effect": "atk_from_hp_pct",
+          "value": [
+            3.12,
+            3.47,
+            3.82,
+            4.17,
+            4.52,
+            4.87,
+            5.22,
+            5.57,
+            5.92,
+            6.23
+          ],
+          "unit": "percent",
+          "duration": "permanent",
+          "name": "지각",
+          "type": "buff"
+        }
+      ]
+    },
+    {
+      "id": "burst",
+      "name": "빌런 웹 스페셜",
+      "type": "burst",
+      "cooldown": 40,
+      "effects": [
+        {
+          "trigger": "burst_cast",
+          "target": "self",
+          "effect": "atk_dmg_pct",
+          "value": [
+            13.75,
+            15.28,
+            16.81,
+            18.34,
+            19.87,
+            21.4,
+            22.93,
+            24.46,
+            25.99,
+            27.5
+          ],
+          "unit": "percent",
+          "duration": 25,
+          "type": "buff"
+        },
+        {
+          "trigger": "burst_cast",
+          "target": "all_enemies",
+          "effect": "burst_damage",
+          "value": [
+            750,
+            816.67,
+            883.34,
+            950.01,
+            1016.68,
+            1083.35,
+            1150.02,
+            1216.69,
+            1283.36,
+            1350
+          ],
+          "unit": "percent",
+          "duration": null,
+          "type": "damage"
+        }
+      ]
+    }
+  ]
+}

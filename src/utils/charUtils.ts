@@ -126,6 +126,12 @@ export const applyBaseStats = (
             return effects.map(eff => ({
                 ...eff,
                 value: Array.isArray(eff.value) ? eff.value[Math.max(0, Math.min(9, level - 1))] : eff.value,
+                weapon_override: eff.weapon_override ? {
+                    ...eff.weapon_override,
+                    atkCoef: Array.isArray(eff.weapon_override.atkCoef)
+                        ? eff.weapon_override.atkCoef[Math.max(0, Math.min(eff.weapon_override.atkCoef.length - 1, level - 1))]
+                        : eff.weapon_override.atkCoef,
+                } : undefined,
                 effects: eff.effects ? resolveEffects(eff.effects) : undefined
             }));
         };
@@ -162,6 +168,7 @@ export const applyBaseStats = (
         fireRate: s.fireRate,
         skills: processedSkills,
         atkCoef: (s.atkCoef || 0) / 100,
+        pelletCount: s.pelletCount,
         critMult: s.critMult || 1.5,
         coreDamage: includeCoreDamage ? (s.coreDamage || 0) : 0,
         coreHitBonus: s.coreHitBonus,

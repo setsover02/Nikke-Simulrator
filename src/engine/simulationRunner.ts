@@ -162,6 +162,7 @@ function buildTeam(activeSlots: ActiveSlot[], showCore: boolean, rangeMode: numb
             });
 
             char.hp = calculated.hp;
+            char.maxHp = calculated.hp;
             char.atk = calculated.atk;
             char.defense = calculated.def;
 

@@ -58,7 +58,13 @@ export function updateAmmo(ctx: BattleContext) {
             return;
         }
 
-        /* 3️⃣ 탄 없으면 재장전 시작 */
+        /* 3️⃣ 탄 없거나 force_reload 플래그 시 재장전 시작 */
+        if ((ctx.state as any)?.[`${char.id}_force_reload`]) {
+            delete (ctx.state as any)[`${char.id}_force_reload`];
+            startReload(char, ctx);
+            return;
+        }
+
         if (char.ammo <= 0) {
             startReload(char, ctx);
             return;

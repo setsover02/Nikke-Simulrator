@@ -115,6 +115,8 @@ export interface Character {
         fireRate?: number;
         fullChargeDamage?: number;
         maxAmmo?: number | string;   // "infinity" = 무한 탄약
+        atkCoef?: number | number[];
+        pelletCount?: number;
     };
     originalWeaponStats?: {
         chargeTime: number;
@@ -124,6 +126,7 @@ export interface Character {
         atkCoef: number;
         ammo: number;
         reloadRemain: number;
+        pelletCount?: number;
     };
 }
 

@@ -44,6 +44,8 @@ export interface NormalizedSkillEffect {
     fireRate?: number;
     fullChargeDamage?: number;
     maxAmmo?: number | string;
+    atkCoef?: number | number[];
+    pelletCount?: number;
   };
   [key: string]: any;
 }

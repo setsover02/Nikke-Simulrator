@@ -35,6 +35,8 @@ export interface SkillEffectDef {
     fireRate?: number
     fullChargeDamage?: number
     maxAmmo?: number | string
+    atkCoef?: number | number[]
+    pelletCount?: number
   }
   cost?: { status: string; value: number }   // 발동 시 소모할 status 수량 (미하라 전용)
   irremovable?: boolean                       // 해제 불가 여부
@@ -1621,6 +1623,7 @@ function applySpecificEffectToTarget(
           atkCoef: char.atkCoef ?? 0,
           ammo: char.ammo,
           reloadRemain: char.reloadRemain,
+          pelletCount: char.pelletCount,
         }
       }
 
@@ -1636,10 +1639,16 @@ function applySpecificEffectToTarget(
         } else if (typeof wo.maxAmmo === 'number') {
           char.maxAmmo = wo.maxAmmo
         }
+        if (wo.pelletCount !== undefined) char.pelletCount = wo.pelletCount
       }
 
-      // atkCoef를 스킬 value로 교체
-      char.atkCoef = value / 100
+      // atkCoef를 weapon_override 또는 스킬 value로 교체
+      if (wo?.atkCoef !== undefined) {
+        const rawAtk = Array.isArray(wo.atkCoef) ? wo.atkCoef[0] : wo.atkCoef
+        char.atkCoef = rawAtk / 100
+      } else {
+        char.atkCoef = value / 100
+      }
 
       // 재장전 완료 상태로 설정
       char.ammo = char.maxAmmo
@@ -2021,11 +2030,17 @@ function subtractBuffValue(char: Character, effectName: string, value: number) {
         char.fullChargeDamage = char.originalWeaponStats.fullChargeDamage
         char.maxAmmo = char.originalWeaponStats.maxAmmo
         char.atkCoef = char.originalWeaponStats.atkCoef
+        if (char.originalWeaponStats.pelletCount !== undefined) {
+          char.pelletCount = char.originalWeaponStats.pelletCount
+        }
         char.ammo = char.originalWeaponStats.maxAmmo  // 원래 무기로 돌아올 때 최대 탄약으로 시작
         char.reloadRemain = 0
         char.currentCharge = 0
         char.weaponOverride = undefined
         char.originalWeaponStats = undefined
+      }
+      if (ctx.buffManager && slot?.name) {
+        ctx.buffManager.notify(`event:state_end:${slot.name}`, ctx.time, char.id, ctx)
       }
       break
     default:

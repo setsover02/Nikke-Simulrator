@@ -112,7 +112,7 @@ export function processAttack(ctx: BattleContext) {
                     ctx.buffManager.notify('full_charge', ctx.time, char.id, ctx);
                     ctx.buffManager.notify('full_charge_hit', ctx.time, char.id, ctx);
                 }
-                ctx.buffManager.consumeBulletBuff(char.id);
+                ctx.buffManager.consumeBulletBuff(char.id, ctx);
             }
 
             // 택티컬 베어 큐브: 10발 사격 시 탄환 충전
@@ -156,11 +156,12 @@ function canAttack(char: Character, ctx?: BattleContext): boolean {
 function calcShotgunDamage(
     char: Character,
     ctx: BattleContext,
-    rangeMode: RangeMode
+    rangeMode: RangeMode,
+    isChargeAttack: boolean = false
 ): number {
     let totalDmg = 0;
     const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
-    const basePellets = (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
+    const basePellets = char.weaponOverride?.pelletCount ?? (char as any).pelletCount ?? DEFAULT_PELLET_COUNT;
     const pelletCount = buffs?.pellet_count_fixed ?? (basePellets + (buffs?.pellet_count || 0));
     const hasCore = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx > 0 : !!(char.coreDamage);
     const corePx = ctx.enemy.corePx !== undefined ? ctx.enemy.corePx : undefined;
@@ -183,7 +184,7 @@ function calcShotgunDamage(
         const critChance = (buffs ? buffs.crit_rate : (char.crit + (char.buff?.critRate || 0))) / 100;
         const isCrit = ctx.rng.next() < critChance;
 
-        const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, false, pelletAtkCoefScale, rangeMode);
+        const params = buildDamageParams(char, ctx, isCrit, hitResult.isCore, isChargeAttack, pelletAtkCoefScale, rangeMode);
         totalDmg += calcNikkeDamage(params);
 
         if (ctx.buffManager) {
@@ -342,19 +343,53 @@ function processWeaponOverrideAttack(
         return;
     }
 
-    // 차지 공격 처리 (chargeTime 기반)
-    const chargeSpeedBuff = char.buff?.chargeSpeed ?? 0;
-    const chargeSeconds = Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
+    // 차지 공격 처리 (chargeTime 또는 charge_time_fixed 기반)
+    const buffs = ctx.buffManager ? ctx.buffManager.getBuffs(char.id, char.id, ctx, ctx.time) : null;
+    const fixedChargeTime = buffs?.charge_time_fixed;
+    const chargeSpeedBuff = buffs ? buffs.charge_speed_pct / 100 : (char.buff?.chargeSpeed ?? 0);
+    const chargeSeconds = (typeof fixedChargeTime === 'number' && fixedChargeTime > 0)
+        ? fixedChargeTime
+        : Math.max(0.01, (char.chargeTime || 1) * (1 - chargeSpeedBuff));
+
     char.currentCharge = (char.currentCharge || 0) + (dt / chargeSeconds);
 
     if (char.currentCharge >= 1.0) {
         char.currentCharge -= 1.0;
 
-        // 대미지 계산
-        const result = calcCharacterDamage(char, ctx, true, rangeMode);
+        // 대미지 계산: SG 무기(펠릿)인 경우 calcShotgunDamage, 그 외 단발 calcCharacterDamage
+        const isSG = (char.weapon as WeaponType) === WeaponType.SG;
+        let totalDmg = 0;
+        if (isSG) {
+            totalDmg = calcShotgunDamage(char, ctx, rangeMode, true);
+        } else {
+            const result = calcCharacterDamage(char, ctx, true, rangeMode);
+            totalDmg = result.damage;
+            if (ctx.buffManager && result.isCore) {
+                ctx.buffManager.notify('core_hit', ctx.time, char.id, ctx);
+            }
+        }
+
         // weaponOverride 중 변경된 스킬 이름 추적
         const overrideSkillName = (char as any).weaponOverrideSkillName || '';
-        applyDamage(ctx, result.damage, char.id, 'skill_damage', overrideSkillName); // 스킬 대미지로 기록
+        applyDamage(ctx, totalDmg, char.id, 'skill_damage', overrideSkillName);
+
+        // 탄약 소모 및 버프 소모
+        char.ammo -= 1;
+        char.totalAmmoUsed = (char.totalAmmoUsed || 0) + 1;
+        char.comboShots = (char.comboShots || 0) + 1;
+        ctx.totalAmmoUsed++;
+        ctx.totalTeamAmmoUsed++;
+
+        if (ctx.buffManager) {
+            ctx.buffManager.notify('normal_atk', ctx.time, char.id, ctx);
+            ctx.buffManager.notify('hit_count', ctx.time, char.id, ctx);
+            ctx.buffManager.notify('full_charge', ctx.time, char.id, ctx);
+            ctx.buffManager.notify('full_charge_hit', ctx.time, char.id, ctx);
+            if (char.ammo === 0) {
+                ctx.buffManager.notify('last_bullet', ctx.time, char.id, ctx);
+            }
+            ctx.buffManager.consumeBulletBuff(char.id, ctx);
+        }
 
         // full_charge_attack 트리거 플래그
         ctx.state = ctx.state || {};
