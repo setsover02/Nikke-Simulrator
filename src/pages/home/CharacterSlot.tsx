@@ -234,6 +234,33 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
     };
 
     const skillsRef = useRef<HTMLDivElement>(null);
+    const [skillDescOpen, setSkillDescOpen] = useState<Record<string, boolean>>({});
+
+    const toggleSkillDesc = (id: string) =>
+        setSkillDescOpen(prev => ({ ...prev, [id]: !prev[id] }));
+
+    // description_params 기반으로 스킬 설명의 {N} 플레이스홀더를 레벨에 맞는 값으로 치환
+    const renderSkillDescription = (skill: any, level: number): string => {
+        const desc: string = skill.description || '';
+        const params: Array<{ effect: number; field: string }> = skill.description_params || [];
+        const effects: any[] = skill.effects || [];
+        if (!desc) return '';
+        return desc.replace(/\{(\d+)\}/g, (_match: string, idxStr: string) => {
+            const idx = parseInt(idxStr, 10);
+            const param = params[idx];
+            if (!param) return _match;
+            const effect = effects[param.effect];
+            if (!effect) return _match;
+            const field = param.field;
+            const val = effect[field];
+            if (val === undefined || val === null) return _match;
+            // 레벨별 딕셔너리 ("1"~"10")
+            if (typeof val === 'object' && !Array.isArray(val)) {
+                return String(val[String(level)] ?? val['10'] ?? _match);
+            }
+            return String(val);
+        });
+    };
 
     useEffect(() => {
         const preventScroll = (e: WheelEvent) => {
@@ -681,6 +708,64 @@ const CharacterSlot: React.FC<Props> = ({ slot, index, onUpdate, outpostState })
                     }}
                 />
             </Grid>
+
+            {/* Skill Description Accordion */}
+            {(() => {
+                const skills: any[] = data.skills || [];
+                if (skills.length === 0) return null;
+                const levelMap: Record<string, number> = {
+                    '스킬1': slot.skill1Level || 10,
+                    '스킬2': slot.skill2Level || 10,
+                    '스킬3': slot.burstLevel || 10,
+                };
+                return (
+                    <div className={styles['skill-desc-section']}>
+                        {skills.map((skill: any) => {
+                            const sid = skill.id || skill.name || '';
+                            const isOpen = !!skillDescOpen[sid];
+                            const level = levelMap[sid] ?? levelMap['스킬' + (skills.indexOf(skill) + 1)] ?? 10;
+                            const descText = renderSkillDescription(skill, level);
+                            const hasDesc = !!descText;
+                            return (
+                                <div key={sid} className={styles['skill-accordion']}>
+                                    <button
+                                        className={styles['skill-accordion-header']}
+                                        onClick={() => toggleSkillDesc(sid)}
+                                        aria-expanded={isOpen}
+                                    >
+                                        <div className={styles['skill-accordion-title']}>
+                                            <Font as="span" variant="caption-1" weight="semibold">
+                                                {skill.name || sid}
+                                            </Font>
+                                            <Font as="span" variant="caption-2" color="muted" className={styles['skill-level-badge']}>
+                                                Lv.{level}
+                                            </Font>
+                                        </div>
+                                        <Icon
+                                            name={isOpen ? 'expand_less' : 'expand_more'}
+                                            size={18}
+                                            className={styles['skill-accordion-icon']}
+                                        />
+                                    </button>
+                                    {isOpen && (
+                                        <div className={styles['skill-accordion-body']}>
+                                            {hasDesc ? (
+                                                <Font as="p" variant="caption-1" color="muted" className={styles['skill-desc-text']}>
+                                                    {descText}
+                                                </Font>
+                                            ) : (
+                                                <Font as="p" variant="caption-2" color="inactive" className={styles['skill-desc-text']}>
+                                                    스킬 설명 없음
+                                                </Font>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })()}
         </div>
     );
 };

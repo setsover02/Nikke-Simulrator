@@ -179,3 +179,82 @@
         appearance: textfield;
     }
 }
+
+/* ── 스킬 설명 아코디언 ───────────────────────────────────────────── */
+.skill-desc-section {
+    margin-top: 4px;
+    border-top: 1px solid var(--Divider-Normal);
+}
+
+.skill-accordion {
+    border-bottom: 1px solid var(--Divider-Normal);
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.skill-accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--Font-Default);
+    text-align: left;
+    gap: 8px;
+
+    &:hover {
+        background: var(--Interact-Hover);
+    }
+
+    &:active {
+        background: var(--Interact-Press);
+    }
+}
+
+.skill-accordion-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+}
+
+.skill-level-badge {
+    flex-shrink: 0;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: var(--Disabled-Background);
+}
+
+.skill-accordion-icon {
+    flex-shrink: 0;
+    color: var(--Font-Muted);
+}
+
+.skill-accordion-body {
+    padding: 0 16px 12px;
+    animation: skill-desc-open 0.18s cubic-bezier(0.2, 0.2, 0.38, 0.9);
+}
+
+.skill-desc-text {
+    margin: 0;
+    white-space: pre-wrap;
+    word-break: break-word;
+    line-height: 1.6;
+}
+
+@keyframes skill-desc-open {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
